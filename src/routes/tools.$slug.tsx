@@ -25,6 +25,7 @@ import { HeaderFooterSeo, headerFooterFaqJsonLd, headerFooterHowToJsonLd, header
 import { CropPdfSeo, cropPdfFaqJsonLd, cropPdfHowToJsonLd, cropPdfSoftwareJsonLd } from "@/components/CropPdfSeo";
 import { EditPdfSeo, editPdfFaqJsonLd, editPdfHowToJsonLd, editPdfSoftwareJsonLd } from "@/components/EditPdfSeo";
 import { FillFormsSeo, fillFormsFaqJsonLd, fillFormsHowToJsonLd, fillFormsSoftwareJsonLd } from "@/components/FillFormsSeo";
+import { FlattenPdfSeo, flattenPdfFaqJsonLd, flattenPdfHowToJsonLd, flattenPdfSoftwareJsonLd } from "@/components/FlattenPdfSeo";
 
 
 
