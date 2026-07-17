@@ -334,21 +334,65 @@ export default function SignPdf() {
               <div className="rounded-lg p-3" style={{ border: "1px solid #ececef", backgroundColor: "#fafafb" }}>
                 <img src={current.dataUrl} alt="Signature preview" className="mx-auto max-h-16" />
               </div>
+              {stampMode === active ? (
+                <button
+                  type="button"
+                  onClick={() => setStampMode(null)}
+                  className="mt-3 w-full rounded-lg py-2.5 text-[13px] font-bold uppercase text-white transition-colors"
+                  style={{ backgroundColor: "#e5322d", letterSpacing: "0.04em" }}
+                >
+                  Done placing
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={placeOnDocument}
+                  className="mt-3 w-full rounded-lg py-2.5 text-[13px] font-bold uppercase text-white transition-colors"
+                  style={{ backgroundColor: "#33333c", letterSpacing: "0.04em" }}
+                >
+                  Place on document
+                </button>
+              )}
+              {stampMode === active && (
+                <p className="mt-2 text-center text-[11.5px]" style={{ color: "#7a7a86" }}>
+                  <MousePointerClick className="mr-1 inline h-3 w-3" />
+                  Click any page to drop another. Press Esc to finish.
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* Page navigator */}
+          {pages.length > 1 && (
+            <div className="flex items-center justify-between rounded-lg p-2" style={{ border: "1px solid #ececef", backgroundColor: "#fafafb" }}>
               <button
                 type="button"
-                onClick={placeOnDocument}
-                className="mt-3 w-full rounded-lg py-2.5 text-[13px] font-bold uppercase text-white transition-colors"
-                style={{ backgroundColor: "#33333c", letterSpacing: "0.04em" }}
+                onClick={() => scrollToPage(Math.max(0, currentPage - 1))}
+                disabled={currentPage <= 0}
+                className="grid h-8 w-8 place-items-center rounded-md text-[#33333c] disabled:opacity-40"
+                aria-label="Previous page"
               >
-                Place on document
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+              <span className="text-[12.5px] font-semibold" style={{ color: "#33333c" }}>
+                Page {currentPage + 1} of {pages.length}
+              </span>
+              <button
+                type="button"
+                onClick={() => scrollToPage(Math.min(pages.length - 1, currentPage + 1))}
+                disabled={currentPage >= pages.length - 1}
+                className="grid h-8 w-8 place-items-center rounded-md text-[#33333c] disabled:opacity-40"
+                aria-label="Next page"
+              >
+                <ChevronRight className="h-4 w-4" />
               </button>
             </div>
           )}
 
           <InfoTip>
             {placements.length
-              ? `${placements.length} placement${placements.length === 1 ? "" : "s"} on document. Drag to reposition, use the corner handle to resize.`
-              : "Create a signature and click \"Place on document\" to add it. You can place it on multiple pages."}
+              ? `${placements.length} placement${placements.length === 1 ? "" : "s"} on document. Drag to reposition, corner handle to resize, × to delete.`
+              : "Create a signature, then click \"Place on document\". Click other pages to drop more copies."}
           </InfoTip>
 
           {hasRotatedPages && (
@@ -375,11 +419,15 @@ export default function SignPdf() {
             onRemove={(id) => setPlacements((prev) => prev.filter((p) => p.id !== id))}
             signature={signature}
             initials={initials}
+            stampSig={stampMode ? (stampMode === "signature" ? signature : initials) : null}
+            onStamp={(pageIndex, cxPts, cyPts) => stampMode && addPlacement(stampMode, pageIndex, cxPts, cyPts)}
+            registerEl={registerPageEl}
           />
         ))}
       </div>
     </ToolWorkspace>
   );
+
 }
 
 /* ============================== Page overlay ============================== */
