@@ -100,7 +100,7 @@ export const tools: ToolMeta[] = [
     name: "PDF to Image",
     description: "Convert each PDF page into a high-quality JPG or PNG image.",
     category: "Convert PDF",
-    icon: Image,
+    icon: FileImage,
     Component: lazy(() => import("./pdf-to-images").then((m) => ({ default: m.default }))),
   },
   {
