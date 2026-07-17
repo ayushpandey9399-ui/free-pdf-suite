@@ -246,8 +246,23 @@ export default function HeaderFooter() {
       actionDisabled={!hasAny}
       sidebar={
         <>
-          <Section label="Header" keys={["hl", "hc", "hr"]} />
-          <Section label="Footer" keys={["fl", "fc", "fr"]} />
+          <SlotSection
+            label="Header"
+            keys={HEADER_KEYS}
+            slots={slots}
+            setSlot={setSlot}
+            focusedSlotRef={focusedSlotRef}
+            insertToken={insertToken}
+          />
+          <SlotSection
+            label="Footer"
+            keys={FOOTER_KEYS}
+            slots={slots}
+            setSlot={setSlot}
+            focusedSlotRef={focusedSlotRef}
+            insertToken={insertToken}
+          />
+
 
           <div className="grid grid-cols-2 gap-3">
             <div>
