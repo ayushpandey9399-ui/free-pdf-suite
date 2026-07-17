@@ -52,18 +52,27 @@ function Home() {
             className="absolute top-40 left-1/2 -translate-x-1/2 h-[360px] w-[720px] rounded-full blur-3xl opacity-40 hidden md:block"
             style={{ background: "radial-gradient(ellipse, #fde4e2 0%, transparent 70%)" }}
           />
+          {/* Soft radial spotlight behind the heading */}
+          <div
+            aria-hidden
+            className="absolute inset-0 -z-10"
+            style={{
+              background:
+                "radial-gradient(60% 55% at 50% 40%, #ffffff 0%, #ffffff 55%, #fef6f5 100%)",
+            }}
+          />
         </div>
 
         {/* Decorative floating page cluster — desktop only */}
         <div
           aria-hidden
-          className="pointer-events-none absolute right-6 top-16 hidden xl:block"
+          className="pointer-events-none absolute right-6 top-16 hidden xl:block animate-float-slow"
         >
           <FloatingPages />
         </div>
         <div
           aria-hidden
-          className="pointer-events-none absolute left-6 top-24 hidden xl:block"
+          className="pointer-events-none absolute left-6 top-24 hidden xl:block animate-float-slow-delayed"
         >
           <FloatingPages mirrored />
         </div>
@@ -83,8 +92,37 @@ function Home() {
             Merge, split, convert, rotate, edit and more.
           </p>
 
+          {/* Primary CTA */}
+          <div className="mt-9 flex justify-center px-4 sm:px-0">
+            <a
+              href="#tools"
+              className="group inline-flex w-full sm:w-auto items-center justify-center rounded-full px-7 py-3.5 text-[15px] font-bold text-white transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e5322d]/50"
+              style={{
+                backgroundColor: "#e5322d",
+                boxShadow: "0 12px 28px -10px rgba(229,50,45,0.55)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = "#c72620";
+                e.currentTarget.style.transform = "scale(1.02)";
+                e.currentTarget.style.boxShadow = "0 18px 36px -12px rgba(229,50,45,0.6)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "#e5322d";
+                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.boxShadow = "0 12px 28px -10px rgba(229,50,45,0.55)";
+              }}
+            >
+              Get Started — It's Free
+            </a>
+          </div>
+
+          {/* Small trust/stats line */}
+          <p className="mt-4 text-[12.5px]" style={{ color: "#9a9aa5" }}>
+            No sign-up required · No file size limits · Works on any device
+          </p>
+
           <div
-            className="mx-auto mt-8 inline-flex items-center gap-2 rounded-full px-4 py-2 text-[13.5px] font-semibold"
+            className="mx-auto mt-5 inline-flex items-center gap-2 rounded-full px-4 py-2 text-[13px] font-semibold"
             style={{
               backgroundColor: "#eafaf0",
               color: "#1f9d55",
@@ -92,9 +130,10 @@ function Home() {
               boxShadow: "0 4px 14px -6px rgba(31,157,85,0.25)",
             }}
           >
-            <Lock className="h-4 w-4" />
+            <Lock className="h-3.5 w-3.5" />
             Your files never leave your device — 100% private
           </div>
+
 
           {/* Filter pills */}
           <div
@@ -199,12 +238,12 @@ function Home() {
 function FloatingPages({ mirrored = false }: { mirrored?: boolean }) {
   const dir = mirrored ? -1 : 1;
   const pages = [
-    { x: 0, y: 0, rot: -8 * dir, fill: "#ffffff", accent: "#e5322d" },
-    { x: 28 * dir, y: 22, rot: 6 * dir, fill: "#fff5f4", accent: "#f28c1e" },
-    { x: -18 * dir, y: 44, rot: -3 * dir, fill: "#ffffff", accent: "#4a63e7" },
+    { x: 0, y: 0, rot: -12 * dir, fill: "#ffffff", accent: "#e5322d" },
+    { x: 28 * dir, y: 22, rot: 8 * dir, fill: "#fff5f4", accent: "#f28c1e" },
+    { x: -18 * dir, y: 44, rot: -5 * dir, fill: "#ffffff", accent: "#4a63e7" },
   ];
   return (
-    <div className="relative h-[170px] w-[170px] opacity-90">
+    <div className="relative h-[180px] w-[190px]">
       {pages.map((p, i) => (
         <div
           key={i}
@@ -217,7 +256,7 @@ function FloatingPages({ mirrored = false }: { mirrored?: boolean }) {
             background: p.fill,
             border: "1px solid #ececef",
             transform: `rotate(${p.rot}deg)`,
-            boxShadow: "0 18px 40px -18px rgba(20,20,43,0.22)",
+            boxShadow: "0 28px 50px -18px rgba(20,20,43,0.22), 0 10px 24px -12px rgba(20,20,43,0.14)",
           }}
         >
           <div
