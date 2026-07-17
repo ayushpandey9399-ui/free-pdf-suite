@@ -877,6 +877,8 @@ function ToolPage() {
     ? "Scan to PDF — Turn Your Phone Into a Document Scanner, Free"
     : isExtractImages
     ? "Extract Images from PDF — Original Quality, 100% Private"
+    : isCompare
+    ? "Compare PDFs — Find Every Difference Between Two Files"
     : tool.name;
 
   return (
