@@ -81,16 +81,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "PDFFree — Every PDF tool, 100% free forever" },
+      { title: "PDFFree — Every PDF tool, 100% free" },
       {
         name: "description",
         content:
-          "Free PDF tools that run entirely in your browser. Merge, split, convert, compress, edit, and organize PDFs — no signup, no uploads, no limits.",
+          "Free PDF tools that run in your browser. Merge, split, convert, compress, edit, and organize PDFs — no signup, no upload step, no limits.",
       },
       { property: "og:title", content: "PDFFree — Every PDF tool, 100% free" },
       {
         property: "og:description",
-        content: "Privacy-first PDF toolkit. Files never leave your device.",
+        content: "Privacy-first PDF toolkit. Every tool processes your files right in your browser.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
