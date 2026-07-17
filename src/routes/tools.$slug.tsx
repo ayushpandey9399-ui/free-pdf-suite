@@ -367,6 +367,7 @@ function ToolPage() {
       {isProtect && <ProtectPdfSeo />}
       {isUnlock && <UnlockPdfSeo />}
       {isWatermark && <WatermarkPdfSeo />}
+      {isRotate && <RotatePdfSeo />}
     </>
   );
 }
