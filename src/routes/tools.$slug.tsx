@@ -581,6 +581,8 @@ function ToolPage() {
     ? "TXT to PDF — Convert Text Files to Clean PDFs, Free"
     : isPageNumbers
     ? "Add Page Numbers to PDF — Free, Any Position, 100% Private"
+    : isHeaderFooter
+    ? "Add Header & Footer to PDF — Every Page, 100% Private"
     : tool.name;
 
   return (
