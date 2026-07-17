@@ -50,7 +50,7 @@ export function Navbar() {
       <div
         ref={wrapRef}
         className="mx-auto flex max-w-[1200px] items-center justify-between px-4 sm:px-6"
-        style={{ height: 66 }}
+        style={{ height: 58 }}
       >
         <div className="flex items-center gap-8">
           <Logo />
@@ -339,5 +339,6 @@ function shortCategory(cat: ToolCategory): string {
   if (cat === "Organize PDF") return "Organize";
   if (cat === "Convert PDF") return "Convert";
   if (cat === "Edit PDF") return "Edit";
+  if (cat === "Security") return "Security";
   return "Forms & Compare";
 }
