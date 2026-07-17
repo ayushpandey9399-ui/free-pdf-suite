@@ -7,8 +7,8 @@ const steps = [
     text: "Choose one photo or a whole batch of them from your camera roll, downloads folder or desktop. The images open locally as a grid of thumbnails inside the workspace — none of them have been sent anywhere to reach this preview.",
   },
   {
-    title: "Add more shots or remove the ones you don't want",
-    text: "Use the Add more tile to append extra pictures at the end of the batch, and hover any thumbnail to reveal a small remove button in its corner. The images will be placed into the PDF in the exact order they appear in the grid — first tile becomes page one, last tile becomes the final page.",
+    title: "Add more shots, remove the ones you don't want, or drag to reorder",
+    text: "Use the Add more images button to append extra pictures at the end of the batch, and click the small × on any thumbnail to drop it. To change the sequence, grab the ⋮⋮ handle at the top of a thumbnail and drag the tile into a new slot — the other pictures shift out of the way as you move. The order shown in the grid is the order the pages will appear in the exported PDF.",
   },
   {
     title: "Pick a page setup on the right",
