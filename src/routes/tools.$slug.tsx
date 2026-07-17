@@ -13,6 +13,7 @@ import { RedactPdfSeo, redactFaqJsonLd, redactHowToJsonLd, redactSoftwareJsonLd 
 import { ProtectPdfSeo, protectFaqJsonLd, protectHowToJsonLd, protectSoftwareJsonLd } from "@/components/ProtectPdfSeo";
 import { UnlockPdfSeo, unlockFaqJsonLd, unlockHowToJsonLd, unlockSoftwareJsonLd } from "@/components/UnlockPdfSeo";
 import { WatermarkPdfSeo, watermarkFaqJsonLd, watermarkHowToJsonLd, watermarkSoftwareJsonLd } from "@/components/WatermarkPdfSeo";
+import { RotatePdfSeo, rotateFaqJsonLd, rotateHowToJsonLd, rotateSoftwareJsonLd } from "@/components/RotatePdfSeo";
 
 
 export const Route = createFileRoute("/tools/$slug")({
@@ -256,6 +257,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "rotate") {
+      const title =
+        "Rotate PDF Online Free — Rotate & Save Permanently, No Upload | PDFfree";
+      const desc =
+        "Rotate PDF pages online free and save permanently — fix sideways or upside-down pages in your browser. No upload, no signup, no watermark.";
+      const url = "/tools/rotate";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(rotateFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(rotateHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(rotateSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
@@ -293,6 +320,7 @@ function ToolPage() {
   const isProtect = slug === "protect-pdf";
   const isUnlock = slug === "unlock-pdf";
   const isWatermark = slug === "watermark";
+  const isRotate = slug === "rotate";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
@@ -312,6 +340,8 @@ function ToolPage() {
     ? "Unlock PDF — Remove Password From PDF, 100% Private"
     : isWatermark
     ? "Add Watermark to PDF — Free, Every Page, 100% Private"
+    : isRotate
+    ? "Rotate PDF — Fix Sideways Pages and Save Permanently"
     : tool.name;
 
   return (
@@ -337,6 +367,7 @@ function ToolPage() {
       {isProtect && <ProtectPdfSeo />}
       {isUnlock && <UnlockPdfSeo />}
       {isWatermark && <WatermarkPdfSeo />}
+      {isRotate && <RotatePdfSeo />}
     </>
   );
 }
