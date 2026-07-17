@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { tools, categories, type ToolCategory } from "@/tools/registry";
+import { HomeBottom } from "@/components/HomeBottom";
+
 
 export const Route = createFileRoute("/")({
   component: Home,
