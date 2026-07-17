@@ -161,7 +161,7 @@ export function CompressPdfSeo() {
       </p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
         If Strong still is not small enough, combine approaches. Run{" "}
-        <Link to="/tools/grayscale" className="text-[#e5322d] underline underline-offset-2">Grayscale PDF</Link> first to
+        <Link to="/tools/grayscale-pdf" className="text-[#e5322d] underline underline-offset-2">Grayscale PDF</Link> first to
         strip colour from scans (they usually shrink hard afterwards), or use{" "}
         <Link to="/tools/extract-pages" className="text-[#e5322d] underline underline-offset-2">Extract Pages</Link> to
         keep only the pages the portal actually asked for and compress the trimmed file. We will not promise an exact
