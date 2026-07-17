@@ -56,6 +56,11 @@ const scenarios = [
     h: "Course notes, e-books and reports you distribute",
     p: "Study material, research reports and paid PDF products travel fast once one copy is loose. Watermarking every page with your name, the buyer's name or a licence line makes the file traceable and less useful to redistribute anonymously — a soft deterrent that costs the honest reader nothing.",
   },
+  {
+    h: "Company logo across every page of a PDF",
+    p: "Invoices, quotations, offer letters, case studies and pitch decks look unmistakably yours the moment your logo is stamped on every page. Switch to the Image tab, upload your logo as a PNG (transparent background works best) or JPG, drop opacity to around 15–25% so it sits behind the text as a background brand mark, and click Apply Watermark — the same logo lands centred on page 1, page 50 and every page in between, so a forwarded screenshot still shows who the document came from.",
+  },
+
 ];
 
 const faqs = [
