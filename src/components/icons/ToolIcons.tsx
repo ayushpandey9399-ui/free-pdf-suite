@@ -19,6 +19,7 @@ import signPdfUrl from "@/assets/icons/sign-pdf.png";
 import protectPdfUrl from "@/assets/icons/protect-pdf.png";
 import unlockPdfUrl from "@/assets/icons/unlock-pdf.png";
 import editPdfUrl from "@/assets/icons/edit-pdf.png";
+import flattenPdfUrl from "@/assets/icons/flatten-pdf.png";
 
 /**
  * AI-generated icon artwork for PDFfree tools.
