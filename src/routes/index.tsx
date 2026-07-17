@@ -47,7 +47,7 @@ function Home() {
 
           {/* Filter pills */}
           <div
-            className="mx-auto mt-6 mb-8 flex flex-nowrap sm:flex-wrap items-center justify-start sm:justify-center gap-3 overflow-x-auto sm:overflow-visible px-1 -mx-1 sm:mx-auto"
+            className="mx-auto mt-8 flex flex-nowrap sm:flex-wrap items-center justify-start sm:justify-center gap-3 overflow-x-auto sm:overflow-visible px-1 -mx-1 sm:mx-auto"
             role="tablist"
             aria-label="Filter tools by category"
             style={{ scrollbarWidth: "none" }}
