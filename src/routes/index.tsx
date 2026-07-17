@@ -99,7 +99,7 @@ function Home() {
                 key={t.slug}
                 to="/tools/$slug"
                 params={{ slug: t.slug }}
-                className="group flex h-full flex-col rounded-lg bg-white p-5 text-left transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e5322d]/40"
+                className="group flex h-full flex-col rounded-lg bg-white p-5 sm:p-6 text-left transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e5322d]/40"
                 style={{
                   border: "1px solid #ececef",
                   boxShadow: "0 1px 2px rgba(20,20,43,0.03)",
@@ -114,19 +114,20 @@ function Home() {
                   e.currentTarget.style.boxShadow = "0 1px 2px rgba(20,20,43,0.03)";
                 }}
               >
-                <Icon size={44} />
+                <Icon size={46} />
                 <h3
-                  className="mt-4 font-semibold text-[17px] leading-tight truncate"
-                  style={{ color: "#1c1c26" }}
+                  className="mt-3.5 sm:mt-4 font-semibold text-[16px] sm:text-[18px] leading-snug"
+                  style={{ color: "#1F2937" }}
                 >
                   {t.name}
                 </h3>
                 <p
-                  className="mt-1.5 text-[13px] leading-[1.5]"
-                  style={{ color: "#6b6b78" }}
+                  className="mt-2 text-[13.5px] sm:text-[14px] leading-[1.55]"
+                  style={{ color: "#6B7280" }}
                 >
                   {t.description}
                 </p>
+
               </Link>
             );
           })}
