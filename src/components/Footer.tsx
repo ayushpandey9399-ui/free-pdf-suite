@@ -118,7 +118,7 @@ export function Footer() {
           style={{ color: "#9CA3AF" }}
         >
           <p>© {year} PDFfree. All rights reserved.</p>
-          <p>Made with <span style={{ color: "#ff6b67" }}>❤</span> in India · 100% free, forever</p>
+          <p>Made with <span style={{ color: "#ff6b67" }}>❤</span> in India · 100% free tools</p>
         </div>
       </div>
     </footer>
