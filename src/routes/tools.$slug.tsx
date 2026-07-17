@@ -15,6 +15,7 @@ import { UnlockPdfSeo, unlockFaqJsonLd, unlockHowToJsonLd, unlockSoftwareJsonLd 
 import { WatermarkPdfSeo, watermarkFaqJsonLd, watermarkHowToJsonLd, watermarkSoftwareJsonLd } from "@/components/WatermarkPdfSeo";
 import { RotatePdfSeo, rotateFaqJsonLd, rotateHowToJsonLd, rotateSoftwareJsonLd } from "@/components/RotatePdfSeo";
 import { DeletePagesSeo, deletePagesFaqJsonLd, deletePagesHowToJsonLd, deletePagesSoftwareJsonLd } from "@/components/DeletePagesSeo";
+import { ExtractPagesSeo, extractPagesFaqJsonLd, extractPagesHowToJsonLd, extractPagesSoftwareJsonLd } from "@/components/ExtractPagesSeo";
 
 
 
