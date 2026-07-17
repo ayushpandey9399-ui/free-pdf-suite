@@ -678,6 +678,7 @@ function ToolPage() {
       {isPageNumbers && <PageNumbersSeo />}
       {isHeaderFooter && <HeaderFooterSeo />}
       {isCrop && <CropPdfSeo />}
+      {isEditPdf && <EditPdfSeo />}
     </>
   );
 }
