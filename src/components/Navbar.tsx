@@ -50,7 +50,7 @@ export function Navbar() {
       <div
         ref={wrapRef}
         className="mx-auto flex max-w-[1200px] items-center justify-between px-4 sm:px-6"
-        style={{ height: 66 }}
+        style={{ height: 58 }}
       >
         <div className="flex items-center gap-8">
           <Logo />
