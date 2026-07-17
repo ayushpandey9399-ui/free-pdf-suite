@@ -1,4 +1,4 @@
-import { PDFDocument, EncryptedPDFError, type PDFDocumentLoadOptions } from "pdf-lib";
+import { PDFDocument, EncryptedPDFError } from "pdf-lib";
 import { ensurePdfWorker, type PDFDocumentProxy } from "./pdfWorker";
 
 export class PdfPasswordError extends Error {
@@ -23,10 +23,9 @@ export function isPdfPasswordError(e: unknown): boolean {
 /** Load a PDF with pdf-lib. Throws PdfPasswordError if encrypted. */
 export async function loadPdfLibDoc(
   data: ArrayBuffer | Uint8Array,
-  opts: PDFDocumentLoadOptions = {},
 ): Promise<PDFDocument> {
   try {
-    return await PDFDocument.load(data, { ...opts, ignoreEncryption: false });
+    return await PDFDocument.load(data, { ignoreEncryption: false });
   } catch (e) {
     if (e instanceof EncryptedPDFError || isPdfPasswordError(e)) {
       throw new PdfPasswordError();
