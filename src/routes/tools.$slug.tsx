@@ -19,6 +19,7 @@ import { ExtractPagesSeo, extractPagesFaqJsonLd, extractPagesHowToJsonLd, extrac
 import { ReorderPagesSeo, reorderPagesFaqJsonLd, reorderPagesHowToJsonLd, reorderPagesSoftwareJsonLd } from "@/components/ReorderPagesSeo";
 import { ImagesToPdfSeo, imagesToPdfFaqJsonLd, imagesToPdfHowToJsonLd, imagesToPdfSoftwareJsonLd } from "@/components/ImagesToPdfSeo";
 import { PdfToTextSeo, pdfToTextFaqJsonLd, pdfToTextHowToJsonLd, pdfToTextSoftwareJsonLd } from "@/components/PdfToTextSeo";
+import { TxtToPdfSeo, txtToPdfFaqJsonLd, txtToPdfHowToJsonLd, txtToPdfSoftwareJsonLd } from "@/components/TxtToPdfSeo";
 
 
 
@@ -419,6 +420,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "txt-to-pdf") {
+      const title =
+        "TXT to PDF Online Free — Convert Text to PDF (Hindi Supported) | PDFfree";
+      const desc =
+        "Convert TXT to PDF online free — clean, printable PDFs from text files, in your browser. Supports Hindi & other languages. No upload, no signup.";
+      const url = "/tools/txt-to-pdf";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(txtToPdfFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(txtToPdfHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(txtToPdfSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
@@ -462,6 +489,7 @@ function ToolPage() {
   const isReorderPages = slug === "reorder-pages";
   const isImagesToPdf = slug === "images-to-pdf";
   const isPdfToText = slug === "pdf-to-text";
+  const isTxtToPdf = slug === "txt-to-pdf";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
@@ -493,6 +521,8 @@ function ToolPage() {
     ? "JPG to PDF Converter — Combine Images Into One PDF, Free"
     : isPdfToText
     ? "PDF to Text — Extract All Text From a PDF, 100% Private"
+    : isTxtToPdf
+    ? "TXT to PDF — Convert Text Files to Clean PDFs, Free"
     : tool.name;
 
   return (
@@ -524,6 +554,7 @@ function ToolPage() {
       {isReorderPages && <ReorderPagesSeo />}
       {isImagesToPdf && <ImagesToPdfSeo />}
       {isPdfToText && <PdfToTextSeo />}
+      {isTxtToPdf && <TxtToPdfSeo />}
     </>
   );
 }
