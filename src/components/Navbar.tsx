@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Menu, X, ChevronDown, Lock } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { Logo } from "./Logo";
 import { tools, categories, type ToolCategory } from "@/tools/registry";
 
@@ -44,7 +44,7 @@ export function Navbar() {
 
   return (
     <header
-      className="sticky top-0 z-40 w-full border-b bg-white"
+      className="sticky top-0 z-40 w-full border-b bg-background"
       style={{ borderColor: "#ececef" }}
     >
       <div
@@ -144,20 +144,6 @@ export function Navbar() {
           </nav>
         </div>
 
-        <div className="hidden min-[860px]:flex items-center gap-3">
-          <span
-            className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-semibold"
-            style={{
-              backgroundColor: "#eafaf0",
-              color: "#1f9d55",
-              border: "1px solid #c9ecd6",
-            }}
-          >
-            <Lock className="h-3 w-3" />
-            All tools are free — no account needed
-          </span>
-        </div>
-
         <button
           type="button"
           aria-label={open ? "Close menu" : "Open menu"}
@@ -227,20 +213,6 @@ export function Navbar() {
                 </div>
               ))}
             </MobileAccordion>
-
-            <div className="mt-3 pt-3 border-t" style={{ borderColor: "#ececef" }}>
-              <span
-                className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-semibold"
-                style={{
-                  backgroundColor: "#eafaf0",
-                  color: "#1f9d55",
-                  border: "1px solid #c9ecd6",
-                }}
-              >
-                <Lock className="h-3 w-3" />
-                All tools are free — no account needed
-              </span>
-            </div>
           </nav>
         </div>
       )}

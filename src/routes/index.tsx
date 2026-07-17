@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Lock } from "lucide-react";
 import { tools, categories, type ToolCategory } from "@/tools/registry";
 
 export const Route = createFileRoute("/")({
@@ -120,20 +119,6 @@ function Home() {
           <p className="mt-4 text-[12.5px]" style={{ color: "#9a9aa5" }}>
             No sign-up required · No file size limits · Works on any device
           </p>
-
-          <div
-            className="mx-auto mt-5 inline-flex items-center gap-2 rounded-full px-4 py-2 text-[13px] font-semibold"
-            style={{
-              backgroundColor: "#eafaf0",
-              color: "#1f9d55",
-              border: "1px solid #c9ecd6",
-              boxShadow: "0 4px 14px -6px rgba(31,157,85,0.25)",
-            }}
-          >
-            <Lock className="h-3.5 w-3.5" />
-            Your files never leave your device — 100% private
-          </div>
-
 
           {/* Filter pills */}
           <div
