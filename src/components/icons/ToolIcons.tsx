@@ -20,6 +20,8 @@ import protectPdfUrl from "@/assets/icons/protect-pdf.png";
 import unlockPdfUrl from "@/assets/icons/unlock-pdf.png";
 import editPdfUrl from "@/assets/icons/edit-pdf.png";
 import flattenPdfUrl from "@/assets/icons/flatten-pdf.png";
+import txtToPdfUrl from "@/assets/icons/txt-to-pdf.png";
+import pdfMetadataUrl from "@/assets/icons/pdf-metadata.png";
 
 /**
  * AI-generated icon artwork for PDFfree tools.
@@ -70,6 +72,8 @@ export const ProtectPdfIcon = makeIcon(protectPdfUrl, "Protect PDF");
 export const UnlockPdfIcon = makeIcon(unlockPdfUrl, "Unlock PDF");
 export const EditPdfIcon = makeIcon(editPdfUrl, "Edit & Annotate PDF");
 export const FlattenPdfIcon = makeIcon(flattenPdfUrl, "Flatten PDF");
+export const TxtToPdfIcon = makeIcon(txtToPdfUrl, "TXT to PDF");
+export const PdfMetadataIcon = makeIcon(pdfMetadataUrl, "PDF Metadata Editor");
 
 export const toolIcons: Record<string, ComponentType<ToolIconProps>> = {
   merge: MergeIcon,
@@ -92,4 +96,6 @@ export const toolIcons: Record<string, ComponentType<ToolIconProps>> = {
   "unlock-pdf": UnlockPdfIcon,
   "edit-pdf": EditPdfIcon,
   "flatten-pdf": FlattenPdfIcon,
+  "txt-to-pdf": TxtToPdfIcon,
+  "pdf-metadata": PdfMetadataIcon,
 };
