@@ -671,6 +671,8 @@ function ToolPage() {
     ? "Crop PDF — Trim Margins and Unwanted Edges, 100% Private"
     : isEditPdf
     ? "Edit PDF Online — Add Text, Highlight and Annotate, Free"
+    : isFillForms
+    ? "Fill PDF Forms Online — Free, Private, No Printing"
     : tool.name;
 
   return (
