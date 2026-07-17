@@ -701,6 +701,8 @@ function ToolPage() {
     ? "Edit PDF Online — Add Text, Highlight and Annotate, Free"
     : isFillForms
     ? "Fill PDF Forms Online — Free, Private, No Printing"
+    : isFlattenPdf
+    ? "Flatten PDF — Lock Form Fields Into Permanent Content"
     : tool.name;
 
   return (
