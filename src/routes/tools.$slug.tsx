@@ -371,6 +371,8 @@ function ToolPage() {
     ? "Add Watermark to PDF — Free, Every Page, 100% Private"
     : isRotate
     ? "Rotate PDF — Fix Sideways Pages and Save Permanently"
+    : isDeletePages
+    ? "Delete Pages from PDF — Remove Unwanted Pages, 100% Private"
     : tool.name;
 
   return (
