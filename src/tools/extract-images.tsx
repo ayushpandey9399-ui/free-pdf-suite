@@ -42,13 +42,15 @@ async function inflateFlate(data: Uint8Array): Promise<Uint8Array> {
 }
 
 function decodeAscii85(data: Uint8Array): Uint8Array {
-  // Strip whitespace and optional <~ ... ~> wrappers.
+  // Strip whitespace and the optional "<~" prefix / "~>" suffix wrapper.
+  // Do NOT strip stray '<' chars — '<' (0x3C) is a valid ASCII85 digit.
+  let start = 0;
+  if (data.length >= 2 && data[0] === 0x3c && data[1] === 0x7e) start = 2;
   const chars: number[] = [];
-  for (let i = 0; i < data.length; i++) {
+  for (let i = start; i < data.length; i++) {
     const c = data[i];
-    if (c === 0x7e) break; // '~' end marker
+    if (c === 0x7e) break; // '~>' end marker
     if (c <= 0x20) continue; // whitespace
-    if (c === 0x3c) continue; // '<'
     chars.push(c);
   }
   const out: number[] = [];
