@@ -23,10 +23,126 @@ const LINE_MULT: Record<LineSpacing, number> = { "1.0": 1.0, "1.15": 1.15, "1.5"
 const PAGE_DIMS: Record<PageSize, [number, number]> = { a4: PageSizes.A4, letter: PageSizes.Letter };
 
 // Standard PDF Helvetica supports WinAnsi (Latin-1) only.
+// Anything beyond U+00FF requires the raster pipeline (Devanagari, CJK, Arabic, etc.).
 function hasNonLatinChars(s: string): boolean {
-  // Anything beyond U+00FF is a red flag for the WinAnsi encoder.
   for (let i = 0; i < s.length; i++) if (s.charCodeAt(i) > 0xff) return true;
   return false;
+}
+
+const DEVANAGARI_STACK =
+  '"Noto Sans Devanagari", "Noto Sans", "Helvetica Neue", Arial, sans-serif';
+
+async function ensureFontsReady() {
+  try {
+    if (typeof document !== "undefined" && "fonts" in document) {
+      // Force-load the specific families so document.fonts.ready resolves after they're actually decoded.
+      const sizes = [10, 12, 14];
+      const loads: Promise<unknown>[] = [];
+      for (const s of sizes) {
+        loads.push(document.fonts.load(`${s}px "Noto Sans Devanagari"`));
+        loads.push(document.fonts.load(`${s}px "Noto Sans"`));
+      }
+      await Promise.all(loads);
+      await document.fonts.ready;
+    }
+  } catch {
+    // best-effort
+  }
+}
+
+/** Render text pages to canvases in the browser (with proper shaping) and embed as images. */
+async function buildRasterPdfFromText(
+  text: string,
+  opts: { pageSize: PageSize; fontSize: FontSizeOpt; margin: MarginOpt; lineSpacing: LineSpacing },
+): Promise<Uint8Array> {
+  await ensureFontsReady();
+
+  const [pwPt, phPt] = PAGE_DIMS[opts.pageSize];
+  const marginPt = MARGIN_PT[opts.margin];
+  const fontPt = FONT_PT[opts.fontSize];
+  const lineHeightPt = fontPt * LINE_MULT[opts.lineSpacing];
+
+  const SCALE = 200 / 72; // ~200 DPI
+  const pwPx = Math.round(pwPt * SCALE);
+  const phPx = Math.round(phPt * SCALE);
+  const marginPx = Math.round(marginPt * SCALE);
+  const fontPx = fontPt * SCALE;
+  const lineHeightPx = lineHeightPt * SCALE;
+  const printableW = pwPx - marginPx * 2;
+  const printableH = phPx - marginPx * 2;
+  const linesPerPage = Math.max(1, Math.floor(printableH / lineHeightPx));
+
+  // Measurement canvas (shares font settings with render canvas).
+  const measure = document.createElement("canvas");
+  const mctx = measure.getContext("2d")!;
+  const fontDecl = `${fontPx}px ${DEVANAGARI_STACK}`;
+  mctx.font = fontDecl;
+
+  const wrapByPixels = (line: string): string[] => {
+    if (line === "") return [""];
+    if (mctx.measureText(line).width <= printableW) return [line];
+    const words = line.split(/(\s+)/);
+    const out: string[] = [];
+    let cur = "";
+    const forceBreak = (word: string) => {
+      let buf = "";
+      for (const ch of Array.from(word)) {
+        const cand = buf + ch;
+        if (mctx.measureText(cur + cand).width > printableW) {
+          if (cur + buf) out.push(cur + buf);
+          cur = "";
+          buf = ch;
+        } else buf = cand;
+      }
+      cur += buf;
+    };
+    for (const w of words) {
+      if (!w) continue;
+      if (mctx.measureText(cur + w).width <= printableW) {
+        cur += w;
+      } else {
+        if (cur.trim().length) out.push(cur.trimEnd());
+        cur = "";
+        if (mctx.measureText(w).width > printableW) forceBreak(w);
+        else cur = w.trimStart();
+      }
+    }
+    if (cur.length) out.push(cur.trimEnd());
+    return out.length ? out : [""];
+  };
+
+  const rawLines = text.replace(/\r\n?/g, "\n").split("\n");
+  const wrapped: string[] = [];
+  for (const l of rawLines) wrapped.push(...wrapByPixels(l));
+  if (!wrapped.length) wrapped.push("");
+
+  const doc = await PDFDocument.create();
+  for (let i = 0; i < wrapped.length; i += linesPerPage) {
+    const slice = wrapped.slice(i, i + linesPerPage);
+    const canvas = document.createElement("canvas");
+    canvas.width = pwPx;
+    canvas.height = phPx;
+    const ctx = canvas.getContext("2d")!;
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, pwPx, phPx);
+    ctx.fillStyle = "#111111";
+    ctx.textBaseline = "alphabetic";
+    ctx.font = fontDecl;
+    let y = marginPx + fontPx; // baseline of first line
+    for (const l of slice) {
+      ctx.fillText(l, marginPx, y);
+      y += lineHeightPx;
+    }
+    const blob: Blob = await new Promise((resolve) =>
+      canvas.toBlob((b) => resolve(b!), "image/jpeg", 0.92),
+    );
+    const bytes = new Uint8Array(await blob.arrayBuffer());
+    const img = await doc.embedJpg(bytes);
+    const page = doc.addPage([pwPt, phPt]);
+    page.drawImage(img, { x: 0, y: 0, width: pwPt, height: phPt });
+  }
+
+  return await doc.save();
 }
 
 // Break a line by pixel width — force-break long unbroken tokens.
@@ -78,7 +194,7 @@ function wrapLine(
 async function buildPdfFromText(
   text: string,
   opts: { pageSize: PageSize; fontSize: FontSizeOpt; margin: MarginOpt; lineSpacing: LineSpacing },
-): Promise<{ bytes: Uint8Array; sanitized: boolean }> {
+): Promise<Uint8Array> {
   const doc = await PDFDocument.create();
   const font = await doc.embedFont(StandardFonts.Helvetica);
   const [pw, ph] = PAGE_DIMS[opts.pageSize];
@@ -87,11 +203,7 @@ async function buildPdfFromText(
   const lineHeight = size * LINE_MULT[opts.lineSpacing];
   const maxWidth = pw - margin * 2;
 
-  // Replace unencodable chars with '?' so pdf-lib doesn't throw.
-  let sanitized = false;
-  const safeText = text.replace(/[^\u0000-\u00ff]/g, () => { sanitized = true; return "?"; });
-
-  const rawLines = safeText.replace(/\r\n?/g, "\n").split("\n");
+  const rawLines = text.replace(/\r\n?/g, "\n").split("\n");
   const wrapped: string[] = [];
   for (const line of rawLines) wrapped.push(...wrapLine(line, font, size, maxWidth));
 
@@ -107,8 +219,21 @@ async function buildPdfFromText(
   }
   if (!wrapped.length) doc.addPage([pw, ph]);
 
-  const bytes = await doc.save();
-  return { bytes, sanitized };
+  return await doc.save();
+}
+
+/** Route to raster pipeline for non-Latin text (Devanagari/CJK/Arabic/etc.),
+ *  otherwise use the fast vector pipeline. */
+async function buildAnyPdf(
+  text: string,
+  opts: { pageSize: PageSize; fontSize: FontSizeOpt; margin: MarginOpt; lineSpacing: LineSpacing },
+): Promise<{ bytes: Uint8Array; raster: boolean }> {
+  if (hasNonLatinChars(text)) {
+    const bytes = await buildRasterPdfFromText(text, opts);
+    return { bytes, raster: true };
+  }
+  const bytes = await buildPdfFromText(text, opts);
+  return { bytes, raster: false };
 }
 
 export default function TxtToPdf() {
@@ -124,7 +249,7 @@ export default function TxtToPdf() {
 
   const [loading, setLoading] = useState(false);
   const [result, setResult] =
-    useState<{ blobs: { blob: Blob; filename: string }[]; sanitized: boolean } | null>(null);
+    useState<{ blobs: { blob: Blob; filename: string }[]; raster: boolean } | null>(null);
 
   // Preview: load first file's text (or pasted).
   const [firstText, setFirstText] = useState("");
@@ -138,7 +263,7 @@ export default function TxtToPdf() {
   }, [files, pasted, pasteMode]);
 
   const hasContent = pasteMode ? pasted.trim().length > 0 : files.length > 0;
-  const nonLatinWarn = useMemo(() => hasNonLatinChars(firstText), [firstText]);
+  const nonLatinDetected = useMemo(() => hasNonLatinChars(firstText), [firstText]);
 
   const resetAll = () => {
     setFiles([]); setPasted(""); setPasteMode(false); setResult(null);
@@ -150,40 +275,33 @@ export default function TxtToPdf() {
     setLoading(true);
     try {
       const opts = { pageSize, fontSize, margin, lineSpacing };
-      let sanitizedAny = false;
+      let rasterAny = false;
       const outputs: { blob: Blob; filename: string }[] = [];
 
-      if (pasteMode) {
-        const { bytes, sanitized } = await buildPdfFromText(pasted, opts);
-        sanitizedAny = sanitizedAny || sanitized;
+      const emit = async (text: string, filename: string) => {
+        const { bytes, raster } = await buildAnyPdf(text, opts);
+        rasterAny = rasterAny || raster;
         outputs.push({
           blob: new Blob([bytes as BlobPart], { type: "application/pdf" }),
-          filename: "pasted-text.pdf",
+          filename,
         });
+      };
+
+      if (pasteMode) {
+        await emit(pasted, "pasted-text.pdf");
       } else if (mergeAll || files.length === 1) {
         const chunks: string[] = [];
         for (const f of files) chunks.push(await f.text());
         const combined = chunks.join("\n\n");
-        const { bytes, sanitized } = await buildPdfFromText(combined, opts);
-        sanitizedAny = sanitizedAny || sanitized;
-        outputs.push({
-          blob: new Blob([bytes as BlobPart], { type: "application/pdf" }),
-          filename: files.length === 1
-            ? files[0].name.replace(/\.txt$/i, "") + ".pdf"
-            : "combined.pdf",
-        });
+        await emit(
+          combined,
+          files.length === 1 ? files[0].name.replace(/\.txt$/i, "") + ".pdf" : "combined.pdf",
+        );
       } else {
-        for (const f of files) {
-          const { bytes, sanitized } = await buildPdfFromText(await f.text(), opts);
-          sanitizedAny = sanitizedAny || sanitized;
-          outputs.push({
-            blob: new Blob([bytes as BlobPart], { type: "application/pdf" }),
-            filename: f.name.replace(/\.txt$/i, "") + ".pdf",
-          });
-        }
+        for (const f of files) await emit(await f.text(), f.name.replace(/\.txt$/i, "") + ".pdf");
       }
 
-      setResult({ blobs: outputs, sanitized: sanitizedAny });
+      setResult({ blobs: outputs, raster: rasterAny });
       toast.success("PDF created");
     } catch (e) {
       toast.error(`Failed: ${(e as Error).message}`);
@@ -200,7 +318,7 @@ export default function TxtToPdf() {
           (result.blobs.length === 1
             ? "Your PDF is ready."
             : `${result.blobs.length} PDFs are ready.`) +
-          (result.sanitized ? " Some non-Latin characters were replaced with '?'." : "")
+          (result.raster ? " Non-Latin text was rendered as high-quality images (not selectable)." : "")
         }
         downloadLabel={result.blobs.length === 1 ? "Download PDF" : `Download ${result.blobs.length} PDFs`}
         onDownload={() => {
@@ -307,10 +425,10 @@ export default function TxtToPdf() {
             </div>
           )}
 
-          {nonLatinWarn && (
+          {nonLatinDetected && (
             <InfoTip>
-              Non-Latin characters detected. The standard PDF font only supports Latin characters —
-              unsupported characters will be replaced with "?" in the output.
+              Non-Latin text detected — pages will be rendered as high-quality images so all scripts
+              (Hindi, Chinese, Arabic, etc.) display correctly. Text in the PDF won't be selectable.
             </InfoTip>
           )}
         </>
@@ -421,7 +539,7 @@ function PagePreview({
           lineHeight: `${lineHeight * scale}px`,
           color: "#33333c",
           overflow: "hidden",
-          fontFamily: "Helvetica, Arial, sans-serif",
+          fontFamily: '"Noto Sans Devanagari", "Noto Sans", Helvetica, Arial, sans-serif',
         }}
       >
         {text || <span style={{ color: "#c8c8ce" }}>Your text preview will appear here…</span>}
