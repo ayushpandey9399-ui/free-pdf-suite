@@ -130,8 +130,6 @@ export function MergePdfSeo() {
         ))}
       </div>
 
-      {/* Single H1 for the page */}
-      <h1 className="sr-only">Merge PDF Files Online — Free, Private, No Uploads</h1>
 
       {/* How-to */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
