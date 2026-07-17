@@ -23,6 +23,7 @@ import flattenPdfUrl from "@/assets/icons/flatten-pdf.png";
 import txtToPdfUrl from "@/assets/icons/txt-to-pdf.png";
 import pdfMetadataUrl from "@/assets/icons/pdf-metadata.png";
 import extractImagesUrl from "@/assets/icons/extract-images.png";
+import grayscalePdfUrl from "@/assets/icons/grayscale-pdf.png";
 
 /**
  * AI-generated icon artwork for PDFfree tools.
