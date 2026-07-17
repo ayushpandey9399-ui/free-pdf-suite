@@ -461,6 +461,7 @@ function ToolPage() {
       {isRotate && <RotatePdfSeo />}
       {isDeletePages && <DeletePagesSeo />}
       {isExtractPages && <ExtractPagesSeo />}
+      {isReorderPages && <ReorderPagesSeo />}
     </>
   );
 }
