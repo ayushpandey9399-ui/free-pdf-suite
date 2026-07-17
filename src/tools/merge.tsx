@@ -3,7 +3,7 @@ import { toast } from "sonner";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 import { downloadBlob } from "@/lib/download";
-import { ArrowRight, Info, Loader2, Plus, X } from "lucide-react";
+import { ArrowRight, GripVertical, Info, Loader2, Plus, X } from "lucide-react";
 import {
   DndContext,
   closestCenter,
