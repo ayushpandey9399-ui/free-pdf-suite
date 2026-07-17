@@ -21,4 +21,6 @@ export const TOOL_SUGGESTIONS: Record<string, string[]> = {
   "unlock-pdf":    ["protect-pdf", "compress", "merge", "split", "sign-pdf", "watermark"],
   "edit-pdf":      ["sign-pdf", "watermark", "page-numbers", "crop", "merge", "compress"],
   "flatten-pdf":   ["fill-forms", "sign-pdf", "protect-pdf", "compress", "merge", "watermark"],
+  "txt-to-pdf":    ["merge", "compress", "page-numbers", "watermark", "pdf-to-text", "images-to-pdf"],
+  "pdf-metadata":  ["compress", "protect-pdf", "merge", "sign-pdf", "watermark", "flatten-pdf"],
 };
