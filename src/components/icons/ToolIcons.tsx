@@ -110,4 +110,5 @@ export const toolIcons: Record<string, ComponentType<ToolIconProps>> = {
   "extract-images": ExtractImagesIcon,
   "grayscale-pdf": GrayscalePdfIcon,
   "header-footer": HeaderFooterIcon,
+  "add-blank-pages": AddBlankPagesIcon,
 };
