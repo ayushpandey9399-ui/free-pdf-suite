@@ -16,6 +16,7 @@ import { WatermarkPdfSeo, watermarkFaqJsonLd, watermarkHowToJsonLd, watermarkSof
 import { RotatePdfSeo, rotateFaqJsonLd, rotateHowToJsonLd, rotateSoftwareJsonLd } from "@/components/RotatePdfSeo";
 import { DeletePagesSeo, deletePagesFaqJsonLd, deletePagesHowToJsonLd, deletePagesSoftwareJsonLd } from "@/components/DeletePagesSeo";
 import { ExtractPagesSeo, extractPagesFaqJsonLd, extractPagesHowToJsonLd, extractPagesSoftwareJsonLd } from "@/components/ExtractPagesSeo";
+import { ReorderPagesSeo, reorderPagesFaqJsonLd, reorderPagesHowToJsonLd, reorderPagesSoftwareJsonLd } from "@/components/ReorderPagesSeo";
 
 
 
@@ -338,6 +339,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "reorder-pages") {
+      const title =
+        "Reorder PDF Pages Online Free — Rearrange by Drag & Drop | PDFfree";
+      const desc =
+        "Rearrange PDF pages online free — drag and drop pages into the right order in your browser. No upload, no signup, no watermark.";
+      const url = "/tools/reorder-pages";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(reorderPagesFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(reorderPagesHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(reorderPagesSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
@@ -378,6 +405,7 @@ function ToolPage() {
   const isRotate = slug === "rotate";
   const isDeletePages = slug === "delete-pages";
   const isExtractPages = slug === "extract-pages";
+  const isReorderPages = slug === "reorder-pages";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
@@ -403,6 +431,8 @@ function ToolPage() {
     ? "Delete Pages from PDF — Remove Unwanted Pages, 100% Private"
     : isExtractPages
     ? "Extract Pages from PDF — Save Only the Pages You Need"
+    : isReorderPages
+    ? "Reorder PDF Pages — Drag, Drop, Done. 100% Private"
     : tool.name;
 
   return (
@@ -431,6 +461,7 @@ function ToolPage() {
       {isRotate && <RotatePdfSeo />}
       {isDeletePages && <DeletePagesSeo />}
       {isExtractPages && <ExtractPagesSeo />}
+      {isReorderPages && <ReorderPagesSeo />}
     </>
   );
 }
