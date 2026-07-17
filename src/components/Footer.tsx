@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { LogoMark } from "./Logo";
-import { ShieldCheck, Sparkles, CloudOff } from "lucide-react";
+import { ShieldCheck, Sparkles, CloudOff, ArrowUp } from "lucide-react";
 
 type ToolLink = { slug: string; name: string };
 
@@ -51,16 +51,21 @@ const HEAD_STYLE = {
 } as const;
 
 const LINK_CLASS =
-  "block py-1.5 text-[14px] transition-colors duration-150 hover:text-white";
+  "inline-block py-1.5 text-[14px] transition-all duration-150 ease-out hover:text-white hover:translate-x-0.5";
 
 const LINK_STYLE = { color: "#9CA3AF" } as const;
 
 export function Footer() {
   const year = new Date().getFullYear();
+  const backToTop = () => {
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
   return (
-    <footer style={{ backgroundColor: "#0F172A", color: "#9CA3AF" }} className="mt-20">
+    <footer style={{ backgroundColor: "#0F172A", color: "#9CA3AF" }}>
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6 pt-14 pb-10 sm:pt-16 sm:pb-10">
-        <div className="grid gap-10 sm:gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-6">
+        <div className="grid gap-10 sm:gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 items-start">
           {/* Brand — 2 col wide on desktop */}
           <div className="lg:col-span-2">
             <Link
@@ -74,10 +79,17 @@ export function Footer() {
                 <span style={{ color: "#ff6b67" }}>free</span>
               </span>
             </Link>
-            <p className="mt-5 max-w-sm text-[14px]" style={{ color: "#9CA3AF", lineHeight: 1.65 }}>
-              Free PDF tools that process your files right in your browser — private, fast and completely free.
+            <p
+              className="mt-5 text-[14px] max-w-[280px]"
+              style={{ color: "#9CA3AF", lineHeight: 1.65 }}
+            >
+              Free PDF tools that process your files right in your browser —
+              private, fast and completely free.
             </p>
-            <ul className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px]" style={{ color: "#9CA3AF" }}>
+            <ul
+              className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-[12px]"
+              style={{ color: "#9CA3AF" }}
+            >
               <MicroBadge icon={<ShieldCheck className="h-3.5 w-3.5" strokeWidth={2.25} />} label="No signup" />
               <MicroBadge icon={<Sparkles className="h-3.5 w-3.5" strokeWidth={2.25} />} label="No watermark" />
               <MicroBadge icon={<CloudOff className="h-3.5 w-3.5" strokeWidth={2.25} />} label="No uploads" />
@@ -93,7 +105,7 @@ export function Footer() {
             <FooterColumn title="Secure" links={secure} />
             <div className="mt-8">
               <FooterHeading>Company</FooterHeading>
-              <ul className="mt-3">
+              <ul className="mt-4">
                 <li>
                   <Link to="/about" className={LINK_CLASS} style={LINK_STYLE}>About</Link>
                 </li>
@@ -118,7 +130,18 @@ export function Footer() {
           style={{ color: "#9CA3AF" }}
         >
           <p>© {year} PDFfree. All rights reserved.</p>
-          <p>Made with <span style={{ color: "#ff6b67" }}>❤</span> in India · 100% free tools</p>
+          <div className="flex flex-col items-center gap-2 sm:flex-row sm:gap-6">
+            <p>Made with <span style={{ color: "#ff6b67" }}>❤</span> in India · 100% free tools</p>
+            <button
+              type="button"
+              onClick={backToTop}
+              className="inline-flex items-center gap-1 text-[13px] transition-colors duration-150 hover:text-white"
+              style={{ color: "#9CA3AF" }}
+            >
+              Back to top
+              <ArrowUp className="h-3.5 w-3.5" strokeWidth={2.25} />
+            </button>
+          </div>
         </div>
       </div>
     </footer>
@@ -137,7 +160,7 @@ function FooterColumn({ title, links }: { title: string; links: ToolLink[] }) {
   return (
     <div>
       <FooterHeading>{title}</FooterHeading>
-      <ul className="mt-3">
+      <ul className="mt-4">
         {links.map((l) => (
           <li key={l.slug}>
             <Link
@@ -157,8 +180,8 @@ function FooterColumn({ title, links }: { title: string; links: ToolLink[] }) {
 
 function MicroBadge({ icon, label }: { icon: React.ReactNode; label: string }) {
   return (
-    <li className="inline-flex items-center gap-1.5">
-      <span style={{ color: "#ff6b67" }}>{icon}</span>
+    <li className="inline-flex items-center gap-1.5 leading-none">
+      <span className="inline-flex items-center" style={{ color: "#ff6b67" }}>{icon}</span>
       <span>{label}</span>
     </li>
   );
