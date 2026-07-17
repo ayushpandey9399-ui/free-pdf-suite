@@ -7,6 +7,7 @@ import { getTool, categoryTint } from "@/tools/registry";
 import { MergePdfSeo, mergeFaqJsonLd, mergeHowToJsonLd, mergeSoftwareJsonLd } from "@/components/MergePdfSeo";
 import { CompressPdfSeo, compressFaqJsonLd, compressHowToJsonLd, compressSoftwareJsonLd } from "@/components/CompressPdfSeo";
 import { SplitPdfSeo, splitFaqJsonLd, splitHowToJsonLd, splitSoftwareJsonLd } from "@/components/SplitPdfSeo";
+import { SignPdfSeo, signFaqJsonLd, signHowToJsonLd, signSoftwareJsonLd } from "@/components/SignPdfSeo";
 
 
 export const Route = createFileRoute("/tools/$slug")({
@@ -94,6 +95,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "sign-pdf") {
+      const title =
+        "Sign PDF Online Free — Add Signature Without Uploading | PDFfree";
+      const desc =
+        "Sign PDF online free — draw, type, or upload your signature in your browser. No upload, no signup. Contracts never leave your device.";
+      const url = "/tools/sign-pdf";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(signFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(signHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(signSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
@@ -125,6 +152,7 @@ function ToolPage() {
   const isMerge = slug === "merge";
   const isCompress = slug === "compress";
   const isSplit = slug === "split";
+  const isSign = slug === "sign-pdf";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
@@ -132,6 +160,8 @@ function ToolPage() {
     ? "Compress PDF Online — Reduce File Size, 100% Private"
     : isSplit
     ? "Split PDF Online — Separate Pages, 100% Private"
+    : isSign
+    ? "Sign PDF Online — Free Electronic Signature, 100% Private"
     : tool.name;
 
   return (
@@ -151,6 +181,7 @@ function ToolPage() {
       {isMerge && <MergePdfSeo />}
       {isCompress && <CompressPdfSeo />}
       {isSplit && <SplitPdfSeo />}
+      {isSign && <SignPdfSeo />}
     </>
   );
 }
