@@ -99,9 +99,9 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
   },
   {
     q: "Which fields can I edit?",
-    a: "Four fields are directly editable in the sidebar: Title, Author, Subject and Keywords (comma-separated). Producer, Creator, Created and Modified are shown as read-only trail information so you can inspect them, and are blanked by the Clear all metadata option — Producer and Creator specifically are reset when you tick that box.",
+    a: "Four fields are directly editable in the sidebar: Title, Author, Subject and Keywords (comma-separated). Producer, Creator, Created and Modified are shown as read-only trail information so you can inspect them, and Clear all metadata wipes them too — Producer and Creator are reset to empty strings and the Created and Modified timestamps are removed from the document information dictionary.",
     plain:
-      "Editable: Title, Author, Subject and Keywords. Producer, Creator, Created and Modified are shown as read-only trail info; ticking Clear all metadata also resets Producer and Creator.",
+      "Editable: Title, Author, Subject and Keywords. Producer, Creator, Created and Modified are shown as read-only trail info; ticking Clear all metadata also resets Producer/Creator and removes the Created/Modified timestamps.",
   },
   {
     q: "Do my files get uploaded to a server?",
