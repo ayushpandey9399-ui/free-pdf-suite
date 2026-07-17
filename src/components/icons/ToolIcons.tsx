@@ -36,13 +36,13 @@ function makeIcon(src: string, alt: string): ComponentType<ToolIconProps> {
       loading="lazy"
       decoding="async"
       draggable={false}
-      className={className}
-      style={{ display: "block", objectFit: "contain" }}
+      className={`block object-contain ${className ?? ""}`}
     />
   );
   Comp.displayName = `ToolIcon(${alt})`;
   return Comp;
 }
+
 
 export const MergeIcon = makeIcon(mergeUrl, "Merge PDF");
 export const SplitIcon = makeIcon(splitUrl, "Split PDF");
