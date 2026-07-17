@@ -17,6 +17,7 @@ import { RotatePdfSeo, rotateFaqJsonLd, rotateHowToJsonLd, rotateSoftwareJsonLd 
 import { DeletePagesSeo, deletePagesFaqJsonLd, deletePagesHowToJsonLd, deletePagesSoftwareJsonLd } from "@/components/DeletePagesSeo";
 import { ExtractPagesSeo, extractPagesFaqJsonLd, extractPagesHowToJsonLd, extractPagesSoftwareJsonLd } from "@/components/ExtractPagesSeo";
 import { ReorderPagesSeo, reorderPagesFaqJsonLd, reorderPagesHowToJsonLd, reorderPagesSoftwareJsonLd } from "@/components/ReorderPagesSeo";
+import { ImagesToPdfSeo, imagesToPdfFaqJsonLd, imagesToPdfHowToJsonLd, imagesToPdfSoftwareJsonLd } from "@/components/ImagesToPdfSeo";
 
 
 
@@ -365,6 +366,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "images-to-pdf") {
+      const title =
+        "JPG to PDF Online Free — Convert Images to PDF, No Upload | PDFfree";
+      const desc =
+        "Convert JPG, PNG images to PDF online free — combine photos into one PDF in your browser. No upload, no signup, no watermark.";
+      const url = "/tools/images-to-pdf";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(imagesToPdfFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(imagesToPdfHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(imagesToPdfSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
@@ -406,6 +433,7 @@ function ToolPage() {
   const isDeletePages = slug === "delete-pages";
   const isExtractPages = slug === "extract-pages";
   const isReorderPages = slug === "reorder-pages";
+  const isImagesToPdf = slug === "images-to-pdf";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
@@ -433,6 +461,8 @@ function ToolPage() {
     ? "Extract Pages from PDF — Save Only the Pages You Need"
     : isReorderPages
     ? "Reorder PDF Pages — Drag, Drop, Done. 100% Private"
+    : isImagesToPdf
+    ? "JPG to PDF Converter — Combine Images Into One PDF, Free"
     : tool.name;
 
   return (
@@ -462,6 +492,7 @@ function ToolPage() {
       {isDeletePages && <DeletePagesSeo />}
       {isExtractPages && <ExtractPagesSeo />}
       {isReorderPages && <ReorderPagesSeo />}
+      {isImagesToPdf && <ImagesToPdfSeo />}
     </>
   );
 }
