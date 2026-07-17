@@ -492,6 +492,7 @@ function ToolPage() {
       {isDeletePages && <DeletePagesSeo />}
       {isExtractPages && <ExtractPagesSeo />}
       {isReorderPages && <ReorderPagesSeo />}
+      {isImagesToPdf && <ImagesToPdfSeo />}
     </>
   );
 }
