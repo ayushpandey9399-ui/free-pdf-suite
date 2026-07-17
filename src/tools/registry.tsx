@@ -1,21 +1,22 @@
 import { lazy, type ComponentType } from "react";
 import {
+  Image,
   FileImage,
-  ImageIcon,
-  Type,
-  Merge,
+  FileText,
+  GitMerge,
   Scissors,
   Trash2,
-  FileOutput,
-  MoveVertical,
+  Copy,
+  ArrowUpDown,
   RotateCw,
   Hash,
   Droplet,
   Crop,
-  FormInput,
+  PenLine,
   GitCompare,
   type LucideIcon,
 } from "lucide-react";
+
 
 export type ToolCategory = "Organize PDF" | "Convert PDF" | "Edit PDF" | "Forms & Compare";
 
