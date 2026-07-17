@@ -5,6 +5,7 @@ import { ToolLayout } from "@/components/ToolLayout";
 import { ClientOnly } from "@/components/ClientOnly";
 import { getTool, categoryTint } from "@/tools/registry";
 import { MergePdfSeo, mergeFaqJsonLd, mergeHowToJsonLd, mergeSoftwareJsonLd } from "@/components/MergePdfSeo";
+import { CompressPdfSeo, compressFaqJsonLd, compressHowToJsonLd, compressSoftwareJsonLd } from "@/components/CompressPdfSeo";
 
 export const Route = createFileRoute("/tools/$slug")({
   loader: ({ params }) => {
@@ -39,6 +40,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "compress") {
+      const title =
+        "Compress PDF Online Free — Reduce PDF File Size Without Uploading | PDFfree";
+      const desc =
+        "Compress PDF online free — reduce PDF file size in your browser. No upload, no signup, no watermark. Your files never leave your device.";
+      const url = "/tools/compress";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(compressFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(compressHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(compressSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
@@ -68,11 +95,18 @@ function ToolPage() {
   );
 
   const isMerge = slug === "merge";
+  const isCompress = slug === "compress";
+
+  const layoutTitle = isMerge
+    ? "Merge PDF Files Online — Free, Private, No Uploads"
+    : isCompress
+    ? "Compress PDF Online — Reduce File Size, 100% Private"
+    : tool.name;
 
   return (
     <>
       <ToolLayout
-        title={isMerge ? "Merge PDF Files Online — Free, Private, No Uploads" : tool.name}
+        title={layoutTitle}
         description={tool.description}
         icon={tool.icon}
         tint={categoryTint[tool.category]}
@@ -84,6 +118,7 @@ function ToolPage() {
         </ClientOnly>
       </ToolLayout>
       {isMerge && <MergePdfSeo />}
+      {isCompress && <CompressPdfSeo />}
     </>
   );
 }
