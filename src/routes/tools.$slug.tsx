@@ -849,6 +849,8 @@ function ToolPage() {
     ? "Add Blank Pages to PDF — Insert Empty Pages Anywhere, Free"
     : isScanToPdf
     ? "Scan to PDF — Turn Your Phone Into a Document Scanner, Free"
+    : isExtractImages
+    ? "Extract Images from PDF — Original Quality, 100% Private"
     : tool.name;
 
   return (
