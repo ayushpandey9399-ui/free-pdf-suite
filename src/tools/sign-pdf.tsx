@@ -70,7 +70,17 @@ export default function SignPdf() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ blob: Blob; filename: string } | null>(null);
 
+  // Stamp mode: after "Place on document" is clicked, the next click on any page drops a placement there.
+  const [stampMode, setStampMode] = useState<Kind | null>(null);
+  const [currentPage, setCurrentPage] = useState(0); // 0-based, most-visible page
+
   const pagesContainerRef = useRef<HTMLDivElement>(null);
+  const pageRefs = useRef<Map<number, HTMLElement>>(new Map());
+  const registerPageEl = useCallback((idx: number, el: HTMLElement | null) => {
+    if (el) pageRefs.current.set(idx, el);
+    else pageRefs.current.delete(idx);
+  }, []);
+
   const { protectedName, reset } = usePdfPasswordCheck(files, () => setFiles([]));
 
   const file = files[0];
@@ -79,6 +89,8 @@ export default function SignPdf() {
     let cancelled = false;
     setPages([]);
     setPlacements([]);
+    setStampMode(null);
+    setCurrentPage(0);
     if (!file) return;
     setLoadingPages(true);
     (async () => {
@@ -88,7 +100,6 @@ export default function SignPdf() {
         const maxW = 800;
         for (let i = 1; i <= doc.numPages; i++) {
           const page = await doc.getPage(i);
-          // Render with rotation=0 so overlay coords map directly to native PDF points.
           const vp1 = page.getViewport({ scale: 1, rotation: 0 });
           const scale = Math.min(2, maxW / vp1.width);
           const vp = page.getViewport({ scale, rotation: 0 });
@@ -121,44 +132,72 @@ export default function SignPdf() {
     else setInitials(sig);
   };
 
-  const placeOnDocument = useCallback(() => {
-    const sig = current;
-    if (!sig || !pages.length) return;
-    // Determine which page is centered in viewport
-    let pageIndex = 0;
-    const container = pagesContainerRef.current;
-    if (container) {
-      const rects = container.querySelectorAll<HTMLElement>("[data-page-index]");
-      const viewportMid = window.innerHeight / 2;
-      let bestDist = Infinity;
-      rects.forEach((el) => {
-        const r = el.getBoundingClientRect();
-        const mid = r.top + r.height / 2;
-        const d = Math.abs(mid - viewportMid);
-        if (d < bestDist) {
-          bestDist = d;
-          pageIndex = Number(el.dataset.pageIndex ?? 0);
+  // Track most-visible page via IntersectionObserver on the rendered page cards.
+  useEffect(() => {
+    if (!pages.length) return;
+    const ratios = new Map<number, number>();
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          const idx = Number((e.target as HTMLElement).dataset.pageIndex ?? -1);
+          if (idx >= 0) ratios.set(idx, e.intersectionRatio);
         }
-      });
-    }
+        let best = 0, bestR = -1;
+        ratios.forEach((r, i) => { if (r > bestR) { bestR = r; best = i; } });
+        setCurrentPage(best);
+      },
+      { threshold: [0, 0.25, 0.5, 0.75, 1] },
+    );
+    pageRefs.current.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [pages.length]);
+
+  // Escape to exit stamp mode.
+  useEffect(() => {
+    if (!stampMode) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setStampMode(null); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [stampMode]);
+
+  const addPlacement = useCallback(
+    (kind: Kind, pageIndex: number, cxPoints: number, cyPoints: number) => {
+      const sig = kind === "signature" ? signature : initials;
+      const page = pages[pageIndex];
+      if (!sig || !page) return;
+      const targetW = kind === "signature" ? Math.min(page.width * 0.35, 220) : Math.min(page.width * 0.18, 110);
+      const aspect = sig.h / sig.w;
+      const w = targetW;
+      const h = w * aspect;
+      // Center placement on click point, clamped inside the page.
+      const x = Math.max(0, Math.min(page.width - w, cxPoints - w / 2));
+      const y = Math.max(0, Math.min(page.height - h, cyPoints - h / 2));
+      setPlacements((prev) => [
+        ...prev,
+        { id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, pageIndex, kind, x, y, w, h },
+      ]);
+    },
+    [pages, signature, initials],
+  );
+
+  const placeOnDocument = useCallback(() => {
+    if (!current) return;
+    const pageIndex = currentPage;
     const page = pages[pageIndex];
-    // Default width in points based on kind
-    const targetW = active === "signature" ? Math.min(page.width * 0.35, 220) : Math.min(page.width * 0.18, 110);
-    const aspect = sig.h / sig.w;
-    const w = targetW;
-    const h = w * aspect;
-    const x = (page.width - w) / 2;
-    const y = (page.height - h) / 2;
-    setPlacements((prev) => [
-      ...prev,
-      { id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, pageIndex, kind: active, x, y, w, h },
-    ]);
-    // Scroll placement into view
-    setTimeout(() => {
-      const el = pagesContainerRef.current?.querySelector<HTMLElement>(`[data-page-index="${pageIndex}"]`);
-      el?.scrollIntoView({ behavior: "smooth", block: "center" });
-    }, 50);
-  }, [current, pages, active]);
+    if (!page) return;
+    // Cascade offset so successive placements on the same page don't stack exactly on top.
+    const samePage = placements.filter((p) => p.pageIndex === pageIndex).length;
+    const offset = (samePage % 6) * 20; // points
+    addPlacement(active, pageIndex, page.width / 2 + offset, page.height / 2 + offset);
+    // Also enable stamp mode so the user can click other pages to place more.
+    setStampMode(active);
+  }, [current, currentPage, pages, placements, active, addPlacement]);
+
+  const scrollToPage = (idx: number) => {
+    const el = pageRefs.current.get(idx);
+    el?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
 
   const resetAll = () => {
     setFiles([]); setPages([]); setPlacements([]);
