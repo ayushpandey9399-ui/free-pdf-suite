@@ -401,6 +401,8 @@ function ToolPage() {
     ? "Rotate PDF — Fix Sideways Pages and Save Permanently"
     : isDeletePages
     ? "Delete Pages from PDF — Remove Unwanted Pages, 100% Private"
+    : isExtractPages
+    ? "Extract Pages from PDF — Save Only the Pages You Need"
     : tool.name;
 
   return (
