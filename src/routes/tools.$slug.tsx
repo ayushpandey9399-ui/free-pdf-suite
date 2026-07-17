@@ -339,6 +339,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "reorder-pages") {
+      const title =
+        "Reorder PDF Pages Online Free — Rearrange by Drag & Drop | PDFfree";
+      const desc =
+        "Rearrange PDF pages online free — drag and drop pages into the right order in your browser. No upload, no signup, no watermark.";
+      const url = "/tools/reorder-pages";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(reorderPagesFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(reorderPagesHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(reorderPagesSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
