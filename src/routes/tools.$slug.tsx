@@ -181,6 +181,7 @@ function ToolPage() {
       {isMerge && <MergePdfSeo />}
       {isCompress && <CompressPdfSeo />}
       {isSplit && <SplitPdfSeo />}
+      {isSign && <SignPdfSeo />}
     </>
   );
 }
