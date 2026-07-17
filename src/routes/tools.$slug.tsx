@@ -274,6 +274,7 @@ function ToolPage() {
       {isSign && <SignPdfSeo />}
       {isPdfToImages && <PdfToImagesSeo />}
       {isRedact && <RedactPdfSeo />}
+      {isProtect && <ProtectPdfSeo />}
     </>
   );
 }
