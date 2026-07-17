@@ -539,7 +539,7 @@ function PagePreview({
           lineHeight: `${lineHeight * scale}px`,
           color: "#33333c",
           overflow: "hidden",
-          fontFamily: "Helvetica, Arial, sans-serif",
+          fontFamily: '"Noto Sans Devanagari", "Noto Sans", Helvetica, Arial, sans-serif',
         }}
       >
         {text || <span style={{ color: "#c8c8ce" }}>Your text preview will appear here…</span>}
