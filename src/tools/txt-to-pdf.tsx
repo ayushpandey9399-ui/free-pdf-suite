@@ -194,7 +194,7 @@ function wrapLine(
 async function buildPdfFromText(
   text: string,
   opts: { pageSize: PageSize; fontSize: FontSizeOpt; margin: MarginOpt; lineSpacing: LineSpacing },
-): Promise<{ bytes: Uint8Array; sanitized: boolean }> {
+): Promise<Uint8Array> {
   const doc = await PDFDocument.create();
   const font = await doc.embedFont(StandardFonts.Helvetica);
   const [pw, ph] = PAGE_DIMS[opts.pageSize];
