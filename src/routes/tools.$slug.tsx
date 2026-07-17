@@ -14,6 +14,8 @@ import { ProtectPdfSeo, protectFaqJsonLd, protectHowToJsonLd, protectSoftwareJso
 import { UnlockPdfSeo, unlockFaqJsonLd, unlockHowToJsonLd, unlockSoftwareJsonLd } from "@/components/UnlockPdfSeo";
 import { WatermarkPdfSeo, watermarkFaqJsonLd, watermarkHowToJsonLd, watermarkSoftwareJsonLd } from "@/components/WatermarkPdfSeo";
 import { RotatePdfSeo, rotateFaqJsonLd, rotateHowToJsonLd, rotateSoftwareJsonLd } from "@/components/RotatePdfSeo";
+import { DeletePagesSeo, deletePagesFaqJsonLd, deletePagesHowToJsonLd, deletePagesSoftwareJsonLd } from "@/components/DeletePagesSeo";
+
 
 
 export const Route = createFileRoute("/tools/$slug")({
@@ -283,6 +285,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "delete-pages") {
+      const title =
+        "Delete Pages from PDF Online Free — Remove Pages, No Upload | PDFfree";
+      const desc =
+        "Delete pages from PDF online free — remove unwanted pages in your browser and download a clean copy. No upload, no signup, no watermark.";
+      const url = "/tools/delete-pages";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(deletePagesFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(deletePagesHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(deletePagesSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
@@ -321,6 +349,7 @@ function ToolPage() {
   const isUnlock = slug === "unlock-pdf";
   const isWatermark = slug === "watermark";
   const isRotate = slug === "rotate";
+  const isDeletePages = slug === "delete-pages";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
@@ -342,6 +371,8 @@ function ToolPage() {
     ? "Add Watermark to PDF — Free, Every Page, 100% Private"
     : isRotate
     ? "Rotate PDF — Fix Sideways Pages and Save Permanently"
+    : isDeletePages
+    ? "Delete Pages from PDF — Remove Unwanted Pages, 100% Private"
     : tool.name;
 
   return (
@@ -368,6 +399,7 @@ function ToolPage() {
       {isUnlock && <UnlockPdfSeo />}
       {isWatermark && <WatermarkPdfSeo />}
       {isRotate && <RotatePdfSeo />}
+      {isDeletePages && <DeletePagesSeo />}
     </>
   );
 }
