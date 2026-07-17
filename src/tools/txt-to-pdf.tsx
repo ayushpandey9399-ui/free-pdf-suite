@@ -425,10 +425,10 @@ export default function TxtToPdf() {
             </div>
           )}
 
-          {nonLatinWarn && (
+          {nonLatinDetected && (
             <InfoTip>
-              Non-Latin characters detected. The standard PDF font only supports Latin characters —
-              unsupported characters will be replaced with "?" in the output.
+              Non-Latin text detected — pages will be rendered as high-quality images so all scripts
+              (Hindi, Chinese, Arabic, etc.) display correctly. Text in the PDF won't be selectable.
             </InfoTip>
           )}
         </>
