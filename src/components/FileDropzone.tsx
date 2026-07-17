@@ -112,13 +112,6 @@ export function FileDropzone({
         />
       </div>
 
-      <div
-        className="mt-3 flex items-center justify-center gap-1.5 text-[12px]"
-        style={{ color: "#1f9d55" }}
-      >
-        <Lock className="h-3.5 w-3.5" />
-        Your files never leave your device — processed locally in your browser.
-      </div>
 
       {files.length > 0 && (
         <ul className="mt-5 space-y-2">
