@@ -31,24 +31,28 @@ function PrivacyPolicyPage() {
       >
         <p style={{ margin: 0 }}>
           <strong>
-            All PDF processing on PDFfree happens entirely inside your browser
-            (client-side). Your files are NEVER uploaded to our servers, never stored
-            by us, never seen by us.
+            The tools currently on this site process your files locally in your
+            browser; files are not transmitted to our servers, not stored by us, and
+            not seen by us.
           </strong>{" "}
-          When you merge, compress, sign, or edit a PDF here, the file stays on your
-          device from start to finish. You can even disconnect from the internet after
-          the page loads and the tools keep working.
+          When you merge, compress, sign, or edit a PDF with today's tools, the file
+          stays on your device from start to finish. You can even disconnect from the
+          internet after the page loads and these tools keep working. If a future tool
+          requires server-side processing, it will be clearly labeled on that tool's
+          page, and this policy will be updated before that tool launches.
         </p>
       </div>
 
       <h2>Information we do NOT collect</h2>
-      <p>To be completely clear, PDFfree does not receive or store:</p>
+      <p>
+        For the browser-based tools currently on PDFfree, we do not receive or store:
+      </p>
       <ul>
         <li>Your PDF, image, or text files, or any of their contents.</li>
-        <li>The names or metadata of the files you process.</li>
+        <li>The names or metadata of the files you process with these tools.</li>
         <li>
           Passwords you enter for protecting or unlocking PDFs — they are used only in
-          your browser and never transmitted anywhere.
+          your browser and are not transmitted by these tools.
         </li>
         <li>Signatures you draw or type in the Sign PDF tool.</li>
         <li>
@@ -63,8 +67,9 @@ function PrivacyPolicyPage() {
         PDFfree — such as browser type, device type, pages visited, approximate
         location derived from your IP address, and referral source. This data relates
         only to the page visit itself and is handled by our analytics and hosting
-        providers described below. It is never linked to the contents of files you
-        process, because those files never leave your device.
+        providers described below. For the current browser-based tools, this data is
+        not linked to the contents of files you process, because those files stay on
+        your device.
       </p>
 
       <h2>Cookies and similar technologies</h2>
@@ -124,9 +129,9 @@ function PrivacyPolicyPage() {
       </ul>
       <p>
         <strong>
-          Important: ads appear on the page around the tools. Advertising partners
-          never receive access to the files you process, because those files never
-          leave your browser.
+          Important: ads appear on the page around the tools. For the browser-based
+          tools currently on PDFfree, advertising partners do not receive access to
+          the files you process, because those files stay in your browser.
         </strong>
       </p>
 
@@ -155,9 +160,10 @@ function PrivacyPolicyPage() {
 
       <h2>Data security</h2>
       <p>
-        Because your files never leave your device, the primary security model for
-        your documents is your own device and browser. Our website itself is served
-        over HTTPS to protect the integrity of the code delivered to your browser.
+        Because the current tools keep your files on your device, the primary security
+        model for your documents is your own device and browser. Our website itself is
+        served over HTTPS to protect the integrity of the code delivered to your
+        browser.
       </p>
 
       <h2>Changes to this policy</h2>

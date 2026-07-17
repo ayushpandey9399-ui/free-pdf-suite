@@ -117,7 +117,7 @@ export function MergePdfSeo() {
       <div className="mt-6 grid gap-3 sm:grid-cols-3">
         {[
           "Files never leave your device",
-          "Free forever — no signup, no watermark",
+          "100% free — no signup, no watermark",
           "No file limits",
         ].map((b) => (
           <div
