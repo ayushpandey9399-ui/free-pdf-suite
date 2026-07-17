@@ -26,6 +26,7 @@ import { CropPdfSeo, cropPdfFaqJsonLd, cropPdfHowToJsonLd, cropPdfSoftwareJsonLd
 import { EditPdfSeo, editPdfFaqJsonLd, editPdfHowToJsonLd, editPdfSoftwareJsonLd } from "@/components/EditPdfSeo";
 import { FillFormsSeo, fillFormsFaqJsonLd, fillFormsHowToJsonLd, fillFormsSoftwareJsonLd } from "@/components/FillFormsSeo";
 import { FlattenPdfSeo, flattenPdfFaqJsonLd, flattenPdfHowToJsonLd, flattenPdfSoftwareJsonLd } from "@/components/FlattenPdfSeo";
+import { PdfMetadataSeo, pdfMetadataFaqJsonLd, pdfMetadataHowToJsonLd, pdfMetadataSoftwareJsonLd } from "@/components/PdfMetadataSeo";
 
 
 
@@ -608,6 +609,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "pdf-metadata") {
+      const title =
+        "Edit PDF Metadata Online Free — View, Change & Remove Properties | PDFfree";
+      const desc =
+        "View, edit or remove PDF metadata online free — title, author & hidden properties, in your browser. No upload. Clean files before sharing.";
+      const url = "/tools/pdf-metadata";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(pdfMetadataFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(pdfMetadataHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(pdfMetadataSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
@@ -658,6 +685,7 @@ function ToolPage() {
   const isEditPdf = slug === "edit-pdf";
   const isFillForms = slug === "fill-forms";
   const isFlattenPdf = slug === "flatten-pdf";
+  const isPdfMetadata = slug === "pdf-metadata";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
@@ -703,6 +731,8 @@ function ToolPage() {
     ? "Fill PDF Forms Online — Free, Private, No Printing"
     : isFlattenPdf
     ? "Flatten PDF — Lock Form Fields Into Permanent Content"
+    : isPdfMetadata
+    ? "PDF Metadata Editor — View, Edit or Remove Hidden Properties"
     : tool.name;
 
   return (
@@ -741,6 +771,7 @@ function ToolPage() {
       {isEditPdf && <EditPdfSeo />}
       {isFillForms && <FillFormsSeo />}
       {isFlattenPdf && <FlattenPdfSeo />}
+      {isPdfMetadata && <PdfMetadataSeo />}
     </>
   );
 }
