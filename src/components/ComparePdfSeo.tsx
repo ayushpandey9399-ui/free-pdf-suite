@@ -93,17 +93,7 @@ const faqs = [
   },
   {
     q: "Can I compare password-protected PDFs?",
-    a: (
-      <>
-        Not directly. The tool detects a password-protected file when you upload it and asks you to unlock the PDF first. Run each file through the free{" "}
-        <Link to="/tools/unlock-pdf" className="text-[#e5322d] underline">
-          Unlock PDF
-        </Link>{" "}
-        tool (also in-browser) to strip the password, then bring the unlocked copies back here to compare.
-      </>
-    ),
-    plain:
-      "Not directly. The tool detects a password-protected file when you upload it and asks you to unlock the PDF first. Run each file through the free Unlock PDF tool (also in-browser) to strip the password, then bring the unlocked copies back here to compare.",
+    a: "Not directly. The tool detects a password-protected file when you upload it and asks you to unlock the PDF first. Run each file through the free Unlock PDF tool (linked in Related tools below) to strip the password, then bring the unlocked copies back here to compare — the unlock step also runs in-browser, so nothing gets uploaded at any stage.",
   },
   {
     q: "Do I need Adobe Acrobat to compare PDFs?",
