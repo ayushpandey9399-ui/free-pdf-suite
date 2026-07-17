@@ -1,13 +1,17 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { diffLines, diffWordsWithSpace } from "diff";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Loader2, RotateCcw, Lock } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ActionBar } from "@/components/ActionBar";
 import { loadPdfJsDoc, isPdfPasswordError } from "@/lib/pdfGuard";
 import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
 import { cn } from "@/lib/utils";
+import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
+import { getTool } from "@/tools/registry";
+
 
 type PageData = { text: string; width: number; height: number };
 type Doc = { pages: PageData[]; getPage: (n: number) => Promise<import("pdfjs-dist").PDFPageProxy> };
@@ -143,7 +147,12 @@ export default function Compare() {
         />
       ) : (
         <>
-          <ActionBar onRun={run} disabled={!a[0] || !b[0]} loading={loading} label="Compare PDFs" />
+          <ActionBar
+            onRun={run}
+            disabled={!a[0] || !b[0]}
+            loading={loading}
+            label={loading ? "Comparing PDFs…" : "Compare PDFs"}
+          />
           {docA && docB && (
             <div className="mt-6 space-y-4">
               {/* Mode toggle */}
@@ -188,13 +197,81 @@ export default function Compare() {
               ) : (
                 <TextDiffView diff={textDiff} />
               )}
+
+              <CompareNextSteps
+                onReset={() => {
+                  setA([]);
+                  setB([]);
+                  setDocA(null);
+                  setDocB(null);
+                  setMode("visual");
+                }}
+              />
             </div>
           )}
         </>
       )}
     </div>
   );
+
 }
+
+function CompareNextSteps({ onReset }: { onReset: () => void }) {
+  const suggestions = TOOL_SUGGESTIONS.compare
+    .map((slug) => getTool(slug))
+    .filter((t): t is NonNullable<ReturnType<typeof getTool>> => !!t);
+  return (
+    <div className="mt-10 space-y-8 border-t pt-8" style={{ borderColor: "#ececef" }}>
+      <div className="flex flex-col items-center gap-3 text-center">
+        <p className="text-[15px] font-semibold" style={{ color: "#33333c" }}>
+          Comparison complete.
+        </p>
+        <button
+          type="button"
+          onClick={onReset}
+          className="inline-flex items-center gap-1.5 text-[13px] font-semibold transition-colors hover:text-[#e5322d]"
+          style={{ color: "#7a7a86" }}
+        >
+          <RotateCcw className="h-3.5 w-3.5" />
+          Compare two other PDFs
+        </button>
+      </div>
+      <div>
+        <h3 className="text-[13px] font-bold uppercase" style={{ color: "#7a7a86", letterSpacing: "0.08em" }}>
+          Continue to…
+        </h3>
+        <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
+          {suggestions.map((tool) => {
+            const Icon = tool.icon;
+            return (
+              <Link
+                key={tool.slug}
+                to="/tools/$slug"
+                params={{ slug: tool.slug }}
+                className="group flex items-center gap-3 rounded-xl border bg-white p-3 transition-all hover:-translate-y-0.5 hover:border-[#e5322d]"
+                style={{ borderColor: "#ececef" }}
+              >
+                <Icon size={40} />
+                <span className="text-[13.5px] font-semibold leading-tight" style={{ color: "#33333c" }}>
+                  {tool.name}
+                </span>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+      <div
+        className="flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-[13px] font-semibold"
+        style={{ backgroundColor: "#eafaf0", color: "#1f9d55" }}
+      >
+        <Lock className="h-4 w-4" />
+        Your files were processed 100% locally on your device — never uploaded anywhere.
+      </div>
+    </div>
+  );
+}
+
+
 
 function TextDiffView({ diff }: { diff: { lines: LineDiff[]; changedLines: number } | null }) {
   if (!diff) return null;

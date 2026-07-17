@@ -2,15 +2,22 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ActionBar } from "@/components/ActionBar";
+import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
-import { downloadBlob, downloadZip } from "@/lib/download";
+import { downloadBlob } from "@/lib/download";
 import { loadPdfJsDoc, isPdfPasswordError } from "@/lib/pdfGuard";
 import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
 import { LargeFileWarning } from "@/components/LargeFileWarning";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
 import { usePdfStats } from "@/hooks/usePdfStats";
+import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
+import JSZip from "jszip";
+
+type Result =
+  | { kind: "single"; blob: Blob; filename: string; mime: string; count: 1 }
+  | { kind: "zip"; blob: Blob; filename: string; count: number };
 
 export default function PdfToImages() {
   const [files, setFiles] = useState<File[]>([]);
@@ -19,8 +26,17 @@ export default function PdfToImages() {
   const [scale, setScale] = useState(2);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState<number | null>(null);
+  const [result, setResult] = useState<Result | null>(null);
   const { protectedName, reset } = usePdfPasswordCheck(files, () => setFiles([]));
   const { pageCount, fileSize } = usePdfStats(files[0]);
+
+  const resetAll = () => {
+    setFiles([]);
+    setFormat("png");
+    setQuality(0.9);
+    setScale(2);
+    setResult(null);
+  };
 
   const run = async () => {
     const file = files[0];
@@ -45,8 +61,14 @@ export default function PdfToImages() {
         out.push({ name: `${base}-page-${i}.${format}`, data: blob });
         setProgress((i / total) * 100);
       }
-      if (out.length === 1) downloadBlob(out[0].data, out[0].name, mime);
-      else await downloadZip(out, `${base}-images.zip`);
+      if (out.length === 1) {
+        setResult({ kind: "single", blob: out[0].data, filename: out[0].name, mime, count: 1 });
+      } else {
+        const zip = new JSZip();
+        for (const f of out) zip.file(f.name, f.data);
+        const zipBlob = await zip.generateAsync({ type: "blob" });
+        setResult({ kind: "zip", blob: zipBlob, filename: `${base}-images.zip`, count: out.length });
+      }
       toast.success(`Exported ${out.length} image${out.length > 1 ? "s" : ""}`);
     } catch (e) {
       if (isPdfPasswordError(e)) toast.error("PDF is password-protected");
@@ -56,6 +78,30 @@ export default function PdfToImages() {
       setProgress(null);
     }
   };
+
+  if (result) {
+    const isZip = result.kind === "zip";
+    return (
+      <ToolSuccessScreen
+        heading="Images exported!"
+        subheading={
+          isZip
+            ? `${result.count} images packaged into a ZIP archive.`
+            : "Your image is ready to download."
+        }
+        downloadLabel={isZip ? "Download ZIP" : `Download ${format.toUpperCase()}`}
+        onDownload={() =>
+          downloadBlob(
+            result.blob,
+            result.filename,
+            isZip ? "application/zip" : (result as { mime: string }).mime,
+          )
+        }
+        onReset={resetAll}
+        suggestedSlugs={TOOL_SUGGESTIONS["pdf-to-images"]}
+      />
+    );
+  }
 
   return (
     <div>
@@ -97,7 +143,13 @@ export default function PdfToImages() {
               </div>
             </div>
           )}
-          <ActionBar onRun={run} disabled={!files.length} loading={loading} progress={progress} label="Convert to Images" />
+          <ActionBar
+            onRun={run}
+            disabled={!files.length}
+            loading={loading}
+            progress={progress}
+            label={loading ? "Converting to images…" : "Convert to Images"}
+          />
         </>
       )}
     </div>

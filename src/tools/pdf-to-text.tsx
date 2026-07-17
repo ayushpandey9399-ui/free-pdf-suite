@@ -1,15 +1,15 @@
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, Copy } from "lucide-react";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ActionBar } from "@/components/ActionBar";
+import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { Copy, Download } from "lucide-react";
 import { loadPdfJsDoc, isPdfPasswordError } from "@/lib/pdfGuard";
 import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
 import { downloadBlob } from "@/lib/download";
+import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 
 type PageText = { page: number; text: string };
 
@@ -40,6 +40,14 @@ export default function PdfToText() {
     [pages],
   );
   const isEmpty = ran && !loading && pages.length > 0 && totalChars < 20;
+  const hasResult = ran && !loading && pages.length > 0 && !isEmpty;
+
+  const resetAll = () => {
+    setFiles([]);
+    setPages([]);
+    setRan(false);
+    setProgress(null);
+  };
 
   const run = async () => {
     const file = files[0];
@@ -72,6 +80,42 @@ export default function PdfToText() {
     }
   };
 
+  if (hasResult) {
+    const filename = `${files[0].name.replace(/\.pdf$/i, "")}.txt`;
+    const someMissing = pages.some((p) => !p.text.trim());
+    return (
+      <ToolSuccessScreen
+        heading="Text extracted successfully!"
+        subheading={`${totalChars.toLocaleString()} characters across ${pages.length} page${pages.length > 1 ? "s" : ""}.`}
+        downloadLabel="Download .txt"
+        onDownload={() =>
+          downloadBlob(new Blob([fullText], { type: "text/plain" }), filename, "text/plain")
+        }
+        secondaryAction={{
+          label: "Copy to clipboard",
+          icon: <Copy className="h-4 w-4" />,
+          onClick: async () => {
+            await navigator.clipboard.writeText(fullText);
+            toast.success("Copied to clipboard");
+          },
+        }}
+        onReset={resetAll}
+        suggestedSlugs={TOOL_SUGGESTIONS["pdf-to-text"]}
+      >
+        <div className="space-y-3">
+          <Textarea value={fullText} readOnly rows={16} className="font-mono text-sm" />
+          {someMissing && (
+            <p className="text-xs text-muted-foreground">
+              Some pages had no extractable text (marked
+              &ldquo;[No text found on this page]&rdquo;). Those pages may be scanned images and
+              would need OCR.
+            </p>
+          )}
+        </div>
+      </ToolSuccessScreen>
+    );
+  }
+
   return (
     <div>
       <FileDropzone accept="application/pdf" files={files} onFilesChange={setFiles} />
@@ -84,7 +128,7 @@ export default function PdfToText() {
             disabled={!files.length}
             loading={loading}
             progress={progress}
-            label="Extract Text"
+            label={loading ? "Extracting text…" : "Extract Text"}
           />
           {isEmpty && (
             <div className="mt-6 flex items-start gap-3 rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900">
@@ -94,45 +138,6 @@ export default function PdfToText() {
                 (images only) which requires OCR to extract text — this tool
                 doesn&apos;t currently support OCR.
               </p>
-            </div>
-          )}
-          {!isEmpty && pages.length > 0 && (
-            <div className="mt-6 space-y-3">
-              <Textarea
-                value={fullText}
-                readOnly
-                rows={16}
-                className="font-mono text-sm"
-              />
-              {pages.some((p) => !p.text.trim()) && (
-                <p className="text-xs text-muted-foreground">
-                  Some pages had no extractable text (marked
-                  &ldquo;[No text found on this page]&rdquo;). Those pages may
-                  be scanned images and would need OCR.
-                </p>
-              )}
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  onClick={async () => {
-                    await navigator.clipboard.writeText(fullText);
-                    toast.success("Copied to clipboard");
-                  }}
-                >
-                  <Copy className="h-4 w-4 mr-2" /> Copy
-                </Button>
-                <Button
-                  onClick={() =>
-                    downloadBlob(
-                      new Blob([fullText], { type: "text/plain" }),
-                      `${files[0].name.replace(/\.pdf$/i, "")}.txt`,
-                    )
-                  }
-                  className="bg-blue-600 hover:bg-blue-700 text-white"
-                >
-                  <Download className="h-4 w-4 mr-2" /> Download .txt
-                </Button>
-              </div>
             </div>
           )}
         </>

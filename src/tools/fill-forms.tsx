@@ -3,6 +3,7 @@ import { PDFTextField, PDFCheckBox, PDFDropdown, PDFRadioGroup, PDFOptionList } 
 import { toast } from "sonner";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ActionBar } from "@/components/ActionBar";
+import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -11,6 +12,7 @@ import { downloadBlob } from "@/lib/download";
 import { loadPdfLibDoc, isPdfPasswordError } from "@/lib/pdfGuard";
 import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
+import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 
 interface FieldDef {
   name: string;
@@ -23,7 +25,15 @@ export default function FillForms() {
   const [fields, setFields] = useState<FieldDef[]>([]);
   const [values, setValues] = useState<Record<string, string | boolean>>({});
   const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<{ blob: Blob; filename: string } | null>(null);
   const { protectedName, reset } = usePdfPasswordCheck(files, () => { setFiles([]); setFields([]); setValues({}); });
+
+  const resetAll = () => {
+    setFiles([]);
+    setFields([]);
+    setValues({});
+    setResult(null);
+  };
 
   useEffect(() => {
     const file = files[0];
@@ -82,8 +92,10 @@ export default function FillForms() {
         else if (field instanceof PDFRadioGroup && v) field.select(String(v));
         else if (field instanceof PDFOptionList && v) field.select(String(v));
       }
-      downloadBlob(await doc.save(), `${file.name.replace(/\.pdf$/i, "")}-filled.pdf`, "application/pdf");
-      toast.success("Filled PDF downloaded");
+      const bytes = await doc.save();
+      const blob = new Blob([bytes as BlobPart], { type: "application/pdf" });
+      setResult({ blob, filename: `${file.name.replace(/\.pdf$/i, "")}-filled.pdf` });
+      toast.success("Form filled");
     } catch (e) {
       if (isPdfPasswordError(e)) toast.error("PDF is password-protected");
       else toast.error(`Failed: ${(e as Error).message}`);
@@ -91,6 +103,19 @@ export default function FillForms() {
       setLoading(false);
     }
   };
+
+  if (result) {
+    return (
+      <ToolSuccessScreen
+        heading="Form filled successfully!"
+        subheading="Your completed PDF is ready to download."
+        downloadLabel="Download Filled PDF"
+        onDownload={() => downloadBlob(result.blob, result.filename, "application/pdf")}
+        onReset={resetAll}
+        suggestedSlugs={TOOL_SUGGESTIONS["fill-forms"]}
+      />
+    );
+  }
 
   return (
     <div>
@@ -135,7 +160,12 @@ export default function FillForms() {
               ))}
             </div>
           )}
-          <ActionBar onRun={run} disabled={!files.length || !fields.length} loading={loading} label="Download Filled PDF" />
+          <ActionBar
+            onRun={run}
+            disabled={!files.length || !fields.length}
+            loading={loading}
+            label={loading ? "Filling form…" : "Download Filled PDF"}
+          />
         </>
       )}
     </div>

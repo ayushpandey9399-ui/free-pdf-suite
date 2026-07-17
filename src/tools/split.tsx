@@ -3,6 +3,7 @@ import { PDFDocument } from "pdf-lib";
 import { toast } from "sonner";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ActionBar } from "@/components/ActionBar";
+import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -11,13 +12,33 @@ import { parseRanges } from "@/lib/pageRange";
 import { loadPdfLibDoc, isPdfPasswordError } from "@/lib/pdfGuard";
 import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
+import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
+import JSZip from "jszip";
+
+type SplitResult =
+  | { kind: "single"; blob: Blob; filename: string; count: number }
+  | { kind: "zip"; blob: Blob; filename: string; count: number };
 
 export default function Split() {
   const [files, setFiles] = useState<File[]>([]);
   const [mode, setMode] = useState<"ranges" | "every">("ranges");
   const [ranges, setRanges] = useState("1-1");
   const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<SplitResult | null>(null);
   const { protectedName, reset } = usePdfPasswordCheck(files, () => setFiles([]));
+
+  const resetAll = () => {
+    setFiles([]);
+    setMode("ranges");
+    setRanges("1-1");
+    setResult(null);
+  };
+
+  const zipFiles = async (out: { name: string; data: Uint8Array }[]): Promise<Blob> => {
+    const zip = new JSZip();
+    for (const f of out) zip.file(f.name, f.data);
+    return zip.generateAsync({ type: "blob" });
+  };
 
   const run = async () => {
     const file = files[0];
@@ -34,7 +55,8 @@ export default function Split() {
           doc.addPage(p);
           outFiles.push({ name: `page-${i + 1}.pdf`, data: await doc.save() });
         }
-        await downloadZip(outFiles, `${stripExt(file.name)}-pages.zip`);
+        const zipBlob = await zipFiles(outFiles);
+        setResult({ kind: "zip", blob: zipBlob, filename: `${stripExt(file.name)}-pages.zip`, count: total });
         toast.success(`Split into ${total} files`);
       } else {
         const parsed = parseRanges(ranges, total);
@@ -48,9 +70,11 @@ export default function Split() {
           outFiles.push({ name: `${stripExt(file.name)}-${r.start}-${r.end}.pdf`, data: await doc.save() });
         }
         if (outFiles.length === 1) {
-          downloadBlob(outFiles[0].data, outFiles[0].name, "application/pdf");
+          const blob = new Blob([outFiles[0].data as BlobPart], { type: "application/pdf" });
+          setResult({ kind: "single", blob, filename: outFiles[0].name, count: 1 });
         } else {
-          await downloadZip(outFiles, `${stripExt(file.name)}-split.zip`);
+          const zipBlob = await zipFiles(outFiles);
+          setResult({ kind: "zip", blob: zipBlob, filename: `${stripExt(file.name)}-split.zip`, count: outFiles.length });
         }
         toast.success(`Split into ${outFiles.length} file${outFiles.length > 1 ? "s" : ""}`);
       }
@@ -64,6 +88,26 @@ export default function Split() {
       setLoading(false);
     }
   };
+
+  if (result) {
+    const isZip = result.kind === "zip";
+    return (
+      <ToolSuccessScreen
+        heading="PDF split successfully!"
+        subheading={
+          isZip
+            ? `${result.count} files packaged into a ZIP archive.`
+            : "Your extracted PDF is ready."
+        }
+        downloadLabel={isZip ? "Download ZIP" : "Download PDF"}
+        onDownload={() =>
+          downloadBlob(result.blob, result.filename, isZip ? "application/zip" : "application/pdf")
+        }
+        onReset={resetAll}
+        suggestedSlugs={TOOL_SUGGESTIONS.split}
+      />
+    );
+  }
 
   return (
     <div>
@@ -92,7 +136,12 @@ export default function Split() {
           )}
         </div>
       )}
-      <ActionBar onRun={run} disabled={!files.length} loading={loading} label="Split PDF" />
+      <ActionBar
+        onRun={run}
+        disabled={!files.length}
+        loading={loading}
+        label={loading ? "Splitting your PDF…" : "Split PDF"}
+      />
     </div>
   );
 }
