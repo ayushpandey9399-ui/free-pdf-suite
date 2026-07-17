@@ -202,8 +202,10 @@ export default function SignPdf() {
   const resetAll = () => {
     setFiles([]); setPages([]); setPlacements([]);
     setSignature(null); setInitials(null); setResult(null);
-    setActive("signature"); setTab("draw");
+    setActive("signature"); setTab("draw"); setStampMode(null); setCurrentPage(0);
+    pageRefs.current.clear();
   };
+
 
   const run = async () => {
     if (!file || !placements.length) return;
