@@ -305,6 +305,7 @@ function ToolPage() {
       {isPdfToImages && <PdfToImagesSeo />}
       {isRedact && <RedactPdfSeo />}
       {isProtect && <ProtectPdfSeo />}
+      {isUnlock && <UnlockPdfSeo />}
     </>
   );
 }
