@@ -18,6 +18,7 @@ import { DeletePagesSeo, deletePagesFaqJsonLd, deletePagesHowToJsonLd, deletePag
 import { ExtractPagesSeo, extractPagesFaqJsonLd, extractPagesHowToJsonLd, extractPagesSoftwareJsonLd } from "@/components/ExtractPagesSeo";
 import { ReorderPagesSeo, reorderPagesFaqJsonLd, reorderPagesHowToJsonLd, reorderPagesSoftwareJsonLd } from "@/components/ReorderPagesSeo";
 import { ImagesToPdfSeo, imagesToPdfFaqJsonLd, imagesToPdfHowToJsonLd, imagesToPdfSoftwareJsonLd } from "@/components/ImagesToPdfSeo";
+import { PdfToTextSeo, pdfToTextFaqJsonLd, pdfToTextHowToJsonLd, pdfToTextSoftwareJsonLd } from "@/components/PdfToTextSeo";
 
 
 
