@@ -4,7 +4,7 @@ import { Loader2 } from "lucide-react";
 import { ToolLayout } from "@/components/ToolLayout";
 import { ClientOnly } from "@/components/ClientOnly";
 import { getTool, categoryTint } from "@/tools/registry";
-import { MergePdfSeo, mergeFaqJsonLd, mergeSoftwareJsonLd } from "@/components/MergePdfSeo";
+import { MergePdfSeo, mergeFaqJsonLd, mergeHowToJsonLd, mergeSoftwareJsonLd } from "@/components/MergePdfSeo";
 
 export const Route = createFileRoute("/tools/$slug")({
   loader: ({ params }) => {
