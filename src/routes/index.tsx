@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { tools, categories, type ToolCategory } from "@/tools/registry";
+import mergeIconImg from "@/assets/tool-icons/merge.png";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -180,7 +181,24 @@ function Home() {
                   e.currentTarget.style.borderColor = "#ececef";
                 }}
               >
-                <Icon size={64} />
+                {t.slug === "merge" ? (
+                  <div
+                    className="inline-flex items-center justify-center rounded-2xl transition-[filter] duration-200 group-hover:brightness-95"
+                    style={{ width: 64, height: 64, backgroundColor: "#FDECEB" }}
+                  >
+                    <img
+                      src={mergeIconImg}
+                      alt="Merge PDF"
+                      width={52}
+                      height={52}
+                      loading="eager"
+                      decoding="async"
+                      style={{ width: 52, height: 52, display: "block" }}
+                    />
+                  </div>
+                ) : (
+                  <Icon size={64} />
+                )}
 
                 <h3
                   className="mt-5 font-semibold text-lg leading-snug"
