@@ -137,7 +137,7 @@ function Home() {
 
           {/* Filter pills */}
           <div
-            className="mx-auto mt-12 flex flex-wrap items-center justify-center gap-2"
+            className="mx-auto mt-14 flex flex-wrap items-center justify-center gap-2"
             role="tablist"
             aria-label="Filter tools by category"
           >
