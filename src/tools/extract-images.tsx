@@ -67,10 +67,11 @@ function decodeAscii85(data: Uint8Array): Uint8Array {
     while (group.length < 5) group.push(84); // 'u' - 33
     let num = 0;
     for (let k = 0; k < 5; k++) num = num * 85 + group[k];
+    // Avoid 32-bit bitwise wrap: num can be up to 85^5 = 4.4e9.
     const bytes = [
-      (num >>> 24) & 0xff,
-      (num >>> 16) & 0xff,
-      (num >>> 8) & 0xff,
+      Math.floor(num / 16777216) & 0xff,
+      Math.floor(num / 65536) & 0xff,
+      Math.floor(num / 256) & 0xff,
       num & 0xff,
     ];
     for (let k = 0; k < 4 - pad; k++) out.push(bytes[k]);
