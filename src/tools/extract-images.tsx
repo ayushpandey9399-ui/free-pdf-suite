@@ -41,6 +41,62 @@ async function inflateFlate(data: Uint8Array): Promise<Uint8Array> {
   return new Uint8Array(buf);
 }
 
+function decodeAscii85(data: Uint8Array): Uint8Array {
+  // Strip whitespace and the optional "<~" prefix / "~>" suffix wrapper.
+  // Do NOT strip stray '<' chars — '<' (0x3C) is a valid ASCII85 digit.
+  let start = 0;
+  if (data.length >= 2 && data[0] === 0x3c && data[1] === 0x7e) start = 2;
+  const chars: number[] = [];
+  for (let i = start; i < data.length; i++) {
+    const c = data[i];
+    if (c === 0x7e) break; // '~>' end marker
+    if (c <= 0x20) continue; // whitespace
+    chars.push(c);
+  }
+  const out: number[] = [];
+  let i = 0;
+  while (i < chars.length) {
+    if (chars[i] === 0x7a) { // 'z' = 4 zero bytes
+      out.push(0, 0, 0, 0);
+      i++;
+      continue;
+    }
+    const group: number[] = [];
+    while (group.length < 5 && i < chars.length) {
+      group.push(chars[i++] - 33);
+    }
+    const pad = 5 - group.length;
+    while (group.length < 5) group.push(84); // 'u' - 33
+    let num = 0;
+    for (let k = 0; k < 5; k++) num = num * 85 + group[k];
+    // Avoid 32-bit bitwise wrap: num can be up to 85^5 = 4.4e9.
+    const bytes = [
+      Math.floor(num / 16777216) & 0xff,
+      Math.floor(num / 65536) & 0xff,
+      Math.floor(num / 256) & 0xff,
+      num & 0xff,
+    ];
+    for (let k = 0; k < 4 - pad; k++) out.push(bytes[k]);
+  }
+  return new Uint8Array(out);
+}
+
+function decodeAsciiHex(data: Uint8Array): Uint8Array {
+  const hex: number[] = [];
+  for (let i = 0; i < data.length; i++) {
+    const c = data[i];
+    if (c === 0x3e) break; // '>'
+    if (c <= 0x20) continue;
+    hex.push(c);
+  }
+  const out = new Uint8Array(Math.floor(hex.length / 2));
+  for (let i = 0; i < out.length; i++) {
+    out[i] = parseInt(String.fromCharCode(hex[i * 2], hex[i * 2 + 1]), 16);
+  }
+  return out;
+}
+
+
 async function rawPixelsToPng(
   data: Uint8Array,
   w: number,
@@ -165,23 +221,48 @@ async function scanImages(
     if (!width || !height || width < 16 || height < 16) continue;
 
     const filters = filterNames(dict);
-    const last = filters[filters.length - 1];
     const page = pageRefMap.get(key) ?? 1;
     let blob: Blob | null = null;
     let ext: ExtractedImage["ext"] = "png";
     let mime = "image/png";
 
     try {
-      if (last === "/DCTDecode") {
-        blob = new Blob([stream.contents as BlobPart], { type: "image/jpeg" });
+      // Walk filter chain left-to-right, decoding wrappers (Flate/LZW/ASCII*)
+      // until we hit an image codec (DCT/JPX) or raw pixel data.
+      let data: Uint8Array = stream.contents;
+      let terminal: string | null = null;
+      let skip = false;
+      for (let fi = 0; fi < filters.length; fi++) {
+        const f = filters[fi];
+        if (f === "/DCTDecode" || f === "/JPXDecode") {
+          terminal = f;
+          break;
+        } else if (f === "/FlateDecode" || f === "/Fl") {
+          data = await inflateFlate(data);
+        } else if (f === "/ASCII85Decode" || f === "/A85") {
+          data = decodeAscii85(data);
+        } else if (f === "/ASCIIHexDecode" || f === "/AHx") {
+          data = decodeAsciiHex(data);
+        } else {
+          // Unsupported wrapper (LZW, CCITTFax, JBIG2, RunLength) — skip.
+          skip = true;
+          break;
+        }
+      }
+      if (skip) continue;
+
+      if (terminal === "/DCTDecode") {
+        // Require a valid JPEG SOI marker (0xFFD8FF).
+        if (data.length < 3 || data[0] !== 0xff || data[1] !== 0xd8 || data[2] !== 0xff) continue;
+        blob = new Blob([data as BlobPart], { type: "image/jpeg" });
         ext = "jpg";
         mime = "image/jpeg";
-      } else if (last === "/JPXDecode") {
-        blob = new Blob([stream.contents as BlobPart], { type: "image/jp2" });
+      } else if (terminal === "/JPXDecode") {
+        blob = new Blob([data as BlobPart], { type: "image/jp2" });
         ext = "jp2";
         mime = "image/jp2";
-      } else if (last === "/FlateDecode") {
-        // Skip when a PNG-style predictor is applied (>= 10) — needs unfiltering.
+      } else {
+        // Raw pixel data (possibly Flate-decoded above).
         const decodeParms = dict.lookup(PDFName.of("DecodeParms"));
         let predictor = 1;
         if (decodeParms instanceof PDFDict) predictor = numberFrom(decodeParms, "Predictor") || 1;
@@ -196,8 +277,11 @@ async function scanImages(
               ? 1
               : null;
         if (!channels) continue;
-        const decoded = await inflateFlate(stream.contents);
-        blob = await rawPixelsToPng(decoded, width, height, channels);
+        blob = await rawPixelsToPng(data, width, height, channels);
+        if (blob) {
+          const head = new Uint8Array(await blob.slice(0, 8).arrayBuffer());
+          if (head[0] !== 0x89 || head[1] !== 0x50 || head[2] !== 0x4e || head[3] !== 0x47) blob = null;
+        }
       }
     } catch {
       blob = null;

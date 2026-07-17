@@ -46,7 +46,12 @@ export default function PageNumbers() {
         const ctx = canvas.getContext("2d")!;
         await page.render({ canvasContext: ctx, viewport: vp, canvas } as never).promise;
         if (!cancelled) { setPreviewUrl(canvas.toDataURL("image/png")); setPageDim({ w: vp1.width, h: vp1.height }); }
-      } catch { /* ignore */ }
+      } catch (e) {
+        if (cancelled) return;
+        if (isPdfPasswordError(e)) toast.error("PDF is password-protected");
+        else toast.error(`Failed to open PDF: ${(e as Error).message}`);
+        setFiles([]);
+      }
     })();
     return () => { cancelled = true; };
   }, [files]);
