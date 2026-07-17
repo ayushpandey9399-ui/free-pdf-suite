@@ -420,6 +420,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "txt-to-pdf") {
+      const title =
+        "TXT to PDF Online Free — Convert Text to PDF (Hindi Supported) | PDFfree";
+      const desc =
+        "Convert TXT to PDF online free — clean, printable PDFs from text files, in your browser. Supports Hindi & other languages. No upload, no signup.";
+      const url = "/tools/txt-to-pdf";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(txtToPdfFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(txtToPdfHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(txtToPdfSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
