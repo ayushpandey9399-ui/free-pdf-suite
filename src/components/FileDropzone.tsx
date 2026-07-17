@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from "react";
-import { UploadCloud, X, FileText, Lock } from "lucide-react";
+import { UploadCloud, X, FileText } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
