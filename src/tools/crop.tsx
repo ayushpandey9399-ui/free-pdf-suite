@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ActionBar } from "@/components/ActionBar";
+import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -12,6 +13,8 @@ import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
 import { LargeFileWarning } from "@/components/LargeFileWarning";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
 import { usePdfStats } from "@/hooks/usePdfStats";
+import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
+
 
 type Handle =
   | "move"
@@ -31,6 +34,8 @@ export default function Crop() {
   const [bottom, setBottom] = useState(0);
   const [left, setLeft] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<{ blob: Blob; filename: string } | null>(null);
+
 
   const [preview, setPreview] = useState<{ url: string; w: number; h: number } | null>(null);
   const [applyAll, setApplyAll] = useState(true);
@@ -190,6 +195,15 @@ export default function Crop() {
     try { (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId); } catch {}
   };
 
+  const resetAll = () => {
+    setFiles([]);
+    setTop(0); setRight(0); setBottom(0); setLeft(0);
+    setApplyAll(true);
+    setPageRange("1");
+    setPreview(null);
+    setResult(null);
+  };
+
   const run = async () => {
     if (!file) return;
     setLoading(true);
@@ -211,12 +225,10 @@ export default function Crop() {
         const h = Math.max(1, height - top - bottom);
         page.setCropBox(x, y, w, h);
       }
-      downloadBlob(
-        await doc.save(),
-        `${file.name.replace(/\.pdf$/i, "")}-cropped.pdf`,
-        "application/pdf",
-      );
-      toast.success("Cropped PDF downloaded");
+      const bytes = await doc.save();
+      const blob = new Blob([bytes as BlobPart], { type: "application/pdf" });
+      setResult({ blob, filename: `${file.name.replace(/\.pdf$/i, "")}-cropped.pdf` });
+      toast.success("PDF cropped");
     } catch (e) {
       if (isPdfPasswordError(e)) toast.error("PDF is password-protected");
       else toast.error(`Failed: ${(e as Error).message}`);
@@ -225,8 +237,22 @@ export default function Crop() {
     }
   };
 
+  if (result) {
+    return (
+      <ToolSuccessScreen
+        heading="Your PDF has been cropped!"
+        subheading={applyAll ? "Cropped every page." : `Cropped selected pages.`}
+        downloadLabel="Download Cropped PDF"
+        onDownload={() => downloadBlob(result.blob, result.filename, "application/pdf")}
+        onReset={resetAll}
+        suggestedSlugs={TOOL_SUGGESTIONS.crop}
+      />
+    );
+  }
+
   return (
     <div>
+
       <FileDropzone accept="application/pdf" files={files} onFilesChange={setFiles} />
 
       {protectedName ? (
@@ -383,7 +409,7 @@ export default function Crop() {
         </div>
       )}
 
-      <ActionBar onRun={run} disabled={!files.length} loading={loading} label="Crop PDF" />
+      <ActionBar onRun={run} disabled={!files.length} loading={loading} label={loading ? "Cropping your PDF…" : "Crop PDF"} />
     </div>
   );
 }

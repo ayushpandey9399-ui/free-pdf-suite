@@ -1,13 +1,17 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { diffLines, diffWordsWithSpace } from "diff";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Loader2, RotateCcw, Lock } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ActionBar } from "@/components/ActionBar";
 import { loadPdfJsDoc, isPdfPasswordError } from "@/lib/pdfGuard";
 import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
 import { cn } from "@/lib/utils";
+import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
+import { getTool } from "@/tools/registry";
+
 
 type PageData = { text: string; width: number; height: number };
 type Doc = { pages: PageData[]; getPage: (n: number) => Promise<import("pdfjs-dist").PDFPageProxy> };

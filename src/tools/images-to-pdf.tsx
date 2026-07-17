@@ -3,10 +3,12 @@ import { PDFDocument, PageSizes } from "pdf-lib";
 import { toast } from "sonner";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ActionBar } from "@/components/ActionBar";
+import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { downloadBlob } from "@/lib/download";
+import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 
 export default function ImagesToPdf() {
   const [files, setFiles] = useState<File[]>([]);
@@ -14,6 +16,15 @@ export default function ImagesToPdf() {
   const [orientation, setOrientation] = useState<"portrait" | "landscape">("portrait");
   const [margin, setMargin] = useState(24);
   const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<{ blob: Blob; filename: string; count: number } | null>(null);
+
+  const resetAll = () => {
+    setFiles([]);
+    setPageSize("fit");
+    setOrientation("portrait");
+    setMargin(24);
+    setResult(null);
+  };
 
   const run = async () => {
     if (!files.length) return;
@@ -41,7 +52,8 @@ export default function ImagesToPdf() {
         page.drawImage(img, { x: (pageW - w) / 2, y: (pageH - h) / 2, width: w, height: h });
       }
       const bytes = await pdf.save();
-      downloadBlob(bytes, "images.pdf", "application/pdf");
+      const blob = new Blob([bytes as BlobPart], { type: "application/pdf" });
+      setResult({ blob, filename: "images.pdf", count: files.length });
       toast.success("PDF created");
     } catch (e) {
       toast.error(`Failed: ${(e as Error).message}`);
@@ -49,6 +61,19 @@ export default function ImagesToPdf() {
       setLoading(false);
     }
   };
+
+  if (result) {
+    return (
+      <ToolSuccessScreen
+        heading="Your PDF is ready!"
+        subheading={`${result.count} image(s) combined into a single PDF.`}
+        downloadLabel="Download PDF"
+        onDownload={() => downloadBlob(result.blob, result.filename, "application/pdf")}
+        onReset={resetAll}
+        suggestedSlugs={TOOL_SUGGESTIONS["images-to-pdf"]}
+      />
+    );
+  }
 
   return (
     <div>
@@ -82,7 +107,12 @@ export default function ImagesToPdf() {
           </div>
         </div>
       )}
-      <ActionBar onRun={run} disabled={!files.length} loading={loading} label="Create PDF" />
+      <ActionBar
+        onRun={run}
+        disabled={!files.length}
+        loading={loading}
+        label={loading ? "Creating your PDF…" : "Create PDF"}
+      />
     </div>
   );
 }

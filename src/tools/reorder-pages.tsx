@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ActionBar } from "@/components/ActionBar";
+import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 import { SortableThumbGrid, type ThumbItem } from "@/components/SortableThumbGrid";
 import { renderPdfThumbnails } from "@/lib/thumbnail";
 import { downloadBlob } from "@/lib/download";
@@ -12,14 +13,22 @@ import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
 import { LargeFileWarning } from "@/components/LargeFileWarning";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
 import { usePdfStats } from "@/hooks/usePdfStats";
+import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 
 export default function ReorderPages() {
   const [files, setFiles] = useState<File[]>([]);
   const [items, setItems] = useState<ThumbItem[]>([]);
   const [rendering, setRendering] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<{ blob: Blob; filename: string } | null>(null);
   const { protectedName, reset } = usePdfPasswordCheck(files, () => { setFiles([]); setItems([]); });
   const { pageCount, fileSize } = usePdfStats(files[0]);
+
+  const resetAll = () => {
+    setFiles([]);
+    setItems([]);
+    setResult(null);
+  };
 
   useEffect(() => {
     const file = files[0];
@@ -53,8 +62,10 @@ export default function ReorderPages() {
       const out = await PDFDocument.create();
       const pages = await out.copyPages(src, order);
       for (const p of pages) out.addPage(p);
-      downloadBlob(await out.save(), `${file.name.replace(/\.pdf$/i, "")}-reordered.pdf`, "application/pdf");
-      toast.success("Reordered PDF downloaded");
+      const bytes = await out.save();
+      const blob = new Blob([bytes as BlobPart], { type: "application/pdf" });
+      setResult({ blob, filename: `${file.name.replace(/\.pdf$/i, "")}-reordered.pdf` });
+      toast.success("Pages reordered");
     } catch (e) {
       if (isPdfPasswordError(e)) toast.error("PDF is password-protected");
       else toast.error(`Failed: ${(e as Error).message}`);
@@ -62,6 +73,19 @@ export default function ReorderPages() {
       setLoading(false);
     }
   };
+
+  if (result) {
+    return (
+      <ToolSuccessScreen
+        heading="Pages reordered!"
+        subheading="Your PDF has been rearranged in the new order."
+        downloadLabel="Download Reordered PDF"
+        onDownload={() => downloadBlob(result.blob, result.filename, "application/pdf")}
+        onReset={resetAll}
+        suggestedSlugs={TOOL_SUGGESTIONS["reorder-pages"]}
+      />
+    );
+  }
 
   return (
     <div>
@@ -84,7 +108,12 @@ export default function ReorderPages() {
               </div>
             </>
           )}
-          <ActionBar onRun={run} disabled={!items.length} loading={loading} label="Export Reordered PDF" />
+          <ActionBar
+            onRun={run}
+            disabled={!items.length}
+            loading={loading}
+            label={loading ? "Reordering pages…" : "Export Reordered PDF"}
+          />
         </>
       )}
     </div>

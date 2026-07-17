@@ -3,6 +3,7 @@ import { degrees } from "pdf-lib";
 import { toast } from "sonner";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ActionBar } from "@/components/ActionBar";
+import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 import { PageThumbnails } from "@/components/PageThumbnails";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -13,6 +14,7 @@ import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
 import { LargeFileWarning } from "@/components/LargeFileWarning";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
 import { usePdfStats } from "@/hooks/usePdfStats";
+import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 
 export default function Rotate() {
   const [files, setFiles] = useState<File[]>([]);
@@ -20,8 +22,17 @@ export default function Rotate() {
   const [angle, setAngle] = useState<90 | 180 | 270>(90);
   const [allPages, setAllPages] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<{ blob: Blob; filename: string } | null>(null);
   const { protectedName, reset } = usePdfPasswordCheck(files, () => { setFiles([]); setSelected(new Set()); });
   const { pageCount, fileSize } = usePdfStats(files[0]);
+
+  const resetAll = () => {
+    setFiles([]);
+    setSelected(new Set());
+    setAngle(90);
+    setAllPages(true);
+    setResult(null);
+  };
 
   const toggle = (p: number) => {
     const s = new Set(selected);
@@ -42,8 +53,10 @@ export default function Rotate() {
           page.setRotation(degrees((current + angle) % 360));
         }
       });
-      downloadBlob(await src.save(), `${file.name.replace(/\.pdf$/i, "")}-rotated.pdf`, "application/pdf");
-      toast.success("Rotated PDF downloaded");
+      const bytes = await src.save();
+      const blob = new Blob([bytes as BlobPart], { type: "application/pdf" });
+      setResult({ blob, filename: `${file.name.replace(/\.pdf$/i, "")}-rotated.pdf` });
+      toast.success("PDF rotated");
     } catch (e) {
       if (isPdfPasswordError(e)) toast.error("PDF is password-protected");
       else toast.error(`Failed: ${(e as Error).message}`);
@@ -51,6 +64,19 @@ export default function Rotate() {
       setLoading(false);
     }
   };
+
+  if (result) {
+    return (
+      <ToolSuccessScreen
+        heading="Your PDF has been rotated!"
+        subheading={allPages ? "All pages rotated." : `${selected.size} page(s) rotated.`}
+        downloadLabel="Download Rotated PDF"
+        onDownload={() => downloadBlob(result.blob, result.filename, "application/pdf")}
+        onReset={resetAll}
+        suggestedSlugs={TOOL_SUGGESTIONS.rotate}
+      />
+    );
+  }
 
   return (
     <div>
@@ -87,7 +113,12 @@ export default function Rotate() {
               <PageThumbnails file={files[0]} selected={selected} onToggle={toggle} />
             </>
           )}
-          <ActionBar onRun={run} disabled={!files.length || (!allPages && !selected.size)} loading={loading} label="Rotate PDF" />
+          <ActionBar
+            onRun={run}
+            disabled={!files.length || (!allPages && !selected.size)}
+            loading={loading}
+            label={loading ? "Rotating your PDF…" : "Rotate PDF"}
+          />
         </>
       )}
     </div>

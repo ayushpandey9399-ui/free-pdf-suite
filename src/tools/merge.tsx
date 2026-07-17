@@ -2,6 +2,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ActionBar } from "@/components/ActionBar";
+import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 import { downloadBlob } from "@/lib/download";
 import { GripVertical, X } from "lucide-react";
 import {
@@ -19,12 +20,19 @@ import { PDFDocument } from "pdf-lib";
 import { loadPdfLibDoc, isPdfPasswordError } from "@/lib/pdfGuard";
 import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
+import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 
 export default function Merge() {
   const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<{ blob: Blob; filename: string; count: number } | null>(null);
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }));
   const { protectedName, reset } = usePdfPasswordCheck(files, () => setFiles([]));
+
+  const resetAll = () => {
+    setFiles([]);
+    setResult(null);
+  };
 
   const run = async () => {
     if (files.length < 2) {
@@ -40,8 +48,9 @@ export default function Merge() {
         for (const p of pages) out.addPage(p);
       }
       const bytes = await out.save();
-      downloadBlob(bytes, "merged.pdf", "application/pdf");
-      toast.success("Merged PDF downloaded");
+      const blob = new Blob([bytes as BlobPart], { type: "application/pdf" });
+      setResult({ blob, filename: "merged.pdf", count: files.length });
+      toast.success("PDFs merged");
     } catch (e) {
       console.error(e);
       if (isPdfPasswordError(e)) toast.error("One of the PDFs is password-protected");
@@ -58,6 +67,19 @@ export default function Merge() {
     const newIndex = files.findIndex((_, i) => String(i) === over.id);
     setFiles(arrayMove(files, oldIndex, newIndex));
   };
+
+  if (result) {
+    return (
+      <ToolSuccessScreen
+        heading="PDFs have been merged!"
+        subheading={`${result.count} files combined into one document.`}
+        downloadLabel="Download Merged PDF"
+        onDownload={() => downloadBlob(result.blob, result.filename, "application/pdf")}
+        onReset={resetAll}
+        suggestedSlugs={TOOL_SUGGESTIONS.merge}
+      />
+    );
+  }
 
   return (
     <div>
@@ -106,7 +128,12 @@ export default function Merge() {
               </DndContext>
             </div>
           )}
-          <ActionBar onRun={run} disabled={files.length < 2} loading={loading} label={`Merge ${files.length || ""} PDFs`.trim()} />
+          <ActionBar
+            onRun={run}
+            disabled={files.length < 2}
+            loading={loading}
+            label={loading ? "Merging your PDFs…" : `Merge ${files.length || ""} PDFs`.trim()}
+          />
         </>
       )}
     </div>

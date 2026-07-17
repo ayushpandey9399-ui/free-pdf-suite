@@ -3,6 +3,7 @@ import { StandardFonts, degrees, rgb } from "pdf-lib";
 import { toast } from "sonner";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ActionBar } from "@/components/ActionBar";
+import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
@@ -11,6 +12,7 @@ import { downloadBlob } from "@/lib/download";
 import { loadPdfLibDoc, isPdfPasswordError } from "@/lib/pdfGuard";
 import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
+import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 
 export default function Watermark() {
   const [files, setFiles] = useState<File[]>([]);
@@ -22,7 +24,20 @@ export default function Watermark() {
   const [color, setColor] = useState("#ff0000");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<{ blob: Blob; filename: string } | null>(null);
   const { protectedName, reset } = usePdfPasswordCheck(files, () => setFiles([]));
+
+  const resetAll = () => {
+    setFiles([]);
+    setMode("text");
+    setText("CONFIDENTIAL");
+    setSize(48);
+    setOpacity(0.3);
+    setAngle(-30);
+    setColor("#ff0000");
+    setImageFile(null);
+    setResult(null);
+  };
 
   const run = async () => {
     const file = files[0];
@@ -68,7 +83,9 @@ export default function Watermark() {
           });
         }
       }
-      downloadBlob(await doc.save(), `${file.name.replace(/\.pdf$/i, "")}-watermarked.pdf`, "application/pdf");
+      const bytes = await doc.save();
+      const blob = new Blob([bytes as BlobPart], { type: "application/pdf" });
+      setResult({ blob, filename: `${file.name.replace(/\.pdf$/i, "")}-watermarked.pdf` });
       toast.success("Watermark applied");
     } catch (e) {
       if (isPdfPasswordError(e)) toast.error("PDF is password-protected");
@@ -77,6 +94,19 @@ export default function Watermark() {
       setLoading(false);
     }
   };
+
+  if (result) {
+    return (
+      <ToolSuccessScreen
+        heading="Watermark applied!"
+        subheading="Your PDF has been stamped."
+        downloadLabel="Download Watermarked PDF"
+        onDownload={() => downloadBlob(result.blob, result.filename, "application/pdf")}
+        onReset={resetAll}
+        suggestedSlugs={TOOL_SUGGESTIONS.watermark}
+      />
+    );
+  }
 
   return (
     <div>
@@ -131,7 +161,12 @@ export default function Watermark() {
               </Tabs>
             </div>
           )}
-          <ActionBar onRun={run} disabled={!files.length} loading={loading} label="Apply Watermark" />
+          <ActionBar
+            onRun={run}
+            disabled={!files.length}
+            loading={loading}
+            label={loading ? "Applying watermark…" : "Apply Watermark"}
+          />
         </>
       )}
     </div>
