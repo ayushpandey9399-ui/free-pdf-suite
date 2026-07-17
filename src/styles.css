@@ -142,3 +142,23 @@
     color: var(--color-foreground);
   }
 }
+
+@keyframes float-y {
+  0%, 100% { transform: translateY(-4px); }
+  50% { transform: translateY(4px); }
+}
+
+@utility animate-float-slow {
+  animation: float-y 4s ease-in-out infinite;
+}
+
+@utility animate-float-slow-delayed {
+  animation: float-y 4.6s ease-in-out infinite;
+  animation-delay: -1.8s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float-slow,
+  .animate-float-slow-delayed { animation: none; }
+}
+
