@@ -22,6 +22,7 @@ import { PdfToTextSeo, pdfToTextFaqJsonLd, pdfToTextHowToJsonLd, pdfToTextSoftwa
 import { TxtToPdfSeo, txtToPdfFaqJsonLd, txtToPdfHowToJsonLd, txtToPdfSoftwareJsonLd } from "@/components/TxtToPdfSeo";
 import { PageNumbersSeo, pageNumbersFaqJsonLd, pageNumbersHowToJsonLd, pageNumbersSoftwareJsonLd } from "@/components/PageNumbersSeo";
 import { HeaderFooterSeo, headerFooterFaqJsonLd, headerFooterHowToJsonLd, headerFooterSoftwareJsonLd } from "@/components/HeaderFooterSeo";
+import { CropPdfSeo, cropPdfFaqJsonLd, cropPdfHowToJsonLd, cropPdfSoftwareJsonLd } from "@/components/CropPdfSeo";
 
 
 
@@ -500,6 +501,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "crop") {
+      const title =
+        "Crop PDF Online Free — Trim Margins & White Space, No Upload | PDFfree";
+      const desc =
+        "Crop PDF online free — trim white margins and unwanted edges in your browser. No upload, no signup, no watermark. Files never leave your device.";
+      const url = "/tools/crop";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(cropPdfFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(cropPdfHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(cropPdfSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
@@ -546,6 +573,7 @@ function ToolPage() {
   const isTxtToPdf = slug === "txt-to-pdf";
   const isPageNumbers = slug === "page-numbers";
   const isHeaderFooter = slug === "header-footer";
+  const isCrop = slug === "crop";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
@@ -583,6 +611,8 @@ function ToolPage() {
     ? "Add Page Numbers to PDF — Free, Any Position, 100% Private"
     : isHeaderFooter
     ? "Add Header & Footer to PDF — Every Page, 100% Private"
+    : isCrop
+    ? "Crop PDF — Trim Margins and Unwanted Edges, 100% Private"
     : tool.name;
 
   return (
@@ -617,6 +647,7 @@ function ToolPage() {
       {isTxtToPdf && <TxtToPdfSeo />}
       {isPageNumbers && <PageNumbersSeo />}
       {isHeaderFooter && <HeaderFooterSeo />}
+      {isCrop && <CropPdfSeo />}
     </>
   );
 }
