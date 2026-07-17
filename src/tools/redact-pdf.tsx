@@ -12,7 +12,7 @@ import { downloadBlob } from "@/lib/download";
 import { loadPdfJsDoc, loadPdfLibDoc, isPdfPasswordError } from "@/lib/pdfGuard";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
 import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
-import type { PageInfo as _PageInfoType } from "@/lib/pdfWorker";
+
 
 /* Redaction stored in normalized [0..1] coords of the unrotated page viewport
  * (rotation=0), so mapping to overlay pixels or output canvas is a simple
