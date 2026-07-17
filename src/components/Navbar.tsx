@@ -1,64 +1,74 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { Menu, X, ChevronDown, LayoutGrid } from "lucide-react";
 import { Logo } from "./Logo";
 
 const navLinks = [
-  { label: "Merge PDF", to: "/tools/$slug", params: { slug: "merge" } },
-  { label: "Split PDF", to: "/tools/$slug", params: { slug: "split" } },
-  { label: "Convert PDF", to: "/tools/$slug", params: { slug: "images-to-pdf" } },
-  { label: "All Tools", to: "/", params: undefined, hash: "tools" },
-  { label: "Why Us", to: "/", params: undefined, hash: "why" },
+  { label: "Merge PDF", to: "/tools/$slug", params: { slug: "merge" }, caret: false },
+  { label: "Split PDF", to: "/tools/$slug", params: { slug: "split" }, caret: false },
+  { label: "Compress PDF", to: "/tools/$slug", params: { slug: "crop" }, caret: false },
+  { label: "Convert PDF", to: "/", params: undefined, hash: "tools", caret: true },
+  { label: "All PDF Tools", to: "/", params: undefined, hash: "tools", caret: true },
 ] as const;
+
+const NAV_STYLE = {
+  fontSize: 13,
+  letterSpacing: "0.04em",
+  color: "#33333c",
+} as const;
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
     <header
-      className="sticky top-0 z-40 w-full border-b backdrop-blur-xl"
-      style={{
-        borderColor: "#eceaf0",
-        backgroundColor: "rgba(255,255,255,0.72)",
-      }}
+      className="sticky top-0 z-40 w-full border-b bg-white"
+      style={{ borderColor: "#ececef" }}
     >
-      <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-4 sm:px-6">
-        <div className="flex items-center gap-10">
+      <div
+        className="mx-auto flex max-w-[1200px] items-center justify-between px-4 sm:px-6"
+        style={{ height: 66 }}
+      >
+        <div className="flex items-center gap-8">
           <Logo />
-          <nav className="hidden min-[960px]:flex items-center gap-7">
+          <nav className="hidden min-[860px]:flex items-center gap-6">
             {navLinks.map((l) => (
               <Link
                 key={l.label}
                 to={l.to as any}
                 params={l.params as any}
                 hash={(l as any).hash}
-                className="text-[14px] font-semibold transition-colors hover:text-[#e5322d]"
-                style={{ color: "#14142b" }}
+                className="inline-flex items-center gap-1 font-bold uppercase transition-colors hover:text-[#e5322d]"
+                style={NAV_STYLE}
               >
                 {l.label}
+                {l.caret && <ChevronDown className="h-3.5 w-3.5" strokeWidth={2.5} />}
               </Link>
             ))}
           </nav>
         </div>
 
-        <div className="hidden min-[960px]:flex items-center gap-2">
-          <button
-            type="button"
-            className="rounded-lg px-4 py-2 text-sm font-semibold transition-colors hover:bg-[#f6f4f9]"
-            style={{ color: "#14142b" }}
+        <div className="hidden min-[860px]:flex items-center gap-3">
+          <a
+            href="#"
+            className="font-bold uppercase transition-colors hover:text-[#e5322d]"
+            style={NAV_STYLE}
           >
             Login
-          </button>
+          </a>
+          <a
+            href="#"
+            className="inline-flex items-center rounded-lg px-4 py-2 text-[13px] font-bold uppercase text-white transition-colors hover:bg-[#c72620]"
+            style={{ backgroundColor: "#e5322d", letterSpacing: "0.04em" }}
+          >
+            Sign up
+          </a>
           <button
             type="button"
-            className="group inline-flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition-all hover:-translate-y-0.5"
-            style={{
-              backgroundImage: "linear-gradient(135deg, #ff5a5f, #e5322d)",
-              boxShadow: "0 10px 25px -10px rgba(229,50,45,0.6)",
-            }}
+            aria-label="Open apps menu"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-[#33333c] hover:bg-[#f6f4f9] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e5322d]/40"
           >
-            Get Started
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            <LayoutGrid className="h-5 w-5" strokeWidth={2.25} />
           </button>
         </div>
 
@@ -66,7 +76,7 @@ export function Navbar() {
           type="button"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
-          className="min-[960px]:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg hover:bg-[#f6f4f9]"
+          className="min-[860px]:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg hover:bg-[#f6f4f9]"
           onClick={() => setOpen((v) => !v)}
         >
           {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -75,8 +85,8 @@ export function Navbar() {
 
       {open && (
         <div
-          className="min-[960px]:hidden border-t bg-white px-4 py-4"
-          style={{ borderColor: "#eceaf0" }}
+          className="min-[860px]:hidden border-t bg-white px-4 py-4"
+          style={{ borderColor: "#ececef" }}
         >
           <nav className="flex flex-col gap-1">
             {navLinks.map((l) => (
@@ -86,27 +96,27 @@ export function Navbar() {
                 params={l.params as any}
                 hash={(l as any).hash}
                 onClick={() => setOpen(false)}
-                className="rounded-lg px-3 py-3 text-[15px] font-semibold hover:bg-[#f6f4f9]"
-                style={{ color: "#14142b" }}
+                className="rounded-lg px-3 py-3 text-[14px] font-bold uppercase hover:bg-[#f6f4f9]"
+                style={{ color: "#33333c", letterSpacing: "0.04em" }}
               >
                 {l.label}
               </Link>
             ))}
-            <div className="mt-2 flex gap-2 pt-2 border-t" style={{ borderColor: "#eceaf0" }}>
-              <button
-                type="button"
-                className="flex-1 rounded-lg px-4 py-3 text-sm font-semibold hover:bg-[#f6f4f9]"
-                style={{ color: "#14142b" }}
+            <div className="mt-2 flex gap-2 pt-2 border-t" style={{ borderColor: "#ececef" }}>
+              <a
+                href="#"
+                className="flex-1 rounded-lg px-4 py-3 text-center text-[13px] font-bold uppercase hover:bg-[#f6f4f9]"
+                style={{ color: "#33333c", letterSpacing: "0.04em" }}
               >
                 Login
-              </button>
-              <button
-                type="button"
-                className="flex-1 rounded-lg px-4 py-3 text-sm font-semibold text-white"
-                style={{ backgroundImage: "linear-gradient(135deg, #ff5a5f, #e5322d)" }}
+              </a>
+              <a
+                href="#"
+                className="flex-1 rounded-lg px-4 py-3 text-center text-[13px] font-bold uppercase text-white"
+                style={{ backgroundColor: "#e5322d", letterSpacing: "0.04em" }}
               >
-                Get Started
-              </button>
+                Sign up
+              </a>
             </div>
           </nav>
         </div>
