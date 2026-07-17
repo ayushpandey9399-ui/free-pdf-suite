@@ -112,7 +112,7 @@ const related = [
 export function CompressPdfSeo() {
   return (
     <section className="mx-auto max-w-4xl px-4 pb-16 text-[#33333c]">
-      <h1 className="sr-only">Compress PDF Online — Reduce File Size, 100% Private</h1>
+
 
       {/* Benefit strip */}
       <div className="mt-6 grid gap-3 sm:grid-cols-3">
