@@ -1,21 +1,22 @@
 import { lazy, type ComponentType } from "react";
 import {
+  Image,
   FileImage,
-  ImageIcon,
-  Type,
-  Merge,
+  FileText,
+  GitMerge,
   Scissors,
   Trash2,
-  FileOutput,
-  MoveVertical,
+  Copy,
+  ArrowUpDown,
   RotateCw,
   Hash,
   Droplet,
   Crop,
-  FormInput,
+  PenLine,
   GitCompare,
   type LucideIcon,
 } from "lucide-react";
+
 
 export type ToolCategory = "Organize PDF" | "Convert PDF" | "Edit PDF" | "Forms & Compare";
 
@@ -42,7 +43,7 @@ export const tools: ToolMeta[] = [
     name: "Merge PDF",
     description: "Combine multiple PDFs into one single document, in the order you want.",
     category: "Organize PDF",
-    icon: Merge,
+    icon: GitMerge,
     Component: lazy(() => import("./merge").then((m) => ({ default: m.default }))),
   },
   {
@@ -66,7 +67,7 @@ export const tools: ToolMeta[] = [
     name: "Extract Pages",
     description: "Pick specific pages and save them as a brand new PDF file.",
     category: "Organize PDF",
-    icon: FileOutput,
+    icon: Copy,
     Component: lazy(() => import("./extract-pages").then((m) => ({ default: m.default }))),
   },
   {
@@ -74,7 +75,7 @@ export const tools: ToolMeta[] = [
     name: "Reorder Pages",
     description: "Drag and drop pages to rearrange your PDF exactly how you want.",
     category: "Organize PDF",
-    icon: MoveVertical,
+    icon: ArrowUpDown,
     Component: lazy(() => import("./reorder-pages").then((m) => ({ default: m.default }))),
   },
   {
@@ -91,7 +92,7 @@ export const tools: ToolMeta[] = [
     name: "Image to PDF",
     description: "Convert JPG and PNG images to PDF. Adjust orientation and margins.",
     category: "Convert PDF",
-    icon: FileImage,
+    icon: Image,
     Component: lazy(() => import("./images-to-pdf").then((m) => ({ default: m.default }))),
   },
   {
@@ -99,7 +100,7 @@ export const tools: ToolMeta[] = [
     name: "PDF to Image",
     description: "Convert each PDF page into a high-quality JPG or PNG image.",
     category: "Convert PDF",
-    icon: ImageIcon,
+    icon: FileImage,
     Component: lazy(() => import("./pdf-to-images").then((m) => ({ default: m.default }))),
   },
   {
@@ -107,7 +108,7 @@ export const tools: ToolMeta[] = [
     name: "PDF to Text",
     description: "Extract all text from your PDF and copy or download it as .txt.",
     category: "Convert PDF",
-    icon: Type,
+    icon: FileText,
     Component: lazy(() => import("./pdf-to-text").then((m) => ({ default: m.default }))),
   },
   // Edit
@@ -141,7 +142,7 @@ export const tools: ToolMeta[] = [
     name: "Fill PDF Forms",
     description: "Fill in interactive PDF form fields and download the completed file.",
     category: "Forms & Compare",
-    icon: FormInput,
+    icon: PenLine,
     Component: lazy(() => import("./fill-forms").then((m) => ({ default: m.default }))),
   },
   {

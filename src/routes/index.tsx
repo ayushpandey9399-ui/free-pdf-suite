@@ -3,16 +3,17 @@ import {
   ArrowRight,
   Play,
   Star,
-  Cloud,
+  UploadCloud,
   Lock,
   Zap,
   Smartphone,
   Gift,
   FileText,
-  FileImage as FileImageIcon,
-  Receipt,
+  Image as ImageIcon,
+  Scissors,
 } from "lucide-react";
 import { tools, categories, type ToolCategory } from "@/tools/registry";
+
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -176,7 +177,7 @@ function HeroMockup() {
               boxShadow: "0 14px 28px -10px rgba(229,50,45,0.5)",
             }}
           >
-            <Cloud className="h-8 w-8" />
+            <UploadCloud size={32} strokeWidth={2} />
           </div>
           <div>
             <p className="text-[17px] font-bold" style={{ color: "#14142b" }}>
@@ -204,7 +205,7 @@ function HeroMockup() {
         className="absolute -top-5 -left-4 sm:-left-10"
         rotate={-8}
         delay="0s"
-        icon={<FileText className="h-5 w-5" />}
+        icon={<FileText size={20} strokeWidth={2} />}
         iconBg="#fdeceb"
         iconFg="#e5322d"
         title="Report_2026.pdf"
@@ -214,9 +215,9 @@ function HeroMockup() {
         className="absolute top-6 -right-4 sm:-right-8"
         rotate={7}
         delay="0.6s"
-        icon={<FileImageIcon className="h-5 w-5" />}
-        iconBg="#fff3e6"
-        iconFg="#f28c1e"
+        icon={<ImageIcon size={20} strokeWidth={2} />}
+        iconBg="#fdeceb"
+        iconFg="#e5322d"
         title="Scan_page.jpg"
         subtitle="1.1 MB"
       />
@@ -224,9 +225,9 @@ function HeroMockup() {
         className="absolute -bottom-4 right-8 sm:right-16"
         rotate={-5}
         delay="1.2s"
-        icon={<Receipt className="h-5 w-5" />}
-        iconBg="#eef1fd"
-        iconFg="#6d5efc"
+        icon={<Scissors size={20} strokeWidth={2} />}
+        iconBg="#fdeceb"
+        iconFg="#e5322d"
         title="Invoice.pdf"
         subtitle="380 KB"
       />
@@ -402,13 +403,13 @@ function ToolsSection() {
                       }}
                     >
                       <div
-                        className="grid h-[50px] w-[50px] place-items-center rounded-xl text-white transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3"
+                        className="grid h-[50px] w-[50px] place-items-center rounded-[14px] text-white transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-[4deg]"
                         style={{
                           backgroundImage: categoryGradient[cat],
                           boxShadow: "0 10px 22px -10px rgba(20,20,43,0.35)",
                         }}
                       >
-                        <Icon className="h-6 w-6" />
+                        <Icon size={26} strokeWidth={2} className="text-white" />
                       </div>
                       <h4
                         className="mt-5 font-bold text-[16px] leading-snug"
