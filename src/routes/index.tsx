@@ -206,9 +206,9 @@ function Home() {
                 }}
               >
                 <div className="transition-transform duration-200 group-hover:scale-[1.05] group-hover:rotate-[2deg]">
-                  <Icon size={56} className="sm:hidden" />
-                  <Icon size={68} className="hidden sm:block" />
+                  <Icon size={68} className="w-14 h-14 sm:w-[68px] sm:h-[68px]" />
                 </div>
+
 
                 <h3
                   className="mt-4 font-bold text-xl leading-snug"
