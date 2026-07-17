@@ -8,19 +8,23 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { downloadBlob, downloadZip } from "@/lib/download";
 import { parseRanges } from "@/lib/pageRange";
+import { loadPdfLibDoc, isPdfPasswordError } from "@/lib/pdfGuard";
+import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
+import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
 
 export default function Split() {
   const [files, setFiles] = useState<File[]>([]);
   const [mode, setMode] = useState<"ranges" | "every">("ranges");
   const [ranges, setRanges] = useState("1-1");
   const [loading, setLoading] = useState(false);
+  const { protectedName, reset } = usePdfPasswordCheck(files, () => setFiles([]));
 
   const run = async () => {
     const file = files[0];
     if (!file) return;
     setLoading(true);
     try {
-      const src = await PDFDocument.load(await file.arrayBuffer(), { ignoreEncryption: true });
+      const src = await loadPdfLibDoc(await file.arrayBuffer());
       const total = src.getPageCount();
       if (mode === "every") {
         const outFiles: { name: string; data: Uint8Array }[] = [];
@@ -51,7 +55,11 @@ export default function Split() {
         toast.success(`Split into ${outFiles.length} file${outFiles.length > 1 ? "s" : ""}`);
       }
     } catch (e) {
-      toast.error(`Split failed: ${(e as Error).message}`);
+      if (isPdfPasswordError(e)) {
+        toast.error("PDF is password-protected");
+      } else {
+        toast.error(`Split failed: ${(e as Error).message}`);
+      }
     } finally {
       setLoading(false);
     }
@@ -60,7 +68,9 @@ export default function Split() {
   return (
     <div>
       <FileDropzone accept="application/pdf" files={files} onFilesChange={setFiles} />
-      {files.length > 0 && (
+      {protectedName ? (
+        <PasswordProtectedNotice fileName={protectedName} onReset={reset} />
+      ) : files.length > 0 && (
         <div className="mt-6 space-y-4 rounded-xl border bg-card p-4">
           <RadioGroup value={mode} onValueChange={(v) => setMode(v as "ranges" | "every")}>
             <div className="flex items-center gap-2">

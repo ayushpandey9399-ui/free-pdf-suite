@@ -1,9 +1,8 @@
-import { ensurePdfWorker } from "./pdfWorker";
+import { loadPdfJsDoc } from "./pdfGuard";
 
 export async function renderPdfThumbnails(file: File, maxWidth = 160): Promise<string[]> {
-  const pdfjs = ensurePdfWorker();
   const buf = await file.arrayBuffer();
-  const doc = await pdfjs.getDocument({ data: buf }).promise;
+  const doc = await loadPdfJsDoc(buf);
   const out: string[] = [];
   for (let i = 1; i <= doc.numPages; i++) {
     const page = await doc.getPage(i);
@@ -14,7 +13,6 @@ export async function renderPdfThumbnails(file: File, maxWidth = 160): Promise<s
     canvas.width = vp.width;
     canvas.height = vp.height;
     const ctx = canvas.getContext("2d")!;
-    // pdfjs 6 requires `canvas` property
     await page.render({ canvasContext: ctx, viewport: vp, canvas } as never).promise;
     out.push(canvas.toDataURL("image/png"));
   }
