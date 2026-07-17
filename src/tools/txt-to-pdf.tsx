@@ -318,7 +318,7 @@ export default function TxtToPdf() {
           (result.blobs.length === 1
             ? "Your PDF is ready."
             : `${result.blobs.length} PDFs are ready.`) +
-          (result.sanitized ? " Some non-Latin characters were replaced with '?'." : "")
+          (result.raster ? " Non-Latin text was rendered as high-quality images (not selectable)." : "")
         }
         downloadLabel={result.blobs.length === 1 ? "Download PDF" : `Download ${result.blobs.length} PDFs`}
         onDownload={() => {
