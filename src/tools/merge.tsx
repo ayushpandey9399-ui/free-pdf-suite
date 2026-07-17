@@ -56,7 +56,33 @@ export default function Merge() {
 
   return (
     <div>
-      <FileDropzone accept="application/pdf" multiple files={[]} onFilesChange={(fs) => setFiles([...files, ...fs])} />
+      <FileDropzone
+        accept="application/pdf"
+        multiple
+        files={files}
+        onFilesChange={(next) =>
+          setFiles((prev) => {
+            const incoming = next.slice(prev.length);
+            const batch = incoming.length ? incoming : next;
+            const seen = new Set(prev.map((f) => `${f.name}__${f.size}`));
+            const deduped: File[] = [];
+            let skipped = 0;
+            for (const f of batch) {
+              const key = `${f.name}__${f.size}`;
+              if (seen.has(key)) {
+                skipped++;
+                continue;
+              }
+              seen.add(key);
+              deduped.push(f);
+            }
+            if (skipped > 0) {
+              toast.info(`Skipped ${skipped} duplicate file${skipped > 1 ? "s" : ""}`);
+            }
+            return incoming.length ? [...prev, ...deduped] : deduped;
+          })
+        }
+      />
       {files.length > 0 && (
         <div className="mt-4">
           <p className="text-sm text-muted-foreground mb-2">Drag to reorder — top file appears first.</p>
