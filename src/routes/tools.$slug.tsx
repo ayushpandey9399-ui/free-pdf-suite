@@ -555,6 +555,31 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "fill-forms") {
+      const title =
+        "Fill PDF Form Online Free — Type Into Forms, No Upload | PDFfree";
+      const desc =
+        "Fill out PDF forms online free — type into text fields, tick checkboxes and select options in your browser. No upload, no signup, no watermark.";
+      const url = "/tools/fill-forms";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(fillFormsFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(fillFormsHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(fillFormsSoftwareJsonLd) },
+        ],
+      };
     return {
       meta: loaderData
         ? [
