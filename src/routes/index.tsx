@@ -31,7 +31,7 @@ function Home() {
 
       {/* Hero */}
       <section className="relative">
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 pt-10 pb-6 text-center">
+        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 pt-10 pb-0 text-center">
           <h1
             className="mx-auto max-w-[900px] font-bold tracking-tight text-[32px] sm:text-[42px] lg:text-[48px] leading-[1.1]"
             style={{ color: "#1c1c26", letterSpacing: "-0.025em" }}
@@ -47,7 +47,7 @@ function Home() {
 
           {/* Filter pills */}
           <div
-            className="mx-auto mt-6 mb-8 flex flex-nowrap sm:flex-wrap items-center justify-start sm:justify-center gap-3 overflow-x-auto sm:overflow-visible px-1 -mx-1 sm:mx-auto"
+            className="mx-auto mt-8 flex flex-nowrap sm:flex-wrap items-center justify-start sm:justify-center gap-3 overflow-x-auto sm:overflow-visible px-1 -mx-1 sm:mx-auto"
             role="tablist"
             aria-label="Filter tools by category"
             style={{ scrollbarWidth: "none" }}
@@ -90,7 +90,7 @@ function Home() {
       </section>
 
       {/* Tool cards grid */}
-      <section id="tools" className="mx-auto max-w-[1200px] px-4 sm:px-6 pt-2 pb-12">
+      <section id="tools" className="mx-auto max-w-[1200px] px-4 sm:px-6 pt-6 pb-12">
         <div className="grid gap-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 items-stretch">
           {visible.map((t) => {
             const Icon = t.icon;
