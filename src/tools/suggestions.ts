@@ -1,7 +1,8 @@
 // Per-tool suggested "Continue to…" tool slugs shown on the success screen.
 // Slugs must exist in src/tools/registry.tsx.
 export const TOOL_SUGGESTIONS: Record<string, string[]> = {
-  merge:           ["split", "watermark", "page-numbers", "rotate", "crop", "compare"],
+  merge:           ["compress", "split", "watermark", "page-numbers", "rotate", "crop"],
+  compress:        ["merge", "split", "watermark", "page-numbers", "rotate", "crop"],
   split:           ["merge", "delete-pages", "extract-pages", "rotate", "reorder-pages", "pdf-to-images"],
   "delete-pages":  ["extract-pages", "split", "reorder-pages", "rotate", "merge", "page-numbers"],
   "extract-pages": ["delete-pages", "split", "merge", "reorder-pages", "rotate", "pdf-to-images"],

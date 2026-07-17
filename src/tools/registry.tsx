@@ -22,6 +22,7 @@ export const categoryTint: Record<ToolCategory, { bg: string; fg: string }> = {
 
 const meta: Omit<ToolMeta, "icon">[] = [
   { slug: "merge", name: "Merge PDF", description: "Combine multiple PDFs into one single document, in the order you want.", category: "Organize PDF", Component: lazy(() => import("./merge")) },
+  { slug: "compress", name: "Compress PDF", description: "Reduce the size of your PDF file while keeping the best possible quality.", category: "Organize PDF", Component: lazy(() => import("./compress")) },
   { slug: "split", name: "Split PDF", description: "Separate one PDF into multiple files or extract page ranges easily.", category: "Organize PDF", Component: lazy(() => import("./split")) },
   { slug: "delete-pages", name: "Delete Pages", description: "Remove one or more unwanted pages from your PDF in seconds.", category: "Organize PDF", Component: lazy(() => import("./delete-pages")) },
   { slug: "extract-pages", name: "Extract Pages", description: "Pick specific pages and save them as a brand new PDF file.", category: "Organize PDF", Component: lazy(() => import("./extract-pages")) },
