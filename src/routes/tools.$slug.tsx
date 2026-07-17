@@ -491,6 +491,8 @@ function ToolPage() {
     ? "Reorder PDF Pages — Drag, Drop, Done. 100% Private"
     : isImagesToPdf
     ? "JPG to PDF Converter — Combine Images Into One PDF, Free"
+    : isPdfToText
+    ? "PDF to Text — Extract All Text From a PDF, 100% Private"
     : tool.name;
 
   return (
