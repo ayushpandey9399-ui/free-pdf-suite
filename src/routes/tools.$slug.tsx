@@ -15,6 +15,7 @@ import { UnlockPdfSeo, unlockFaqJsonLd, unlockHowToJsonLd, unlockSoftwareJsonLd 
 import { WatermarkPdfSeo, watermarkFaqJsonLd, watermarkHowToJsonLd, watermarkSoftwareJsonLd } from "@/components/WatermarkPdfSeo";
 import { RotatePdfSeo, rotateFaqJsonLd, rotateHowToJsonLd, rotateSoftwareJsonLd } from "@/components/RotatePdfSeo";
 import { DeletePagesSeo, deletePagesFaqJsonLd, deletePagesHowToJsonLd, deletePagesSoftwareJsonLd } from "@/components/DeletePagesSeo";
+import { ExtractPagesSeo, extractPagesFaqJsonLd, extractPagesHowToJsonLd, extractPagesSoftwareJsonLd } from "@/components/ExtractPagesSeo";
 
 
 
@@ -311,6 +312,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "extract-pages") {
+      const title =
+        "Extract Pages from PDF Online Free — Save Specific Pages | PDFfree";
+      const desc =
+        "Extract pages from PDF online free — save specific pages as a new PDF, in your browser. No upload, no signup, no watermark. Files stay on your device.";
+      const url = "/tools/extract-pages";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(extractPagesFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(extractPagesHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(extractPagesSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
@@ -350,6 +377,7 @@ function ToolPage() {
   const isWatermark = slug === "watermark";
   const isRotate = slug === "rotate";
   const isDeletePages = slug === "delete-pages";
+  const isExtractPages = slug === "extract-pages";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
@@ -373,6 +401,8 @@ function ToolPage() {
     ? "Rotate PDF — Fix Sideways Pages and Save Permanently"
     : isDeletePages
     ? "Delete Pages from PDF — Remove Unwanted Pages, 100% Private"
+    : isExtractPages
+    ? "Extract Pages from PDF — Save Only the Pages You Need"
     : tool.name;
 
   return (
@@ -400,6 +430,7 @@ function ToolPage() {
       {isWatermark && <WatermarkPdfSeo />}
       {isRotate && <RotatePdfSeo />}
       {isDeletePages && <DeletePagesSeo />}
+      {isExtractPages && <ExtractPagesSeo />}
     </>
   );
 }
