@@ -1,37 +1,41 @@
 import type { ComponentType } from "react";
-
-import mergeUrl from "@/assets/icons/merge.png";
-import splitUrl from "@/assets/icons/split.png";
-import deletePagesUrl from "@/assets/icons/delete-pages.png";
-import extractPagesUrl from "@/assets/icons/extract-pages.png";
-import reorderPagesUrl from "@/assets/icons/reorder-pages.png";
-import rotateUrl from "@/assets/icons/rotate.png";
-import imagesToPdfUrl from "@/assets/icons/images-to-pdf.png";
-import pdfToImagesUrl from "@/assets/icons/pdf-to-images.png";
-import pdfToTextUrl from "@/assets/icons/pdf-to-text.png";
-import pageNumbersUrl from "@/assets/icons/page-numbers.png";
-import watermarkUrl from "@/assets/icons/watermark.png";
-import cropUrl from "@/assets/icons/crop.png";
-import fillFormsUrl from "@/assets/icons/fill-forms.png";
-import compareUrl from "@/assets/icons/compare.png";
-import compressUrl from "@/assets/icons/compress.png";
-import signPdfUrl from "@/assets/icons/sign-pdf.png";
-import protectPdfUrl from "@/assets/icons/protect-pdf.png";
-import unlockPdfUrl from "@/assets/icons/unlock-pdf.png";
-import editPdfUrl from "@/assets/icons/edit-pdf.png";
-import flattenPdfUrl from "@/assets/icons/flatten-pdf.png";
-import txtToPdfUrl from "@/assets/icons/txt-to-pdf.png";
-import pdfMetadataUrl from "@/assets/icons/pdf-metadata.png";
-import extractImagesUrl from "@/assets/icons/extract-images.png";
-import grayscalePdfUrl from "@/assets/icons/grayscale-pdf.png";
-import headerFooterUrl from "@/assets/icons/header-footer.png";
-import addBlankPagesUrl from "@/assets/icons/add-blank-pages.png";
-import scanToPdfUrl from "@/assets/icons/scan-to-pdf.png";
-import redactPdfUrl from "@/assets/icons/redact-pdf.png";
+import {
+  Combine,
+  Scissors,
+  Trash2,
+  FileOutput,
+  ArrowUpDown,
+  FilePlus,
+  RotateCw,
+  Crop,
+  Minimize2,
+  ImagePlus,
+  FileImage,
+  Images,
+  FileText,
+  FileType,
+  ScanLine,
+  Hash,
+  PanelTop,
+  Droplets,
+  Contrast,
+  Tag,
+  PenLine,
+  FormInput,
+  Layers,
+  GitCompare,
+  Lock,
+  LockOpen,
+  Signature,
+  EyeOff,
+  type LucideIcon,
+} from "lucide-react";
 
 /**
- * AI-generated icon artwork for PDFfree tools.
- * Rendered as <img> so cards keep their existing hover transform on the icon.
+ * Per-tool icon system.
+ * Each tool renders a rounded "duotone" tile: a light tint of its category
+ * color as background, a strong stroke Lucide icon on top. The whole tile
+ * is the icon component — it accepts a size prop like the old images.
  */
 
 export interface ToolIconProps {
@@ -40,81 +44,83 @@ export interface ToolIconProps {
   title?: string;
 }
 
-function makeIcon(src: string, alt: string): ComponentType<ToolIconProps> {
-  const Comp = ({ size = 56, className, title }: ToolIconProps) => (
-    <img
-      src={src}
-      width={size}
-      height={size}
-      alt={title ?? alt}
-      loading="lazy"
-      decoding="async"
-      draggable={false}
-      className={`block object-contain ${className ?? ""}`}
-    />
-  );
-  Comp.displayName = `ToolIcon(${alt})`;
+type Palette = { bg: string; fg: string };
+
+const PALETTE = {
+  organize: { bg: "#fdeceb", fg: "#e5322d" },
+  convert: { bg: "#e8f0fe", fg: "#2563eb" },
+  edit: { bg: "#fef3e2", fg: "#ea8a0b" },
+  forms: { bg: "#e7f7ec", fg: "#16a34a" },
+  security: { bg: "#f1eafe", fg: "#7c3aed" },
+} as const;
+
+function makeIcon(Icon: LucideIcon, palette: Palette, label: string): ComponentType<ToolIconProps> {
+  const Comp = ({ size = 56, className, title }: ToolIconProps) => {
+    const iconSize = Math.round(size * 0.5);
+    return (
+      <div
+        role="img"
+        aria-label={title ?? label}
+        className={`inline-flex items-center justify-center rounded-2xl transition-[filter,transform] duration-200 group-hover:brightness-95 ${className ?? ""}`}
+        style={{
+          width: size,
+          height: size,
+          backgroundColor: palette.bg,
+          color: palette.fg,
+        }}
+      >
+        <Icon size={iconSize} strokeWidth={1.9} absoluteStrokeWidth />
+      </div>
+    );
+  };
+  Comp.displayName = `ToolIcon(${label})`;
   return Comp;
 }
 
+// slug → (Lucide icon, category palette, alt label)
+const iconMap: Record<string, { icon: LucideIcon; palette: Palette; label: string }> = {
+  // Organize (red)
+  merge: { icon: Combine, palette: PALETTE.organize, label: "Merge PDF" },
+  compress: { icon: Minimize2, palette: PALETTE.organize, label: "Compress PDF" },
+  split: { icon: Scissors, palette: PALETTE.organize, label: "Split PDF" },
+  "delete-pages": { icon: Trash2, palette: PALETTE.organize, label: "Delete Pages" },
+  "extract-pages": { icon: FileOutput, palette: PALETTE.organize, label: "Extract Pages" },
+  "reorder-pages": { icon: ArrowUpDown, palette: PALETTE.organize, label: "Reorder Pages" },
+  "add-blank-pages": { icon: FilePlus, palette: PALETTE.organize, label: "Add Blank Pages" },
+  rotate: { icon: RotateCw, palette: PALETTE.organize, label: "Rotate PDF" },
+  crop: { icon: Crop, palette: PALETTE.organize, label: "Crop PDF" },
 
-export const MergeIcon = makeIcon(mergeUrl, "Merge PDF");
-export const SplitIcon = makeIcon(splitUrl, "Split PDF");
-export const DeletePagesIcon = makeIcon(deletePagesUrl, "Delete Pages");
-export const ExtractPagesIcon = makeIcon(extractPagesUrl, "Extract Pages");
-export const ReorderIcon = makeIcon(reorderPagesUrl, "Reorder Pages");
-export const RotateIcon = makeIcon(rotateUrl, "Rotate PDF");
-export const ImagesToPdfIcon = makeIcon(imagesToPdfUrl, "Image to PDF");
-export const PdfToImagesIcon = makeIcon(pdfToImagesUrl, "PDF to Image");
-export const PdfToTextIcon = makeIcon(pdfToTextUrl, "PDF to Text");
-export const PageNumbersIcon = makeIcon(pageNumbersUrl, "Page Numbers");
-export const WatermarkIcon = makeIcon(watermarkUrl, "Add Watermark");
-export const CropIcon = makeIcon(cropUrl, "Crop PDF");
-export const FillFormsIcon = makeIcon(fillFormsUrl, "Fill PDF Forms");
-export const CompareIcon = makeIcon(compareUrl, "Compare PDFs");
-export const CompressIcon = makeIcon(compressUrl, "Compress PDF");
-export const SignPdfIcon = makeIcon(signPdfUrl, "Sign PDF");
-export const ProtectPdfIcon = makeIcon(protectPdfUrl, "Protect PDF");
-export const UnlockPdfIcon = makeIcon(unlockPdfUrl, "Unlock PDF");
-export const EditPdfIcon = makeIcon(editPdfUrl, "Edit & Annotate PDF");
-export const FlattenPdfIcon = makeIcon(flattenPdfUrl, "Flatten PDF");
-export const TxtToPdfIcon = makeIcon(txtToPdfUrl, "TXT to PDF");
-export const PdfMetadataIcon = makeIcon(pdfMetadataUrl, "PDF Metadata Editor");
-export const ExtractImagesIcon = makeIcon(extractImagesUrl, "Extract Images from PDF");
-export const GrayscalePdfIcon = makeIcon(grayscalePdfUrl, "Grayscale PDF");
-export const HeaderFooterIcon = makeIcon(headerFooterUrl, "Add Header & Footer");
-export const AddBlankPagesIcon = makeIcon(addBlankPagesUrl, "Add Blank Pages");
-export const ScanToPdfIcon = makeIcon(scanToPdfUrl, "Scan to PDF");
-export const RedactPdfIcon = makeIcon(redactPdfUrl, "Redact PDF");
+  // Convert (blue)
+  "images-to-pdf": { icon: ImagePlus, palette: PALETTE.convert, label: "Image to PDF" },
+  "pdf-to-images": { icon: FileImage, palette: PALETTE.convert, label: "PDF to Image" },
+  "extract-images": { icon: Images, palette: PALETTE.convert, label: "Extract Images" },
+  "pdf-to-text": { icon: FileText, palette: PALETTE.convert, label: "PDF to Text" },
+  "txt-to-pdf": { icon: FileType, palette: PALETTE.convert, label: "TXT to PDF" },
+  "scan-to-pdf": { icon: ScanLine, palette: PALETTE.convert, label: "Scan to PDF" },
 
+  // Edit (amber)
+  "edit-pdf": { icon: PenLine, palette: PALETTE.edit, label: "Edit & Annotate PDF" },
+  watermark: { icon: Droplets, palette: PALETTE.edit, label: "Add Watermark" },
+  "page-numbers": { icon: Hash, palette: PALETTE.edit, label: "Page Numbers" },
+  "header-footer": { icon: PanelTop, palette: PALETTE.edit, label: "Header & Footer" },
+  "grayscale-pdf": { icon: Contrast, palette: PALETTE.edit, label: "Grayscale PDF" },
+  "pdf-metadata": { icon: Tag, palette: PALETTE.edit, label: "PDF Metadata" },
 
-export const toolIcons: Record<string, ComponentType<ToolIconProps>> = {
-  merge: MergeIcon,
-  compress: CompressIcon,
-  split: SplitIcon,
-  "delete-pages": DeletePagesIcon,
-  "extract-pages": ExtractPagesIcon,
-  "reorder-pages": ReorderIcon,
-  rotate: RotateIcon,
-  "images-to-pdf": ImagesToPdfIcon,
-  "pdf-to-images": PdfToImagesIcon,
-  "pdf-to-text": PdfToTextIcon,
-  "page-numbers": PageNumbersIcon,
-  watermark: WatermarkIcon,
-  crop: CropIcon,
-  "fill-forms": FillFormsIcon,
-  "sign-pdf": SignPdfIcon,
-  compare: CompareIcon,
-  "protect-pdf": ProtectPdfIcon,
-  "unlock-pdf": UnlockPdfIcon,
-  "edit-pdf": EditPdfIcon,
-  "flatten-pdf": FlattenPdfIcon,
-  "txt-to-pdf": TxtToPdfIcon,
-  "pdf-metadata": PdfMetadataIcon,
-  "extract-images": ExtractImagesIcon,
-  "grayscale-pdf": GrayscalePdfIcon,
-  "header-footer": HeaderFooterIcon,
-  "add-blank-pages": AddBlankPagesIcon,
-  "scan-to-pdf": ScanToPdfIcon,
-  "redact-pdf": RedactPdfIcon,
+  // Forms & Compare (green)
+  "fill-forms": { icon: FormInput, palette: PALETTE.forms, label: "Fill PDF Forms" },
+  "flatten-pdf": { icon: Layers, palette: PALETTE.forms, label: "Flatten PDF" },
+  compare: { icon: GitCompare, palette: PALETTE.forms, label: "Compare PDFs" },
+
+  // Security (purple)
+  "protect-pdf": { icon: Lock, palette: PALETTE.security, label: "Protect PDF" },
+  "unlock-pdf": { icon: LockOpen, palette: PALETTE.security, label: "Unlock PDF" },
+  "sign-pdf": { icon: Signature, palette: PALETTE.security, label: "Sign PDF" },
+  "redact-pdf": { icon: EyeOff, palette: PALETTE.security, label: "Redact PDF" },
 };
+
+export const toolIcons: Record<string, ComponentType<ToolIconProps>> = Object.fromEntries(
+  Object.entries(iconMap).map(([slug, { icon, palette, label }]) => [
+    slug,
+    makeIcon(icon, palette, label),
+  ]),
+);
