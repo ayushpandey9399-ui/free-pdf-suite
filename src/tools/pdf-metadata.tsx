@@ -109,6 +109,12 @@ export default function PdfMetadata() {
       if (clearAll) {
         doc.setTitle(""); doc.setAuthor(""); doc.setSubject(""); doc.setKeywords([]);
         doc.setProducer(""); doc.setCreator("");
+        try {
+          const { PDFName } = await import("pdf-lib");
+          const info = (doc as unknown as { getInfoDict: () => { delete: (k: unknown) => void } }).getInfoDict();
+          info.delete(PDFName.of("CreationDate"));
+          info.delete(PDFName.of("ModDate"));
+        } catch { /* dates stay if low-level API unavailable */ }
       } else {
         doc.setTitle(title);
         doc.setAuthor(author);
@@ -116,7 +122,8 @@ export default function PdfMetadata() {
         const kw = keywords.split(",").map((s) => s.trim()).filter(Boolean);
         doc.setKeywords(kw);
       }
-      const bytes = await doc.save();
+      // updateMetadata: false so pdf-lib doesn't stamp a fresh ModDate on save
+      const bytes = await doc.save({ updateMetadata: false } as Parameters<typeof doc.save>[0]);
       const blob = new Blob([bytes as BlobPart], { type: "application/pdf" });
       setResult({
         blob,

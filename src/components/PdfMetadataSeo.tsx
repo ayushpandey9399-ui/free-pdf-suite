@@ -13,7 +13,7 @@ const steps = [
   },
   {
     title: "Correct a field, or tick Clear all metadata",
-    text: "Type over any of the four editable fields to change them individually — for example, replacing a template's old author name with your own, or setting a proper document Title. To wipe the lot in one move, tick the Clear all metadata box: it blanks Title, Author, Subject and Keywords and resets Producer and Creator to empty strings.",
+    text: "Type over any of the four editable fields to change them individually — for example, replacing a template's old author name with your own, or setting a proper document Title. To wipe the lot in one move, tick the Clear all metadata box: it blanks Title, Author, Subject and Keywords, resets Producer and Creator to empty strings, and removes the Created and Modified timestamps from the document information dictionary.",
   },
   {
     title: "Save the updated copy",
@@ -28,7 +28,7 @@ const benefits = [
   },
   {
     h: "Edit or erase",
-    p: "Correct fields one at a time when you just need to fix a stale author name or write a proper Title, or flip the Clear all metadata switch to wipe Title, Author, Subject, Keywords, Producer and Creator in a single click. Both paths save into a fresh -updated.pdf copy.",
+    p: "Correct fields one at a time when you just need to fix a stale author name or write a proper Title, or flip the Clear all metadata switch to wipe Title, Author, Subject, Keywords, Producer, Creator and the Created / Modified timestamps in a single click. Both paths save into a fresh -updated.pdf copy.",
   },
   {
     h: "Content untouched",
@@ -81,9 +81,9 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
   },
   {
     q: "How do I remove all metadata from a PDF?",
-    a: "Open the file here, tick Clear all metadata in the sidebar, then click Save PDF. The tool blanks Title, Author, Subject and Keywords and resets Producer and Creator, then downloads a fresh -updated.pdf copy with those fields empty.",
+    a: "Open the file here, tick Clear all metadata in the sidebar, then click Save PDF. The tool blanks Title, Author, Subject and Keywords, resets Producer and Creator, and removes the Created and Modified timestamps, then downloads a fresh -updated.pdf copy with those fields empty.",
     plain:
-      "Open the file, tick Clear all metadata, click Save PDF. Title, Author, Subject, Keywords, Producer and Creator are all blanked in a fresh -updated.pdf copy.",
+      "Open the file, tick Clear all metadata, click Save PDF. Title, Author, Subject, Keywords, Producer, Creator and the Created/Modified timestamps are all wiped in a fresh -updated.pdf copy.",
   },
   {
     q: "Can people really see my PDF's metadata?",
@@ -99,9 +99,9 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
   },
   {
     q: "Which fields can I edit?",
-    a: "Four fields are directly editable in the sidebar: Title, Author, Subject and Keywords (comma-separated). Producer, Creator, Created and Modified are shown as read-only trail information so you can inspect them, and are blanked by the Clear all metadata option — Producer and Creator specifically are reset when you tick that box.",
+    a: "Four fields are directly editable in the sidebar: Title, Author, Subject and Keywords (comma-separated). Producer, Creator, Created and Modified are shown as read-only trail information so you can inspect them, and Clear all metadata wipes them too — Producer and Creator are reset to empty strings and the Created and Modified timestamps are removed from the document information dictionary.",
     plain:
-      "Editable: Title, Author, Subject and Keywords. Producer, Creator, Created and Modified are shown as read-only trail info; ticking Clear all metadata also resets Producer and Creator.",
+      "Editable: Title, Author, Subject and Keywords. Producer, Creator, Created and Modified are shown as read-only trail info; ticking Clear all metadata also resets Producer/Creator and removes the Created/Modified timestamps.",
   },
   {
     q: "Do my files get uploaded to a server?",
@@ -114,25 +114,29 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
     a: (
       <>
         No, and this is the important honest part. Clear all metadata
-        removes the property fields — Title, Author, Subject,
-        Keywords, Producer, Creator — but everything printed on the
-        pages themselves stays: names in the text, signatures on the
-        last page, letterheads at the top, watermarks, embedded photos
-        with their own EXIF. For truly anonymous distribution, clean
-        the metadata here, then use{" "}
+        wipes the property fields — Title, Author, Subject, Keywords,
+        Producer, Creator — and removes the Created and Modified
+        timestamps from the document information dictionary, and
+        pdf-lib is instructed not to stamp a fresh modification date
+        when it saves. But everything printed on the pages themselves
+        stays: names in the text, signatures on the last page,
+        letterheads at the top, watermarks, embedded photos with
+        their own EXIF. For truly anonymous distribution, clean the
+        metadata here, then use{" "}
         <Link to="/tools/redact-pdf" className="text-[#e5322d] underline">
           Redact PDF
         </Link>{" "}
         to permanently blank the identifying content on the pages.
-        Note also that this tool edits the standard document
-        information dictionary; some PDFs carry a separate XMP
-        metadata stream created by other software, which may not be
-        touched by every field you clear — always re-inspect a
-        sanitised copy in a reader before you rely on it being clean.
+        One more caveat worth knowing: this tool edits the standard
+        document information dictionary, but some PDFs also carry a
+        separate XMP metadata stream created by other software that
+        can hold its own copy of the title, author and dates. It is
+        not rewritten here, so always re-inspect a sanitised copy in
+        a reader before you rely on it being clean.
       </>
     ),
     plain:
-      "No. Clearing removes property fields (Title, Author, Subject, Keywords, Producer, Creator), but names, signatures and letterheads printed on the pages stay. Use Redact PDF for visible content. Some PDFs also carry a separate XMP stream that may not be fully cleared, so re-inspect a sanitised copy before relying on it.",
+      "No. Clearing wipes Title, Author, Subject, Keywords, Producer, Creator and the Created/Modified timestamps, and pdf-lib is told not to stamp a fresh ModDate on save. But names, signatures and letterheads printed on the pages stay — use Redact PDF for visible content. Some PDFs also carry a separate XMP metadata stream that isn't rewritten here, so re-inspect a sanitised copy before relying on it.",
   },
   {
     q: "Why does my PDF open with a weird title in the browser tab?",
