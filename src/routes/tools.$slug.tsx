@@ -821,6 +821,7 @@ function ToolPage() {
   const isAddBlankPages = slug === "add-blank-pages";
   const isScanToPdf = slug === "scan-to-pdf";
   const isExtractImages = slug === "extract-images";
+  const isCompare = slug === "compare";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
