@@ -25,6 +25,7 @@ import pdfMetadataUrl from "@/assets/icons/pdf-metadata.png";
 import extractImagesUrl from "@/assets/icons/extract-images.png";
 import grayscalePdfUrl from "@/assets/icons/grayscale-pdf.png";
 import headerFooterUrl from "@/assets/icons/header-footer.png";
+import addBlankPagesUrl from "@/assets/icons/add-blank-pages.png";
 
 /**
  * AI-generated icon artwork for PDFfree tools.
