@@ -72,7 +72,7 @@ function ToolPage() {
   return (
     <>
       <ToolLayout
-        title={isMerge ? "Merge PDF Files Online — Free & 100% Private" : tool.name}
+        title={isMerge ? "Merge PDF Files Online — Free, Private, No Uploads" : tool.name}
         description={tool.description}
         icon={tool.icon}
         tint={categoryTint[tool.category]}
