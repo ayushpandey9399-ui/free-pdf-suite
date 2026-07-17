@@ -440,6 +440,9 @@ function PageOverlay({
   onRemove,
   signature,
   initials,
+  stampSig,
+  onStamp,
+  registerEl,
 }: {
   index: number;
   page: PageInfo;
@@ -448,9 +451,14 @@ function PageOverlay({
   onRemove: (id: string) => void;
   signature: Signature | null;
   initials: Signature | null;
+  stampSig: Signature | null;
+  onStamp: (pageIndex: number, cxPts: number, cyPts: number) => void;
+  registerEl: (idx: number, el: HTMLElement | null) => void;
 }) {
   const wrapRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   const [displayW, setDisplayW] = useState(0);
+  const [ghost, setGhost] = useState<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     const el = wrapRef.current; if (!el) return;
@@ -460,11 +468,19 @@ function PageOverlay({
     return () => ro.disconnect();
   }, []);
 
+  useEffect(() => {
+    registerEl(index, cardRef.current);
+    return () => registerEl(index, null);
+  }, [index, registerEl]);
+
   const scale = displayW ? displayW / page.width : 0;
   const displayH = page.height * scale;
 
+  const ghostW = stampSig ? (Math.min(page.width * 0.35, 220)) : 0;
+  const ghostH = stampSig ? ghostW * (stampSig.h / stampSig.w) : 0;
+
   return (
-    <div className="rounded-2xl bg-white p-3" style={{ border: "1px solid #ececef" }}>
+    <div ref={cardRef} data-page-index={index} className="rounded-2xl bg-white p-3" style={{ border: "1px solid #ececef" }}>
       <div className="mb-2 flex items-center justify-between">
         <p className="text-[12px] font-semibold" style={{ color: "#7a7a86" }}>Page {index + 1}</p>
         {placements.length > 0 && (
@@ -475,9 +491,26 @@ function PageOverlay({
       </div>
       <div
         ref={wrapRef}
-        data-page-index={index}
         className="relative mx-auto w-full select-none"
-        style={{ height: displayH || undefined, touchAction: "none" }}
+        style={{
+          height: displayH || undefined,
+          touchAction: "none",
+          cursor: stampSig ? "crosshair" : "default",
+        }}
+        onPointerMove={(e) => {
+          if (!stampSig || !scale) return;
+          const r = e.currentTarget.getBoundingClientRect();
+          setGhost({ x: (e.clientX - r.left) / scale, y: (e.clientY - r.top) / scale });
+        }}
+        onPointerLeave={() => setGhost(null)}
+        onClick={(e) => {
+          if (!stampSig || !scale) return;
+          // Ignore clicks that originated on an existing placement (they stop propagation), but guard anyway.
+          const r = e.currentTarget.getBoundingClientRect();
+          const cx = (e.clientX - r.left) / scale;
+          const cy = (e.clientY - r.top) / scale;
+          onStamp(index, cx, cy);
+        }}
       >
         <img src={page.url} alt={`Page ${index + 1}`} className="pointer-events-none absolute inset-0 h-full w-full" draggable={false} />
         {scale > 0 &&
@@ -497,10 +530,26 @@ function PageOverlay({
               />
             );
           })}
+        {stampSig && ghost && scale > 0 && (
+          <img
+            src={stampSig.dataUrl}
+            alt=""
+            aria-hidden
+            draggable={false}
+            className="pointer-events-none absolute opacity-60"
+            style={{
+              left: (ghost.x - ghostW / 2) * scale,
+              top: (ghost.y - ghostH / 2) * scale,
+              width: ghostW * scale,
+              height: ghostH * scale,
+            }}
+          />
+        )}
       </div>
     </div>
   );
 }
+
 
 function PlacementBox({
   placement,
