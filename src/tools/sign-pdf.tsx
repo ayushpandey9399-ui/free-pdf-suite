@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { PDFDocument } from "pdf-lib";
 import { X, Trash2, Pen, Type as TypeIcon, Upload as UploadIcon, ChevronLeft, ChevronRight, MousePointerClick } from "lucide-react";
