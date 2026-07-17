@@ -28,11 +28,13 @@ export function SortableThumbGrid({
   onReorder,
   selectedIds,
   onToggle,
+  onRemove,
 }: {
   items: ThumbItem[];
   onReorder?: (items: ThumbItem[]) => void;
   selectedIds?: Set<string>;
   onToggle?: (id: string) => void;
+  onRemove?: (id: string) => void;
 }) {
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
@@ -59,6 +61,7 @@ export function SortableThumbGrid({
               draggable={!!onReorder}
               selected={selectedIds?.has(item.id)}
               onToggle={onToggle ? () => onToggle(item.id) : undefined}
+              onRemove={onRemove ? () => onRemove(item.id) : undefined}
             />
           ))}
         </div>
