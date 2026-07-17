@@ -17,7 +17,7 @@ export const Route = createFileRoute("/tools/$slug")({
       const title =
         "Merge PDF Online Free — Combine PDF Files Without Uploading | PDFfree";
       const desc =
-        "Merge PDF online free — combine PDF files in your browser with no upload. Your files never leave your device. No signup, no watermark, no limits.";
+        "Merge PDF files online free — no upload, no signup, no watermark. Your files never leave your device. Combine PDFs on any browser in seconds.";
       const url = "/tools/merge";
       return {
         meta: [
@@ -33,14 +33,9 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
         links: [{ rel: "canonical", href: url }],
         scripts: [
-          {
-            type: "application/ld+json",
-            children: JSON.stringify(mergeFaqJsonLd),
-          },
-          {
-            type: "application/ld+json",
-            children: JSON.stringify(mergeSoftwareJsonLd),
-          },
+          { type: "application/ld+json", children: JSON.stringify(mergeFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(mergeHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(mergeSoftwareJsonLd) },
         ],
       };
     }
