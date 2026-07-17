@@ -177,7 +177,7 @@ function HeroMockup() {
               boxShadow: "0 14px 28px -10px rgba(229,50,45,0.5)",
             }}
           >
-            <Cloud className="h-8 w-8" />
+            <UploadCloud size={32} strokeWidth={2} />
           </div>
           <div>
             <p className="text-[17px] font-bold" style={{ color: "#14142b" }}>
@@ -215,7 +215,7 @@ function HeroMockup() {
         className="absolute top-6 -right-4 sm:-right-8"
         rotate={7}
         delay="0.6s"
-        icon={<FileImageIcon className="h-5 w-5" />}
+        icon={<ImageIcon size={20} strokeWidth={2} />}
         iconBg="#fff3e6"
         iconFg="#f28c1e"
         title="Scan_page.jpg"
@@ -225,7 +225,7 @@ function HeroMockup() {
         className="absolute -bottom-4 right-8 sm:right-16"
         rotate={-5}
         delay="1.2s"
-        icon={<Receipt className="h-5 w-5" />}
+        icon={<Scissors size={20} strokeWidth={2} />}
         iconBg="#eef1fd"
         iconFg="#6d5efc"
         title="Invoice.pdf"
