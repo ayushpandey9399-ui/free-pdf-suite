@@ -124,13 +124,11 @@ function PrivacyIllustration() {
           <FlowNode label="Your device" />
         </div>
 
-        {/* Struck-through cloud */}
+        {/* Device-only label */}
         <div className="mt-6 flex items-center gap-2">
-          <div className="relative">
-            <CloudOff className="h-5 w-5" style={{ color: "#9CA3AF" }} strokeWidth={1.75} />
-          </div>
+          <ShieldCheck className="h-4 w-4 animate-soft-pulse" style={{ color: BRAND }} strokeWidth={2.25} />
           <span className="text-[13px]" style={{ color: MUTED }}>
-            No servers involved
+            Processed on your device
           </span>
         </div>
       </div>
