@@ -864,6 +864,7 @@ function ToolPage() {
       {isPdfMetadata && <PdfMetadataSeo />}
       {isGrayscale && <GrayscalePdfSeo />}
       {isAddBlankPages && <AddBlankPagesSeo />}
+      {isScanToPdf && <ScanToPdfSeo />}
     </>
   );
 }
