@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { PDFDocument } from "pdf-lib";
-import { X, Trash2, Pen, Type as TypeIcon, Upload as UploadIcon } from "lucide-react";
+import { X, Trash2, Pen, Type as TypeIcon, Upload as UploadIcon, ChevronLeft, ChevronRight, MousePointerClick } from "lucide-react";
+
 import { FileDropzone } from "@/components/FileDropzone";
 import { ToolWorkspace, InfoTip } from "@/components/ToolWorkspace";
 import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
@@ -69,7 +70,17 @@ export default function SignPdf() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ blob: Blob; filename: string } | null>(null);
 
+  // Stamp mode: after "Place on document" is clicked, the next click on any page drops a placement there.
+  const [stampMode, setStampMode] = useState<Kind | null>(null);
+  const [currentPage, setCurrentPage] = useState(0); // 0-based, most-visible page
+
   const pagesContainerRef = useRef<HTMLDivElement>(null);
+  const pageRefs = useRef<Map<number, HTMLElement>>(new Map());
+  const registerPageEl = useCallback((idx: number, el: HTMLElement | null) => {
+    if (el) pageRefs.current.set(idx, el);
+    else pageRefs.current.delete(idx);
+  }, []);
+
   const { protectedName, reset } = usePdfPasswordCheck(files, () => setFiles([]));
 
   const file = files[0];
@@ -78,6 +89,8 @@ export default function SignPdf() {
     let cancelled = false;
     setPages([]);
     setPlacements([]);
+    setStampMode(null);
+    setCurrentPage(0);
     if (!file) return;
     setLoadingPages(true);
     (async () => {
@@ -87,7 +100,6 @@ export default function SignPdf() {
         const maxW = 800;
         for (let i = 1; i <= doc.numPages; i++) {
           const page = await doc.getPage(i);
-          // Render with rotation=0 so overlay coords map directly to native PDF points.
           const vp1 = page.getViewport({ scale: 1, rotation: 0 });
           const scale = Math.min(2, maxW / vp1.width);
           const vp = page.getViewport({ scale, rotation: 0 });
@@ -120,50 +132,80 @@ export default function SignPdf() {
     else setInitials(sig);
   };
 
-  const placeOnDocument = useCallback(() => {
-    const sig = current;
-    if (!sig || !pages.length) return;
-    // Determine which page is centered in viewport
-    let pageIndex = 0;
-    const container = pagesContainerRef.current;
-    if (container) {
-      const rects = container.querySelectorAll<HTMLElement>("[data-page-index]");
-      const viewportMid = window.innerHeight / 2;
-      let bestDist = Infinity;
-      rects.forEach((el) => {
-        const r = el.getBoundingClientRect();
-        const mid = r.top + r.height / 2;
-        const d = Math.abs(mid - viewportMid);
-        if (d < bestDist) {
-          bestDist = d;
-          pageIndex = Number(el.dataset.pageIndex ?? 0);
+  // Track most-visible page via IntersectionObserver on the rendered page cards.
+  useEffect(() => {
+    if (!pages.length) return;
+    const ratios = new Map<number, number>();
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          const idx = Number((e.target as HTMLElement).dataset.pageIndex ?? -1);
+          if (idx >= 0) ratios.set(idx, e.intersectionRatio);
         }
-      });
-    }
+        let best = 0, bestR = -1;
+        ratios.forEach((r, i) => { if (r > bestR) { bestR = r; best = i; } });
+        setCurrentPage(best);
+      },
+      { threshold: [0, 0.25, 0.5, 0.75, 1] },
+    );
+    pageRefs.current.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [pages.length]);
+
+  // Escape to exit stamp mode.
+  useEffect(() => {
+    if (!stampMode) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setStampMode(null); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [stampMode]);
+
+  const addPlacement = useCallback(
+    (kind: Kind, pageIndex: number, cxPoints: number, cyPoints: number) => {
+      const sig = kind === "signature" ? signature : initials;
+      const page = pages[pageIndex];
+      if (!sig || !page) return;
+      const targetW = kind === "signature" ? Math.min(page.width * 0.35, 220) : Math.min(page.width * 0.18, 110);
+      const aspect = sig.h / sig.w;
+      const w = targetW;
+      const h = w * aspect;
+      // Center placement on click point, clamped inside the page.
+      const x = Math.max(0, Math.min(page.width - w, cxPoints - w / 2));
+      const y = Math.max(0, Math.min(page.height - h, cyPoints - h / 2));
+      setPlacements((prev) => [
+        ...prev,
+        { id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, pageIndex, kind, x, y, w, h },
+      ]);
+    },
+    [pages, signature, initials],
+  );
+
+  const placeOnDocument = useCallback(() => {
+    if (!current) return;
+    const pageIndex = currentPage;
     const page = pages[pageIndex];
-    // Default width in points based on kind
-    const targetW = active === "signature" ? Math.min(page.width * 0.35, 220) : Math.min(page.width * 0.18, 110);
-    const aspect = sig.h / sig.w;
-    const w = targetW;
-    const h = w * aspect;
-    const x = (page.width - w) / 2;
-    const y = (page.height - h) / 2;
-    setPlacements((prev) => [
-      ...prev,
-      { id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, pageIndex, kind: active, x, y, w, h },
-    ]);
-    // Scroll placement into view
-    setTimeout(() => {
-      const el = pagesContainerRef.current?.querySelector<HTMLElement>(`[data-page-index="${pageIndex}"]`);
-      el?.scrollIntoView({ behavior: "smooth", block: "center" });
-    }, 50);
-  }, [current, pages, active]);
+    if (!page) return;
+    // Cascade offset so successive placements on the same page don't stack exactly on top.
+    const samePage = placements.filter((p) => p.pageIndex === pageIndex).length;
+    const offset = (samePage % 6) * 20; // points
+    addPlacement(active, pageIndex, page.width / 2 + offset, page.height / 2 + offset);
+    // Also enable stamp mode so the user can click other pages to place more.
+    setStampMode(active);
+  }, [current, currentPage, pages, placements, active, addPlacement]);
+
+  const scrollToPage = (idx: number) => {
+    const el = pageRefs.current.get(idx);
+    el?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
 
   const resetAll = () => {
     setFiles([]); setPages([]); setPlacements([]);
     setSignature(null); setInitials(null); setResult(null);
-    setActive("signature"); setTab("draw");
+    setActive("signature"); setTab("draw"); setStampMode(null); setCurrentPage(0);
+    pageRefs.current.clear();
   };
+
 
   const run = async () => {
     if (!file || !placements.length) return;
@@ -292,21 +334,65 @@ export default function SignPdf() {
               <div className="rounded-lg p-3" style={{ border: "1px solid #ececef", backgroundColor: "#fafafb" }}>
                 <img src={current.dataUrl} alt="Signature preview" className="mx-auto max-h-16" />
               </div>
+              {stampMode === active ? (
+                <button
+                  type="button"
+                  onClick={() => setStampMode(null)}
+                  className="mt-3 w-full rounded-lg py-2.5 text-[13px] font-bold uppercase text-white transition-colors"
+                  style={{ backgroundColor: "#e5322d", letterSpacing: "0.04em" }}
+                >
+                  Done placing
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={placeOnDocument}
+                  className="mt-3 w-full rounded-lg py-2.5 text-[13px] font-bold uppercase text-white transition-colors"
+                  style={{ backgroundColor: "#33333c", letterSpacing: "0.04em" }}
+                >
+                  Place on document
+                </button>
+              )}
+              {stampMode === active && (
+                <p className="mt-2 text-center text-[11.5px]" style={{ color: "#7a7a86" }}>
+                  <MousePointerClick className="mr-1 inline h-3 w-3" />
+                  Click any page to drop another. Press Esc to finish.
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* Page navigator */}
+          {pages.length > 1 && (
+            <div className="flex items-center justify-between rounded-lg p-2" style={{ border: "1px solid #ececef", backgroundColor: "#fafafb" }}>
               <button
                 type="button"
-                onClick={placeOnDocument}
-                className="mt-3 w-full rounded-lg py-2.5 text-[13px] font-bold uppercase text-white transition-colors"
-                style={{ backgroundColor: "#33333c", letterSpacing: "0.04em" }}
+                onClick={() => scrollToPage(Math.max(0, currentPage - 1))}
+                disabled={currentPage <= 0}
+                className="grid h-8 w-8 place-items-center rounded-md text-[#33333c] disabled:opacity-40"
+                aria-label="Previous page"
               >
-                Place on document
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+              <span className="text-[12.5px] font-semibold" style={{ color: "#33333c" }}>
+                Page {currentPage + 1} of {pages.length}
+              </span>
+              <button
+                type="button"
+                onClick={() => scrollToPage(Math.min(pages.length - 1, currentPage + 1))}
+                disabled={currentPage >= pages.length - 1}
+                className="grid h-8 w-8 place-items-center rounded-md text-[#33333c] disabled:opacity-40"
+                aria-label="Next page"
+              >
+                <ChevronRight className="h-4 w-4" />
               </button>
             </div>
           )}
 
           <InfoTip>
             {placements.length
-              ? `${placements.length} placement${placements.length === 1 ? "" : "s"} on document. Drag to reposition, use the corner handle to resize.`
-              : "Create a signature and click \"Place on document\" to add it. You can place it on multiple pages."}
+              ? `${placements.length} placement${placements.length === 1 ? "" : "s"} on document. Drag to reposition, corner handle to resize, × to delete.`
+              : "Create a signature, then click \"Place on document\". Click other pages to drop more copies."}
           </InfoTip>
 
           {hasRotatedPages && (
@@ -333,11 +419,15 @@ export default function SignPdf() {
             onRemove={(id) => setPlacements((prev) => prev.filter((p) => p.id !== id))}
             signature={signature}
             initials={initials}
+            stampSig={stampMode ? (stampMode === "signature" ? signature : initials) : null}
+            onStamp={(pageIndex, cxPts, cyPts) => stampMode && addPlacement(stampMode, pageIndex, cxPts, cyPts)}
+            registerEl={registerPageEl}
           />
         ))}
       </div>
     </ToolWorkspace>
   );
+
 }
 
 /* ============================== Page overlay ============================== */
@@ -350,6 +440,9 @@ function PageOverlay({
   onRemove,
   signature,
   initials,
+  stampSig,
+  onStamp,
+  registerEl,
 }: {
   index: number;
   page: PageInfo;
@@ -358,9 +451,14 @@ function PageOverlay({
   onRemove: (id: string) => void;
   signature: Signature | null;
   initials: Signature | null;
+  stampSig: Signature | null;
+  onStamp: (pageIndex: number, cxPts: number, cyPts: number) => void;
+  registerEl: (idx: number, el: HTMLElement | null) => void;
 }) {
   const wrapRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   const [displayW, setDisplayW] = useState(0);
+  const [ghost, setGhost] = useState<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     const el = wrapRef.current; if (!el) return;
@@ -370,11 +468,19 @@ function PageOverlay({
     return () => ro.disconnect();
   }, []);
 
+  useEffect(() => {
+    registerEl(index, cardRef.current);
+    return () => registerEl(index, null);
+  }, [index, registerEl]);
+
   const scale = displayW ? displayW / page.width : 0;
   const displayH = page.height * scale;
 
+  const ghostW = stampSig ? (Math.min(page.width * 0.35, 220)) : 0;
+  const ghostH = stampSig ? ghostW * (stampSig.h / stampSig.w) : 0;
+
   return (
-    <div className="rounded-2xl bg-white p-3" style={{ border: "1px solid #ececef" }}>
+    <div ref={cardRef} data-page-index={index} className="rounded-2xl bg-white p-3" style={{ border: "1px solid #ececef" }}>
       <div className="mb-2 flex items-center justify-between">
         <p className="text-[12px] font-semibold" style={{ color: "#7a7a86" }}>Page {index + 1}</p>
         {placements.length > 0 && (
@@ -385,9 +491,26 @@ function PageOverlay({
       </div>
       <div
         ref={wrapRef}
-        data-page-index={index}
         className="relative mx-auto w-full select-none"
-        style={{ height: displayH || undefined, touchAction: "none" }}
+        style={{
+          height: displayH || undefined,
+          touchAction: "none",
+          cursor: stampSig ? "crosshair" : "default",
+        }}
+        onPointerMove={(e) => {
+          if (!stampSig || !scale) return;
+          const r = e.currentTarget.getBoundingClientRect();
+          setGhost({ x: (e.clientX - r.left) / scale, y: (e.clientY - r.top) / scale });
+        }}
+        onPointerLeave={() => setGhost(null)}
+        onClick={(e) => {
+          if (!stampSig || !scale) return;
+          // Ignore clicks that originated on an existing placement (they stop propagation), but guard anyway.
+          const r = e.currentTarget.getBoundingClientRect();
+          const cx = (e.clientX - r.left) / scale;
+          const cy = (e.clientY - r.top) / scale;
+          onStamp(index, cx, cy);
+        }}
       >
         <img src={page.url} alt={`Page ${index + 1}`} className="pointer-events-none absolute inset-0 h-full w-full" draggable={false} />
         {scale > 0 &&
@@ -407,10 +530,26 @@ function PageOverlay({
               />
             );
           })}
+        {stampSig && ghost && scale > 0 && (
+          <img
+            src={stampSig.dataUrl}
+            alt=""
+            aria-hidden
+            draggable={false}
+            className="pointer-events-none absolute opacity-60"
+            style={{
+              left: (ghost.x - ghostW / 2) * scale,
+              top: (ghost.y - ghostH / 2) * scale,
+              width: ghostW * scale,
+              height: ghostH * scale,
+            }}
+          />
+        )}
       </div>
     </div>
   );
 }
+
 
 function PlacementBox({
   placement,
@@ -470,6 +609,7 @@ function PlacementBox({
   return (
     <div
       className="group absolute"
+      onClick={(e) => e.stopPropagation()}
       style={{
         left: placement.x * scale,
         top: placement.y * scale,
@@ -477,6 +617,7 @@ function PlacementBox({
         height: placement.h * scale,
       }}
     >
+
       <div
         onPointerDown={onPointerDown("move")}
         onPointerMove={onPointerMove}
