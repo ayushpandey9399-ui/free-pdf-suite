@@ -447,6 +447,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "page-numbers") {
+      const title =
+        "Add Page Numbers to PDF Online Free — No Upload | PDFfree";
+      const desc =
+        "Add page numbers to PDF online free — choose position, format and starting number, in your browser. No upload, no signup, no watermark.";
+      const url = "/tools/page-numbers";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(pageNumbersFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(pageNumbersHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(pageNumbersSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
