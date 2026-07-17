@@ -85,12 +85,28 @@ function Home() {
             Every tool you need to work with PDFs in one place
           </h1>
           <p
-            className="mx-auto mt-5 max-w-[660px] text-[17px] sm:text-[19px] leading-relaxed"
+            className="mx-auto mt-5 max-w-[620px] text-[17px] sm:text-[19px] leading-relaxed"
             style={{ color: "#7a7a86" }}
           >
-            Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use!
-            Merge, split, convert, rotate, edit and more.
+            28 free tools to merge, split, convert, edit and sign PDFs — right in your browser.
           </p>
+
+          {/* Trust badges */}
+          <ul
+            className="mx-auto mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[13px] font-medium"
+            style={{ color: "#5a5a66" }}
+          >
+            {["100% free", "No signup", "Files never leave your device"].map((t) => (
+              <li key={t} className="inline-flex items-center gap-1.5">
+                <span
+                  aria-hidden
+                  className="inline-block h-1.5 w-1.5 rounded-full"
+                  style={{ backgroundColor: "#e5322d" }}
+                />
+                {t}
+              </li>
+            ))}
+          </ul>
 
           {/* Filter pills */}
           <div
