@@ -24,6 +24,7 @@ import txtToPdfUrl from "@/assets/icons/txt-to-pdf.png";
 import pdfMetadataUrl from "@/assets/icons/pdf-metadata.png";
 import extractImagesUrl from "@/assets/icons/extract-images.png";
 import grayscalePdfUrl from "@/assets/icons/grayscale-pdf.png";
+import headerFooterUrl from "@/assets/icons/header-footer.png";
 
 /**
  * AI-generated icon artwork for PDFfree tools.
@@ -78,6 +79,7 @@ export const TxtToPdfIcon = makeIcon(txtToPdfUrl, "TXT to PDF");
 export const PdfMetadataIcon = makeIcon(pdfMetadataUrl, "PDF Metadata Editor");
 export const ExtractImagesIcon = makeIcon(extractImagesUrl, "Extract Images from PDF");
 export const GrayscalePdfIcon = makeIcon(grayscalePdfUrl, "Grayscale PDF");
+export const HeaderFooterIcon = makeIcon(headerFooterUrl, "Add Header & Footer");
 
 
 export const toolIcons: Record<string, ComponentType<ToolIconProps>> = {
@@ -105,4 +107,5 @@ export const toolIcons: Record<string, ComponentType<ToolIconProps>> = {
   "pdf-metadata": PdfMetadataIcon,
   "extract-images": ExtractImagesIcon,
   "grayscale-pdf": GrayscalePdfIcon,
+  "header-footer": HeaderFooterIcon,
 };
