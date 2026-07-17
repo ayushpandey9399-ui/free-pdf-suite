@@ -31,8 +31,8 @@ function Home() {
         />
         <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 pt-8 pb-4 sm:pt-10 sm:pb-5 text-center">
           <h1
-            className="mx-auto max-w-[820px] font-bold tracking-tight text-[26px] sm:text-[32px] lg:text-[36px] leading-[1.15]"
-            style={{ color: "#33333c", letterSpacing: "-0.02em" }}
+            className="mx-auto max-w-[880px] font-bold tracking-tight text-[36px] sm:text-[48px] lg:text-[56px] leading-[1.08]"
+            style={{ color: "#33333c", letterSpacing: "-0.025em" }}
           >
             Every tool you need to work with PDFs in one place
           </h1>
