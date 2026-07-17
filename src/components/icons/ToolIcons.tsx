@@ -82,7 +82,7 @@ function Sheet({
 
 /* ---------- Icon factory ---------- */
 
-type IconInner = (p: Palette) => JSX.Element;
+type IconInner = (p: Palette) => ReactElement;
 
 function makeIcon(inner: IconInner, palette: Palette, label: string): ComponentType<ToolIconProps> {
   const Comp = ({ size = 64, className, title }: ToolIconProps) => (
