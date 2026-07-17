@@ -96,4 +96,6 @@ export const toolIcons: Record<string, ComponentType<ToolIconProps>> = {
   "unlock-pdf": UnlockPdfIcon,
   "edit-pdf": EditPdfIcon,
   "flatten-pdf": FlattenPdfIcon,
+  "txt-to-pdf": TxtToPdfIcon,
+  "pdf-metadata": PdfMetadataIcon,
 };
