@@ -18,6 +18,5 @@ export async function renderPdfThumbnails(file: File, maxWidth = 160): Promise<s
     await page.render({ canvasContext: ctx, viewport: vp, canvas } as never).promise;
     out.push(canvas.toDataURL("image/png"));
   }
-  await doc.destroy();
   return out;
 }
