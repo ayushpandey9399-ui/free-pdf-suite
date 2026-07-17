@@ -32,6 +32,7 @@ const meta: Omit<ToolMeta, "icon">[] = [
   { slug: "images-to-pdf", name: "Image to PDF", description: "Convert JPG and PNG images to PDF. Adjust orientation and margins.", category: "Convert PDF", Component: lazy(() => import("./images-to-pdf")) },
   { slug: "pdf-to-images", name: "PDF to Image", description: "Convert each PDF page into a high-quality JPG or PNG image.", category: "Convert PDF", Component: lazy(() => import("./pdf-to-images")) },
   { slug: "pdf-to-text", name: "PDF to Text", description: "Extract all text from your PDF and copy or download it as .txt.", category: "Convert PDF", Component: lazy(() => import("./pdf-to-text")) },
+  { slug: "txt-to-pdf", name: "TXT to PDF", description: "Convert plain text files into a clean, readable PDF document.", category: "Convert PDF", Component: lazy(() => import("./txt-to-pdf")) },
   { slug: "page-numbers", name: "Page Numbers", description: "Add page numbers with custom position, font size and starting value.", category: "Edit PDF", Component: lazy(() => import("./page-numbers")) },
   { slug: "watermark", name: "Add Watermark", description: "Stamp text or an image over your PDF with adjustable opacity.", category: "Edit PDF", Component: lazy(() => import("./watermark")) },
   { slug: "crop", name: "Crop PDF", description: "Trim margins and adjust the visible area of every page.", category: "Edit PDF", Component: lazy(() => import("./crop")) },
