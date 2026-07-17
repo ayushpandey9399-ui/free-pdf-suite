@@ -71,6 +71,14 @@ export function Navbar() {
             >
               Split PDF
             </Link>
+            <Link
+              to="/tools/$slug"
+              params={{ slug: "compress" }}
+              className="font-bold uppercase transition-colors hover:text-[#e5322d]"
+              style={NAV_STYLE}
+            >
+              Compress PDF
+            </Link>
 
             {/* Convert PDF dropdown */}
             <div
