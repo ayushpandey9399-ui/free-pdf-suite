@@ -243,6 +243,7 @@ function ToolPage() {
       {isSplit && <SplitPdfSeo />}
       {isSign && <SignPdfSeo />}
       {isPdfToImages && <PdfToImagesSeo />}
+      {isRedact && <RedactPdfSeo />}
     </>
   );
 }
