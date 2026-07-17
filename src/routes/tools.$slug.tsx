@@ -212,6 +212,7 @@ function ToolPage() {
       {isCompress && <CompressPdfSeo />}
       {isSplit && <SplitPdfSeo />}
       {isSign && <SignPdfSeo />}
+      {isPdfToImages && <PdfToImagesSeo />}
     </>
   );
 }
