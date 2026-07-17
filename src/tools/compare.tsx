@@ -147,7 +147,12 @@ export default function Compare() {
         />
       ) : (
         <>
-          <ActionBar onRun={run} disabled={!a[0] || !b[0]} loading={loading} label="Compare PDFs" />
+          <ActionBar
+            onRun={run}
+            disabled={!a[0] || !b[0]}
+            loading={loading}
+            label={loading ? "Comparing PDFs…" : "Compare PDFs"}
+          />
           {docA && docB && (
             <div className="mt-6 space-y-4">
               {/* Mode toggle */}
@@ -192,12 +197,23 @@ export default function Compare() {
               ) : (
                 <TextDiffView diff={textDiff} />
               )}
+
+              <CompareNextSteps
+                onReset={() => {
+                  setA([]);
+                  setB([]);
+                  setDocA(null);
+                  setDocB(null);
+                  setMode("visual");
+                }}
+              />
             </div>
           )}
         </>
       )}
     </div>
   );
+
 }
 
 function TextDiffView({ diff }: { diff: { lines: LineDiff[]; changedLines: number } | null }) {
