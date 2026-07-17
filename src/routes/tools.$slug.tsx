@@ -616,6 +616,7 @@ function ToolPage() {
       {isPdfToText && <PdfToTextSeo />}
       {isTxtToPdf && <TxtToPdfSeo />}
       {isPageNumbers && <PageNumbersSeo />}
+      {isHeaderFooter && <HeaderFooterSeo />}
     </>
   );
 }
