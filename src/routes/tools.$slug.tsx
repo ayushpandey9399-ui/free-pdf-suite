@@ -152,6 +152,7 @@ function ToolPage() {
   const isMerge = slug === "merge";
   const isCompress = slug === "compress";
   const isSplit = slug === "split";
+  const isSign = slug === "sign-pdf";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
@@ -159,6 +160,8 @@ function ToolPage() {
     ? "Compress PDF Online — Reduce File Size, 100% Private"
     : isSplit
     ? "Split PDF Online — Separate Pages, 100% Private"
+    : isSign
+    ? "Sign PDF Online — Free Electronic Signature, 100% Private"
     : tool.name;
 
   return (
