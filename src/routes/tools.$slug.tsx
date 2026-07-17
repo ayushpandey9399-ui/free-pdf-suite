@@ -769,6 +769,7 @@ function ToolPage() {
   const isPdfMetadata = slug === "pdf-metadata";
   const isGrayscale = slug === "grayscale-pdf";
   const isAddBlankPages = slug === "add-blank-pages";
+  const isScanToPdf = slug === "scan-to-pdf";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
