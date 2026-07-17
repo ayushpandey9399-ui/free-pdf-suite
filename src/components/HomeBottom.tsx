@@ -36,28 +36,28 @@ function PrivacyStory() {
         <div className="grid gap-10 lg:grid-cols-5 lg:gap-14 items-center">
           <div className="lg:col-span-3">
             <h2
-              className="text-[24px] sm:text-[32px] font-bold leading-tight"
-              style={{ color: INK }}
+              className="text-[24px] sm:text-[32px] font-bold leading-tight tracking-tight"
+              style={{ color: INK, letterSpacing: "-0.02em" }}
             >
-              Your files never leave your device
+              Your files stay on your device
             </h2>
             <p
               className="mt-5 text-[16px]"
               style={{ color: MUTED, lineHeight: 1.7 }}
             >
-              Every PDFfree tool runs entirely in your browser. When you merge,
-              compress, sign or redact a PDF here, the work happens on your own
-              computer or phone — powered by the same technology that runs
-              modern web apps.
+              Every tool on this page processes your files in your browser. When
+              you merge, compress, sign or redact a PDF here, the work happens
+              on your own computer or phone — powered by the same technology
+              that runs modern web apps.
             </p>
             <p
               className="mt-4 text-[16px]"
               style={{ color: MUTED, lineHeight: 1.7 }}
             >
-              There is no upload button because there is no server waiting for
-              your files. Nothing is transmitted, nothing is stored, and nobody
-              — including us — ever sees your documents. Close the tab, and no
-              trace of your file remains anywhere.
+              These tools have no upload step — your file opens directly in
+              your browser and the processing happens right there. Nothing is
+              transmitted, nothing is stored, and nobody — including us — sees
+              your documents. Close the tab, and no trace of your file remains.
             </p>
             <p
               className="mt-4 text-[14px]"
