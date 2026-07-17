@@ -761,6 +761,8 @@ function ToolPage() {
     ? "Flatten PDF — Lock Form Fields Into Permanent Content"
     : isPdfMetadata
     ? "PDF Metadata Editor — View, Edit or Remove Hidden Properties"
+    : isGrayscale
+    ? "Convert PDF to Grayscale — Black & White, 100% Private"
     : tool.name;
 
   return (
