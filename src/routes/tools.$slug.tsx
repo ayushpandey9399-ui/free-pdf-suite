@@ -717,6 +717,30 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "extract-images") {
+      const title = "Extract Images from PDF Online Free — Save Original Photos | PDFfree";
+      const desc = "Extract images from PDF online free — pull out the original embedded photos at full quality, in your browser. No upload, no signup.";
+      const url = "/tools/extract-images";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(extractImagesFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(extractImagesHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(extractImagesSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
