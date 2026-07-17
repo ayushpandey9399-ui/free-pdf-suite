@@ -234,10 +234,14 @@ async function scanImages(
         if (f === "/DCTDecode" || f === "/JPXDecode") {
           terminal = f;
           break;
-        } else if (f === "/FlateDecode") {
+        } else if (f === "/FlateDecode" || f === "/Fl") {
           data = await inflateFlate(data);
+        } else if (f === "/ASCII85Decode" || f === "/A85") {
+          data = decodeAscii85(data);
+        } else if (f === "/ASCIIHexDecode" || f === "/AHx") {
+          data = decodeAsciiHex(data);
         } else {
-          // Unsupported wrapper (LZW, ASCII85, CCITTFax, JBIG2, etc.) — skip.
+          // Unsupported wrapper (LZW, CCITTFax, JBIG2, RunLength) — skip.
           skip = true;
           break;
         }
