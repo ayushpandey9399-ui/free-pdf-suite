@@ -77,7 +77,7 @@ export default function ImagesToPdf() {
 
   return (
     <div>
-      <FileDropzone accept="image/png,image/jpeg" multiple files={files} onFilesChange={setFiles} label="Drop JPG / PNG images or click to browse" />
+      <FileDropzone accept="image/png,image/jpeg" multiple files={files} onFilesChange={setFiles} buttonLabel="Select images" hint="or drop JPG / PNG images here" />
       {files.length > 0 && (
         <div className="mt-6 grid gap-4 sm:grid-cols-3 rounded-xl border bg-card p-4">
           <div>

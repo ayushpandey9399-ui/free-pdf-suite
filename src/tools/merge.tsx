@@ -86,6 +86,8 @@ export default function Merge() {
       <FileDropzone
         accept="application/pdf"
         multiple
+        hideList
+        buttonLabel="Select PDF files"
         files={files}
         onFilesChange={(next) =>
           setFiles((prev) => {

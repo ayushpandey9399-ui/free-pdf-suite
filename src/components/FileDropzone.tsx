@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from "react";
-import { UploadCloud, X, FileText } from "lucide-react";
+import { X, FileText, Lock } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -9,6 +9,13 @@ export interface FileDropzoneProps {
   files: File[];
   onFilesChange: (files: File[]) => void;
   maxSizeMB?: number;
+  /** Button label for the empty state, e.g. "Select PDF files". */
+  buttonLabel?: string;
+  /** Small hint text under the button, e.g. "or drop PDFs here". */
+  hint?: string;
+  /** Skip the built-in selected-file list (when the tool renders its own list/thumbnails). */
+  hideList?: boolean;
+  /** Legacy: previously rendered as heading in dashed box; kept for back-compat. */
   label?: string;
 }
 
@@ -18,6 +25,9 @@ export function FileDropzone({
   files,
   onFilesChange,
   maxSizeMB = 100,
+  buttonLabel,
+  hint,
+  hideList,
   label,
 }: FileDropzoneProps) {
   const [dragging, setDragging] = useState(false);
@@ -45,109 +55,122 @@ export function FileDropzone({
 
   const openPicker = () => inputRef.current?.click();
 
+  const isPdf = accept.includes("pdf");
+  const defaultBtn = buttonLabel ?? (isPdf ? (multiple ? "Select PDF files" : "Select PDF file") : label ?? "Select files");
+  const defaultHint = hint ?? (isPdf ? (multiple ? "or drop PDFs here" : "or drop a PDF here") : "or drop files here");
+
   return (
     <div className="w-full">
-      <div
-        role="button"
-        tabIndex={0}
-        aria-label={label ?? "Upload files"}
-        onClick={openPicker}
-        onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && openPicker()}
-        onDragOver={(e) => {
-          e.preventDefault();
-          setDragging(true);
-        }}
-        onDragLeave={() => setDragging(false)}
-        onDrop={(e) => {
-          e.preventDefault();
-          setDragging(false);
-          if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
-        }}
-        className={cn(
-          "group flex flex-col items-center justify-center gap-4 rounded-2xl border-2 border-dashed px-6 py-14 text-center cursor-pointer transition-all",
-          dragging
-            ? "border-[#e5322d] bg-[#fff6f5]"
-            : "border-[#f0c9c7] bg-[#fffaf9] hover:border-[#e5322d] hover:bg-[#fff6f5]",
-        )}
-      >
+      {files.length === 0 && (
         <div
-          className="grid h-16 w-16 place-items-center rounded-2xl text-white transition-transform group-hover:-translate-y-0.5"
-          style={{
-            backgroundImage: "linear-gradient(135deg, #ff5a5f, #e5322d)",
-            boxShadow: "0 14px 28px -10px rgba(229,50,45,0.5)",
+          onDragOver={(e) => {
+            e.preventDefault();
+            setDragging(true);
           }}
+          onDragLeave={() => setDragging(false)}
+          onDrop={(e) => {
+            e.preventDefault();
+            setDragging(false);
+            if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
+          }}
+          className={cn(
+            "flex flex-col items-center justify-center gap-4 rounded-2xl py-10 transition-colors",
+            dragging ? "bg-[#fff6f5]" : "bg-transparent",
+          )}
         >
-          <UploadCloud className="h-7 w-7" strokeWidth={2} />
-        </div>
-        <div>
-          <p className="text-[17px] font-bold" style={{ color: "#33333c" }}>
-            {label ?? "Drag & drop your PDF here"}
+          <button
+            type="button"
+            onClick={openPicker}
+            className="inline-flex items-center justify-center rounded-xl px-10 py-4 text-[15px] font-bold uppercase text-white transition-all duration-150 hover:scale-[1.02]"
+            style={{
+              backgroundColor: "#e5322d",
+              letterSpacing: "0.04em",
+              boxShadow: "0 10px 28px -8px rgba(229,50,45,0.55)",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#c72620")}
+            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#e5322d")}
+          >
+            {defaultBtn}
+          </button>
+          <p className="text-[13px]" style={{ color: "#7a7a86" }}>
+            {defaultHint}
           </p>
-          <p className="mt-1 text-[13px]" style={{ color: "#7a7a86" }}>
-            {multiple ? "or click to browse — select multiple files" : "or click to browse"} · max{" "}
-            {maxSizeMB}MB
+          <p className="inline-flex items-center gap-1.5 text-[12px]" style={{ color: "#7a7a86" }}>
+            <Lock className="h-3 w-3" /> 100% private — processed on your device
           </p>
+          <input
+            ref={inputRef}
+            type="file"
+            accept={accept}
+            multiple={multiple}
+            className="hidden"
+            onChange={(e) => {
+              if (e.target.files?.length) addFiles(e.target.files);
+              e.target.value = "";
+            }}
+          />
         </div>
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            openPicker();
-          }}
-          className="inline-flex items-center rounded-lg px-6 py-2.5 text-sm font-bold uppercase text-white transition-colors hover:bg-[#c72620]"
-          style={{ backgroundColor: "#e5322d", letterSpacing: "0.04em" }}
-        >
-          Select File
-        </button>
-        <input
-          ref={inputRef}
-          type="file"
-          accept={accept}
-          multiple={multiple}
-          className="hidden"
-          onChange={(e) => {
-            if (e.target.files?.length) addFiles(e.target.files);
-            e.target.value = "";
-          }}
-        />
-      </div>
+      )}
 
-
-      {files.length > 0 && (
-        <ul className="mt-5 space-y-2">
-          {files.map((f, i) => (
-            <li
-              key={`${f.name}-${i}`}
-              className="flex items-center justify-between rounded-xl bg-white px-3 py-2.5"
-              style={{ border: "1px solid #ececef" }}
-            >
-              <div className="flex min-w-0 items-center gap-3">
-                <div
-                  className="grid h-9 w-9 shrink-0 place-items-center rounded-lg"
-                  style={{ backgroundColor: "#fdeceb", color: "#e5322d" }}
+      {files.length > 0 && !hideList && (
+        <>
+          <input
+            ref={inputRef}
+            type="file"
+            accept={accept}
+            multiple={multiple}
+            className="hidden"
+            onChange={(e) => {
+              if (e.target.files?.length) addFiles(e.target.files);
+              e.target.value = "";
+            }}
+          />
+          <ul className="space-y-2">
+            {files.map((f, i) => (
+              <li
+                key={`${f.name}-${i}`}
+                className="flex items-center justify-between rounded-xl bg-white px-3 py-2.5"
+                style={{ border: "1px solid #ececef" }}
+              >
+                <div className="flex min-w-0 items-center gap-3">
+                  <div
+                    className="grid h-9 w-9 shrink-0 place-items-center rounded-lg"
+                    style={{ backgroundColor: "#fdeceb", color: "#e5322d" }}
+                  >
+                    <FileText className="h-4 w-4" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-semibold" style={{ color: "#33333c" }}>
+                      {f.name}
+                    </p>
+                    <p className="text-[11px]" style={{ color: "#7a7a86" }}>
+                      {(f.size / 1024 / 1024).toFixed(2)} MB
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  aria-label={`Remove ${f.name}`}
+                  onClick={() => onFilesChange(files.filter((_, j) => j !== i))}
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-[#7a7a86] hover:bg-[#f6f4f9] hover:text-[#e5322d]"
                 >
-                  <FileText className="h-4 w-4" />
-                </div>
-                <div className="min-w-0">
-                  <p className="truncate text-sm font-semibold" style={{ color: "#33333c" }}>
-                    {f.name}
-                  </p>
-                  <p className="text-[11px]" style={{ color: "#7a7a86" }}>
-                    {(f.size / 1024 / 1024).toFixed(2)} MB
-                  </p>
-                </div>
-              </div>
+                  <X className="h-4 w-4" />
+                </button>
+              </li>
+            ))}
+          </ul>
+          {multiple && (
+            <div className="mt-3">
               <button
                 type="button"
-                aria-label={`Remove ${f.name}`}
-                onClick={() => onFilesChange(files.filter((_, j) => j !== i))}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-[#7a7a86] hover:bg-[#f6f4f9] hover:text-[#e5322d]"
+                onClick={openPicker}
+                className="text-[13px] font-semibold text-[#e5322d] hover:underline"
               >
-                <X className="h-4 w-4" />
+                + Add more files
               </button>
-            </li>
-          ))}
-        </ul>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
