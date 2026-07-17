@@ -573,6 +573,7 @@ function ToolPage() {
   const isTxtToPdf = slug === "txt-to-pdf";
   const isPageNumbers = slug === "page-numbers";
   const isHeaderFooter = slug === "header-footer";
+  const isCrop = slug === "crop";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
