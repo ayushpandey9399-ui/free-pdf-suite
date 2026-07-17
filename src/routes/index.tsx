@@ -205,7 +205,7 @@ function HeroMockup() {
         className="absolute -top-5 -left-4 sm:-left-10"
         rotate={-8}
         delay="0s"
-        icon={<FileText className="h-5 w-5" />}
+        icon={<FileText size={20} strokeWidth={2} />}
         iconBg="#fdeceb"
         iconFg="#e5322d"
         title="Report_2026.pdf"
@@ -216,8 +216,8 @@ function HeroMockup() {
         rotate={7}
         delay="0.6s"
         icon={<ImageIcon size={20} strokeWidth={2} />}
-        iconBg="#fff3e6"
-        iconFg="#f28c1e"
+        iconBg="#fdeceb"
+        iconFg="#e5322d"
         title="Scan_page.jpg"
         subtitle="1.1 MB"
       />
@@ -226,8 +226,8 @@ function HeroMockup() {
         rotate={-5}
         delay="1.2s"
         icon={<Scissors size={20} strokeWidth={2} />}
-        iconBg="#eef1fd"
-        iconFg="#6d5efc"
+        iconBg="#fdeceb"
+        iconFg="#e5322d"
         title="Invoice.pdf"
         subtitle="380 KB"
       />
