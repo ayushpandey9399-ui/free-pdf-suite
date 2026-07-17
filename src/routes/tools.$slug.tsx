@@ -802,6 +802,7 @@ function ToolPage() {
       {isFillForms && <FillFormsSeo />}
       {isFlattenPdf && <FlattenPdfSeo />}
       {isPdfMetadata && <PdfMetadataSeo />}
+      {isGrayscale && <GrayscalePdfSeo />}
     </>
   );
 }
