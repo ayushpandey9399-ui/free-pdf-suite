@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import { Loader2 } from "lucide-react";
 import { ToolLayout } from "@/components/ToolLayout";
 import { ClientOnly } from "@/components/ClientOnly";
-import { getTool } from "@/tools/registry";
+import { getTool, categoryTint } from "@/tools/registry";
 
 export const Route = createFileRoute("/tools/$slug")({
   loader: ({ params }) => {
@@ -37,7 +37,12 @@ function ToolPage() {
   );
 
   return (
-    <ToolLayout title={tool.name} description={tool.description}>
+    <ToolLayout
+      title={tool.name}
+      description={tool.description}
+      icon={tool.icon}
+      tint={categoryTint[tool.category]}
+    >
       <ClientOnly fallback={fallback}>
         <Suspense fallback={fallback}>
           <Comp />

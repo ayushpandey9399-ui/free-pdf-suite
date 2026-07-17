@@ -1,21 +1,21 @@
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft, Lock, type LucideIcon } from "lucide-react";
-import { getTool, categoryTint } from "@/tools/registry";
 
 export function ToolLayout({
   title,
   description,
+  icon: Icon,
+  tint,
   children,
 }: {
   title: string;
   description: string;
+  icon?: LucideIcon;
+  tint?: { bg: string; fg: string };
   children: ReactNode;
 }) {
-  const tool = getTool(slugFromTitle(title));
-  const Icon: LucideIcon | undefined = tool?.icon;
-  const tint = tool ? categoryTint[tool.category] : { bg: "#fdeceb", fg: "#e5322d" };
-
+  const t = tint ?? { bg: "#fdeceb", fg: "#e5322d" };
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:py-12">
       <Link
@@ -30,7 +30,7 @@ export function ToolLayout({
         {Icon && (
           <div
             className="grid h-14 w-14 place-items-center rounded-2xl"
-            style={{ backgroundColor: tint.bg, color: tint.fg }}
+            style={{ backgroundColor: t.bg, color: t.fg }}
           >
             <Icon size={26} strokeWidth={2} />
           </div>
@@ -56,12 +56,4 @@ export function ToolLayout({
       <div className="mt-10">{children}</div>
     </div>
   );
-}
-
-function slugFromTitle(title: string): string {
-  return title
-    .toLowerCase()
-    .replace(/pdf/g, "pdf")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
 }
