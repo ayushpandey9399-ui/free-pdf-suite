@@ -431,6 +431,8 @@ function ToolPage() {
     ? "Delete Pages from PDF — Remove Unwanted Pages, 100% Private"
     : isExtractPages
     ? "Extract Pages from PDF — Save Only the Pages You Need"
+    : isReorderPages
+    ? "Reorder PDF Pages — Drag, Drop, Done. 100% Private"
     : tool.name;
 
   return (
