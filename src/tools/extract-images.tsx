@@ -41,6 +41,59 @@ async function inflateFlate(data: Uint8Array): Promise<Uint8Array> {
   return new Uint8Array(buf);
 }
 
+function decodeAscii85(data: Uint8Array): Uint8Array {
+  // Strip whitespace and optional <~ ... ~> wrappers.
+  const chars: number[] = [];
+  for (let i = 0; i < data.length; i++) {
+    const c = data[i];
+    if (c === 0x7e) break; // '~' end marker
+    if (c <= 0x20) continue; // whitespace
+    if (c === 0x3c) continue; // '<'
+    chars.push(c);
+  }
+  const out: number[] = [];
+  let i = 0;
+  while (i < chars.length) {
+    if (chars[i] === 0x7a) { // 'z' = 4 zero bytes
+      out.push(0, 0, 0, 0);
+      i++;
+      continue;
+    }
+    const group: number[] = [];
+    while (group.length < 5 && i < chars.length) {
+      group.push(chars[i++] - 33);
+    }
+    const pad = 5 - group.length;
+    while (group.length < 5) group.push(84); // 'u' - 33
+    let num = 0;
+    for (let k = 0; k < 5; k++) num = num * 85 + group[k];
+    const bytes = [
+      (num >>> 24) & 0xff,
+      (num >>> 16) & 0xff,
+      (num >>> 8) & 0xff,
+      num & 0xff,
+    ];
+    for (let k = 0; k < 4 - pad; k++) out.push(bytes[k]);
+  }
+  return new Uint8Array(out);
+}
+
+function decodeAsciiHex(data: Uint8Array): Uint8Array {
+  const hex: number[] = [];
+  for (let i = 0; i < data.length; i++) {
+    const c = data[i];
+    if (c === 0x3e) break; // '>'
+    if (c <= 0x20) continue;
+    hex.push(c);
+  }
+  const out = new Uint8Array(Math.floor(hex.length / 2));
+  for (let i = 0; i < out.length; i++) {
+    out[i] = parseInt(String.fromCharCode(hex[i * 2], hex[i * 2 + 1]), 16);
+  }
+  return out;
+}
+
+
 async function rawPixelsToPng(
   data: Uint8Array,
   w: number,
