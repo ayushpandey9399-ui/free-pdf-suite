@@ -11,6 +11,7 @@ import { SignPdfSeo, signFaqJsonLd, signHowToJsonLd, signSoftwareJsonLd } from "
 import { PdfToImagesSeo, pdfToImagesFaqJsonLd, pdfToImagesHowToJsonLd, pdfToImagesSoftwareJsonLd } from "@/components/PdfToImagesSeo";
 import { RedactPdfSeo, redactFaqJsonLd, redactHowToJsonLd, redactSoftwareJsonLd } from "@/components/RedactPdfSeo";
 import { ProtectPdfSeo, protectFaqJsonLd, protectHowToJsonLd, protectSoftwareJsonLd } from "@/components/ProtectPdfSeo";
+import { UnlockPdfSeo, unlockFaqJsonLd, unlockHowToJsonLd, unlockSoftwareJsonLd } from "@/components/UnlockPdfSeo";
 
 
 export const Route = createFileRoute("/tools/$slug")({
@@ -202,6 +203,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "unlock-pdf") {
+      const title =
+        "Unlock PDF Online Free — Remove Password Without Uploading | PDFfree";
+      const desc =
+        "Remove password from PDF online free — decrypt in your browser with the password you know. File and password never leave your device. No signup.";
+      const url = "/tools/unlock-pdf";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(unlockFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(unlockHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(unlockSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
@@ -237,6 +264,7 @@ function ToolPage() {
   const isPdfToImages = slug === "pdf-to-images";
   const isRedact = slug === "redact-pdf";
   const isProtect = slug === "protect-pdf";
+  const isUnlock = slug === "unlock-pdf";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
@@ -252,6 +280,8 @@ function ToolPage() {
     ? "Redact PDF Online — Permanently Remove Sensitive Information"
     : isProtect
     ? "Password Protect PDF — Free AES-256 Encryption, 100% Private"
+    : isUnlock
+    ? "Unlock PDF — Remove Password From PDF, 100% Private"
     : tool.name;
 
   return (
@@ -275,6 +305,7 @@ function ToolPage() {
       {isPdfToImages && <PdfToImagesSeo />}
       {isRedact && <RedactPdfSeo />}
       {isProtect && <ProtectPdfSeo />}
+      {isUnlock && <UnlockPdfSeo />}
     </>
   );
 }
