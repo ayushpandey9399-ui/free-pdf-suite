@@ -4,23 +4,59 @@ import { Loader2 } from "lucide-react";
 import { ToolLayout } from "@/components/ToolLayout";
 import { ClientOnly } from "@/components/ClientOnly";
 import { getTool, categoryTint } from "@/tools/registry";
+import { MergePdfSeo, mergeFaqJsonLd, mergeSoftwareJsonLd } from "@/components/MergePdfSeo";
 
 export const Route = createFileRoute("/tools/$slug")({
   loader: ({ params }) => {
     const tool = getTool(params.slug);
     if (!tool) throw notFound();
-    return { name: tool.name, description: tool.description };
+    return { slug: tool.slug, name: tool.name, description: tool.description };
   },
-  head: ({ loaderData }) => ({
-    meta: loaderData
-      ? [
-          { title: `${loaderData.name} — PDFFree` },
-          { name: "description", content: loaderData.description },
-          { property: "og:title", content: `${loaderData.name} — PDFFree` },
-          { property: "og:description", content: loaderData.description },
-        ]
-      : [{ title: "Tool — PDFFree" }],
-  }),
+  head: ({ loaderData, params }) => {
+    if (loaderData?.slug === "merge") {
+      const title =
+        "Merge PDF Online Free — Combine PDF Files Without Uploading | PDFfree";
+      const desc =
+        "Merge PDF online free — combine PDF files in your browser with no upload. Your files never leave your device. No signup, no watermark, no limits.";
+      const url = "/tools/merge";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          {
+            type: "application/ld+json",
+            children: JSON.stringify(mergeFaqJsonLd),
+          },
+          {
+            type: "application/ld+json",
+            children: JSON.stringify(mergeSoftwareJsonLd),
+          },
+        ],
+      };
+    }
+    return {
+      meta: loaderData
+        ? [
+            { title: `${loaderData.name} — PDFfree` },
+            { name: "description", content: loaderData.description },
+            { property: "og:title", content: `${loaderData.name} — PDFfree` },
+            { property: "og:description", content: loaderData.description },
+            { property: "og:url", content: `/tools/${params.slug}` },
+          ]
+        : [{ title: "Tool — PDFfree" }],
+      links: loaderData ? [{ rel: "canonical", href: `/tools/${params.slug}` }] : [],
+    };
+  },
   component: ToolPage,
 });
 
@@ -36,18 +72,23 @@ function ToolPage() {
     </div>
   );
 
+  const isMerge = slug === "merge";
+
   return (
-    <ToolLayout
-      title={tool.name}
-      description={tool.description}
-      icon={tool.icon}
-      tint={categoryTint[tool.category]}
-    >
-      <ClientOnly fallback={fallback}>
-        <Suspense fallback={fallback}>
-          <Comp />
-        </Suspense>
-      </ClientOnly>
-    </ToolLayout>
+    <>
+      <ToolLayout
+        title={isMerge ? "Merge PDF Files Online — Free & 100% Private" : tool.name}
+        description={tool.description}
+        icon={tool.icon}
+        tint={categoryTint[tool.category]}
+      >
+        <ClientOnly fallback={fallback}>
+          <Suspense fallback={fallback}>
+            <Comp />
+          </Suspense>
+        </ClientOnly>
+      </ToolLayout>
+      {isMerge && <MergePdfSeo />}
+    </>
   );
 }
