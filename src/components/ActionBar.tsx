@@ -29,22 +29,25 @@ export function ActionBar({
             </p>
           </div>
         )}
-        <button
-          type="button"
-          onClick={onRun}
-          disabled={disabled || loading}
-          className="inline-flex w-full items-center justify-center rounded-xl px-6 py-4 text-[15px] font-bold uppercase text-white transition-all hover:-translate-y-0.5 hover:bg-[#c72620] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
-          style={{ backgroundColor: "#e5322d", letterSpacing: "0.04em" }}
-        >
-          {loading ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Processing…
-            </>
-          ) : (
-            label
-          )}
-        </button>
+        <div className="flex justify-center">
+          <button
+            type="button"
+            onClick={onRun}
+            disabled={disabled || loading}
+            className="inline-flex items-center justify-center rounded-xl px-8 py-3.5 text-[15px] font-bold uppercase text-white transition-all hover:-translate-y-0.5 hover:bg-[#c72620] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
+            style={{ backgroundColor: "#e5322d", letterSpacing: "0.04em" }}
+          >
+            {loading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Processing…
+              </>
+            ) : (
+              label
+            )}
+          </button>
+        </div>
       </div>
+
 
       {/* Mobile sticky bar */}
       <div
