@@ -4,7 +4,7 @@ import { Loader2 } from "lucide-react";
 import { ToolLayout } from "@/components/ToolLayout";
 import { ClientOnly } from "@/components/ClientOnly";
 import { getTool, categoryTint } from "@/tools/registry";
-import { MergePdfSeo, mergeFaqJsonLd, mergeSoftwareJsonLd } from "@/components/MergePdfSeo";
+import { MergePdfSeo, mergeFaqJsonLd, mergeHowToJsonLd, mergeSoftwareJsonLd } from "@/components/MergePdfSeo";
 
 export const Route = createFileRoute("/tools/$slug")({
   loader: ({ params }) => {
@@ -17,7 +17,7 @@ export const Route = createFileRoute("/tools/$slug")({
       const title =
         "Merge PDF Online Free — Combine PDF Files Without Uploading | PDFfree";
       const desc =
-        "Merge PDF online free — combine PDF files in your browser with no upload. Your files never leave your device. No signup, no watermark, no limits.";
+        "Merge PDF files online free — no upload, no signup, no watermark. Your files never leave your device. Combine PDFs on any browser in seconds.";
       const url = "/tools/merge";
       return {
         meta: [
@@ -33,14 +33,9 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
         links: [{ rel: "canonical", href: url }],
         scripts: [
-          {
-            type: "application/ld+json",
-            children: JSON.stringify(mergeFaqJsonLd),
-          },
-          {
-            type: "application/ld+json",
-            children: JSON.stringify(mergeSoftwareJsonLd),
-          },
+          { type: "application/ld+json", children: JSON.stringify(mergeFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(mergeHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(mergeSoftwareJsonLd) },
         ],
       };
     }
@@ -77,7 +72,7 @@ function ToolPage() {
   return (
     <>
       <ToolLayout
-        title={isMerge ? "Merge PDF Files Online — Free & 100% Private" : tool.name}
+        title={isMerge ? "Merge PDF Files Online — Free, Private, No Uploads" : tool.name}
         description={tool.description}
         icon={tool.icon}
         tint={categoryTint[tool.category]}
