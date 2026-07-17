@@ -292,6 +292,7 @@ function ToolPage() {
   const isRedact = slug === "redact-pdf";
   const isProtect = slug === "protect-pdf";
   const isUnlock = slug === "unlock-pdf";
+  const isWatermark = slug === "watermark";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
