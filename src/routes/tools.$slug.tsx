@@ -474,6 +474,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "header-footer") {
+      const title =
+        "Add Header & Footer to PDF Online Free — Text, Date, Page Numbers | PDFfree";
+      const desc =
+        "Add headers and footers to PDF online free — title, date, filename or page numbers on every page, in your browser. No upload, no signup.";
+      const url = "/tools/header-footer";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(headerFooterFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(headerFooterHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(headerFooterSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
