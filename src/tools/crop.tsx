@@ -73,7 +73,7 @@ export default function Crop() {
         if (cancelled) return;
         setPreview({ url: canvas.toDataURL("image/png"), w: vp1.width, h: vp1.height });
       } catch (e) {
-        toast.error(`Preview failed: ${(e as Error).message}`);
+        if (!isPdfPasswordError(e)) toast.error(`Preview failed: ${(e as Error).message}`);
       }
     })();
     return () => { cancelled = true; };
