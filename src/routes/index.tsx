@@ -12,15 +12,10 @@ const filters: Filter[] = ["All", ...categories];
 function Home() {
   const [active, setActive] = useState<Filter>("All");
 
-  const grouped = useMemo(() => {
-    if (active === "All") {
-      return categories.map((cat) => ({
-        cat,
-        items: tools.filter((t) => t.category === cat),
-      }));
-    }
-    return [{ cat: active, items: tools.filter((t) => t.category === active) }];
-  }, [active]);
+  const visible = useMemo(
+    () => (active === "All" ? tools : tools.filter((t) => t.category === active)),
+    [active],
+  );
 
   return (
     <div style={{ backgroundColor: "#ffffff", color: "#33333c" }}>
