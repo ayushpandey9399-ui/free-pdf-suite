@@ -89,19 +89,7 @@ const faqs = [
   },
   {
     q: "How do I remove blank pages automatically?",
-    a: (
-      <>
-        For a handful of blanks you can spot at a glance, this tool is faster —
-        click the blank thumbnails and hit Delete. If you have a large bundle
-        where blanks are scattered throughout and you don't want to hunt for
-        each one, use the{" "}
-        <Link to="/tools/remove-blank-pages" className="text-[#e5322d] underline">
-          Remove Blank Pages
-        </Link>{" "}
-        tool, which detects empty pages automatically and drops them without
-        needing you to click each thumbnail.
-      </>
-    ),
+    a: "This tool removes blank pages by click — the workspace shows a thumbnail of every page, so the blanks are the obviously white tiles you can spot at a glance. Click each blank thumbnail to mark it, watch the sidebar counter tick up as you go, then click Delete pages to drop them all in a single pass. For a duplex-scanned bundle of 30–50 pages this is usually faster than any auto-detect, because you can also skip a blank that is intentionally there (a page break, a chapter separator) instead of losing it.",
   },
   {
     q: "Can I delete pages on my phone?",
