@@ -102,7 +102,6 @@ const faqs = [
 ];
 
 const related = [
-  { to: "/tools/remove-blank-pages", name: "Remove Blank Pages", blurb: "Automatically detect and drop blank pages instead of clicking each thumbnail." },
   { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Keep a few pages instead of deleting many — pull just the pages you want into a new PDF." },
   { to: "/tools/split", name: "Split PDF", blurb: "Break a long PDF into several smaller PDFs by range." },
   { to: "/tools/redact-pdf", name: "Redact PDF", blurb: "Permanently hide sensitive text or areas on pages you're keeping." },
