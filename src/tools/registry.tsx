@@ -28,6 +28,7 @@ const meta: Omit<ToolMeta, "icon">[] = [
   { slug: "delete-pages", name: "Delete Pages", description: "Remove one or more unwanted pages from your PDF in seconds.", category: "Organize PDF", Component: lazy(() => import("./delete-pages")) },
   { slug: "extract-pages", name: "Extract Pages", description: "Pick specific pages and save them as a brand new PDF file.", category: "Organize PDF", Component: lazy(() => import("./extract-pages")) },
   { slug: "reorder-pages", name: "Reorder Pages", description: "Drag and drop pages to rearrange your PDF exactly how you want.", category: "Organize PDF", Component: lazy(() => import("./reorder-pages")) },
+  { slug: "add-blank-pages", name: "Add Blank Pages", description: "Insert empty pages anywhere in your PDF — for notes, printing, or separating sections.", category: "Organize PDF", Component: lazy(() => import("./add-blank-pages")) },
   { slug: "rotate", name: "Rotate PDF", description: "Rotate one page or the whole document by 90, 180 or 270 degrees.", category: "Organize PDF", Component: lazy(() => import("./rotate")) },
   { slug: "images-to-pdf", name: "Image to PDF", description: "Convert JPG and PNG images to PDF. Adjust orientation and margins.", category: "Convert PDF", Component: lazy(() => import("./images-to-pdf")) },
   { slug: "pdf-to-images", name: "PDF to Image", description: "Convert each PDF page into a high-quality JPG or PNG image.", category: "Convert PDF", Component: lazy(() => import("./pdf-to-images")) },
