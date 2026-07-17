@@ -119,12 +119,8 @@ function Home() {
                   e.currentTarget.style.borderColor = "#ececef";
                 }}
               >
-                <div
-                  className="grid h-[46px] w-[46px] place-items-center rounded-[11px] text-white"
-                  style={{ backgroundImage: categoryGradient[t.category] }}
-                >
-                  <Icon size={24} strokeWidth={2} className="text-white" />
-                </div>
+                <ToolBadge Icon={Icon} tint={categoryTint[t.category]} />
+
                 <h3
                   className="mt-4 font-bold text-[16.5px] leading-snug"
                   style={{ color: "#33333c" }}
