@@ -26,7 +26,7 @@ export function ToolLayout({
       </Link>
 
       <div className="mt-5 flex flex-col items-center text-center">
-        {Icon && <Icon size={64} />}
+        {Icon && <Icon size={76} />}
         <h1
           className="mt-4 text-[30px] sm:text-[36px] font-bold tracking-tight"
           style={{ color: "#33333c", letterSpacing: "-0.02em" }}

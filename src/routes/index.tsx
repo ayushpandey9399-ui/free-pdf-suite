@@ -212,7 +212,7 @@ function Home() {
                 }}
               >
                 <div className="transition-transform duration-200 group-hover:scale-[1.05] group-hover:rotate-[2deg]">
-                  <Icon size={56} />
+                  <Icon size={68} />
                 </div>
 
                 <h3
