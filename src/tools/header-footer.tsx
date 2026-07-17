@@ -233,36 +233,8 @@ export default function HeaderFooter() {
     return s;
   };
 
-  const Section = ({ label, keys }: { label: string; keys: [Slot, Slot, Slot] }) => (
-    <div className="rounded-lg border p-3" style={{ borderColor: "#ececef" }}>
-      <div className="mb-2 text-xs font-semibold uppercase tracking-wide" style={{ color: "#4a4a55" }}>{label}</div>
-      <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-        {(["Left", "Center", "Right"] as const).map((lbl, i) => (
-          <Input
-            key={keys[i]}
-            placeholder={lbl}
-            value={slots[keys[i]]}
-            onFocus={() => { focusedSlotRef.current = keys[i]; }}
-            onChange={(e) => setSlot(keys[i], e.target.value)}
-          />
-        ))}
-      </div>
-      <div className="mt-2 flex flex-wrap gap-1.5">
-        {TOKENS.map((t) => (
-          <button
-            key={t}
-            type="button"
-            onMouseDown={(e) => e.preventDefault()}
-            onClick={() => insertToken(t)}
-            className="rounded-md border px-2 py-0.5 text-[11px] font-medium transition-colors hover:border-[#e5322d] hover:text-[#e5322d]"
-            style={{ borderColor: "#ececef", color: "#7a7a86" }}
-          >
-            {t}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
+  const Section = ({ label, keys }: { label: string; keys: [Slot, Slot, Slot] }) => null;
+
 
   return (
     <ToolWorkspace
