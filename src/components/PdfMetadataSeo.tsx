@@ -13,7 +13,7 @@ const steps = [
   },
   {
     title: "Correct a field, or tick Clear all metadata",
-    text: "Type over any of the four editable fields to change them individually — for example, replacing a template's old author name with your own, or setting a proper document Title. To wipe the lot in one move, tick the Clear all metadata box: it blanks Title, Author, Subject and Keywords and resets Producer and Creator to empty strings.",
+    text: "Type over any of the four editable fields to change them individually — for example, replacing a template's old author name with your own, or setting a proper document Title. To wipe the lot in one move, tick the Clear all metadata box: it blanks Title, Author, Subject and Keywords, resets Producer and Creator to empty strings, and removes the Created and Modified timestamps from the document information dictionary.",
   },
   {
     title: "Save the updated copy",
