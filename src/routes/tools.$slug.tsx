@@ -585,6 +585,7 @@ function ToolPage() {
       {isImagesToPdf && <ImagesToPdfSeo />}
       {isPdfToText && <PdfToTextSeo />}
       {isTxtToPdf && <TxtToPdfSeo />}
+      {isPageNumbers && <PageNumbersSeo />}
     </>
   );
 }
