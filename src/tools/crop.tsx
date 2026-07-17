@@ -189,11 +189,11 @@ export default function Crop() {
     if (!file) return;
     setLoading(true);
     try {
-      const doc = await PDFDocument.load(await file.arrayBuffer(), { ignoreEncryption: true });
+      const doc = await loadPdfLibDoc(await file.arrayBuffer());
       const pages = doc.getPages();
       let target: number[];
       if (applyAll) {
-        target = pages.map((_, i) => i + 1);
+        target = pages.map((_p, i) => i + 1);
       } else {
         target = expandRanges(parseRanges(pageRange, pages.length));
       }
@@ -213,7 +213,8 @@ export default function Crop() {
       );
       toast.success("Cropped PDF downloaded");
     } catch (e) {
-      toast.error(`Failed: ${(e as Error).message}`);
+      if (isPdfPasswordError(e)) toast.error("PDF is password-protected");
+      else toast.error(`Failed: ${(e as Error).message}`);
     } finally {
       setLoading(false);
     }
