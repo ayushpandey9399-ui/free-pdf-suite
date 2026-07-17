@@ -19,49 +19,35 @@ function Home() {
 
   return (
     <div style={{ backgroundColor: "#ffffff", color: "#33333c" }}>
-      {/* Compact Hero */}
-      <section className="relative overflow-hidden">
-        <div
-          aria-hidden
-          className="absolute inset-0 -z-10"
-          style={{
-            background:
-              "radial-gradient(70% 60% at 50% 40%, #ffffff 0%, #ffffff 55%, #fdf2f2 100%)",
-          }}
-        />
-        <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 pt-8 pb-4 sm:pt-10 sm:pb-5 text-center">
+      {/* Subtle blush wash across the whole page */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 -z-10"
+        style={{
+          background:
+            "radial-gradient(120% 90% at 50% 0%, #ffffff 55%, rgba(229,50,45,0.035) 100%)",
+        }}
+      />
+
+      {/* Hero */}
+      <section className="relative">
+        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 pt-10 pb-6 text-center">
           <h1
-            className="mx-auto max-w-[880px] font-bold tracking-tight text-[36px] sm:text-[48px] lg:text-[56px] leading-[1.08]"
-            style={{ color: "#33333c", letterSpacing: "-0.025em" }}
+            className="mx-auto max-w-[900px] font-bold tracking-tight text-[32px] sm:text-[42px] lg:text-[48px] leading-[1.1]"
+            style={{ color: "#1c1c26", letterSpacing: "-0.025em" }}
           >
             Every tool you need to work with PDFs in one place
           </h1>
           <p
-            className="mx-auto mt-2 max-w-[560px] text-[14px] sm:text-[15px]"
-            style={{ color: "#7a7a86" }}
+            className="mx-auto mt-3 max-w-[720px] text-[16px] sm:text-[17px] leading-relaxed"
+            style={{ color: "#6b6b78" }}
           >
-            28 free tools to merge, split, convert, edit and sign PDFs — right in your browser.
+            28 free tools to merge, split, convert, edit and sign PDFs — right in your browser. 100% free, no signup, files never leave your device.
           </p>
-
-          <ul
-            className="mx-auto mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[12px] font-medium"
-            style={{ color: "#5a5a66" }}
-          >
-            {["100% free", "No signup", "Files never leave your device"].map((t) => (
-              <li key={t} className="inline-flex items-center gap-1.5">
-                <span
-                  aria-hidden
-                  className="inline-block h-1.5 w-1.5 rounded-full"
-                  style={{ backgroundColor: "#e5322d" }}
-                />
-                {t}
-              </li>
-            ))}
-          </ul>
 
           {/* Filter pills */}
           <div
-            className="mx-auto mt-4 flex flex-nowrap sm:flex-wrap items-center justify-start sm:justify-center gap-2 overflow-x-auto sm:overflow-visible px-1 -mx-1 sm:mx-auto"
+            className="mx-auto mt-6 flex flex-nowrap sm:flex-wrap items-center justify-start sm:justify-center gap-2 overflow-x-auto sm:overflow-visible px-1 -mx-1 sm:mx-auto"
             role="tablist"
             aria-label="Filter tools by category"
             style={{ scrollbarWidth: "none" }}
@@ -75,18 +61,18 @@ function Home() {
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActive(f)}
-                  className="shrink-0 rounded-full px-4 py-1.5 text-[13px] font-semibold transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e5322d]/40"
+                  className="shrink-0 rounded-full px-4 py-2 text-[13.5px] font-semibold transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e5322d]/40"
                   style={
                     isActive
                       ? {
                           backgroundColor: "#e5322d",
                           color: "#ffffff",
-                          border: "1.5px solid #e5322d",
+                          border: "1px solid #e5322d",
                         }
                       : {
                           backgroundColor: "#ffffff",
                           color: "#33333c",
-                          border: "1.5px solid #e6e6ec",
+                          border: "1px solid #e6e6ec",
                         }
                   }
                   onMouseEnter={(e) => {
@@ -104,9 +90,9 @@ function Home() {
         </div>
       </section>
 
-      {/* Dense tool grid */}
-      <section id="tools" className="mx-auto max-w-[1280px] px-4 sm:px-6 pb-10 pt-2">
-        <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      {/* Tool cards grid */}
+      <section id="tools" className="mx-auto max-w-[1200px] px-4 sm:px-6 pt-2 pb-12">
+        <div className="grid gap-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 items-stretch">
           {visible.map((t) => {
             const Icon = t.icon;
             return (
@@ -114,28 +100,31 @@ function Home() {
                 key={t.slug}
                 to="/tools/$slug"
                 params={{ slug: t.slug }}
-                className="group flex h-full flex-col rounded-xl bg-white p-4 transition-all duration-150 hover:-translate-y-[2px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e5322d]/40"
-                style={{ border: "1px solid #ececef" }}
+                className="group flex h-full flex-col rounded-lg bg-white p-5 text-left transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e5322d]/40"
+                style={{
+                  border: "1px solid #ececef",
+                  boxShadow: "0 1px 2px rgba(20,20,43,0.03)",
+                }}
                 onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = "#d4d4dc";
                   e.currentTarget.style.boxShadow =
-                    "0 10px 24px -12px rgba(20,20,43,0.18)";
-                  e.currentTarget.style.borderColor = "#e0e0e6";
+                    "0 6px 16px -8px rgba(20,20,43,0.14)";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = "none";
                   e.currentTarget.style.borderColor = "#ececef";
+                  e.currentTarget.style.boxShadow = "0 1px 2px rgba(20,20,43,0.03)";
                 }}
               >
-                <Icon size={40} />
+                <Icon size={44} />
                 <h3
-                  className="mt-3 font-semibold text-[15px] leading-snug"
-                  style={{ color: "#33333c" }}
+                  className="mt-4 font-semibold text-[17px] leading-tight truncate"
+                  style={{ color: "#1c1c26" }}
                 >
                   {t.name}
                 </h3>
                 <p
-                  className="mt-1 text-[13px] leading-snug line-clamp-2"
-                  style={{ color: "#7a7a86" }}
+                  className="mt-1.5 text-[13px] leading-[1.5]"
+                  style={{ color: "#6b6b78" }}
                 >
                   {t.description}
                 </p>
@@ -146,7 +135,7 @@ function Home() {
       </section>
 
       <div
-        className="mx-auto max-w-[1280px] px-4 sm:px-6 pb-16 text-center text-[13px]"
+        className="mx-auto max-w-[1200px] px-4 sm:px-6 pb-16 text-center text-[13px]"
         style={{ color: "#7a7a86" }}
       >
         All 28 tools. All free. All private. Files never leave your device.
