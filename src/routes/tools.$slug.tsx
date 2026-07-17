@@ -893,6 +893,7 @@ function ToolPage() {
       {isGrayscale && <GrayscalePdfSeo />}
       {isAddBlankPages && <AddBlankPagesSeo />}
       {isScanToPdf && <ScanToPdfSeo />}
+      {isExtractImages && <ExtractImagesSeo />}
     </>
   );
 }
