@@ -81,8 +81,8 @@ const faqs = [
     a: "Yes. The tool stamps every page of the PDF in a single pass — one text draw or one image draw per page, centred, using the exact size, angle and opacity you configured. A 1-page ID and a 250-page report are both fully covered by a single click.",
   },
   {
-    q: "Can I add an image or logo watermark?",
-    a: "Yes. The Image tab accepts a PNG or JPG file and stamps it on every page. The logo is centred and auto-scaled to about half of the shorter page edge, and the Angle and Opacity sliders control the tilt and transparency exactly like the text mode. There is no manual size or position control for the image — if you need fine placement or repeating tiles, that is a separate use case.",
+    q: "Can I add my logo to a PDF?",
+    a: "Yes. Open the PDF, switch to the Image tab, and upload your logo as a PNG (transparent background recommended) or JPG. Set the Angle — 0° for an upright brand mark or -30° for a diagonal stamp — and set the Opacity, usually around 15–25% if you want the logo to sit as a soft background on document pages, or 60–100% if you want it to read as a clear brand stamp. Click Apply Watermark and the logo is centred on every page of the file. The image is auto-scaled to about half the shorter page edge, so it stays readable on both A4 pages and larger formats without any manual sizing.",
   },
   {
     q: "Can someone remove my watermark?",
