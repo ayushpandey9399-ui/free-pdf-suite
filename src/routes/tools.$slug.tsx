@@ -340,6 +340,8 @@ function ToolPage() {
     ? "Unlock PDF — Remove Password From PDF, 100% Private"
     : isWatermark
     ? "Add Watermark to PDF — Free, Every Page, 100% Private"
+    : isRotate
+    ? "Rotate PDF — Fix Sideways Pages and Save Permanently"
     : tool.name;
 
   return (
