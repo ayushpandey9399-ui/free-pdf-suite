@@ -501,6 +501,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "crop") {
+      const title =
+        "Crop PDF Online Free — Trim Margins & White Space, No Upload | PDFfree";
+      const desc =
+        "Crop PDF online free — trim white margins and unwanted edges in your browser. No upload, no signup, no watermark. Files never leave your device.";
+      const url = "/tools/crop";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(cropPdfFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(cropPdfHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(cropPdfSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
