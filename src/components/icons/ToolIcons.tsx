@@ -14,6 +14,7 @@ import watermarkUrl from "@/assets/icons/watermark.png";
 import cropUrl from "@/assets/icons/crop.png";
 import fillFormsUrl from "@/assets/icons/fill-forms.png";
 import compareUrl from "@/assets/icons/compare.png";
+import compressUrl from "@/assets/icons/compress.png";
 
 /**
  * AI-generated icon artwork for PDFfree tools.
@@ -58,9 +59,11 @@ export const WatermarkIcon = makeIcon(watermarkUrl, "Add Watermark");
 export const CropIcon = makeIcon(cropUrl, "Crop PDF");
 export const FillFormsIcon = makeIcon(fillFormsUrl, "Fill PDF Forms");
 export const CompareIcon = makeIcon(compareUrl, "Compare PDFs");
+export const CompressIcon = makeIcon(compressUrl, "Compress PDF");
 
 export const toolIcons: Record<string, ComponentType<ToolIconProps>> = {
   merge: MergeIcon,
+  compress: CompressIcon,
   split: SplitIcon,
   "delete-pages": DeletePagesIcon,
   "extract-pages": ExtractPagesIcon,
