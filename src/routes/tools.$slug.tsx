@@ -433,6 +433,7 @@ function ToolPage() {
   const isDeletePages = slug === "delete-pages";
   const isExtractPages = slug === "extract-pages";
   const isReorderPages = slug === "reorder-pages";
+  const isImagesToPdf = slug === "images-to-pdf";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
