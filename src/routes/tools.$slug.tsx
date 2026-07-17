@@ -320,6 +320,7 @@ function ToolPage() {
   const isProtect = slug === "protect-pdf";
   const isUnlock = slug === "unlock-pdf";
   const isWatermark = slug === "watermark";
+  const isRotate = slug === "rotate";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
