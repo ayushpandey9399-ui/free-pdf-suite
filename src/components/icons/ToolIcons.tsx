@@ -1,4 +1,4 @@
-import type { ComponentType, SVGProps } from "react";
+import type { ComponentType, ReactElement, SVGProps } from "react";
 
 /**
  * Per-tool icon system.
