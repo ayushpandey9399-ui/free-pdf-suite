@@ -61,6 +61,7 @@ export const CropIcon = makeIcon(cropUrl, "Crop PDF");
 export const FillFormsIcon = makeIcon(fillFormsUrl, "Fill PDF Forms");
 export const CompareIcon = makeIcon(compareUrl, "Compare PDFs");
 export const CompressIcon = makeIcon(compressUrl, "Compress PDF");
+export const SignPdfIcon = makeIcon(signPdfUrl, "Sign PDF");
 
 export const toolIcons: Record<string, ComponentType<ToolIconProps>> = {
   merge: MergeIcon,
@@ -77,5 +78,6 @@ export const toolIcons: Record<string, ComponentType<ToolIconProps>> = {
   watermark: WatermarkIcon,
   crop: CropIcon,
   "fill-forms": FillFormsIcon,
+  "sign-pdf": SignPdfIcon,
   compare: CompareIcon,
 };
