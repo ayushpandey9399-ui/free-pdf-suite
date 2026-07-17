@@ -6,9 +6,13 @@ import { tools, categories, type ToolCategory } from "@/tools/registry";
 
 const NAV_STYLE = {
   fontSize: 13,
-  letterSpacing: "0.04em",
-  color: "#33333c",
+  fontWeight: 600,
+  letterSpacing: "0.02em",
+  color: "#1F2937",
 } as const;
+
+const NAV_LINK_CLASS =
+  "uppercase transition-colors duration-150 hover:text-[#e5322d]";
 
 const convertTools = tools.filter((t) => t.category === "Convert PDF");
 
@@ -18,6 +22,7 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   const [dropdown, setDropdown] = useState<DropdownKey>(null);
   const [mobileSection, setMobileSection] = useState<DropdownKey>(null);
+  const [scrolled, setScrolled] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -36,6 +41,13 @@ export function Navbar() {
     };
   }, [dropdown]);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 4);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   const closeAll = () => {
     setDropdown(null);
     setOpen(false);
@@ -44,21 +56,24 @@ export function Navbar() {
 
   return (
     <header
-      className="sticky top-0 z-40 w-full border-b bg-background"
-      style={{ borderColor: "#ececef" }}
+      className="sticky top-0 z-40 w-full border-b bg-background transition-shadow duration-150"
+      style={{
+        borderColor: "#ececef",
+        boxShadow: scrolled ? "0 2px 8px -4px rgba(20,20,43,0.08)" : "none",
+      }}
     >
       <div
         ref={wrapRef}
         className="mx-auto flex max-w-[1200px] items-center justify-between px-4 sm:px-6"
-        style={{ height: 58 }}
+        style={{ height: 64 }}
       >
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-10">
           <Logo />
-          <nav className="hidden min-[860px]:flex items-center gap-6">
+          <nav className="hidden min-[860px]:flex items-center gap-8">
             <Link
               to="/tools/$slug"
               params={{ slug: "merge" }}
-              className="font-bold uppercase transition-colors hover:text-[#e5322d]"
+              className={NAV_LINK_CLASS}
               style={NAV_STYLE}
             >
               Merge PDF
@@ -66,7 +81,7 @@ export function Navbar() {
             <Link
               to="/tools/$slug"
               params={{ slug: "split" }}
-              className="font-bold uppercase transition-colors hover:text-[#e5322d]"
+              className={NAV_LINK_CLASS}
               style={NAV_STYLE}
             >
               Split PDF
@@ -74,17 +89,15 @@ export function Navbar() {
             <Link
               to="/tools/$slug"
               params={{ slug: "compress" }}
-              className="font-bold uppercase transition-colors hover:text-[#e5322d]"
+              className={NAV_LINK_CLASS}
               style={NAV_STYLE}
             >
               Compress PDF
             </Link>
-
-            {/* Convert PDF dropdown */}
             <Link
               to="/tools/$slug"
               params={{ slug: "sign-pdf" }}
-              className="font-bold uppercase transition-colors hover:text-[#e5322d]"
+              className={NAV_LINK_CLASS}
               style={NAV_STYLE}
             >
               Sign PDF
@@ -101,14 +114,14 @@ export function Navbar() {
                 aria-haspopup="menu"
                 aria-expanded={dropdown === "convert"}
                 onClick={() => setDropdown((d) => (d === "convert" ? null : "convert"))}
-                className="inline-flex items-center gap-1 font-bold uppercase transition-colors hover:text-[#e5322d]"
+                className={`inline-flex items-center gap-1 ${NAV_LINK_CLASS}`}
                 style={NAV_STYLE}
               >
                 Convert PDF
-                <ChevronDown className="h-3.5 w-3.5" strokeWidth={2.5} />
+                <ChevronDown className="h-3 w-3 relative top-px" strokeWidth={2.5} />
               </button>
               {dropdown === "convert" && (
-                <DropdownPanel width={260}>
+                <DropdownPanel width={280}>
                   <ul className="p-2">
                     {convertTools.map((t) => (
                       <DropdownItem key={t.slug} tool={t} onClick={closeAll} />
@@ -129,11 +142,11 @@ export function Navbar() {
                 aria-haspopup="menu"
                 aria-expanded={dropdown === "all"}
                 onClick={() => setDropdown((d) => (d === "all" ? null : "all"))}
-                className="inline-flex items-center gap-1 font-bold uppercase transition-colors hover:text-[#e5322d]"
+                className={`inline-flex items-center gap-1 ${NAV_LINK_CLASS}`}
                 style={NAV_STYLE}
               >
                 All PDF Tools
-                <ChevronDown className="h-3.5 w-3.5" strokeWidth={2.5} />
+                <ChevronDown className="h-3 w-3 relative top-px" strokeWidth={2.5} />
               </button>
               {dropdown === "all" && (
                 <DropdownPanel width={720} align="right">
@@ -172,6 +185,7 @@ export function Navbar() {
           {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </div>
+
 
       {open && (
         <div
@@ -290,12 +304,12 @@ function DropdownItem({
         params={{ slug: tool.slug }}
         onClick={onClick}
         role="menuitem"
-        className="flex items-center gap-3 rounded-lg px-2 py-2 hover:bg-[#f6f4f9]"
+        className="flex items-center gap-3 rounded-lg px-2.5 py-2.5 hover:bg-[#F9FAFB]"
       >
-        <Icon size={compact ? 24 : 28} />
+        <Icon size={compact ? 22 : 26} />
         <span
-          className="text-[13.5px] font-semibold"
-          style={{ color: "#33333c" }}
+          className="text-[14px] font-semibold"
+          style={{ color: "#1F2937" }}
         >
           {tool.name}
         </span>
@@ -303,6 +317,7 @@ function DropdownItem({
     </li>
   );
 }
+
 
 function MobileAccordion({
   label,

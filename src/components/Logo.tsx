@@ -6,9 +6,10 @@ export function Logo({ onClick }: { onClick?: () => void }) {
       to="/"
       onClick={onClick}
       aria-label="PDFfree — home"
-      className="inline-flex items-center gap-2 font-extrabold tracking-tight text-[22px] leading-none"
+      className="inline-flex items-center gap-2.5 font-extrabold tracking-tight text-[26px] leading-none"
     >
-      <LogoMark size={34} />
+      <LogoMark size={38} />
+
       <span className="inline-flex items-baseline gap-0.5">
         <span style={{ color: "#14142b" }}>PDF</span>
         <span style={{ color: "#e5322d" }}>free</span>
