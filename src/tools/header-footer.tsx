@@ -233,7 +233,8 @@ export default function HeaderFooter() {
     return s;
   };
 
-  const Section = ({ label, keys }: { label: string; keys: [Slot, Slot, Slot] }) => null;
+
+
 
 
   return (
