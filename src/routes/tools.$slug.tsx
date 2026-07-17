@@ -122,6 +122,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "pdf-to-images") {
+      const title =
+        "PDF to JPG Online Free — Convert PDF to Images Without Uploading | PDFfree";
+      const desc =
+        "Convert PDF to JPG or PNG online free — high quality, right in your browser. No upload, no signup, no watermark. Files never leave your device.";
+      const url = "/tools/pdf-to-images";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(pdfToImagesFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(pdfToImagesHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(pdfToImagesSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
