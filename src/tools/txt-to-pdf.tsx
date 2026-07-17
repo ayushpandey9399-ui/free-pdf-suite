@@ -249,7 +249,7 @@ export default function TxtToPdf() {
 
   const [loading, setLoading] = useState(false);
   const [result, setResult] =
-    useState<{ blobs: { blob: Blob; filename: string }[]; sanitized: boolean } | null>(null);
+    useState<{ blobs: { blob: Blob; filename: string }[]; raster: boolean } | null>(null);
 
   // Preview: load first file's text (or pasted).
   const [firstText, setFirstText] = useState("");
@@ -263,7 +263,7 @@ export default function TxtToPdf() {
   }, [files, pasted, pasteMode]);
 
   const hasContent = pasteMode ? pasted.trim().length > 0 : files.length > 0;
-  const nonLatinWarn = useMemo(() => hasNonLatinChars(firstText), [firstText]);
+  const nonLatinDetected = useMemo(() => hasNonLatinChars(firstText), [firstText]);
 
   const resetAll = () => {
     setFiles([]); setPasted(""); setPasteMode(false); setResult(null);
@@ -275,40 +275,33 @@ export default function TxtToPdf() {
     setLoading(true);
     try {
       const opts = { pageSize, fontSize, margin, lineSpacing };
-      let sanitizedAny = false;
+      let rasterAny = false;
       const outputs: { blob: Blob; filename: string }[] = [];
 
-      if (pasteMode) {
-        const { bytes, sanitized } = await buildPdfFromText(pasted, opts);
-        sanitizedAny = sanitizedAny || sanitized;
+      const emit = async (text: string, filename: string) => {
+        const { bytes, raster } = await buildAnyPdf(text, opts);
+        rasterAny = rasterAny || raster;
         outputs.push({
           blob: new Blob([bytes as BlobPart], { type: "application/pdf" }),
-          filename: "pasted-text.pdf",
+          filename,
         });
+      };
+
+      if (pasteMode) {
+        await emit(pasted, "pasted-text.pdf");
       } else if (mergeAll || files.length === 1) {
         const chunks: string[] = [];
         for (const f of files) chunks.push(await f.text());
         const combined = chunks.join("\n\n");
-        const { bytes, sanitized } = await buildPdfFromText(combined, opts);
-        sanitizedAny = sanitizedAny || sanitized;
-        outputs.push({
-          blob: new Blob([bytes as BlobPart], { type: "application/pdf" }),
-          filename: files.length === 1
-            ? files[0].name.replace(/\.txt$/i, "") + ".pdf"
-            : "combined.pdf",
-        });
+        await emit(
+          combined,
+          files.length === 1 ? files[0].name.replace(/\.txt$/i, "") + ".pdf" : "combined.pdf",
+        );
       } else {
-        for (const f of files) {
-          const { bytes, sanitized } = await buildPdfFromText(await f.text(), opts);
-          sanitizedAny = sanitizedAny || sanitized;
-          outputs.push({
-            blob: new Blob([bytes as BlobPart], { type: "application/pdf" }),
-            filename: f.name.replace(/\.txt$/i, "") + ".pdf",
-          });
-        }
+        for (const f of files) await emit(await f.text(), f.name.replace(/\.txt$/i, "") + ".pdf");
       }
 
-      setResult({ blobs: outputs, sanitized: sanitizedAny });
+      setResult({ blobs: outputs, raster: rasterAny });
       toast.success("PDF created");
     } catch (e) {
       toast.error(`Failed: ${(e as Error).message}`);
