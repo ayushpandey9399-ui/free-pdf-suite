@@ -6,6 +6,8 @@ import { ClientOnly } from "@/components/ClientOnly";
 import { getTool, categoryTint } from "@/tools/registry";
 import { MergePdfSeo, mergeFaqJsonLd, mergeHowToJsonLd, mergeSoftwareJsonLd } from "@/components/MergePdfSeo";
 import { CompressPdfSeo, compressFaqJsonLd, compressHowToJsonLd, compressSoftwareJsonLd } from "@/components/CompressPdfSeo";
+import { SplitPdfSeo, splitFaqJsonLd, splitHowToJsonLd, splitSoftwareJsonLd } from "@/components/SplitPdfSeo";
+
 
 export const Route = createFileRoute("/tools/$slug")({
   loader: ({ params }) => {
@@ -66,6 +68,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "split") {
+      const title =
+        "Split PDF Online Free — Separate PDF Pages Without Uploading | PDFfree";
+      const desc =
+        "Split PDF online free — separate pages or extract page ranges in your browser. No upload, no signup, no watermark. Files never leave your device.";
+      const url = "/tools/split";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(splitFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(splitHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(splitSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
@@ -96,11 +124,14 @@ function ToolPage() {
 
   const isMerge = slug === "merge";
   const isCompress = slug === "compress";
+  const isSplit = slug === "split";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
     : isCompress
     ? "Compress PDF Online — Reduce File Size, 100% Private"
+    : isSplit
+    ? "Split PDF Online — Separate Pages, 100% Private"
     : tool.name;
 
   return (
@@ -119,6 +150,7 @@ function ToolPage() {
       </ToolLayout>
       {isMerge && <MergePdfSeo />}
       {isCompress && <CompressPdfSeo />}
+      {isSplit && <SplitPdfSeo />}
     </>
   );
 }
