@@ -336,21 +336,26 @@ function ThumbCard({
         transition,
         opacity: isDragging ? 0.6 : 1,
       }}
-      className="group relative flex flex-col rounded-xl bg-white p-2 transition-shadow hover:shadow-md"
+      {...attributes}
+      {...listeners}
+      className={cn(
+        "group relative flex flex-col rounded-xl bg-white p-2 cursor-grab active:cursor-grabbing touch-none transition-all",
+        "hover:-translate-y-0.5 hover:shadow-lg",
+        isDragging && "shadow-xl z-10 ring-2 ring-[#e5322d]",
+      )}
     >
       <button
         type="button"
-        onClick={onRemove}
+        onClick={(e) => { e.stopPropagation(); onRemove(); }}
+        onPointerDown={(e) => e.stopPropagation()}
         aria-label={`Remove ${name}`}
-        className="absolute -right-2 -top-2 z-10 grid h-7 w-7 place-items-center rounded-full bg-white text-[#7a7a86] opacity-0 shadow-md transition-opacity group-hover:opacity-100 hover:text-[#e5322d]"
+        className="absolute -right-2 -top-2 z-20 grid h-7 w-7 place-items-center rounded-full bg-white text-[#7a7a86] opacity-0 shadow-md transition-opacity group-hover:opacity-100 hover:text-[#e5322d]"
         style={{ border: "1px solid #ececef" }}
       >
         <X className="h-3.5 w-3.5" />
       </button>
       <div
-        {...attributes}
-        {...listeners}
-        className="relative aspect-[3/4] cursor-grab overflow-hidden rounded-lg active:cursor-grabbing"
+        className="relative aspect-[3/4] overflow-hidden rounded-lg"
         style={{ border: "1px solid #ececef", backgroundColor: "#f6f4f9" }}
       >
         <span
@@ -359,8 +364,15 @@ function ThumbCard({
         >
           {index + 1}
         </span>
+        <div
+          aria-hidden
+          className="pointer-events-none absolute right-2 top-2 z-10 flex h-7 items-center justify-center rounded-full bg-white/95 px-1.5 shadow-sm ring-1 ring-black/10"
+          title="Drag to reorder"
+        >
+          <GripVertical className="h-5 w-5" style={{ color: "#33333c" }} />
+        </div>
         {thumb ? (
-          <img src={thumb} alt="" className="h-full w-full object-contain" draggable={false} />
+          <img src={thumb} alt="" className="h-full w-full object-contain pointer-events-none" draggable={false} />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-[#c8c8d0]">
             <Loader2 className="h-4 w-4 animate-spin" />
@@ -373,3 +385,4 @@ function ThumbCard({
     </div>
   );
 }
+
