@@ -25,7 +25,7 @@ export function Footer() {
     <footer className="mt-24 text-white" style={{ backgroundColor: "#0f0f22" }}>
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6 py-16 grid gap-10 md:grid-cols-4">
         <div>
-          <div className="[&_a>span:first-child]:text-white">
+          <div className="[&_a>span>span:first-child]:text-white">
             <Logo />
           </div>
           <p className="mt-4 text-sm leading-relaxed" style={{ color: "#a5a5c0" }}>
