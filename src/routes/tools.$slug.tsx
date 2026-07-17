@@ -582,6 +582,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "flatten-pdf") {
+      const title =
+        "Flatten PDF Online Free — Make Form Fields Permanent | PDFfree";
+      const desc =
+        "Flatten PDF online free — lock form fields so answers can't be changed. Runs in your browser: no upload, no signup, no watermark.";
+      const url = "/tools/flatten-pdf";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(flattenPdfFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(flattenPdfHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(flattenPdfSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
