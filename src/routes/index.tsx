@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Lock } from "lucide-react";
-import { tools, categories, type ToolCategory } from "@/tools/registry";
+import { tools, categories, categoryTint, type ToolCategory } from "@/tools/registry";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -119,12 +119,8 @@ function Home() {
                   e.currentTarget.style.borderColor = "#ececef";
                 }}
               >
-                <div
-                  className="grid h-[46px] w-[46px] place-items-center rounded-[11px] text-white"
-                  style={{ backgroundImage: categoryGradient[t.category] }}
-                >
-                  <Icon size={24} strokeWidth={2} className="text-white" />
-                </div>
+                <ToolBadge Icon={Icon} tint={categoryTint[t.category]} />
+
                 <h3
                   className="mt-4 font-bold text-[16.5px] leading-snug"
                   style={{ color: "#33333c" }}
@@ -145,3 +141,34 @@ function Home() {
     </div>
   );
 }
+
+function ToolBadge({
+  Icon,
+  tint,
+}: {
+  Icon: React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>;
+  tint: { bg: string; fg: string };
+}) {
+  return (
+    <div className="relative h-[46px] w-[46px]">
+      {/* Back layer, offset & rotated */}
+      <div
+        aria-hidden
+        className="absolute inset-0 rounded-[11px] opacity-70"
+        style={{
+          backgroundColor: tint.fg,
+          transform: "translate(4px, 4px) rotate(-8deg)",
+          opacity: 0.22,
+        }}
+      />
+      {/* Front layer with icon */}
+      <div
+        className="relative grid h-full w-full place-items-center rounded-[11px]"
+        style={{ backgroundColor: tint.bg, color: tint.fg }}
+      >
+        <Icon size={22} strokeWidth={2.25} />
+      </div>
+    </div>
+  );
+}
+
