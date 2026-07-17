@@ -137,9 +137,10 @@ function Home() {
 
           {/* Filter pills */}
           <div
-            className="mx-auto mt-14 flex flex-wrap items-center justify-center gap-2"
+            className="mx-auto mt-16 flex flex-nowrap sm:flex-wrap items-center justify-start sm:justify-center gap-4 overflow-x-auto sm:overflow-visible px-1 -mx-1 sm:mx-auto"
             role="tablist"
             aria-label="Filter tools by category"
+            style={{ scrollbarWidth: "none" }}
           >
             {filters.map((f) => {
               const isActive = f === active;
@@ -150,19 +151,19 @@ function Home() {
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActive(f)}
-                  className="min-h-[40px] rounded-full px-4 py-2 text-[13.5px] font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e5322d]/40"
+                  className="shrink-0 min-h-[48px] rounded-full px-6 py-3 text-[16px] font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e5322d]/40"
                   style={
                     isActive
                       ? {
                           backgroundColor: "#33333c",
                           color: "#ffffff",
-                          border: "1px solid #33333c",
+                          border: "2px solid #33333c",
                           boxShadow: "0 8px 20px -8px rgba(51,51,60,0.55)",
                         }
                       : {
                           backgroundColor: "#ffffff",
                           color: "#33333c",
-                          border: "1px solid #ececef",
+                          border: "2px solid #e6e6ec",
                         }
                   }
                   onMouseEnter={(e) => {
