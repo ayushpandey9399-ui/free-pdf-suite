@@ -39,9 +39,11 @@ function AboutPage() {
       <h2>How it works</h2>
       <p>
         Modern browsers are surprisingly powerful — they can open, edit, and re-save
-        PDFs on their own. We built every tool on PDFfree with client-side technology,
-        which means your files never travel to a server. They open, get processed,
-        and get saved back to your device, all without leaving the browser tab.
+        PDFs on their own. Every tool currently on PDFfree is built with client-side
+        technology, which means your files don't travel to a server for these tools.
+        They open, get processed, and get saved back to your device, all without
+        leaving the browser tab. If we ever add a tool that requires server-side
+        processing, it will be clearly labeled on that tool's page.
       </p>
 
       <h2>What we offer</h2>
@@ -70,10 +72,10 @@ function AboutPage() {
 
       <h2>How the site stays free</h2>
       <p>
-        PDFfree is supported by advertising shown around the tools. Those ads never
-        see your files — they can't, because your files never leave your browser. If
-        the site is useful to you, letting the ads load is the way you support the
-        project.
+        PDFfree is supported by advertising shown around the tools. For the current
+        browser-based tools, those ads don't see your files — they can't, because
+        your files stay in your browser. If the site is useful to you, letting the
+        ads load is the way you support the project.
       </p>
 
       <h2>We'd love your feedback</h2>
