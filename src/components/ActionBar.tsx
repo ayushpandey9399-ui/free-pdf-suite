@@ -17,6 +17,14 @@ export function ActionBar({
   label?: string;
   className?: string;
 }) {
+  const isDisabled = disabled || loading;
+
+  const baseBtn =
+    "inline-flex items-center justify-center rounded-xl px-8 py-4 text-[15px] font-bold uppercase text-white transition-all duration-150";
+  const activeBtn =
+    "shadow-[0_6px_20px_-6px_rgba(229,50,45,0.55)] hover:scale-[1.02] hover:shadow-[0_10px_28px_-8px_rgba(199,38,32,0.65)]";
+  const disabledBtn = "cursor-not-allowed";
+
   return (
     <>
       {/* Desktop / inline */}
@@ -33,9 +41,19 @@ export function ActionBar({
           <button
             type="button"
             onClick={onRun}
-            disabled={disabled || loading}
-            className="inline-flex items-center justify-center rounded-xl px-8 py-3.5 text-[15px] font-bold uppercase text-white transition-all hover:-translate-y-0.5 hover:bg-[#c72620] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
-            style={{ backgroundColor: "#e5322d", letterSpacing: "0.04em" }}
+            disabled={isDisabled}
+            className={cn(baseBtn, isDisabled ? disabledBtn : activeBtn)}
+            style={{
+              backgroundColor: isDisabled && !loading ? "#d7d7dc" : "#e5322d",
+              color: isDisabled && !loading ? "#8a8a93" : "#ffffff",
+              letterSpacing: "0.04em",
+            }}
+            onMouseEnter={(e) => {
+              if (!isDisabled) e.currentTarget.style.backgroundColor = "#c72620";
+            }}
+            onMouseLeave={(e) => {
+              if (!isDisabled) e.currentTarget.style.backgroundColor = "#e5322d";
+            }}
           >
             {loading ? (
               <>
@@ -48,14 +66,16 @@ export function ActionBar({
         </div>
       </div>
 
-
       {/* Mobile sticky bar */}
       <div
         className={cn(
           "sm:hidden fixed inset-x-0 bottom-0 z-30 border-t bg-white px-4 py-3",
           className,
         )}
-        style={{ borderColor: "#ececef", paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom))" }}
+        style={{
+          borderColor: "#ececef",
+          paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom))",
+        }}
       >
         {loading && progress != null && (
           <div className="mb-2">
@@ -65,9 +85,16 @@ export function ActionBar({
         <button
           type="button"
           onClick={onRun}
-          disabled={disabled || loading}
-          className="inline-flex w-full items-center justify-center rounded-xl px-6 py-3.5 text-[15px] font-bold uppercase text-white disabled:opacity-50"
-          style={{ backgroundColor: "#e5322d", letterSpacing: "0.04em" }}
+          disabled={isDisabled}
+          className={cn(
+            "inline-flex w-full items-center justify-center rounded-xl px-6 py-3.5 text-[15px] font-bold uppercase text-white",
+            isDisabled && "cursor-not-allowed",
+          )}
+          style={{
+            backgroundColor: isDisabled && !loading ? "#d7d7dc" : "#e5322d",
+            color: isDisabled && !loading ? "#8a8a93" : "#ffffff",
+            letterSpacing: "0.04em",
+          }}
         >
           {loading ? (
             <>
