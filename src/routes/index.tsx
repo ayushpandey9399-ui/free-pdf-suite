@@ -85,12 +85,28 @@ function Home() {
             Every tool you need to work with PDFs in one place
           </h1>
           <p
-            className="mx-auto mt-5 max-w-[660px] text-[17px] sm:text-[19px] leading-relaxed"
+            className="mx-auto mt-5 max-w-[620px] text-[17px] sm:text-[19px] leading-relaxed"
             style={{ color: "#7a7a86" }}
           >
-            Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use!
-            Merge, split, convert, rotate, edit and more.
+            28 free tools to merge, split, convert, edit and sign PDFs — right in your browser.
           </p>
+
+          {/* Trust badges */}
+          <ul
+            className="mx-auto mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[13px] font-medium"
+            style={{ color: "#5a5a66" }}
+          >
+            {["100% free", "No signup", "Files never leave your device"].map((t) => (
+              <li key={t} className="inline-flex items-center gap-1.5">
+                <span
+                  aria-hidden
+                  className="inline-block h-1.5 w-1.5 rounded-full"
+                  style={{ backgroundColor: "#e5322d" }}
+                />
+                {t}
+              </li>
+            ))}
+          </ul>
 
           {/* Filter pills */}
           <div
@@ -112,10 +128,10 @@ function Home() {
                   style={
                     isActive
                       ? {
-                          backgroundColor: "#33333c",
+                          backgroundColor: "#e5322d",
                           color: "#ffffff",
-                          border: "2px solid #33333c",
-                          boxShadow: "0 8px 20px -8px rgba(51,51,60,0.55)",
+                          border: "2px solid #e5322d",
+                          boxShadow: "0 8px 20px -8px rgba(229,50,45,0.55)",
                         }
                       : {
                           backgroundColor: "#ffffff",
@@ -141,7 +157,7 @@ function Home() {
       </section>
 
       <section id="tools" className="mx-auto max-w-[1280px] px-4 sm:px-6 pb-24">
-        <div className="grid gap-5 sm:gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        <div className="grid gap-5 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {visible.map((t) => {
             const Icon = t.icon;
             return (
@@ -149,13 +165,14 @@ function Home() {
                 key={t.slug}
                 to="/tools/$slug"
                 params={{ slug: t.slug }}
-                className="group block rounded-2xl bg-white p-6 sm:p-7 transition-all duration-200 hover:-translate-y-[3px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e5322d]/40"
+                className="group flex h-full flex-col rounded-2xl bg-white p-6 transition-all duration-200 hover:-translate-y-[3px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e5322d]/40"
                 style={{
                   border: "1px solid #ececef",
-                  minHeight: 190,
+                  minHeight: 200,
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = "0 18px 38px -14px rgba(20,20,43,0.20)";
+                  e.currentTarget.style.boxShadow =
+                    "0 18px 38px -14px rgba(20,20,43,0.20)";
                   e.currentTarget.style.borderColor = "transparent";
                 }}
                 onMouseLeave={(e) => {
@@ -163,19 +180,16 @@ function Home() {
                   e.currentTarget.style.borderColor = "#ececef";
                 }}
               >
-                <div className="transition-transform duration-200 group-hover:scale-[1.05] group-hover:rotate-[2deg]">
-                  <Icon size={68} className="w-14 h-14 sm:w-[68px] sm:h-[68px]" />
-                </div>
-
+                <Icon size={56} />
 
                 <h3
-                  className="mt-4 font-bold text-xl leading-snug"
+                  className="mt-5 font-semibold text-lg leading-snug"
                   style={{ color: "#33333c" }}
                 >
                   {t.name}
                 </h3>
                 <p
-                  className="mt-2 text-[13px] leading-relaxed"
+                  className="mt-1.5 text-[13.5px] leading-relaxed line-clamp-2"
                   style={{ color: "#7a7a86" }}
                 >
                   {t.description}
