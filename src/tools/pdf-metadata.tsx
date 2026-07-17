@@ -109,6 +109,12 @@ export default function PdfMetadata() {
       if (clearAll) {
         doc.setTitle(""); doc.setAuthor(""); doc.setSubject(""); doc.setKeywords([]);
         doc.setProducer(""); doc.setCreator("");
+        try {
+          const { PDFName } = await import("pdf-lib");
+          const info = (doc as unknown as { getInfoDict: () => { delete: (k: unknown) => void } }).getInfoDict();
+          info.delete(PDFName.of("CreationDate"));
+          info.delete(PDFName.of("ModDate"));
+        } catch { /* dates stay if low-level API unavailable */ }
       } else {
         doc.setTitle(title);
         doc.setAuthor(author);
