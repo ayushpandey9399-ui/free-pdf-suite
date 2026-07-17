@@ -47,7 +47,7 @@ function Home() {
 
           {/* Filter pills */}
           <div
-            className="mx-auto mt-6 flex flex-nowrap sm:flex-wrap items-center justify-start sm:justify-center gap-2 overflow-x-auto sm:overflow-visible px-1 -mx-1 sm:mx-auto"
+            className="mx-auto mt-6 mb-8 flex flex-nowrap sm:flex-wrap items-center justify-start sm:justify-center gap-3 overflow-x-auto sm:overflow-visible px-1 -mx-1 sm:mx-auto"
             role="tablist"
             aria-label="Filter tools by category"
             style={{ scrollbarWidth: "none" }}
@@ -61,25 +61,24 @@ function Home() {
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActive(f)}
-                  className="shrink-0 rounded-full px-4 py-2 text-[13.5px] font-semibold transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e5322d]/40"
-                  style={
-                    isActive
-                      ? {
-                          backgroundColor: "#e5322d",
-                          color: "#ffffff",
-                          border: "1px solid #e5322d",
-                        }
-                      : {
-                          backgroundColor: "#ffffff",
-                          color: "#33333c",
-                          border: "1px solid #e6e6ec",
-                        }
-                  }
+                  className="shrink-0 rounded-full text-[15px] font-semibold transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1f2937]/30"
+                  style={{
+                    padding: "10px 20px",
+                    backgroundColor: isActive ? "#1f2937" : "#ffffff",
+                    color: isActive ? "#ffffff" : "#1c1c26",
+                    border: `1px solid ${isActive ? "#1f2937" : "#e5e7eb"}`,
+                  }}
                   onMouseEnter={(e) => {
-                    if (!isActive) e.currentTarget.style.backgroundColor = "#f4f4f7";
+                    if (!isActive) {
+                      e.currentTarget.style.backgroundColor = "#f9fafb";
+                      e.currentTarget.style.borderColor = "#9ca3af";
+                    }
                   }}
                   onMouseLeave={(e) => {
-                    if (!isActive) e.currentTarget.style.backgroundColor = "#ffffff";
+                    if (!isActive) {
+                      e.currentTarget.style.backgroundColor = "#ffffff";
+                      e.currentTarget.style.borderColor = "#e5e7eb";
+                    }
                   }}
                 >
                   {f}
