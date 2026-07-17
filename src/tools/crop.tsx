@@ -57,8 +57,7 @@ export default function Crop() {
     if (!file) return;
     (async () => {
       try {
-        const pdfjs = ensurePdfWorker();
-        const doc = await pdfjs.getDocument({ data: await file.arrayBuffer() }).promise;
+        const doc = await loadPdfJsDoc(await file.arrayBuffer());
         if (cancelled) return;
         setNumPages(doc.numPages);
         const page = await doc.getPage(1);
