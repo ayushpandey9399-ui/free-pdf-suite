@@ -208,6 +208,7 @@ function ToolPage() {
   const isSplit = slug === "split";
   const isSign = slug === "sign-pdf";
   const isPdfToImages = slug === "pdf-to-images";
+  const isRedact = slug === "redact-pdf";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
@@ -219,6 +220,8 @@ function ToolPage() {
     ? "Sign PDF Online — Free Electronic Signature, 100% Private"
     : isPdfToImages
     ? "PDF to JPG Converter — Free, High Quality, 100% Private"
+    : isRedact
+    ? "Redact PDF Online — Permanently Remove Sensitive Information"
     : tool.name;
 
   return (
