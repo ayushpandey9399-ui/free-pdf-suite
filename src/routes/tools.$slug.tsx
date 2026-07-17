@@ -629,6 +629,7 @@ function ToolPage() {
   const isHeaderFooter = slug === "header-footer";
   const isCrop = slug === "crop";
   const isEditPdf = slug === "edit-pdf";
+  const isFillForms = slug === "fill-forms";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
