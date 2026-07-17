@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
+import { ShieldCheck, Zap, Gift } from "lucide-react";
 import { tools, categories, type ToolCategory } from "@/tools/registry";
 import { HomeBottom } from "@/components/HomeBottom";
-
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -21,7 +21,7 @@ function Home() {
 
   return (
     <div style={{ backgroundColor: "#ffffff", color: "#33333c" }}>
-      {/* Subtle blush wash across the whole page */}
+      {/* Base blush wash */}
       <div
         aria-hidden
         className="pointer-events-none fixed inset-0 -z-10"
@@ -32,20 +32,82 @@ function Home() {
       />
 
       {/* Hero */}
-      <section className="relative">
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 pt-10 pb-0 text-center">
+      <section className="relative overflow-hidden">
+        {/* Subtle dot-grid behind hero */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 1px 1px, rgba(31,41,55,0.06) 1px, transparent 0)",
+            backgroundSize: "22px 22px",
+            maskImage:
+              "radial-gradient(60% 70% at 50% 30%, #000 40%, transparent 100%)",
+            WebkitMaskImage:
+              "radial-gradient(60% 70% at 50% 30%, #000 40%, transparent 100%)",
+          }}
+        />
+        {/* Soft brand-tinted glow */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(40% 50% at 50% 10%, rgba(229,50,45,0.05), transparent 70%)",
+          }}
+        />
+
+        <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 pt-10 pb-0 text-center">
           <h1
-            className="mx-auto max-w-[900px] font-bold tracking-tight text-[32px] sm:text-[42px] lg:text-[48px] leading-[1.1]"
+            className="mx-auto max-w-[900px] font-extrabold text-[32px] sm:text-[42px] lg:text-[48px] leading-[1.08]"
             style={{ color: "#1c1c26", letterSpacing: "-0.025em" }}
           >
-            Every tool you need to work with PDFs in one place
+            Every tool you need to work with{" "}
+            <span className="relative inline-block">
+              <span style={{ color: "#E5322D" }}>PDFs</span>
+              <svg
+                aria-hidden
+                viewBox="0 0 120 12"
+                preserveAspectRatio="none"
+                className="hero-underline absolute left-0 -bottom-1.5 h-[10px] w-full"
+                fill="none"
+              >
+                <path
+                  d="M2 8 Q 30 2, 60 6 T 118 5"
+                  stroke="#E5322D"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  opacity="0.85"
+                />
+              </svg>
+            </span>{" "}
+            in one place
           </h1>
           <p
-            className="mx-auto mt-3 max-w-[720px] text-[16px] sm:text-[17px] leading-relaxed"
+            className="mx-auto mt-4 max-w-[720px] text-[16px] sm:text-[17px] leading-relaxed"
             style={{ color: "#6b6b78" }}
           >
-            28 free tools to merge, split, convert, edit and sign PDFs — right in your browser. 100% free, no signup, files never leave your device.
+            28 free tools to merge, split, convert, edit and sign PDFs — right in your browser. Fast, private and free.
           </p>
+
+          {/* Trust line with tiny icons */}
+          <ul
+            className="mx-auto mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[13px]"
+            style={{ color: "#6b6b78" }}
+          >
+            <li className="inline-flex items-center gap-1.5">
+              <ShieldCheck className="h-4 w-4" style={{ color: "#E5322D" }} strokeWidth={2.25} />
+              Files stay in your browser
+            </li>
+            <li className="inline-flex items-center gap-1.5">
+              <Zap className="h-4 w-4" style={{ color: "#E5322D" }} strokeWidth={2.25} />
+              Instant, no upload wait
+            </li>
+            <li className="inline-flex items-center gap-1.5">
+              <Gift className="h-4 w-4" style={{ color: "#E5322D" }} strokeWidth={2.25} />
+              100% free, no signup
+            </li>
+          </ul>
 
           {/* Filter pills */}
           <div
@@ -97,40 +159,7 @@ function Home() {
           {visible.map((t) => {
             const Icon = t.icon;
             return (
-              <Link
-                key={t.slug}
-                to="/tools/$slug"
-                params={{ slug: t.slug }}
-                className="group flex h-full flex-col rounded-lg bg-white p-5 sm:p-6 text-left transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e5322d]/40"
-                style={{
-                  border: "1px solid #ececef",
-                  boxShadow: "0 1px 2px rgba(20,20,43,0.03)",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = "#d4d4dc";
-                  e.currentTarget.style.boxShadow =
-                    "0 6px 16px -8px rgba(20,20,43,0.14)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = "#ececef";
-                  e.currentTarget.style.boxShadow = "0 1px 2px rgba(20,20,43,0.03)";
-                }}
-              >
-                <Icon size={46} />
-                <h3
-                  className="mt-3.5 sm:mt-4 font-semibold text-[16px] sm:text-[18px] leading-snug"
-                  style={{ color: "#1F2937" }}
-                >
-                  {t.name}
-                </h3>
-                <p
-                  className="mt-2 text-[13.5px] sm:text-[14px] leading-[1.55]"
-                  style={{ color: "#6B7280" }}
-                >
-                  {t.description}
-                </p>
-
-              </Link>
+              <ToolCard key={t.slug} slug={t.slug} name={t.name} description={t.description} Icon={Icon} />
             );
           })}
         </div>
@@ -141,3 +170,56 @@ function Home() {
   );
 }
 
+/* Premium tool card — hover lift, icon scale, tinted border, inset top highlight, focus ring. */
+function ToolCard({
+  slug,
+  name,
+  description,
+  Icon,
+}: {
+  slug: string;
+  name: string;
+  description: string;
+  Icon: React.ComponentType<{ size?: number }> & { tint?: string };
+}) {
+  const [hover, setHover] = useState(false);
+  // Prefer per-icon tint if the ToolIcon exposes one, else brand red.
+  const tint = (Icon as { tint?: string }).tint ?? "#E5322D";
+  return (
+    <Link
+      to="/tools/$slug"
+      params={{ slug }}
+      className="group relative flex h-full flex-col rounded-lg bg-white p-5 sm:p-6 text-left transition-all duration-200 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E5322D]/40"
+      style={{
+        border: `1px solid ${hover ? tint + "55" : "#ececef"}`,
+        boxShadow: hover
+          ? "inset 0 1px 0 rgba(255,255,255,0.9), 0 10px 22px -12px rgba(20,20,43,0.18)"
+          : "inset 0 1px 0 rgba(255,255,255,0.9), 0 1px 2px rgba(20,20,43,0.03)",
+        transform: hover ? "translateY(-3px)" : "translateY(0)",
+      }}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      onFocus={() => setHover(true)}
+      onBlur={() => setHover(false)}
+    >
+      <div
+        className="transition-transform duration-200 ease-out"
+        style={{ transform: hover ? "scale(1.06)" : "scale(1)", transformOrigin: "left center" }}
+      >
+        <Icon size={46} />
+      </div>
+      <h3
+        className="mt-3.5 sm:mt-4 font-semibold text-[16px] sm:text-[18px] leading-snug"
+        style={{ color: "#1F2937", letterSpacing: "-0.005em" }}
+      >
+        {name}
+      </h3>
+      <p
+        className="mt-2 text-[13.5px] sm:text-[14px] leading-[1.55]"
+        style={{ color: "#6B7280" }}
+      >
+        {description}
+      </p>
+    </Link>
+  );
+}
