@@ -11,6 +11,7 @@ const categoryGradient: Record<ToolCategory, string> = {
   "Convert PDF": "linear-gradient(135deg, #ffb057, #f28c1e)",
   "Edit PDF": "linear-gradient(135deg, #8a7bff, #6d5efc)",
   "Forms & Compare": "linear-gradient(135deg, #4fd18b, #1f9d55)",
+  "Security": "linear-gradient(135deg, #ff5a5f, #c72620)",
 };
 
 type Filter = "All" | ToolCategory;

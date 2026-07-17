@@ -1,7 +1,7 @@
 import { lazy, type ComponentType } from "react";
 import { toolIcons, type ToolIconProps } from "@/components/icons/ToolIcons";
 
-export type ToolCategory = "Organize PDF" | "Convert PDF" | "Edit PDF" | "Forms & Compare";
+export type ToolCategory = "Organize PDF" | "Convert PDF" | "Edit PDF" | "Forms & Compare" | "Security";
 
 export interface ToolMeta {
   slug: string;
@@ -18,6 +18,7 @@ export const categoryTint: Record<ToolCategory, { bg: string; fg: string }> = {
   "Convert PDF": { bg: "#fff3e6", fg: "#f28c1e" },
   "Edit PDF": { bg: "#eef1fd", fg: "#4a63e7" },
   "Forms & Compare": { bg: "#eafaf0", fg: "#1f9d55" },
+  "Security": { bg: "#fdeceb", fg: "#e5322d" },
 };
 
 const meta: Omit<ToolMeta, "icon">[] = [
@@ -37,6 +38,8 @@ const meta: Omit<ToolMeta, "icon">[] = [
   { slug: "fill-forms", name: "Fill PDF Forms", description: "Fill in interactive PDF form fields and download the completed file.", category: "Forms & Compare", Component: lazy(() => import("./fill-forms")) },
   { slug: "sign-pdf", name: "Sign PDF", description: "Create your electronic signature and place it anywhere on your PDF.", category: "Forms & Compare", Component: lazy(() => import("./sign-pdf")) },
   { slug: "compare", name: "Compare PDFs", description: "See the differences between two PDF documents side by side.", category: "Forms & Compare", Component: lazy(() => import("./compare")) },
+  { slug: "protect-pdf", name: "Protect PDF", description: "Add a password to your PDF and encrypt it to prevent unauthorized access.", category: "Security", Component: lazy(() => import("./protect-pdf")) },
+  { slug: "unlock-pdf", name: "Unlock PDF", description: "Remove the password from your PDF so you can open it freely. You must know the current password.", category: "Security", Component: lazy(() => import("./unlock-pdf")) },
 ];
 
 export const tools: ToolMeta[] = meta.map((m) => ({ ...m, icon: toolIcons[m.slug] }));
@@ -46,6 +49,7 @@ export const categories: ToolCategory[] = [
   "Convert PDF",
   "Edit PDF",
   "Forms & Compare",
+  "Security",
 ];
 
 export function getTool(slug: string): ToolMeta | undefined {
