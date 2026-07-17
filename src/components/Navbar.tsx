@@ -304,12 +304,12 @@ function DropdownItem({
         params={{ slug: tool.slug }}
         onClick={onClick}
         role="menuitem"
-        className="flex items-center gap-3 rounded-lg px-2 py-2 hover:bg-[#f6f4f9]"
+        className="flex items-center gap-3 rounded-lg px-2.5 py-2.5 hover:bg-[#F9FAFB]"
       >
-        <Icon size={compact ? 24 : 28} />
+        <Icon size={compact ? 22 : 26} />
         <span
-          className="text-[13.5px] font-semibold"
-          style={{ color: "#33333c" }}
+          className="text-[14px] font-semibold"
+          style={{ color: "#1F2937" }}
         >
           {tool.name}
         </span>
@@ -317,6 +317,7 @@ function DropdownItem({
     </li>
   );
 }
+
 
 function MobileAccordion({
   label,
