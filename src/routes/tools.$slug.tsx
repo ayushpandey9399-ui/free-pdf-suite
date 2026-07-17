@@ -310,6 +310,8 @@ function ToolPage() {
     ? "Password Protect PDF — Free AES-256 Encryption, 100% Private"
     : isUnlock
     ? "Unlock PDF — Remove Password From PDF, 100% Private"
+    : isWatermark
+    ? "Add Watermark to PDF — Free, Every Page, 100% Private"
     : tool.name;
 
   return (
