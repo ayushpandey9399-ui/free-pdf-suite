@@ -203,6 +203,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "unlock-pdf") {
+      const title =
+        "Unlock PDF Online Free — Remove Password Without Uploading | PDFfree";
+      const desc =
+        "Remove password from PDF online free — decrypt in your browser with the password you know. File and password never leave your device. No signup.";
+      const url = "/tools/unlock-pdf";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(unlockFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(unlockHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(unlockSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
