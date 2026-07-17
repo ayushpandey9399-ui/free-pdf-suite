@@ -123,7 +123,7 @@ export default function PdfMetadata() {
         doc.setKeywords(kw);
       }
       // updateMetadata: false so pdf-lib doesn't stamp a fresh ModDate on save
-      const bytes = await doc.save({ updateMetadata: false });
+      const bytes = await doc.save({ updateMetadata: false } as Parameters<typeof doc.save>[0]);
       const blob = new Blob([bytes as BlobPart], { type: "application/pdf" });
       setResult({
         blob,
