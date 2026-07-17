@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { PDFDocument } from "pdf-lib";
 import { toast } from "sonner";
-import { X, Search, AlertTriangle, ArrowRight, Loader2 } from "lucide-react";
+import { X, Search, AlertTriangle, Loader2 } from "lucide-react";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ToolWorkspace } from "@/components/ToolWorkspace";
 import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
@@ -12,7 +12,7 @@ import { downloadBlob } from "@/lib/download";
 import { loadPdfJsDoc, loadPdfLibDoc, isPdfPasswordError } from "@/lib/pdfGuard";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
 import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
-import type { PDFPageProxy } from "@/lib/pdfWorker";
+import type { PageInfo as _PageInfoType } from "@/lib/pdfWorker";
 
 /* Redaction stored in normalized [0..1] coords of the unrotated page viewport
  * (rotation=0), so mapping to overlay pixels or output canvas is a simple
