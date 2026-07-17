@@ -242,7 +242,7 @@ export default function AddBlankPages() {
 // ---- helpers ----
 
 function useNextId() {
-  const ref = { current: 1 };
+  const ref = useRef(1);
   return () => ref.current++;
 }
 
