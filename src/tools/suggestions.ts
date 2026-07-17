@@ -24,4 +24,5 @@ export const TOOL_SUGGESTIONS: Record<string, string[]> = {
   "flatten-pdf":   ["fill-forms", "sign-pdf", "protect-pdf", "compress", "merge", "watermark"],
   "txt-to-pdf":    ["merge", "compress", "page-numbers", "watermark", "pdf-to-text", "images-to-pdf"],
   "pdf-metadata":  ["compress", "protect-pdf", "merge", "sign-pdf", "watermark", "flatten-pdf"],
+  "grayscale-pdf": ["compress", "merge", "split", "watermark", "page-numbers", "rotate"],
 };
