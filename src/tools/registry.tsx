@@ -35,6 +35,7 @@ const meta: Omit<ToolMeta, "icon">[] = [
   { slug: "watermark", name: "Add Watermark", description: "Stamp text or an image over your PDF with adjustable opacity.", category: "Edit PDF", Component: lazy(() => import("./watermark")) },
   { slug: "crop", name: "Crop PDF", description: "Trim margins and adjust the visible area of every page.", category: "Edit PDF", Component: lazy(() => import("./crop")) },
   { slug: "fill-forms", name: "Fill PDF Forms", description: "Fill in interactive PDF form fields and download the completed file.", category: "Forms & Compare", Component: lazy(() => import("./fill-forms")) },
+  { slug: "sign-pdf", name: "Sign PDF", description: "Create your electronic signature and place it anywhere on your PDF.", category: "Forms & Compare", Component: lazy(() => import("./sign-pdf")) },
   { slug: "compare", name: "Compare PDFs", description: "See the differences between two PDF documents side by side.", category: "Forms & Compare", Component: lazy(() => import("./compare")) },
 ];
 

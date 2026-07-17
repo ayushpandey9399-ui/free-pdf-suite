@@ -81,6 +81,16 @@ export function Navbar() {
             </Link>
 
             {/* Convert PDF dropdown */}
+            <Link
+              to="/tools/$slug"
+              params={{ slug: "sign-pdf" }}
+              className="font-bold uppercase transition-colors hover:text-[#e5322d]"
+              style={NAV_STYLE}
+            >
+              Sign PDF
+            </Link>
+
+            {/* Convert PDF dropdown */}
             <div
               className="relative"
               onMouseEnter={() => setDropdown("convert")}

@@ -14,6 +14,7 @@ export const TOOL_SUGGESTIONS: Record<string, string[]> = {
   "page-numbers":  ["watermark", "crop", "merge", "rotate", "reorder-pages", "split"],
   watermark:       ["page-numbers", "crop", "merge", "rotate", "split", "images-to-pdf"],
   crop:            ["rotate", "watermark", "page-numbers", "merge", "split", "pdf-to-images"],
-  "fill-forms":    ["pdf-to-text", "page-numbers", "watermark", "merge", "split", "extract-pages"],
+  "fill-forms":    ["sign-pdf", "pdf-to-text", "page-numbers", "watermark", "merge", "split"],
+  "sign-pdf":      ["fill-forms", "page-numbers", "watermark", "merge", "compress", "split"],
   compare:         ["pdf-to-text", "merge", "split", "extract-pages", "delete-pages", "reorder-pages"],
 };
