@@ -95,6 +95,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "sign-pdf") {
+      const title =
+        "Sign PDF Online Free — Add Signature Without Uploading | PDFfree";
+      const desc =
+        "Sign PDF online free — draw, type, or upload your signature in your browser. No upload, no signup. Contracts never leave your device.";
+      const url = "/tools/sign-pdf";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(signFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(signHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(signSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
