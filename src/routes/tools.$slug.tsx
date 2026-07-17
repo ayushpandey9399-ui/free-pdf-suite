@@ -740,6 +740,7 @@ function ToolPage() {
       {isCrop && <CropPdfSeo />}
       {isEditPdf && <EditPdfSeo />}
       {isFillForms && <FillFormsSeo />}
+      {isFlattenPdf && <FlattenPdfSeo />}
     </>
   );
 }
