@@ -2,7 +2,7 @@ import { useState } from "react";
 import { PDFDocument } from "pdf-lib";
 import { toast } from "sonner";
 import { FileDropzone } from "@/components/FileDropzone";
-import { ActionBar } from "@/components/ActionBar";
+import { ToolWorkspace, InfoTip } from "@/components/ToolWorkspace";
 import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 import { PageThumbnails } from "@/components/PageThumbnails";
 import { downloadBlob } from "@/lib/download";
@@ -21,12 +21,7 @@ export default function DeletePages() {
   const { protectedName, reset } = usePdfPasswordCheck(files, () => { setFiles([]); setSelected(new Set()); });
   const { pageCount, fileSize } = usePdfStats(files[0]);
 
-  const resetAll = () => {
-    setFiles([]);
-    setSelected(new Set());
-    setResult(null);
-  };
-
+  const resetAll = () => { setFiles([]); setSelected(new Set()); setResult(null); };
   const toggle = (p: number) => {
     const s = new Set(selected);
     s.has(p) ? s.delete(p) : s.add(p);
@@ -69,28 +64,44 @@ export default function DeletePages() {
     );
   }
 
+  if (files.length === 0) {
+    return (
+      <FileDropzone
+        accept="application/pdf"
+        files={files}
+        onFilesChange={(fs) => { setFiles(fs); setSelected(new Set()); }}
+        buttonLabel="Select PDF file"
+      />
+    );
+  }
+
+  if (protectedName) return <PasswordProtectedNotice fileName={protectedName} onReset={reset} />;
+
+  const file = files[0];
+
   return (
-    <div>
-      <FileDropzone accept="application/pdf" files={files} onFilesChange={(fs) => { setFiles(fs); setSelected(new Set()); }} />
-      {protectedName ? (
-        <PasswordProtectedNotice fileName={protectedName} onReset={reset} />
-      ) : (
+    <ToolWorkspace
+      title="Delete pages"
+      actionLabel={selected.size ? `Delete ${selected.size} page${selected.size === 1 ? "" : "s"}` : "Delete pages"}
+      loadingLabel="Removing pages…"
+      onAction={run}
+      actionDisabled={!selected.size}
+      loading={loading}
+      sidebar={
         <>
-          {files[0] && <LargeFileWarning pageCount={pageCount} fileSize={fileSize} />}
-          {files[0] && (
-            <>
-              <p className="mt-6 text-sm text-muted-foreground">Click pages to mark for deletion ({selected.size} selected).</p>
-              <PageThumbnails file={files[0]} selected={selected} onToggle={toggle} />
-            </>
-          )}
-          <ActionBar
-            onRun={run}
-            disabled={!files.length || !selected.size}
-            loading={loading}
-            label={loading ? "Removing pages…" : `Delete ${selected.size} page(s)`}
-          />
+          <InfoTip>Click any page thumbnail to mark it for deletion.</InfoTip>
+          <div
+            className="rounded-lg p-3 text-[13px]"
+            style={{ backgroundColor: "#fbf6f5", color: "#33333c" }}
+          >
+            <p className="font-semibold">{selected.size} of {pageCount || "—"} selected</p>
+            <p className="mt-0.5 text-[12px]" style={{ color: "#7a7a86" }}>{file.name}</p>
+          </div>
+          <LargeFileWarning pageCount={pageCount} fileSize={fileSize} />
         </>
-      )}
-    </div>
+      }
+    >
+      <PageThumbnails file={file} selected={selected} onToggle={toggle} />
+    </ToolWorkspace>
   );
 }
