@@ -182,14 +182,8 @@ function Home() {
 
       </section>
 
-      {/* Tools grid */}
-      <section id="tools" className="mx-auto max-w-[1200px] px-4 sm:px-6 pb-24">
-        <div
-          className="grid gap-5"
-          style={{
-            gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-          }}
-        >
+      <section id="tools" className="mx-auto max-w-[1280px] px-4 sm:px-6 pb-24">
+        <div className="grid gap-5 sm:gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {visible.map((t) => {
             const Icon = t.icon;
             return (
@@ -197,13 +191,13 @@ function Home() {
                 key={t.slug}
                 to="/tools/$slug"
                 params={{ slug: t.slug }}
-                className="group block rounded-[10px] bg-white p-[22px] transition-all duration-200 hover:-translate-y-[3px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e5322d]/40"
+                className="group block rounded-2xl bg-white p-6 sm:p-7 transition-all duration-200 hover:-translate-y-[3px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e5322d]/40"
                 style={{
                   border: "1px solid #ececef",
-                  minHeight: 150,
+                  minHeight: 190,
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = "0 14px 34px -14px rgba(20,20,43,0.18)";
+                  e.currentTarget.style.boxShadow = "0 18px 38px -14px rgba(20,20,43,0.20)";
                   e.currentTarget.style.borderColor = "transparent";
                 }}
                 onMouseLeave={(e) => {
@@ -212,17 +206,18 @@ function Home() {
                 }}
               >
                 <div className="transition-transform duration-200 group-hover:scale-[1.05] group-hover:rotate-[2deg]">
-                  <Icon size={68} />
+                  <Icon size={56} className="sm:hidden" />
+                  <Icon size={68} className="hidden sm:block" />
                 </div>
 
                 <h3
-                  className="mt-4 font-bold text-[16.5px] leading-snug"
+                  className="mt-4 font-bold text-xl leading-snug"
                   style={{ color: "#33333c" }}
                 >
                   {t.name}
                 </h3>
                 <p
-                  className="mt-1.5 text-[13px] leading-relaxed"
+                  className="mt-2 text-[13px] leading-relaxed"
                   style={{ color: "#7a7a86" }}
                 >
                   {t.description}
@@ -232,6 +227,7 @@ function Home() {
           })}
         </div>
       </section>
+
     </div>
   );
 }
