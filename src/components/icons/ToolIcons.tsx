@@ -81,6 +81,7 @@ export const PdfMetadataIcon = makeIcon(pdfMetadataUrl, "PDF Metadata Editor");
 export const ExtractImagesIcon = makeIcon(extractImagesUrl, "Extract Images from PDF");
 export const GrayscalePdfIcon = makeIcon(grayscalePdfUrl, "Grayscale PDF");
 export const HeaderFooterIcon = makeIcon(headerFooterUrl, "Add Header & Footer");
+export const AddBlankPagesIcon = makeIcon(addBlankPagesUrl, "Add Blank Pages");
 
 
 export const toolIcons: Record<string, ComponentType<ToolIconProps>> = {
