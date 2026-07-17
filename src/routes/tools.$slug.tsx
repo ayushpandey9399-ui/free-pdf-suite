@@ -312,6 +312,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "extract-pages") {
+      const title =
+        "Extract Pages from PDF Online Free — Save Specific Pages | PDFfree";
+      const desc =
+        "Extract pages from PDF online free — save specific pages as a new PDF, in your browser. No upload, no signup, no watermark. Files stay on your device.";
+      const url = "/tools/extract-pages";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(extractPagesFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(extractPagesHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(extractPagesSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
