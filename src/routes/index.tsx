@@ -128,10 +128,10 @@ function Home() {
                   style={
                     isActive
                       ? {
-                          backgroundColor: "#33333c",
+                          backgroundColor: "#e5322d",
                           color: "#ffffff",
-                          border: "2px solid #33333c",
-                          boxShadow: "0 8px 20px -8px rgba(51,51,60,0.55)",
+                          border: "2px solid #e5322d",
+                          boxShadow: "0 8px 20px -8px rgba(229,50,45,0.55)",
                         }
                       : {
                           backgroundColor: "#ffffff",
