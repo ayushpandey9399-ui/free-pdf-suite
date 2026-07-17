@@ -27,6 +27,7 @@ import { EditPdfSeo, editPdfFaqJsonLd, editPdfHowToJsonLd, editPdfSoftwareJsonLd
 import { FillFormsSeo, fillFormsFaqJsonLd, fillFormsHowToJsonLd, fillFormsSoftwareJsonLd } from "@/components/FillFormsSeo";
 import { FlattenPdfSeo, flattenPdfFaqJsonLd, flattenPdfHowToJsonLd, flattenPdfSoftwareJsonLd } from "@/components/FlattenPdfSeo";
 import { PdfMetadataSeo, pdfMetadataFaqJsonLd, pdfMetadataHowToJsonLd, pdfMetadataSoftwareJsonLd } from "@/components/PdfMetadataSeo";
+import { GrayscalePdfSeo, grayscalePdfFaqJsonLd, grayscalePdfHowToJsonLd, grayscalePdfSoftwareJsonLd } from "@/components/GrayscalePdfSeo";
 
 
 
@@ -635,6 +636,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "grayscale-pdf") {
+      const title =
+        "Convert PDF to Grayscale Online Free — Black & White PDF | PDFfree";
+      const desc =
+        "Convert PDF to grayscale online free — black and white pages in your browser. Save printer ink and shrink scans. No upload, no signup.";
+      const url = "/tools/grayscale-pdf";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(grayscalePdfFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(grayscalePdfHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(grayscalePdfSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
@@ -686,6 +713,7 @@ function ToolPage() {
   const isFillForms = slug === "fill-forms";
   const isFlattenPdf = slug === "flatten-pdf";
   const isPdfMetadata = slug === "pdf-metadata";
+  const isGrayscale = slug === "grayscale-pdf";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
@@ -733,6 +761,8 @@ function ToolPage() {
     ? "Flatten PDF — Lock Form Fields Into Permanent Content"
     : isPdfMetadata
     ? "PDF Metadata Editor — View, Edit or Remove Hidden Properties"
+    : isGrayscale
+    ? "Convert PDF to Grayscale — Black & White, 100% Private"
     : tool.name;
 
   return (
@@ -772,6 +802,7 @@ function ToolPage() {
       {isFillForms && <FillFormsSeo />}
       {isFlattenPdf && <FlattenPdfSeo />}
       {isPdfMetadata && <PdfMetadataSeo />}
+      {isGrayscale && <GrayscalePdfSeo />}
     </>
   );
 }
