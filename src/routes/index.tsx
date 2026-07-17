@@ -196,4 +196,42 @@ function Home() {
   );
 }
 
+function FloatingPages({ mirrored = false }: { mirrored?: boolean }) {
+  const dir = mirrored ? -1 : 1;
+  const pages = [
+    { x: 0, y: 0, rot: -8 * dir, fill: "#ffffff", accent: "#e5322d" },
+    { x: 28 * dir, y: 22, rot: 6 * dir, fill: "#fff5f4", accent: "#f28c1e" },
+    { x: -18 * dir, y: 44, rot: -3 * dir, fill: "#ffffff", accent: "#4a63e7" },
+  ];
+  return (
+    <div className="relative h-[170px] w-[170px] opacity-90">
+      {pages.map((p, i) => (
+        <div
+          key={i}
+          className="absolute rounded-[10px]"
+          style={{
+            left: 30 + p.x,
+            top: 10 + p.y,
+            width: 88,
+            height: 112,
+            background: p.fill,
+            border: "1px solid #ececef",
+            transform: `rotate(${p.rot}deg)`,
+            boxShadow: "0 18px 40px -18px rgba(20,20,43,0.22)",
+          }}
+        >
+          <div
+            className="absolute left-3 right-3 top-3 h-1.5 rounded-full"
+            style={{ background: p.accent, opacity: 0.85 }}
+          />
+          <div className="absolute left-3 right-6 top-7 h-1 rounded-full bg-[#ececef]" />
+          <div className="absolute left-3 right-10 top-10 h-1 rounded-full bg-[#ececef]" />
+          <div className="absolute left-3 right-4 top-13 h-1 rounded-full bg-[#ececef]" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+
 
