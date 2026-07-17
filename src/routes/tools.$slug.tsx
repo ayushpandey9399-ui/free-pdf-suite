@@ -405,6 +405,7 @@ function ToolPage() {
   const isRotate = slug === "rotate";
   const isDeletePages = slug === "delete-pages";
   const isExtractPages = slug === "extract-pages";
+  const isReorderPages = slug === "reorder-pages";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
