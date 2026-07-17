@@ -22,6 +22,7 @@ import editPdfUrl from "@/assets/icons/edit-pdf.png";
 import flattenPdfUrl from "@/assets/icons/flatten-pdf.png";
 import txtToPdfUrl from "@/assets/icons/txt-to-pdf.png";
 import pdfMetadataUrl from "@/assets/icons/pdf-metadata.png";
+import extractImagesUrl from "@/assets/icons/extract-images.png";
 
 /**
  * AI-generated icon artwork for PDFfree tools.
@@ -74,6 +75,8 @@ export const EditPdfIcon = makeIcon(editPdfUrl, "Edit & Annotate PDF");
 export const FlattenPdfIcon = makeIcon(flattenPdfUrl, "Flatten PDF");
 export const TxtToPdfIcon = makeIcon(txtToPdfUrl, "TXT to PDF");
 export const PdfMetadataIcon = makeIcon(pdfMetadataUrl, "PDF Metadata Editor");
+export const ExtractImagesIcon = makeIcon(extractImagesUrl, "Extract Images from PDF");
+
 
 export const toolIcons: Record<string, ComponentType<ToolIconProps>> = {
   merge: MergeIcon,
@@ -98,4 +101,5 @@ export const toolIcons: Record<string, ComponentType<ToolIconProps>> = {
   "flatten-pdf": FlattenPdfIcon,
   "txt-to-pdf": TxtToPdfIcon,
   "pdf-metadata": PdfMetadataIcon,
+  "extract-images": ExtractImagesIcon,
 };
