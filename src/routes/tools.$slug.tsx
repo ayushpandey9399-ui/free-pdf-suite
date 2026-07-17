@@ -31,6 +31,7 @@ import { GrayscalePdfSeo, grayscalePdfFaqJsonLd, grayscalePdfHowToJsonLd, graysc
 import { AddBlankPagesSeo, addBlankPagesFaqJsonLd, addBlankPagesHowToJsonLd, addBlankPagesSoftwareJsonLd } from "@/components/AddBlankPagesSeo";
 import { ScanToPdfSeo, scanToPdfFaqJsonLd, scanToPdfHowToJsonLd, scanToPdfSoftwareJsonLd } from "@/components/ScanToPdfSeo";
 import { ExtractImagesSeo, extractImagesFaqJsonLd, extractImagesHowToJsonLd, extractImagesSoftwareJsonLd } from "@/components/ExtractImagesSeo";
+import { ComparePdfSeo, compareFaqJsonLd, compareHowToJsonLd, compareSoftwareJsonLd } from "@/components/ComparePdfSeo";
 
 
 
@@ -741,6 +742,30 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "compare") {
+      const title = "Compare PDF Files Online Free — Find Differences, No Upload | PDFfree";
+      const desc = "Compare two PDFs online free — spot every changed page side by side in your browser. No upload, no signup. Both files stay on your device.";
+      const url = "/tools/compare";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(compareFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(compareHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(compareSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
@@ -796,6 +821,7 @@ function ToolPage() {
   const isAddBlankPages = slug === "add-blank-pages";
   const isScanToPdf = slug === "scan-to-pdf";
   const isExtractImages = slug === "extract-images";
+  const isCompare = slug === "compare";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
@@ -851,6 +877,8 @@ function ToolPage() {
     ? "Scan to PDF — Turn Your Phone Into a Document Scanner, Free"
     : isExtractImages
     ? "Extract Images from PDF — Original Quality, 100% Private"
+    : isCompare
+    ? "Compare PDFs — Find Every Difference Between Two Files"
     : tool.name;
 
   return (
@@ -894,6 +922,7 @@ function ToolPage() {
       {isAddBlankPages && <AddBlankPagesSeo />}
       {isScanToPdf && <ScanToPdfSeo />}
       {isExtractImages && <ExtractImagesSeo />}
+      {isCompare && <ComparePdfSeo />}
     </>
   );
 }
