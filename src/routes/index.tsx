@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Lock } from "lucide-react";
-import { tools, categories, type ToolCategory } from "@/tools/registry";
+import { tools, categories, categoryTint, type ToolCategory } from "@/tools/registry";
 
 export const Route = createFileRoute("/")({
   component: Home,
