@@ -136,12 +136,8 @@ function Home() {
         </div>
       </section>
 
-      <div
-        className="mx-auto max-w-[1200px] px-4 sm:px-6 pb-16 text-center text-[13px]"
-        style={{ color: "#7a7a86" }}
-      >
-        All 28 tools. All free. All private. Files never leave your device.
-      </div>
+      <HomeBottom />
     </div>
   );
 }
+
