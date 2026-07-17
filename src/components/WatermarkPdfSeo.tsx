@@ -56,6 +56,11 @@ const scenarios = [
     h: "Course notes, e-books and reports you distribute",
     p: "Study material, research reports and paid PDF products travel fast once one copy is loose. Watermarking every page with your name, the buyer's name or a licence line makes the file traceable and less useful to redistribute anonymously — a soft deterrent that costs the honest reader nothing.",
   },
+  {
+    h: "Company logo across every page of a PDF",
+    p: "Invoices, quotations, offer letters, case studies and pitch decks look unmistakably yours the moment your logo is stamped on every page. Switch to the Image tab, upload your logo as a PNG (transparent background works best) or JPG, drop opacity to around 15–25% so it sits behind the text as a background brand mark, and click Apply Watermark — the same logo lands centred on page 1, page 50 and every page in between, so a forwarded screenshot still shows who the document came from.",
+  },
+
 ];
 
 const faqs = [
@@ -76,8 +81,8 @@ const faqs = [
     a: "Yes. The tool stamps every page of the PDF in a single pass — one text draw or one image draw per page, centred, using the exact size, angle and opacity you configured. A 1-page ID and a 250-page report are both fully covered by a single click.",
   },
   {
-    q: "Can I add an image or logo watermark?",
-    a: "Yes. The Image tab accepts a PNG or JPG file and stamps it on every page. The logo is centred and auto-scaled to about half of the shorter page edge, and the Angle and Opacity sliders control the tilt and transparency exactly like the text mode. There is no manual size or position control for the image — if you need fine placement or repeating tiles, that is a separate use case.",
+    q: "Can I add my logo to a PDF?",
+    a: "Yes. Open the PDF, switch to the Image tab, and upload your logo as a PNG (transparent background recommended) or JPG. Set the Angle — 0° for an upright brand mark or -30° for a diagonal stamp — and set the Opacity, usually around 15–25% if you want the logo to sit as a soft background on document pages, or 60–100% if you want it to read as a clear brand stamp. Click Apply Watermark and the logo is centred on every page of the file. The image is auto-scaled to about half the shorter page edge, so it stays readable on both A4 pages and larger formats without any manual sizing.",
   },
   {
     q: "Can someone remove my watermark?",
