@@ -203,11 +203,7 @@ async function buildPdfFromText(
   const lineHeight = size * LINE_MULT[opts.lineSpacing];
   const maxWidth = pw - margin * 2;
 
-  // Replace unencodable chars with '?' so pdf-lib doesn't throw.
-  let sanitized = false;
-  const safeText = text.replace(/[^\u0000-\u00ff]/g, () => { sanitized = true; return "?"; });
-
-  const rawLines = safeText.replace(/\r\n?/g, "\n").split("\n");
+  const rawLines = text.replace(/\r\n?/g, "\n").split("\n");
   const wrapped: string[] = [];
   for (const line of rawLines) wrapped.push(...wrapLine(line, font, size, maxWidth));
 
@@ -223,8 +219,21 @@ async function buildPdfFromText(
   }
   if (!wrapped.length) doc.addPage([pw, ph]);
 
-  const bytes = await doc.save();
-  return { bytes, sanitized };
+  return await doc.save();
+}
+
+/** Route to raster pipeline for non-Latin text (Devanagari/CJK/Arabic/etc.),
+ *  otherwise use the fast vector pipeline. */
+async function buildAnyPdf(
+  text: string,
+  opts: { pageSize: PageSize; fontSize: FontSizeOpt; margin: MarginOpt; lineSpacing: LineSpacing },
+): Promise<{ bytes: Uint8Array; raster: boolean }> {
+  if (hasNonLatinChars(text)) {
+    const bytes = await buildRasterPdfFromText(text, opts);
+    return { bytes, raster: true };
+  }
+  const bytes = await buildPdfFromText(text, opts);
+  return { bytes, raster: false };
 }
 
 export default function TxtToPdf() {
