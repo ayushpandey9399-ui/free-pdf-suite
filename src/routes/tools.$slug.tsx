@@ -25,6 +25,7 @@ import { HeaderFooterSeo, headerFooterFaqJsonLd, headerFooterHowToJsonLd, header
 import { CropPdfSeo, cropPdfFaqJsonLd, cropPdfHowToJsonLd, cropPdfSoftwareJsonLd } from "@/components/CropPdfSeo";
 import { EditPdfSeo, editPdfFaqJsonLd, editPdfHowToJsonLd, editPdfSoftwareJsonLd } from "@/components/EditPdfSeo";
 import { FillFormsSeo, fillFormsFaqJsonLd, fillFormsHowToJsonLd, fillFormsSoftwareJsonLd } from "@/components/FillFormsSeo";
+import { FlattenPdfSeo, flattenPdfFaqJsonLd, flattenPdfHowToJsonLd, flattenPdfSoftwareJsonLd } from "@/components/FlattenPdfSeo";
 
 
 
@@ -581,6 +582,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "flatten-pdf") {
+      const title =
+        "Flatten PDF Online Free — Make Form Fields Permanent | PDFfree";
+      const desc =
+        "Flatten PDF online free — lock form fields so answers can't be changed. Runs in your browser: no upload, no signup, no watermark.";
+      const url = "/tools/flatten-pdf";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(flattenPdfFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(flattenPdfHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(flattenPdfSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
@@ -630,6 +657,7 @@ function ToolPage() {
   const isCrop = slug === "crop";
   const isEditPdf = slug === "edit-pdf";
   const isFillForms = slug === "fill-forms";
+  const isFlattenPdf = slug === "flatten-pdf";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
@@ -673,6 +701,8 @@ function ToolPage() {
     ? "Edit PDF Online — Add Text, Highlight and Annotate, Free"
     : isFillForms
     ? "Fill PDF Forms Online — Free, Private, No Printing"
+    : isFlattenPdf
+    ? "Flatten PDF — Lock Form Fields Into Permanent Content"
     : tool.name;
 
   return (
@@ -710,6 +740,7 @@ function ToolPage() {
       {isCrop && <CropPdfSeo />}
       {isEditPdf && <EditPdfSeo />}
       {isFillForms && <FillFormsSeo />}
+      {isFlattenPdf && <FlattenPdfSeo />}
     </>
   );
 }
