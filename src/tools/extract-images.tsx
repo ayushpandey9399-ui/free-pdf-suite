@@ -250,6 +250,7 @@ async function scanImages(
       if (skip) continue;
 
       if (terminal === "/DCTDecode") {
+        console.log("[extract-images] filters=", filters.join(","), "rawLen=", stream.contents.length, "decodedLen=", data.length, "head=", Array.from(data.slice(0, 16)).map((b) => b.toString(16).padStart(2, "0")).join(""), "rawHead=", Array.from(stream.contents.slice(0, 16)).map((b) => b.toString(16).padStart(2, "0")).join(""));
         // Require a valid JPEG SOI marker (0xFFD8FF).
         if (data.length < 3 || data[0] !== 0xff || data[1] !== 0xd8 || data[2] !== 0xff) continue;
         blob = new Blob([data as BlobPart], { type: "image/jpeg" });
