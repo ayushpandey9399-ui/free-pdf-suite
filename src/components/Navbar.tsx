@@ -339,5 +339,6 @@ function shortCategory(cat: ToolCategory): string {
   if (cat === "Organize PDF") return "Organize";
   if (cat === "Convert PDF") return "Convert";
   if (cat === "Edit PDF") return "Edit";
+  if (cat === "Security") return "Security";
   return "Forms & Compare";
 }
