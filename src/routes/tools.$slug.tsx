@@ -29,6 +29,7 @@ import { FlattenPdfSeo, flattenPdfFaqJsonLd, flattenPdfHowToJsonLd, flattenPdfSo
 import { PdfMetadataSeo, pdfMetadataFaqJsonLd, pdfMetadataHowToJsonLd, pdfMetadataSoftwareJsonLd } from "@/components/PdfMetadataSeo";
 import { GrayscalePdfSeo, grayscalePdfFaqJsonLd, grayscalePdfHowToJsonLd, grayscalePdfSoftwareJsonLd } from "@/components/GrayscalePdfSeo";
 import { AddBlankPagesSeo, addBlankPagesFaqJsonLd, addBlankPagesHowToJsonLd, addBlankPagesSoftwareJsonLd } from "@/components/AddBlankPagesSeo";
+import { ScanToPdfSeo, scanToPdfFaqJsonLd, scanToPdfHowToJsonLd, scanToPdfSoftwareJsonLd } from "@/components/ScanToPdfSeo";
 
 
 
