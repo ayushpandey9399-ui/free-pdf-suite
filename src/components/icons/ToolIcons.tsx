@@ -26,6 +26,7 @@ import extractImagesUrl from "@/assets/icons/extract-images.png";
 import grayscalePdfUrl from "@/assets/icons/grayscale-pdf.png";
 import headerFooterUrl from "@/assets/icons/header-footer.png";
 import addBlankPagesUrl from "@/assets/icons/add-blank-pages.png";
+import scanToPdfUrl from "@/assets/icons/scan-to-pdf.png";
 
 /**
  * AI-generated icon artwork for PDFfree tools.
@@ -82,6 +83,7 @@ export const ExtractImagesIcon = makeIcon(extractImagesUrl, "Extract Images from
 export const GrayscalePdfIcon = makeIcon(grayscalePdfUrl, "Grayscale PDF");
 export const HeaderFooterIcon = makeIcon(headerFooterUrl, "Add Header & Footer");
 export const AddBlankPagesIcon = makeIcon(addBlankPagesUrl, "Add Blank Pages");
+export const ScanToPdfIcon = makeIcon(scanToPdfUrl, "Scan to PDF");
 
 
 export const toolIcons: Record<string, ComponentType<ToolIconProps>> = {
@@ -111,4 +113,5 @@ export const toolIcons: Record<string, ComponentType<ToolIconProps>> = {
   "grayscale-pdf": GrayscalePdfIcon,
   "header-footer": HeaderFooterIcon,
   "add-blank-pages": AddBlankPagesIcon,
+  "scan-to-pdf": ScanToPdfIcon,
 };

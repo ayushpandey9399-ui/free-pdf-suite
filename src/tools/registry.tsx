@@ -35,6 +35,7 @@ const meta: Omit<ToolMeta, "icon">[] = [
   { slug: "extract-images", name: "Extract Images", description: "Pull out all the images embedded in your PDF and download them in original quality.", category: "Convert PDF", Component: lazy(() => import("./extract-images")) },
   { slug: "pdf-to-text", name: "PDF to Text", description: "Extract all text from your PDF and copy or download it as .txt.", category: "Convert PDF", Component: lazy(() => import("./pdf-to-text")) },
   { slug: "txt-to-pdf", name: "TXT to PDF", description: "Convert plain text files into a clean, readable PDF document.", category: "Convert PDF", Component: lazy(() => import("./txt-to-pdf")) },
+  { slug: "scan-to-pdf", name: "Scan to PDF", description: "Use your camera to scan documents and turn them into a PDF — right in your browser.", category: "Convert PDF", Component: lazy(() => import("./scan-to-pdf")) },
   { slug: "page-numbers", name: "Page Numbers", description: "Add page numbers with custom position, font size and starting value.", category: "Edit PDF", Component: lazy(() => import("./page-numbers")) },
   { slug: "header-footer", name: "Add Header & Footer", description: "Stamp text like dates, filenames, or your company name at the top or bottom of every page.", category: "Edit PDF", Component: lazy(() => import("./header-footer")) },
   { slug: "watermark", name: "Add Watermark", description: "Stamp text or an image over your PDF with adjustable opacity.", category: "Edit PDF", Component: lazy(() => import("./watermark")) },
