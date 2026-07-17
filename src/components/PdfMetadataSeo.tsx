@@ -81,9 +81,9 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
   },
   {
     q: "How do I remove all metadata from a PDF?",
-    a: "Open the file here, tick Clear all metadata in the sidebar, then click Save PDF. The tool blanks Title, Author, Subject and Keywords and resets Producer and Creator, then downloads a fresh -updated.pdf copy with those fields empty.",
+    a: "Open the file here, tick Clear all metadata in the sidebar, then click Save PDF. The tool blanks Title, Author, Subject and Keywords, resets Producer and Creator, and removes the Created and Modified timestamps, then downloads a fresh -updated.pdf copy with those fields empty.",
     plain:
-      "Open the file, tick Clear all metadata, click Save PDF. Title, Author, Subject, Keywords, Producer and Creator are all blanked in a fresh -updated.pdf copy.",
+      "Open the file, tick Clear all metadata, click Save PDF. Title, Author, Subject, Keywords, Producer, Creator and the Created/Modified timestamps are all wiped in a fresh -updated.pdf copy.",
   },
   {
     q: "Can people really see my PDF's metadata?",
