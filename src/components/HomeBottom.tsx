@@ -236,7 +236,7 @@ function ReasonCard({
         boxShadow: hover
           ? "0 10px 24px -14px rgba(20,20,43,0.16)"
           : "0 1px 2px rgba(20,20,43,0.03)",
-        boxShadowColor: undefined,
+        
       }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
