@@ -13,6 +13,8 @@ export interface FileDropzoneProps {
   buttonLabel?: string;
   /** Small hint text under the button, e.g. "or drop PDFs here". */
   hint?: string;
+  /** Skip the built-in selected-file list (when the tool renders its own list/thumbnails). */
+  hideList?: boolean;
   /** Legacy: previously rendered as heading in dashed box; kept for back-compat. */
   label?: string;
 }
@@ -25,6 +27,7 @@ export function FileDropzone({
   maxSizeMB = 100,
   buttonLabel,
   hint,
+  hideList,
   label,
 }: FileDropzoneProps) {
   const [dragging, setDragging] = useState(false);
