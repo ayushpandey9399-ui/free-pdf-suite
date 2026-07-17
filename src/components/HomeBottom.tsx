@@ -386,7 +386,7 @@ function FinalCta() {
           All 28 tools. All free. All private.
         </h2>
         <p className="mt-3 text-[16px]" style={{ color: MUTED }}>
-          Files never leave your device — start with any tool.
+          Every tool processes your file in your browser — start with any one.
         </p>
         <button
           type="button"
