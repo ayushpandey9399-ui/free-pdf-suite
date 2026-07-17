@@ -6,7 +6,9 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { downloadBlob, downloadZip } from "@/lib/download";
-import { ensurePdfWorker } from "@/lib/pdfWorker";
+import { loadPdfJsDoc, isPdfPasswordError } from "@/lib/pdfGuard";
+import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
+import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
 
 export default function PdfToImages() {
   const [files, setFiles] = useState<File[]>([]);
@@ -15,6 +17,7 @@ export default function PdfToImages() {
   const [scale, setScale] = useState(2);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState<number | null>(null);
+  const { protectedName, reset } = usePdfPasswordCheck(files, () => setFiles([]));
 
   const run = async () => {
     const file = files[0];
@@ -22,8 +25,7 @@ export default function PdfToImages() {
     setLoading(true);
     setProgress(0);
     try {
-      const pdfjs = ensurePdfWorker();
-      const doc = await pdfjs.getDocument({ data: await file.arrayBuffer() }).promise;
+      const doc = await loadPdfJsDoc(await file.arrayBuffer());
       const total = doc.numPages;
       const mime = format === "png" ? "image/png" : "image/jpeg";
       const out: { name: string; data: Blob }[] = [];
@@ -44,7 +46,8 @@ export default function PdfToImages() {
       else await downloadZip(out, `${base}-images.zip`);
       toast.success(`Exported ${out.length} image${out.length > 1 ? "s" : ""}`);
     } catch (e) {
-      toast.error(`Failed: ${(e as Error).message}`);
+      if (isPdfPasswordError(e)) toast.error("PDF is password-protected");
+      else toast.error(`Failed: ${(e as Error).message}`);
     } finally {
       setLoading(false);
       setProgress(null);
@@ -54,29 +57,35 @@ export default function PdfToImages() {
   return (
     <div>
       <FileDropzone accept="application/pdf" files={files} onFilesChange={setFiles} />
-      {files.length > 0 && (
-        <div className="mt-6 grid gap-4 sm:grid-cols-3 rounded-xl border bg-card p-4">
-          <div>
-            <Label>Format</Label>
-            <Select value={format} onValueChange={(v) => setFormat(v as never)}>
-              <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="png">PNG</SelectItem>
-                <SelectItem value="jpg">JPG</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div>
-            <Label>Quality: {Math.round(quality * 100)}%</Label>
-            <Slider value={[quality * 100]} min={30} max={100} step={5} onValueChange={(v) => setQuality(v[0] / 100)} className="mt-3" />
-          </div>
-          <div>
-            <Label>Scale: {scale}×</Label>
-            <Slider value={[scale]} min={1} max={4} step={0.5} onValueChange={(v) => setScale(v[0])} className="mt-3" />
-          </div>
-        </div>
+      {protectedName ? (
+        <PasswordProtectedNotice fileName={protectedName} onReset={reset} />
+      ) : (
+        <>
+          {files.length > 0 && (
+            <div className="mt-6 grid gap-4 sm:grid-cols-3 rounded-xl border bg-card p-4">
+              <div>
+                <Label>Format</Label>
+                <Select value={format} onValueChange={(v) => setFormat(v as never)}>
+                  <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="png">PNG</SelectItem>
+                    <SelectItem value="jpg">JPG</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label>Quality: {Math.round(quality * 100)}%</Label>
+                <Slider value={[quality * 100]} min={30} max={100} step={5} onValueChange={(v) => setQuality(v[0] / 100)} className="mt-3" />
+              </div>
+              <div>
+                <Label>Scale: {scale}×</Label>
+                <Slider value={[scale]} min={1} max={4} step={0.5} onValueChange={(v) => setScale(v[0])} className="mt-3" />
+              </div>
+            </div>
+          )}
+          <ActionBar onRun={run} disabled={!files.length} loading={loading} progress={progress} label="Convert to Images" />
+        </>
       )}
-      <ActionBar onRun={run} disabled={!files.length} loading={loading} progress={progress} label="Convert to Images" />
     </div>
   );
 }

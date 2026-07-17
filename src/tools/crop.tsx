@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { PDFDocument } from "pdf-lib";
 import { toast } from "sonner";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ActionBar } from "@/components/ActionBar";
@@ -7,8 +6,10 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { downloadBlob } from "@/lib/download";
-import { ensurePdfWorker } from "@/lib/pdfWorker";
 import { parseRanges, expandRanges } from "@/lib/pageRange";
+import { loadPdfLibDoc, loadPdfJsDoc, isPdfPasswordError } from "@/lib/pdfGuard";
+import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
+import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
 
 type Handle =
   | "move"
@@ -46,6 +47,8 @@ export default function Crop() {
   } | null>(null);
 
   const file = files[0];
+  const { protectedName, reset } = usePdfPasswordCheck(files, () => setFiles([]));
+
 
   // Render first page + read page count
   useEffect(() => {
@@ -56,8 +59,7 @@ export default function Crop() {
     if (!file) return;
     (async () => {
       try {
-        const pdfjs = ensurePdfWorker();
-        const doc = await pdfjs.getDocument({ data: await file.arrayBuffer() }).promise;
+        const doc = await loadPdfJsDoc(await file.arrayBuffer());
         if (cancelled) return;
         setNumPages(doc.numPages);
         const page = await doc.getPage(1);
@@ -73,7 +75,7 @@ export default function Crop() {
         if (cancelled) return;
         setPreview({ url: canvas.toDataURL("image/png"), w: vp1.width, h: vp1.height });
       } catch (e) {
-        toast.error(`Preview failed: ${(e as Error).message}`);
+        if (!isPdfPasswordError(e)) toast.error(`Preview failed: ${(e as Error).message}`);
       }
     })();
     return () => { cancelled = true; };
@@ -189,11 +191,11 @@ export default function Crop() {
     if (!file) return;
     setLoading(true);
     try {
-      const doc = await PDFDocument.load(await file.arrayBuffer(), { ignoreEncryption: true });
+      const doc = await loadPdfLibDoc(await file.arrayBuffer());
       const pages = doc.getPages();
       let target: number[];
       if (applyAll) {
-        target = pages.map((_, i) => i + 1);
+        target = pages.map((_p, i) => i + 1);
       } else {
         target = expandRanges(parseRanges(pageRange, pages.length));
       }
@@ -213,7 +215,8 @@ export default function Crop() {
       );
       toast.success("Cropped PDF downloaded");
     } catch (e) {
-      toast.error(`Failed: ${(e as Error).message}`);
+      if (isPdfPasswordError(e)) toast.error("PDF is password-protected");
+      else toast.error(`Failed: ${(e as Error).message}`);
     } finally {
       setLoading(false);
     }
@@ -223,7 +226,9 @@ export default function Crop() {
     <div>
       <FileDropzone accept="application/pdf" files={files} onFilesChange={setFiles} />
 
-      {file && (
+      {protectedName ? (
+        <PasswordProtectedNotice fileName={protectedName} onReset={reset} />
+      ) : file && (
         <div className="mt-6 space-y-6">
           {/* Preview */}
           <div className="rounded-xl border bg-card p-4">

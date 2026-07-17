@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { PDFDocument } from "pdf-lib";
 import { toast } from "sonner";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ActionBar } from "@/components/ActionBar";
@@ -16,11 +15,16 @@ import {
 import { SortableContext, arrayMove, verticalListSortingStrategy, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Button } from "@/components/ui/button";
+import { PDFDocument } from "pdf-lib";
+import { loadPdfLibDoc, isPdfPasswordError } from "@/lib/pdfGuard";
+import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
+import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
 
 export default function Merge() {
   const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }));
+  const { protectedName, reset } = usePdfPasswordCheck(files, () => setFiles([]));
 
   const run = async () => {
     if (files.length < 2) {
@@ -31,7 +35,7 @@ export default function Merge() {
     try {
       const out = await PDFDocument.create();
       for (const f of files) {
-        const src = await PDFDocument.load(await f.arrayBuffer(), { ignoreEncryption: true });
+        const src = await loadPdfLibDoc(await f.arrayBuffer());
         const pages = await out.copyPages(src, src.getPageIndices());
         for (const p of pages) out.addPage(p);
       }
@@ -40,7 +44,8 @@ export default function Merge() {
       toast.success("Merged PDF downloaded");
     } catch (e) {
       console.error(e);
-      toast.error(`Merge failed: ${(e as Error).message}`);
+      if (isPdfPasswordError(e)) toast.error("One of the PDFs is password-protected");
+      else toast.error(`Merge failed: ${(e as Error).message}`);
     } finally {
       setLoading(false);
     }
@@ -83,21 +88,27 @@ export default function Merge() {
           })
         }
       />
-      {files.length > 0 && (
-        <div className="mt-4">
-          <p className="text-sm text-muted-foreground mb-2">Drag to reorder — top file appears first.</p>
-          <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
-            <SortableContext items={files.map((_, i) => String(i))} strategy={verticalListSortingStrategy}>
-              <ul className="space-y-2">
-                {files.map((f, i) => (
-                  <SortableRow key={i} id={String(i)} name={f.name} size={f.size} onRemove={() => setFiles(files.filter((_, j) => j !== i))} />
-                ))}
-              </ul>
-            </SortableContext>
-          </DndContext>
-        </div>
+      {protectedName ? (
+        <PasswordProtectedNotice fileName={protectedName} onReset={reset} />
+      ) : (
+        <>
+          {files.length > 0 && (
+            <div className="mt-4">
+              <p className="text-sm text-muted-foreground mb-2">Drag to reorder — top file appears first.</p>
+              <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+                <SortableContext items={files.map((_, i) => String(i))} strategy={verticalListSortingStrategy}>
+                  <ul className="space-y-2">
+                    {files.map((f, i) => (
+                      <SortableRow key={i} id={String(i)} name={f.name} size={f.size} onRemove={() => setFiles(files.filter((_, j) => j !== i))} />
+                    ))}
+                  </ul>
+                </SortableContext>
+              </DndContext>
+            </div>
+          )}
+          <ActionBar onRun={run} disabled={files.length < 2} loading={loading} label={`Merge ${files.length || ""} PDFs`.trim()} />
+        </>
       )}
-      <ActionBar onRun={run} disabled={files.length < 2} loading={loading} label={`Merge ${files.length || ""} PDFs`.trim()} />
     </div>
   );
 }
