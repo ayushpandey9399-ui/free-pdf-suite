@@ -264,6 +264,7 @@ function ToolPage() {
   const isPdfToImages = slug === "pdf-to-images";
   const isRedact = slug === "redact-pdf";
   const isProtect = slug === "protect-pdf";
+  const isUnlock = slug === "unlock-pdf";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
@@ -279,6 +280,8 @@ function ToolPage() {
     ? "Redact PDF Online — Permanently Remove Sensitive Information"
     : isProtect
     ? "Password Protect PDF — Free AES-256 Encryption, 100% Private"
+    : isUnlock
+    ? "Unlock PDF — Remove Password From PDF, 100% Private"
     : tool.name;
 
   return (
