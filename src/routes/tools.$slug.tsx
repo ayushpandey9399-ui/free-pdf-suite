@@ -21,6 +21,7 @@ import { ImagesToPdfSeo, imagesToPdfFaqJsonLd, imagesToPdfHowToJsonLd, imagesToP
 import { PdfToTextSeo, pdfToTextFaqJsonLd, pdfToTextHowToJsonLd, pdfToTextSoftwareJsonLd } from "@/components/PdfToTextSeo";
 import { TxtToPdfSeo, txtToPdfFaqJsonLd, txtToPdfHowToJsonLd, txtToPdfSoftwareJsonLd } from "@/components/TxtToPdfSeo";
 import { PageNumbersSeo, pageNumbersFaqJsonLd, pageNumbersHowToJsonLd, pageNumbersSoftwareJsonLd } from "@/components/PageNumbersSeo";
+import { HeaderFooterSeo, headerFooterFaqJsonLd, headerFooterHowToJsonLd, headerFooterSoftwareJsonLd } from "@/components/HeaderFooterSeo";
 
 
 
@@ -473,6 +474,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "header-footer") {
+      const title =
+        "Add Header & Footer to PDF Online Free — Text, Date, Page Numbers | PDFfree";
+      const desc =
+        "Add headers and footers to PDF online free — title, date, filename or page numbers on every page, in your browser. No upload, no signup.";
+      const url = "/tools/header-footer";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(headerFooterFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(headerFooterHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(headerFooterSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
@@ -518,6 +545,7 @@ function ToolPage() {
   const isPdfToText = slug === "pdf-to-text";
   const isTxtToPdf = slug === "txt-to-pdf";
   const isPageNumbers = slug === "page-numbers";
+  const isHeaderFooter = slug === "header-footer";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
@@ -553,6 +581,8 @@ function ToolPage() {
     ? "TXT to PDF — Convert Text Files to Clean PDFs, Free"
     : isPageNumbers
     ? "Add Page Numbers to PDF — Free, Any Position, 100% Private"
+    : isHeaderFooter
+    ? "Add Header & Footer to PDF — Every Page, 100% Private"
     : tool.name;
 
   return (
@@ -586,6 +616,7 @@ function ToolPage() {
       {isPdfToText && <PdfToTextSeo />}
       {isTxtToPdf && <TxtToPdfSeo />}
       {isPageNumbers && <PageNumbersSeo />}
+      {isHeaderFooter && <HeaderFooterSeo />}
     </>
   );
 }
