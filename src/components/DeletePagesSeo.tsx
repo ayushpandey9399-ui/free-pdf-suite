@@ -42,11 +42,12 @@ const benefits = [
 const scenarios = [
   {
     h: "Blank pages the scanner slipped in",
-    p: "Duplex scanners regularly emit a blank page whenever the back side of a sheet is empty, and phone scanner apps add stray blanks when a page is missed. Open the file here and click every blank thumbnail to drop them. If you want that detection to happen automatically instead of by eye, use the ",
-    linkTo: "/tools/remove-blank-pages" as const,
-    linkText: "Remove Blank Pages",
-    tail: " tool.",
+    p: "Duplex scanners regularly emit a blank page whenever the back side of a sheet is empty, and phone scanner apps add stray blanks when a page is missed. Open the file here, click every blank thumbnail and delete the lot in one pass — the surviving pages keep their exact order and quality.",
+    linkTo: null,
+    linkText: "",
+    tail: "",
   },
+
   {
     h: "Trimming a statement or report before submitting",
     p: "Downloaded bank statements, telecom bills and salary slips often carry pages of terms, marketing inserts or historical months you don't need to share. Delete the pages that are not relevant to the specific submission — a rental deposit, a visa application, a reimbursement — and send only what was asked for, nothing more.",
