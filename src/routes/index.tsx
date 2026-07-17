@@ -402,13 +402,13 @@ function ToolsSection() {
                       }}
                     >
                       <div
-                        className="grid h-[50px] w-[50px] place-items-center rounded-xl text-white transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3"
+                        className="grid h-[50px] w-[50px] place-items-center rounded-[14px] text-white transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-[4deg]"
                         style={{
                           backgroundImage: categoryGradient[cat],
                           boxShadow: "0 10px 22px -10px rgba(20,20,43,0.35)",
                         }}
                       >
-                        <Icon className="h-6 w-6" />
+                        <Icon size={26} strokeWidth={2} className="text-white" />
                       </div>
                       <h4
                         className="mt-5 font-bold text-[16px] leading-snug"
