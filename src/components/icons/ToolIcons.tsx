@@ -15,6 +15,7 @@ import cropUrl from "@/assets/icons/crop.png";
 import fillFormsUrl from "@/assets/icons/fill-forms.png";
 import compareUrl from "@/assets/icons/compare.png";
 import compressUrl from "@/assets/icons/compress.png";
+import signPdfUrl from "@/assets/icons/sign-pdf.png";
 
 /**
  * AI-generated icon artwork for PDFfree tools.
