@@ -580,6 +580,7 @@ export const Route = createFileRoute("/tools/$slug")({
           { type: "application/ld+json", children: JSON.stringify(fillFormsSoftwareJsonLd) },
         ],
       };
+    }
     return {
       meta: loaderData
         ? [
