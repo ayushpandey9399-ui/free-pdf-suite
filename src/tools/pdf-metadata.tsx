@@ -122,7 +122,8 @@ export default function PdfMetadata() {
         const kw = keywords.split(",").map((s) => s.trim()).filter(Boolean);
         doc.setKeywords(kw);
       }
-      const bytes = await doc.save();
+      // updateMetadata: false so pdf-lib doesn't stamp a fresh ModDate on save
+      const bytes = await doc.save({ updateMetadata: false });
       const blob = new Blob([bytes as BlobPart], { type: "application/pdf" });
       setResult({
         blob,
