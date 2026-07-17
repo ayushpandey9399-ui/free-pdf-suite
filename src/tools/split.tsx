@@ -2,16 +2,18 @@ import { useState } from "react";
 import { PDFDocument } from "pdf-lib";
 import { toast } from "sonner";
 import { FileDropzone } from "@/components/FileDropzone";
-import { ActionBar } from "@/components/ActionBar";
+import { ToolWorkspace } from "@/components/ToolWorkspace";
 import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { downloadBlob, downloadZip } from "@/lib/download";
+import { SelectedFileCard } from "@/components/SelectedFileCard";
+import { downloadBlob } from "@/lib/download";
 import { parseRanges } from "@/lib/pageRange";
 import { loadPdfLibDoc, isPdfPasswordError } from "@/lib/pdfGuard";
 import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
+import { usePdfStats } from "@/hooks/usePdfStats";
 import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 import JSZip from "jszip";
 
@@ -26,13 +28,9 @@ export default function Split() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<SplitResult | null>(null);
   const { protectedName, reset } = usePdfPasswordCheck(files, () => setFiles([]));
+  const { pageCount } = usePdfStats(files[0]);
 
-  const resetAll = () => {
-    setFiles([]);
-    setMode("ranges");
-    setRanges("1-1");
-    setResult(null);
-  };
+  const resetAll = () => { setFiles([]); setMode("ranges"); setRanges("1-1"); setResult(null); };
 
   const zipFiles = async (out: { name: string; data: Uint8Array }[]): Promise<Blob> => {
     const zip = new JSZip();
@@ -79,11 +77,8 @@ export default function Split() {
         toast.success(`Split into ${outFiles.length} file${outFiles.length > 1 ? "s" : ""}`);
       }
     } catch (e) {
-      if (isPdfPasswordError(e)) {
-        toast.error("PDF is password-protected");
-      } else {
-        toast.error(`Split failed: ${(e as Error).message}`);
-      }
+      if (isPdfPasswordError(e)) toast.error("PDF is password-protected");
+      else toast.error(`Split failed: ${(e as Error).message}`);
     } finally {
       setLoading(false);
     }
@@ -94,28 +89,39 @@ export default function Split() {
     return (
       <ToolSuccessScreen
         heading="PDF split successfully!"
-        subheading={
-          isZip
-            ? `${result.count} files packaged into a ZIP archive.`
-            : "Your extracted PDF is ready."
-        }
+        subheading={isZip ? `${result.count} files packaged into a ZIP archive.` : "Your extracted PDF is ready."}
         downloadLabel={isZip ? "Download ZIP" : "Download PDF"}
-        onDownload={() =>
-          downloadBlob(result.blob, result.filename, isZip ? "application/zip" : "application/pdf")
-        }
+        onDownload={() => downloadBlob(result.blob, result.filename, isZip ? "application/zip" : "application/pdf")}
         onReset={resetAll}
         suggestedSlugs={TOOL_SUGGESTIONS.split}
       />
     );
   }
 
+  if (files.length === 0) {
+    return (
+      <FileDropzone
+        accept="application/pdf"
+        files={files}
+        onFilesChange={setFiles}
+        buttonLabel="Select PDF file"
+      />
+    );
+  }
+
+  if (protectedName) return <PasswordProtectedNotice fileName={protectedName} onReset={reset} />;
+
+  const file = files[0];
+
   return (
-    <div>
-      <FileDropzone accept="application/pdf" files={files} onFilesChange={setFiles} />
-      {protectedName ? (
-        <PasswordProtectedNotice fileName={protectedName} onReset={reset} />
-      ) : files.length > 0 && (
-        <div className="mt-6 space-y-4 rounded-xl border bg-card p-4">
+    <ToolWorkspace
+      title="Split PDF"
+      actionLabel="Split PDF"
+      loadingLabel="Splitting…"
+      onAction={run}
+      loading={loading}
+      sidebar={
+        <>
           <RadioGroup value={mode} onValueChange={(v) => setMode(v as "ranges" | "every")}>
             <div className="flex items-center gap-2">
               <RadioGroupItem value="ranges" id="ranges" />
@@ -123,29 +129,21 @@ export default function Split() {
             </div>
             <div className="flex items-center gap-2">
               <RadioGroupItem value="every" id="every" />
-              <Label htmlFor="every">Every page → separate PDF (ZIP)</Label>
+              <Label htmlFor="every">Every page → separate PDF</Label>
             </div>
           </RadioGroup>
           {mode === "ranges" && (
             <div>
-              <Label htmlFor="range-input" className="text-sm">
-                Page ranges (e.g. 1-3, 5, 8-10)
-              </Label>
-              <Input id="range-input" value={ranges} onChange={(e) => setRanges(e.target.value)} className="mt-1" />
+              <Label htmlFor="range-input" className="text-sm">Page ranges</Label>
+              <Input id="range-input" value={ranges} onChange={(e) => setRanges(e.target.value)} placeholder="e.g. 1-3, 5, 8-10" className="mt-1" />
             </div>
           )}
-        </div>
-      )}
-      <ActionBar
-        onRun={run}
-        disabled={!files.length}
-        loading={loading}
-        label={loading ? "Splitting your PDF…" : "Split PDF"}
-      />
-    </div>
+        </>
+      }
+    >
+      <SelectedFileCard file={file} pageCount={pageCount} onRemove={resetAll} />
+    </ToolWorkspace>
   );
 }
 
-function stripExt(name: string) {
-  return name.replace(/\.pdf$/i, "");
-}
+function stripExt(name: string) { return name.replace(/\.pdf$/i, ""); }

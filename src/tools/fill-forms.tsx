@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { PDFTextField, PDFCheckBox, PDFDropdown, PDFRadioGroup, PDFOptionList } from "pdf-lib";
 import { toast } from "sonner";
 import { FileDropzone } from "@/components/FileDropzone";
-import { ActionBar } from "@/components/ActionBar";
+import { ToolWorkspace, InfoTip } from "@/components/ToolWorkspace";
 import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -28,20 +28,11 @@ export default function FillForms() {
   const [result, setResult] = useState<{ blob: Blob; filename: string } | null>(null);
   const { protectedName, reset } = usePdfPasswordCheck(files, () => { setFiles([]); setFields([]); setValues({}); });
 
-  const resetAll = () => {
-    setFiles([]);
-    setFields([]);
-    setValues({});
-    setResult(null);
-  };
+  const resetAll = () => { setFiles([]); setFields([]); setValues({}); setResult(null); };
 
   useEffect(() => {
     const file = files[0];
-    if (!file) {
-      setFields([]);
-      setValues({});
-      return;
-    }
+    if (!file) { setFields([]); setValues({}); return; }
     (async () => {
       try {
         const doc = await loadPdfLibDoc(await file.arrayBuffer());
@@ -50,22 +41,11 @@ export default function FillForms() {
         const initial: Record<string, string | boolean> = {};
         for (const f of form.getFields()) {
           const name = f.getName();
-          if (f instanceof PDFTextField) {
-            defs.push({ name, type: "text" });
-            initial[name] = f.getText() ?? "";
-          } else if (f instanceof PDFCheckBox) {
-            defs.push({ name, type: "checkbox" });
-            initial[name] = f.isChecked();
-          } else if (f instanceof PDFDropdown) {
-            defs.push({ name, type: "dropdown", options: f.getOptions() });
-            initial[name] = f.getSelected()[0] ?? "";
-          } else if (f instanceof PDFRadioGroup) {
-            defs.push({ name, type: "radio", options: f.getOptions() });
-            initial[name] = f.getSelected() ?? "";
-          } else if (f instanceof PDFOptionList) {
-            defs.push({ name, type: "options", options: f.getOptions() });
-            initial[name] = f.getSelected()[0] ?? "";
-          }
+          if (f instanceof PDFTextField) { defs.push({ name, type: "text" }); initial[name] = f.getText() ?? ""; }
+          else if (f instanceof PDFCheckBox) { defs.push({ name, type: "checkbox" }); initial[name] = f.isChecked(); }
+          else if (f instanceof PDFDropdown) { defs.push({ name, type: "dropdown", options: f.getOptions() }); initial[name] = f.getSelected()[0] ?? ""; }
+          else if (f instanceof PDFRadioGroup) { defs.push({ name, type: "radio", options: f.getOptions() }); initial[name] = f.getSelected() ?? ""; }
+          else if (f instanceof PDFOptionList) { defs.push({ name, type: "options", options: f.getOptions() }); initial[name] = f.getSelected()[0] ?? ""; }
         }
         setFields(defs);
         setValues(initial);
@@ -77,8 +57,7 @@ export default function FillForms() {
   }, [files]);
 
   const run = async () => {
-    const file = files[0];
-    if (!file) return;
+    const file = files[0]; if (!file) return;
     setLoading(true);
     try {
       const doc = await loadPdfLibDoc(await file.arrayBuffer());
@@ -99,9 +78,7 @@ export default function FillForms() {
     } catch (e) {
       if (isPdfPasswordError(e)) toast.error("PDF is password-protected");
       else toast.error(`Failed: ${(e as Error).message}`);
-    } finally {
-      setLoading(false);
-    }
+    } finally { setLoading(false); }
   };
 
   if (result) {
@@ -117,57 +94,68 @@ export default function FillForms() {
     );
   }
 
+  if (files.length === 0) {
+    return <FileDropzone accept="application/pdf" files={files} onFilesChange={setFiles} buttonLabel="Select PDF file" />;
+  }
+
+  if (protectedName) return <PasswordProtectedNotice fileName={protectedName} onReset={reset} />;
+
   return (
-    <div>
-      <FileDropzone accept="application/pdf" files={files} onFilesChange={setFiles} />
-      {protectedName ? (
-        <PasswordProtectedNotice fileName={protectedName} onReset={reset} />
-      ) : (
+    <ToolWorkspace
+      title="Fill forms"
+      actionLabel="Download Filled PDF"
+      loadingLabel="Filling form…"
+      onAction={run}
+      actionDisabled={!fields.length}
+      loading={loading}
+      sidebar={
         <>
-          {fields.length > 0 && (
-            <div className="mt-6 space-y-4 rounded-xl border bg-card p-4">
-              {fields.map((f) => (
-                <div key={f.name}>
-                  <Label htmlFor={f.name}>{f.name}</Label>
-                  {f.type === "text" && (
-                    <Input
-                      id={f.name}
-                      value={String(values[f.name] ?? "")}
-                      onChange={(e) => setValues({ ...values, [f.name]: e.target.value })}
-                      className="mt-1"
-                    />
-                  )}
-                  {f.type === "checkbox" && (
-                    <div className="mt-2">
-                      <Checkbox
-                        id={f.name}
-                        checked={!!values[f.name]}
-                        onCheckedChange={(v) => setValues({ ...values, [f.name]: !!v })}
-                      />
-                    </div>
-                  )}
-                  {(f.type === "dropdown" || f.type === "radio" || f.type === "options") && f.options && (
-                    <Select value={String(values[f.name] ?? "")} onValueChange={(v) => setValues({ ...values, [f.name]: v })}>
-                      <SelectTrigger className="mt-1"><SelectValue placeholder="Select…" /></SelectTrigger>
-                      <SelectContent>
-                        {f.options.map((o) => (
-                          <SelectItem key={o} value={o}>{o}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-          <ActionBar
-            onRun={run}
-            disabled={!files.length || !fields.length}
-            loading={loading}
-            label={loading ? "Filling form…" : "Download Filled PDF"}
-          />
+          <InfoTip>
+            {fields.length
+              ? `${fields.length} field${fields.length === 1 ? "" : "s"} detected. Fill them in and export the completed PDF.`
+              : "This PDF doesn't contain any interactive form fields."}
+          </InfoTip>
         </>
-      )}
-    </div>
+      }
+    >
+      <div className="rounded-2xl bg-white p-5" style={{ border: "1px solid #ececef" }}>
+        {fields.length === 0 ? (
+          <p className="py-10 text-center text-sm text-muted-foreground">No fillable form fields found in this PDF.</p>
+        ) : (
+          <div className="space-y-5">
+            {fields.map((f) => (
+              <div key={f.name}>
+                <Label htmlFor={f.name} className="font-medium">{f.name}</Label>
+                {f.type === "text" && (
+                  <Input
+                    id={f.name}
+                    value={String(values[f.name] ?? "")}
+                    onChange={(e) => setValues({ ...values, [f.name]: e.target.value })}
+                    className="mt-1"
+                  />
+                )}
+                {f.type === "checkbox" && (
+                  <div className="mt-2">
+                    <Checkbox
+                      id={f.name}
+                      checked={!!values[f.name]}
+                      onCheckedChange={(v) => setValues({ ...values, [f.name]: !!v })}
+                    />
+                  </div>
+                )}
+                {(f.type === "dropdown" || f.type === "radio" || f.type === "options") && f.options && (
+                  <Select value={String(values[f.name] ?? "")} onValueChange={(v) => setValues({ ...values, [f.name]: v })}>
+                    <SelectTrigger className="mt-1"><SelectValue placeholder="Select…" /></SelectTrigger>
+                    <SelectContent>
+                      {f.options.map((o) => (<SelectItem key={o} value={o}>{o}</SelectItem>))}
+                    </SelectContent>
+                  </Select>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </ToolWorkspace>
   );
 }

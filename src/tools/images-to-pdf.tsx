@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { PDFDocument, PageSizes } from "pdf-lib";
 import { toast } from "sonner";
+import { X, Plus } from "lucide-react";
 import { FileDropzone } from "@/components/FileDropzone";
-import { ActionBar } from "@/components/ActionBar";
+import { ToolWorkspace } from "@/components/ToolWorkspace";
 import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -18,13 +19,7 @@ export default function ImagesToPdf() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ blob: Blob; filename: string; count: number } | null>(null);
 
-  const resetAll = () => {
-    setFiles([]);
-    setPageSize("fit");
-    setOrientation("portrait");
-    setMargin(24);
-    setResult(null);
-  };
+  const resetAll = () => { setFiles([]); setPageSize("fit"); setOrientation("portrait"); setMargin(24); setResult(null); };
 
   const run = async () => {
     if (!files.length) return;
@@ -75,11 +70,41 @@ export default function ImagesToPdf() {
     );
   }
 
+  if (files.length === 0) {
+    return (
+      <FileDropzone
+        accept="image/png,image/jpeg"
+        multiple
+        files={files}
+        onFilesChange={setFiles}
+        buttonLabel="Select images"
+        hint="or drop JPG / PNG images here"
+      />
+    );
+  }
+
+  const removeAt = (i: number) => setFiles((prev) => prev.filter((_, idx) => idx !== i));
+  const openPicker = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/png,image/jpeg";
+    input.multiple = true;
+    input.onchange = () => {
+      const list = Array.from(input.files ?? []);
+      setFiles((prev) => [...prev, ...list]);
+    };
+    input.click();
+  };
+
   return (
-    <div>
-      <FileDropzone accept="image/png,image/jpeg" multiple files={files} onFilesChange={setFiles} buttonLabel="Select images" hint="or drop JPG / PNG images here" />
-      {files.length > 0 && (
-        <div className="mt-6 grid gap-4 sm:grid-cols-3 rounded-xl border bg-card p-4">
+    <ToolWorkspace
+      title="Images to PDF"
+      actionLabel="Create PDF"
+      loadingLabel="Creating PDF…"
+      onAction={run}
+      loading={loading}
+      sidebar={
+        <>
           <div>
             <Label>Page size</Label>
             <Select value={pageSize} onValueChange={(v) => setPageSize(v as never)}>
@@ -105,14 +130,39 @@ export default function ImagesToPdf() {
             <Label htmlFor="margin">Margin (pt)</Label>
             <Input id="margin" type="number" min={0} value={margin} onChange={(e) => setMargin(Number(e.target.value) || 0)} className="mt-1" />
           </div>
-        </div>
-      )}
-      <ActionBar
-        onRun={run}
-        disabled={!files.length}
-        loading={loading}
-        label={loading ? "Creating your PDF…" : "Create PDF"}
-      />
-    </div>
+        </>
+      }
+    >
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+        {files.map((f, i) => {
+          const url = URL.createObjectURL(f);
+          return (
+            <div key={i} className="group relative overflow-hidden rounded-xl border bg-white" style={{ borderColor: "#ececef" }}>
+              <img src={url} alt={f.name} className="aspect-[3/4] w-full object-cover" onLoad={() => URL.revokeObjectURL(url)} />
+              <div className="px-2 py-1.5 text-[11px] font-medium truncate" style={{ color: "#33333c" }}>{f.name}</div>
+              <button
+                type="button"
+                onClick={() => removeAt(i)}
+                className="absolute top-1.5 right-1.5 grid h-6 w-6 place-items-center rounded-full bg-white/95 text-[#7a7a86] shadow opacity-0 group-hover:opacity-100 transition-opacity hover:text-[#e5322d]"
+                aria-label="Remove image"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            </div>
+          );
+        })}
+        <button
+          type="button"
+          onClick={openPicker}
+          className="flex aspect-[3/4] flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed text-[13px] font-semibold transition-colors hover:border-[#e5322d] hover:text-[#e5322d]"
+          style={{ borderColor: "#e5d4d3", color: "#7a7a86" }}
+        >
+          <span className="grid h-10 w-10 place-items-center rounded-full text-white" style={{ backgroundColor: "#e5322d" }}>
+            <Plus className="h-5 w-5" />
+          </span>
+          Add more
+        </button>
+      </div>
+    </ToolWorkspace>
   );
 }

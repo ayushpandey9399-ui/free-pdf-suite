@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { FileDropzone } from "@/components/FileDropzone";
-import { ActionBar } from "@/components/ActionBar";
+import { ToolWorkspace } from "@/components/ToolWorkspace";
 import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
+import { SelectedFileCard } from "@/components/SelectedFileCard";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
@@ -31,18 +32,13 @@ export default function PdfToImages() {
   const { pageCount, fileSize } = usePdfStats(files[0]);
 
   const resetAll = () => {
-    setFiles([]);
-    setFormat("png");
-    setQuality(0.9);
-    setScale(2);
-    setResult(null);
+    setFiles([]); setFormat("png"); setQuality(0.9); setScale(2); setResult(null);
   };
 
   const run = async () => {
     const file = files[0];
     if (!file) return;
-    setLoading(true);
-    setProgress(0);
+    setLoading(true); setProgress(0);
     try {
       const doc = await loadPdfJsDoc(await file.arrayBuffer());
       const total = doc.numPages;
@@ -53,8 +49,7 @@ export default function PdfToImages() {
         const page = await doc.getPage(i);
         const vp = page.getViewport({ scale });
         const canvas = document.createElement("canvas");
-        canvas.width = vp.width;
-        canvas.height = vp.height;
+        canvas.width = vp.width; canvas.height = vp.height;
         const ctx = canvas.getContext("2d")!;
         await page.render({ canvasContext: ctx, viewport: vp, canvas } as never).promise;
         const blob: Blob = await new Promise((res) => canvas.toBlob((b) => res(b!), mime, quality));
@@ -74,8 +69,7 @@ export default function PdfToImages() {
       if (isPdfPasswordError(e)) toast.error("PDF is password-protected");
       else toast.error(`Failed: ${(e as Error).message}`);
     } finally {
-      setLoading(false);
-      setProgress(null);
+      setLoading(false); setProgress(null);
     }
   };
 
@@ -84,74 +78,62 @@ export default function PdfToImages() {
     return (
       <ToolSuccessScreen
         heading="Images exported!"
-        subheading={
-          isZip
-            ? `${result.count} images packaged into a ZIP archive.`
-            : "Your image is ready to download."
-        }
+        subheading={isZip ? `${result.count} images packaged into a ZIP archive.` : "Your image is ready to download."}
         downloadLabel={isZip ? "Download ZIP" : `Download ${format.toUpperCase()}`}
-        onDownload={() =>
-          downloadBlob(
-            result.blob,
-            result.filename,
-            isZip ? "application/zip" : (result as { mime: string }).mime,
-          )
-        }
+        onDownload={() => downloadBlob(result.blob, result.filename, isZip ? "application/zip" : (result as { mime: string }).mime)}
         onReset={resetAll}
         suggestedSlugs={TOOL_SUGGESTIONS["pdf-to-images"]}
       />
     );
   }
 
+  if (files.length === 0) {
+    return (
+      <FileDropzone accept="application/pdf" files={files} onFilesChange={setFiles} buttonLabel="Select PDF file" />
+    );
+  }
+
+  if (protectedName) return <PasswordProtectedNotice fileName={protectedName} onReset={reset} />;
+
+  const file = files[0];
+
   return (
-    <div>
-      <FileDropzone accept="application/pdf" files={files} onFilesChange={setFiles} />
-      {protectedName ? (
-        <PasswordProtectedNotice fileName={protectedName} onReset={reset} />
-      ) : (
+    <ToolWorkspace
+      title="PDF to Images"
+      actionLabel="Convert to Images"
+      loadingLabel="Converting…"
+      onAction={run}
+      loading={loading}
+      progress={progress}
+      sidebar={
         <>
-          {files[0] && (
-            <LargeFileWarning
-              pageCount={pageCount}
-              fileSize={fileSize}
-              extraNote={
-                pageCount > 30
-                  ? `This PDF has ${pageCount} pages — images will be generated page by page and may take a while. The progress bar below reflects per-page progress.`
-                  : undefined
-              }
-            />
-          )}
-          {files.length > 0 && (
-            <div className="mt-6 grid gap-4 sm:grid-cols-3 rounded-xl border bg-card p-4">
-              <div>
-                <Label>Format</Label>
-                <Select value={format} onValueChange={(v) => setFormat(v as never)}>
-                  <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="png">PNG</SelectItem>
-                    <SelectItem value="jpg">JPG</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <Label>Quality: {Math.round(quality * 100)}%</Label>
-                <Slider value={[quality * 100]} min={30} max={100} step={5} onValueChange={(v) => setQuality(v[0] / 100)} className="mt-3" />
-              </div>
-              <div>
-                <Label>Scale: {scale}×</Label>
-                <Slider value={[scale]} min={1} max={4} step={0.5} onValueChange={(v) => setScale(v[0])} className="mt-3" />
-              </div>
-            </div>
-          )}
-          <ActionBar
-            onRun={run}
-            disabled={!files.length}
-            loading={loading}
-            progress={progress}
-            label={loading ? "Converting to images…" : "Convert to Images"}
+          <div>
+            <Label>Format</Label>
+            <Select value={format} onValueChange={(v) => setFormat(v as never)}>
+              <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="png">PNG</SelectItem>
+                <SelectItem value="jpg">JPG</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <Label>Quality: {Math.round(quality * 100)}%</Label>
+            <Slider value={[quality * 100]} min={30} max={100} step={5} onValueChange={(v) => setQuality(v[0] / 100)} className="mt-3" />
+          </div>
+          <div>
+            <Label>Scale: {scale}×</Label>
+            <Slider value={[scale]} min={1} max={4} step={0.5} onValueChange={(v) => setScale(v[0])} className="mt-3" />
+          </div>
+          <LargeFileWarning
+            pageCount={pageCount}
+            fileSize={fileSize}
+            extraNote={pageCount > 30 ? `${pageCount} pages — will be generated page by page.` : undefined}
           />
         </>
-      )}
-    </div>
+      }
+    >
+      <SelectedFileCard file={file} pageCount={pageCount} onRemove={resetAll} />
+    </ToolWorkspace>
   );
 }

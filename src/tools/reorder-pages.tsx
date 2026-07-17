@@ -3,7 +3,7 @@ import { PDFDocument } from "pdf-lib";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { FileDropzone } from "@/components/FileDropzone";
-import { ActionBar } from "@/components/ActionBar";
+import { ToolWorkspace, InfoTip } from "@/components/ToolWorkspace";
 import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 import { SortableThumbGrid, type ThumbItem } from "@/components/SortableThumbGrid";
 import { renderPdfThumbnails } from "@/lib/thumbnail";
@@ -24,18 +24,11 @@ export default function ReorderPages() {
   const { protectedName, reset } = usePdfPasswordCheck(files, () => { setFiles([]); setItems([]); });
   const { pageCount, fileSize } = usePdfStats(files[0]);
 
-  const resetAll = () => {
-    setFiles([]);
-    setItems([]);
-    setResult(null);
-  };
+  const resetAll = () => { setFiles([]); setItems([]); setResult(null); };
 
   useEffect(() => {
     const file = files[0];
-    if (!file) {
-      setItems([]);
-      return;
-    }
+    if (!file) { setItems([]); return; }
     let cancelled = false;
     setRendering(true);
     renderPdfThumbnails(file)
@@ -43,13 +36,9 @@ export default function ReorderPages() {
         if (cancelled) return;
         setItems(thumbs.map((src, i) => ({ id: `p-${i + 1}`, src, label: `Page ${i + 1}` })));
       })
-      .catch((e) => {
-        if (!isPdfPasswordError(e)) toast.error(`Render failed: ${(e as Error).message}`);
-      })
+      .catch((e) => { if (!isPdfPasswordError(e)) toast.error(`Render failed: ${(e as Error).message}`); })
       .finally(() => !cancelled && setRendering(false));
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, [files]);
 
   const run = async () => {
@@ -87,35 +76,41 @@ export default function ReorderPages() {
     );
   }
 
+  if (files.length === 0) {
+    return (
+      <FileDropzone
+        accept="application/pdf"
+        files={files}
+        onFilesChange={setFiles}
+        buttonLabel="Select PDF file"
+      />
+    );
+  }
+
+  if (protectedName) return <PasswordProtectedNotice fileName={protectedName} onReset={reset} />;
+
   return (
-    <div>
-      <FileDropzone accept="application/pdf" files={files} onFilesChange={setFiles} />
-      {protectedName ? (
-        <PasswordProtectedNotice fileName={protectedName} onReset={reset} />
-      ) : (
+    <ToolWorkspace
+      title="Reorder pages"
+      actionLabel="Export Reordered PDF"
+      loadingLabel="Reordering…"
+      onAction={run}
+      actionDisabled={!items.length}
+      loading={loading}
+      sidebar={
         <>
-          {files[0] && <LargeFileWarning pageCount={pageCount} fileSize={fileSize} />}
-          {rendering && (
-            <div className="mt-6 flex items-center justify-center py-10 text-muted-foreground text-sm">
-              <Loader2 className="h-4 w-4 animate-spin mr-2" /> Rendering pages…
-            </div>
-          )}
-          {items.length > 0 && (
-            <>
-              <p className="mt-6 text-sm text-muted-foreground">Drag the ⋮⋮ handle on each thumbnail to reorder.</p>
-              <div className="mt-3">
-                <SortableThumbGrid items={items} onReorder={setItems} />
-              </div>
-            </>
-          )}
-          <ActionBar
-            onRun={run}
-            disabled={!items.length}
-            loading={loading}
-            label={loading ? "Reordering pages…" : "Export Reordered PDF"}
-          />
+          <InfoTip>Drag the ⋮⋮ handle on each thumbnail to change the page order.</InfoTip>
+          <LargeFileWarning pageCount={pageCount} fileSize={fileSize} />
         </>
+      }
+    >
+      {rendering ? (
+        <div className="flex items-center justify-center py-14 text-sm text-muted-foreground">
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Rendering pages…
+        </div>
+      ) : (
+        <SortableThumbGrid items={items} onReorder={setItems} />
       )}
-    </div>
+    </ToolWorkspace>
   );
 }

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { FileDropzone } from "@/components/FileDropzone";
-import { ActionBar } from "@/components/ActionBar";
+import { ToolWorkspace } from "@/components/ToolWorkspace";
 import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -15,17 +15,7 @@ import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
 import { usePdfStats } from "@/hooks/usePdfStats";
 import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 
-
-type Handle =
-  | "move"
-  | "n"
-  | "s"
-  | "e"
-  | "w"
-  | "ne"
-  | "nw"
-  | "se"
-  | "sw";
+type Handle = "move" | "n" | "s" | "e" | "w" | "ne" | "nw" | "se" | "sw";
 
 export default function Crop() {
   const [files, setFiles] = useState<File[]>([]);
@@ -35,8 +25,6 @@ export default function Crop() {
   const [left, setLeft] = useState(0);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ blob: Blob; filename: string } | null>(null);
-
-
   const [preview, setPreview] = useState<{ url: string; w: number; h: number } | null>(null);
   const [applyAll, setApplyAll] = useState(true);
   const [pageRange, setPageRange] = useState("1");
@@ -44,25 +32,18 @@ export default function Crop() {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<{
-    handle: Handle;
-    startX: number;
-    startY: number;
+    handle: Handle; startX: number; startY: number;
     start: { top: number; right: number; bottom: number; left: number };
-    pageW: number;
-    pageH: number;
-    scale: number;
+    pageW: number; pageH: number; scale: number;
   } | null>(null);
 
   const file = files[0];
   const { protectedName, reset } = usePdfPasswordCheck(files, () => setFiles([]));
   const { pageCount, fileSize } = usePdfStats(file);
 
-
-  // Render first page + read page count
   useEffect(() => {
     let cancelled = false;
-    setPreview(null);
-    setNumPages(0);
+    setPreview(null); setNumPages(0);
     setTop(0); setRight(0); setBottom(0); setLeft(0);
     if (!file) return;
     (async () => {
@@ -76,8 +57,7 @@ export default function Crop() {
         const scale = Math.min(2, maxW / vp1.width);
         const vp = page.getViewport({ scale });
         const canvas = document.createElement("canvas");
-        canvas.width = vp.width;
-        canvas.height = vp.height;
+        canvas.width = vp.width; canvas.height = vp.height;
         const ctx = canvas.getContext("2d")!;
         await page.render({ canvasContext: ctx, viewport: vp, canvas } as never).promise;
         if (cancelled) return;
@@ -89,37 +69,27 @@ export default function Crop() {
     return () => { cancelled = true; };
   }, [file]);
 
-  // Compute display scale from rendered container width
   const [displayW, setDisplayW] = useState(0);
   useEffect(() => {
     if (!preview) return;
-    const el = containerRef.current;
-    if (!el) return;
+    const el = containerRef.current; if (!el) return;
     const update = () => setDisplayW(el.clientWidth);
     update();
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
+    const ro = new ResizeObserver(update); ro.observe(el);
     return () => ro.disconnect();
   }, [preview]);
 
   const scale = preview && displayW ? displayW / preview.w : 0;
   const displayH = preview ? preview.h * scale : 0;
 
-  // Clamp margins so w/h > 10pt
   const clamp = (t: number, r: number, b: number, l: number) => {
     if (!preview) return { t, r, b, l };
     const minSize = 10;
-    t = Math.max(0, t);
-    b = Math.max(0, b);
-    l = Math.max(0, l);
-    r = Math.max(0, r);
-    if (preview.h - t - b < minSize) {
-      if (t + b > preview.h - minSize) {
-        const excess = t + b - (preview.h - minSize);
-        // shrink whichever was just changed less aggressively — cap both
-        t = Math.max(0, t - excess / 2);
-        b = Math.max(0, preview.h - minSize - t);
-      }
+    t = Math.max(0, t); b = Math.max(0, b); l = Math.max(0, l); r = Math.max(0, r);
+    if (preview.h - t - b < minSize && t + b > preview.h - minSize) {
+      const excess = t + b - (preview.h - minSize);
+      t = Math.max(0, t - excess / 2);
+      b = Math.max(0, preview.h - minSize - t);
     }
     if (preview.w - l - r < minSize) {
       const excess = l + r - (preview.w - minSize);
@@ -137,8 +107,7 @@ export default function Crop() {
   const boxStyle = useMemo(() => {
     if (!preview) return null;
     return {
-      left: left * scale,
-      top: top * scale,
+      left: left * scale, top: top * scale,
       width: (preview.w - left - right) * scale,
       height: (preview.h - top - bottom) * scale,
     };
@@ -148,34 +117,19 @@ export default function Crop() {
     if (!preview) return;
     e.preventDefault();
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-    dragRef.current = {
-      handle,
-      startX: e.clientX,
-      startY: e.clientY,
-      start: { top, right, bottom, left },
-      pageW: preview.w,
-      pageH: preview.h,
-      scale,
-    };
+    dragRef.current = { handle, startX: e.clientX, startY: e.clientY, start: { top, right, bottom, left }, pageW: preview.w, pageH: preview.h, scale };
   };
-
   const onPointerMove = (e: React.PointerEvent) => {
-    const d = dragRef.current;
-    if (!d) return;
+    const d = dragRef.current; if (!d) return;
     const dx = (e.clientX - d.startX) / d.scale;
     const dy = (e.clientY - d.startY) / d.scale;
     let { top: t, right: r, bottom: b, left: l } = d.start;
     switch (d.handle) {
       case "move": {
-        const maxDx = d.pageW - d.start.left - d.start.right;
-        const maxDy = d.pageH - d.start.top - d.start.bottom;
         const shiftX = Math.max(-d.start.left, Math.min(d.start.right, dx));
         const shiftY = Math.max(-d.start.top, Math.min(d.start.bottom, dy));
-        l = d.start.left + shiftX;
-        r = d.start.right - shiftX;
-        t = d.start.top + shiftY;
-        b = d.start.bottom - shiftY;
-        void maxDx; void maxDy;
+        l = d.start.left + shiftX; r = d.start.right - shiftX;
+        t = d.start.top + shiftY; b = d.start.bottom - shiftY;
         break;
       }
       case "n": t = d.start.top + dy; break;
@@ -189,19 +143,14 @@ export default function Crop() {
     }
     setMargins(t, r, b, l);
   };
-
   const onPointerUp = (e: React.PointerEvent) => {
     dragRef.current = null;
-    try { (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId); } catch {}
+    try { (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId); } catch { /* ignore */ }
   };
 
   const resetAll = () => {
-    setFiles([]);
-    setTop(0); setRight(0); setBottom(0); setLeft(0);
-    setApplyAll(true);
-    setPageRange("1");
-    setPreview(null);
-    setResult(null);
+    setFiles([]); setTop(0); setRight(0); setBottom(0); setLeft(0);
+    setApplyAll(true); setPageRange("1"); setPreview(null); setResult(null);
   };
 
   const run = async () => {
@@ -210,17 +159,11 @@ export default function Crop() {
     try {
       const doc = await loadPdfLibDoc(await file.arrayBuffer());
       const pages = doc.getPages();
-      let target: number[];
-      if (applyAll) {
-        target = pages.map((_p, i) => i + 1);
-      } else {
-        target = expandRanges(parseRanges(pageRange, pages.length));
-      }
+      const target: number[] = applyAll ? pages.map((_p, i) => i + 1) : expandRanges(parseRanges(pageRange, pages.length));
       for (const n of target) {
         const page = pages[n - 1];
         const { width, height } = page.getSize();
-        const x = left;
-        const y = bottom;
+        const x = left; const y = bottom;
         const w = Math.max(1, width - left - right);
         const h = Math.max(1, height - top - bottom);
         page.setCropBox(x, y, w, h);
@@ -232,16 +175,14 @@ export default function Crop() {
     } catch (e) {
       if (isPdfPasswordError(e)) toast.error("PDF is password-protected");
       else toast.error(`Failed: ${(e as Error).message}`);
-    } finally {
-      setLoading(false);
-    }
+    } finally { setLoading(false); }
   };
 
   if (result) {
     return (
       <ToolSuccessScreen
         heading="Your PDF has been cropped!"
-        subheading={applyAll ? "Cropped every page." : `Cropped selected pages.`}
+        subheading={applyAll ? "Cropped every page." : "Cropped selected pages."}
         downloadLabel="Download Cropped PDF"
         onDownload={() => downloadBlob(result.blob, result.filename, "application/pdf")}
         onReset={resetAll}
@@ -250,166 +191,105 @@ export default function Crop() {
     );
   }
 
+  if (files.length === 0) {
+    return <FileDropzone accept="application/pdf" files={files} onFilesChange={setFiles} buttonLabel="Select PDF file" />;
+  }
+
+  if (protectedName) return <PasswordProtectedNotice fileName={protectedName} onReset={reset} />;
+
   return (
-    <div>
-
-      <FileDropzone accept="application/pdf" files={files} onFilesChange={setFiles} />
-
-      {protectedName ? (
-        <PasswordProtectedNotice fileName={protectedName} onReset={reset} />
-      ) : file && (
-        <div className="mt-6 space-y-6">
+    <ToolWorkspace
+      title="Crop PDF"
+      actionLabel="Crop PDF"
+      loadingLabel="Cropping…"
+      onAction={run}
+      loading={loading}
+      sidebar={
+        <>
+          <p className="text-[12.5px]" style={{ color: "#7a7a86" }}>Margins in points (72pt = 1 inch)</p>
+          <div className="grid grid-cols-2 gap-2">
+            {[
+              { label: "Top", value: top, set: (v: number) => setMargins(v, right, bottom, left) },
+              { label: "Right", value: right, set: (v: number) => setMargins(top, v, bottom, left) },
+              { label: "Bottom", value: bottom, set: (v: number) => setMargins(top, right, v, left) },
+              { label: "Left", value: left, set: (v: number) => setMargins(top, right, bottom, v) },
+            ].map(({ label, value, set }) => (
+              <div key={label}>
+                <Label htmlFor={label} className="text-xs">{label}</Label>
+                <Input id={label} type="number" min={0} value={Math.round(value)} onChange={(e) => set(Number(e.target.value) || 0)} className="mt-1" />
+              </div>
+            ))}
+          </div>
+          <label className="flex items-center gap-2 text-sm">
+            <Checkbox checked={applyAll} onCheckedChange={(v) => setApplyAll(v === true)} />
+            <span>Apply to all pages</span>
+          </label>
+          {!applyAll && (
+            <div>
+              <Label htmlFor="range" className="text-xs">Pages (of {numPages})</Label>
+              <Input id="range" value={pageRange} onChange={(e) => setPageRange(e.target.value)} placeholder="1-3,5" className="mt-1" />
+            </div>
+          )}
           <LargeFileWarning pageCount={pageCount} fileSize={fileSize} />
-          {/* Preview */}
-          <div className="rounded-xl border bg-card p-4">
-            <p className="mb-3 text-sm text-muted-foreground">
-              Drag the crop box or its handles to adjust. Everything outside stays hidden.
-            </p>
-            <div
-              ref={containerRef}
-              className="relative mx-auto w-full max-w-[900px] select-none touch-none"
-              style={{ height: displayH || undefined }}
-            >
-              {preview ? (
+        </>
+      }
+    >
+      <div className="rounded-2xl bg-white p-4" style={{ border: "1px solid #ececef" }}>
+        <p className="mb-3 text-[12.5px]" style={{ color: "#7a7a86" }}>Drag the crop box or its handles to adjust.</p>
+        <div
+          ref={containerRef}
+          className="relative mx-auto w-full max-w-[900px] select-none touch-none"
+          style={{ height: displayH || undefined }}
+        >
+          {preview ? (
+            <>
+              <img src={preview.url} alt="First page preview" className="pointer-events-none absolute inset-0 h-full w-full" draggable={false} />
+              {boxStyle && (
                 <>
-                  <img
-                    src={preview.url}
-                    alt="First page preview"
-                    className="pointer-events-none absolute inset-0 h-full w-full"
-                    draggable={false}
-                  />
-                  {boxStyle && (
-                    <>
-                      {/* Dim overlays around the crop box */}
-                      <div className="pointer-events-none absolute inset-0">
-                        <div
-                          className="absolute bg-black/50"
-                          style={{ left: 0, top: 0, right: 0, height: boxStyle.top }}
-                        />
-                        <div
-                          className="absolute bg-black/50"
-                          style={{
-                            left: 0,
-                            top: boxStyle.top + boxStyle.height,
-                            right: 0,
-                            bottom: 0,
-                          }}
-                        />
-                        <div
-                          className="absolute bg-black/50"
-                          style={{
-                            left: 0,
-                            top: boxStyle.top,
-                            width: boxStyle.left,
-                            height: boxStyle.height,
-                          }}
-                        />
-                        <div
-                          className="absolute bg-black/50"
-                          style={{
-                            left: boxStyle.left + boxStyle.width,
-                            top: boxStyle.top,
-                            right: 0,
-                            height: boxStyle.height,
-                          }}
-                        />
-                      </div>
-
-                      {/* Crop box */}
+                  <div className="pointer-events-none absolute inset-0">
+                    <div className="absolute bg-black/50" style={{ left: 0, top: 0, right: 0, height: boxStyle.top }} />
+                    <div className="absolute bg-black/50" style={{ left: 0, top: boxStyle.top + boxStyle.height, right: 0, bottom: 0 }} />
+                    <div className="absolute bg-black/50" style={{ left: 0, top: boxStyle.top, width: boxStyle.left, height: boxStyle.height }} />
+                    <div className="absolute bg-black/50" style={{ left: boxStyle.left + boxStyle.width, top: boxStyle.top, right: 0, height: boxStyle.height }} />
+                  </div>
+                  <div
+                    className="absolute border-2 border-[#e5322d] cursor-move"
+                    style={boxStyle}
+                    onPointerDown={onPointerDown("move")}
+                    onPointerMove={onPointerMove}
+                    onPointerUp={onPointerUp}
+                    onPointerCancel={onPointerUp}
+                  >
+                    {(
+                      [
+                        ["n", "top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-ns-resize"],
+                        ["s", "bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 cursor-ns-resize"],
+                        ["w", "left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-ew-resize"],
+                        ["e", "right-0 top-1/2 translate-x-1/2 -translate-y-1/2 cursor-ew-resize"],
+                        ["nw", "left-0 top-0 -translate-x-1/2 -translate-y-1/2 cursor-nwse-resize"],
+                        ["ne", "right-0 top-0 translate-x-1/2 -translate-y-1/2 cursor-nesw-resize"],
+                        ["sw", "left-0 bottom-0 -translate-x-1/2 translate-y-1/2 cursor-nesw-resize"],
+                        ["se", "right-0 bottom-0 translate-x-1/2 translate-y-1/2 cursor-nwse-resize"],
+                      ] as [Handle, string][]
+                    ).map(([h, cls]) => (
                       <div
-                        className="absolute border-2 border-[#e5322d] cursor-move"
-                        style={boxStyle}
-                        onPointerDown={onPointerDown("move")}
+                        key={h}
+                        className={`absolute h-4 w-4 rounded-full border-2 border-white bg-[#e5322d] shadow ${cls}`}
+                        onPointerDown={(e) => { e.stopPropagation(); onPointerDown(h)(e); }}
                         onPointerMove={onPointerMove}
                         onPointerUp={onPointerUp}
                         onPointerCancel={onPointerUp}
-                      >
-                        {(
-                          [
-                            ["n", "top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-ns-resize"],
-                            ["s", "bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 cursor-ns-resize"],
-                            ["w", "left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-ew-resize"],
-                            ["e", "right-0 top-1/2 translate-x-1/2 -translate-y-1/2 cursor-ew-resize"],
-                            ["nw", "left-0 top-0 -translate-x-1/2 -translate-y-1/2 cursor-nwse-resize"],
-                            ["ne", "right-0 top-0 translate-x-1/2 -translate-y-1/2 cursor-nesw-resize"],
-                            ["sw", "left-0 bottom-0 -translate-x-1/2 translate-y-1/2 cursor-nesw-resize"],
-                            ["se", "right-0 bottom-0 translate-x-1/2 translate-y-1/2 cursor-nwse-resize"],
-                          ] as [Handle, string][]
-                        ).map(([h, cls]) => (
-                          <div
-                            key={h}
-                            className={`absolute h-4 w-4 rounded-full border-2 border-white bg-[#e5322d] shadow ${cls}`}
-                            onPointerDown={(e) => { e.stopPropagation(); onPointerDown(h)(e); }}
-                            onPointerMove={onPointerMove}
-                            onPointerUp={onPointerUp}
-                            onPointerCancel={onPointerUp}
-                          />
-                        ))}
-                      </div>
-                    </>
-                  )}
+                      />
+                    ))}
+                  </div>
                 </>
-              ) : (
-                <div className="grid h-64 place-items-center text-sm text-muted-foreground">
-                  Rendering preview…
-                </div>
               )}
-            </div>
-          </div>
-
-          {/* Numeric inputs */}
-          <div className="rounded-xl border bg-card p-4">
-            <p className="mb-3 text-sm text-muted-foreground">
-              Margins in points (72pt = 1 inch).
-            </p>
-            <div className="grid gap-4 sm:grid-cols-4">
-              {[
-                { label: "Top", value: top, set: (v: number) => setMargins(v, right, bottom, left) },
-                { label: "Right", value: right, set: (v: number) => setMargins(top, v, bottom, left) },
-                { label: "Bottom", value: bottom, set: (v: number) => setMargins(top, right, v, left) },
-                { label: "Left", value: left, set: (v: number) => setMargins(top, right, bottom, v) },
-              ].map(({ label, value, set }) => (
-                <div key={label}>
-                  <Label htmlFor={label}>{label}</Label>
-                  <Input
-                    id={label}
-                    type="number"
-                    min={0}
-                    value={Math.round(value)}
-                    onChange={(e) => set(Number(e.target.value) || 0)}
-                    className="mt-1"
-                  />
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-              <label className="flex items-center gap-2 text-sm">
-                <Checkbox
-                  checked={applyAll}
-                  onCheckedChange={(v) => setApplyAll(v === true)}
-                />
-                Apply this crop to all pages
-              </label>
-              {!applyAll && (
-                <div className="flex items-center gap-2">
-                  <Label htmlFor="range" className="text-sm">Pages</Label>
-                  <Input
-                    id="range"
-                    value={pageRange}
-                    onChange={(e) => setPageRange(e.target.value)}
-                    placeholder="1-3,5"
-                    className="w-40"
-                  />
-                  <span className="text-xs text-muted-foreground">of {numPages}</span>
-                </div>
-              )}
-            </div>
-          </div>
+            </>
+          ) : (
+            <div className="grid h-64 place-items-center text-sm text-muted-foreground">Rendering preview…</div>
+          )}
         </div>
-      )}
-
-      <ActionBar onRun={run} disabled={!files.length} loading={loading} label={loading ? "Cropping your PDF…" : "Crop PDF"} />
-    </div>
+      </div>
+    </ToolWorkspace>
   );
 }
