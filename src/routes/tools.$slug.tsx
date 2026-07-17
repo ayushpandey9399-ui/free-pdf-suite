@@ -791,6 +791,8 @@ function ToolPage() {
     ? "PDF Metadata Editor — View, Edit or Remove Hidden Properties"
     : isGrayscale
     ? "Convert PDF to Grayscale — Black & White, 100% Private"
+    : isAddBlankPages
+    ? "Add Blank Pages to PDF — Insert Empty Pages Anywhere, Free"
     : tool.name;
 
   return (
