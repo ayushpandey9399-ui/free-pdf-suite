@@ -461,6 +461,8 @@ function ToolPage() {
     ? "Extract Pages from PDF — Save Only the Pages You Need"
     : isReorderPages
     ? "Reorder PDF Pages — Drag, Drop, Done. 100% Private"
+    : isImagesToPdf
+    ? "JPG to PDF Converter — Combine Images Into One PDF, Free"
     : tool.name;
 
   return (
