@@ -31,7 +31,7 @@ function Home() {
 
       {/* Hero */}
       <section className="relative">
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 pt-10 pb-6 text-center">
+        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 pt-10 pb-0 text-center">
           <h1
             className="mx-auto max-w-[900px] font-bold tracking-tight text-[32px] sm:text-[42px] lg:text-[48px] leading-[1.1]"
             style={{ color: "#1c1c26", letterSpacing: "-0.025em" }}
