@@ -187,6 +187,15 @@ export function Navbar() {
             >
               Split PDF
             </Link>
+            <Link
+              to="/tools/$slug"
+              params={{ slug: "compress" }}
+              onClick={closeAll}
+              className="rounded-lg px-3 py-3 text-[14px] font-bold uppercase hover:bg-[#f6f4f9]"
+              style={{ color: "#33333c", letterSpacing: "0.04em" }}
+            >
+              Compress PDF
+            </Link>
 
             <MobileAccordion
               label="Convert PDF"
