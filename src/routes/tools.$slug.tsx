@@ -150,6 +150,7 @@ function ToolPage() {
       </ToolLayout>
       {isMerge && <MergePdfSeo />}
       {isCompress && <CompressPdfSeo />}
+      {isSplit && <SplitPdfSeo />}
     </>
   );
 }
