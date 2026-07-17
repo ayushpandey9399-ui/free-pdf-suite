@@ -922,6 +922,7 @@ function ToolPage() {
       {isAddBlankPages && <AddBlankPagesSeo />}
       {isScanToPdf && <ScanToPdfSeo />}
       {isExtractImages && <ExtractImagesSeo />}
+      {isCompare && <ComparePdfSeo />}
     </>
   );
 }
