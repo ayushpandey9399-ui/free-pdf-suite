@@ -276,12 +276,10 @@ export default function EditPdf() {
     historyIdxRef.current = 0;
     setHistoryTick((t) => t + 1);
     if (!file) return;
-    console.log("[edit-pdf] loading pages for", file.name, file.size);
     setLoadingPages(true);
     (async () => {
       try {
         const doc = await loadPdfJsDoc(await file.arrayBuffer());
-        console.log("[edit-pdf] doc loaded, pages:", doc.numPages);
         const out: PageInfo[] = [];
         const maxW = 800;
         for (let i = 1; i <= doc.numPages; i++) {
@@ -302,10 +300,8 @@ export default function EditPdf() {
             rotation: (page as unknown as { rotate: number }).rotate ?? 0,
           });
         }
-        console.log("[edit-pdf] rendered", out.length, "pages");
         if (!cancelled) setPages(out);
       } catch (e) {
-        console.error("[edit-pdf] render error:", e);
         if (!isPdfPasswordError(e)) toast.error(`Preview failed: ${(e as Error).message}`);
       } finally {
         if (!cancelled) setLoadingPages(false);
