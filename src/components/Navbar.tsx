@@ -24,6 +24,24 @@ export function Navbar() {
   const [mobileSection, setMobileSection] = useState<DropdownKey>(null);
   const [scrolled, setScrolled] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const cancelClose = () => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  };
+  const openDropdown = (k: DropdownKey) => {
+    cancelClose();
+    setDropdown(k);
+  };
+  const scheduleClose = () => {
+    cancelClose();
+    closeTimer.current = setTimeout(() => setDropdown(null), 180);
+  };
+
+  useEffect(() => () => cancelClose(), []);
 
   useEffect(() => {
     if (!dropdown) return;
@@ -49,10 +67,12 @@ export function Navbar() {
   }, []);
 
   const closeAll = () => {
+    cancelClose();
     setDropdown(null);
     setOpen(false);
     setMobileSection(null);
   };
+
 
   return (
     <header
@@ -106,8 +126,8 @@ export function Navbar() {
             {/* Convert PDF dropdown */}
             <div
               className="relative"
-              onMouseEnter={() => setDropdown("convert")}
-              onMouseLeave={() => setDropdown(null)}
+              onMouseEnter={() => openDropdown("convert")}
+              onMouseLeave={scheduleClose}
             >
               <button
                 type="button"
@@ -121,7 +141,11 @@ export function Navbar() {
                 <ChevronDown className="h-3 w-3 relative top-px" strokeWidth={2.5} />
               </button>
               {dropdown === "convert" && (
-                <DropdownPanel width={280}>
+                <DropdownPanel
+                  width={280}
+                  onMouseEnter={cancelClose}
+                  onMouseLeave={scheduleClose}
+                >
                   <ul className="p-2">
                     {convertTools.map((t) => (
                       <DropdownItem key={t.slug} tool={t} onClick={closeAll} />
@@ -134,8 +158,8 @@ export function Navbar() {
             {/* All PDF Tools dropdown */}
             <div
               className="relative"
-              onMouseEnter={() => setDropdown("all")}
-              onMouseLeave={() => setDropdown(null)}
+              onMouseEnter={() => openDropdown("all")}
+              onMouseLeave={scheduleClose}
             >
               <button
                 type="button"
@@ -149,7 +173,12 @@ export function Navbar() {
                 <ChevronDown className="h-3 w-3 relative top-px" strokeWidth={2.5} />
               </button>
               {dropdown === "all" && (
-                <DropdownPanel width={720} align="right">
+                <DropdownPanel
+                  width={720}
+                  align="right"
+                  onMouseEnter={cancelClose}
+                  onMouseLeave={scheduleClose}
+                >
                   <div className="grid grid-cols-2 gap-2 p-4 lg:grid-cols-4">
                     {categories.map((cat) => (
                       <div key={cat}>
@@ -172,6 +201,7 @@ export function Navbar() {
                 </DropdownPanel>
               )}
             </div>
+
           </nav>
         </div>
 
@@ -265,27 +295,39 @@ function DropdownPanel({
   children,
   width,
   align = "left",
+  onMouseEnter,
+  onMouseLeave,
 }: {
   children: React.ReactNode;
   width: number;
   align?: "left" | "right";
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
 }) {
   return (
     <div
-      className="absolute top-full z-50 mt-2 rounded-xl bg-white"
-      style={{
-        width,
-        maxWidth: "calc(100vw - 32px)",
-        [align]: 0,
-        border: "1px solid #ececef",
-        boxShadow: "0 20px 48px -16px rgba(20,20,43,0.18), 0 4px 12px -4px rgba(20,20,43,0.08)",
-      } as React.CSSProperties}
-      role="menu"
+      className="absolute top-full z-50 pt-2"
+      style={{ [align]: 0 } as React.CSSProperties}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
-      {children}
+      <div
+        className="rounded-xl bg-white"
+        style={{
+          width,
+          maxWidth: "calc(100vw - 32px)",
+          border: "1px solid #ececef",
+          boxShadow:
+            "0 20px 48px -16px rgba(20,20,43,0.18), 0 4px 12px -4px rgba(20,20,43,0.08)",
+        }}
+        role="menu"
+      >
+        {children}
+      </div>
     </div>
   );
 }
+
 
 function DropdownItem({
   tool,
