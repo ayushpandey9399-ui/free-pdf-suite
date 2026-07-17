@@ -47,6 +47,8 @@ export default function Crop() {
   } | null>(null);
 
   const file = files[0];
+  const { protectedName, reset } = usePdfPasswordCheck(files, () => setFiles([]));
+
 
   // Render first page + read page count
   useEffect(() => {
@@ -224,7 +226,9 @@ export default function Crop() {
     <div>
       <FileDropzone accept="application/pdf" files={files} onFilesChange={setFiles} />
 
-      {file && (
+      {protectedName ? (
+        <PasswordProtectedNotice fileName={protectedName} onReset={reset} />
+      ) : file && (
         <div className="mt-6 space-y-6">
           {/* Preview */}
           <div className="rounded-xl border bg-card p-4">
