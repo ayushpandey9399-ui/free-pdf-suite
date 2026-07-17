@@ -157,7 +157,7 @@ const related = [
   { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Draw or type a signature that's stamped straight into the page content." },
   { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Add an AES-256 password so only the recipient can open the flattened file." },
   { to: "/tools/edit-pdf", name: "Edit PDF", blurb: "Draw annotations that become permanent page content on save." },
-  { to: "/tools/metadata-editor", name: "Metadata Editor", blurb: "Clean up the title, author and other fields shown by every PDF reader." },
+  { to: "/tools/pdf-metadata", name: "PDF Metadata Editor", blurb: "Clean up the title, author and other fields shown by every PDF reader." },
 ] as const;
 
 export function FlattenPdfSeo() {
