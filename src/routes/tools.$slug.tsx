@@ -690,6 +690,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "scan-to-pdf") {
+      const title =
+        "Scan to PDF Online Free — Use Your Phone as a Scanner | PDFfree";
+      const desc =
+        "Scan documents to PDF free using your phone camera — right in the browser, no app install. No upload, no signup. Scans never leave your device.";
+      const url = "/tools/scan-to-pdf";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(scanToPdfFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(scanToPdfHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(scanToPdfSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
