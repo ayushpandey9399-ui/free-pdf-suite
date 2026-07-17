@@ -430,6 +430,7 @@ function ToolPage() {
       {isWatermark && <WatermarkPdfSeo />}
       {isRotate && <RotatePdfSeo />}
       {isDeletePages && <DeletePagesSeo />}
+      {isExtractPages && <ExtractPagesSeo />}
     </>
   );
 }
