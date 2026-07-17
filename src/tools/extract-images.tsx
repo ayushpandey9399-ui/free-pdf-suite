@@ -165,23 +165,44 @@ async function scanImages(
     if (!width || !height || width < 16 || height < 16) continue;
 
     const filters = filterNames(dict);
-    const last = filters[filters.length - 1];
     const page = pageRefMap.get(key) ?? 1;
     let blob: Blob | null = null;
     let ext: ExtractedImage["ext"] = "png";
     let mime = "image/png";
 
     try {
-      if (last === "/DCTDecode") {
-        blob = new Blob([stream.contents as BlobPart], { type: "image/jpeg" });
+      // Walk filter chain left-to-right, decoding wrappers (Flate/LZW/ASCII*)
+      // until we hit an image codec (DCT/JPX) or raw pixel data.
+      let data: Uint8Array = stream.contents;
+      let terminal: string | null = null;
+      let skip = false;
+      for (let fi = 0; fi < filters.length; fi++) {
+        const f = filters[fi];
+        if (f === "/DCTDecode" || f === "/JPXDecode") {
+          terminal = f;
+          break;
+        } else if (f === "/FlateDecode") {
+          data = await inflateFlate(data);
+        } else {
+          // Unsupported wrapper (LZW, ASCII85, CCITTFax, JBIG2, etc.) — skip.
+          skip = true;
+          break;
+        }
+      }
+      if (skip) continue;
+
+      if (terminal === "/DCTDecode") {
+        // Require a valid JPEG SOI marker (0xFFD8FF).
+        if (data.length < 3 || data[0] !== 0xff || data[1] !== 0xd8 || data[2] !== 0xff) continue;
+        blob = new Blob([data as BlobPart], { type: "image/jpeg" });
         ext = "jpg";
         mime = "image/jpeg";
-      } else if (last === "/JPXDecode") {
-        blob = new Blob([stream.contents as BlobPart], { type: "image/jp2" });
+      } else if (terminal === "/JPXDecode") {
+        blob = new Blob([data as BlobPart], { type: "image/jp2" });
         ext = "jp2";
         mime = "image/jp2";
-      } else if (last === "/FlateDecode") {
-        // Skip when a PNG-style predictor is applied (>= 10) — needs unfiltering.
+      } else {
+        // Raw pixel data (possibly Flate-decoded above).
         const decodeParms = dict.lookup(PDFName.of("DecodeParms"));
         let predictor = 1;
         if (decodeParms instanceof PDFDict) predictor = numberFrom(decodeParms, "Predictor") || 1;
@@ -196,8 +217,11 @@ async function scanImages(
               ? 1
               : null;
         if (!channels) continue;
-        const decoded = await inflateFlate(stream.contents);
-        blob = await rawPixelsToPng(decoded, width, height, channels);
+        blob = await rawPixelsToPng(data, width, height, channels);
+        if (blob) {
+          const head = new Uint8Array(await blob.slice(0, 8).arrayBuffer());
+          if (head[0] !== 0x89 || head[1] !== 0x50 || head[2] !== 0x4e || head[3] !== 0x47) blob = null;
+        }
       }
     } catch {
       blob = null;
