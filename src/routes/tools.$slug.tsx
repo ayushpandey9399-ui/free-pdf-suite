@@ -731,6 +731,8 @@ function ToolPage() {
     ? "Fill PDF Forms Online — Free, Private, No Printing"
     : isFlattenPdf
     ? "Flatten PDF — Lock Form Fields Into Permanent Content"
+    : isPdfMetadata
+    ? "PDF Metadata Editor — View, Edit or Remove Hidden Properties"
     : tool.name;
 
   return (
