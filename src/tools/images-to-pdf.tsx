@@ -21,26 +21,57 @@ export default function ImagesToPdf() {
 
   const resetAll = () => { setFiles([]); setPageSize("fit"); setOrientation("portrait"); setMargin(24); setResult(null); };
 
+  const decodeToPngBytes = (file: File): Promise<{ bytes: Uint8Array; width: number; height: number }> =>
+    new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => {
+        try {
+          const canvas = document.createElement("canvas");
+          canvas.width = img.naturalWidth || img.width;
+          canvas.height = img.naturalHeight || img.height;
+          if (!canvas.width || !canvas.height) throw new Error(`${file.name}: image has zero dimensions`);
+          const ctx = canvas.getContext("2d");
+          if (!ctx) throw new Error("Canvas 2D context unavailable");
+          ctx.drawImage(img, 0, 0);
+          canvas.toBlob(async (blob) => {
+            URL.revokeObjectURL(url);
+            if (!blob) return reject(new Error(`${file.name}: failed to encode image`));
+            const buf = await blob.arrayBuffer();
+            resolve({ bytes: new Uint8Array(buf), width: canvas.width, height: canvas.height });
+          }, "image/png");
+        } catch (err) {
+          URL.revokeObjectURL(url);
+          reject(err);
+        }
+      };
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        reject(new Error(`${file.name}: browser could not decode this image`));
+      };
+      img.src = url;
+    });
+
   const run = async () => {
     if (!files.length) return;
     setLoading(true);
     try {
       const pdf = await PDFDocument.create();
+      const safeMargin = Math.max(0, Math.floor(margin) || 0);
       for (const f of files) {
-        const buf = await f.arrayBuffer();
-        const isPng = f.type.includes("png") || f.name.toLowerCase().endsWith(".png");
-        const img = isPng ? await pdf.embedPng(buf) : await pdf.embedJpg(buf);
+        const { bytes, width: iw, height: ih } = await decodeToPngBytes(f);
+        const img = await pdf.embedPng(bytes);
         let pageW: number, pageH: number;
         if (pageSize === "fit") {
-          pageW = img.width + margin * 2;
-          pageH = img.height + margin * 2;
+          pageW = iw + safeMargin * 2;
+          pageH = ih + safeMargin * 2;
         } else {
           const base = pageSize === "a4" ? PageSizes.A4 : PageSizes.Letter;
-          [pageW, pageH] = orientation === "portrait" ? base : [base[1], base[0]];
+          [pageW, pageH] = orientation === "landscape" ? [base[1], base[0]] : [base[0], base[1]];
         }
         const page = pdf.addPage([pageW, pageH]);
-        const availW = pageW - margin * 2;
-        const availH = pageH - margin * 2;
+        const availW = Math.max(1, pageW - safeMargin * 2);
+        const availH = Math.max(1, pageH - safeMargin * 2);
         const scale = Math.min(availW / img.width, availH / img.height);
         const w = img.width * scale;
         const h = img.height * scale;
@@ -51,11 +82,14 @@ export default function ImagesToPdf() {
       setResult({ blob, filename: "images.pdf", count: files.length });
       toast.success("PDF created");
     } catch (e) {
-      toast.error(`Failed: ${(e as Error).message}`);
+      const msg = e instanceof Error ? e.message : typeof e === "string" ? e : JSON.stringify(e);
+      toast.error(`Failed to create PDF: ${msg || "unknown error"}`);
+      console.error("images-to-pdf error", e);
     } finally {
       setLoading(false);
     }
   };
+
 
   if (result) {
     return (

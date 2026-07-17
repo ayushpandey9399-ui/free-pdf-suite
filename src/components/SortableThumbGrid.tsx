@@ -1,6 +1,7 @@
 import {
   DndContext,
   PointerSensor,
+  TouchSensor,
   closestCenter,
   useSensor,
   useSensors,
@@ -13,6 +14,7 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { GripVertical } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export interface ThumbItem {
@@ -32,7 +34,10 @@ export function SortableThumbGrid({
   selectedIds?: Set<string>;
   onToggle?: (id: string) => void;
 }) {
-  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }));
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 180, tolerance: 6 } }),
+  );
 
   const handleDragEnd = (e: DragEndEvent) => {
     if (!onReorder) return;
@@ -81,31 +86,42 @@ function Thumb({
     <div
       ref={setNodeRef}
       style={{ transform: CSS.Transform.toString(transform), transition }}
+      {...(draggable ? attributes : {})}
+      {...(draggable ? listeners : {})}
       className={cn(
-        "group relative rounded-lg border bg-card p-2 shadow-sm",
+        "group relative rounded-lg border bg-card p-2 shadow-sm transition-all",
+        draggable && "cursor-grab active:cursor-grabbing hover:-translate-y-0.5 hover:shadow-lg touch-none",
         selected && "ring-2 ring-blue-600",
-        isDragging && "opacity-60",
+        isDragging && "opacity-60 shadow-xl z-10 ring-2 ring-[#e5322d]",
       )}
     >
-      <button
-        type="button"
-        onClick={onToggle}
-        className="block w-full"
-        aria-pressed={selected}
-      >
-        <img src={item.src} alt={item.label} className="w-full h-auto rounded" />
-        <div className="mt-1 text-center text-xs text-muted-foreground">{item.label}</div>
-      </button>
       {draggable && (
         <div
-          {...attributes}
-          {...listeners}
-          className="absolute top-1 right-1 cursor-grab rounded bg-background/80 px-1.5 py-0.5 text-[10px] font-medium opacity-0 group-hover:opacity-100"
+          aria-hidden
+          className="pointer-events-none absolute top-1.5 left-1/2 -translate-x-1/2 z-10 flex h-7 items-center justify-center gap-0.5 rounded-full bg-white/95 px-2 shadow-sm ring-1 ring-black/10"
           title="Drag to reorder"
         >
-          ⋮⋮
+          <GripVertical className="h-5 w-5" style={{ color: "#33333c" }} />
+        </div>
+      )}
+      {onToggle ? (
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); onToggle(); }}
+          onPointerDown={(e) => e.stopPropagation()}
+          className="block w-full"
+          aria-pressed={selected}
+        >
+          <img src={item.src} alt={item.label} className="w-full h-auto rounded" draggable={false} />
+          <div className="mt-1 text-center text-xs text-muted-foreground">{item.label}</div>
+        </button>
+      ) : (
+        <div className="block w-full">
+          <img src={item.src} alt={item.label} className="w-full h-auto rounded pointer-events-none" draggable={false} />
+          <div className="mt-1 text-center text-xs text-muted-foreground">{item.label}</div>
         </div>
       )}
     </div>
   );
 }
+
