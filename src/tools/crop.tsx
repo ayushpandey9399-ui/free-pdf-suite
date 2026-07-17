@@ -9,7 +9,9 @@ import { downloadBlob } from "@/lib/download";
 import { parseRanges, expandRanges } from "@/lib/pageRange";
 import { loadPdfLibDoc, loadPdfJsDoc, isPdfPasswordError } from "@/lib/pdfGuard";
 import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
+import { LargeFileWarning } from "@/components/LargeFileWarning";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
+import { usePdfStats } from "@/hooks/usePdfStats";
 
 type Handle =
   | "move"
@@ -48,6 +50,7 @@ export default function Crop() {
 
   const file = files[0];
   const { protectedName, reset } = usePdfPasswordCheck(files, () => setFiles([]));
+  const { pageCount, fileSize } = usePdfStats(file);
 
 
   // Render first page + read page count
@@ -230,6 +233,7 @@ export default function Crop() {
         <PasswordProtectedNotice fileName={protectedName} onReset={reset} />
       ) : file && (
         <div className="mt-6 space-y-6">
+          <LargeFileWarning pageCount={pageCount} fileSize={fileSize} />
           {/* Preview */}
           <div className="rounded-xl border bg-card p-4">
             <p className="mb-3 text-sm text-muted-foreground">
