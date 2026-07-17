@@ -73,7 +73,7 @@ const faqs = [
   },
   {
     q: "Can I change the order of images before converting?",
-    a: "The order in the final PDF matches the order the pictures appear in the thumbnail grid, which is the order in which you added them. There isn't a drag-to-reorder handle inside this tool yet, so if you need a different sequence, remove pictures using the small × on each thumbnail and re-add them in the order you want, or re-add the whole batch in the intended order. You can also convert first and then use Reorder Pages to rearrange the finished PDF.",
+    a: "Yes. Every thumbnail carries a ⋮⋮ drag handle at the top — press it and drag the tile to a new position in the grid, and the surrounding pictures slide out of the way to make room. The drag interaction has a dedicated touch sensor with a short press-and-hold, so reordering works on a phone as well as with a mouse. Whatever order you leave the grid in is the order the pages will appear in the exported PDF. You can also remove any picture with the small × on its tile.",
   },
   {
     q: "Will my photos lose quality?",
