@@ -28,7 +28,7 @@ const benefits = [
   },
   {
     h: "Edit or erase",
-    p: "Correct fields one at a time when you just need to fix a stale author name or write a proper Title, or flip the Clear all metadata switch to wipe Title, Author, Subject, Keywords, Producer and Creator in a single click. Both paths save into a fresh -updated.pdf copy.",
+    p: "Correct fields one at a time when you just need to fix a stale author name or write a proper Title, or flip the Clear all metadata switch to wipe Title, Author, Subject, Keywords, Producer, Creator and the Created / Modified timestamps in a single click. Both paths save into a fresh -updated.pdf copy.",
   },
   {
     h: "Content untouched",
