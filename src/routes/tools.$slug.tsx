@@ -18,6 +18,7 @@ import { DeletePagesSeo, deletePagesFaqJsonLd, deletePagesHowToJsonLd, deletePag
 import { ExtractPagesSeo, extractPagesFaqJsonLd, extractPagesHowToJsonLd, extractPagesSoftwareJsonLd } from "@/components/ExtractPagesSeo";
 import { ReorderPagesSeo, reorderPagesFaqJsonLd, reorderPagesHowToJsonLd, reorderPagesSoftwareJsonLd } from "@/components/ReorderPagesSeo";
 import { ImagesToPdfSeo, imagesToPdfFaqJsonLd, imagesToPdfHowToJsonLd, imagesToPdfSoftwareJsonLd } from "@/components/ImagesToPdfSeo";
+import { PdfToTextSeo, pdfToTextFaqJsonLd, pdfToTextHowToJsonLd, pdfToTextSoftwareJsonLd } from "@/components/PdfToTextSeo";
 
 
 
@@ -392,6 +393,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "pdf-to-text") {
+      const title =
+        "PDF to Text Online Free — Extract Text From PDF, No Upload | PDFfree";
+      const desc =
+        "Extract text from PDF online free — copy all text or download as .txt, right in your browser. No upload, no signup. Files never leave your device.";
+      const url = "/tools/pdf-to-text";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(pdfToTextFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(pdfToTextHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(pdfToTextSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
@@ -434,6 +461,7 @@ function ToolPage() {
   const isExtractPages = slug === "extract-pages";
   const isReorderPages = slug === "reorder-pages";
   const isImagesToPdf = slug === "images-to-pdf";
+  const isPdfToText = slug === "pdf-to-text";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
@@ -463,6 +491,8 @@ function ToolPage() {
     ? "Reorder PDF Pages — Drag, Drop, Done. 100% Private"
     : isImagesToPdf
     ? "JPG to PDF Converter — Combine Images Into One PDF, Free"
+    : isPdfToText
+    ? "PDF to Text — Extract All Text From a PDF, 100% Private"
     : tool.name;
 
   return (
@@ -493,6 +523,7 @@ function ToolPage() {
       {isExtractPages && <ExtractPagesSeo />}
       {isReorderPages && <ReorderPagesSeo />}
       {isImagesToPdf && <ImagesToPdfSeo />}
+      {isPdfToText && <PdfToTextSeo />}
     </>
   );
 }
