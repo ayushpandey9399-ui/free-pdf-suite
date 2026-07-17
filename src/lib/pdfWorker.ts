@@ -1,3 +1,29 @@
+// Polyfill BEFORE pdfjs-dist import so its bundled classes see the method on Map.prototype.
+if (typeof Map !== "undefined" && typeof (Map.prototype as unknown as { getOrInsertComputed?: unknown }).getOrInsertComputed !== "function") {
+  console.log("[pdfWorker] applying Map.getOrInsertComputed polyfill");
+  Object.defineProperty(Map.prototype, "getOrInsertComputed", {
+    configurable: true,
+    writable: true,
+    value: function <K, V>(this: Map<K, V>, key: K, callback: (k: K) => V): V {
+      if (this.has(key)) return this.get(key) as V;
+      const v = callback(key);
+      this.set(key, v);
+      return v;
+    },
+  });
+}
+if (typeof Map !== "undefined" && typeof (Map.prototype as unknown as { getOrInsert?: unknown }).getOrInsert !== "function") {
+  Object.defineProperty(Map.prototype, "getOrInsert", {
+    configurable: true,
+    writable: true,
+    value: function <K, V>(this: Map<K, V>, key: K, value: V): V {
+      if (this.has(key)) return this.get(key) as V;
+      this.set(key, value);
+      return value;
+    },
+  });
+}
+
 import * as pdfjs from "pdfjs-dist";
 import workerSrc from "pdfjs-dist/build/pdf.worker.min.mjs?url";
 
