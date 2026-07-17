@@ -377,6 +377,7 @@ function ToolPage() {
   const isWatermark = slug === "watermark";
   const isRotate = slug === "rotate";
   const isDeletePages = slug === "delete-pages";
+  const isExtractPages = slug === "extract-pages";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
