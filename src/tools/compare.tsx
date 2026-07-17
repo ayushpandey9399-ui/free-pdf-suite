@@ -92,7 +92,7 @@ class LazyDoc {
   dispose() {
     for (const url of this.renderCache.values()) URL.revokeObjectURL(url);
     this.renderCache.clear();
-    this.pdf.destroy?.();
+    (this.pdf as unknown as { destroy?: () => void }).destroy?.();
   }
 }
 
