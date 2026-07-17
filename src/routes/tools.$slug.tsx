@@ -29,6 +29,7 @@ import { FlattenPdfSeo, flattenPdfFaqJsonLd, flattenPdfHowToJsonLd, flattenPdfSo
 import { PdfMetadataSeo, pdfMetadataFaqJsonLd, pdfMetadataHowToJsonLd, pdfMetadataSoftwareJsonLd } from "@/components/PdfMetadataSeo";
 import { GrayscalePdfSeo, grayscalePdfFaqJsonLd, grayscalePdfHowToJsonLd, grayscalePdfSoftwareJsonLd } from "@/components/GrayscalePdfSeo";
 import { AddBlankPagesSeo, addBlankPagesFaqJsonLd, addBlankPagesHowToJsonLd, addBlankPagesSoftwareJsonLd } from "@/components/AddBlankPagesSeo";
+import { ScanToPdfSeo, scanToPdfFaqJsonLd, scanToPdfHowToJsonLd, scanToPdfSoftwareJsonLd } from "@/components/ScanToPdfSeo";
 
 
 
@@ -689,6 +690,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "scan-to-pdf") {
+      const title =
+        "Scan to PDF Online Free — Use Your Phone as a Scanner | PDFfree";
+      const desc =
+        "Scan documents to PDF free using your phone camera — right in the browser, no app install. No upload, no signup. Scans never leave your device.";
+      const url = "/tools/scan-to-pdf";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(scanToPdfFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(scanToPdfHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(scanToPdfSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
@@ -742,6 +769,7 @@ function ToolPage() {
   const isPdfMetadata = slug === "pdf-metadata";
   const isGrayscale = slug === "grayscale-pdf";
   const isAddBlankPages = slug === "add-blank-pages";
+  const isScanToPdf = slug === "scan-to-pdf";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
@@ -793,6 +821,8 @@ function ToolPage() {
     ? "Convert PDF to Grayscale — Black & White, 100% Private"
     : isAddBlankPages
     ? "Add Blank Pages to PDF — Insert Empty Pages Anywhere, Free"
+    : isScanToPdf
+    ? "Scan to PDF — Turn Your Phone Into a Document Scanner, Free"
     : tool.name;
 
   return (
@@ -834,6 +864,7 @@ function ToolPage() {
       {isPdfMetadata && <PdfMetadataSeo />}
       {isGrayscale && <GrayscalePdfSeo />}
       {isAddBlankPages && <AddBlankPagesSeo />}
+      {isScanToPdf && <ScanToPdfSeo />}
     </>
   );
 }
