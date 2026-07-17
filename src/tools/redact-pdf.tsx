@@ -598,5 +598,3 @@ function PageCanvas({
   );
 }
 
-/* Tiny arrow icon just to satisfy tree-shaking checks — unused, kept out of export path. */
-void ArrowRight;
