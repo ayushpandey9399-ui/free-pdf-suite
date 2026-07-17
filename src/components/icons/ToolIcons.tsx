@@ -107,4 +107,5 @@ export const toolIcons: Record<string, ComponentType<ToolIconProps>> = {
   "pdf-metadata": PdfMetadataIcon,
   "extract-images": ExtractImagesIcon,
   "grayscale-pdf": GrayscalePdfIcon,
+  "header-footer": HeaderFooterIcon,
 };
