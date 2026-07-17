@@ -3,16 +3,17 @@ import {
   ArrowRight,
   Play,
   Star,
-  Cloud,
+  UploadCloud,
   Lock,
   Zap,
   Smartphone,
   Gift,
   FileText,
-  FileImage as FileImageIcon,
-  Receipt,
+  Image as ImageIcon,
+  Scissors,
 } from "lucide-react";
 import { tools, categories, type ToolCategory } from "@/tools/registry";
+
 
 export const Route = createFileRoute("/")({
   component: Home,
