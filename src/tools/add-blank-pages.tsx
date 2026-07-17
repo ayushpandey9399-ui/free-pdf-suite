@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PageSizes } from "pdf-lib";
 import { toast } from "sonner";
 import { Loader2, Plus, X } from "lucide-react";
