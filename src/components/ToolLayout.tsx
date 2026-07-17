@@ -1,21 +1,20 @@
-import type { ReactNode } from "react";
+import type { ReactNode, ComponentType } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowLeft, Lock, type LucideIcon } from "lucide-react";
+import { ArrowLeft, Lock } from "lucide-react";
+import type { ToolIconProps } from "@/components/icons/ToolIcons";
 
 export function ToolLayout({
   title,
   description,
   icon: Icon,
-  tint,
   children,
 }: {
   title: string;
   description: string;
-  icon?: LucideIcon;
+  icon?: ComponentType<ToolIconProps>;
   tint?: { bg: string; fg: string };
   children: ReactNode;
 }) {
-  const t = tint ?? { bg: "#fdeceb", fg: "#e5322d" };
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:py-12">
       <Link
@@ -27,14 +26,7 @@ export function ToolLayout({
       </Link>
 
       <div className="mt-5 flex flex-col items-center text-center">
-        {Icon && (
-          <div
-            className="grid h-14 w-14 place-items-center rounded-2xl"
-            style={{ backgroundColor: t.bg, color: t.fg }}
-          >
-            <Icon size={26} strokeWidth={2} />
-          </div>
-        )}
+        {Icon && <Icon size={64} />}
         <h1
           className="mt-4 text-[30px] sm:text-[36px] font-bold tracking-tight"
           style={{ color: "#33333c", letterSpacing: "-0.02em" }}
