@@ -554,6 +554,7 @@ function ToolPage() {
       {isReorderPages && <ReorderPagesSeo />}
       {isImagesToPdf && <ImagesToPdfSeo />}
       {isPdfToText && <PdfToTextSeo />}
+      {isTxtToPdf && <TxtToPdfSeo />}
     </>
   );
 }
