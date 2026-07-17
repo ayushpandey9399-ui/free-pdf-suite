@@ -9,6 +9,7 @@ import { CompressPdfSeo, compressFaqJsonLd, compressHowToJsonLd, compressSoftwar
 import { SplitPdfSeo, splitFaqJsonLd, splitHowToJsonLd, splitSoftwareJsonLd } from "@/components/SplitPdfSeo";
 import { SignPdfSeo, signFaqJsonLd, signHowToJsonLd, signSoftwareJsonLd } from "@/components/SignPdfSeo";
 import { PdfToImagesSeo, pdfToImagesFaqJsonLd, pdfToImagesHowToJsonLd, pdfToImagesSoftwareJsonLd } from "@/components/PdfToImagesSeo";
+import { RedactPdfSeo, redactFaqJsonLd, redactHowToJsonLd, redactSoftwareJsonLd } from "@/components/RedactPdfSeo";
 
 
 export const Route = createFileRoute("/tools/$slug")({
@@ -148,6 +149,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "redact-pdf") {
+      const title =
+        "Redact PDF Online Free — Black Out Text Permanently, No Upload | PDFfree";
+      const desc =
+        "Redact PDF online free — permanently black out Aadhaar numbers, account details & sensitive text in your browser. No upload. Truly removed, not just covered.";
+      const url = "/tools/redact-pdf";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(redactFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(redactHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(redactSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
@@ -181,6 +208,7 @@ function ToolPage() {
   const isSplit = slug === "split";
   const isSign = slug === "sign-pdf";
   const isPdfToImages = slug === "pdf-to-images";
+  const isRedact = slug === "redact-pdf";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
@@ -192,6 +220,8 @@ function ToolPage() {
     ? "Sign PDF Online — Free Electronic Signature, 100% Private"
     : isPdfToImages
     ? "PDF to JPG Converter — Free, High Quality, 100% Private"
+    : isRedact
+    ? "Redact PDF Online — Permanently Remove Sensitive Information"
     : tool.name;
 
   return (
@@ -213,6 +243,7 @@ function ToolPage() {
       {isSplit && <SplitPdfSeo />}
       {isSign && <SignPdfSeo />}
       {isPdfToImages && <PdfToImagesSeo />}
+      {isRedact && <RedactPdfSeo />}
     </>
   );
 }
