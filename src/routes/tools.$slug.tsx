@@ -821,6 +821,8 @@ function ToolPage() {
     ? "Convert PDF to Grayscale — Black & White, 100% Private"
     : isAddBlankPages
     ? "Add Blank Pages to PDF — Insert Empty Pages Anywhere, Free"
+    : isScanToPdf
+    ? "Scan to PDF — Turn Your Phone Into a Document Scanner, Free"
     : tool.name;
 
   return (
