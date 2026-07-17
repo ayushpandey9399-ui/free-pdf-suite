@@ -31,6 +31,7 @@ import { GrayscalePdfSeo, grayscalePdfFaqJsonLd, grayscalePdfHowToJsonLd, graysc
 import { AddBlankPagesSeo, addBlankPagesFaqJsonLd, addBlankPagesHowToJsonLd, addBlankPagesSoftwareJsonLd } from "@/components/AddBlankPagesSeo";
 import { ScanToPdfSeo, scanToPdfFaqJsonLd, scanToPdfHowToJsonLd, scanToPdfSoftwareJsonLd } from "@/components/ScanToPdfSeo";
 import { ExtractImagesSeo, extractImagesFaqJsonLd, extractImagesHowToJsonLd, extractImagesSoftwareJsonLd } from "@/components/ExtractImagesSeo";
+import { ComparePdfSeo, compareFaqJsonLd, compareHowToJsonLd, compareSoftwareJsonLd } from "@/components/ComparePdfSeo";
 
 
 
