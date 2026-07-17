@@ -12,6 +12,7 @@ import { PdfToImagesSeo, pdfToImagesFaqJsonLd, pdfToImagesHowToJsonLd, pdfToImag
 import { RedactPdfSeo, redactFaqJsonLd, redactHowToJsonLd, redactSoftwareJsonLd } from "@/components/RedactPdfSeo";
 import { ProtectPdfSeo, protectFaqJsonLd, protectHowToJsonLd, protectSoftwareJsonLd } from "@/components/ProtectPdfSeo";
 import { UnlockPdfSeo, unlockFaqJsonLd, unlockHowToJsonLd, unlockSoftwareJsonLd } from "@/components/UnlockPdfSeo";
+import { WatermarkPdfSeo, watermarkFaqJsonLd, watermarkHowToJsonLd, watermarkSoftwareJsonLd } from "@/components/WatermarkPdfSeo";
 
 
 export const Route = createFileRoute("/tools/$slug")({
@@ -229,6 +230,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "watermark") {
+      const title =
+        "Add Watermark to PDF Online Free — Text Watermark, No Upload | PDFfree";
+      const desc =
+        "Add watermark to PDF online free — stamp text like CONFIDENTIAL or your brand on every page, in your browser. No upload, no signup, no watermark ads.";
+      const url = "/tools/watermark";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(watermarkFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(watermarkHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(watermarkSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
@@ -265,6 +292,7 @@ function ToolPage() {
   const isRedact = slug === "redact-pdf";
   const isProtect = slug === "protect-pdf";
   const isUnlock = slug === "unlock-pdf";
+  const isWatermark = slug === "watermark";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
@@ -282,6 +310,8 @@ function ToolPage() {
     ? "Password Protect PDF — Free AES-256 Encryption, 100% Private"
     : isUnlock
     ? "Unlock PDF — Remove Password From PDF, 100% Private"
+    : isWatermark
+    ? "Add Watermark to PDF — Free, Every Page, 100% Private"
     : tool.name;
 
   return (
@@ -306,6 +336,7 @@ function ToolPage() {
       {isRedact && <RedactPdfSeo />}
       {isProtect && <ProtectPdfSeo />}
       {isUnlock && <UnlockPdfSeo />}
+      {isWatermark && <WatermarkPdfSeo />}
     </>
   );
 }
