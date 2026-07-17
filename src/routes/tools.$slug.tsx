@@ -21,6 +21,7 @@ import { ImagesToPdfSeo, imagesToPdfFaqJsonLd, imagesToPdfHowToJsonLd, imagesToP
 import { PdfToTextSeo, pdfToTextFaqJsonLd, pdfToTextHowToJsonLd, pdfToTextSoftwareJsonLd } from "@/components/PdfToTextSeo";
 import { TxtToPdfSeo, txtToPdfFaqJsonLd, txtToPdfHowToJsonLd, txtToPdfSoftwareJsonLd } from "@/components/TxtToPdfSeo";
 import { PageNumbersSeo, pageNumbersFaqJsonLd, pageNumbersHowToJsonLd, pageNumbersSoftwareJsonLd } from "@/components/PageNumbersSeo";
+import { HeaderFooterSeo, headerFooterFaqJsonLd, headerFooterHowToJsonLd, headerFooterSoftwareJsonLd } from "@/components/HeaderFooterSeo";
 
 
 
