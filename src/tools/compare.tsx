@@ -3,12 +3,13 @@ import { diffLines } from "diff";
 import { toast } from "sonner";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ActionBar } from "@/components/ActionBar";
-import { ensurePdfWorker } from "@/lib/pdfWorker";
+import { loadPdfJsDoc, isPdfPasswordError } from "@/lib/pdfGuard";
+import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
+import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
 import { cn } from "@/lib/utils";
 
 async function extractText(file: File): Promise<string> {
-  const pdfjs = ensurePdfWorker();
-  const doc = await pdfjs.getDocument({ data: await file.arrayBuffer() }).promise;
+  const doc = await loadPdfJsDoc(await file.arrayBuffer());
   const chunks: string[] = [];
   for (let i = 1; i <= doc.numPages; i++) {
     const page = await doc.getPage(i);
@@ -23,6 +24,9 @@ export default function Compare() {
   const [b, setB] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ left: { text: string; kind: "same" | "removed" }[]; right: { text: string; kind: "same" | "added" }[] } | null>(null);
+  const guardA = usePdfPasswordCheck(a, () => setA([]));
+  const guardB = usePdfPasswordCheck(b, () => setB([]));
+  const anyProtected = guardA.protectedName || guardB.protectedName;
 
   const run = async () => {
     if (!a[0] || !b[0]) {
@@ -46,7 +50,8 @@ export default function Compare() {
       setResult({ left, right });
       toast.success("Comparison ready");
     } catch (e) {
-      toast.error(`Failed: ${(e as Error).message}`);
+      if (isPdfPasswordError(e)) toast.error("One of the PDFs is password-protected");
+      else toast.error(`Failed: ${(e as Error).message}`);
     } finally {
       setLoading(false);
     }
@@ -64,12 +69,21 @@ export default function Compare() {
           <FileDropzone accept="application/pdf" files={b} onFilesChange={setB} />
         </div>
       </div>
-      <ActionBar onRun={run} disabled={!a[0] || !b[0]} loading={loading} label="Compare PDFs" />
-      {result && (
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          <DiffPane title="Original" chunks={result.left} />
-          <DiffPane title="Modified" chunks={result.right} />
-        </div>
+      {anyProtected ? (
+        <PasswordProtectedNotice
+          fileName={guardA.protectedName ?? guardB.protectedName ?? undefined}
+          onReset={() => { guardA.reset(); guardB.reset(); }}
+        />
+      ) : (
+        <>
+          <ActionBar onRun={run} disabled={!a[0] || !b[0]} loading={loading} label="Compare PDFs" />
+          {result && (
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              <DiffPane title="Original" chunks={result.left} />
+              <DiffPane title="Modified" chunks={result.right} />
+            </div>
+          )}
+        </>
       )}
     </div>
   );
