@@ -10,6 +10,7 @@ import { SplitPdfSeo, splitFaqJsonLd, splitHowToJsonLd, splitSoftwareJsonLd } fr
 import { SignPdfSeo, signFaqJsonLd, signHowToJsonLd, signSoftwareJsonLd } from "@/components/SignPdfSeo";
 import { PdfToImagesSeo, pdfToImagesFaqJsonLd, pdfToImagesHowToJsonLd, pdfToImagesSoftwareJsonLd } from "@/components/PdfToImagesSeo";
 import { RedactPdfSeo, redactFaqJsonLd, redactHowToJsonLd, redactSoftwareJsonLd } from "@/components/RedactPdfSeo";
+import { ProtectPdfSeo, protectFaqJsonLd, protectHowToJsonLd, protectSoftwareJsonLd } from "@/components/ProtectPdfSeo";
 
 
 export const Route = createFileRoute("/tools/$slug")({
@@ -175,6 +176,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "protect-pdf") {
+      const title =
+        "Password Protect PDF Online Free — Encrypt Without Uploading | PDFfree";
+      const desc =
+        "Password protect PDF online free with real AES-256 encryption — in your browser. Your file AND password never leave your device. No signup.";
+      const url = "/tools/protect-pdf";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(protectFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(protectHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(protectSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
@@ -209,6 +236,7 @@ function ToolPage() {
   const isSign = slug === "sign-pdf";
   const isPdfToImages = slug === "pdf-to-images";
   const isRedact = slug === "redact-pdf";
+  const isProtect = slug === "protect-pdf";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
@@ -222,6 +250,8 @@ function ToolPage() {
     ? "PDF to JPG Converter — Free, High Quality, 100% Private"
     : isRedact
     ? "Redact PDF Online — Permanently Remove Sensitive Information"
+    : isProtect
+    ? "Password Protect PDF — Free AES-256 Encryption, 100% Private"
     : tool.name;
 
   return (
@@ -244,6 +274,7 @@ function ToolPage() {
       {isSign && <SignPdfSeo />}
       {isPdfToImages && <PdfToImagesSeo />}
       {isRedact && <RedactPdfSeo />}
+      {isProtect && <ProtectPdfSeo />}
     </>
   );
 }
