@@ -82,14 +82,14 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
           Redact PDF
         </Link>
         . If the PDF has real interactive form fields, use{" "}
-        <Link to="/tools/fill-pdf-forms" className="text-[#e5322d] underline">
+        <Link to="/tools/fill-forms" className="text-[#e5322d] underline">
           Fill PDF Forms
         </Link>{" "}
         to type into them properly.
       </>
     ),
     plain:
-      "No. PDFs bake their text into the page, so you can't rewrite existing text here. You can add new text on top, strike through with a Line, or cover a block with a Rectangle. To permanently remove sensitive content use Redact PDF (/tools/redact-pdf); to fill real interactive form fields use Fill PDF Forms (/tools/fill-pdf-forms).",
+      "No. PDFs bake their text into the page, so you can't rewrite existing text here. You can add new text on top, strike through with a Line, or cover a block with a Rectangle. To permanently remove sensitive content use Redact PDF (/tools/redact-pdf); to fill real interactive form fields use Fill PDF Forms (/tools/fill-forms).",
   },
   {
     q: "Can I type on a scanned PDF?",
@@ -138,7 +138,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
     a: (
       <>
         Use{" "}
-        <Link to="/tools/fill-pdf-forms" className="text-[#e5322d] underline">
+        <Link to="/tools/fill-forms" className="text-[#e5322d] underline">
           Fill PDF Forms
         </Link>{" "}
         instead. That tool detects the document's AcroForm fields (the
@@ -148,12 +148,12 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
       </>
     ),
     plain:
-      "Use Fill PDF Forms (/tools/fill-pdf-forms). It detects the document's AcroForm fields and lets you type into them directly so values are stored as real form data rather than free-floating text.",
+      "Use Fill PDF Forms (/tools/fill-forms). It detects the document's AcroForm fields and lets you type into them directly so values are stored as real form data rather than free-floating text.",
   },
 ];
 
 const related = [
-  { to: "/tools/fill-pdf-forms", name: "Fill PDF Forms", blurb: "Type into the document's real AcroForm fields instead of placing text on top." },
+  { to: "/tools/fill-forms", name: "Fill PDF Forms", blurb: "Type into the document's real AcroForm fields instead of placing text on top." },
   { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Draw or type a signature and stamp it anywhere across the document." },
   { to: "/tools/redact-pdf", name: "Redact PDF", blurb: "Permanently remove sensitive content so it can't be recovered later." },
   { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Lock your annotations in place so no reader can move or delete them." },
@@ -243,7 +243,7 @@ export function EditPdfSeo() {
         </Link>
         . If the PDF has real interactive form fields you want to fill
         properly, use{" "}
-        <Link to="/tools/fill-pdf-forms" className="text-[#e5322d] underline">
+        <Link to="/tools/fill-forms" className="text-[#e5322d] underline">
           Fill PDF Forms
         </Link>
         .

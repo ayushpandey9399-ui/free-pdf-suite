@@ -74,7 +74,7 @@ export function ScanToPdfSeo() {
             Watermark PDF
           </Link>{" "}
           ("For KYC only — 12 Aug"), then wrap it in a password using{" "}
-          <Link to="/tools/$slug" params={{ slug: "protect" }} className="font-semibold underline" style={{ color: "#e5322d" }}>
+          <Link to="/tools/$slug" params={{ slug: "protect-pdf" }} className="font-semibold underline" style={{ color: "#e5322d" }}>
             Protect PDF
           </Link>{" "}
           before it leaves your device.
@@ -224,7 +224,7 @@ export function ScanToPdfSeo() {
             — mark an ID copy with its purpose before sharing.
           </li>
           <li>
-            <Link to="/tools/$slug" params={{ slug: "protect" }} className="font-semibold underline" style={{ color: "#e5322d" }}>
+            <Link to="/tools/$slug" params={{ slug: "protect-pdf" }} className="font-semibold underline" style={{ color: "#e5322d" }}>
               Protect PDF
             </Link>{" "}
             — password a sensitive scan before sending.
