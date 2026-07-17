@@ -1,16 +1,14 @@
-import type { ComponentType, ReactElement, SVGProps } from "react";
+import type { ComponentType, ReactNode } from "react";
 
 /**
- * Per-tool icon system.
+ * Uniform tool icon system.
  *
- * Every icon renders in a shared 64x64 viewBox with the SAME rounded paper
- * sheet primitive (white body, tinted folded corner) so the whole set feels
- * like one family. Category color is passed in via the two-tone palette:
- *   - `dom`  : the dominant category color used for the main subject
- *   - `tint` : a soft tint of the same color used for secondary shapes
- * Backgrounds are transparent — the parent tile provides the tinted surface.
+ * Every icon is composed on a 64x64 viewBox from three fixed layers:
+ *   1. BACK PAPER   — rounded rect 34x40 @ (4,6), rx=6, tinted, with folded corner + 3 text lines.
+ *   2. FRONT BADGE  — rounded square 30x30 @ (26,26), rx=8, saturated color, white glyph centered.
+ *   3. CONNECTOR    — optional soft arc arrow (convert/transform tools).
  *
- * Flat only. No gradients, no strokes on the artwork, no drop shadows.
+ * ONLY the color and glyph change across icons — geometry is identical.
  */
 
 export interface ToolIconProps {
@@ -19,595 +17,429 @@ export interface ToolIconProps {
   title?: string;
 }
 
-type Palette = { dom: string; tint: string; bg: string };
+/* ---------- Color helpers ---------- */
 
-const PALETTE = {
-  organize: { dom: "#E5322D", tint: "#FDE8E7", bg: "#FDECEB" },
-  convert: { dom: "#2563EB", tint: "#DBEAFE", bg: "#E8F0FE" },
-  edit: { dom: "#D97706", tint: "#FEF3C7", bg: "#FEF3E2" },
-  forms: { dom: "#059669", tint: "#D1FAE5", bg: "#E7F7EC" },
-  security: { dom: "#7C3AED", tint: "#EDE9FE", bg: "#F1EAFE" },
-} as const;
+// Solid pastel approximating color @ ~12% over white.
+function tintOf(hex: string): string {
+  const h = hex.replace("#", "");
+  const r = parseInt(h.slice(0, 2), 16);
+  const g = parseInt(h.slice(2, 4), 16);
+  const b = parseInt(h.slice(4, 6), 16);
+  const mix = (c: number) => Math.round(c * 0.14 + 255 * 0.86);
+  return `rgb(${mix(r)},${mix(g)},${mix(b)})`;
+}
+function deeperTintOf(hex: string): string {
+  const h = hex.replace("#", "");
+  const r = parseInt(h.slice(0, 2), 16);
+  const g = parseInt(h.slice(2, 4), 16);
+  const b = parseInt(h.slice(4, 6), 16);
+  const mix = (c: number) => Math.round(c * 0.28 + 255 * 0.72);
+  return `rgb(${mix(r)},${mix(g)},${mix(b)})`;
+}
 
-/* ---------- Shared paper-sheet primitive ---------- */
+/* ---------- Shared layers ---------- */
 
-// Rounded rectangular sheet, 32w x 42h by default, with a folded top-right corner.
-// x/y refer to the top-left corner of the sheet's bounding rect.
-function Sheet({
-  x = 16,
-  y = 11,
-  w = 32,
-  h = 42,
-  fill = "#ffffff",
-  fold,
-  foldSize = 8,
-}: {
-  x?: number;
-  y?: number;
-  w?: number;
-  h?: number;
-  fill?: string;
-  fold: string;
-  foldSize?: number;
-}) {
-  const r = 3;
-  const fs = foldSize;
-  // Body: rounded rect with a diagonal cut at the top-right so the fold sits in the notch.
+// Back paper: rect 34x40 at (4,6), folded corner top-right (6px).
+function BackPaper({ color }: { color: string }) {
+  const tint = tintOf(color);
+  const deeper = deeperTintOf(color);
+  // Path with clipped top-right corner
   const body = `
-    M${x + r} ${y}
-    H${x + w - fs}
-    L${x + w} ${y + fs}
-    V${y + h - r}
-    Q${x + w} ${y + h} ${x + w - r} ${y + h}
-    H${x + r}
-    Q${x} ${y + h} ${x} ${y + h - r}
-    V${y + r}
-    Q${x} ${y} ${x + r} ${y}
+    M10 6
+    H32
+    L38 12
+    V40
+    Q38 46 32 46
+    H10
+    Q4 46 4 40
+    V12
+    Q4 6 10 6
     Z
   `;
-  // Folded triangle in the notch.
-  const foldPath = `
-    M${x + w - fs} ${y}
-    V${y + fs}
-    H${x + w}
-    Z
-  `;
+  const fold = `M32 6 V12 H38 Z`;
   return (
-    <>
-      <path d={body} fill={fill} />
-      <path d={foldPath} fill={fold} />
-    </>
+    <g>
+      <path d={body} fill={tint} />
+      <path d={fold} fill={deeper} />
+      {/* 3 text lines */}
+      <rect x={9} y={17} width={20} height={2} rx={1} fill={deeper} />
+      <rect x={9} y={22} width={22} height={2} rx={1} fill={deeper} />
+      <rect x={9} y={27} width={16} height={2} rx={1} fill={deeper} />
+    </g>
   );
 }
 
-/* ---------- Icon factory ---------- */
+// Front badge: rounded square 30x30 at (26,26), rx=8.
+function FrontBadge({ color, children }: { color: string; children: ReactNode }) {
+  return (
+    <g>
+      <rect x={26} y={26} width={30} height={30} rx={8} fill={color} />
+      {/* Glyphs are drawn in a 20x20 area centered at (41,41) — i.e. child coords 31..51 x 31..51 */}
+      {children}
+    </g>
+  );
+}
 
-type IconInner = (p: Palette) => ReactElement;
+// Optional connector arrow from back paper toward front badge.
+function Connector({ color, reverse = false }: { color: string; reverse?: boolean }) {
+  // arc from (20,22) to (30,32) — soft curve
+  const d = reverse
+    ? "M30 32 Q22 32 20 22"
+    : "M20 22 Q22 32 30 32";
+  return (
+    <g fill="none" stroke={color} strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+      <path d={d} />
+      {reverse ? (
+        <polyline points="18,20 20,22 22,20" />
+      ) : (
+        <polyline points="28,34 30,32 32,34" />
+      )}
+    </g>
+  );
+}
 
-function makeIcon(inner: IconInner, palette: Palette, label: string): ComponentType<ToolIconProps> {
+/* ---------- Factory ---------- */
+
+interface Spec {
+  color: string;
+  label: string;
+  glyph: ReactNode;
+  connector?: boolean;
+  connectorReverse?: boolean;
+}
+
+function makeIcon({ color, label, glyph, connector, connectorReverse }: Spec): ComponentType<ToolIconProps> {
   const Comp = ({ size = 64, className, title }: ToolIconProps) => (
-    <div
-      className={`inline-flex items-center justify-center rounded-2xl transition-[filter] duration-200 group-hover:brightness-95 ${className ?? ""}`}
-      style={{ width: size, height: size, backgroundColor: palette.bg }}
+    <svg
+      viewBox="0 0 64 64"
+      width={size}
+      height={size}
+      className={className}
+      role="img"
+      aria-label={title ?? label}
+      xmlns="http://www.w3.org/2000/svg"
     >
-      <svg
-        viewBox="0 0 64 64"
-        width={Math.round(size * 0.78)}
-        height={Math.round(size * 0.78)}
-        role="img"
-        aria-label={title ?? label}
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        {title ? <title>{title}</title> : null}
-        {inner(palette)}
-      </svg>
-    </div>
+      {title ? <title>{title}</title> : null}
+      <BackPaper color={color} />
+      {connector ? <Connector color={color} reverse={connectorReverse} /> : null}
+      <FrontBadge color={color}>{glyph}</FrontBadge>
+    </svg>
   );
   Comp.displayName = `ToolIcon(${label})`;
   return Comp;
 }
 
-/* ---------- Shared bits ---------- */
+/* ---------- Glyphs (white, centered in 20x20 area @ 31..51) ---------- */
+// Stroke defaults: 2.2px, round caps/joins.
+const S = {
+  stroke: "#ffffff",
+  fill: "#ffffff",
+  sw: 2.2,
+} as const;
 
-// Faint horizontal "text" lines on a sheet.
-const TextLines = ({ tint, x = 22, y = 26, w = 20, gap = 5, count = 3 }: {
-  tint: string;
-  x?: number;
-  y?: number;
-  w?: number;
-  gap?: number;
-  count?: number;
-}) => (
-  <>
-    {Array.from({ length: count }).map((_, i) => (
-      <rect key={i} x={x} y={y + i * gap} width={w} height={2} rx={1} fill={tint} />
-    ))}
-  </>
-);
+const G = {
+  strokeProps: {
+    stroke: S.stroke,
+    strokeWidth: S.sw,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    fill: "none" as const,
+  },
+};
 
-const Arrow = ({ x1, y1, x2, y2, color, w = 2.5 }: {
-  x1: number; y1: number; x2: number; y2: number; color: string; w?: number;
-}) => (
-  <g stroke={color} strokeWidth={w} strokeLinecap="round" strokeLinejoin="round" fill="none">
-    <line x1={x1} y1={y1} x2={x2} y2={y2} />
-    <polyline
-      points={`${x2 - 4},${y2 - 3} ${x2},${y2} ${x2 - 4},${y2 + 3}`}
-    />
+// Merge — two arrows converging into one point (down-right)
+const glyphMerge = (
+  <g {...G.strokeProps}>
+    <path d="M33 33 L41 41" />
+    <path d="M49 33 L41 41" />
+    <path d="M41 41 L41 49" />
+    <polyline points="38,46 41,49 44,46" />
   </g>
 );
 
-/* =====================================================================
-   ORGANIZE — red
-   ===================================================================== */
-
-// MERGE — two small sheets on left/right feeding a big center sheet
-const mergeIcon: IconInner = ({ dom, tint }) => (
-  <g>
-    <rect x={4} y={22} width={16} height={20} rx={3} fill={tint} />
-    <rect x={44} y={22} width={16} height={20} rx={3} fill={tint} />
-    <Sheet x={22} y={13} w={20} h={38} fill="#fff" fold={dom} foldSize={7} />
-    <Arrow x1={18} y1={32} x2={24} y2={32} color={dom} />
-    <Arrow x1={46} y1={32} x2={40} y2={32} color={dom} w={2.5} />
+// Compress — four arrows pointing inward
+const glyphCompress = (
+  <g {...G.strokeProps}>
+    <path d="M33 33 L38 38" />
+    <polyline points="33,36 33,33 36,33" />
+    <path d="M49 33 L44 38" />
+    <polyline points="49,36 49,33 46,33" />
+    <path d="M33 49 L38 44" />
+    <polyline points="36,49 33,49 33,46" />
+    <path d="M49 49 L44 44" />
+    <polyline points="46,49 49,49 49,46" />
   </g>
 );
 
-// COMPRESS — sheet squeezed by two arrows from left/right
-const compressIcon: IconInner = ({ dom, tint }) => (
-  <g>
-    <Sheet fold={tint} />
-    <Arrow x1={4} y1={32} x2={14} y2={32} color={dom} w={3} />
-    <Arrow x1={60} y1={32} x2={50} y2={32} color={dom} w={3} />
+// Split — two arrows diverging apart
+const glyphSplit = (
+  <g {...G.strokeProps}>
+    <path d="M41 33 L41 37" />
+    <path d="M41 37 L34 44" />
+    <polyline points="34,41 34,44 37,44" />
+    <path d="M41 37 L48 44" />
+    <polyline points="48,41 48,44 45,44" />
+    <path d="M34 44 L34 49" />
+    <path d="M48 44 L48 49" />
   </g>
 );
 
-// SPLIT — one sheet cut down the middle with dotted gap
-const splitIcon: IconInner = ({ dom, tint }) => (
-  <g>
-    {/* left half */}
-    <path d="M13 14a3 3 0 0 1 3-3h14v42H16a3 3 0 0 1-3-3z" fill="#fff" />
-    {/* right half with folded corner */}
-    <path d="M34 11h10l6 6v34a3 3 0 0 1-3 3H34z" fill="#fff" />
-    <path d="M44 11v6h6z" fill={tint} />
-    {/* dotted split line */}
-    {[0, 1, 2, 3, 4, 5, 6].map((i) => (
-      <rect key={i} x={31.25} y={13 + i * 6} width={1.5} height={3.5} rx={0.75} fill={dom} />
-    ))}
+// Delete — trash bin
+const glyphDelete = (
+  <g {...G.strokeProps}>
+    <rect x={34} y={35} width={14} height={14} rx={1.5} />
+    <line x1={32} y1={35} x2={50} y2={35} />
+    <line x1={38} y1={33} x2={44} y2={33} />
+    <line x1={38} y1={39} x2={38} y2={45} />
+    <line x1={44} y1={39} x2={44} y2={45} />
   </g>
 );
 
-// DELETE PAGES — sheet with trash bin at bottom-right
-const deletePagesIcon: IconInner = ({ dom, tint }) => (
-  <g>
-    <Sheet x={10} y={9} w={30} h={38} fold={tint} />
-    <TextLines tint={tint} x={16} y={22} w={18} count={3} />
-    {/* trash bin */}
-    <rect x={40} y={38} width={16} height={14} rx={2} fill={dom} />
-    <rect x={38} y={34} width={20} height={3} rx={1.5} fill={dom} />
-    <rect x={45} y={31} width={6} height={2} rx={1} fill={dom} />
-    <rect x={44} y={41} width={1.5} height={7} rx={0.75} fill="#fff" opacity={0.6} />
-    <rect x={51} y={41} width={1.5} height={7} rx={0.75} fill="#fff" opacity={0.6} />
+// Extract Pages — sheet with up-arrow
+const glyphExtract = (
+  <g {...G.strokeProps}>
+    <rect x={35} y={38} width={12} height={11} rx={1.5} />
+    <path d="M41 34 L41 43" />
+    <polyline points="38,37 41,34 44,37" />
   </g>
 );
 
-// EXTRACT PAGES — stack of 3 sheets with one highlighted sliding up
-const extractPagesIcon: IconInner = ({ dom, tint }) => (
-  <g>
-    {/* back stack */}
-    <rect x={16} y={30} width={30} height={22} rx={3} fill={tint} />
-    <rect x={19} y={26} width={30} height={22} rx={3} fill={tint} />
-    {/* highlighted sheet sliding up */}
-    <Sheet x={22} y={8} w={26} h={30} fill={dom} fold="#fff" foldSize={7} />
-    <Arrow x1={35} y1={22} x2={35} y2={6} color={dom} w={0} />
-    <g stroke={dom} strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" fill="none">
-      <polyline points="31,10 35,6 39,10" />
-    </g>
+// Reorder — up/down swap arrows
+const glyphReorder = (
+  <g {...G.strokeProps}>
+    <line x1={37} y1={33} x2={37} y2={49} />
+    <polyline points="34,36 37,33 40,36" />
+    <line x1={45} y1={49} x2={45} y2={33} />
+    <polyline points="42,46 45,49 48,46" />
   </g>
 );
 
-// REORDER PAGES — two sheets side by side with swap arrows
-const reorderPagesIcon: IconInner = ({ dom, tint }) => (
-  <g>
-    <Sheet x={6} y={16} w={22} h={32} fold={tint} />
-    <Sheet x={36} y={16} w={22} h={32} fold={tint} />
-    {/* swap arrows */}
-    <g fill="none" stroke={dom} strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M18 10 Q32 2 46 10" />
-      <polyline points="18,6 18,10 22,10" />
-      <path d="M46 54 Q32 62 18 54" />
-      <polyline points="46,58 46,54 42,54" />
-    </g>
+// Add Blank Pages — plus sign
+const glyphAdd = (
+  <g {...G.strokeProps} strokeWidth={2.6}>
+    <line x1={41} y1={33} x2={41} y2={49} />
+    <line x1={33} y1={41} x2={49} y2={41} />
   </g>
 );
 
-// ADD BLANK PAGES — stack with a new sheet + plus circle
-const addBlankPagesIcon: IconInner = ({ dom, tint }) => (
-  <g>
-    <rect x={12} y={20} width={30} height={34} rx={3} fill={tint} />
-    <Sheet x={18} y={12} w={30} h={34} fold={tint} />
-    {/* plus badge */}
-    <circle cx={48} cy={16} r={8} fill={dom} />
-    <rect x={47} y={11.5} width={2} height={9} rx={1} fill="#fff" />
-    <rect x={43.5} y={15} width={9} height={2} rx={1} fill="#fff" />
+// Rotate — circular rotation arrow
+const glyphRotate = (
+  <g {...G.strokeProps}>
+    <path d="M48 41 A7 7 0 1 1 41 34" />
+    <polyline points="41,31 41,34 44,34" />
   </g>
 );
 
-// ROTATE — tilted sheet with circular arrow
-const rotateIcon: IconInner = ({ dom, tint }) => (
-  <g>
-    <g transform="rotate(-15 32 32)">
-      <Sheet fold={tint} />
-    </g>
-    {/* clockwise arc */}
-    <g fill="none" stroke={dom} strokeWidth={2.6} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M50 20 A22 22 0 1 1 20 12" />
-      <polyline points="45,10 50,20 40,22" />
-    </g>
+// Crop — corner frame marks
+const glyphCrop = (
+  <g {...G.strokeProps}>
+    <polyline points="34,37 34,34 37,34" />
+    <polyline points="45,34 48,34 48,37" />
+    <polyline points="34,45 34,48 37,48" />
+    <polyline points="45,48 48,48 48,45" />
   </g>
 );
 
-// CROP — sheet with 4 L-shaped corner marks
-const cropIcon: IconInner = ({ dom, tint }) => (
+// Photo (mountain + sun) glyph
+const glyphPhoto = (
   <g>
-    <Sheet x={18} y={13} w={28} h={38} fold={tint} />
-    <g stroke={dom} strokeWidth={3} strokeLinecap="round" fill="none">
-      {/* TL */}
-      <polyline points="10,18 10,10 18,10" />
-      {/* TR */}
-      <polyline points="46,10 54,10 54,18" />
-      {/* BL */}
-      <polyline points="10,46 10,54 18,54" />
-      {/* BR */}
-      <polyline points="46,54 54,54 54,46" />
-    </g>
-  </g>
-);
-
-/* =====================================================================
-   CONVERT — blue
-   ===================================================================== */
-
-// Small photo thumbnail primitive (sun + mountain)
-const Photo = ({ x, y, w = 20, h = 18, dom, tint }: {
-  x: number; y: number; w?: number; h?: number; dom: string; tint: string;
-}) => (
-  <g>
-    <rect x={x} y={y} width={w} height={h} rx={2.5} fill={tint} />
-    <circle cx={x + w * 0.28} cy={y + h * 0.32} r={1.8} fill={dom} />
+    <rect x={33} y={34} width={16} height={14} rx={1.8} fill="none" stroke={S.stroke} strokeWidth={S.sw} />
+    <circle cx={37} cy={38} r={1.5} fill={S.fill} />
     <path
-      d={`M${x + 1.5} ${y + h - 1.5} L${x + w * 0.4} ${y + h * 0.5} L${x + w * 0.62} ${y + h * 0.72} L${x + w * 0.78} ${y + h * 0.55} L${x + w - 1.5} ${y + h - 1.5} Z`}
-      fill={dom}
+      d="M34 47 L39 42 L42 45 L46 40 L48 44 L48 47 Z"
+      fill={S.fill}
     />
   </g>
 );
 
-// IMAGE TO PDF — photo -> arrow -> sheet
-const imagesToPdfIcon: IconInner = ({ dom, tint }) => (
+// Extract Images — two overlapping photos
+const glyphExtractImages = (
   <g>
-    <Photo x={4} y={23} w={20} h={18} dom={dom} tint={tint} />
-    <Arrow x1={26} y1={32} x2={36} y2={32} color={dom} />
-    <Sheet x={38} y={16} w={22} h={32} fold={tint} />
+    <rect x={31} y={36} width={13} height={11} rx={1.5} fill="none" stroke={S.stroke} strokeWidth={S.sw} />
+    <rect x={37} y={33} width={13} height={11} rx={1.5} fill="none" stroke={S.stroke} strokeWidth={S.sw} />
+    <circle cx={40.5} cy={36.5} r={1.1} fill={S.fill} />
+    <path d="M38 42 L41 39 L43 41 L46 38 L48 40 L48 42 Z" fill={S.fill} />
   </g>
 );
 
-// PDF TO IMAGE — sheet -> arrow -> photo
-const pdfToImagesIcon: IconInner = ({ dom, tint }) => (
-  <g>
-    <Sheet x={4} y={16} w={22} h={32} fold={tint} />
-    <Arrow x1={28} y1={32} x2={38} y2={32} color={dom} />
-    <Photo x={40} y={23} w={20} h={18} dom={dom} tint={tint} />
+// PDF to Text — letter "T"
+const glyphT = (
+  <g fill={S.fill}>
+    <rect x={33} y={33} width={16} height={3} rx={0.5} />
+    <rect x={39.5} y={33} width={3} height={16} rx={0.5} />
   </g>
 );
 
-// EXTRACT IMAGES — sheet with two photos sliding out fanned
-const extractImagesIcon: IconInner = ({ dom, tint }) => (
-  <g>
-    <Sheet x={8} y={9} w={30} h={40} fold={tint} />
-    <TextLines tint={tint} x={14} y={20} w={18} count={2} />
-    <g transform="rotate(15 44 44)">
-      <Photo x={32} y={30} w={18} h={16} dom={dom} tint={tint} />
-    </g>
-    <g transform="rotate(-8 48 40)">
-      <Photo x={40} y={22} w={18} h={16} dom={dom} tint={tint} />
-    </g>
+// TXT to PDF — three text lines
+const glyphLines = (
+  <g fill={S.fill}>
+    <rect x={33} y={35} width={16} height={2.4} rx={1} />
+    <rect x={33} y={40} width={16} height={2.4} rx={1} />
+    <rect x={33} y={45} width={11} height={2.4} rx={1} />
   </g>
 );
 
-// PDF TO TEXT — sheet with big T + text lines
-const pdfToTextIcon: IconInner = ({ dom, tint }) => (
-  <g>
-    <Sheet fold={tint} />
-    {/* T */}
-    <rect x={22} y={18} width={20} height={3.5} rx={1} fill={dom} />
-    <rect x={30.25} y={18} width={3.5} height={16} rx={1} fill={dom} />
-    {/* lines */}
-    <TextLines tint={tint} x={22} y={40} w={20} gap={4} count={3} />
+// Scan — camera
+const glyphCamera = (
+  <g {...G.strokeProps}>
+    <path d="M34 39 h3 l1.5 -2 h5 l1.5 2 h3 a1 1 0 0 1 1 1 v7 a1 1 0 0 1 -1 1 h-14 a1 1 0 0 1 -1 -1 v-7 a1 1 0 0 1 1 -1 z" />
+    <circle cx={41} cy={43} r={2.6} />
   </g>
 );
 
-// TXT TO PDF — text lines -> arrow -> sheet
-const txtToPdfIcon: IconInner = ({ dom }) => (
-  <g>
-    {[0, 1, 2].map((i) => (
-      <rect key={i} x={5} y={22 + i * 6} width={18} height={3} rx={1.5} fill={dom} />
-    ))}
-    <Arrow x1={26} y1={32} x2={36} y2={32} color={dom} />
-    <Sheet x={38} y={13} w={22} h={38} fold="#DBEAFE" />
-    <TextLines tint="#DBEAFE" x={42} y={22} w={14} gap={4} count={4} />
+// Edit — pencil
+const glyphPencil = (
+  <g {...G.strokeProps}>
+    <path d="M34 48 L34 44 L44 34 L48 38 L38 48 Z" />
+    <line x1={42} y1={36} x2={46} y2={40} />
   </g>
 );
 
-// SCAN TO PDF — phone above sheet with scan lines
-const scanToPdfIcon: IconInner = ({ dom, tint }) => (
-  <g>
-    <Sheet x={16} y={30} w={32} h={24} fold={tint} />
-    {/* phone */}
-    <rect x={22} y={5} width={20} height={20} rx={3} fill={dom} />
-    <rect x={24.5} y={7.5} width={15} height={11} rx={1.5} fill="#fff" />
-    <circle cx={32} cy={22} r={1.2} fill="#fff" />
-    {/* scan lines between phone & paper */}
-    <rect x={22} y={27} width={20} height={1.5} rx={0.75} fill={dom} opacity={0.6} />
+// Watermark — water drop
+const glyphDrop = (
+  <path
+    d="M41 32 C 37 38, 34 41, 34 44 A7 7 0 0 0 48 44 C 48 41, 45 38, 41 32 Z"
+    fill={S.fill}
+  />
+);
+
+// Page Numbers — "123"
+const glyph123 = (
+  <g fill={S.fill} fontFamily="ui-sans-serif, system-ui, -apple-system, sans-serif" fontSize={12} fontWeight={800} textAnchor="middle">
+    <text x={35} y={45}>1</text>
+    <text x={41} y={45}>2</text>
+    <text x={47} y={45}>3</text>
   </g>
 );
 
-/* =====================================================================
-   EDIT — amber
-   ===================================================================== */
-
-// EDIT PDF — sheet with diagonal pencil
-const editPdfIcon: IconInner = ({ dom, tint }) => (
-  <g>
-    <Sheet x={10} y={11} w={32} h={42} fold={tint} />
-    <TextLines tint={tint} x={16} y={22} w={18} count={2} />
-    {/* pencil body */}
-    <g transform="rotate(35 46 34)">
-      <rect x={30} y={31} width={26} height={6} rx={1} fill={dom} />
-      <path d="M56 31 L62 34 L56 37 Z" fill="#fff" />
-      <rect x={30} y={31} width={4} height={6} fill={tint} />
-    </g>
+// Header & Footer — rectangle with top/bottom bars
+const glyphHeaderFooter = (
+  <g fill={S.fill}>
+    <rect x={33} y={33} width={16} height={3} rx={1} />
+    <rect x={33} y={38} width={12} height={1.5} rx={0.75} opacity={0.55} />
+    <rect x={33} y={41.5} width={10} height={1.5} rx={0.75} opacity={0.55} />
+    <rect x={33} y={46} width={16} height={3} rx={1} />
   </g>
 );
 
-// WATERMARK — sheet with translucent droplet over text lines
-const watermarkIcon: IconInner = ({ dom, tint }) => (
+// Grayscale — half-filled circle
+const glyphGrayscale = (
   <g>
-    <Sheet fold={tint} />
-    <TextLines tint={tint} x={22} y={22} w={20} gap={4} count={4} />
-    {/* droplet centered */}
-    <path
-      d="M32 22 C26 30 24 34 24 38 A8 8 0 0 0 40 38 C40 34 38 30 32 22 Z"
-      fill={dom}
-      opacity={0.35}
-    />
+    <circle cx={41} cy={41} r={7} fill="none" stroke={S.stroke} strokeWidth={S.sw} />
+    <path d="M41 34 A7 7 0 0 1 41 48 Z" fill={S.fill} />
   </g>
 );
 
-// PAGE NUMBERS — sheet with "1 2 3" at bottom
-const pageNumbersIcon: IconInner = ({ dom, tint }) => (
-  <g>
-    <Sheet fold={tint} />
-    <TextLines tint={tint} x={22} y={20} w={20} gap={4} count={3} />
-    {/* digits at bottom */}
-    <g fill={dom} fontFamily="ui-sans-serif, system-ui, sans-serif" fontSize={9} fontWeight={700} textAnchor="middle">
-      <text x={26} y={47}>1</text>
-      <text x={32} y={47}>2</text>
-      <text x={38} y={47}>3</text>
+// Metadata — price tag
+const glyphTag = (
+  <g {...G.strokeProps}>
+    <path d="M34 34 h8 l8 8 -8 8 -8 -8 Z" />
+    <circle cx={38} cy={38} r={1.2} fill={S.fill} stroke="none" />
+  </g>
+);
+
+// Fill Forms — checkbox with tick
+const glyphCheckbox = (
+  <g {...G.strokeProps}>
+    <rect x={34} y={34} width={14} height={14} rx={2} />
+    <polyline points="37,41 40,44 46,38" />
+  </g>
+);
+
+// Flatten — layers pressed by down-arrow
+const glyphFlatten = (
+  <g fill={S.fill}>
+    <rect x={33} y={45} width={16} height={2.5} rx={1} />
+    <rect x={35} y={41.5} width={12} height={2.2} rx={1} opacity={0.7} />
+    <rect x={37} y={38.5} width={8} height={1.8} rx={0.9} opacity={0.5} />
+    <g stroke={S.stroke} strokeWidth={S.sw} strokeLinecap="round" fill="none">
+      <line x1={41} y1={32} x2={41} y2={37} />
+      <polyline points="38,35 41,37.5 44,35" />
     </g>
   </g>
 );
 
-// HEADER & FOOTER — sheet with top and bottom bars filled
-const headerFooterIcon: IconInner = ({ dom, tint }) => (
-  <g>
-    <Sheet fold={dom} />
-    {/* header bar */}
-    <rect x={16} y={11} width={26} height={7} fill={dom} />
-    <path d="M42 11v7h6z" fill={dom} />
-    {/* footer bar */}
-    <path d="M16 46 h32 v4 a3 3 0 0 1-3 3 H19 a3 3 0 0 1-3-3 z" fill={dom} />
-    {/* middle text lines */}
-    <TextLines tint={tint} x={22} y={26} w={20} gap={4} count={3} />
+// Compare — magnifying glass
+const glyphSearch = (
+  <g {...G.strokeProps}>
+    <circle cx={39} cy={39} r={5} />
+    <line x1={43} y1={43} x2={48} y2={48} />
   </g>
 );
 
-// GRAYSCALE — sheet split vertically: color left / gray right
-const grayscalePdfIcon: IconInner = ({ dom, tint }) => (
+// Lock body + shackle helper
+const glyphLockClosed = (
   <g>
-    <Sheet fold={tint} />
-    {/* left color circle + bar */}
-    <circle cx={22} cy={24} r={4} fill={dom} />
-    <rect x={17} y={32} width={13} height={3} rx={1.5} fill={dom} />
-    <rect x={17} y={38} width={10} height={3} rx={1.5} fill={tint} />
-    {/* right gray circle + bar */}
-    <circle cx={42} cy={24} r={4} fill="#9CA3AF" />
-    <rect x={35} y={32} width={13} height={3} rx={1.5} fill="#9CA3AF" />
-    <rect x={35} y={38} width={10} height={3} rx={1.5} fill="#D1D5DB" />
-    {/* divider */}
-    <rect x={31.5} y={12} width={1} height={40} fill="#E5E7EB" />
+    <path d="M36 39 v-3 a5 5 0 0 1 10 0 v3" fill="none" stroke={S.stroke} strokeWidth={S.sw} strokeLinecap="round" />
+    <rect x={34} y={39} width={14} height={10} rx={1.5} fill={S.fill} />
   </g>
 );
 
-// METADATA — sheet with price tag attached to top-left
-const pdfMetadataIcon: IconInner = ({ dom, tint }) => (
+const glyphLockOpen = (
   <g>
-    <Sheet x={18} y={15} w={30} h={38} fold={tint} />
-    <TextLines tint={tint} x={24} y={26} w={18} count={3} />
-    {/* tag */}
-    <g transform="rotate(-25 20 20)">
-      <path d="M8 12 h14 l6 6 -14 14 -12 -12 z" fill={dom} />
-      <circle cx={10} cy={14} r={2} fill="#fff" />
-    </g>
+    <path d="M36 39 v-3 a5 5 0 0 1 9 -2.5" fill="none" stroke={S.stroke} strokeWidth={S.sw} strokeLinecap="round" />
+    <rect x={34} y={39} width={14} height={10} rx={1.5} fill={S.fill} />
   </g>
 );
 
-/* =====================================================================
-   FORMS & COMPARE — green
-   ===================================================================== */
-
-// FILL FORMS — sheet with checkboxes + pen
-const fillFormsIcon: IconInner = ({ dom, tint }) => (
-  <g>
-    <Sheet x={10} y={9} w={34} h={42} fold={tint} />
-    {/* row 1 (ticked) */}
-    <rect x={15} y={19} width={6} height={6} rx={1.2} fill={dom} />
-    <polyline points="16.5,22 18,23.5 20,20.5" stroke="#fff" strokeWidth={1.5} fill="none" strokeLinecap="round" strokeLinejoin="round" />
-    <rect x={24} y={21} width={16} height={2} rx={1} fill={tint} />
-    {/* row 2 empty */}
-    <rect x={15} y={30} width={6} height={6} rx={1.2} fill="none" stroke={dom} strokeWidth={1.5} />
-    <rect x={24} y={32} width={16} height={2} rx={1} fill={tint} />
-    {/* pen at lower right */}
-    <g transform="rotate(40 48 46)">
-      <rect x={40} y={44} width={16} height={4} rx={1} fill={dom} />
-      <path d="M56 44 L60 46 L56 48 Z" fill="#fff" />
-    </g>
+// Sign — pen nib with signature curve
+const glyphSign = (
+  <g {...G.strokeProps}>
+    <path d="M33 47 Q37 41 41 45 T49 43" />
+    <path d="M46 34 L49 37 L43 43 L40 43 L40 40 Z" fill={S.fill} stroke="none" />
   </g>
 );
 
-// FLATTEN — 3 stacked sheets pressed by a bar
-const flattenPdfIcon: IconInner = ({ dom, tint }) => (
-  <g>
-    {/* press bar */}
-    <rect x={8} y={12} width={48} height={5} rx={2} fill={dom} />
-    {/* stacked sheets */}
-    <rect x={12} y={22} width={40} height={6} rx={2} fill={tint} />
-    <rect x={14} y={30} width={36} height={6} rx={2} fill={tint} />
-    <rect x={10} y={40} width={44} height={10} rx={2} fill="#fff" stroke={tint} strokeWidth={1.5} />
-    {/* down arrows */}
-    <g stroke={dom} strokeWidth={2} strokeLinecap="round" fill="none">
-      <line x1={20} y1={18} x2={20} y2={22} />
-      <line x1={44} y1={18} x2={44} y2={22} />
-    </g>
-  </g>
-);
-
-// COMPARE — two sheets side by side + magnifying glass
-const compareIcon: IconInner = ({ dom, tint }) => (
-  <g>
-    <Sheet x={4} y={11} w={26} h={40} fold={tint} />
-    <Sheet x={34} y={11} w={26} h={40} fold={tint} />
-    <TextLines tint={tint} x={9} y={22} w={16} gap={4} count={3} />
-    <TextLines tint={tint} x={39} y={22} w={16} gap={4} count={3} />
-    {/* magnifying glass */}
-    <circle cx={32} cy={36} r={11} fill="#fff" stroke={dom} strokeWidth={3} />
-    <line x1={40} y1={44} x2={48} y2={52} stroke={dom} strokeWidth={3.5} strokeLinecap="round" />
-  </g>
-);
-
-/* =====================================================================
-   SECURITY — purple
-   ===================================================================== */
-
-// Padlock body (shared)
-const LockBody = ({ cx, cy, color }: { cx: number; cy: number; color: string }) => (
-  <>
-    <rect x={cx - 8} y={cy - 4} width={16} height={13} rx={2} fill={color} />
-    <circle cx={cx} cy={cy + 2} r={1.6} fill="#fff" />
-    <rect x={cx - 0.8} y={cy + 2} width={1.6} height={4} fill="#fff" />
-  </>
-);
-
-// PROTECT — sheet with closed padlock on lower half
-const protectPdfIcon: IconInner = ({ dom, tint }) => (
-  <g>
-    <Sheet fold={tint} />
-    <TextLines tint={tint} x={22} y={20} w={20} gap={4} count={2} />
-    {/* shackle closed */}
-    <path d="M26 34 v-4 a6 6 0 0 1 12 0 v4" stroke={dom} strokeWidth={2.4} fill="none" strokeLinecap="round" />
-    <LockBody cx={32} cy={38} color={dom} />
-  </g>
-);
-
-// UNLOCK — sheet with open padlock (shackle open to the side)
-const unlockPdfIcon: IconInner = ({ dom, tint }) => (
-  <g>
-    <Sheet fold={tint} />
-    <TextLines tint={tint} x={22} y={20} w={20} gap={4} count={2} />
-    {/* shackle open (rotated, one leg lifted) */}
-    <path d="M22 34 v-3 a6 6 0 0 1 12 -2" stroke={dom} strokeWidth={2.4} fill="none" strokeLinecap="round" />
-    <LockBody cx={32} cy={38} color={dom} />
-  </g>
-);
-
-// SIGN — sheet with fountain pen nib on a signature curve
-const signPdfIcon: IconInner = ({ dom, tint }) => (
-  <g>
-    <Sheet x={8} y={11} w={40} h={42} fold={tint} />
-    {/* signature curve */}
-    <path
-      d="M14 40 C 20 30, 26 46, 30 34 S 40 42, 44 30"
-      fill="none"
-      stroke={dom}
-      strokeWidth={2.4}
-      strokeLinecap="round"
-    />
-    {/* pen at end of stroke */}
-    <g transform="rotate(30 50 26)">
-      <rect x={44} y={16} width={18} height={5} rx={1} fill={dom} />
-      <path d="M62 16 L66 18.5 L62 21 Z" fill={dom} />
-      <rect x={44} y={16} width={3} height={5} fill="#fff" />
-    </g>
-  </g>
-);
-
-// REDACT — sheet with censor bars over some lines
-const redactPdfIcon: IconInner = ({ dom, tint }) => (
-  <g>
-    <Sheet fold={tint} />
-    <rect x={22} y={19} width={16} height={2.5} rx={1} fill={dom} />
-    <rect x={22} y={25} width={20} height={4} rx={1} fill="#111827" />
-    <rect x={22} y={32} width={12} height={2.5} rx={1} fill={tint} />
-    <rect x={22} y={38} width={18} height={4} rx={1} fill="#111827" />
-    <rect x={22} y={46} width={10} height={2.5} rx={1} fill={tint} />
+// Redact — two solid censor bars
+const glyphRedact = (
+  <g fill={S.fill}>
+    <rect x={33} y={36} width={16} height={3.5} rx={0.8} />
+    <rect x={33} y={43} width={12} height={3.5} rx={0.8} />
   </g>
 );
 
 /* ---------- Registry ---------- */
 
-const iconMap: Record<string, { inner: IconInner; palette: Palette; label: string }> = {
+const specs: Record<string, Spec> = {
   // Organize
-  merge: { inner: mergeIcon, palette: PALETTE.organize, label: "Merge PDF" },
-  compress: { inner: compressIcon, palette: PALETTE.organize, label: "Compress PDF" },
-  split: { inner: splitIcon, palette: PALETTE.organize, label: "Split PDF" },
-  "delete-pages": { inner: deletePagesIcon, palette: PALETTE.organize, label: "Delete Pages" },
-  "extract-pages": { inner: extractPagesIcon, palette: PALETTE.organize, label: "Extract Pages" },
-  "reorder-pages": { inner: reorderPagesIcon, palette: PALETTE.organize, label: "Reorder Pages" },
-  "add-blank-pages": { inner: addBlankPagesIcon, palette: PALETTE.organize, label: "Add Blank Pages" },
-  rotate: { inner: rotateIcon, palette: PALETTE.organize, label: "Rotate PDF" },
-  crop: { inner: cropIcon, palette: PALETTE.organize, label: "Crop PDF" },
+  merge: { color: "#E5322D", label: "Merge PDF", glyph: glyphMerge },
+  compress: { color: "#16A34A", label: "Compress PDF", glyph: glyphCompress },
+  split: { color: "#EA580C", label: "Split PDF", glyph: glyphSplit },
+  "delete-pages": { color: "#E11D48", label: "Delete Pages", glyph: glyphDelete },
+  "extract-pages": { color: "#0D9488", label: "Extract Pages", glyph: glyphExtract },
+  "reorder-pages": { color: "#4F46E5", label: "Reorder Pages", glyph: glyphReorder },
+  "add-blank-pages": { color: "#0284C7", label: "Add Blank Pages", glyph: glyphAdd },
+  rotate: { color: "#DB2777", label: "Rotate PDF", glyph: glyphRotate },
+  crop: { color: "#65A30D", label: "Crop PDF", glyph: glyphCrop },
 
-  // Convert
-  "images-to-pdf": { inner: imagesToPdfIcon, palette: PALETTE.convert, label: "Image to PDF" },
-  "pdf-to-images": { inner: pdfToImagesIcon, palette: PALETTE.convert, label: "PDF to Image" },
-  "extract-images": { inner: extractImagesIcon, palette: PALETTE.convert, label: "Extract Images" },
-  "pdf-to-text": { inner: pdfToTextIcon, palette: PALETTE.convert, label: "PDF to Text" },
-  "txt-to-pdf": { inner: txtToPdfIcon, palette: PALETTE.convert, label: "TXT to PDF" },
-  "scan-to-pdf": { inner: scanToPdfIcon, palette: PALETTE.convert, label: "Scan to PDF" },
+  // Convert (with connectors)
+  "images-to-pdf": { color: "#D97706", label: "Image to PDF", glyph: glyphPhoto, connector: true },
+  "pdf-to-images": { color: "#2563EB", label: "PDF to Image", glyph: glyphPhoto, connector: true, connectorReverse: true },
+  "extract-images": { color: "#7C3AED", label: "Extract Images", glyph: glyphExtractImages },
+  "pdf-to-text": { color: "#475569", label: "PDF to Text", glyph: glyphT },
+  "txt-to-pdf": { color: "#0891B2", label: "TXT to PDF", glyph: glyphLines, connector: true },
+  "scan-to-pdf": { color: "#C2410C", label: "Scan to PDF", glyph: glyphCamera },
 
   // Edit
-  "edit-pdf": { inner: editPdfIcon, palette: PALETTE.edit, label: "Edit PDF" },
-  watermark: { inner: watermarkIcon, palette: PALETTE.edit, label: "Add Watermark" },
-  "page-numbers": { inner: pageNumbersIcon, palette: PALETTE.edit, label: "Page Numbers" },
-  "header-footer": { inner: headerFooterIcon, palette: PALETTE.edit, label: "Header & Footer" },
-  "grayscale-pdf": { inner: grayscalePdfIcon, palette: PALETTE.edit, label: "Grayscale PDF" },
-  "pdf-metadata": { inner: pdfMetadataIcon, palette: PALETTE.edit, label: "PDF Metadata" },
+  "edit-pdf": { color: "#9333EA", label: "Edit PDF", glyph: glyphPencil },
+  watermark: { color: "#0EA5E9", label: "Add Watermark", glyph: glyphDrop },
+  "page-numbers": { color: "#059669", label: "Page Numbers", glyph: glyph123 },
+  "header-footer": { color: "#C026D3", label: "Header & Footer", glyph: glyphHeaderFooter },
+  "grayscale-pdf": { color: "#4B5563", label: "Grayscale PDF", glyph: glyphGrayscale },
+  "pdf-metadata": { color: "#92400E", label: "PDF Metadata", glyph: glyphTag },
 
   // Forms & Compare
-  "fill-forms": { inner: fillFormsIcon, palette: PALETTE.forms, label: "Fill PDF Forms" },
-  "flatten-pdf": { inner: flattenPdfIcon, palette: PALETTE.forms, label: "Flatten PDF" },
-  compare: { inner: compareIcon, palette: PALETTE.forms, label: "Compare PDFs" },
+  "fill-forms": { color: "#15803D", label: "Fill PDF Forms", glyph: glyphCheckbox },
+  "flatten-pdf": { color: "#1D4ED8", label: "Flatten PDF", glyph: glyphFlatten },
+  compare: { color: "#B45309", label: "Compare PDFs", glyph: glyphSearch },
 
   // Security
-  "protect-pdf": { inner: protectPdfIcon, palette: PALETTE.security, label: "Protect PDF" },
-  "unlock-pdf": { inner: unlockPdfIcon, palette: PALETTE.security, label: "Unlock PDF" },
-  "sign-pdf": { inner: signPdfIcon, palette: PALETTE.security, label: "Sign PDF" },
-  "redact-pdf": { inner: redactPdfIcon, palette: PALETTE.security, label: "Redact PDF" },
+  "protect-pdf": { color: "#1E40AF", label: "Protect PDF", glyph: glyphLockClosed },
+  "unlock-pdf": { color: "#CA8A04", label: "Unlock PDF", glyph: glyphLockOpen },
+  "sign-pdf": { color: "#0F766E", label: "Sign PDF", glyph: glyphSign },
+  "redact-pdf": { color: "#1F2937", label: "Redact PDF", glyph: glyphRedact },
 };
 
 export const toolIcons: Record<string, ComponentType<ToolIconProps>> = Object.fromEntries(
-  Object.entries(iconMap).map(([slug, { inner, palette, label }]) => [
-    slug,
-    makeIcon(inner, palette, label),
-  ]),
+  Object.entries(specs).map(([slug, spec]) => [slug, makeIcon(spec)]),
 );
-
-// Silence unused import warning; SVGProps kept for future extensions.
-export type _SVGProps = SVGProps<SVGSVGElement>;
