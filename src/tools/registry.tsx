@@ -48,6 +48,7 @@ const meta: Omit<ToolMeta, "icon">[] = [
   { slug: "sign-pdf", name: "Sign PDF", description: "Create your electronic signature and place it anywhere on your PDF.", category: "Forms & Compare", Component: lazy(() => import("./sign-pdf")) },
   { slug: "compare", name: "Compare PDFs", description: "See the differences between two PDF documents side by side.", category: "Forms & Compare", Component: lazy(() => import("./compare")) },
   { slug: "protect-pdf", name: "Protect PDF", description: "Add a password to your PDF and encrypt it to prevent unauthorized access.", category: "Security", Component: lazy(() => import("./protect-pdf")) },
+  { slug: "redact-pdf", name: "Redact PDF", description: "Permanently black out sensitive text and images — the hidden content is truly removed, not just covered.", category: "Security", Component: lazy(() => import("./redact-pdf")) },
   { slug: "unlock-pdf", name: "Unlock PDF", description: "Remove the password from your PDF so you can open it freely. You must know the current password.", category: "Security", Component: lazy(() => import("./unlock-pdf")) },
 ];
 
