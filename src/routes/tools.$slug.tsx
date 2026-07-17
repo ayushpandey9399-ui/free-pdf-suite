@@ -461,6 +461,7 @@ function ToolPage() {
   const isExtractPages = slug === "extract-pages";
   const isReorderPages = slug === "reorder-pages";
   const isImagesToPdf = slug === "images-to-pdf";
+  const isPdfToText = slug === "pdf-to-text";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
