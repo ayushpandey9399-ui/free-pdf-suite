@@ -517,6 +517,7 @@ function ToolPage() {
   const isImagesToPdf = slug === "images-to-pdf";
   const isPdfToText = slug === "pdf-to-text";
   const isTxtToPdf = slug === "txt-to-pdf";
+  const isPageNumbers = slug === "page-numbers";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
