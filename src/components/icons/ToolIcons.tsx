@@ -72,6 +72,8 @@ export const ProtectPdfIcon = makeIcon(protectPdfUrl, "Protect PDF");
 export const UnlockPdfIcon = makeIcon(unlockPdfUrl, "Unlock PDF");
 export const EditPdfIcon = makeIcon(editPdfUrl, "Edit & Annotate PDF");
 export const FlattenPdfIcon = makeIcon(flattenPdfUrl, "Flatten PDF");
+export const TxtToPdfIcon = makeIcon(txtToPdfUrl, "TXT to PDF");
+export const PdfMetadataIcon = makeIcon(pdfMetadataUrl, "PDF Metadata Editor");
 
 export const toolIcons: Record<string, ComponentType<ToolIconProps>> = {
   merge: MergeIcon,
