@@ -14,7 +14,7 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { GripVertical } from "lucide-react";
+import { GripVertical, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export interface ThumbItem {
@@ -28,11 +28,13 @@ export function SortableThumbGrid({
   onReorder,
   selectedIds,
   onToggle,
+  onRemove,
 }: {
   items: ThumbItem[];
   onReorder?: (items: ThumbItem[]) => void;
   selectedIds?: Set<string>;
   onToggle?: (id: string) => void;
+  onRemove?: (id: string) => void;
 }) {
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
@@ -59,6 +61,7 @@ export function SortableThumbGrid({
               draggable={!!onReorder}
               selected={selectedIds?.has(item.id)}
               onToggle={onToggle ? () => onToggle(item.id) : undefined}
+              onRemove={onRemove ? () => onRemove(item.id) : undefined}
             />
           ))}
         </div>
@@ -72,11 +75,13 @@ function Thumb({
   draggable,
   selected,
   onToggle,
+  onRemove,
 }: {
   item: ThumbItem;
   draggable: boolean;
   selected?: boolean;
   onToggle?: () => void;
+  onRemove?: () => void;
 }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: item.id,
@@ -103,6 +108,17 @@ function Thumb({
         >
           <GripVertical className="h-5 w-5" style={{ color: "#33333c" }} />
         </div>
+      )}
+      {onRemove && (
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); onRemove(); }}
+          onPointerDown={(e) => e.stopPropagation()}
+          className="absolute top-1.5 right-1.5 z-10 grid h-6 w-6 place-items-center rounded-full bg-white/95 text-[#7a7a86] shadow ring-1 ring-black/10 hover:text-[#e5322d]"
+          aria-label="Remove"
+        >
+          <X className="h-3.5 w-3.5" />
+        </button>
       )}
       {onToggle ? (
         <button

@@ -1,25 +1,60 @@
-import { useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { PDFDocument, PageSizes } from "pdf-lib";
 import { toast } from "sonner";
-import { X, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ToolWorkspace } from "@/components/ToolWorkspace";
 import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
+import { SortableThumbGrid, type ThumbItem } from "@/components/SortableThumbGrid";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { downloadBlob } from "@/lib/download";
 import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 
+interface ImgEntry {
+  id: string;
+  file: File;
+  url: string;
+}
+
 export default function ImagesToPdf() {
-  const [files, setFiles] = useState<File[]>([]);
+  const [entries, setEntries] = useState<ImgEntry[]>([]);
   const [pageSize, setPageSize] = useState<"fit" | "a4" | "letter">("fit");
   const [orientation, setOrientation] = useState<"portrait" | "landscape">("portrait");
   const [margin, setMargin] = useState(24);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ blob: Blob; filename: string; count: number } | null>(null);
+  const idRef = useRef(0);
 
-  const resetAll = () => { setFiles([]); setPageSize("fit"); setOrientation("portrait"); setMargin(24); setResult(null); };
+  const addFiles = (files: File[]) => {
+    if (!files.length) return;
+    setEntries((prev) => [
+      ...prev,
+      ...files.map((file) => ({
+        id: `img-${++idRef.current}`,
+        file,
+        url: URL.createObjectURL(file),
+      })),
+    ]);
+  };
+
+  const resetAll = () => {
+    entries.forEach((e) => URL.revokeObjectURL(e.url));
+    setEntries([]);
+    setPageSize("fit");
+    setOrientation("portrait");
+    setMargin(24);
+    setResult(null);
+  };
+
+  // Revoke object URLs on unmount
+  useEffect(() => {
+    return () => {
+      entries.forEach((e) => URL.revokeObjectURL(e.url));
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const decodeToPngBytes = (file: File): Promise<{ bytes: Uint8Array; width: number; height: number }> =>
     new Promise((resolve, reject) => {
@@ -53,13 +88,13 @@ export default function ImagesToPdf() {
     });
 
   const run = async () => {
-    if (!files.length) return;
+    if (!entries.length) return;
     setLoading(true);
     try {
       const pdf = await PDFDocument.create();
       const safeMargin = Math.max(0, Math.floor(margin) || 0);
-      for (const f of files) {
-        const { bytes, width: iw, height: ih } = await decodeToPngBytes(f);
+      for (const e of entries) {
+        const { bytes, width: iw, height: ih } = await decodeToPngBytes(e.file);
         const img = await pdf.embedPng(bytes);
         let pageW: number, pageH: number;
         if (pageSize === "fit") {
@@ -79,7 +114,7 @@ export default function ImagesToPdf() {
       }
       const bytes = await pdf.save();
       const blob = new Blob([bytes as BlobPart], { type: "application/pdf" });
-      setResult({ blob, filename: "images.pdf", count: files.length });
+      setResult({ blob, filename: "images.pdf", count: entries.length });
       toast.success("PDF created");
     } catch (e) {
       const msg = e instanceof Error ? e.message : typeof e === "string" ? e : JSON.stringify(e);
@@ -90,6 +125,10 @@ export default function ImagesToPdf() {
     }
   };
 
+  const thumbItems: ThumbItem[] = useMemo(
+    () => entries.map((e, i) => ({ id: e.id, src: e.url, label: `${i + 1}. ${e.file.name}` })),
+    [entries],
+  );
 
   if (result) {
     return (
@@ -104,29 +143,40 @@ export default function ImagesToPdf() {
     );
   }
 
-  if (files.length === 0) {
+  if (entries.length === 0) {
     return (
       <FileDropzone
         accept="image/png,image/jpeg"
         multiple
-        files={files}
-        onFilesChange={setFiles}
+        files={[]}
+        onFilesChange={(list) => addFiles(list)}
         buttonLabel="Select images"
         hint="or drop JPG / PNG images here"
       />
     );
   }
 
-  const removeAt = (i: number) => setFiles((prev) => prev.filter((_, idx) => idx !== i));
+  const removeById = (id: string) => {
+    setEntries((prev) => {
+      const gone = prev.find((e) => e.id === id);
+      if (gone) URL.revokeObjectURL(gone.url);
+      return prev.filter((e) => e.id !== id);
+    });
+  };
+
+  const reorder = (next: ThumbItem[]) => {
+    setEntries((prev) => {
+      const byId = new Map(prev.map((e) => [e.id, e] as const));
+      return next.map((n) => byId.get(n.id)!).filter(Boolean);
+    });
+  };
+
   const openPicker = () => {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = "image/png,image/jpeg";
     input.multiple = true;
-    input.onchange = () => {
-      const list = Array.from(input.files ?? []);
-      setFiles((prev) => [...prev, ...list]);
-    };
+    input.onchange = () => addFiles(Array.from(input.files ?? []));
     input.click();
   };
 
@@ -164,37 +214,24 @@ export default function ImagesToPdf() {
             <Label htmlFor="margin">Margin (pt)</Label>
             <Input id="margin" type="number" min={0} value={margin} onChange={(e) => setMargin(Number(e.target.value) || 0)} className="mt-1" />
           </div>
+          <p className="text-[12px] leading-relaxed text-[#7a7a86]">
+            Drag the ⋮⋮ handle on any thumbnail to reorder. Pages in the PDF follow the grid order.
+          </p>
         </>
       }
     >
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-        {files.map((f, i) => {
-          const url = URL.createObjectURL(f);
-          return (
-            <div key={i} className="group relative overflow-hidden rounded-xl border bg-white" style={{ borderColor: "#ececef" }}>
-              <img src={url} alt={f.name} className="aspect-[3/4] w-full object-cover" onLoad={() => URL.revokeObjectURL(url)} />
-              <div className="px-2 py-1.5 text-[11px] font-medium truncate" style={{ color: "#33333c" }}>{f.name}</div>
-              <button
-                type="button"
-                onClick={() => removeAt(i)}
-                className="absolute top-1.5 right-1.5 grid h-6 w-6 place-items-center rounded-full bg-white/95 text-[#7a7a86] shadow opacity-0 group-hover:opacity-100 transition-opacity hover:text-[#e5322d]"
-                aria-label="Remove image"
-              >
-                <X className="h-3.5 w-3.5" />
-              </button>
-            </div>
-          );
-        })}
+      <SortableThumbGrid items={thumbItems} onReorder={reorder} onRemove={removeById} />
+      <div className="mt-4">
         <button
           type="button"
           onClick={openPicker}
-          className="flex aspect-[3/4] flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed text-[13px] font-semibold transition-colors hover:border-[#e5322d] hover:text-[#e5322d]"
+          className="inline-flex items-center gap-2 rounded-lg border-2 border-dashed px-4 py-2 text-[13px] font-semibold transition-colors hover:border-[#e5322d] hover:text-[#e5322d]"
           style={{ borderColor: "#e5d4d3", color: "#7a7a86" }}
         >
-          <span className="grid h-10 w-10 place-items-center rounded-full text-white" style={{ backgroundColor: "#e5322d" }}>
-            <Plus className="h-5 w-5" />
+          <span className="grid h-6 w-6 place-items-center rounded-full text-white" style={{ backgroundColor: "#e5322d" }}>
+            <Plus className="h-3.5 w-3.5" />
           </span>
-          Add more
+          Add more images
         </button>
       </div>
     </ToolWorkspace>

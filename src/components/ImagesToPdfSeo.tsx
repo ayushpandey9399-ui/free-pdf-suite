@@ -7,8 +7,8 @@ const steps = [
     text: "Choose one photo or a whole batch of them from your camera roll, downloads folder or desktop. The images open locally as a grid of thumbnails inside the workspace — none of them have been sent anywhere to reach this preview.",
   },
   {
-    title: "Add more shots or remove the ones you don't want",
-    text: "Use the Add more tile to append extra pictures at the end of the batch, and hover any thumbnail to reveal a small remove button in its corner. The images will be placed into the PDF in the exact order they appear in the grid — first tile becomes page one, last tile becomes the final page.",
+    title: "Add more shots, remove the ones you don't want, or drag to reorder",
+    text: "Use the Add more images button to append extra pictures at the end of the batch, and click the small × on any thumbnail to drop it. To change the sequence, grab the ⋮⋮ handle at the top of a thumbnail and drag the tile into a new slot — the other pictures shift out of the way as you move. The order shown in the grid is the order the pages will appear in the exported PDF.",
   },
   {
     title: "Pick a page setup on the right",
@@ -73,7 +73,7 @@ const faqs = [
   },
   {
     q: "Can I change the order of images before converting?",
-    a: "The order in the final PDF matches the order the pictures appear in the thumbnail grid, which is the order in which you added them. There isn't a drag-to-reorder handle inside this tool yet, so if you need a different sequence, remove pictures using the small × on each thumbnail and re-add them in the order you want, or re-add the whole batch in the intended order. You can also convert first and then use Reorder Pages to rearrange the finished PDF.",
+    a: "Yes. Every thumbnail carries a ⋮⋮ drag handle at the top — press it and drag the tile to a new position in the grid, and the surrounding pictures slide out of the way to make room. The drag interaction has a dedicated touch sensor with a short press-and-hold, so reordering works on a phone as well as with a mouse. Whatever order you leave the grid in is the order the pages will appear in the exported PDF. You can also remove any picture with the small × on its tile.",
   },
   {
     q: "Will my photos lose quality?",
