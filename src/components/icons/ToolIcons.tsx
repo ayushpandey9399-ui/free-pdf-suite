@@ -24,6 +24,7 @@ import txtToPdfUrl from "@/assets/icons/txt-to-pdf.png";
 import pdfMetadataUrl from "@/assets/icons/pdf-metadata.png";
 import extractImagesUrl from "@/assets/icons/extract-images.png";
 import grayscalePdfUrl from "@/assets/icons/grayscale-pdf.png";
+import headerFooterUrl from "@/assets/icons/header-footer.png";
 
 /**
  * AI-generated icon artwork for PDFfree tools.
