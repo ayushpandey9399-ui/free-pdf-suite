@@ -1,15 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { Menu, X, ChevronDown, LayoutGrid } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Menu, X, ChevronDown, Lock } from "lucide-react";
 import { Logo } from "./Logo";
-
-const navLinks = [
-  { label: "Merge PDF", to: "/tools/$slug", params: { slug: "merge" }, caret: false },
-  { label: "Split PDF", to: "/tools/$slug", params: { slug: "split" }, caret: false },
-  { label: "Compress PDF", to: "/tools/$slug", params: { slug: "crop" }, caret: false },
-  { label: "Convert PDF", to: "/", params: undefined, hash: "tools", caret: true },
-  { label: "All PDF Tools", to: "/", params: undefined, hash: "tools", caret: true },
-] as const;
+import { tools, categories, type ToolCategory } from "@/tools/registry";
 
 const NAV_STYLE = {
   fontSize: 13,
@@ -17,8 +10,37 @@ const NAV_STYLE = {
   color: "#33333c",
 } as const;
 
+const convertTools = tools.filter((t) => t.category === "Convert PDF");
+
+type DropdownKey = "convert" | "all" | null;
+
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const [dropdown, setDropdown] = useState<DropdownKey>(null);
+  const [mobileSection, setMobileSection] = useState<DropdownKey>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!dropdown) return;
+    const onClick = (e: MouseEvent) => {
+      if (!wrapRef.current?.contains(e.target as Node)) setDropdown(null);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setDropdown(null);
+    };
+    document.addEventListener("mousedown", onClick);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onClick);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [dropdown]);
+
+  const closeAll = () => {
+    setDropdown(null);
+    setOpen(false);
+    setMobileSection(null);
+  };
 
   return (
     <header
@@ -26,50 +48,114 @@ export function Navbar() {
       style={{ borderColor: "#ececef" }}
     >
       <div
+        ref={wrapRef}
         className="mx-auto flex max-w-[1200px] items-center justify-between px-4 sm:px-6"
         style={{ height: 66 }}
       >
         <div className="flex items-center gap-8">
           <Logo />
           <nav className="hidden min-[860px]:flex items-center gap-6">
-            {navLinks.map((l) => (
-              <Link
-                key={l.label}
-                to={l.to as any}
-                params={l.params as any}
-                hash={(l as any).hash}
+            <Link
+              to="/tools/$slug"
+              params={{ slug: "merge" }}
+              className="font-bold uppercase transition-colors hover:text-[#e5322d]"
+              style={NAV_STYLE}
+            >
+              Merge PDF
+            </Link>
+            <Link
+              to="/tools/$slug"
+              params={{ slug: "split" }}
+              className="font-bold uppercase transition-colors hover:text-[#e5322d]"
+              style={NAV_STYLE}
+            >
+              Split PDF
+            </Link>
+
+            {/* Convert PDF dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => setDropdown("convert")}
+              onMouseLeave={() => setDropdown(null)}
+            >
+              <button
+                type="button"
+                aria-haspopup="menu"
+                aria-expanded={dropdown === "convert"}
+                onClick={() => setDropdown((d) => (d === "convert" ? null : "convert"))}
                 className="inline-flex items-center gap-1 font-bold uppercase transition-colors hover:text-[#e5322d]"
                 style={NAV_STYLE}
               >
-                {l.label}
-                {l.caret && <ChevronDown className="h-3.5 w-3.5" strokeWidth={2.5} />}
-              </Link>
-            ))}
+                Convert PDF
+                <ChevronDown className="h-3.5 w-3.5" strokeWidth={2.5} />
+              </button>
+              {dropdown === "convert" && (
+                <DropdownPanel width={260}>
+                  <ul className="p-2">
+                    {convertTools.map((t) => (
+                      <DropdownItem key={t.slug} tool={t} onClick={closeAll} />
+                    ))}
+                  </ul>
+                </DropdownPanel>
+              )}
+            </div>
+
+            {/* All PDF Tools dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => setDropdown("all")}
+              onMouseLeave={() => setDropdown(null)}
+            >
+              <button
+                type="button"
+                aria-haspopup="menu"
+                aria-expanded={dropdown === "all"}
+                onClick={() => setDropdown((d) => (d === "all" ? null : "all"))}
+                className="inline-flex items-center gap-1 font-bold uppercase transition-colors hover:text-[#e5322d]"
+                style={NAV_STYLE}
+              >
+                All PDF Tools
+                <ChevronDown className="h-3.5 w-3.5" strokeWidth={2.5} />
+              </button>
+              {dropdown === "all" && (
+                <DropdownPanel width={720} align="right">
+                  <div className="grid grid-cols-2 gap-2 p-4 lg:grid-cols-4">
+                    {categories.map((cat) => (
+                      <div key={cat}>
+                        <p
+                          className="mb-2 px-2 text-[11px] font-bold uppercase tracking-wider"
+                          style={{ color: "#9a9aa5", letterSpacing: "0.08em" }}
+                        >
+                          {shortCategory(cat)}
+                        </p>
+                        <ul>
+                          {tools
+                            .filter((t) => t.category === cat)
+                            .map((t) => (
+                              <DropdownItem key={t.slug} tool={t} onClick={closeAll} compact />
+                            ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </DropdownPanel>
+              )}
+            </div>
           </nav>
         </div>
 
         <div className="hidden min-[860px]:flex items-center gap-3">
-          <a
-            href="#"
-            className="font-bold uppercase transition-colors hover:text-[#e5322d]"
-            style={NAV_STYLE}
+          <span
+            className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-semibold"
+            style={{
+              backgroundColor: "#eafaf0",
+              color: "#1f9d55",
+              border: "1px solid #c9ecd6",
+            }}
           >
-            Login
-          </a>
-          <a
-            href="#"
-            className="inline-flex items-center rounded-lg px-4 py-2 text-[13px] font-bold uppercase text-white transition-colors hover:bg-[#c72620]"
-            style={{ backgroundColor: "#e5322d", letterSpacing: "0.04em" }}
-          >
-            Sign up
-          </a>
-          <button
-            type="button"
-            aria-label="Open apps menu"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-[#33333c] hover:bg-[#f6f4f9] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e5322d]/40"
-          >
-            <LayoutGrid className="h-5 w-5" strokeWidth={2.25} />
-          </button>
+            <Lock className="h-3 w-3" />
+            All tools are free — no account needed
+          </span>
         </div>
 
         <button
@@ -89,38 +175,170 @@ export function Navbar() {
           style={{ borderColor: "#ececef" }}
         >
           <nav className="flex flex-col gap-1">
-            {navLinks.map((l) => (
-              <Link
-                key={l.label}
-                to={l.to as any}
-                params={l.params as any}
-                hash={(l as any).hash}
-                onClick={() => setOpen(false)}
-                className="rounded-lg px-3 py-3 text-[14px] font-bold uppercase hover:bg-[#f6f4f9]"
-                style={{ color: "#33333c", letterSpacing: "0.04em" }}
+            <Link
+              to="/tools/$slug"
+              params={{ slug: "merge" }}
+              onClick={closeAll}
+              className="rounded-lg px-3 py-3 text-[14px] font-bold uppercase hover:bg-[#f6f4f9]"
+              style={{ color: "#33333c", letterSpacing: "0.04em" }}
+            >
+              Merge PDF
+            </Link>
+            <Link
+              to="/tools/$slug"
+              params={{ slug: "split" }}
+              onClick={closeAll}
+              className="rounded-lg px-3 py-3 text-[14px] font-bold uppercase hover:bg-[#f6f4f9]"
+              style={{ color: "#33333c", letterSpacing: "0.04em" }}
+            >
+              Split PDF
+            </Link>
+
+            <MobileAccordion
+              label="Convert PDF"
+              expanded={mobileSection === "convert"}
+              onToggle={() =>
+                setMobileSection((s) => (s === "convert" ? null : "convert"))
+              }
+            >
+              {convertTools.map((t) => (
+                <DropdownItem key={t.slug} tool={t} onClick={closeAll} compact />
+              ))}
+            </MobileAccordion>
+
+            <MobileAccordion
+              label="All PDF Tools"
+              expanded={mobileSection === "all"}
+              onToggle={() => setMobileSection((s) => (s === "all" ? null : "all"))}
+            >
+              {categories.map((cat) => (
+                <div key={cat} className="mt-2 first:mt-0">
+                  <p
+                    className="mb-1 px-2 text-[11px] font-bold uppercase"
+                    style={{ color: "#9a9aa5", letterSpacing: "0.08em" }}
+                  >
+                    {shortCategory(cat)}
+                  </p>
+                  {tools
+                    .filter((t) => t.category === cat)
+                    .map((t) => (
+                      <DropdownItem key={t.slug} tool={t} onClick={closeAll} compact />
+                    ))}
+                </div>
+              ))}
+            </MobileAccordion>
+
+            <div className="mt-3 pt-3 border-t" style={{ borderColor: "#ececef" }}>
+              <span
+                className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-semibold"
+                style={{
+                  backgroundColor: "#eafaf0",
+                  color: "#1f9d55",
+                  border: "1px solid #c9ecd6",
+                }}
               >
-                {l.label}
-              </Link>
-            ))}
-            <div className="mt-2 flex gap-2 pt-2 border-t" style={{ borderColor: "#ececef" }}>
-              <a
-                href="#"
-                className="flex-1 rounded-lg px-4 py-3 text-center text-[13px] font-bold uppercase hover:bg-[#f6f4f9]"
-                style={{ color: "#33333c", letterSpacing: "0.04em" }}
-              >
-                Login
-              </a>
-              <a
-                href="#"
-                className="flex-1 rounded-lg px-4 py-3 text-center text-[13px] font-bold uppercase text-white"
-                style={{ backgroundColor: "#e5322d", letterSpacing: "0.04em" }}
-              >
-                Sign up
-              </a>
+                <Lock className="h-3 w-3" />
+                All tools are free — no account needed
+              </span>
             </div>
           </nav>
         </div>
       )}
     </header>
   );
+}
+
+function DropdownPanel({
+  children,
+  width,
+  align = "left",
+}: {
+  children: React.ReactNode;
+  width: number;
+  align?: "left" | "right";
+}) {
+  return (
+    <div
+      className="absolute top-full z-50 mt-2 rounded-xl bg-white"
+      style={{
+        width,
+        maxWidth: "calc(100vw - 32px)",
+        [align]: 0,
+        border: "1px solid #ececef",
+        boxShadow: "0 20px 48px -16px rgba(20,20,43,0.18), 0 4px 12px -4px rgba(20,20,43,0.08)",
+      } as React.CSSProperties}
+      role="menu"
+    >
+      {children}
+    </div>
+  );
+}
+
+function DropdownItem({
+  tool,
+  onClick,
+  compact,
+}: {
+  tool: (typeof tools)[number];
+  onClick: () => void;
+  compact?: boolean;
+}) {
+  const Icon = tool.icon;
+  return (
+    <li>
+      <Link
+        to="/tools/$slug"
+        params={{ slug: tool.slug }}
+        onClick={onClick}
+        role="menuitem"
+        className="flex items-center gap-3 rounded-lg px-2 py-2 hover:bg-[#f6f4f9]"
+      >
+        <Icon size={compact ? 24 : 28} />
+        <span
+          className="text-[13.5px] font-semibold"
+          style={{ color: "#33333c" }}
+        >
+          {tool.name}
+        </span>
+      </Link>
+    </li>
+  );
+}
+
+function MobileAccordion({
+  label,
+  expanded,
+  onToggle,
+  children,
+}: {
+  label: string;
+  expanded: boolean;
+  onToggle: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <div>
+      <button
+        type="button"
+        aria-expanded={expanded}
+        onClick={onToggle}
+        className="flex w-full items-center justify-between rounded-lg px-3 py-3 text-[14px] font-bold uppercase hover:bg-[#f6f4f9]"
+        style={{ color: "#33333c", letterSpacing: "0.04em" }}
+      >
+        {label}
+        <ChevronDown
+          className="h-4 w-4 transition-transform"
+          style={{ transform: expanded ? "rotate(180deg)" : "none" }}
+        />
+      </button>
+      {expanded && <div className="mb-1 pl-2">{children}</div>}
+    </div>
+  );
+}
+
+function shortCategory(cat: ToolCategory): string {
+  if (cat === "Organize PDF") return "Organize";
+  if (cat === "Convert PDF") return "Convert";
+  if (cat === "Edit PDF") return "Edit";
+  return "Forms & Compare";
 }
