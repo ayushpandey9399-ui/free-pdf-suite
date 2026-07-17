@@ -685,6 +685,7 @@ function ToolPage() {
   const isEditPdf = slug === "edit-pdf";
   const isFillForms = slug === "fill-forms";
   const isFlattenPdf = slug === "flatten-pdf";
+  const isPdfMetadata = slug === "pdf-metadata";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
