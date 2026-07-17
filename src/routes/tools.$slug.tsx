@@ -611,6 +611,8 @@ function ToolPage() {
     ? "Add Page Numbers to PDF — Free, Any Position, 100% Private"
     : isHeaderFooter
     ? "Add Header & Footer to PDF — Every Page, 100% Private"
+    : isCrop
+    ? "Crop PDF — Trim Margins and Unwanted Edges, 100% Private"
     : tool.name;
 
   return (
