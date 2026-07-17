@@ -9,7 +9,9 @@ import { renderPdfThumbnails } from "@/lib/thumbnail";
 import { downloadBlob } from "@/lib/download";
 import { loadPdfLibDoc, isPdfPasswordError } from "@/lib/pdfGuard";
 import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
+import { LargeFileWarning } from "@/components/LargeFileWarning";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
+import { usePdfStats } from "@/hooks/usePdfStats";
 
 export default function ReorderPages() {
   const [files, setFiles] = useState<File[]>([]);
@@ -17,6 +19,7 @@ export default function ReorderPages() {
   const [rendering, setRendering] = useState(false);
   const [loading, setLoading] = useState(false);
   const { protectedName, reset } = usePdfPasswordCheck(files, () => { setFiles([]); setItems([]); });
+  const { pageCount, fileSize } = usePdfStats(files[0]);
 
   useEffect(() => {
     const file = files[0];
@@ -67,6 +70,7 @@ export default function ReorderPages() {
         <PasswordProtectedNotice fileName={protectedName} onReset={reset} />
       ) : (
         <>
+          {files[0] && <LargeFileWarning pageCount={pageCount} fileSize={fileSize} />}
           {rendering && (
             <div className="mt-6 flex items-center justify-center py-10 text-muted-foreground text-sm">
               <Loader2 className="h-4 w-4 animate-spin mr-2" /> Rendering pages…
