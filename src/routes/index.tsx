@@ -29,23 +29,54 @@ function Home() {
     <div style={{ backgroundColor: "#ffffff", color: "#33333c" }}>
       {/* Hero */}
       <section className="relative overflow-hidden">
+        {/* Base gradient: soft rose at edges → white in the middle */}
         <div
           aria-hidden
-          className="absolute inset-0 -z-10"
+          className="absolute inset-0 -z-20"
           style={{
             background:
-              "radial-gradient(45% 55% at 100% 0%, #fff1ec 0%, transparent 60%), radial-gradient(45% 55% at 0% 0%, #fff1ec 0%, transparent 60%), #ffffff",
+              "radial-gradient(80% 70% at 50% 55%, #ffffff 0%, #ffffff 40%, #fdf2f2 100%)",
           }}
         />
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 pt-14 sm:pt-16 pb-10 text-center">
+        {/* Ambient blurred blobs */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+          <div
+            className="absolute -top-24 -left-24 h-[420px] w-[420px] rounded-full blur-3xl opacity-70 hidden sm:block"
+            style={{ background: "radial-gradient(circle, #fce7e6 0%, transparent 70%)" }}
+          />
+          <div
+            className="absolute -top-32 -right-28 h-[480px] w-[480px] rounded-full blur-3xl opacity-70 hidden sm:block"
+            style={{ background: "radial-gradient(circle, #fdede4 0%, transparent 70%)" }}
+          />
+          <div
+            className="absolute top-40 left-1/2 -translate-x-1/2 h-[360px] w-[720px] rounded-full blur-3xl opacity-40 hidden md:block"
+            style={{ background: "radial-gradient(ellipse, #fde4e2 0%, transparent 70%)" }}
+          />
+        </div>
+
+        {/* Decorative floating page cluster — desktop only */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute right-6 top-16 hidden xl:block"
+        >
+          <FloatingPages />
+        </div>
+        <div
+          aria-hidden
+          className="pointer-events-none absolute left-6 top-24 hidden xl:block"
+        >
+          <FloatingPages mirrored />
+        </div>
+
+        <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 pt-12 pb-14 sm:pt-24 sm:pb-20 lg:pt-28 lg:pb-24 text-center">
           <h1
-            className="mx-auto max-w-[820px] font-bold tracking-tight text-[32px] sm:text-[44px] leading-[1.1]"
-            style={{ color: "#33333c", letterSpacing: "-0.02em" }}
+            className="mx-auto max-w-[880px] font-bold tracking-tight text-[36px] sm:text-[52px] lg:text-[58px] leading-[1.08]"
+            style={{ color: "#33333c", letterSpacing: "-0.025em" }}
           >
             Every tool you need to work with PDFs in one place
           </h1>
           <p
-            className="mx-auto mt-5 max-w-[660px] text-[17px] sm:text-[19px] leading-relaxed"
+            className="mx-auto mt-6 max-w-[660px] text-[17px] sm:text-[19px] leading-relaxed"
             style={{ color: "#7a7a86" }}
           >
             Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use!
@@ -53,8 +84,13 @@ function Home() {
           </p>
 
           <div
-            className="mx-auto mt-7 inline-flex items-center gap-2 rounded-full px-4 py-2 text-[13.5px] font-semibold"
-            style={{ backgroundColor: "#eafaf0", color: "#1f9d55" }}
+            className="mx-auto mt-8 inline-flex items-center gap-2 rounded-full px-4 py-2 text-[13.5px] font-semibold"
+            style={{
+              backgroundColor: "#eafaf0",
+              color: "#1f9d55",
+              border: "1px solid #c9ecd6",
+              boxShadow: "0 4px 14px -6px rgba(31,157,85,0.25)",
+            }}
           >
             <Lock className="h-4 w-4" />
             Your files never leave your device — 100% private
@@ -62,7 +98,7 @@ function Home() {
 
           {/* Filter pills */}
           <div
-            className="mx-auto mt-8 flex flex-wrap items-center justify-center gap-2"
+            className="mx-auto mt-12 flex flex-wrap items-center justify-center gap-2"
             role="tablist"
             aria-label="Filter tools by category"
           >
@@ -75,12 +111,27 @@ function Home() {
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActive(f)}
-                  className="min-h-[40px] rounded-full px-4 py-2 text-[13.5px] font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e5322d]/40"
+                  className="min-h-[40px] rounded-full px-4 py-2 text-[13.5px] font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e5322d]/40"
                   style={
                     isActive
-                      ? { backgroundColor: "#33333c", color: "#ffffff", border: "1px solid #33333c" }
-                      : { backgroundColor: "#ffffff", color: "#33333c", border: "1px solid #ececef" }
+                      ? {
+                          backgroundColor: "#33333c",
+                          color: "#ffffff",
+                          border: "1px solid #33333c",
+                          boxShadow: "0 8px 20px -8px rgba(51,51,60,0.55)",
+                        }
+                      : {
+                          backgroundColor: "#ffffff",
+                          color: "#33333c",
+                          border: "1px solid #ececef",
+                        }
                   }
+                  onMouseEnter={(e) => {
+                    if (!isActive) e.currentTarget.style.backgroundColor = "#f4f4f7";
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) e.currentTarget.style.backgroundColor = "#ffffff";
+                  }}
                 >
                   {f}
                 </button>
@@ -88,6 +139,7 @@ function Home() {
             })}
           </div>
         </div>
+
       </section>
 
       {/* Tools grid */}
@@ -143,5 +195,43 @@ function Home() {
     </div>
   );
 }
+
+function FloatingPages({ mirrored = false }: { mirrored?: boolean }) {
+  const dir = mirrored ? -1 : 1;
+  const pages = [
+    { x: 0, y: 0, rot: -8 * dir, fill: "#ffffff", accent: "#e5322d" },
+    { x: 28 * dir, y: 22, rot: 6 * dir, fill: "#fff5f4", accent: "#f28c1e" },
+    { x: -18 * dir, y: 44, rot: -3 * dir, fill: "#ffffff", accent: "#4a63e7" },
+  ];
+  return (
+    <div className="relative h-[170px] w-[170px] opacity-90">
+      {pages.map((p, i) => (
+        <div
+          key={i}
+          className="absolute rounded-[10px]"
+          style={{
+            left: 30 + p.x,
+            top: 10 + p.y,
+            width: 88,
+            height: 112,
+            background: p.fill,
+            border: "1px solid #ececef",
+            transform: `rotate(${p.rot}deg)`,
+            boxShadow: "0 18px 40px -18px rgba(20,20,43,0.22)",
+          }}
+        >
+          <div
+            className="absolute left-3 right-3 top-3 h-1.5 rounded-full"
+            style={{ background: p.accent, opacity: 0.85 }}
+          />
+          <div className="absolute left-3 right-6 top-7 h-1 rounded-full bg-[#ececef]" />
+          <div className="absolute left-3 right-10 top-10 h-1 rounded-full bg-[#ececef]" />
+          <div className="absolute left-3 right-4 top-13 h-1 rounded-full bg-[#ececef]" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 
 
