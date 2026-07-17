@@ -8,6 +8,7 @@ import { MergePdfSeo, mergeFaqJsonLd, mergeHowToJsonLd, mergeSoftwareJsonLd } fr
 import { CompressPdfSeo, compressFaqJsonLd, compressHowToJsonLd, compressSoftwareJsonLd } from "@/components/CompressPdfSeo";
 import { SplitPdfSeo, splitFaqJsonLd, splitHowToJsonLd, splitSoftwareJsonLd } from "@/components/SplitPdfSeo";
 import { SignPdfSeo, signFaqJsonLd, signHowToJsonLd, signSoftwareJsonLd } from "@/components/SignPdfSeo";
+import { PdfToImagesSeo, pdfToImagesFaqJsonLd, pdfToImagesHowToJsonLd, pdfToImagesSoftwareJsonLd } from "@/components/PdfToImagesSeo";
 
 
 export const Route = createFileRoute("/tools/$slug")({
@@ -121,6 +122,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "pdf-to-images") {
+      const title =
+        "PDF to JPG Online Free — Convert PDF to Images Without Uploading | PDFfree";
+      const desc =
+        "Convert PDF to JPG or PNG online free — high quality, right in your browser. No upload, no signup, no watermark. Files never leave your device.";
+      const url = "/tools/pdf-to-images";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(pdfToImagesFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(pdfToImagesHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(pdfToImagesSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
@@ -153,6 +180,7 @@ function ToolPage() {
   const isCompress = slug === "compress";
   const isSplit = slug === "split";
   const isSign = slug === "sign-pdf";
+  const isPdfToImages = slug === "pdf-to-images";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
@@ -162,6 +190,8 @@ function ToolPage() {
     ? "Split PDF Online — Separate Pages, 100% Private"
     : isSign
     ? "Sign PDF Online — Free Electronic Signature, 100% Private"
+    : isPdfToImages
+    ? "PDF to JPG Converter — Free, High Quality, 100% Private"
     : tool.name;
 
   return (
@@ -182,6 +212,7 @@ function ToolPage() {
       {isCompress && <CompressPdfSeo />}
       {isSplit && <SplitPdfSeo />}
       {isSign && <SignPdfSeo />}
+      {isPdfToImages && <PdfToImagesSeo />}
     </>
   );
 }
