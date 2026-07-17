@@ -641,6 +641,8 @@ function ToolPage() {
     ? "Add Header & Footer to PDF — Every Page, 100% Private"
     : isCrop
     ? "Crop PDF — Trim Margins and Unwanted Edges, 100% Private"
+    : isEditPdf
+    ? "Edit PDF Online — Add Text, Highlight and Annotate, Free"
     : tool.name;
 
   return (
