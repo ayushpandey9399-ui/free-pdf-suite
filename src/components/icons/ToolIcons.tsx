@@ -1,41 +1,38 @@
 import type { ComponentType } from "react";
-import {
-  Combine,
-  Scissors,
-  Trash2,
-  FileOutput,
-  ArrowUpDown,
-  FilePlus,
-  RotateCw,
-  Crop,
-  Minimize2,
-  ImagePlus,
-  FileImage,
-  Images,
-  FileText,
-  FileType,
-  ScanLine,
-  Hash,
-  PanelTop,
-  Droplets,
-  Contrast,
-  Tag,
-  PenLine,
-  FormInput,
-  Layers,
-  GitCompare,
-  Lock,
-  LockOpen,
-  Signature,
-  EyeOff,
-  type LucideIcon,
-} from "lucide-react";
+
+import mergeUrl from "@/assets/tool-icons/merge.png";
+import compressUrl from "@/assets/tool-icons/compress.png";
+import splitUrl from "@/assets/tool-icons/split.png";
+import deletePagesUrl from "@/assets/tool-icons/delete-pages.png";
+import extractPagesUrl from "@/assets/tool-icons/extract-pages.png";
+import reorderPagesUrl from "@/assets/tool-icons/reorder-pages.png";
+import addBlankPagesUrl from "@/assets/tool-icons/add-blank-pages.png";
+import rotateUrl from "@/assets/tool-icons/rotate.png";
+import cropUrl from "@/assets/tool-icons/crop.png";
+import imagesToPdfUrl from "@/assets/tool-icons/images-to-pdf.png";
+import pdfToImagesUrl from "@/assets/tool-icons/pdf-to-images.png";
+import extractImagesUrl from "@/assets/tool-icons/extract-images.png";
+import pdfToTextUrl from "@/assets/tool-icons/pdf-to-text.png";
+import txtToPdfUrl from "@/assets/tool-icons/txt-to-pdf.png";
+import scanToPdfUrl from "@/assets/tool-icons/scan-to-pdf.png";
+import editPdfUrl from "@/assets/tool-icons/edit-pdf.png";
+import watermarkUrl from "@/assets/tool-icons/watermark.png";
+import pageNumbersUrl from "@/assets/tool-icons/page-numbers.png";
+import headerFooterUrl from "@/assets/tool-icons/header-footer.png";
+import grayscalePdfUrl from "@/assets/tool-icons/grayscale-pdf.png";
+import pdfMetadataUrl from "@/assets/tool-icons/pdf-metadata.png";
+import fillFormsUrl from "@/assets/tool-icons/fill-forms.png";
+import flattenPdfUrl from "@/assets/tool-icons/flatten-pdf.png";
+import compareUrl from "@/assets/tool-icons/compare.png";
+import protectPdfUrl from "@/assets/tool-icons/protect-pdf.png";
+import unlockPdfUrl from "@/assets/tool-icons/unlock-pdf.png";
+import signPdfUrl from "@/assets/tool-icons/sign-pdf.png";
+import redactPdfUrl from "@/assets/tool-icons/redact-pdf.png";
 
 /**
  * Per-tool icon system.
- * Each tool renders a rounded "duotone" tile: a light tint of its category
- * color as background, a strong stroke Lucide icon on top. The whole tile
- * is the icon component — it accepts a size prop like the old images.
+ * Each tool renders a rounded tinted tile (category color at low opacity)
+ * with a 3D PNG artwork centered inside.
  */
 
 export interface ToolIconProps {
@@ -44,32 +41,39 @@ export interface ToolIconProps {
   title?: string;
 }
 
-type Palette = { bg: string; fg: string };
+type Palette = { bg: string };
 
 const PALETTE = {
-  organize: { bg: "#fdeceb", fg: "#e5322d" },
-  convert: { bg: "#e8f0fe", fg: "#2563eb" },
-  edit: { bg: "#fef3e2", fg: "#ea8a0b" },
-  forms: { bg: "#e7f7ec", fg: "#16a34a" },
-  security: { bg: "#f1eafe", fg: "#7c3aed" },
+  organize: { bg: "#fdeceb" },
+  convert: { bg: "#e8f0fe" },
+  edit: { bg: "#fef3e2" },
+  forms: { bg: "#e7f7ec" },
+  security: { bg: "#f1eafe" },
 } as const;
 
-function makeIcon(Icon: LucideIcon, palette: Palette, label: string): ComponentType<ToolIconProps> {
-  const Comp = ({ size = 56, className, title }: ToolIconProps) => {
-    const iconSize = Math.round(size * 0.5);
+function makeIcon(src: string, palette: Palette, label: string): ComponentType<ToolIconProps> {
+  const Comp = ({ size = 64, className, title }: ToolIconProps) => {
+    const imgSize = Math.round(size * 0.86);
     return (
       <div
-        role="img"
-        aria-label={title ?? label}
         className={`inline-flex items-center justify-center rounded-2xl transition-[filter,transform] duration-200 group-hover:brightness-95 ${className ?? ""}`}
         style={{
           width: size,
           height: size,
           backgroundColor: palette.bg,
-          color: palette.fg,
         }}
       >
-        <Icon size={iconSize} strokeWidth={1.9} absoluteStrokeWidth />
+        <img
+          src={src}
+          width={imgSize}
+          height={imgSize}
+          alt={title ?? label}
+          loading="lazy"
+          decoding="async"
+          draggable={false}
+          className="block object-contain"
+          style={{ width: imgSize, height: imgSize }}
+        />
       </div>
     );
   };
@@ -77,50 +81,49 @@ function makeIcon(Icon: LucideIcon, palette: Palette, label: string): ComponentT
   return Comp;
 }
 
-// slug → (Lucide icon, category palette, alt label)
-const iconMap: Record<string, { icon: LucideIcon; palette: Palette; label: string }> = {
+const iconMap: Record<string, { src: string; palette: Palette; label: string }> = {
   // Organize (red)
-  merge: { icon: Combine, palette: PALETTE.organize, label: "Merge PDF" },
-  compress: { icon: Minimize2, palette: PALETTE.organize, label: "Compress PDF" },
-  split: { icon: Scissors, palette: PALETTE.organize, label: "Split PDF" },
-  "delete-pages": { icon: Trash2, palette: PALETTE.organize, label: "Delete Pages" },
-  "extract-pages": { icon: FileOutput, palette: PALETTE.organize, label: "Extract Pages" },
-  "reorder-pages": { icon: ArrowUpDown, palette: PALETTE.organize, label: "Reorder Pages" },
-  "add-blank-pages": { icon: FilePlus, palette: PALETTE.organize, label: "Add Blank Pages" },
-  rotate: { icon: RotateCw, palette: PALETTE.organize, label: "Rotate PDF" },
-  crop: { icon: Crop, palette: PALETTE.organize, label: "Crop PDF" },
+  merge: { src: mergeUrl, palette: PALETTE.organize, label: "Merge PDF" },
+  compress: { src: compressUrl, palette: PALETTE.organize, label: "Compress PDF" },
+  split: { src: splitUrl, palette: PALETTE.organize, label: "Split PDF" },
+  "delete-pages": { src: deletePagesUrl, palette: PALETTE.organize, label: "Delete Pages" },
+  "extract-pages": { src: extractPagesUrl, palette: PALETTE.organize, label: "Extract Pages" },
+  "reorder-pages": { src: reorderPagesUrl, palette: PALETTE.organize, label: "Reorder Pages" },
+  "add-blank-pages": { src: addBlankPagesUrl, palette: PALETTE.organize, label: "Add Blank Pages" },
+  rotate: { src: rotateUrl, palette: PALETTE.organize, label: "Rotate PDF" },
+  crop: { src: cropUrl, palette: PALETTE.organize, label: "Crop PDF" },
 
   // Convert (blue)
-  "images-to-pdf": { icon: ImagePlus, palette: PALETTE.convert, label: "Image to PDF" },
-  "pdf-to-images": { icon: FileImage, palette: PALETTE.convert, label: "PDF to Image" },
-  "extract-images": { icon: Images, palette: PALETTE.convert, label: "Extract Images" },
-  "pdf-to-text": { icon: FileText, palette: PALETTE.convert, label: "PDF to Text" },
-  "txt-to-pdf": { icon: FileType, palette: PALETTE.convert, label: "TXT to PDF" },
-  "scan-to-pdf": { icon: ScanLine, palette: PALETTE.convert, label: "Scan to PDF" },
+  "images-to-pdf": { src: imagesToPdfUrl, palette: PALETTE.convert, label: "Image to PDF" },
+  "pdf-to-images": { src: pdfToImagesUrl, palette: PALETTE.convert, label: "PDF to Image" },
+  "extract-images": { src: extractImagesUrl, palette: PALETTE.convert, label: "Extract Images" },
+  "pdf-to-text": { src: pdfToTextUrl, palette: PALETTE.convert, label: "PDF to Text" },
+  "txt-to-pdf": { src: txtToPdfUrl, palette: PALETTE.convert, label: "TXT to PDF" },
+  "scan-to-pdf": { src: scanToPdfUrl, palette: PALETTE.convert, label: "Scan to PDF" },
 
-  // Edit (amber)
-  "edit-pdf": { icon: PenLine, palette: PALETTE.edit, label: "Edit & Annotate PDF" },
-  watermark: { icon: Droplets, palette: PALETTE.edit, label: "Add Watermark" },
-  "page-numbers": { icon: Hash, palette: PALETTE.edit, label: "Page Numbers" },
-  "header-footer": { icon: PanelTop, palette: PALETTE.edit, label: "Header & Footer" },
-  "grayscale-pdf": { icon: Contrast, palette: PALETTE.edit, label: "Grayscale PDF" },
-  "pdf-metadata": { icon: Tag, palette: PALETTE.edit, label: "PDF Metadata" },
+  // Edit (orange)
+  "edit-pdf": { src: editPdfUrl, palette: PALETTE.edit, label: "Edit & Annotate PDF" },
+  watermark: { src: watermarkUrl, palette: PALETTE.edit, label: "Add Watermark" },
+  "page-numbers": { src: pageNumbersUrl, palette: PALETTE.edit, label: "Page Numbers" },
+  "header-footer": { src: headerFooterUrl, palette: PALETTE.edit, label: "Header & Footer" },
+  "grayscale-pdf": { src: grayscalePdfUrl, palette: PALETTE.edit, label: "Grayscale PDF" },
+  "pdf-metadata": { src: pdfMetadataUrl, palette: PALETTE.edit, label: "PDF Metadata" },
 
   // Forms & Compare (green)
-  "fill-forms": { icon: FormInput, palette: PALETTE.forms, label: "Fill PDF Forms" },
-  "flatten-pdf": { icon: Layers, palette: PALETTE.forms, label: "Flatten PDF" },
-  compare: { icon: GitCompare, palette: PALETTE.forms, label: "Compare PDFs" },
+  "fill-forms": { src: fillFormsUrl, palette: PALETTE.forms, label: "Fill PDF Forms" },
+  "flatten-pdf": { src: flattenPdfUrl, palette: PALETTE.forms, label: "Flatten PDF" },
+  compare: { src: compareUrl, palette: PALETTE.forms, label: "Compare PDFs" },
 
   // Security (purple)
-  "protect-pdf": { icon: Lock, palette: PALETTE.security, label: "Protect PDF" },
-  "unlock-pdf": { icon: LockOpen, palette: PALETTE.security, label: "Unlock PDF" },
-  "sign-pdf": { icon: Signature, palette: PALETTE.security, label: "Sign PDF" },
-  "redact-pdf": { icon: EyeOff, palette: PALETTE.security, label: "Redact PDF" },
+  "protect-pdf": { src: protectPdfUrl, palette: PALETTE.security, label: "Protect PDF" },
+  "unlock-pdf": { src: unlockPdfUrl, palette: PALETTE.security, label: "Unlock PDF" },
+  "sign-pdf": { src: signPdfUrl, palette: PALETTE.security, label: "Sign PDF" },
+  "redact-pdf": { src: redactPdfUrl, palette: PALETTE.security, label: "Redact PDF" },
 };
 
 export const toolIcons: Record<string, ComponentType<ToolIconProps>> = Object.fromEntries(
-  Object.entries(iconMap).map(([slug, { icon, palette, label }]) => [
+  Object.entries(iconMap).map(([slug, { src, palette, label }]) => [
     slug,
-    makeIcon(icon, palette, label),
+    makeIcon(src, palette, label),
   ]),
 );

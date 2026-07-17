@@ -180,7 +180,7 @@ function Home() {
                   e.currentTarget.style.borderColor = "#ececef";
                 }}
               >
-                <Icon size={56} />
+                <Icon size={64} />
 
                 <h3
                   className="mt-5 font-semibold text-lg leading-snug"
