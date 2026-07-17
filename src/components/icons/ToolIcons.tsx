@@ -16,6 +16,8 @@ import fillFormsUrl from "@/assets/icons/fill-forms.png";
 import compareUrl from "@/assets/icons/compare.png";
 import compressUrl from "@/assets/icons/compress.png";
 import signPdfUrl from "@/assets/icons/sign-pdf.png";
+import protectPdfUrl from "@/assets/icons/protect-pdf.png";
+import unlockPdfUrl from "@/assets/icons/unlock-pdf.png";
 
 /**
  * AI-generated icon artwork for PDFfree tools.
@@ -62,6 +64,8 @@ export const FillFormsIcon = makeIcon(fillFormsUrl, "Fill PDF Forms");
 export const CompareIcon = makeIcon(compareUrl, "Compare PDFs");
 export const CompressIcon = makeIcon(compressUrl, "Compress PDF");
 export const SignPdfIcon = makeIcon(signPdfUrl, "Sign PDF");
+export const ProtectPdfIcon = makeIcon(protectPdfUrl, "Protect PDF");
+export const UnlockPdfIcon = makeIcon(unlockPdfUrl, "Unlock PDF");
 
 export const toolIcons: Record<string, ComponentType<ToolIconProps>> = {
   merge: MergeIcon,
@@ -80,4 +84,6 @@ export const toolIcons: Record<string, ComponentType<ToolIconProps>> = {
   "fill-forms": FillFormsIcon,
   "sign-pdf": SignPdfIcon,
   compare: CompareIcon,
+  "protect-pdf": ProtectPdfIcon,
+  "unlock-pdf": UnlockPdfIcon,
 };
