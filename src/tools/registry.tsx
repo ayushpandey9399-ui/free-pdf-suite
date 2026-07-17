@@ -39,6 +39,7 @@ const meta: Omit<ToolMeta, "icon">[] = [
   { slug: "crop", name: "Crop PDF", description: "Trim margins and adjust the visible area of every page.", category: "Edit PDF", Component: lazy(() => import("./crop")) },
   { slug: "edit-pdf", name: "Edit & Annotate PDF", description: "Highlight text, add comments, shapes, images, and freehand drawings to your PDF.", category: "Edit PDF", Component: lazy(() => import("./edit-pdf")) },
   { slug: "pdf-metadata", name: "PDF Metadata Editor", description: "View and edit your PDF's title, author, subject, and keywords.", category: "Edit PDF", Component: lazy(() => import("./pdf-metadata")) },
+  { slug: "grayscale-pdf", name: "Grayscale PDF", description: "Convert your PDF to black and white — ideal for cheaper, cleaner printing.", category: "Edit PDF", Component: lazy(() => import("./grayscale-pdf")) },
   { slug: "fill-forms", name: "Fill PDF Forms", description: "Fill in interactive PDF form fields and download the completed file.", category: "Forms & Compare", Component: lazy(() => import("./fill-forms")) },
   { slug: "flatten-pdf", name: "Flatten PDF", description: "Make form fields and annotations permanent so they can no longer be edited.", category: "Forms & Compare", Component: lazy(() => import("./flatten-pdf")) },
   { slug: "sign-pdf", name: "Sign PDF", description: "Create your electronic signature and place it anywhere on your PDF.", category: "Forms & Compare", Component: lazy(() => import("./sign-pdf")) },

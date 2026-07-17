@@ -77,6 +77,7 @@ export const FlattenPdfIcon = makeIcon(flattenPdfUrl, "Flatten PDF");
 export const TxtToPdfIcon = makeIcon(txtToPdfUrl, "TXT to PDF");
 export const PdfMetadataIcon = makeIcon(pdfMetadataUrl, "PDF Metadata Editor");
 export const ExtractImagesIcon = makeIcon(extractImagesUrl, "Extract Images from PDF");
+export const GrayscalePdfIcon = makeIcon(grayscalePdfUrl, "Grayscale PDF");
 
 
 export const toolIcons: Record<string, ComponentType<ToolIconProps>> = {
@@ -103,4 +104,5 @@ export const toolIcons: Record<string, ComponentType<ToolIconProps>> = {
   "txt-to-pdf": TxtToPdfIcon,
   "pdf-metadata": PdfMetadataIcon,
   "extract-images": ExtractImagesIcon,
+  "grayscale-pdf": GrayscalePdfIcon,
 };
