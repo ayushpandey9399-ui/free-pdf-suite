@@ -257,6 +257,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "rotate") {
+      const title =
+        "Rotate PDF Online Free — Rotate & Save Permanently, No Upload | PDFfree";
+      const desc =
+        "Rotate PDF pages online free and save permanently — fix sideways or upside-down pages in your browser. No upload, no signup, no watermark.";
+      const url = "/tools/rotate";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(rotateFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(rotateHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(rotateSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
