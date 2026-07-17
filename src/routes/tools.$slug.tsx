@@ -521,6 +521,8 @@ function ToolPage() {
     ? "JPG to PDF Converter — Combine Images Into One PDF, Free"
     : isPdfToText
     ? "PDF to Text — Extract All Text From a PDF, 100% Private"
+    : isTxtToPdf
+    ? "TXT to PDF — Convert Text Files to Clean PDFs, Free"
     : tool.name;
 
   return (
