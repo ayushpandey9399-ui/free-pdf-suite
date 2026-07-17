@@ -19,6 +19,10 @@ export function ActionBar({
 }) {
   const isDisabled = disabled || loading;
 
+  // Hide the primary action entirely until there's something to act on.
+  // The user selects files first; the action button then appears alongside the file list.
+  if (disabled && !loading) return null;
+
   const baseBtn =
     "inline-flex items-center justify-center rounded-xl px-8 py-4 text-[15px] font-bold uppercase text-white transition-all duration-150";
   const activeBtn =
