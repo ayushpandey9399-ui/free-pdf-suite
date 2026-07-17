@@ -609,6 +609,7 @@ function PlacementBox({
   return (
     <div
       className="group absolute"
+      onClick={(e) => e.stopPropagation()}
       style={{
         left: placement.x * scale,
         top: placement.y * scale,
@@ -616,6 +617,7 @@ function PlacementBox({
         height: placement.h * scale,
       }}
     >
+
       <div
         onPointerDown={onPointerDown("move")}
         onPointerMove={onPointerMove}
