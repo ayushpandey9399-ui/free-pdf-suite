@@ -67,7 +67,7 @@ const scenarios = [
   },
 ];
 
-const faqs: { q: string; a: React.ReactNode; plain: string }[] = [
+const faqs: { q: string; a: ReactNode; plain: string }[] = [
   {
     q: "How do I extract text from a PDF for free?",
     a: "Click Select PDF file, pick the document from your device, then press Extract Text. The tool reads the text layer of each page in your browser and shows the result on a success screen with Copy to clipboard and Download .txt buttons. No account, no card and nothing to install.",
