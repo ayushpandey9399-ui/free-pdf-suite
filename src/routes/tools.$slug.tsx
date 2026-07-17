@@ -709,6 +709,7 @@ function ToolPage() {
       {isHeaderFooter && <HeaderFooterSeo />}
       {isCrop && <CropPdfSeo />}
       {isEditPdf && <EditPdfSeo />}
+      {isFillForms && <FillFormsSeo />}
     </>
   );
 }
