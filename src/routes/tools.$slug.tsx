@@ -523,6 +523,7 @@ function ToolPage() {
       {isExtractPages && <ExtractPagesSeo />}
       {isReorderPages && <ReorderPagesSeo />}
       {isImagesToPdf && <ImagesToPdfSeo />}
+      {isPdfToText && <PdfToTextSeo />}
     </>
   );
 }
