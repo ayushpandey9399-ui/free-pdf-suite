@@ -75,7 +75,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="mt-5 max-w-sm text-[14px]" style={{ color: "#9CA3AF", lineHeight: 1.65 }}>
-              Free PDF tools that never upload your files. Everything runs in your browser — private, fast and free forever.
+              Free PDF tools that process your files right in your browser — private, fast and completely free.
             </p>
             <ul className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px]" style={{ color: "#9CA3AF" }}>
               <MicroBadge icon={<ShieldCheck className="h-3.5 w-3.5" strokeWidth={2.25} />} label="No signup" />
@@ -118,7 +118,7 @@ export function Footer() {
           style={{ color: "#9CA3AF" }}
         >
           <p>© {year} PDFfree. All rights reserved.</p>
-          <p>Made with <span style={{ color: "#ff6b67" }}>❤</span> in India · 100% free, forever</p>
+          <p>Made with <span style={{ color: "#ff6b67" }}>❤</span> in India · 100% free tools</p>
         </div>
       </div>
     </footer>
