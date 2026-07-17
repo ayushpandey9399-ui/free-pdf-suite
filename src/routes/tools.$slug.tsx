@@ -23,6 +23,7 @@ import { TxtToPdfSeo, txtToPdfFaqJsonLd, txtToPdfHowToJsonLd, txtToPdfSoftwareJs
 import { PageNumbersSeo, pageNumbersFaqJsonLd, pageNumbersHowToJsonLd, pageNumbersSoftwareJsonLd } from "@/components/PageNumbersSeo";
 import { HeaderFooterSeo, headerFooterFaqJsonLd, headerFooterHowToJsonLd, headerFooterSoftwareJsonLd } from "@/components/HeaderFooterSeo";
 import { CropPdfSeo, cropPdfFaqJsonLd, cropPdfHowToJsonLd, cropPdfSoftwareJsonLd } from "@/components/CropPdfSeo";
+import { EditPdfSeo, editPdfFaqJsonLd, editPdfHowToJsonLd, editPdfSoftwareJsonLd } from "@/components/EditPdfSeo";
 
 
 
@@ -527,6 +528,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "edit-pdf") {
+      const title =
+        "Edit PDF Online Free — Add Text, Highlight & Draw, No Upload | PDFfree";
+      const desc =
+        "Edit PDF online free — add text, highlights, shapes and freehand notes in your browser. No upload, no signup, no watermark.";
+      const url = "/tools/edit-pdf";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(editPdfFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(editPdfHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(editPdfSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
@@ -574,6 +601,7 @@ function ToolPage() {
   const isPageNumbers = slug === "page-numbers";
   const isHeaderFooter = slug === "header-footer";
   const isCrop = slug === "crop";
+  const isEditPdf = slug === "edit-pdf";
 
   const layoutTitle = isMerge
     ? "Merge PDF Files Online — Free, Private, No Uploads"
@@ -613,6 +641,8 @@ function ToolPage() {
     ? "Add Header & Footer to PDF — Every Page, 100% Private"
     : isCrop
     ? "Crop PDF — Trim Margins and Unwanted Edges, 100% Private"
+    : isEditPdf
+    ? "Edit PDF Online — Add Text, Highlight and Annotate, Free"
     : tool.name;
 
   return (
@@ -648,6 +678,7 @@ function ToolPage() {
       {isPageNumbers && <PageNumbersSeo />}
       {isHeaderFooter && <HeaderFooterSeo />}
       {isCrop && <CropPdfSeo />}
+      {isEditPdf && <EditPdfSeo />}
     </>
   );
 }
