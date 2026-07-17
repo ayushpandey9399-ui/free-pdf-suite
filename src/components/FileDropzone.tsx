@@ -112,7 +112,7 @@ export function FileDropzone({
         </div>
       )}
 
-      {files.length > 0 && (
+      {files.length > 0 && !hideList && (
         <>
           <input
             ref={inputRef}
