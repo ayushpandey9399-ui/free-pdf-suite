@@ -771,6 +771,7 @@ function ToolPage() {
       {isEditPdf && <EditPdfSeo />}
       {isFillForms && <FillFormsSeo />}
       {isFlattenPdf && <FlattenPdfSeo />}
+      {isPdfMetadata && <PdfMetadataSeo />}
     </>
   );
 }
