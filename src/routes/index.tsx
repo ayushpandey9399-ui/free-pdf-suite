@@ -76,7 +76,7 @@ function Home() {
           <FloatingPages mirrored />
         </div>
 
-        <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 pt-12 pb-14 sm:pt-24 sm:pb-20 lg:pt-28 lg:pb-24 text-center">
+        <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 pt-12 pb-10 sm:pt-16 sm:pb-14 lg:pt-20 lg:pb-16 text-center">
           <h1
             className="mx-auto max-w-[880px] font-bold tracking-tight text-[36px] sm:text-[52px] lg:text-[58px] leading-[1.08]"
             style={{ color: "#33333c", letterSpacing: "-0.025em" }}
@@ -84,45 +84,16 @@ function Home() {
             Every tool you need to work with PDFs in one place
           </h1>
           <p
-            className="mx-auto mt-6 max-w-[660px] text-[17px] sm:text-[19px] leading-relaxed"
+            className="mx-auto mt-5 max-w-[660px] text-[17px] sm:text-[19px] leading-relaxed"
             style={{ color: "#7a7a86" }}
           >
             Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use!
             Merge, split, convert, rotate, edit and more.
           </p>
 
-          {/* Primary CTA */}
-          <div className="mt-9 flex justify-center px-4 sm:px-0">
-            <a
-              href="#tools"
-              className="group inline-flex w-full sm:w-auto items-center justify-center rounded-full px-7 py-3.5 text-[15px] font-bold text-white transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e5322d]/50"
-              style={{
-                backgroundColor: "#e5322d",
-                boxShadow: "0 12px 28px -10px rgba(229,50,45,0.55)",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = "#c72620";
-                e.currentTarget.style.transform = "scale(1.02)";
-                e.currentTarget.style.boxShadow = "0 18px 36px -12px rgba(229,50,45,0.6)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = "#e5322d";
-                e.currentTarget.style.transform = "scale(1)";
-                e.currentTarget.style.boxShadow = "0 12px 28px -10px rgba(229,50,45,0.55)";
-              }}
-            >
-              Get Started — It's Free
-            </a>
-          </div>
-
-          {/* Small trust/stats line */}
-          <p className="mt-4 text-[12.5px]" style={{ color: "#9a9aa5" }}>
-            No sign-up required · No file size limits · Works on any device
-          </p>
-
           {/* Filter pills */}
           <div
-            className="mx-auto mt-16 flex flex-nowrap sm:flex-wrap items-center justify-start sm:justify-center gap-4 overflow-x-auto sm:overflow-visible px-1 -mx-1 sm:mx-auto"
+            className="mx-auto mt-9 flex flex-nowrap sm:flex-wrap items-center justify-start sm:justify-center gap-3 overflow-x-auto sm:overflow-visible px-1 -mx-1 sm:mx-auto"
             role="tablist"
             aria-label="Filter tools by category"
             style={{ scrollbarWidth: "none" }}
@@ -136,7 +107,7 @@ function Home() {
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActive(f)}
-                  className="shrink-0 min-h-[48px] rounded-full px-6 py-3 text-[16px] font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e5322d]/40"
+                  className="shrink-0 rounded-full px-5 py-2.5 text-[14px] font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e5322d]/40"
                   style={
                     isActive
                       ? {
@@ -164,6 +135,7 @@ function Home() {
             })}
           </div>
         </div>
+
 
       </section>
 
