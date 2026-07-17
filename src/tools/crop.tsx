@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { PDFDocument } from "pdf-lib";
 import { toast } from "sonner";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ActionBar } from "@/components/ActionBar";
@@ -7,8 +6,10 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { downloadBlob } from "@/lib/download";
-import { ensurePdfWorker } from "@/lib/pdfWorker";
 import { parseRanges, expandRanges } from "@/lib/pageRange";
+import { loadPdfLibDoc, loadPdfJsDoc, isPdfPasswordError } from "@/lib/pdfGuard";
+import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
+import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
 
 type Handle =
   | "move"
