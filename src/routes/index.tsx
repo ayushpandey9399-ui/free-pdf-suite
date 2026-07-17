@@ -106,55 +106,43 @@ function Home() {
 
       {/* Dense tool grid */}
       <section id="tools" className="mx-auto max-w-[1280px] px-4 sm:px-6 pb-10 pt-2">
-        {grouped.map(({ cat, items }, gi) => (
-          <div key={cat} className={gi === 0 ? "" : "mt-8"}>
-            {active === "All" && (
-              <p
-                className="mb-3 px-1 text-[12px] font-bold uppercase"
-                style={{ color: "#9a9aa5", letterSpacing: "0.09em" }}
+        <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          {visible.map((t) => {
+            const Icon = t.icon;
+            return (
+              <Link
+                key={t.slug}
+                to="/tools/$slug"
+                params={{ slug: t.slug }}
+                className="group flex h-full flex-col rounded-xl bg-white p-4 transition-all duration-150 hover:-translate-y-[2px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e5322d]/40"
+                style={{ border: "1px solid #ececef" }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow =
+                    "0 10px 24px -12px rgba(20,20,43,0.18)";
+                  e.currentTarget.style.borderColor = "#e0e0e6";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = "none";
+                  e.currentTarget.style.borderColor = "#ececef";
+                }}
               >
-                {cat}
-              </p>
-            )}
-            <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-              {items.map((t) => {
-                const Icon = t.icon;
-                return (
-                  <Link
-                    key={t.slug}
-                    to="/tools/$slug"
-                    params={{ slug: t.slug }}
-                    className="group flex h-full flex-col rounded-xl bg-white p-4 transition-all duration-150 hover:-translate-y-[2px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e5322d]/40"
-                    style={{ border: "1px solid #ececef" }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.boxShadow =
-                        "0 10px 24px -12px rgba(20,20,43,0.18)";
-                      e.currentTarget.style.borderColor = "#e0e0e6";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.boxShadow = "none";
-                      e.currentTarget.style.borderColor = "#ececef";
-                    }}
-                  >
-                    <Icon size={40} />
-                    <h3
-                      className="mt-3 font-semibold text-[15px] leading-snug"
-                      style={{ color: "#33333c" }}
-                    >
-                      {t.name}
-                    </h3>
-                    <p
-                      className="mt-1 text-[13px] leading-snug line-clamp-2"
-                      style={{ color: "#7a7a86" }}
-                    >
-                      {t.description}
-                    </p>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        ))}
+                <Icon size={40} />
+                <h3
+                  className="mt-3 font-semibold text-[15px] leading-snug"
+                  style={{ color: "#33333c" }}
+                >
+                  {t.name}
+                </h3>
+                <p
+                  className="mt-1 text-[13px] leading-snug line-clamp-2"
+                  style={{ color: "#7a7a86" }}
+                >
+                  {t.description}
+                </p>
+              </Link>
+            );
+          })}
+        </div>
       </section>
 
       <div
