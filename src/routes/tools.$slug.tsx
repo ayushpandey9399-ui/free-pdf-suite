@@ -551,6 +551,8 @@ function ToolPage() {
     ? "PDF to Text — Extract All Text From a PDF, 100% Private"
     : isTxtToPdf
     ? "TXT to PDF — Convert Text Files to Clean PDFs, Free"
+    : isPageNumbers
+    ? "Add Page Numbers to PDF — Free, Any Position, 100% Private"
     : tool.name;
 
   return (
