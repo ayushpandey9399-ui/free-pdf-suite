@@ -265,7 +265,7 @@ export const compareFaqJsonLd = {
   mainEntity: faqs.map((f) => ({
     "@type": "Question",
     name: f.q,
-    acceptedAnswer: { "@type": "Answer", text: typeof f.a === "string" ? f.a : f.plain! },
+    acceptedAnswer: { "@type": "Answer", text: f.a },
   })),
 };
 
