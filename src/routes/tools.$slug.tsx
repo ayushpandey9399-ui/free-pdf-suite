@@ -528,6 +528,32 @@ export const Route = createFileRoute("/tools/$slug")({
         ],
       };
     }
+    if (loaderData?.slug === "edit-pdf") {
+      const title =
+        "Edit PDF Online Free — Add Text, Highlight & Draw, No Upload | PDFfree";
+      const desc =
+        "Edit PDF online free — add text, highlights, shapes and freehand notes in your browser. No upload, no signup, no watermark.";
+      const url = "/tools/edit-pdf";
+      return {
+        meta: [
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
+          { property: "og:type", content: "website" },
+          { property: "og:url", content: url },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
+        ],
+        links: [{ rel: "canonical", href: url }],
+        scripts: [
+          { type: "application/ld+json", children: JSON.stringify(editPdfFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(editPdfHowToJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(editPdfSoftwareJsonLd) },
+        ],
+      };
+    }
     return {
       meta: loaderData
         ? [
