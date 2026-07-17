@@ -10,7 +10,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { downloadBlob } from "@/lib/download";
 import { loadPdfLibDoc, isPdfPasswordError } from "@/lib/pdfGuard";
 import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
+import { LargeFileWarning } from "@/components/LargeFileWarning";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
+import { usePdfStats } from "@/hooks/usePdfStats";
 
 export default function Rotate() {
   const [files, setFiles] = useState<File[]>([]);
@@ -19,6 +21,7 @@ export default function Rotate() {
   const [allPages, setAllPages] = useState(true);
   const [loading, setLoading] = useState(false);
   const { protectedName, reset } = usePdfPasswordCheck(files, () => { setFiles([]); setSelected(new Set()); });
+  const { pageCount, fileSize } = usePdfStats(files[0]);
 
   const toggle = (p: number) => {
     const s = new Set(selected);
@@ -56,6 +59,7 @@ export default function Rotate() {
         <PasswordProtectedNotice fileName={protectedName} onReset={reset} />
       ) : (
         <>
+          {files[0] && <LargeFileWarning pageCount={pageCount} fileSize={fileSize} />}
           {files[0] && (
             <div className="mt-6 space-y-4 rounded-xl border bg-card p-4">
               <div className="grid gap-4 sm:grid-cols-2">

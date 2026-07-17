@@ -8,7 +8,9 @@ import { Slider } from "@/components/ui/slider";
 import { downloadBlob, downloadZip } from "@/lib/download";
 import { loadPdfJsDoc, isPdfPasswordError } from "@/lib/pdfGuard";
 import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
+import { LargeFileWarning } from "@/components/LargeFileWarning";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
+import { usePdfStats } from "@/hooks/usePdfStats";
 
 export default function PdfToImages() {
   const [files, setFiles] = useState<File[]>([]);
@@ -18,6 +20,7 @@ export default function PdfToImages() {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState<number | null>(null);
   const { protectedName, reset } = usePdfPasswordCheck(files, () => setFiles([]));
+  const { pageCount, fileSize } = usePdfStats(files[0]);
 
   const run = async () => {
     const file = files[0];
@@ -61,6 +64,17 @@ export default function PdfToImages() {
         <PasswordProtectedNotice fileName={protectedName} onReset={reset} />
       ) : (
         <>
+          {files[0] && (
+            <LargeFileWarning
+              pageCount={pageCount}
+              fileSize={fileSize}
+              extraNote={
+                pageCount > 30
+                  ? `This PDF has ${pageCount} pages — images will be generated page by page and may take a while. The progress bar below reflects per-page progress.`
+                  : undefined
+              }
+            />
+          )}
           {files.length > 0 && (
             <div className="mt-6 grid gap-4 sm:grid-cols-3 rounded-xl border bg-card p-4">
               <div>
