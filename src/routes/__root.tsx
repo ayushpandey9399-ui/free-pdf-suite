@@ -98,6 +98,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:description", content: "Free PDF tools that run in your browser. Merge, split, convert, compress, edit, and organize PDFs — no signup, no upload step, no limits." },
       { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8a8a7fe4-c7b3-4a84-8b45-b68d363a61bd/id-preview-cef49b8a--e4808fd9-17fb-4775-8181-2b019f4689a0.lovable.app-1784354287746.png" },
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8a8a7fe4-c7b3-4a84-8b45-b68d363a61bd/id-preview-cef49b8a--e4808fd9-17fb-4775-8181-2b019f4689a0.lovable.app-1784354287746.png" },
+      { name: "google-site-verification", content: "Hvu09ArzP_NwJvEh6EiU9tR2F6u9cHMtjMKCmNrQvoY" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
