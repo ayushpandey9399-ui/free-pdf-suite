@@ -286,3 +286,100 @@ export function hexToRgb255(hex: string): Rgb {
   const n = parseInt(s, 16);
   return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
 }
+
+/* =============================== cell-border ruling detection ===================== */
+
+/**
+ * Scan outward from a tight text rect looking for a straight ruling line
+ * (table / cell border) on each side. A "ruling" is a run of pixels along
+ * the perpendicular side whose color is at least ~55 RGB units darker (or
+ * more distant) than the sampled background, covering ≥60% of that side's
+ * length. Returns the distance in pixels from the rect edge to the nearest
+ * ruling on each side, or `null` if none was found within `maxSearchPx`.
+ *
+ * `clampMax` — how far out we look when computing cover-rect *padding
+ * limits* (~8 px is the phase 1.5 spec).
+ * `alignMax` — how far out we look when computing cell bounds for
+ * *alignment detection* (~200 px is enough for typical tables).
+ */
+export interface CellRulings {
+  /** Distance in px from tight rect to nearest ruling; null = none within clampMax. */
+  clamp: { top: number | null; bottom: number | null; left: number | null; right: number | null };
+  /** Distance in px used for alignment (larger search radius). */
+  align: { left: number | null; right: number | null };
+}
+
+function isRulingRow(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  bg: Rgb,
+): boolean {
+  if (w <= 0 || h <= 0) return false;
+  let img: ImageData;
+  try { img = ctx.getImageData(x, y, w, h); } catch { return false; }
+  const need = Math.max(6, Math.floor(0.6 * (w * h)));
+  let dark = 0;
+  const d = img.data;
+  for (let i = 0; i < d.length; i += 4) {
+    if (dist2(bg, d[i], d[i + 1], d[i + 2]) >= 55 * 55) {
+      dark++;
+      if (dark >= need) return true;
+    }
+  }
+  return false;
+}
+
+export function findCellRulings(
+  canvas: HTMLCanvasElement,
+  rect: { x: number; y: number; w: number; h: number },
+  background: Rgb,
+  opts: { clampMax?: number; alignMax?: number } = {},
+): CellRulings {
+  const clampMax = opts.clampMax ?? 8;
+  const alignMax = opts.alignMax ?? 200;
+  const ctx = canvas.getContext("2d", { willReadFrequently: true });
+  if (!ctx) {
+    return {
+      clamp: { top: null, bottom: null, left: null, right: null },
+      align: { left: null, right: null },
+    };
+  }
+
+  const x = clampInt(rect.x, 0, canvas.width - 1);
+  const y = clampInt(rect.y, 0, canvas.height - 1);
+  const w = clampInt(rect.w, 1, canvas.width - x);
+  const h = clampInt(rect.h, 1, canvas.height - y);
+
+  const search = (
+    side: "top" | "bottom" | "left" | "right",
+    max: number,
+  ): number | null => {
+    for (let d = 1; d <= max; d++) {
+      let px = 0, py = 0, pw = 0, ph = 0;
+      if (side === "top") { px = x; py = y - d; pw = w; ph = 1; }
+      else if (side === "bottom") { px = x; py = y + h - 1 + d; pw = w; ph = 1; }
+      else if (side === "left") { px = x - d; py = y; pw = 1; ph = h; }
+      else { px = x + w - 1 + d; py = y; pw = 1; ph = h; }
+      if (px < 0 || py < 0 || px + pw > canvas.width || py + ph > canvas.height) return null;
+      if (isRulingRow(ctx, px, py, pw, ph, background)) return d;
+    }
+    return null;
+  };
+
+  return {
+    clamp: {
+      top: search("top", clampMax),
+      bottom: search("bottom", clampMax),
+      left: search("left", clampMax),
+      right: search("right", clampMax),
+    },
+    align: {
+      left: search("left", alignMax),
+      right: search("right", alignMax),
+    },
+  };
+}
+
