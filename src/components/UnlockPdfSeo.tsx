@@ -62,7 +62,7 @@ const scenarios = [
 const faqs = [
   {
     q: "How do I remove a password from a PDF for free?",
-    a: "Open this page, click Select PDF file, choose the protected document, type the password that currently opens it and click Unlock PDF. An unlocked copy downloads to your device a moment later. You do not need Adobe Acrobat, an account, or a card, and every step runs in your browser.",
+    a: "Open this page, click Select PDF file, choose the protected document, type the password that currently opens it and click Unlock PDF to remove the PDF password. An unlocked copy downloads to your device a moment later. You do not need Adobe Acrobat, an account or a card, and this free PDF password remover runs entirely in your browser.",
   },
   {
     q: "Can you unlock a PDF without knowing the password?",
