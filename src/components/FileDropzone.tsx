@@ -74,30 +74,47 @@ export function FileDropzone({
             if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
           }}
           className={cn(
-            "flex flex-col items-center justify-center gap-4 rounded-2xl py-10 transition-colors",
+            "flex flex-col items-center justify-center rounded-2xl py-8 transition-colors",
             dragging ? "bg-[#fff6f5]" : "bg-transparent",
           )}
         >
           <button
             type="button"
             onClick={openPicker}
-            className="inline-flex items-center justify-center rounded-xl px-10 py-4 text-[15px] font-bold uppercase text-white transition-all duration-150 hover:scale-[1.02]"
+            className="inline-flex items-center justify-center text-[15px] font-semibold text-white transition-all duration-150"
             style={{
               backgroundColor: "#e5322d",
-              letterSpacing: "0.04em",
-              boxShadow: "0 10px 28px -8px rgba(229,50,45,0.55)",
+              padding: "16px 36px",
+              borderRadius: "10px",
+              boxShadow: "0 8px 24px rgba(229,50,45,0.25)",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#c72620")}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#e5322d")}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = "#c72620";
+              e.currentTarget.style.transform = "translateY(-1px)";
+              e.currentTarget.style.boxShadow = "0 12px 28px rgba(229,50,45,0.32)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "#e5322d";
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "0 8px 24px rgba(229,50,45,0.25)";
+            }}
           >
             {defaultBtn}
           </button>
-          <p className="text-[13px]" style={{ color: "#7a7a86" }}>
+          <p className="mt-2.5 text-[13px]" style={{ color: "#7a7a86" }}>
             {defaultHint}
           </p>
-          <p className="inline-flex items-center gap-1.5 text-[12px]" style={{ color: "#7a7a86" }}>
-            <Lock className="h-3 w-3" /> 100% private — processed on your device
-          </p>
+          <span
+            className="mt-7 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11.5px] font-medium"
+            style={{
+              backgroundColor: "#FAFAF9",
+              border: "1px solid #EEEEEE",
+              color: "#6B7280",
+            }}
+          >
+            <Lock className="h-3 w-3" style={{ color: "#9ca3af" }} />
+            100% private, processed on your device
+          </span>
           <input
             ref={inputRef}
             type="file"
@@ -111,6 +128,7 @@ export function FileDropzone({
           />
         </div>
       )}
+
 
       {files.length > 0 && !hideList && (
         <>
