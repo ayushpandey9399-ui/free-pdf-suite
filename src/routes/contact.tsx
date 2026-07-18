@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { Check, Copy } from "lucide-react";
 import { LegalPage } from "@/components/LegalPage";
 import { CONTACT_EMAIL } from "@/lib/site";
 
