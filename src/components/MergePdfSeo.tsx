@@ -207,18 +207,7 @@ export function MergePdfSeo() {
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Related PDF tools
       </h2>
-      <div className="mt-6 grid gap-3 sm:grid-cols-2">
-        {related.map((r) => (
-          <Link
-            key={r.to}
-            to={r.to}
-            className="rounded-lg border border-[#eee] p-4 transition-colors hover:border-[#e5322d] hover:bg-[#fef6f5]"
-          >
-            <div className="font-semibold text-[15px]">{r.name}</div>
-            <div className="mt-1 text-[13.5px] text-[#7a7a86]">{r.blurb}</div>
-          </Link>
-        ))}
-      </div>
+      <RelatedToolsGrid items={related} />
     </section>
   );
 }
