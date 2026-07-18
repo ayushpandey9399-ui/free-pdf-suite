@@ -5,6 +5,11 @@ import {
   rgb,
   BlendMode,
   LineCapStyle,
+  pushGraphicsState,
+  popGraphicsState,
+  rectangle,
+  clip,
+  endPath,
   type PDFFont,
   type PDFImage,
 } from "pdf-lib";
