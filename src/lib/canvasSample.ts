@@ -192,7 +192,7 @@ export function sampleBackgroundAndTextColor(
   const lefStrip = stripMedian(readRect(ctx, bx, by, 1, bh));
   const rigStrip = stripMedian(readRect(ctx, bx + bw - 1, by, 1, bh));
   const sides = [topStrip, botStrip, lefStrip, rigStrip].filter(Boolean) as Rgb[];
-  const borderMedian: Rgb = sides.length
+  const allMedian: Rgb = sides.length
     ? {
         r: median(sides.map((s) => s.r)),
         g: median(sides.map((s) => s.g)),
@@ -200,11 +200,33 @@ export function sampleBackgroundAndTextColor(
       }
     : { r: 255, g: 255, b: 255 };
 
-  // Variance across the 4 sides: if any side is far from the median, the
-  // border isn't a trustworthy background sample.
+  // ---- Fix B9: prefer LEFT/RIGHT strips (in-row samples) over top/bottom
+  // strips, which can cross into an adjacent zebra-shaded row and bias the
+  // background toward the neighbour's colour. When the two horizontal-row-
+  // adjacent strips agree with each other, trust them alone.
   const VARIANCE_SQ = 40 * 40;
+  let borderMedian: Rgb = allMedian;
+  let usedSides: Rgb[] = sides;
+  if (lefStrip && rigStrip) {
+    const lrMed: Rgb = {
+      r: median([lefStrip.r, rigStrip.r]),
+      g: median([lefStrip.g, rigStrip.g]),
+      b: median([lefStrip.b, rigStrip.b]),
+    };
+    const lrDist = Math.max(
+      dist2(lrMed, lefStrip.r, lefStrip.g, lefStrip.b),
+      dist2(lrMed, rigStrip.r, rigStrip.g, rigStrip.b),
+    );
+    if (lrDist < VARIANCE_SQ) {
+      borderMedian = lrMed;
+      usedSides = [lefStrip, rigStrip];
+    }
+  }
+
+  // Variance across the chosen sides: if any is far from the median, the
+  // border isn't a trustworthy background sample.
   let maxSideDist = 0;
-  for (const s of sides) {
+  for (const s of usedSides) {
     const d = dist2(borderMedian, s.r, s.g, s.b);
     if (d > maxSideDist) maxSideDist = d;
   }
