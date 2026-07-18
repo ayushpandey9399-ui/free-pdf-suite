@@ -137,7 +137,7 @@ export function CompressPdfSeo() {
         Compress PDF to meet upload size limits (100 KB, 200 KB, 500 KB)
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        A lot of the pressure to reduce PDF file size comes from strict portal caps: job application forms that only
+        A lot of the pressure to reduce PDF size comes from strict portal caps: job application forms that only
         accept a 100 KB photo, exam sites that reject anything over 200 KB, visa uploads limited to 500 KB, or bank
         onboarding that maxes out at 1 MB per document. Our compressor is built for exactly this: start with the Strong
         level and check the size summary — scanned and photo-heavy PDFs often drop dramatically in a single pass.
