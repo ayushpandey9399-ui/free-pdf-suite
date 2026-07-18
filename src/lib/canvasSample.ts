@@ -26,6 +26,14 @@ export interface RgbAndText {
   text: Rgb;
   /** true when we found enough ink pixels to trust the text color. */
   confident: boolean;
+  /** true when the border pixels agree with each other (low variance). */
+  bgConfident: boolean;
+  /**
+   * Pixel insets (in *canvas pixels*) suggesting a sharp non-background edge
+   * (e.g. table gridline) sits at that side of the rect. Cover rectangles
+   * should shrink by these amounts so they never paint over the border.
+   */
+  edgeInsets: { top: number; bottom: number; left: number; right: number };
 }
 
 const clampInt = (n: number, min: number, max: number) =>
