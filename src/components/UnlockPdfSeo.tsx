@@ -268,7 +268,7 @@ export const unlockHowToJsonLd = {
     "Decrypt a password-protected PDF entirely in your browser using the password you already know — the file and password never leave your device.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "A password-protected PDF and its current password" }],
-  tool: [{ "@type": "HowToTool", name: "PDFfree Unlock PDF (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "FreePDFHub Unlock PDF (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -281,7 +281,7 @@ export const unlockHowToJsonLd = {
 export const unlockSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "PDFfree Unlock PDF",
+  name: "FreePDFHub Unlock PDF",
   description:
     "Remove password from PDF online free — decrypt password-protected PDFs in your browser with the password you know. File and password never leave your device.",
   applicationCategory: "UtilitiesApplication",

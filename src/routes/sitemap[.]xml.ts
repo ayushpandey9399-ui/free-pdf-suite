@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { tools } from "@/tools/registry";
+import { SITE_URL } from "@/lib/site";
 
-// TODO: replace with your project URL once a project name or custom domain is set.
-const BASE_URL = "";
+const BASE_URL = SITE_URL;
 
 interface SitemapEntry {
   path: string;

@@ -56,7 +56,7 @@ const LINK_CLASS =
 const LINK_STYLE = { color: "#9CA3AF" } as const;
 
 export function Footer() {
-  const year = new Date().getFullYear();
+  
   const backToTop = () => {
     if (typeof window !== "undefined") {
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -70,7 +70,7 @@ export function Footer() {
           <div className="lg:col-span-2">
             <Link
               to="/"
-              aria-label="PDFfree — home"
+              aria-label="FreePDFHub — home"
               className="inline-flex items-center gap-2.5 font-extrabold tracking-tight text-[26px] leading-none"
             >
               <LogoMark size={38} />
@@ -129,7 +129,7 @@ export function Footer() {
           className="mx-auto flex max-w-[1200px] flex-col items-center gap-2 px-4 sm:px-6 py-5 text-[13px] sm:flex-row sm:justify-between"
           style={{ color: "#9CA3AF" }}
         >
-          <p>© {year} PDFfree. All rights reserved.</p>
+          <p>© 2026 FreePDFHub. All rights reserved.</p>
           <div className="flex flex-col items-center gap-2 sm:flex-row sm:gap-6">
             <p>Made with <span style={{ color: "#ff6b67" }}>❤</span> in India · 100% free tools</p>
             <button

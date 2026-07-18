@@ -4,9 +4,9 @@ import { CONTACT_EMAIL, LAST_UPDATED } from "@/lib/site";
 
 export const Route = createFileRoute("/privacy-policy")({
   head: () => {
-    const title = "Privacy Policy | PDFfree";
+    const title = "Privacy Policy | FreePDFHub";
     const description =
-      "PDFfree processes every PDF entirely inside your browser. Read our privacy policy: no uploads, no accounts, and full disclosure on cookies and ads.";
+      "FreePDFHub processes every PDF entirely inside your browser. Read our privacy policy: no uploads, no accounts, and full disclosure on cookies and ads.";
     return {
       meta: [
         { title },
@@ -45,7 +45,7 @@ function PrivacyPolicyPage() {
 
       <h2>Information we do NOT collect</h2>
       <p>
-        For the browser-based tools currently on PDFfree, we do not receive or store:
+        For the browser-based tools currently on FreePDFHub, we do not receive or store:
       </p>
       <ul>
         <li>Your PDF, image, or text files, or any of their contents.</li>
@@ -64,7 +64,7 @@ function PrivacyPolicyPage() {
       <h2>Information collected automatically</h2>
       <p>
         Like most websites, basic technical data may be processed when you visit
-        PDFfree — such as browser type, device type, pages visited, approximate
+        FreePDFHub — such as browser type, device type, pages visited, approximate
         location derived from your IP address, and referral source. This data relates
         only to the page visit itself and is handled by our analytics and hosting
         providers described below. For the current browser-based tools, this data is
@@ -75,7 +75,7 @@ function PrivacyPolicyPage() {
       <h2>Cookies and similar technologies</h2>
       <p>
         Cookies are small text files stored on your device that help websites remember
-        information about your visit. PDFfree may use:
+        information about your visit. FreePDFHub may use:
       </p>
       <ul>
         <li>
@@ -96,7 +96,7 @@ function PrivacyPolicyPage() {
       <h2>Advertising (Google AdSense)</h2>
       <p>
         We use (or plan to use) Google AdSense to show advertisements that keep
-        PDFfree free for everyone.
+        FreePDFHub free for everyone.
       </p>
       <ul>
         <li>
@@ -130,7 +130,7 @@ function PrivacyPolicyPage() {
       <p>
         <strong>
           Important: ads appear on the page around the tools. For the browser-based
-          tools currently on PDFfree, advertising partners do not receive access to
+          tools currently on FreePDFHub, advertising partners do not receive access to
           the files you process, because those files stay in your browser.
         </strong>
       </p>
@@ -145,14 +145,14 @@ function PrivacyPolicyPage() {
 
       <h2>Third-party links</h2>
       <p>
-        Some pages on PDFfree link to external websites. Once you leave our site, we
+        Some pages on FreePDFHub link to external websites. Once you leave our site, we
         are not responsible for the privacy practices of those third parties. Their
         content is governed by their own privacy policies.
       </p>
 
       <h2>Children's privacy</h2>
       <p>
-        PDFfree is a general-audience service. We do not knowingly collect personal
+        FreePDFHub is a general-audience service. We do not knowingly collect personal
         information from children under 13. If you believe a child has provided
         personal information to us, please contact us and we will take appropriate
         action.

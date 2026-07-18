@@ -3,9 +3,9 @@ import { LegalPage } from "@/components/LegalPage";
 
 export const Route = createFileRoute("/about")({
   head: () => {
-    const title = "About PDFfree | Free Browser-Based PDF Tools";
+    const title = "About FreePDFHub | Free Browser-Based PDF Tools";
     const description =
-      "PDFfree offers 28+ genuinely free PDF tools that run entirely in your browser — no uploads, no accounts, no watermarks. Learn why we built it.";
+      "FreePDFHub offers 28+ genuinely free PDF tools that run entirely in your browser — no uploads, no accounts, no watermarks. Learn why we built it.";
     return {
       meta: [
         { title },
@@ -22,7 +22,7 @@ export const Route = createFileRoute("/about")({
 
 function AboutPage() {
   return (
-    <LegalPage title="About PDFfree">
+    <LegalPage title="About FreePDFHub">
       <p>
         Every day, people need to merge a certificate into a job application, compress
         a file to squeeze under an upload limit, or sign a contract before a deadline.
@@ -31,7 +31,7 @@ function AboutPage() {
       </p>
 
       <p>
-        We thought that was backwards. So we built PDFfree: 28+ genuinely free PDF
+        We thought that was backwards. So we built FreePDFHub: 28+ genuinely free PDF
         tools that run entirely in your browser. No uploads. No accounts. No
         watermarks. No daily limits.
       </p>
@@ -39,7 +39,7 @@ function AboutPage() {
       <h2>How it works</h2>
       <p>
         Modern browsers are surprisingly powerful — they can open, edit, and re-save
-        PDFs on their own. Every tool currently on PDFfree is built with client-side
+        PDFs on their own. Every tool currently on FreePDFHub is built with client-side
         technology, which means your files don't travel to a server for these tools.
         They open, get processed, and get saved back to your device, all without
         leaving the browser tab. If we ever add a tool that requires server-side
@@ -72,7 +72,7 @@ function AboutPage() {
 
       <h2>How the site stays free</h2>
       <p>
-        PDFfree is supported by advertising shown around the tools. For the current
+        FreePDFHub is supported by advertising shown around the tools. For the current
         browser-based tools, those ads don't see your files — they can't, because
         your files stay in your browser. If the site is useful to you, letting the
         ads load is the way you support the project.
@@ -80,7 +80,7 @@ function AboutPage() {
 
       <h2>We'd love your feedback</h2>
       <p>
-        PDFfree is a small, focused project and we read every message. If a tool is
+        FreePDFHub is a small, focused project and we read every message. If a tool is
         missing something, if you found a bug, or if you have an idea for a new tool,
         head over to our <Link to="/contact">Contact page</Link> and tell us.
       </p>

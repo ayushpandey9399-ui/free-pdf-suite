@@ -242,7 +242,7 @@ export const pdfToImagesHowToJsonLd = {
     "Convert a PDF to JPG or PNG images in your browser — pick the format, adjust quality and scale, and download every page as an image without uploading the file anywhere.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "A PDF you want to turn into images" }],
-  tool: [{ "@type": "HowToTool", name: "PDFfree PDF to Images (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "FreePDFHub PDF to Images (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -255,7 +255,7 @@ export const pdfToImagesHowToJsonLd = {
 export const pdfToImagesSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "PDFfree PDF to Images",
+  name: "FreePDFHub PDF to Images",
   description:
     "Convert PDF to JPG or PNG online free — render every page as a high-quality image in your browser. No upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",

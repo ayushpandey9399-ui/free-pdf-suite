@@ -236,7 +236,7 @@ export const rotateHowToJsonLd = {
     "Rotate all pages or specific pages of a PDF by 90°, 180° or 270° and save the rotation permanently into the file — entirely inside your browser.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "The PDF you want to rotate" }],
-  tool: [{ "@type": "HowToTool", name: "PDFfree Rotate PDF (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "FreePDFHub Rotate PDF (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -249,7 +249,7 @@ export const rotateHowToJsonLd = {
 export const rotateSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "PDFfree Rotate PDF",
+  name: "FreePDFHub Rotate PDF",
   description:
     "Rotate PDF pages online free — fix sideways or upside-down pages and save the rotation permanently into the file. Runs entirely in the browser, no upload, no signup.",
   applicationCategory: "UtilitiesApplication",

@@ -251,7 +251,7 @@ export const protectHowToJsonLd = {
     "Add AES-256 password encryption to a PDF entirely in your browser — the file and password never leave your device.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "The PDF you want to encrypt" }],
-  tool: [{ "@type": "HowToTool", name: "PDFfree Protect PDF (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "FreePDFHub Protect PDF (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -264,7 +264,7 @@ export const protectHowToJsonLd = {
 export const protectSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "PDFfree Protect PDF",
+  name: "FreePDFHub Protect PDF",
   description:
     "Password protect PDF online free with AES-256 encryption in your browser. Your file and password never leave your device. No signup, no watermark.",
   applicationCategory: "SecurityApplication",

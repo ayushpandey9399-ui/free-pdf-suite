@@ -4,9 +4,9 @@ import { CONTACT_EMAIL } from "@/lib/site";
 
 export const Route = createFileRoute("/contact")({
   head: () => {
-    const title = "Contact PDFfree | Bug Reports & Feedback";
+    const title = "Contact FreePDFHub | Bug Reports & Feedback";
     const description =
-      "Get in touch with PDFfree. We read every bug report, feature request, and piece of feedback. Usually respond within a few days.";
+      "Get in touch with FreePDFHub. We read every bug report, feature request, and piece of feedback. Usually respond within a few days.";
     return {
       meta: [
         { title },
@@ -26,7 +26,7 @@ function ContactPage() {
     <LegalPage title="Contact Us">
       <p>
         We read everything — bug reports, feature requests, and general feedback all
-        land in the same inbox and help shape what PDFfree becomes next.
+        land in the same inbox and help shape what FreePDFHub becomes next.
       </p>
 
       <p>

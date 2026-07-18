@@ -289,7 +289,7 @@ export const scanToPdfHowToJsonLd = {
 export const scanToPdfSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "PDFfree Scan to PDF",
+  name: "FreePDFHub Scan to PDF",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Web",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

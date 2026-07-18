@@ -69,7 +69,7 @@ const faqs = [
   },
   {
     q: "Is it safe to split PDFs with sensitive information?",
-    a: "Yes. PDFfree runs the split entirely inside your browser through client-side processing, so contracts, statements, medical reports and ID documents never leave your device. Nothing is uploaded and nothing is stored on our side.",
+    a: "Yes. FreePDFHub runs the split entirely inside your browser through client-side processing, so contracts, statements, medical reports and ID documents never leave your device. Nothing is uploaded and nothing is stored on our side.",
   },
   {
     q: "Do my files get uploaded to a server?",
@@ -156,7 +156,7 @@ export function SplitPdfSeo() {
         Splitting tends to happen on the documents you least want floating around: contracts where only one clause
         should be shared, bank statements where a single page is being submitted for verification, medical reports
         where you want to send just a lab result. Typical online splitters ask you to upload the whole document to
-        their servers first — the very thing you were trying to avoid. PDFfree runs the split inside your browser
+        their servers first — the very thing you were trying to avoid. FreePDFHub runs the split inside your browser
         instead, so the original document is read, cut and saved without ever touching a remote server.
       </p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
@@ -241,7 +241,7 @@ export const splitHowToJsonLd = {
     "Split PDF pages online free — cut a PDF into ranges or one file per page, directly in your browser with no upload, no signup and no watermark.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "A PDF file you want to split" }],
-  tool: [{ "@type": "HowToTool", name: "PDFfree Split PDF (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "FreePDFHub Split PDF (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -254,7 +254,7 @@ export const splitHowToJsonLd = {
 export const splitSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "PDFfree Split PDF",
+  name: "FreePDFHub Split PDF",
   description:
     "Split PDF online free — separate pages or extract page ranges in your browser with no upload, no signup and no watermark.",
   applicationCategory: "UtilitiesApplication",

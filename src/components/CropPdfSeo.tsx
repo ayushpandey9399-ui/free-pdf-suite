@@ -286,7 +286,7 @@ export const cropPdfHowToJsonLd = {
     "Crop any PDF entirely in the browser — drag a visual crop box on a live preview, or type exact margins in points, apply to all pages or a page range. No upload, no signup, no watermark.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "A PDF file to crop" }],
-  tool: [{ "@type": "HowToTool", name: "PDFfree Crop PDF (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "FreePDFHub Crop PDF (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -299,7 +299,7 @@ export const cropPdfHowToJsonLd = {
 export const cropPdfSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "PDFfree Crop PDF",
+  name: "FreePDFHub Crop PDF",
   description:
     "Crop PDF online free — trim white margins and unwanted edges with a visual crop box and live preview, apply to all pages or a page range. Entirely in the browser. No upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",

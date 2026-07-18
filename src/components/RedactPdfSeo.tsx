@@ -262,7 +262,7 @@ export const redactHowToJsonLd = {
     "Permanently black out sensitive text, numbers or images in a PDF using an in-browser redaction tool — the redacted pages are re-rendered so the hidden content is truly removed, not just covered.",
   totalTime: "PT2M",
   supply: [{ "@type": "HowToSupply", name: "A PDF containing sensitive content to remove" }],
-  tool: [{ "@type": "HowToTool", name: "PDFfree Redact PDF (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "FreePDFHub Redact PDF (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -275,7 +275,7 @@ export const redactHowToJsonLd = {
 export const redactSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "PDFfree Redact PDF",
+  name: "FreePDFHub Redact PDF",
   description:
     "Redact PDF online free — permanently black out Aadhaar numbers, account details and other sensitive content in your browser. Redacted pages are re-rendered so removed text cannot be recovered.",
   applicationCategory: "UtilitiesApplication",

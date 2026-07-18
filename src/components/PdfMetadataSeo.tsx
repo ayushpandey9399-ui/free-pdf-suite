@@ -326,7 +326,7 @@ export const pdfMetadataHowToJsonLd = {
     "View, edit or clear PDF properties — Title, Author, Subject, Keywords, Producer and Creator — entirely in the browser. No upload, no signup, no watermark.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "Any PDF file" }],
-  tool: [{ "@type": "HowToTool", name: "PDFfree PDF Metadata Editor (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "FreePDFHub PDF Metadata Editor (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -339,7 +339,7 @@ export const pdfMetadataHowToJsonLd = {
 export const pdfMetadataSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "PDFfree PDF Metadata Editor",
+  name: "FreePDFHub PDF Metadata Editor",
   description:
     "Edit PDF metadata online free — view, change or remove Title, Author, Subject, Keywords, Producer and Creator. Entirely in the browser. No upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",

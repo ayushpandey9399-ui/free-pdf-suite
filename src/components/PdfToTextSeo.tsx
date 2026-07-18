@@ -82,9 +82,9 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
   },
   {
     q: "Do you support OCR for scanned documents?",
-    a: "Not today. Getting text out of images requires OCR (optical character recognition), which is a separate technology, and PDFfree does not include an OCR tool at the moment. It is on our roadmap. For now, if your PDF is a scan, this extractor will honestly report an empty result rather than pretend to have read something.",
+    a: "Not today. Getting text out of images requires OCR (optical character recognition), which is a separate technology, and FreePDFHub does not include an OCR tool at the moment. It is on our roadmap. For now, if your PDF is a scan, this extractor will honestly report an empty result rather than pretend to have read something.",
     plain:
-      "Not today. OCR is a separate technology and PDFfree does not include an OCR tool at the moment; it is on our roadmap. For now, scanned PDFs return an empty result rather than pretending to have read something.",
+      "Not today. OCR is a separate technology and FreePDFHub does not include an OCR tool at the moment; it is on our roadmap. For now, scanned PDFs return an empty result rather than pretending to have read something.",
   },
   {
     q: "Will the text keep its formatting?",
@@ -132,9 +132,9 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
   },
   {
     q: "How is this different from PDF to Word?",
-    a: "This tool gives you plain text — the words in reading order, with page markers, and nothing else. A PDF-to-Word conversion is a much heavier job that tries to rebuild fonts, headings, tables, images and column layout inside a .docx file, and PDFfree doesn't currently ship that tool. If all you need is the words themselves — to quote, translate, search or paste elsewhere — plain text is usually the right output and this page is the shortest path to it.",
+    a: "This tool gives you plain text — the words in reading order, with page markers, and nothing else. A PDF-to-Word conversion is a much heavier job that tries to rebuild fonts, headings, tables, images and column layout inside a .docx file, and FreePDFHub doesn't currently ship that tool. If all you need is the words themselves — to quote, translate, search or paste elsewhere — plain text is usually the right output and this page is the shortest path to it.",
     plain:
-      "This tool gives plain text — words in reading order with page markers. A PDF-to-Word conversion rebuilds fonts, tables and layout inside a .docx file, which is a different job; PDFfree doesn't ship a PDF-to-Word tool today.",
+      "This tool gives plain text — words in reading order with page markers. A PDF-to-Word conversion rebuilds fonts, tables and layout inside a .docx file, which is a different job; FreePDFHub doesn't ship a PDF-to-Word tool today.",
   },
 ];
 
@@ -206,7 +206,7 @@ export function PdfToTextSeo() {
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
         Reading words out of an image requires OCR (optical character
         recognition), which is a completely different technology from text
-        extraction. To be transparent: PDFfree does not currently ship an OCR
+        extraction. To be transparent: FreePDFHub does not currently ship an OCR
         tool — it's on our roadmap. Until it lands, this extractor will
         honestly tell you when a page has no text rather than guess. If your
         source is a scan today, you'll need an OCR-capable app to convert it
@@ -290,7 +290,7 @@ export const pdfToTextHowToJsonLd = {
     "Pull the full text layer out of a PDF entirely inside your browser and copy it to the clipboard or download it as a .txt file. No upload, no signup, no watermark.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "A PDF file with a text layer" }],
-  tool: [{ "@type": "HowToTool", name: "PDFfree PDF to Text (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "FreePDFHub PDF to Text (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -303,7 +303,7 @@ export const pdfToTextHowToJsonLd = {
 export const pdfToTextSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "PDFfree PDF to Text",
+  name: "FreePDFHub PDF to Text",
   description:
     "Extract text from PDF online free — pull the full text layer out of any PDF with a text layer, page by page, entirely inside your browser. Copy to clipboard or download as a .txt file. No upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",

@@ -5,21 +5,21 @@ export function Logo({ onClick }: { onClick?: () => void }) {
     <Link
       to="/"
       onClick={onClick}
-      aria-label="PDFfree — home"
+      aria-label="FreePDFHub — home"
       className="inline-flex items-center gap-2.5 font-extrabold tracking-tight text-[26px] leading-none"
     >
       <LogoMark size={38} />
 
       <span className="inline-flex items-baseline gap-0.5">
-        <span style={{ color: "#14142b" }}>PDF</span>
-        <span style={{ color: "#e5322d" }}>free</span>
+        <span style={{ color: "#14142b" }}>FreePDF</span>
+        <span style={{ color: "#e5322d" }}>Hub</span>
       </span>
     </Link>
   );
 }
 
 export function LogoMark({ size = 34 }: { size?: number }) {
-  const gid = "pdffree-logo-grad";
+  const gid = "freepdfhub-logo-grad";
   return (
     <svg
       width={size}

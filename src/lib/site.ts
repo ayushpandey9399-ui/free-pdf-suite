@@ -1,5 +1,6 @@
-// Central contact email for legal pages, footer, and contact page.
-// Change this in one place to update it site-wide.
-export const CONTACT_EMAIL = "hello@pdffree.app";
-export const SITE_NAME = "PDFfree";
-export const LAST_UPDATED = "July 17, 2026";
+// Central site constants used across legal pages, footer, meta, and sitemap.
+// Change these in one place to update site-wide.
+export const SITE_NAME = "FreePDFHub";
+export const SITE_URL = "https://freepdfhub.in";
+export const CONTACT_EMAIL = "hello@freepdfhub.in";
+export const LAST_UPDATED = "July 18, 2026";
