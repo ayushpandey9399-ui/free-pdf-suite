@@ -136,30 +136,49 @@ export async function extractEditableLines(
   const out: EditableLine[] = [];
   for (let i = 0; i < buckets.length; i++) {
     const bucket = buckets[i];
-    // Step 2: split into segments on wide horizontal gaps.
+
+    // Step 2: split into segments. Two kinds of breaks:
+    //   (a) an item whose str is only whitespace AND whose advance width
+    //       exceeds the per-line break threshold — pdfjs emits these as
+    //       "bridge" items across table columns.
+    //   (b) a positive gap between adjacent items exceeding the same
+    //       threshold (some PDFs omit the bridge item entirely).
+    // Threshold per spec: max(1.2 × median space-width, 0.6 × fontSize).
+    const spaceWidths: number[] = [];
+    for (const r of bucket) {
+      if (/^\s+$/.test(r.str)) spaceWidths.push(r.width);
+    }
     const gaps: number[] = [];
     for (let k = 1; k < bucket.length; k++) {
       const g = bucket[k].x - (bucket[k - 1].x + bucket[k - 1].width);
       if (g > 0) gaps.push(g);
     }
-    const medianGap = gaps.length ? median(gaps) : bucket[0].fontSize * 0.25;
+    const fs0 = bucket[0].fontSize;
+    // Prefer measured space widths, fall back to gaps, fall back to fs*0.28.
+    let spaceRef = spaceWidths.length ? median(spaceWidths) : 0;
+    if (!spaceRef) spaceRef = gaps.length ? median(gaps) : fs0 * 0.28;
+    const threshold = Math.max(1.2 * spaceRef, 0.6 * fs0);
 
     const segments: Raw[][] = [];
     let cur: Raw[] = [];
+    const push = () => { if (cur.length) { segments.push(cur); cur = []; } };
     for (let k = 0; k < bucket.length; k++) {
       const r = bucket[k];
-      if (cur.length === 0) { cur.push(r); continue; }
-      const prev = cur[cur.length - 1];
-      const gap = r.x - (prev.x + prev.width);
-      const threshold = Math.max(1.2 * medianGap, 0.6 * r.fontSize);
-      if (gap > threshold) {
-        segments.push(cur);
-        cur = [r];
-      } else {
-        cur.push(r);
+      const isSpace = /^\s+$/.test(r.str);
+      if (isSpace && r.width > threshold) {
+        push();
+        continue;
       }
+      if (cur.length) {
+        const prev = cur[cur.length - 1];
+        const gap = r.x - (prev.x + prev.width);
+        if (gap > threshold) push();
+      }
+      cur.push(r);
     }
-    if (cur.length) segments.push(cur);
+    push();
+
+
 
     for (let j = 0; j < segments.length; j++) {
       const grp = segments[j];
