@@ -1745,6 +1745,33 @@ function PageOverlay(props: PageOverlayProps) {
               onRemove={() => onRemove(a.id)}
             />
           ))}
+
+        {/* Edit-text overlay layer */}
+        {scale > 0 && editTextMode && lines && (
+          <div className="absolute inset-0">
+            {lines.map((ln) => {
+              const existing = editsByLineId.get(ln.id);
+              const isActive = activeEditLineId === ln.id;
+              return (
+                <EditLineOverlay
+                  key={ln.id}
+                  line={ln}
+                  scale={scale}
+                  pageWidth={page.width}
+                  pageHeight={page.height}
+                  isActive={isActive}
+                  existing={existing ?? null}
+                  showAll={showAllEditable}
+                  getPageCanvas={getPageCanvas}
+                  onOpen={() => onOpenLine(ln.id)}
+                  onCancel={onCloseLine}
+                  onCommit={onCommitEdit}
+                  onRemove={() => onRemoveEdit(ln.id)}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );
