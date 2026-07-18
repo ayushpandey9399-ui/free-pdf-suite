@@ -386,6 +386,41 @@ export default function EditPdf() {
 
   const file = files[0];
 
+  // ---- Fix B1: per-page render/evict. On file load we set up all page
+  // slots with empty urls, eager-render only the first few, then let the
+  // visibility observer + eviction effect drive the rest. Total retained
+  // canvases stays bounded at ~5 (visible ± 2) regardless of doc length.
+  const renderPage = useCallback(async (pageIdx: number): Promise<void> => {
+    const doc = pdfjsDocRef.current;
+    if (!doc) return;
+    if (pageCanvasesRef.current.has(pageIdx)) return;
+    if (renderingRef.current.has(pageIdx)) return;
+    renderingRef.current.add(pageIdx);
+    try {
+      const page = await doc.getPage(pageIdx + 1);
+      const vp1 = page.getViewport({ scale: 1, rotation: 0 });
+      const scale = Math.min(2, 800 / vp1.width);
+      const vp = page.getViewport({ scale, rotation: 0 });
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.floor(vp.width);
+      canvas.height = Math.floor(vp.height);
+      const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
+      await page.render({ canvasContext: ctx, viewport: vp, canvas } as never).promise;
+      pageCanvasesRef.current.set(pageIdx, canvas);
+      const url = canvas.toDataURL("image/jpeg", 0.85);
+      setPages((prev) => {
+        if (!prev[pageIdx] || prev[pageIdx].url === url) return prev;
+        const copy = prev.slice();
+        copy[pageIdx] = { ...copy[pageIdx], url };
+        return copy;
+      });
+    } catch {
+      /* ignore render failures for evicted pages */
+    } finally {
+      renderingRef.current.delete(pageIdx);
+    }
+  }, []);
+
   // load pages
   useEffect(() => {
     let cancelled = false;
@@ -395,8 +430,10 @@ export default function EditPdf() {
     setSelectedId(null);
     setActiveEditLineId(null);
     setHasAnyText(null);
+    setVisiblePages(new Set());
     pdfjsDocRef.current = null;
     pageCanvasesRef.current = new Map();
+    renderingRef.current = new Set();
     linesByPageRef.current = new Map();
     historyRef.current = [{ annos: [], edits: [] }];
     historyIdxRef.current = 0;
@@ -410,28 +447,39 @@ export default function EditPdf() {
         pdfjsDocRef.current = doc;
         const out: PageInfo[] = [];
         const maxW = 800;
+        // Eager-render only the first few pages so the viewer feels
+        // instant; every other page starts with url="" and is rendered on
+        // demand as it scrolls into view (Fix B1 memory cap).
+        const EAGER = Math.min(3, doc.numPages);
         for (let i = 1; i <= doc.numPages; i++) {
           const page = await doc.getPage(i);
           const vp1 = page.getViewport({ scale: 1, rotation: 0 });
-          const scale = Math.min(2, maxW / vp1.width);
-          const vp = page.getViewport({ scale, rotation: 0 });
-          const canvas = document.createElement("canvas");
-          canvas.width = Math.floor(vp.width);
-          canvas.height = Math.floor(vp.height);
-          const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
-          await page.render({ canvasContext: ctx, viewport: vp, canvas } as never).promise;
-          if (cancelled) return;
-          pageCanvasesRef.current.set(i - 1, canvas);
-          out.push({
-            url: canvas.toDataURL("image/jpeg", 0.85),
-            width: vp1.width,
-            height: vp1.height,
-            rotation: (page as unknown as { rotate: number }).rotate ?? 0,
-          });
+          const rotation = (page as unknown as { rotate: number }).rotate ?? 0;
+          if (i <= EAGER) {
+            const scale = Math.min(2, maxW / vp1.width);
+            const vp = page.getViewport({ scale, rotation: 0 });
+            const canvas = document.createElement("canvas");
+            canvas.width = Math.floor(vp.width);
+            canvas.height = Math.floor(vp.height);
+            const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
+            await page.render({ canvasContext: ctx, viewport: vp, canvas } as never).promise;
+            if (cancelled) return;
+            pageCanvasesRef.current.set(i - 1, canvas);
+            out.push({
+              url: canvas.toDataURL("image/jpeg", 0.85),
+              width: vp1.width,
+              height: vp1.height,
+              rotation,
+            });
+          } else {
+            out.push({ url: "", width: vp1.width, height: vp1.height, rotation });
+          }
         }
         if (!cancelled) setPages(out);
         // Probe first few pages for any extractable text — used for the
-        // "looks like a scanned PDF" callout.
+        // "looks like a scanned PDF" callout. Only the pre-rendered pages
+        // have canvases at this point, which is fine — the probe stays
+        // bounded to EAGER pages.
         if (!cancelled) {
           const probe = Math.min(3, doc.numPages);
           let total = 0;
@@ -459,6 +507,63 @@ export default function EditPdf() {
       cancelled = true;
     };
   }, [file]);
+
+  // ---- Fix B1: canvas eviction. Retain only visible pages ± 2 buffer,
+  // hard cap at 5. Everything else releases its HTMLCanvasElement AND the
+  // JPEG dataURL. Re-renders on scroll back into view.
+  const pagesLen = pages.length;
+  const setPageVisibility = useCallback((idx: number, visible: boolean) => {
+    setVisiblePages((prev) => {
+      const has = prev.has(idx);
+      if (visible === has) return prev;
+      const next = new Set(prev);
+      if (visible) next.add(idx);
+      else next.delete(idx);
+      return next;
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!pagesLen) return;
+    const RETAIN_CAP = 5;
+    const BUFFER = 2;
+    const keep = new Set<number>();
+    for (const v of visiblePages) {
+      for (let i = v - BUFFER; i <= v + BUFFER; i++) {
+        if (i >= 0 && i < pagesLen) keep.add(i);
+      }
+    }
+    if (keep.size > RETAIN_CAP && visiblePages.size) {
+      const centers = [...visiblePages];
+      const nearest = (i: number) => Math.min(...centers.map((c) => Math.abs(c - i)));
+      const sorted = [...keep].sort((a, b) => nearest(a) - nearest(b));
+      keep.clear();
+      for (const i of sorted.slice(0, RETAIN_CAP)) keep.add(i);
+    }
+    // Evict canvases + drop their JPEG urls.
+    const toEvict: number[] = [];
+    for (const idx of pageCanvasesRef.current.keys()) {
+      if (!keep.has(idx)) toEvict.push(idx);
+    }
+    for (const idx of toEvict) pageCanvasesRef.current.delete(idx);
+    if (toEvict.length) {
+      setPages((prev) => {
+        let changed = false;
+        const copy = prev.slice();
+        for (const idx of toEvict) {
+          if (copy[idx] && copy[idx].url) {
+            copy[idx] = { ...copy[idx], url: "" };
+            changed = true;
+          }
+        }
+        return changed ? copy : prev;
+      });
+    }
+    // Render anything in `keep` we don't have.
+    keep.forEach((i) => {
+      if (!pageCanvasesRef.current.has(i)) void renderPage(i);
+    });
+  }, [visiblePages, pagesLen, renderPage]);
 
   // Lazy line extraction for a specific page (called from PageOverlay when
   // it becomes visible). Idempotent.
