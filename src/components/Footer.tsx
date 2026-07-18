@@ -56,7 +56,7 @@ const LINK_CLASS =
 const LINK_STYLE = { color: "#9CA3AF" } as const;
 
 export function Footer() {
-  const year = new Date().getFullYear();
+  
   const backToTop = () => {
     if (typeof window !== "undefined") {
       window.scrollTo({ top: 0, behavior: "smooth" });
