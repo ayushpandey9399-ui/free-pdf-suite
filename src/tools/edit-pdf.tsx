@@ -460,7 +460,11 @@ export default function EditPdf() {
     const doc = pdfjsDocRef.current;
     if (!doc) return;
     try {
-      const lines = await extractEditableLines(doc, pageIdx + 1);
+      const c = pageCanvasesRef.current.get(pageIdx);
+      const p = await doc.getPage(pageIdx + 1);
+      const pv = p.getViewport({ scale: 1, rotation: 0 });
+      const rc = c ? { canvas: c, scale: c.width / pv.width } : null;
+      const lines = await extractEditableLines(doc, pageIdx + 1, rc);
       linesByPageRef.current.set(pageIdx, lines);
       setLinesTick((t) => t + 1);
     } catch {
