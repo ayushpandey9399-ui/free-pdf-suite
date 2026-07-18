@@ -283,7 +283,7 @@ export const headerFooterHowToJsonLd = {
     "Add headers and footers to any PDF entirely in the browser — six slots, smart tokens for page number, total, date and filename, colour and margin controls, optional page range. No upload, no signup, no watermark.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "A PDF file to stamp" }],
-  tool: [{ "@type": "HowToTool", name: "PDFfree Header & Footer (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "FreePDFHub Header & Footer (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -296,7 +296,7 @@ export const headerFooterHowToJsonLd = {
 export const headerFooterSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "PDFfree Add Header & Footer",
+  name: "FreePDFHub Add Header & Footer",
   description:
     "Add headers and footers to PDF online free — six slots (header and footer × left/center/right), smart tokens for page number, total, date and filename, colour, margin and page-range controls. Entirely in the browser. No upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",

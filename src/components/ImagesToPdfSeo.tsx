@@ -267,7 +267,7 @@ export const imagesToPdfHowToJsonLd = {
     "Combine JPG and PNG images into a single PDF entirely inside your browser — pick a page setup, choose a margin and download the finished file. No upload, no signup, no watermark.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "One or more JPG or PNG images" }],
-  tool: [{ "@type": "HowToTool", name: "PDFfree Images to PDF (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "FreePDFHub Images to PDF (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -280,7 +280,7 @@ export const imagesToPdfHowToJsonLd = {
 export const imagesToPdfSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "PDFfree Images to PDF",
+  name: "FreePDFHub Images to PDF",
   description:
     "Convert JPG and PNG images into one PDF online free — combine many pictures into a single document with your choice of Fit-to-image, A4 or Letter page size. Runs entirely in the browser, no upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",

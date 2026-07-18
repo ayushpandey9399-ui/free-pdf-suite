@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 
-const STORAGE_KEY = "pdffree.cookieConsent";
+const STORAGE_KEY = "freepdfhub.cookieConsent";
 
 export function CookieBanner() {
   const [visible, setVisible] = useState(false);
@@ -36,7 +36,7 @@ export function CookieBanner() {
         style={{ borderColor: "#ececef" }}
       >
         <p className="text-sm leading-relaxed flex-1" style={{ color: "#3b3b48" }}>
-          PDFfree uses cookies for ads and site functionality. Your PDF files are never
+          FreePDFHub uses cookies for ads and site functionality. Your PDF files are never
           uploaded — everything runs in your browser.{" "}
           <Link to="/privacy-policy" className="underline hover:text-[#e5322d]">
             Privacy Policy

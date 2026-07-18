@@ -212,7 +212,7 @@ export function AddBlankPagesSeo() {
         Private and instant
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        Like every PDFfree tool, the insertion runs entirely inside your
+        Like every FreePDFHub tool, the insertion runs entirely inside your
         browser tab with pdf.js and pdf-lib — the document never leaves your
         device, and nothing is logged on our side. Even long files update in
         seconds because adding pages is a structural change, not a re-render of
@@ -296,7 +296,7 @@ export const addBlankPagesHowToJsonLd = {
     "Insert one or more blank pages into a PDF entirely in the browser — anywhere in the document, at the size of your choice. No upload, no signup, no watermark.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "A PDF file" }],
-  tool: [{ "@type": "HowToTool", name: "PDFfree Add Blank Pages (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "FreePDFHub Add Blank Pages (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -309,7 +309,7 @@ export const addBlankPagesHowToJsonLd = {
 export const addBlankPagesSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "PDFfree Add Blank Pages",
+  name: "FreePDFHub Add Blank Pages",
   description:
     "Insert blank pages into a PDF online free — anywhere in the document, matching the surrounding page size, in your browser. No upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",

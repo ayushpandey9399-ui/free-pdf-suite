@@ -97,7 +97,7 @@ const faqs = [
   },
   {
     q: "Do I need an account?",
-    a: "No. There is no signup, no email required and no watermark added to the signed file. Every tool on PDFfree is free to use as often as you like.",
+    a: "No. There is no signup, no email required and no watermark added to the signed file. Every tool on FreePDFHub is free to use as often as you like.",
   },
 ];
 
@@ -154,7 +154,7 @@ export function SignPdfSeo() {
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         The documents people sign — offer letters, NDAs, rent agreements, service contracts — are often the most
         sensitive files they own. Typical e-sign services quietly upload the whole document to their servers, store
-        your signature image against your account and keep a copy of the signed file. PDFfree does none of that:
+        your signature image against your account and keep a copy of the signed file. FreePDFHub does none of that:
         the PDF is opened, the signature is rendered onto the pages and the signed file is saved to your disk, all
         inside your browser. Neither the document nor the signature is ever transmitted or stored.
       </p>
@@ -257,7 +257,7 @@ export const signHowToJsonLd = {
     "Add a free electronic signature to a PDF in your browser — draw, type or upload your signature, place it on any page and download the signed file without uploading the document anywhere.",
   totalTime: "PT2M",
   supply: [{ "@type": "HowToSupply", name: "A PDF that needs a signature" }],
-  tool: [{ "@type": "HowToTool", name: "PDFfree Sign PDF (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "FreePDFHub Sign PDF (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -270,7 +270,7 @@ export const signHowToJsonLd = {
 export const signSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "PDFfree Sign PDF",
+  name: "FreePDFHub Sign PDF",
   description:
     "Sign PDF online free — draw, type or upload your electronic signature and place it anywhere in the browser. No upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",

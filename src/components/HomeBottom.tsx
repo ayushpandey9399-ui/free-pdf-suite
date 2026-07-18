@@ -80,7 +80,7 @@ function PrivacyStory() {
                 remains.
               </p>
               <p className="mt-4 text-[14px]" style={{ color: "#8b8b95", lineHeight: 1.7 }}>
-                That's why PDFfree is safe even for your most sensitive
+                That's why FreePDFHub is safe even for your most sensitive
                 documents — ID cards, bank statements, contracts and medical
                 records.
               </p>
@@ -197,7 +197,7 @@ function WhyChoose() {
             className="text-center text-[24px] sm:text-[32px] font-bold tracking-tight"
             style={{ color: INK, letterSpacing: "-0.02em" }}
           >
-            Why people choose PDFfree
+            Why people choose FreePDFHub
           </h2>
           <p
             className="mx-auto mt-3 max-w-[640px] text-center text-[16px]"

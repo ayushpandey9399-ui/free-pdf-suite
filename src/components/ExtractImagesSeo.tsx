@@ -136,7 +136,7 @@ export const extractImagesHowToJsonLd = {
 export const extractImagesSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "PDFfree Extract Images",
+  name: "FreePDFHub Extract Images",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Web",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

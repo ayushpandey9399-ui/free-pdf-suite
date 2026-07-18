@@ -267,7 +267,7 @@ export const grayscalePdfHowToJsonLd = {
     "Convert a color PDF to grayscale entirely in the browser — every page re-rendered as clean black and white, ready to print, email or upload. No upload, no signup, no watermark.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "A color PDF" }],
-  tool: [{ "@type": "HowToTool", name: "PDFfree Grayscale PDF (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "FreePDFHub Grayscale PDF (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -280,7 +280,7 @@ export const grayscalePdfHowToJsonLd = {
 export const grayscalePdfSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "PDFfree Grayscale PDF",
+  name: "FreePDFHub Grayscale PDF",
   description:
     "Convert PDF to grayscale online free — every page re-rendered as black and white in your browser. Save printer ink and shrink colorful scans. No upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",

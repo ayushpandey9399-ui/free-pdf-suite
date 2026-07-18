@@ -61,7 +61,7 @@ const scenarios = [
 const faqs = [
   {
     q: "Is it safe to merge PDF files online?",
-    a: "Yes. PDFfree merges PDFs directly in your browser using client-side JavaScript and WebAssembly. Your files are opened, combined and saved on your own device — nothing is uploaded, so even confidential contracts, medical records or bank statements never leave your computer.",
+    a: "Yes. FreePDFHub merges PDFs directly in your browser using client-side JavaScript and WebAssembly. Your files are opened, combined and saved on your own device — nothing is uploaded, so even confidential contracts, medical records or bank statements never leave your computer.",
   },
   {
     q: "Do my files get uploaded to a server?",
@@ -85,11 +85,11 @@ const faqs = [
   },
   {
     q: "Can I merge PDFs on mobile?",
-    a: "Yes. PDFfree works in any modern mobile browser on Android and iPhone. There is no app to install and no permissions to grant — just open the page, pick your PDFs and download the merged file.",
+    a: "Yes. FreePDFHub works in any modern mobile browser on Android and iPhone. There is no app to install and no permissions to grant — just open the page, pick your PDFs and download the merged file.",
   },
   {
     q: "Do I need an account or email?",
-    a: "No. There is no signup, no email required and no watermark added to the output. Every tool on PDFfree is free to use as often as you like.",
+    a: "No. There is no signup, no email required and no watermark added to the output. Every tool on FreePDFHub is free to use as often as you like.",
   },
   {
     q: "What's the difference between merge, combine and join PDF?",
@@ -154,7 +154,7 @@ export function MergePdfSeo() {
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         Most popular PDF sites upload your documents to their own servers, process them there and then delete them
-        after some time — you have to trust that they actually do. PDFfree is different. Merging happens entirely in
+        after some time — you have to trust that they actually do. FreePDFHub is different. Merging happens entirely in
         your browser through client-side processing, so contracts, bank statements, salary slips, ID or Aadhaar
         documents and legal papers never leave your computer.
       </p>
@@ -241,7 +241,7 @@ export const mergeHowToJsonLd = {
     "Combine multiple PDF files into one document for free, right in your browser — no upload, no signup, no watermark.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "Two or more PDF files" }],
-  tool: [{ "@type": "HowToTool", name: "PDFfree Merge PDF (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "FreePDFHub Merge PDF (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -254,7 +254,7 @@ export const mergeHowToJsonLd = {
 export const mergeSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "PDFfree Merge PDF",
+  name: "FreePDFHub Merge PDF",
   description:
     "Merge PDF online free — combine PDF files in your browser with no upload, no signup and no watermark.",
   applicationCategory: "UtilitiesApplication",
