@@ -468,7 +468,6 @@ export default function EditPdf() {
   // canvases stays bounded at ~5 (visible ± 2) regardless of doc length.
   const renderPage = useCallback(async (pageIdx: number): Promise<void> => {
     const doc = pdfjsDocRef.current;
-    console.debug("edit render start", pageIdx, Boolean(doc), loadGenRef.current);
     if (!doc) return;
     // If we already have a canvas for this page, make sure pages state
     // has its url (may have been cleared by a prior eviction pass that
@@ -492,7 +491,6 @@ export default function EditPdf() {
     renderingRef.current.add(pageIdx);
     try {
       const page = await doc.getPage(pageIdx + 1);
-      console.debug("edit render got page", pageIdx, gen, loadGenRef.current);
       if (loadGenRef.current !== gen) return;
       // Fix B-2 #2: render preview in DISPLAY orientation so what the
       // user sees matches the geometry used for edits + sampling.
@@ -505,7 +503,6 @@ export default function EditPdf() {
       canvas.height = Math.floor(vp.height);
       const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
       await page.render({ canvasContext: ctx, viewport: vp, canvas } as never).promise;
-      console.debug("edit render painted", pageIdx, gen, loadGenRef.current);
       if (loadGenRef.current !== gen) return;
       pageCanvasesRef.current.set(pageIdx, canvas);
       const url = canvas.toDataURL("image/jpeg", 0.85);
@@ -515,8 +512,8 @@ export default function EditPdf() {
         copy[pageIdx] = { ...copy[pageIdx], url };
         return copy;
       });
-    } catch (error) {
-      console.error("Edit PDF page render failed", error);
+    } catch {
+      /* ignore render failures for evicted pages */
     } finally {
       renderingRef.current.delete(pageIdx);
     }
@@ -2032,6 +2029,13 @@ function PageOverlay(props: PageOverlayProps) {
   const [displayW, setDisplayW] = useState(0);
   const [draft, setDraft] = useState<Anno | null>(null);
   const [visible, setVisible] = useState(false);
+  const visibilityCallbackRef = useRef(onVisibilityChange);
+  const needLinesRef = useRef(onNeedLines);
+
+  useEffect(() => {
+    visibilityCallbackRef.current = onVisibilityChange;
+    needLinesRef.current = onNeedLines;
+  }, [onNeedLines, onVisibilityChange]);
 
   useEffect(() => {
     const el = wrapRef.current;
@@ -2043,8 +2047,11 @@ function PageOverlay(props: PageOverlayProps) {
     return () => ro.disconnect();
   }, []);
 
-  // Always track visibility so the parent can drive canvas eviction
-  // (Fix B1). Also triggers lazy line extraction when in edit-text mode.
+  // Keep one observer for the lifetime of this page. The callbacks passed by
+  // the parent are intentionally inline, so depending on them here would
+  // disconnect/reconnect on every page-state update. Its cleanup used to
+  // report the page as hidden during that reconnect, immediately evicting the
+  // canvas that had just rendered and leaving the placeholder on screen.
   useEffect(() => {
     const el = wrapRef.current;
     if (!el) return;
@@ -2053,8 +2060,7 @@ function PageOverlay(props: PageOverlayProps) {
         for (const ent of entries) {
           const isVis = ent.isIntersecting;
           setVisible((v) => (v === isVis ? v : isVis));
-          onVisibilityChange(isVis);
-          if (isVis && editTextMode && !lines) onNeedLines();
+          visibilityCallbackRef.current(isVis);
         }
       },
       { rootMargin: "400px" },
@@ -2062,9 +2068,15 @@ function PageOverlay(props: PageOverlayProps) {
     io.observe(el);
     return () => {
       io.disconnect();
-      onVisibilityChange(false);
+      visibilityCallbackRef.current(false);
     };
-  }, [editTextMode, lines, onNeedLines, onVisibilityChange]);
+  }, []);
+
+  // Lazy text extraction is separate from observer setup so mode/line updates
+  // cannot churn visibility or evict an already-rendered page.
+  useEffect(() => {
+    if (visible && editTextMode && !lines) needLinesRef.current();
+  }, [editTextMode, lines, visible]);
 
   // Filter out lines that already have a saved edit (they render an
   // "edited" indicator instead of the raw hover outline).
