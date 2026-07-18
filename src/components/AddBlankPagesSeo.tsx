@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { BenefitBadges } from "@/components/BenefitBadges";
 import { Link } from "@tanstack/react-router";
 
 
@@ -170,7 +169,6 @@ const related = [
 export function AddBlankPagesSeo() {
   return (
     <section className="mx-auto max-w-4xl px-4 pb-16 text-[#33333c]">
-      <BenefitBadges items={["Files never leave your device", "Insert at any position, matching page size", "Free, no signup, no watermark"]} />
 
       {/* How-to */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
