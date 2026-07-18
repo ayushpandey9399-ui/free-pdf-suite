@@ -129,6 +129,10 @@ interface TextEdit {
   bold: boolean;
   italic: boolean;
   family: FontFamily;
+  /** Base PostScript font name (subset prefix stripped). Used to pick a metric-compatible twin at export time. */
+  fontName?: string;
+  /** Metric-compatible open twin (Phase A). */
+  twin?: TwinFamily;
   /**
    * Per-side cover-rect insets in PDF units. Non-zero values mean the
    * sampler detected a rule/table border at that edge of the line box and
