@@ -1954,6 +1954,32 @@ function PageOverlay(props: PageOverlayProps) {
         {/* Edit-text overlay layer */}
         {scale > 0 && editTextMode && lines && (
           <div className="absolute inset-0">
+            {/* Left-gutter change-bar: one marker per edited line, sitting
+                in the page card's padding — never over glyph content. */}
+            {lines.map((ln) => {
+              const existing = editsByLineId.get(ln.id);
+              if (!existing) return null;
+              const cy = (ln.y + ln.height / 2) * scale;
+              return (
+                <span
+                  key={`mark-${ln.id}`}
+                  className="pointer-events-none absolute rounded-sm"
+                  style={{
+                    left: -8,
+                    top: cy - 6,
+                    width: 3,
+                    height: 12,
+                    backgroundColor: existing.lowConfidence ? "#f59e0b" : "#e5322d",
+                    boxShadow: "0 0 0 1px #ffffff",
+                  }}
+                  title={
+                    existing.lowConfidence
+                      ? "Low-confidence edit — preview the exported PDF."
+                      : "Edited"
+                  }
+                />
+              );
+            })}
             {lines.map((ln) => {
               const existing = editsByLineId.get(ln.id);
               const isActive = activeEditLineId === ln.id;
