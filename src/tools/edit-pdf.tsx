@@ -885,41 +885,29 @@ export default function EditPdf() {
           continue;
         }
 
-        // Pick font: keep StandardFonts when everything is WinAnsi (exact
-        // visual match for the common English case); otherwise embed the
-        // matching Noto face so curly quotes / em-dashes / accented Latin /
-        // Cyrillic / Greek / etc. render correctly instead of becoming "?".
-        const winAnsi = isWinAnsiOnly(te.newText);
+        // Font decision chain (Phase A - Tier 2 twin mapping):
+        //   1. Resolve the metric-compatible twin from the run's REAL
+        //      PostScript name (te.twin was set at edit-commit time; older
+        //      edits without it fall back to classifying te.fontName, then
+        //      finally to the coarse family).
+        //   2. Try that twin first.
+        //   3. If the twin can't encode every char, fall back to Noto
+        //      Sans/Serif (broader Unicode).
+        //   4. If both fail (asset fetch error), fall back to Standard-14
+        //      Helvetica; missed chars are counted as unencodable and
+        //      surfaced via the amber marker + toast.
+        const resolvedTwin: TwinFamily =
+          te.twin
+          ?? classifyPdfFont(te.fontName ?? "", { bold: te.bold, italic: te.italic }).twin
+          ?? (te.family === "serif" ? "tinos" : te.family === "mono" ? "cousine" : "arimo");
+
         let font: PDFFont;
-        if (winAnsi) {
-          const chosenFontName = (() => {
-            if (te.family === "serif") {
-              return te.bold && te.italic
-                ? StandardFonts.TimesRomanBoldItalic
-                : te.bold ? StandardFonts.TimesRomanBold
-                : te.italic ? StandardFonts.TimesRomanItalic
-                : StandardFonts.TimesRoman;
-            }
-            if (te.family === "mono") {
-              return te.bold && te.italic
-                ? StandardFonts.CourierBoldOblique
-                : te.bold ? StandardFonts.CourierBold
-                : te.italic ? StandardFonts.CourierOblique
-                : StandardFonts.Courier;
-            }
-            return te.bold && te.italic
-              ? StandardFonts.HelveticaBoldOblique
-              : te.bold ? StandardFonts.HelveticaBold
-              : te.italic ? StandardFonts.HelveticaOblique
-              : StandardFonts.Helvetica;
-          })();
-          font = await getStdFont(chosenFontName);
-        } else {
+        try {
+          font = await getTwinFont(resolvedTwin, te.bold, te.italic);
+        } catch {
           try {
-            font = await getNotoFont(te.family, te.bold, te.italic);
+            font = await getNotoFallback(te.family, te.bold, te.italic);
           } catch {
-            // Font asset missing — fall back to standard Helvetica; any
-            // extended chars are counted as unencodable below.
             font = await getStdFont(StandardFonts.Helvetica);
           }
         }
