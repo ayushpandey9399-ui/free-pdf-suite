@@ -2388,6 +2388,7 @@ function EditLineOverlay({
     align: "left" | "center" | "right";
     cellLeft?: number;
     cellRight?: number;
+    skipCover: boolean;
   } | null>(null);
 
   useEffect(() => {
