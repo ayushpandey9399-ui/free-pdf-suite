@@ -143,6 +143,8 @@ const extractImagesFaq = [
   { q: "Can I extract just one image instead of all?", a: "Yes. After the scan every thumbnail is a toggle — deselect the ones you don't want, or press Deselect all and click only the images you need. When exactly one is selected, it downloads as a single image file rather than a ZIP." },
   { q: "Is it legal to extract images from a PDF?", a: "For your own PDFs and any document you have the right to reuse — yes, entirely. When the images belong to someone else, extraction itself is fine, but reusing or publishing them still needs the copyright holder's permission just like copying any other file." },
   { q: "Do I need Adobe Acrobat?", a: "No. This is a free browser tool — no Acrobat, no plugin, no signup, no watermark. It runs anywhere a modern browser runs, including phones and Chromebooks." },
+  { q: "What image formats come out of the tool?", a: "It depends on how each image is stored inside the PDF. JPEG-embedded photos come out as .jpg with zero re-encoding, raw pixel images come out as lossless .png, and JPEG 2000 streams come out as .jp2 (their native format). The tool never converts between formats — each image is saved in its own native encoding so quality is identical to the embedded source." },
+  { q: "Can I extract charts, tables or logos drawn with vectors?", a: "No — and no browser tool can. Vector charts, ruled tables and logos rendered from paths are drawing instructions in the page's content stream, not embedded image files, so there is nothing to hand back as a picture. If you need those elements as images, use PDF to Image to render the whole page and crop the region you want afterwards." },
 ];
 
 export const extractImagesFaqJsonLd = {
