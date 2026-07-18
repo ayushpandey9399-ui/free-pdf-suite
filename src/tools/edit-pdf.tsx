@@ -784,28 +784,41 @@ export default function EditPdf() {
       const getFont = async (bold: boolean) =>
         getStdFont(bold ? StandardFonts.HelveticaBold : StandardFonts.Helvetica);
 
-      const notoBytesCache = new Map<string, Uint8Array>();
-      const getNotoFont = async (family: FontFamily, bold: boolean, italic: boolean): Promise<PDFFont> => {
-        // mono → sans (no Noto Mono shipped; the standard-14 mono path
-        // already handles WinAnsi mono, and non-WinAnsi mono is extremely
-        // rare in the wild).
-        const isSerif = family === "serif";
+      // Twin font cache. Fonts are fetched from /fonts ON DEMAND (only the
+      // faces an edit actually needs) and embedded subset:true so exported
+      // PDFs stay small and same-origin (privacy: no third-party CDN).
+      const twinBytesCache = new Map<string, Uint8Array>();
+      const twinFileName = (twin: TwinFamily): string => {
+        switch (twin) {
+          case "arimo": return "Arimo";
+          case "tinos": return "Tinos";
+          case "cousine": return "Cousine";
+          case "carlito": return "Carlito";
+          case "caladea": return "Caladea";
+          case "notoserif": return "NotoSerif";
+          case "notosans":
+          default: return "NotoSans";
+        }
+      };
+      const getTwinFont = async (twin: TwinFamily, bold: boolean, italic: boolean): Promise<PDFFont> => {
         const style = bold && italic ? "BoldItalic" : bold ? "Bold" : italic ? "Italic" : "Regular";
-        const face = `${isSerif ? "NotoSerif" : "NotoSans"}-${style}`;
-        const key = "noto:" + face;
+        const face = `${twinFileName(twin)}-${style}`;
+        const key = "twin:" + face;
         let f = fontCache.get(key);
         if (f) return f;
-        let bytes = notoBytesCache.get(face);
+        let bytes = twinBytesCache.get(face);
         if (!bytes) {
           const res = await fetch(`/fonts/${face}.ttf`);
           if (!res.ok) throw new Error(`font ${face}`);
           bytes = new Uint8Array(await res.arrayBuffer());
-          notoBytesCache.set(face, bytes);
+          twinBytesCache.set(face, bytes);
         }
         f = await doc.embedFont(bytes, { subset: true });
         fontCache.set(key, f);
         return f;
       };
+      const getNotoFallback = (family: FontFamily, bold: boolean, italic: boolean) =>
+        getTwinFont(family === "serif" ? "notoserif" : "notosans", bold, italic);
 
       const imgCache: Record<string, PDFImage> = {};
       const embedImg = async (dataUrl: string, mime: string) => {
