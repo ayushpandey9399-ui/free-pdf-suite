@@ -638,54 +638,62 @@ export default function EditPdf() {
     if (!pagesLen) return;
     const RETAIN_CAP = 5;
     const BUFFER = 2;
-    const keep = new Set<number>();
-    for (const v of visiblePages) {
-      for (let i = v - BUFFER; i <= v + BUFFER; i++) {
-        if (i >= 0 && i < pagesLen) keep.add(i);
-      }
-    }
-    if (keep.size > RETAIN_CAP && visiblePages.size) {
-      const centers = [...visiblePages];
-      const nearest = (i: number) => Math.min(...centers.map((c) => Math.abs(c - i)));
-      const sorted = [...keep].sort((a, b) => nearest(a) - nearest(b));
-      keep.clear();
-      for (const i of sorted.slice(0, RETAIN_CAP)) keep.add(i);
-    }
-    // Evict canvases + drop their JPEG urls.
-    const toEvict: number[] = [];
-    for (const idx of pageCanvasesRef.current.keys()) {
-      if (!keep.has(idx)) toEvict.push(idx);
-    }
-    for (const idx of toEvict) pageCanvasesRef.current.delete(idx);
-    if (toEvict.length) {
-      setPages((prev) => {
-        let changed = false;
-        const copy = prev.slice();
-        for (const idx of toEvict) {
-          if (copy[idx] && copy[idx].url) {
-            copy[idx] = { ...copy[idx], url: "" };
-            changed = true;
-          }
+    // Debounce to a single animation frame so rapid IO ticks (or the
+    // observer firing repeatedly during layout) coalesce into one pass.
+    // Prevents the eviction ↔ visibility feedback loop that flickered
+    // pages on upload (audit #11).
+    const raf = requestAnimationFrame(() => {
+      const keep = new Set<number>();
+      for (const v of visiblePages) {
+        for (let i = v - BUFFER; i <= v + BUFFER; i++) {
+          if (i >= 0 && i < pagesLen) keep.add(i);
         }
-        return changed ? copy : prev;
-      });
-    }
-    // Fix B-2 #1: evict extracted lines for far pages too. Re-extraction
-    // is cheap and happens on demand when the page next scrolls back
-    // into view. Without this, `linesByPageRef` grows monotonically on
-    // long docs and defeats the canvas eviction ceiling.
-    let linesEvicted = false;
-    for (const idx of Array.from(linesByPageRef.current.keys())) {
-      if (!keep.has(idx)) {
-        linesByPageRef.current.delete(idx);
-        linesEvicted = true;
       }
-    }
-    if (linesEvicted) setLinesTick((t) => t + 1);
-    // Render anything in `keep` we don't have.
-    keep.forEach((i) => {
-      if (!pageCanvasesRef.current.has(i)) void renderPage(i);
+      if (keep.size > RETAIN_CAP && visiblePages.size) {
+        const centers = [...visiblePages];
+        const nearest = (i: number) => Math.min(...centers.map((c) => Math.abs(c - i)));
+        const sorted = [...keep].sort((a, b) => nearest(a) - nearest(b));
+        keep.clear();
+        for (const i of sorted.slice(0, RETAIN_CAP)) keep.add(i);
+      }
+      // Never evict a currently-visible page — belt-and-braces on top of
+      // the buffer, in case RETAIN_CAP is smaller than visiblePages.size.
+      for (const v of visiblePages) keep.add(v);
+
+      // Evict canvases + drop their JPEG urls. Skip entirely when nothing
+      // is out of keep — no setState → no re-render → no observer thrash.
+      const toEvict: number[] = [];
+      for (const idx of pageCanvasesRef.current.keys()) {
+        if (!keep.has(idx)) toEvict.push(idx);
+      }
+      if (toEvict.length) {
+        for (const idx of toEvict) pageCanvasesRef.current.delete(idx);
+        setPages((prev) => {
+          let changed = false;
+          const copy = prev.slice();
+          for (const idx of toEvict) {
+            if (copy[idx] && copy[idx].url) {
+              copy[idx] = { ...copy[idx], url: "" };
+              changed = true;
+            }
+          }
+          return changed ? copy : prev;
+        });
+      }
+      // Silently evict extracted lines for far pages. NO linesTick bump:
+      // those pages aren't mounted, so nothing needs to re-render. When a
+      // page next scrolls into view, ensureLinesForPage will re-populate
+      // and bump linesTick then. This breaks the feedback loop.
+      for (const idx of Array.from(linesByPageRef.current.keys())) {
+        if (!keep.has(idx)) linesByPageRef.current.delete(idx);
+      }
+      // Render anything in `keep` we don't have. renderPage self-guards
+      // against re-rendering an already-cached page in the same tick.
+      keep.forEach((i) => {
+        if (!pageCanvasesRef.current.has(i)) void renderPage(i);
+      });
     });
+    return () => cancelAnimationFrame(raf);
   }, [visiblePages, pagesLen, renderPage]);
 
   // Lazy line extraction for a specific page (called from PageOverlay when
