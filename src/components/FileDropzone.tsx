@@ -84,18 +84,19 @@ export function FileDropzone({
             className="inline-flex items-center justify-center text-white transition-all duration-150"
             style={{
               backgroundColor: "#e5322d",
-              minWidth: "240px",
-              height: "60px",
+              width: "280px",
+              maxWidth: "100%",
+              height: "62px",
               padding: "0 36px",
               fontSize: "18px",
               fontWeight: 600,
-              borderRadius: "10px",
+              borderRadius: "12px",
               boxShadow: "0 10px 28px rgba(229,50,45,0.28)",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = "#c72620";
-              e.currentTarget.style.transform = "translateY(-1px)";
-              e.currentTarget.style.boxShadow = "0 14px 32px rgba(229,50,45,0.34)";
+              e.currentTarget.style.transform = "translateY(-2px)";
+              e.currentTarget.style.boxShadow = "0 16px 36px rgba(229,50,45,0.36)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.backgroundColor = "#e5322d";
@@ -105,7 +106,7 @@ export function FileDropzone({
           >
             {defaultBtn}
           </button>
-          <p className="mt-3 mb-14 sm:mb-16 text-[14px]" style={{ color: "#7a7a86" }}>
+          <p className="mt-3.5 text-[14px]" style={{ color: "#7a7a86" }}>
             {defaultHint}
           </p>
 
