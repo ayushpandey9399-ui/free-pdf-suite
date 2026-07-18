@@ -29,6 +29,12 @@ export interface RgbAndText {
   /** true when the border pixels agree with each other (low variance). */
   bgConfident: boolean;
   /**
+   * true when neither the border median nor the in-rect dominant color is
+   * trustworthy - i.e. the area is visually busy / multi-colored. Callers
+   * should NOT paint an opaque cover rectangle here.
+   */
+  bgBusy: boolean;
+  /**
    * Pixel insets (in *canvas pixels*) suggesting a sharp non-background edge
    * (e.g. table gridline) sits at that side of the rect. Cover rectangles
    * should shrink by these amounts so they never paint over the border.
