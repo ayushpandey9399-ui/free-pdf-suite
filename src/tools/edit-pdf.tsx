@@ -1247,6 +1247,7 @@ export default function EditPdf() {
                 commitEdits((prev) => prev.filter((p) => p.lineId !== lineId));
               }}
               getPageCanvas={() => pageCanvasesRef.current.get(i) ?? null}
+              onVisibilityChange={(v) => setPageVisibility(i, v)}
             />
           ))}
         </div>
