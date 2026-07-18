@@ -100,6 +100,14 @@ export function ExtractImagesSeo() {
             <h3 className="text-lg font-bold">Grabbing a logo or graphic from a brochure</h3>
             <p className="mt-1 text-sm">A company sent a brochure PDF and you need their logo at true quality for your own material — extract it directly instead of chasing a design team for the source file.</p>
           </div>
+          <div>
+            <h3 className="text-lg font-bold">Pulling product photos out of spec sheets</h3>
+            <p className="mt-1 text-sm">Manufacturer datasheets, catalogue PDFs and dealer packs bury product photography inside long documents. Extracting hands you back the original high-resolution JPEGs the designer embedded, ready to reuse in a listing, a quote or a presentation without re-shooting anything.</p>
+          </div>
+          <div>
+            <h3 className="text-lg font-bold">Reclaiming diagrams and figures from ebooks</h3>
+            <p className="mt-1 text-sm">Ebooks, papers and textbooks embed each diagram as its own image behind the page layout. Pulling those out gives you clean copies to reference in study notes, teaching material or research at the resolution the publisher shipped — not a screenshot of your reader.</p>
+          </div>
         </div>
       </section>
 
