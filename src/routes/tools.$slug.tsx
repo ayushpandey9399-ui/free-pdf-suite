@@ -824,62 +824,63 @@ function ToolPage() {
   const isCompare = slug === "compare";
 
   const layoutTitle = isMerge
-    ? "Merge PDF Files Online, Free and Private"
+    ? "Merge PDF files online"
     : isCompress
-    ? "Compress PDF and Reduce File Size Without Losing Quality"
+    ? "Compress PDF online"
     : isSplit
-    ? "Split PDF Online, Separate Pages Privately"
+    ? "Split PDF files"
     : isSign
-    ? "Sign a PDF Online with a Free Electronic Signature"
+    ? "Sign PDF online"
     : isPdfToImages
-    ? "Convert PDF to JPG in High Quality, Free and Private"
+    ? "Convert PDF to JPG"
     : isRedact
-    ? "Redact a PDF and Permanently Remove Sensitive Information"
+    ? "Redact PDF online"
     : isProtect
-    ? "Password Protect a PDF with Free AES-256 Encryption"
+    ? "Protect PDF with a password"
     : isUnlock
-    ? "Unlock PDF and Remove the Password, Free and Private"
+    ? "Unlock PDF online"
     : isWatermark
-    ? "Add a Watermark to Every Page of a PDF, Free and Private"
+    ? "Watermark PDF online"
     : isRotate
-    ? "Rotate PDF Pages and Save the Change Permanently"
+    ? "Rotate PDF pages"
     : isDeletePages
-    ? "Delete Pages from a PDF, Free and Private"
+    ? "Delete PDF pages"
     : isExtractPages
-    ? "Extract Pages from a PDF and Save Only What You Need"
+    ? "Extract PDF pages"
     : isReorderPages
-    ? "Reorder PDF Pages by Drag and Drop, Free and Private"
+    ? "Reorder PDF pages"
     : isImagesToPdf
-    ? "Convert JPG to PDF and Combine Images Into One Document"
+    ? "Convert JPG to PDF"
     : isPdfToText
-    ? "Extract All Text from a PDF, Free and Private"
+    ? "Convert PDF to text"
     : isTxtToPdf
-    ? "Convert TXT to PDF with Support for Any Language"
+    ? "Convert TXT to PDF"
     : isPageNumbers
-    ? "Add Page Numbers to a PDF in Any Position, Free and Private"
+    ? "Add page numbers to PDF"
     : isHeaderFooter
-    ? "Add a Header and Footer to Every Page of a PDF"
+    ? "Add header and footer to PDF"
     : isCrop
-    ? "Crop a PDF and Trim Margins with a Live Preview"
+    ? "Crop PDF online"
     : isEditPdf
-    ? "Edit a PDF Online, Add Text, Highlights and Annotations"
+    ? "Edit PDF online"
     : isFillForms
-    ? "Fill PDF Forms Online, Free and Private"
+    ? "Fill PDF forms online"
     : isFlattenPdf
-    ? "Flatten a PDF and Lock Form Fields Into Permanent Content"
+    ? "Flatten PDF online"
     : isPdfMetadata
-    ? "Edit PDF Metadata and View or Remove Hidden Properties"
+    ? "Edit PDF metadata"
     : isGrayscale
-    ? "Convert a PDF to Grayscale for Cleaner Black and White Printing"
+    ? "Convert PDF to grayscale"
     : isAddBlankPages
-    ? "Add Blank Pages to a PDF Anywhere You Need"
+    ? "Add blank pages to PDF"
     : isScanToPdf
-    ? "Scan Documents to PDF with Your Phone Camera"
+    ? "Scan documents to PDF"
     : isExtractImages
-    ? "Extract Images from a PDF in Their Original Quality"
+    ? "Extract images from PDF"
     : isCompare
-    ? "Compare Two PDFs Side by Side and Find Every Difference"
+    ? "Compare two PDFs"
     : tool.name;
+
 
 
   return (
