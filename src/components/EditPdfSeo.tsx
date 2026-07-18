@@ -151,6 +151,32 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
     plain:
       "Use Fill PDF Forms (/tools/fill-forms). It detects the document's AcroForm fields and lets you type into them directly so values are stored as real form data rather than free-floating text.",
   },
+  {
+    q: "How closely will the replacement text match the original?",
+    a: "Very closely for most native PDFs. When you click a line the tool reads its font family (serif, sans, monospaced), weight (regular or bold), style (upright or italic), size and colour from the PDF itself, then draws your replacement using the closest standard font (Helvetica, Times or Courier) at the same size and colour. It also samples the pixels behind the line so the cover rectangle blends with the paper. Unusual bespoke fonts, coloured backgrounds and multi-column layouts may show a small visual difference — the closer the original is to a plain office document, the more invisible the edit.",
+    plain:
+      "Very closely on native PDFs. The tool detects the line's font family, weight, style, size and colour and renders the replacement in the closest standard font, over a sampled background rectangle. Unusual custom fonts or complex backgrounds may show a small visual difference.",
+  },
+  {
+    q: "Why can't I click on text in my PDF?",
+    a: (
+      <>
+        Two common reasons. First, the page may be a <em>scan</em> — an
+        image of paper with no underlying text layer for the tool to
+        detect. Run{" "}
+        <Link to="/tools/ocr-pdf" className="text-[#e5322d] underline">
+          OCR PDF
+        </Link>{" "}
+        first to add a real text layer, then come back and edit. Second,
+        Edit text mode only lights up horizontal lines of text; rotated,
+        skewed or vertical labels are skipped in this first version to
+        keep replacements aligned. For those cases, cover the label with a
+        Rectangle in Annotate mode and type a new one on top.
+      </>
+    ),
+    plain:
+      "Two reasons: the page is a scan with no text layer (run OCR PDF at /tools/ocr-pdf first), or the text is rotated / vertical (this version only edits horizontal lines — cover it with a Rectangle in Annotate mode and retype on top).",
+  },
 ];
 
 const related = [
