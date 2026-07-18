@@ -870,11 +870,28 @@ export default function EditPdf() {
         );
       }
 
-      // Pass 2: every replacement string.
+      // Pass 2: every replacement string. Clipped to the cell width when
+      // the plan was flagged as overflow so text never bleeds into the
+      // neighbouring cell (Fix B3).
+      let overflowCount = 0;
       for (const p of plans) {
         if (p.skipCover) continue;
         const page = pdfPages[p.pageIndex];
         if (!page) continue;
+        const boxW = Math.max(1, p.boxRight - p.boxLeft);
+        const clipYTop = p.pH - (p.te.y - 1);
+        const clipYBot = p.pH - (p.te.y + p.te.height + 1);
+        const clipH = Math.max(1, clipYTop - clipYBot);
+        const doClip = p.overflow;
+        if (doClip) {
+          overflowCount++;
+          page.pushOperators(
+            pushGraphicsState(),
+            rectangle(p.boxLeft, clipYBot, boxW, clipH),
+            clip(),
+            endPath(),
+          );
+        }
         try {
           page.drawText(p.safeText, {
             x: p.drawX,
@@ -894,6 +911,9 @@ export default function EditPdf() {
             color: rgb(p.color.r / 255, p.color.g / 255, p.color.b / 255),
           });
         }
+        if (doClip) {
+          page.pushOperators(popGraphicsState());
+        }
       }
 
       if (totalUnencodable > 0) {
@@ -901,6 +921,12 @@ export default function EditPdf() {
           `${totalUnencodable} character${totalUnencodable === 1 ? "" : "s"} in ${editsWithUnencodable} edit${editsWithUnencodable === 1 ? "" : "s"} couldn't be encoded and were replaced with "?".`,
         );
       }
+      if (overflowCount > 0) {
+        toast.warning(
+          `${overflowCount} edit${overflowCount === 1 ? "" : "s"} didn't fit their original space — please review.`,
+        );
+      }
+
 
 
 
