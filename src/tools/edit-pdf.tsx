@@ -8,6 +8,7 @@ import {
   type PDFFont,
   type PDFImage,
 } from "pdf-lib";
+import fontkit from "@pdf-lib/fontkit";
 import {
   MousePointer2,
   Highlighter,
@@ -205,6 +206,39 @@ function hexToRgb(hex: string): { r: number; g: number; b: number } {
   const n = parseInt(s, 16);
   return { r: ((n >> 16) & 255) / 255, g: ((n >> 8) & 255) / 255, b: (n & 255) / 255 };
 }
+
+/* =========== script / encoding helpers (Fix Batch A - Task 1) =========== */
+
+/**
+ * Scripts that require complex text shaping (matras, ligatures, joining
+ * forms) that pdf-lib+fontkit cannot render correctly. Editing text in
+ * these scripts is blocked at commit time — the original run stays intact
+ * on export.
+ */
+const COMPLEX_SCRIPT_RE =
+  /[\u0590-\u05FF\u0600-\u06FF\u0700-\u074F\u0900-\u097F\u0980-\u09FF\u0A00-\u0A7F\u0A80-\u0AFF\u0B00-\u0B7F\u0B80-\u0BFF\u0C00-\u0C7F\u0C80-\u0CFF\u0D00-\u0D7F\u0D80-\u0DFF\u0E00-\u0E7F\u0E80-\u0EFF\u0F00-\u0FFF\u1000-\u109F\u1780-\u17FF]/;
+
+function hasComplexScript(s: string): boolean {
+  return COMPLEX_SCRIPT_RE.test(s);
+}
+
+/**
+ * WinAnsi covers the standard-14 fonts. When every char is WinAnsi we can
+ * keep StandardFonts (Helvetica/Times/Courier) for exact visual fidelity;
+ * anything outside falls through to an embedded Noto TTF via fontkit.
+ */
+function isWinAnsiOnly(s: string): boolean {
+  for (let i = 0; i < s.length; i++) {
+    const c = s.charCodeAt(i);
+    if (c === 0x09 || c === 0x0A || c === 0x0D) continue;
+    if (c >= 0x20 && c <= 0x7E) continue;
+    if (c >= 0xA0 && c <= 0xFF) continue;
+    return false;
+  }
+  return true;
+}
+
+
 
 /* =============================== main component =============================== */
 
@@ -474,13 +508,15 @@ export default function EditPdf() {
     setLoading(true);
     try {
       const doc = await loadPdfLibDoc(await file.arrayBuffer());
+      doc.registerFontkit(fontkit);
       const pdfPages = doc.getPages();
 
-      // Font cache — Helvetica pair for annotations, plus a per-classification
-      // cache for text-edit lines.
+      // Font cache — Helvetica pair for annotations, plus per-classification
+      // caches for text-edit lines (standard-14 for WinAnsi text, Noto TTF
+      // for extended characters).
       const fontCache = new Map<string, PDFFont>();
       const getStdFont = async (name: (typeof StandardFonts)[keyof typeof StandardFonts]) => {
-        const key = String(name);
+        const key = "std:" + String(name);
         let f = fontCache.get(key);
         if (!f) {
           f = await doc.embedFont(name);
@@ -490,6 +526,29 @@ export default function EditPdf() {
       };
       const getFont = async (bold: boolean) =>
         getStdFont(bold ? StandardFonts.HelveticaBold : StandardFonts.Helvetica);
+
+      const notoBytesCache = new Map<string, Uint8Array>();
+      const getNotoFont = async (family: FontFamily, bold: boolean, italic: boolean): Promise<PDFFont> => {
+        // mono → sans (no Noto Mono shipped; the standard-14 mono path
+        // already handles WinAnsi mono, and non-WinAnsi mono is extremely
+        // rare in the wild).
+        const isSerif = family === "serif";
+        const style = bold && italic ? "BoldItalic" : bold ? "Bold" : italic ? "Italic" : "Regular";
+        const face = `${isSerif ? "NotoSerif" : "NotoSans"}-${style}`;
+        const key = "noto:" + face;
+        let f = fontCache.get(key);
+        if (f) return f;
+        let bytes = notoBytesCache.get(face);
+        if (!bytes) {
+          const res = await fetch(`/fonts/${face}.ttf`);
+          if (!res.ok) throw new Error(`font ${face}`);
+          bytes = new Uint8Array(await res.arrayBuffer());
+          notoBytesCache.set(face, bytes);
+        }
+        f = await doc.embedFont(bytes, { subset: true });
+        fontCache.set(key, f);
+        return f;
+      };
 
       const imgCache: Record<string, PDFImage> = {};
       const embedImg = async (dataUrl: string, mime: string) => {
@@ -501,17 +560,144 @@ export default function EditPdf() {
         return img;
       };
 
-      // ---- Text edits FIRST (rectangles cover the original text, then
-      // replacement text is drawn on top). Annotations render afterwards so
-      // any highlight / shape can compose over the rewritten line.
+      // ---- Two-pass text-edit render (Fix Batch A - Task 2).
+      // Pass 1: paint EVERY cover rectangle. Pass 2: draw EVERY replacement
+      // string. This guarantees a later edit's cover rect never paints over
+      // an earlier edit's replacement text, so descenders on chained /
+      // adjacent edits are never clipped.
+
+      interface DrawPlan {
+        te: TextEdit;
+        pageIndex: number;
+        pH: number;
+        font: PDFFont;
+        safeText: string;
+        drawX: number;
+        drawSize: number;
+        color: { r: number; g: number; b: number };
+        unencodable: number;
+        skipCover: boolean;   // complex-script or empty commit — leave original
+      }
+
+      const plans: DrawPlan[] = [];
+      let totalUnencodable = 0;
+      let editsWithUnencodable = 0;
+
       for (const te of edits) {
         const page = pdfPages[te.page];
         if (!page) continue;
         const pH = page.getHeight();
-        const bg = hexToRgb255(te.bgColor);
 
-        // Cover rect = tight box + tiny 1px anti-alias pad, then clamped by
-        // ruling insets so we never paint over a detected cell border.
+        // Complex-script guard: never touch the original run. The commit
+        // block in the editor already prevents new complex-script edits,
+        // but legacy edits from an older session may still exist — skip
+        // them entirely so the source text is preserved verbatim.
+        if (hasComplexScript(te.newText)) {
+          plans.push({
+            te, pageIndex: te.page, pH,
+            font: (await getFont(false)), safeText: "", drawX: 0, drawSize: 0,
+            color: { r: 0, g: 0, b: 0 }, unencodable: 0, skipCover: true,
+          });
+          continue;
+        }
+
+        // Pick font: keep StandardFonts when everything is WinAnsi (exact
+        // visual match for the common English case); otherwise embed the
+        // matching Noto face so curly quotes / em-dashes / accented Latin /
+        // Cyrillic / Greek / etc. render correctly instead of becoming "?".
+        const winAnsi = isWinAnsiOnly(te.newText);
+        let font: PDFFont;
+        if (winAnsi) {
+          const chosenFontName = (() => {
+            if (te.family === "serif") {
+              return te.bold && te.italic
+                ? StandardFonts.TimesRomanBoldItalic
+                : te.bold ? StandardFonts.TimesRomanBold
+                : te.italic ? StandardFonts.TimesRomanItalic
+                : StandardFonts.TimesRoman;
+            }
+            if (te.family === "mono") {
+              return te.bold && te.italic
+                ? StandardFonts.CourierBoldOblique
+                : te.bold ? StandardFonts.CourierBold
+                : te.italic ? StandardFonts.CourierOblique
+                : StandardFonts.Courier;
+            }
+            return te.bold && te.italic
+              ? StandardFonts.HelveticaBoldOblique
+              : te.bold ? StandardFonts.HelveticaBold
+              : te.italic ? StandardFonts.HelveticaOblique
+              : StandardFonts.Helvetica;
+          })();
+          font = await getStdFont(chosenFontName);
+        } else {
+          try {
+            font = await getNotoFont(te.family, te.bold, te.italic);
+          } catch {
+            // Font asset missing — fall back to standard Helvetica; any
+            // extended chars are counted as unencodable below.
+            font = await getStdFont(StandardFonts.Helvetica);
+          }
+        }
+
+        // Encode-check char by char. Unencodable code points are replaced
+        // with "?" AND counted, so the caller sees an amber dot + a toast
+        // — never a silent corruption.
+        let safeText: string;
+        let unencodable = 0;
+        try {
+          font.widthOfTextAtSize(te.newText, te.fontSize);
+          safeText = te.newText;
+        } catch {
+          let rebuilt = "";
+          for (const ch of te.newText) {
+            try {
+              font.widthOfTextAtSize(ch, te.fontSize);
+              rebuilt += ch;
+            } catch {
+              rebuilt += "?";
+              unencodable++;
+            }
+          }
+          safeText = rebuilt;
+        }
+        if (unencodable > 0) {
+          totalUnencodable += unencodable;
+          editsWithUnencodable++;
+        }
+
+        const fg = hexToRgb255(te.color);
+        const boxLeft = te.cellLeft ?? te.x;
+        const boxRight = te.cellRight ?? te.x + te.width;
+        const boxWidth = Math.max(1, boxRight - boxLeft);
+
+        let drawSize = te.fontSize;
+        const minSize = te.fontSize * 0.7;
+        let textW = 0;
+        try { textW = font.widthOfTextAtSize(safeText, drawSize); } catch { textW = 0; }
+        if (textW > boxWidth && textW > 0) {
+          drawSize = Math.max(minSize, drawSize * (boxWidth / textW));
+          try { textW = font.widthOfTextAtSize(safeText, drawSize); } catch { /* keep */ }
+        }
+
+        const align = te.align ?? "left";
+        let drawX = te.x;
+        if (align === "center") drawX = boxLeft + (boxWidth - textW) / 2;
+        else if (align === "right") drawX = boxRight - textW;
+
+        plans.push({
+          te, pageIndex: te.page, pH, font, safeText, drawX, drawSize,
+          color: fg, unencodable, skipCover: false,
+        });
+      }
+
+      // Pass 1: every cover rectangle.
+      for (const p of plans) {
+        if (p.skipCover) continue;
+        const page = pdfPages[p.pageIndex];
+        if (!page) continue;
+        const te = p.te;
+        const bg = hexToRgb255(te.bgColor);
         const pad = 1;
         const ins = te.edgeInsets ?? { top: 0, bottom: 0, left: 0, right: 0 };
         const padTop = Math.max(0, pad - ins.top);
@@ -524,81 +710,49 @@ export default function EditPdf() {
         const rectH = Math.max(0, rectBotFromTop - rectTopFromTop);
         const rectX = te.x - padLef;
         const rectW = Math.max(0, te.width + padLef + padRig);
-        const rectY = pH - rectBotFromTop;
+        const rectY = p.pH - rectBotFromTop;
         if (rectW > 0 && rectH > 0) {
           page.drawRectangle({
-            x: rectX,
-            y: rectY,
-            width: rectW,
-            height: rectH,
+            x: rectX, y: rectY, width: rectW, height: rectH,
             color: rgb(bg.r / 255, bg.g / 255, bg.b / 255),
           });
         }
+      }
 
-        const chosenFontName = (() => {
-          if (te.family === "serif") {
-            return te.bold && te.italic
-              ? StandardFonts.TimesRomanBoldItalic
-              : te.bold ? StandardFonts.TimesRomanBold
-              : te.italic ? StandardFonts.TimesRomanItalic
-              : StandardFonts.TimesRoman;
-          }
-          if (te.family === "mono") {
-            return te.bold && te.italic
-              ? StandardFonts.CourierBoldOblique
-              : te.bold ? StandardFonts.CourierBold
-              : te.italic ? StandardFonts.CourierOblique
-              : StandardFonts.Courier;
-          }
-          return te.bold && te.italic
-            ? StandardFonts.HelveticaBoldOblique
-            : te.bold ? StandardFonts.HelveticaBold
-            : te.italic ? StandardFonts.HelveticaOblique
-            : StandardFonts.Helvetica;
-        })();
-        const font = await getStdFont(chosenFontName);
-        const fg = hexToRgb255(te.color);
-        const safe = te.newText.replace(/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/g, "?");
-
-        // Effective placement box uses cellBounds when detected, else segment box.
-        const boxLeft = te.cellLeft ?? te.x;
-        const boxRight = te.cellRight ?? te.x + te.width;
-        const boxWidth = Math.max(1, boxRight - boxLeft);
-
-        // Auto-shrink to fit (floor 70% of original size).
-        let drawSize = te.fontSize;
-        const minSize = te.fontSize * 0.7;
-        let textW = 0;
-        try { textW = font.widthOfTextAtSize(safe, drawSize); } catch { textW = 0; }
-        if (textW > boxWidth && textW > 0) {
-          drawSize = Math.max(minSize, drawSize * (boxWidth / textW));
-          try { textW = font.widthOfTextAtSize(safe, drawSize); } catch { /* keep */ }
-        }
-
-        const align = te.align ?? "left";
-        let drawX = te.x;
-        if (align === "center") drawX = boxLeft + (boxWidth - textW) / 2;
-        else if (align === "right") drawX = boxRight - textW;
-
+      // Pass 2: every replacement string.
+      for (const p of plans) {
+        if (p.skipCover) continue;
+        const page = pdfPages[p.pageIndex];
+        if (!page) continue;
         try {
-          page.drawText(safe, {
-            x: drawX,
-            y: pH - te.baselineY,
-            size: drawSize,
-            font,
-            color: rgb(fg.r / 255, fg.g / 255, fg.b / 255),
+          page.drawText(p.safeText, {
+            x: p.drawX,
+            y: p.pH - p.te.baselineY,
+            size: p.drawSize,
+            font: p.font,
+            color: rgb(p.color.r / 255, p.color.g / 255, p.color.b / 255),
           });
         } catch {
           const fb = await getStdFont(StandardFonts.Helvetica);
-          page.drawText(safe, {
-            x: drawX,
-            y: pH - te.baselineY,
-            size: drawSize,
+          const scrubbed = p.safeText.replace(/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/g, "?");
+          page.drawText(scrubbed, {
+            x: p.drawX,
+            y: p.pH - p.te.baselineY,
+            size: p.drawSize,
             font: fb,
-            color: rgb(fg.r / 255, fg.g / 255, fg.b / 255),
+            color: rgb(p.color.r / 255, p.color.g / 255, p.color.b / 255),
           });
         }
       }
+
+      if (totalUnencodable > 0) {
+        toast.warning(
+          `${totalUnencodable} character${totalUnencodable === 1 ? "" : "s"} in ${editsWithUnencodable} edit${editsWithUnencodable === 1 ? "" : "s"} couldn't be encoded and were replaced with "?".`,
+        );
+      }
+
+
+
 
 
 
@@ -2474,6 +2628,7 @@ function EditLineInlineEditor({
   const [bold, setBold] = useState(initialBold);
   const [italic, setItalic] = useState(initialItalic);
   const [color, setColor] = useState(fgColor);
+  const [scriptError, setScriptError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -2481,9 +2636,29 @@ function EditLineInlineEditor({
     inputRef.current?.select();
   }, []);
 
+  // Live warning while the user is typing — non-blocking, but the commit
+  // itself is blocked below.
+  useEffect(() => {
+    if (hasComplexScript(text)) {
+      setScriptError(
+        "Editing text in this script (e.g. Hindi, Arabic) isn't supported yet. The original text was kept unchanged.",
+      );
+    } else {
+      setScriptError(null);
+    }
+  }, [text]);
+
   const commit = () => {
+    const next = text.trim() === "" ? "" : text;
+    if (hasComplexScript(next)) {
+      setScriptError(
+        "Editing text in this script (e.g. Hindi, Arabic) isn't supported yet. The original text was kept unchanged.",
+      );
+      inputRef.current?.focus();
+      return;
+    }
     onCommit({
-      text: text.trim() === "" ? "" : text,
+      text: next,
       fontSize: size,
       color,
       bold,
@@ -2491,6 +2666,7 @@ function EditLineInlineEditor({
       family: initialFamily,
     });
   };
+
 
   const cssFamily =
     initialFamily === "serif"
@@ -2519,6 +2695,7 @@ function EditLineInlineEditor({
         onBlur={(e) => {
           const to = e.relatedTarget as HTMLElement | null;
           if (to && to.closest("[data-edit-toolbar]")) return;
+          if (scriptError) { onCancel(); return; }
           commit();
         }}
         className="absolute inset-0 border-0 bg-transparent p-0 outline-none"
@@ -2549,6 +2726,27 @@ function EditLineInlineEditor({
         <span className="mx-1 h-4 w-px bg-[#ececef]" />
         <input type="color" value={color} onChange={(e) => setColor(e.target.value)} className="h-5 w-5 cursor-pointer rounded border-0 bg-transparent p-0" aria-label="Text color" style={{ padding: 0 }} />
       </div>
+
+      {scriptError && (
+        <div
+          role="alert"
+          data-edit-toolbar
+          onMouseDown={(e) => e.preventDefault()}
+          className="absolute z-20 rounded-md px-2 py-1 text-[11px] font-medium"
+          style={{
+            left: 0,
+            top: "100%",
+            marginTop: 6,
+            maxWidth: 320,
+            backgroundColor: "#fef3c7",
+            border: "1px solid #f59e0b",
+            color: "#92400e",
+            whiteSpace: "normal",
+          }}
+        >
+          {scriptError}
+        </div>
+      )}
     </div>
   );
 }

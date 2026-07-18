@@ -353,18 +353,38 @@ export function findCellRulings(
   const w = clampInt(rect.w, 1, canvas.width - x);
   const h = clampInt(rect.h, 1, canvas.height - y);
 
+  const isDarkAt = (
+    side: "top" | "bottom" | "left" | "right",
+    d: number,
+  ): boolean => {
+    let px = 0, py = 0, pw = 0, ph = 0;
+    if (side === "top") { px = x; py = y - d; pw = w; ph = 1; }
+    else if (side === "bottom") { px = x; py = y + h - 1 + d; pw = w; ph = 1; }
+    else if (side === "left") { px = x - d; py = y; pw = 1; ph = h; }
+    else { px = x + w - 1 + d; py = y; pw = 1; ph = h; }
+    if (px < 0 || py < 0 || px + pw > canvas.width || py + ph > canvas.height) return false;
+    return isRulingRow(ctx, px, py, pw, ph, background);
+  };
+
   const search = (
     side: "top" | "bottom" | "left" | "right",
     max: number,
   ): number | null => {
-    for (let d = 1; d <= max; d++) {
-      let px = 0, py = 0, pw = 0, ph = 0;
-      if (side === "top") { px = x; py = y - d; pw = w; ph = 1; }
-      else if (side === "bottom") { px = x; py = y + h - 1 + d; pw = w; ph = 1; }
-      else if (side === "left") { px = x - d; py = y; pw = 1; ph = h; }
-      else { px = x + w - 1 + d; py = y; pw = 1; ph = h; }
-      if (px < 0 || py < 0 || px + pw > canvas.width || py + ph > canvas.height) return null;
-      if (isRulingRow(ctx, px, py, pw, ph, background)) return d;
+    let d = 1;
+    while (d <= max) {
+      if (isDarkAt(side, d)) {
+        // A true ruling is THIN: within 3px perpendicular, at least one row
+        // must return to background. Thick dark bands are adjacent-line ink
+        // (descenders, tall glyphs), not rulings — skip past and keep looking.
+        let thin = false;
+        for (let t = 1; t <= 3; t++) {
+          if (!isDarkAt(side, d + t)) { thin = true; break; }
+        }
+        if (thin) return d;
+        while (d <= max && isDarkAt(side, d)) d++;
+        continue;
+      }
+      d++;
     }
     return null;
   };
