@@ -135,7 +135,7 @@ export function ExtractPagesSeo() {
 
       {/* Save one page, or any pages */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Save one page — or any pages — as a new PDF
+        Save one page, or any pages, as a new PDF
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         The most common ask is a single page: pull page 47 out of a 300-page bank
@@ -150,7 +150,7 @@ export function ExtractPagesSeo() {
 
       {/* Share only what's needed */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Share only what's needed — nothing more
+        Share only what's needed, nothing more
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         Extraction is the polite version of privacy. When somebody asks for one
@@ -196,7 +196,7 @@ export function ExtractPagesSeo() {
 
       {/* Comparison */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Extract Pages vs Split PDF vs Delete Pages — which one do you need?
+        Extract Pages vs Split PDF vs Delete Pages, which one do you need?
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         The three tools sit close together but solve different problems. Pick by the

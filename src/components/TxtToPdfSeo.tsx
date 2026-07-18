@@ -160,7 +160,7 @@ export function TxtToPdfSeo() {
 
       {/* Hindi differentiator */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Works with Hindi — where most converters fail
+        Works with Hindi, where most converters fail
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         Try converting a paragraph of Hindi, Marathi or Sanskrit in most free

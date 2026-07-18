@@ -190,7 +190,7 @@ export function SignPdfSeo() {
 
       {/* Electronic vs digital signature */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Electronic signature vs digital signature — what's the difference?
+        Electronic signature vs digital signature, what's the difference?
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         This tool creates an electronic signature: a visual signature — drawn, typed or uploaded — placed on the

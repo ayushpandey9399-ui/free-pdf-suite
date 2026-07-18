@@ -152,7 +152,7 @@ export function SplitPdfSeo() {
 
       {/* Privacy differentiator */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Private splitting — your document stays on your device
+        Private splitting, your document stays on your device
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         Splitting tends to happen on the documents you least want floating around: contracts where only one clause

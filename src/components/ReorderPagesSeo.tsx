@@ -152,7 +152,7 @@ export function ReorderPagesSeo() {
 
       {/* Privacy */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Rearrange privately — your document stays with you
+        Rearrange privately, your document stays with you
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         The files people reorder are usually complete documents — an entire

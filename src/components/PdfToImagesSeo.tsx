@@ -152,7 +152,7 @@ export function PdfToImagesSeo() {
 
       {/* Privacy differentiator */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Private conversion — your PDF never leaves your device
+        Private conversion, your PDF never leaves your device
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         The pages people usually want as images are the sensitive ones: a specific line from a bank statement to

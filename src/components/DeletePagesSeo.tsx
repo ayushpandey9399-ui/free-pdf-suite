@@ -149,7 +149,7 @@ export function DeletePagesSeo() {
 
       {/* Privacy differentiator */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Clean up documents before sharing — privately
+        Clean up documents before sharing, privately
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         The pages people delete are almost always the sensitive ones — the salary

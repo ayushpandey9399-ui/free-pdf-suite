@@ -228,7 +228,7 @@ export function FlattenPdfSeo() {
 
       {/* Privacy differentiator */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Private flattening — your form stays with you
+        Private flattening, your form stays with you
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         A filled form is usually the last document you'd want on a

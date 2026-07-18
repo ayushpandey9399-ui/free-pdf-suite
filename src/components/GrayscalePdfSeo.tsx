@@ -178,7 +178,7 @@ export function GrayscalePdfSeo() {
 
       {/* Privacy differentiator */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Private conversion — your documents stay with you
+        Private conversion, your documents stay with you
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         Grayscale conversion is often the last step before a personal document goes somewhere it

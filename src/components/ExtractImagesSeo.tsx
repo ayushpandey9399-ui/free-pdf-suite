@@ -27,7 +27,7 @@ export function ExtractImagesSeo() {
       </section>
 
       <section>
-        <h2 className="text-2xl font-bold">Private extraction — the whole document stays with you</h2>
+        <h2 className="text-2xl font-bold">Private extraction, the whole document stays with you</h2>
         <p className="mt-3">
           To pull one product photo out of a 200-page catalog or one figure out of a confidential report, you shouldn't have to hand the whole document to a stranger's server. This tool parses the file's internal object table right in your browser tab and only reads the image streams it needs. Nothing is transmitted anywhere — no upload, no analytics beacon carrying image data. Once the page has loaded, extraction keeps working even if your network drops.
         </p>

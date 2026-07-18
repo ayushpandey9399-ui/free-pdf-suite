@@ -174,7 +174,7 @@ export function ImagesToPdfSeo() {
 
       {/* Privacy */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Private conversion — your photos stay on your device
+        Private conversion, your photos stay on your device
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         Photos are personal. Pages of your passport, a snap of a signed loan

@@ -237,7 +237,7 @@ export function EditPdfSeo() {
 
       {/* Privacy differentiator */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Private editing — your documents stay yours
+        Private editing, your documents stay yours
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         The PDFs people edit are usually live working documents — a

@@ -192,7 +192,7 @@ export function CropPdfSeo() {
 
       {/* Privacy differentiator */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Crop privately — your document stays with you
+        Crop privately, your document stays with you
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         The documents people crop most often are the ones they least want
