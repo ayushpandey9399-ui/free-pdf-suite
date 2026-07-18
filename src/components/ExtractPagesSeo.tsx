@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { Check } from "lucide-react";
+import { BenefitBadges } from "@/components/BenefitBadges";
+
 
 const steps = [
   {
@@ -112,22 +113,7 @@ const related = [
 export function ExtractPagesSeo() {
   return (
     <section className="mx-auto max-w-4xl px-4 pb-16 text-[#33333c]">
-      {/* Benefit strip */}
-      <div className="mt-6 grid gap-3 sm:grid-cols-3">
-        {[
-          "Files never leave your device",
-          "Pick any pages, in any combination",
-          "Free — no signup, no watermark",
-        ].map((b) => (
-          <div
-            key={b}
-            className="flex items-center gap-2 rounded-lg border border-[#f3d4d2] bg-[#fef6f5] px-3 py-2 text-[13px] font-semibold"
-          >
-            <Check className="h-4 w-4 shrink-0 text-[#e5322d]" />
-            <span>{b}</span>
-          </div>
-        ))}
-      </div>
+      <BenefitBadges items={["Files never leave your device", "Pick any pages, in any combination", "Free, no signup, no watermark"]} />
 
       {/* How-to */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
@@ -149,7 +135,7 @@ export function ExtractPagesSeo() {
 
       {/* Save one page, or any pages */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Save one page — or any pages — as a new PDF
+        Save one page, or any pages, as a new PDF
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         The most common ask is a single page: pull page 47 out of a 300-page bank
@@ -164,7 +150,7 @@ export function ExtractPagesSeo() {
 
       {/* Share only what's needed */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Share only what's needed — nothing more
+        Share only what's needed, nothing more
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         Extraction is the polite version of privacy. When somebody asks for one
@@ -210,7 +196,7 @@ export function ExtractPagesSeo() {
 
       {/* Comparison */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Extract Pages vs Split PDF vs Delete Pages — which one do you need?
+        Extract Pages vs Split PDF vs Delete Pages, which one do you need?
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         The three tools sit close together but solve different problems. Pick by the

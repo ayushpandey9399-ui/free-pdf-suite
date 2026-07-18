@@ -824,62 +824,63 @@ function ToolPage() {
   const isCompare = slug === "compare";
 
   const layoutTitle = isMerge
-    ? "Merge PDF Files Online — Free, Private, No Uploads"
+    ? "Merge PDF Files Online, Free and Private"
     : isCompress
-    ? "Compress PDF Online — Reduce File Size, 100% Private"
+    ? "Compress PDF and Reduce File Size Without Losing Quality"
     : isSplit
-    ? "Split PDF Online — Separate Pages, 100% Private"
+    ? "Split PDF Online, Separate Pages Privately"
     : isSign
-    ? "Sign PDF Online — Free Electronic Signature, 100% Private"
+    ? "Sign a PDF Online with a Free Electronic Signature"
     : isPdfToImages
-    ? "PDF to JPG Converter — Free, High Quality, 100% Private"
+    ? "Convert PDF to JPG in High Quality, Free and Private"
     : isRedact
-    ? "Redact PDF Online — Permanently Remove Sensitive Information"
+    ? "Redact a PDF and Permanently Remove Sensitive Information"
     : isProtect
-    ? "Password Protect PDF — Free AES-256 Encryption, 100% Private"
+    ? "Password Protect a PDF with Free AES-256 Encryption"
     : isUnlock
-    ? "Unlock PDF — Remove Password From PDF, 100% Private"
+    ? "Unlock PDF and Remove the Password, Free and Private"
     : isWatermark
-    ? "Add Watermark to PDF — Free, Every Page, 100% Private"
+    ? "Add a Watermark to Every Page of a PDF, Free and Private"
     : isRotate
-    ? "Rotate PDF — Fix Sideways Pages and Save Permanently"
+    ? "Rotate PDF Pages and Save the Change Permanently"
     : isDeletePages
-    ? "Delete Pages from PDF — Remove Unwanted Pages, 100% Private"
+    ? "Delete Pages from a PDF, Free and Private"
     : isExtractPages
-    ? "Extract Pages from PDF — Save Only the Pages You Need"
+    ? "Extract Pages from a PDF and Save Only What You Need"
     : isReorderPages
-    ? "Reorder PDF Pages — Drag, Drop, Done. 100% Private"
+    ? "Reorder PDF Pages by Drag and Drop, Free and Private"
     : isImagesToPdf
-    ? "JPG to PDF Converter — Combine Images Into One PDF, Free"
+    ? "Convert JPG to PDF and Combine Images Into One Document"
     : isPdfToText
-    ? "PDF to Text — Extract All Text From a PDF, 100% Private"
+    ? "Extract All Text from a PDF, Free and Private"
     : isTxtToPdf
-    ? "TXT to PDF — Convert Text Files to Clean PDFs, Free"
+    ? "Convert TXT to PDF with Support for Any Language"
     : isPageNumbers
-    ? "Add Page Numbers to PDF — Free, Any Position, 100% Private"
+    ? "Add Page Numbers to a PDF in Any Position, Free and Private"
     : isHeaderFooter
-    ? "Add Header & Footer to PDF — Every Page, 100% Private"
+    ? "Add a Header and Footer to Every Page of a PDF"
     : isCrop
-    ? "Crop PDF — Trim Margins and Unwanted Edges, 100% Private"
+    ? "Crop a PDF and Trim Margins with a Live Preview"
     : isEditPdf
-    ? "Edit PDF Online — Add Text, Highlight and Annotate, Free"
+    ? "Edit a PDF Online, Add Text, Highlights and Annotations"
     : isFillForms
-    ? "Fill PDF Forms Online — Free, Private, No Printing"
+    ? "Fill PDF Forms Online, Free and Private"
     : isFlattenPdf
-    ? "Flatten PDF — Lock Form Fields Into Permanent Content"
+    ? "Flatten a PDF and Lock Form Fields Into Permanent Content"
     : isPdfMetadata
-    ? "PDF Metadata Editor — View, Edit or Remove Hidden Properties"
+    ? "Edit PDF Metadata and View or Remove Hidden Properties"
     : isGrayscale
-    ? "Convert PDF to Grayscale — Black & White, 100% Private"
+    ? "Convert a PDF to Grayscale for Cleaner Black and White Printing"
     : isAddBlankPages
-    ? "Add Blank Pages to PDF — Insert Empty Pages Anywhere, Free"
+    ? "Add Blank Pages to a PDF Anywhere You Need"
     : isScanToPdf
-    ? "Scan to PDF — Turn Your Phone Into a Document Scanner, Free"
+    ? "Scan Documents to PDF with Your Phone Camera"
     : isExtractImages
-    ? "Extract Images from PDF — Original Quality, 100% Private"
+    ? "Extract Images from a PDF in Their Original Quality"
     : isCompare
-    ? "Compare PDFs — Find Every Difference Between Two Files"
+    ? "Compare Two PDFs Side by Side and Find Every Difference"
     : tool.name;
+
 
   return (
     <>

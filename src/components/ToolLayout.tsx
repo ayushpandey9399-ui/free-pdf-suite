@@ -15,28 +15,36 @@ export function ToolLayout({
   children: ReactNode;
 }) {
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8 sm:py-12">
+    <div className="mx-auto max-w-4xl px-4 py-6 sm:py-8">
       <Link
         to="/"
-        className="inline-flex items-center gap-1.5 text-[13px] font-semibold transition-colors hover:text-[#e5322d]"
+        className="group inline-flex items-center gap-1.5 text-[13px] font-medium transition-colors hover:text-[#e5322d]"
         style={{ color: "#7a7a86" }}
       >
-        <ArrowLeft className="h-3.5 w-3.5" /> Back to all tools
+        <ArrowLeft className="h-3.5 w-3.5 transition-transform duration-150 group-hover:-translate-x-0.5" />
+        Back to all tools
       </Link>
 
-      <div className="mt-6 text-center">
+      <div className="mt-4 text-center">
         <h1
-          className="text-[30px] sm:text-[38px] font-bold tracking-tight"
-          style={{ color: "#33333c", letterSpacing: "-0.02em" }}
+          className="mx-auto max-w-[640px] text-[26px] sm:text-[36px] font-extrabold leading-[1.15]"
+          style={{
+            color: "#171717",
+            letterSpacing: "-0.025em",
+            textWrap: "balance",
+          }}
         >
           {title}
         </h1>
-        <p className="mt-3 max-w-[560px] mx-auto text-[15px]" style={{ color: "#7a7a86" }}>
+        <p
+          className="mx-auto mt-3 max-w-[560px] text-[16px] leading-relaxed"
+          style={{ color: "#6B7280" }}
+        >
           {description}
         </p>
       </div>
 
-      <div className="mt-8">{children}</div>
+      <div className="mt-7">{children}</div>
     </div>
   );
 }

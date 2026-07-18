@@ -1,24 +1,12 @@
 import { Link } from "@tanstack/react-router";
+import { BenefitBadges } from "@/components/BenefitBadges";
 
 export function ScanToPdfSeo() {
   return (
     <div className="mx-auto mt-16 max-w-3xl space-y-12 text-[15px] leading-relaxed" style={{ color: "#33333c" }}>
       {/* Benefit strip */}
-      <div className="flex flex-wrap justify-center gap-2 text-xs font-semibold">
-        {[
-          "Scans never leave your device",
-          "No app install — works in your browser",
-          "Free — no signup, no watermark",
-        ].map((b) => (
-          <span
-            key={b}
-            className="rounded-full px-3 py-1.5"
-            style={{ backgroundColor: "#fdeceb", color: "#a12a26" }}
-          >
-            {b}
-          </span>
-        ))}
-      </div>
+
+      <BenefitBadges items={["Scans never leave your device", "No app install, works in your browser", "Free, no signup, no watermark"]} />
 
       <section>
         <h2 className="text-2xl font-bold" style={{ color: "#33333c" }}>

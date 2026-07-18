@@ -1,19 +1,11 @@
 import { Link } from "@tanstack/react-router";
+import { BenefitBadges } from "@/components/BenefitBadges";
 
 export function ExtractImagesSeo() {
   return (
     <div className="mx-auto mt-16 max-w-3xl space-y-12 text-[15px] leading-relaxed" style={{ color: "#33333c" }}>
-      <div className="flex flex-wrap justify-center gap-2 text-xs font-semibold">
-        {[
-          "Files never leave your device",
-          "Original embedded images, full quality",
-          "Free — no signup, no watermark",
-        ].map((b) => (
-          <span key={b} className="rounded-full px-3 py-1.5" style={{ backgroundColor: "#fdeceb", color: "#a12a26" }}>
-            {b}
-          </span>
-        ))}
-      </div>
+
+      <BenefitBadges items={["Files never leave your device", "Original embedded images, full quality", "Free, no signup, no watermark"]} />
 
       <section>
         <h2 className="text-2xl font-bold">How to extract images from a PDF online for free</h2>
@@ -35,7 +27,7 @@ export function ExtractImagesSeo() {
       </section>
 
       <section>
-        <h2 className="text-2xl font-bold">Private extraction — the whole document stays with you</h2>
+        <h2 className="text-2xl font-bold">Private extraction, the whole document stays with you</h2>
         <p className="mt-3">
           To pull one product photo out of a 200-page catalog or one figure out of a confidential report, you shouldn't have to hand the whole document to a stranger's server. This tool parses the file's internal object table right in your browser tab and only reads the image streams it needs. Nothing is transmitted anywhere — no upload, no analytics beacon carrying image data. Once the page has loaded, extraction keeps working even if your network drops.
         </p>
