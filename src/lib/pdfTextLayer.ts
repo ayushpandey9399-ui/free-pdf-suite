@@ -238,5 +238,40 @@ export async function extractEditableLines(
       });
     }
   }
+
+  // Vertical de-overlap. Tight boxes (fontSize × 1.02 tall) can collide
+  // when the source PDF uses tight leading. For every pair on DIFFERENT
+  // baselines whose vertical extents overlap horizontally-adjacent regions,
+  // shrink both toward their own baselines so a ≥0.5pt gutter remains.
+  // This guarantees clicks always hit the intended line and cover rects
+  // never paint over a neighbour's ink.
+  const GUTTER = 0.5;
+  out.sort((p, q) => p.baselineY - q.baselineY || p.x - q.x);
+  for (let i = 0; i < out.length; i++) {
+    const A = out[i];
+    for (let j = i + 1; j < out.length; j++) {
+      const B = out[j];
+      if (B.baselineY - A.baselineY > 60) break;
+      if (B.baselineY === A.baselineY) continue;
+      // horizontal overlap?
+      if (A.x + A.width <= B.x || B.x + B.width <= A.x) continue;
+      const aBot = A.y + A.height;
+      const bTop = B.y;
+      if (aBot <= bTop - GUTTER) continue;
+      const mid = (aBot + bTop) / 2;
+      // Top box (A): pull bottom up, but never above its baseline.
+      const newABot = Math.max(A.baselineY, Math.min(aBot, mid - GUTTER / 2));
+      A.height = Math.max(1, newABot - A.y);
+      // Bottom box (B): push top down, but keep some ascent above baseline.
+      const minBTop = B.baselineY - Math.max(1, B.fontSize * 0.2);
+      const newBTop = Math.min(minBTop, Math.max(bTop, mid + GUTTER / 2));
+      const dy = newBTop - B.y;
+      if (dy > 0) {
+        B.y = newBTop;
+        B.height = Math.max(1, B.height - dy);
+      }
+    }
+  }
+
   return out;
 }
