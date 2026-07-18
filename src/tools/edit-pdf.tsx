@@ -548,44 +548,37 @@ export default function EditPdf() {
         const EAGER = Math.min(3, doc.numPages);
         const eagerSet = new Set<number>();
         for (let i = 0; i < EAGER; i++) eagerSet.add(i);
-        setVisiblePages(eagerSet);
         for (let i = 1; i <= doc.numPages; i++) {
           const page = await doc.getPage(i);
           if (cancelled || loadGenRef.current !== gen) return;
           const rotation = (page as unknown as { rotate: number }).rotate ?? 0;
           const vpU = page.getViewport({ scale: 1, rotation: 0 });
           const vp1 = page.getViewport({ scale: 1, rotation });
-          if (i <= EAGER) {
-            const scale = Math.min(2, maxW / vp1.width);
-            const vp = page.getViewport({ scale, rotation });
-            const canvas = document.createElement("canvas");
-            canvas.width = Math.floor(vp.width);
-            canvas.height = Math.floor(vp.height);
-            const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
-            await page.render({ canvasContext: ctx, viewport: vp, canvas } as never).promise;
-            if (cancelled || loadGenRef.current !== gen) return;
-            pageCanvasesRef.current.set(i - 1, canvas);
-            out.push({
-              url: canvas.toDataURL("image/jpeg", 0.85),
-              width: vp1.width,
-              height: vp1.height,
-              pdfWidth: vpU.width,
-              pdfHeight: vpU.height,
-              rotation,
-            });
-          } else {
-            out.push({
-              url: "",
-              width: vp1.width,
-              height: vp1.height,
-              pdfWidth: vpU.width,
-              pdfHeight: vpU.height,
-              rotation,
-            });
-          }
+          out.push({
+            url: "",
+            width: vp1.width,
+            height: vp1.height,
+            pdfWidth: vpU.width,
+            pdfHeight: vpU.height,
+            rotation,
+          });
         }
         if (cancelled || loadGenRef.current !== gen) return;
         setPages(out);
+        setVisiblePages(eagerSet);
+        // Explicitly kick off eager renders. The render+eviction effect
+        // will also try, but we don't want to wait a full render cycle
+        // for the seeded-visible pages to appear.
+        for (const i of eagerSet) void renderPage(i);
+        // Await the first eager page so the "any extractable text" probe
+        // below has a canvas to sample. Sequentially await eager renders
+        // — they're bounded (<=3) and small.
+        for (const i of eagerSet) {
+          // renderPage is idempotent; awaiting a re-entry is a no-op.
+          // eslint-disable-next-line no-await-in-loop
+          await renderPage(i);
+          if (cancelled || loadGenRef.current !== gen) return;
+        }
         // Probe first few pages for any extractable text — used for the
         // "looks like a scanned PDF" callout. Only the pre-rendered pages
         // have canvases at this point, which is fine — the probe stays
