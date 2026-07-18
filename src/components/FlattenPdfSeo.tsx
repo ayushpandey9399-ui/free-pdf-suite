@@ -58,6 +58,10 @@ const scenarios = [
     h: "Fixing forms that misprint or drop values in some viewers",
     p: "If a recipient tells you the fields print blank or look wrong on their end, the field appearances are usually the problem. Re-flatten your copy and resend — with the values baked into the page content, every viewer and printer renders them identically.",
   },
+  {
+    h: "Legal, HR and compliance packages",
+    p: "Solicitors sending signed agreements, HR teams distributing offer letters and compliance officers issuing acknowledgement forms all need certainty that the document received is the document sent. Flattening the completed PDF before it leaves your outbox is the standard fix — the recipient reads the exact values you filled in and cannot silently adjust a figure, a date or a name in a free reader before forwarding it on.",
+  },
 ];
 
 const faqs: { q: string; a: ReactNode; plain: string }[] = [
