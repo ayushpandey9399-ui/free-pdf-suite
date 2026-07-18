@@ -193,7 +193,21 @@ export async function extractEditableLines(
       if (cur.length) {
         const prev = cur[cur.length - 1];
         const gap = r.x - (prev.x + prev.width);
-        if (gap > threshold || gap >= hardSplit) push();
+        let split = gap > threshold || gap >= hardSplit;
+        // Rule: any detectable vertical ruling between prev and r means
+        // they live in different table cells - force a split regardless
+        // of gap size. Only inspect real positive gaps.
+        if (!split && ruling && gap > 0.5) {
+          const s = ruling.scale;
+          const yTop = (Math.min(prev.baseline, r.baseline) - fs0 * ASCENT) * s;
+          const yBot = (Math.max(prev.baseline, r.baseline) + fs0 * DESCENT) * s;
+          const xL = (prev.x + prev.width) * s;
+          const xR = r.x * s;
+          if (xR - xL >= 1 && hasVerticalRulingInGap(ruling.canvas, xL, xR, yTop, yBot)) {
+            split = true;
+          }
+        }
+        if (split) push();
       }
       cur.push(r);
     }
