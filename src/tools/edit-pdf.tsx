@@ -469,7 +469,21 @@ export default function EditPdf() {
   const renderPage = useCallback(async (pageIdx: number): Promise<void> => {
     const doc = pdfjsDocRef.current;
     if (!doc) return;
-    if (pageCanvasesRef.current.has(pageIdx)) return;
+    // If we already have a canvas for this page, make sure pages state
+    // has its url (may have been cleared by a prior eviction pass that
+    // raced with a visibility update — the "stuck on Loading page N…"
+    // symptom). Then bail out; no need to re-render.
+    const existing = pageCanvasesRef.current.get(pageIdx);
+    if (existing) {
+      const url = existing.toDataURL("image/jpeg", 0.85);
+      setPages((prev) => {
+        if (!prev[pageIdx] || prev[pageIdx].url === url) return prev;
+        const copy = prev.slice();
+        copy[pageIdx] = { ...copy[pageIdx], url };
+        return copy;
+      });
+      return;
+    }
     if (renderingRef.current.has(pageIdx)) return;
     // Fix B-2 #26: capture generation now; discard the render if a new
     // file has been loaded before this render completes.
