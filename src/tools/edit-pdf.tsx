@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import {
-  PDFDocument,
   StandardFonts,
   rgb,
   BlendMode,
@@ -23,7 +22,12 @@ import {
   Redo2,
   X,
   Trash2,
+  Eye,
+  EyeOff,
+  Bold,
+  Italic,
 } from "lucide-react";
+import type { PDFDocumentProxy } from "pdfjs-dist";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ToolWorkspace, InfoTip } from "@/components/ToolWorkspace";
 import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
@@ -33,6 +37,9 @@ import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
 import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 import { cn } from "@/lib/utils";
+import { classifyPdfFont, type FontFamily } from "@/lib/fontMatch";
+import { extractEditableLines, type EditableLine } from "@/lib/pdfTextLayer";
+import { sampleBackgroundAndTextColor, rgbToHex, hexToRgb255 } from "@/lib/canvasSample";
 
 /* =============================== types =============================== */
 
