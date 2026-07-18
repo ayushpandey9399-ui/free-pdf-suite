@@ -140,7 +140,7 @@ const related = [
   { to: "/tools/watermark", name: "Watermark PDF", blurb: "Stamp diagonal text or a logo across the middle of every page instead of the margins." },
   { to: "/tools/merge", name: "Merge PDF", blurb: "Combine files first, then stamp the whole bundle with one continuous header and footer." },
   { to: "/tools/txt-to-pdf", name: "TXT to PDF", blurb: "Turn plain text into a PDF, then bring it back here to add a title and date." },
-  { to: "/tools/metadata", name: "Metadata Editor", blurb: "Update the PDF's internal Title, Author and Subject fields to match the header you stamped." },
+  { to: "/tools/pdf-metadata", name: "Metadata Editor", blurb: "Update the PDF's internal Title, Author and Subject fields to match the header you stamped." },
 ] as const;
 
 export function HeaderFooterSeo() {

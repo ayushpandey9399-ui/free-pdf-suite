@@ -104,9 +104,9 @@ const faqs = [
 
 const related = [
   { to: "/tools/fill-forms", name: "Fill PDF Forms", blurb: "Type into form fields before adding your signature." },
-  { to: "/tools/flatten", name: "Flatten PDF", blurb: "Lock filled fields and signatures so they cannot be edited." },
-  { to: "/tools/protect", name: "Protect PDF", blurb: "Add a password before sending the signed contract." },
-  { to: "/tools/edit", name: "Edit PDF", blurb: "Add text or notes to the document before signing." },
+  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Lock filled fields and signatures so they cannot be edited." },
+  { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Add a password before sending the signed contract." },
+  { to: "/tools/edit-pdf", name: "Edit PDF", blurb: "Add text or notes to the document before signing." },
   { to: "/tools/merge", name: "Merge PDF", blurb: "Combine the signed contract with annexures into one file." },
 ];
 
