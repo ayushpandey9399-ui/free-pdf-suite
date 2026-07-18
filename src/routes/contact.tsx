@@ -8,7 +8,7 @@ export const Route = createFileRoute("/contact")({
   head: () => {
     const title = "Contact FreePDFHub | Bug Reports & Feedback";
     const description =
-      "Get in touch with FreePDFHub. We read every bug report, feature request, and piece of feedback. Usually respond within a few days.";
+      "Get in touch with FreePDFHub. We read every bug report, feature request, and piece of feedback, and usually respond within a few days by email.";
     const url = `${SITE_URL}/contact`;
     const ogImage = `${SITE_URL}/og-cover.png`;
     return {

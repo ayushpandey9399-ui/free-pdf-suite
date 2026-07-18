@@ -239,7 +239,7 @@ const scanToPdfFaq = [
     a: "Two quick steps. Add a purpose watermark with Watermark PDF ('For loan application — 12 Aug') so a leaked copy can't be reused elsewhere, then wrap the file in a password with Protect PDF so only the intended recipient can open it.",
   },
   {
-    q: "Is there OCR — can it read the text on the scan?",
+    q: "Is there OCR? Can it read the text on the scan?",
     a: "Not yet. Right now the tool captures pages as images and embeds them in a PDF, so the scan looks perfect but you cannot select or search the text inside it. If OCR matters for your use case, run the file through a dedicated OCR tool after downloading.",
   },
 ];
