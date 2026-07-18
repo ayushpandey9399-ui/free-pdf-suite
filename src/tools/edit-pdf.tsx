@@ -2657,8 +2657,12 @@ function EditLineOverlay({
     // Fix B5: borderless-table fallback. When rulings are absent on either
     // side, defer to the column-alignment cluster the extractor inferred
     // from siblings sharing a right/left/center edge across baselines.
+    // Anchor cellLeft/cellRight to the current glyph edges so a shorter
+    // replacement stays anchored to the shared column edge.
     if ((dL == null || dR == null) && line.columnAlign) {
       align = line.columnAlign;
+      if (cellLeft == null) cellLeft = line.x;
+      if (cellRight == null) cellRight = line.x + line.width;
     }
 
     setSampled({
