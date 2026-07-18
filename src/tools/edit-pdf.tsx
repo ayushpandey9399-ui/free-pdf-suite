@@ -430,19 +430,28 @@ export default function EditPdf() {
     setFiles([]);
     setPages([]);
     setAnnos([]);
+    setEdits([]);
     setSelectedId(null);
+    setActiveEditLineId(null);
     setMode("select");
-    historyRef.current = [[]];
+    setEditMode("edit-text");
+    pdfjsDocRef.current = null;
+    pageCanvasesRef.current = new Map();
+    linesByPageRef.current = new Map();
+    historyRef.current = [{ annos: [], edits: [] }];
     historyIdxRef.current = 0;
     setResult(null);
     setPendingImage(null);
   };
 
   const clearAll = () => {
-    if (!annos.length) return;
-    if (!confirm("Remove all annotations?")) return;
-    commitAnnos(() => []);
+    if (!annos.length && !edits.length) return;
+    if (!confirm("Remove all annotations and text edits?")) return;
+    setAnnos([]);
+    setEdits([]);
+    pushHistorySnap({ annos: [], edits: [] });
     setSelectedId(null);
+    setActiveEditLineId(null);
   };
 
   /* =========== export =========== */
@@ -717,7 +726,7 @@ export default function EditPdf() {
               onCreate={(a) => {
                 setAnnos((prev) => {
                   const next = [...prev, a];
-                  pushHistory(next);
+                  pushHistorySnap({ annos: next, edits });
                   return next;
                 });
                 setSelectedId(a.id);
@@ -728,7 +737,7 @@ export default function EditPdf() {
                 setAnnos((prev) => prev.map((p) => (p.id === a.id ? a : p)));
               }}
               onCommitChange={() => {
-                pushHistory([...annos]);
+                pushHistorySnap({ annos: [...annos], edits });
               }}
               onRemove={(id) => {
                 commitAnnos((prev) => prev.filter((a) => a.id !== id));
