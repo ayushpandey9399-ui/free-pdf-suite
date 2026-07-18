@@ -235,7 +235,7 @@ function hexToRgb(hex: string): { r: number; g: number; b: number } {
 /**
  * Scripts that require complex text shaping (matras, ligatures, joining
  * forms) that pdf-lib+fontkit cannot render correctly. Editing text in
- * these scripts is blocked at commit time — the original run stays intact
+ * these scripts is blocked at commit time, the original run stays intact
  * on export.
  */
 const COMPLEX_SCRIPT_RE =
@@ -300,7 +300,7 @@ function dispToPdf(
  * UNROTATED PDF coordinate system, returning an axis-aligned rectangle
  * that covers the SAME visual region after the viewer applies /Rotate R.
  * Because the mapping is a rotation-only isometry, an axis-aligned
- * display rect always maps to an axis-aligned unrotated rect — so we can
+ * display rect always maps to an axis-aligned unrotated rect, so we can
  * draw cover / clip rectangles WITHOUT passing `rotate` to pdf-lib.
  */
 function dispRectToPdf(
@@ -372,7 +372,7 @@ export default function EditPdf() {
   } | null>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
 
-  // history — snapshots BOTH annotation list and text-edit list.
+  // history, snapshots BOTH annotation list and text-edit list.
   interface Snapshot { annos: Anno[]; edits: TextEdit[] }
   const historyRef = useRef<Snapshot[]>([{ annos: [], edits: [] }]);
   const historyIdxRef = useRef(0);
@@ -471,7 +471,7 @@ export default function EditPdf() {
     if (!doc) return;
     // If we already have a canvas for this page, make sure pages state
     // has its url (may have been cleared by a prior eviction pass that
-    // raced with a visibility update — the "stuck on Loading page N…"
+    // raced with a visibility update, the "stuck on Loading page N…"
     // symptom). Then bail out; no need to re-render.
     const existing = pageCanvasesRef.current.get(pageIdx);
     if (existing) {
@@ -586,16 +586,16 @@ export default function EditPdf() {
         for (const i of eagerSet) void renderPage(i);
         // Await the first eager page so the "any extractable text" probe
         // below has a canvas to sample. Sequentially await eager renders
-        // — they're bounded (<=3) and small.
+        //, they're bounded (<=3) and small.
         for (const i of eagerSet) {
           // renderPage is idempotent; awaiting a re-entry is a no-op.
           // eslint-disable-next-line no-await-in-loop
           await renderPage(i);
           if (cancelled || loadGenRef.current !== gen) return;
         }
-        // Probe first few pages for any extractable text — used for the
+        // Probe first few pages for any extractable text, used for the
         // "looks like a scanned PDF" callout. Only the pre-rendered pages
-        // have canvases at this point, which is fine — the probe stays
+        // have canvases at this point, which is fine, the probe stays
         // bounded to EAGER pages.
         const probe = Math.min(3, doc.numPages);
         let total = 0;
@@ -663,12 +663,12 @@ export default function EditPdf() {
         keep.clear();
         for (const i of sorted.slice(0, RETAIN_CAP)) keep.add(i);
       }
-      // Never evict a currently-visible page — belt-and-braces on top of
+      // Never evict a currently-visible page, belt-and-braces on top of
       // the buffer, in case RETAIN_CAP is smaller than visiblePages.size.
       for (const v of visiblePages) keep.add(v);
 
       // Evict canvases + drop their JPEG urls. Skip entirely when nothing
-      // is out of keep — no setState → no re-render → no observer thrash.
+      // is out of keep, no setState → no re-render → no observer thrash.
       const toEvict: number[] = [];
       for (const idx of pageCanvasesRef.current.keys()) {
         if (!keep.has(idx)) toEvict.push(idx);
@@ -789,7 +789,7 @@ export default function EditPdf() {
       doc.registerFontkit(fontkit);
       const pdfPages = doc.getPages();
 
-      // Font cache — Helvetica pair for annotations, plus per-classification
+      // Font cache, Helvetica pair for annotations, plus per-classification
       // caches for text-edit lines (standard-14 for WinAnsi text, Noto TTF
       // for extended characters).
       const fontCache = new Map<string, PDFFont>();
@@ -875,8 +875,8 @@ export default function EditPdf() {
         drawSize: number;
         color: { r: number; g: number; b: number };
         unencodable: number;
-        skipCover: boolean;   // complex-script or empty commit — leave original
-        overflow: boolean;    // Fix B3: still doesn't fit at 0.7× — clip
+        skipCover: boolean;   // complex-script or empty commit, leave original
+        overflow: boolean;    // Fix B3: still doesn't fit at 0.7×, clip
         boxLeft: number;
         boxRight: number;
       }
@@ -894,7 +894,7 @@ export default function EditPdf() {
 
         // Complex-script guard: never touch the original run. The commit
         // block in the editor already prevents new complex-script edits,
-        // but legacy edits from an older session may still exist — skip
+        // but legacy edits from an older session may still exist, skip
         // them entirely so the source text is preserved verbatim.
         if (hasComplexScript(te.newText)) {
           plans.push({
@@ -935,7 +935,7 @@ export default function EditPdf() {
 
         // Encode-check char by char. Unencodable code points are replaced
         // with "?" AND counted, so the caller sees an amber dot + a toast
-        // — never a silent corruption.
+        //, never a silent corruption.
         let safeText: string;
         let unencodable = 0;
         const encodeCheck = (f: PDFFont): { text: string; missed: number } => {
@@ -1099,7 +1099,7 @@ export default function EditPdf() {
       }
       if (overflowCount > 0) {
         toast.warning(
-          `${overflowCount} edit${overflowCount === 1 ? "" : "s"} didn't fit their original space — please review.`,
+          `${overflowCount} edit${overflowCount === 1 ? "" : "s"} didn't fit their original space, please review.`,
         );
       }
 
@@ -1189,7 +1189,7 @@ export default function EditPdf() {
             lineCap: LineCapStyle.Round,
           });
           if (a.kind === "arrow") {
-            // Arrow-head math is a rotation-only isometry — using unrotated
+            // Arrow-head math is a rotation-only isometry, using unrotated
             // endpoints and unrotated deltas gives correct display arrows
             // for every R because the length is preserved.
             const dx = p2.x - p1.x;
@@ -1766,7 +1766,7 @@ function ContextOptions(p: SidebarProps) {
     );
   }
 
-  // No selection — show defaults for active tool
+  // No selection, show defaults for active tool
   const m = p.mode;
   if (m === "select") return null;
   return (
@@ -2335,7 +2335,7 @@ function PageOverlay(props: PageOverlayProps) {
         {scale > 0 && editTextMode && lines && (
           <div className="absolute inset-0">
             {/* Left-gutter change-bar: one marker per edited line, sitting
-                in the page card's padding — never over glyph content. */}
+                in the page card's padding, never over glyph content. */}
             {lines.map((ln) => {
               const existing = editsByLineId.get(ln.id);
               if (!existing) return null;
@@ -2354,7 +2354,7 @@ function PageOverlay(props: PageOverlayProps) {
                   }}
                   title={
                     existing.lowConfidence
-                      ? "Low-confidence edit — preview the exported PDF."
+                      ? "Low-confidence edit, preview the exported PDF."
                       : "Edited"
                   }
                 />
@@ -3026,7 +3026,7 @@ function EditLineOverlay({
           />
         </div>
         {/* Edit indicators live in the page's left-gutter change-bar, not
-            over the glyphs — see PageOverlay. */}
+            over the glyphs, see PageOverlay. */}
         <button
           type="button"
           onClick={onRemove}
@@ -3102,7 +3102,7 @@ function EditLineInlineEditor({
     inputRef.current?.select();
   }, []);
 
-  // Live warning while the user is typing — non-blocking, but the commit
+  // Live warning while the user is typing, non-blocking, but the commit
   // itself is blocked below.
   useEffect(() => {
     if (hasComplexScript(text)) {

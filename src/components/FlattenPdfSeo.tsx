@@ -10,15 +10,15 @@ const steps = [
   },
   {
     title: "Confirm the Flatten form fields option",
-    text: "The sidebar has one active option: Flatten form fields, ticked by default. If the scan found interactive fields, the Flatten PDF button becomes clickable. If the file has no fields, the panel shows \"This PDF has no form fields or annotations to flatten\" and the button stays disabled — nothing to do.",
+    text: "The sidebar has one active option: Flatten form fields, ticked by default. If the scan found interactive fields, the Flatten PDF button becomes clickable. If the file has no fields, the panel shows \"This PDF has no form fields or annotations to flatten\" and the button stays disabled, nothing to do.",
   },
   {
     title: "Click Flatten PDF",
-    text: "The tool asks pdf-lib to flatten the whole form in one pass (the fast path), and if any field resists it falls back to per-field flattening and removes any stubborn ones so nothing interactive remains. The document's original page text stays fully selectable — only the field layer is baked in.",
+    text: "The tool asks pdf-lib to flatten the whole form in one pass (the fast path), and if any field resists it falls back to per-field flattening and removes any stubborn ones so nothing interactive remains. The document's original page text stays fully selectable, only the field layer is baked in.",
   },
   {
     title: "Download the flattened copy",
-    text: "The success screen tells you how many fields were flattened and hands back a copy suffixed -flattened.pdf. Save it, attach it, upload it — the file looks identical to what you filled, but the fields are gone from the interactive layer and no reader can change your answers.",
+    text: "The success screen tells you how many fields were flattened and hands back a copy suffixed -flattened.pdf. Save it, attach it, upload it, the file looks identical to what you filled, but the fields are gone from the interactive layer and no reader can change your answers.",
   },
 ];
 
@@ -48,7 +48,7 @@ const scenarios = [
   },
   {
     h: "Sending quotes and invoices built on fillable templates",
-    p: "Many small businesses issue quotes and invoices from a fillable PDF template. Flatten the finished document before it leaves your machine — the client sees a clean, uneditable invoice, not a template they could technically re-price and re-forward.",
+    p: "Many small businesses issue quotes and invoices from a fillable PDF template. Flatten the finished document before it leaves your machine, the client sees a clean, uneditable invoice, not a template they could technically re-price and re-forward.",
   },
   {
     h: "Archiving completed forms",
@@ -56,20 +56,20 @@ const scenarios = [
   },
   {
     h: "Fixing forms that misprint or drop values in some viewers",
-    p: "If a recipient tells you the fields print blank or look wrong on their end, the field appearances are usually the problem. Re-flatten your copy and resend — with the values baked into the page content, every viewer and printer renders them identically.",
+    p: "If a recipient tells you the fields print blank or look wrong on their end, the field appearances are usually the problem. Re-flatten your copy and resend, with the values baked into the page content, every viewer and printer renders them identically.",
   },
   {
     h: "Legal, HR and compliance packages",
-    p: "Solicitors sending signed agreements, HR teams distributing offer letters and compliance officers issuing acknowledgement forms all need certainty that the document received is the document sent. Flattening the completed PDF before it leaves your outbox is the standard fix — the recipient reads the exact values you filled in and cannot silently adjust a figure, a date or a name in a free reader before forwarding it on.",
+    p: "Solicitors sending signed agreements, HR teams distributing offer letters and compliance officers issuing acknowledgement forms all need certainty that the document received is the document sent. Flattening the completed PDF before it leaves your outbox is the standard fix, the recipient reads the exact values you filled in and cannot silently adjust a figure, a date or a name in a free reader before forwarding it on.",
   },
 ];
 
 const faqs: { q: string; a: ReactNode; plain: string }[] = [
   {
     q: "What does flattening a PDF do?",
-    a: "It merges the interactive form-field layer into the page itself. Before flattening, the answers you typed sit on top of the page as editable widgets that any reader can click and change. After flattening, those same answers are drawn permanently into the page content — the document looks identical, but the fields no longer exist to edit.",
+    a: "It merges the interactive form-field layer into the page itself. Before flattening, the answers you typed sit on top of the page as editable widgets that any reader can click and change. After flattening, those same answers are drawn permanently into the page content, the document looks identical, but the fields no longer exist to edit.",
     plain:
-      "It merges the interactive form-field layer into the page. Before, answers sit on top as editable widgets any reader can change. After, the same answers are drawn permanently into the page content — identical look, no editable fields.",
+      "It merges the interactive form-field layer into the page. Before, answers sit on top as editable widgets any reader can change. After, the same answers are drawn permanently into the page content, identical look, no editable fields.",
   },
   {
     q: "How do I flatten a PDF for free?",
@@ -79,21 +79,21 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
   },
   {
     q: "Why does it say there are no form fields to flatten?",
-    a: "Because the PDF has no interactive field layer to begin with. Scanned documents, exported images and print-driver-generated PDFs are already flat — they're pictures of pages, not fillable forms — so there is nothing for a flattener to bake in. That's why the panel says \"This PDF has no form fields or annotations to flatten\" and the button stays disabled: the file is already as fixed as flattening would make it.",
+    a: "Because the PDF has no interactive field layer to begin with. Scanned documents, exported images and print-driver-generated PDFs are already flat, they're pictures of pages, not fillable forms, so there is nothing for a flattener to bake in. That's why the panel says \"This PDF has no form fields or annotations to flatten\" and the button stays disabled: the file is already as fixed as flattening would make it.",
     plain:
-      "Because the PDF has no interactive field layer. Scanned documents and print-driver PDFs are already flat — pictures of pages, not fillable forms — so there is nothing to bake in and the button stays disabled.",
+      "Because the PDF has no interactive field layer. Scanned documents and print-driver PDFs are already flat, pictures of pages, not fillable forms, so there is nothing to bake in and the button stays disabled.",
   },
   {
     q: "Can a flattened PDF be unflattened?",
-    a: "No. Once the tool bakes the values into the page and the interactive fields are removed from the document, there is no field layer left to restore — the values are now ordinary page content. Keep your original fillable copy separately if you might need to edit the answers later; flatten only the copy you're about to send.",
+    a: "No. Once the tool bakes the values into the page and the interactive fields are removed from the document, there is no field layer left to restore, the values are now ordinary page content. Keep your original fillable copy separately if you might need to edit the answers later; flatten only the copy you're about to send.",
     plain:
       "No. Once values are baked into the page and the interactive fields are removed, there's no field layer left to restore. Keep your original fillable copy separately if you might need to edit the answers later.",
   },
   {
     q: "Does flattening change how the document looks?",
-    a: "No. The page renders exactly the same before and after — same text, same layout, same values in the same boxes. Flattening only changes how those values are stored inside the file, not how they appear on screen or when printed.",
+    a: "No. The page renders exactly the same before and after, same text, same layout, same values in the same boxes. Flattening only changes how those values are stored inside the file, not how they appear on screen or when printed.",
     plain:
-      "No. The page renders exactly the same — same text, layout and values in the same boxes. Flattening only changes how values are stored inside the file, not how they appear.",
+      "No. The page renders exactly the same, same text, layout and values in the same boxes. Flattening only changes how values are stored inside the file, not how they appear.",
   },
   {
     q: "Does flattening also lock my annotations or signature?",
@@ -117,17 +117,17 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
       </>
     ),
     plain:
-      "Not in this tool — only form fields are flattened. The 'Flatten annotations' option is intentionally disabled. Use Edit PDF (/tools/edit-pdf) to bake annotations into the page, or Sign PDF (/tools/sign-pdf) to stamp signatures as page content.",
+      "Not in this tool, only form fields are flattened. The 'Flatten annotations' option is intentionally disabled. Use Edit PDF (/tools/edit-pdf) to bake annotations into the page, or Sign PDF (/tools/sign-pdf) to stamp signatures as page content.",
   },
   {
     q: "Is flattening the same as password-protecting?",
     a: (
       <>
-        No — they solve different problems. Flattening removes the
+        No, they solve different problems. Flattening removes the
         interactive field layer so the answers you filled can't be
         changed, but the document itself is still openable by anyone
         who has the file. Password protection encrypts the whole PDF
-        so only someone with the password can open it at all — use{" "}
+        so only someone with the password can open it at all, use{" "}
         <Link to="/tools/protect-pdf" className="text-[#e5322d] underline">
           Protect PDF
         </Link>{" "}
@@ -135,7 +135,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
       </>
     ),
     plain:
-      "No. Flattening removes the interactive field layer so answers can't be changed, but the file is still openable by anyone. Password protection encrypts the whole PDF — use Protect PDF (/tools/protect-pdf) for that, and flatten first if you want both.",
+      "No. Flattening removes the interactive field layer so answers can't be changed, but the file is still openable by anyone. Password protection encrypts the whole PDF, use Protect PDF (/tools/protect-pdf) for that, and flatten first if you want both.",
   },
   {
     q: "Do my files get uploaded?",
@@ -145,15 +145,15 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
   },
   {
     q: "Will it reduce quality?",
-    a: "No. Flattening rewrites the file's structure, not its visual content — the page's original text stays as searchable text, images stay at their original resolution, and vector graphics stay vector. Field values are drawn into the page content stream at their existing appearance, so the flattened copy is visually indistinguishable from the fillable original.",
+    a: "No. Flattening rewrites the file's structure, not its visual content, the page's original text stays as searchable text, images stay at their original resolution, and vector graphics stay vector. Field values are drawn into the page content stream at their existing appearance, so the flattened copy is visually indistinguishable from the fillable original.",
     plain:
       "No. Flattening changes the file's structure, not its visual content. Original text stays searchable, images keep their resolution, vectors stay vector, and field values are drawn at their existing appearance.",
   },
   {
     q: "Do I need Adobe Acrobat?",
-    a: "No. The tool is a web page that runs in any modern browser — Chrome, Safari, Firefox, Edge or Brave — with no Acrobat licence, no install and no account. The download is a standard, universally-readable flattened PDF.",
+    a: "No. The tool is a web page that runs in any modern browser, Chrome, Safari, Firefox, Edge or Brave, with no Acrobat licence, no install and no account. The download is a standard, universally-readable flattened PDF.",
     plain:
-      "No. It's a web page that runs in Chrome, Safari, Firefox, Edge or Brave — no Acrobat licence, no install, no account. The output is a standard flattened PDF.",
+      "No. It's a web page that runs in Chrome, Safari, Firefox, Edge or Brave, no Acrobat licence, no install, no account. The output is a standard flattened PDF.",
   },
 ];
 
@@ -180,14 +180,14 @@ export function FlattenPdfSeo() {
         A fillable PDF has two layers stacked on top of each other: the
         printed page underneath, and a set of interactive boxes on top
         that anyone who opens the file can click into and change.
-        Flattening merges those two layers into one — the answers you
+        Flattening merges those two layers into one, the answers you
         typed become part of the page itself, like ink dried on paper,
         and the interactive boxes disappear.
       </p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
         The document looks identical after flattening. The only
-        difference is that no reader — not Acrobat, not Preview, not
-        Chrome — can edit, clear or re-tab into the field values any
+        difference is that no reader, not Acrobat, not Preview, not
+        Chrome, can edit, clear or re-tab into the field values any
         more. The form has stopped being a form and become a fixed
         record.
       </p>
@@ -215,8 +215,8 @@ export function FlattenPdfSeo() {
         Why flatten before you send?
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        You filled a form carefully — an application, a declaration, a
-        salary figure on an invoice template — and hit send. The
+        You filled a form carefully, an application, a declaration, a
+        salary figure on an invoice template, and hit send. The
         recipient (and anyone who forwards the file after them) can
         open the same PDF in a free reader, click into your fields and
         change a number, a name or a date without leaving any trace
@@ -229,7 +229,7 @@ export function FlattenPdfSeo() {
         <Link to="/tools/fill-forms" className="text-[#e5322d] underline">
           Fill PDF Forms
         </Link>{" "}
-        first, then flatten here — fill, flatten, send.
+        first, then flatten here, fill, flatten, send.
       </p>
 
       {/* Flatten vs Print-to-PDF */}
@@ -247,7 +247,7 @@ export function FlattenPdfSeo() {
         This tool takes the opposite route. pdf-lib merges only the form-field layer into the
         page content stream; the original page text stays real text, images stay at their
         embedded resolution, and the file size barely moves. The output looks and behaves
-        exactly like the original PDF minus the editable fields — no print-driver detour and
+        exactly like the original PDF minus the editable fields, no print-driver detour and
         no loss of quality.
       </p>
 
@@ -260,7 +260,7 @@ export function FlattenPdfSeo() {
         stranger's server: it has your name, your address, sometimes
         your bank details or medical answers. This tool reads the
         field counts, bakes the values into the page and writes the
-        finished file entirely inside your browser tab with pdf-lib —
+        finished file entirely inside your browser tab with pdf-lib , 
         nothing is transmitted anywhere, and nothing is logged. Once
         the page has loaded you can go offline and the whole flow
         keeps working.
@@ -329,7 +329,7 @@ export const flattenPdfHowToJsonLd = {
   "@type": "HowTo",
   name: "How to flatten a PDF online for free",
   description:
-    "Flatten a filled PDF entirely in the browser — merge interactive form fields into the page so the answers become permanent, uneditable content. No upload, no signup, no watermark.",
+    "Flatten a filled PDF entirely in the browser, merge interactive form fields into the page so the answers become permanent, uneditable content. No upload, no signup, no watermark.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "A filled PDF with interactive form fields" }],
   tool: [{ "@type": "HowToTool", name: "FreePDFHub Flatten PDF (web browser)" }],
@@ -347,7 +347,7 @@ export const flattenPdfSoftwareJsonLd = {
   "@type": "SoftwareApplication",
   name: "FreePDFHub Flatten PDF",
   description:
-    "Flatten PDF online free — merge interactive form fields into the page so filled answers can't be changed. Entirely in the browser. No upload, no signup, no watermark.",
+    "Flatten PDF online free, merge interactive form fields into the page so filled answers can't be changed. Entirely in the browser. No upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Web",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

@@ -88,22 +88,22 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "FreePDFHub — Every PDF tool, 100% free" },
+      { title: "FreePDFHub | Every PDF tool, 100% free" },
       {
         name: "description",
         content:
-          "Free PDF tools that run in your browser. Merge, split, convert, compress, edit, and organize PDFs — no signup, no upload step, no limits.",
+          "Free PDF tools that run in your browser. Merge, split, convert, compress, edit, and organize PDFs, no signup, no upload step, no limits.",
       },
-      { property: "og:title", content: "FreePDFHub — Every PDF tool, 100% free" },
+      { property: "og:title", content: "FreePDFHub, Every PDF tool, 100% free" },
       {
         property: "og:description",
-        content: "Free PDF tools that run in your browser. Merge, split, convert, compress, edit, and organize PDFs — no signup, no upload step, no limits.",
+        content: "Free PDF tools that run in your browser. Merge, split, convert, compress, edit, and organize PDFs, no signup, no upload step, no limits.",
       },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "FreePDFHub" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "FreePDFHub — Every PDF tool, 100% free" },
-      { name: "twitter:description", content: "Free PDF tools that run in your browser. Merge, split, convert, compress, edit, and organize PDFs — no signup, no upload step, no limits." },
+      { name: "twitter:title", content: "FreePDFHub, Every PDF tool, 100% free" },
+      { name: "twitter:description", content: "Free PDF tools that run in your browser. Merge, split, convert, compress, edit, and organize PDFs, no signup, no upload step, no limits." },
       { name: "google-site-verification", content: "Hvu09ArzP_NwJvEh6EiU9tR2F6u9cHMtjMKCmNrQvoY" },
     ],
     links: [

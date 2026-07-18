@@ -5,7 +5,7 @@ export function Logo({ onClick }: { onClick?: () => void }) {
     <Link
       to="/"
       onClick={onClick}
-      aria-label="FreePDFHub — home"
+      aria-label="FreePDFHub, home"
       className="inline-flex items-center gap-2.5 font-extrabold tracking-tight text-[26px] leading-none"
     >
       <LogoMark size={38} />

@@ -43,7 +43,7 @@ export function FileDropzone({
           continue;
         }
         if (f.size > maxSizeMB * 1024 * 1024) {
-          toast.warning(`"${f.name}" is larger than ${maxSizeMB}MB — processing may be slow`);
+          toast.warning(`"${f.name}" is larger than ${maxSizeMB}MB, processing may be slow`);
         }
         filtered.push(f);
       }

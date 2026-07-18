@@ -58,12 +58,12 @@ function PrivacyPolicyPage() {
         <li>Your PDF, image, or text files, or any of their contents.</li>
         <li>The names or metadata of the files you process with these tools.</li>
         <li>
-          Passwords you enter for protecting or unlocking PDFs — they are used only in
+          Passwords you enter for protecting or unlocking PDFs, they are used only in
           your browser and are not transmitted by these tools.
         </li>
         <li>Signatures you draw or type in the Sign PDF tool.</li>
         <li>
-          Personal account information — there is no signup, so we do not store names,
+          Personal account information, there is no signup, so we do not store names,
           emails, or passwords for user accounts.
         </li>
       </ul>
@@ -71,7 +71,7 @@ function PrivacyPolicyPage() {
       <h2>Information collected automatically</h2>
       <p>
         Like most websites, basic technical data may be processed when you visit
-        FreePDFHub — such as browser type, device type, pages visited, approximate
+        FreePDFHub, such as browser type, device type, pages visited, approximate
         location derived from your IP address, and referral source. This data relates
         only to the page visit itself and is handled by our analytics and hosting
         providers described below. For the current browser-based tools, this data is
@@ -96,7 +96,7 @@ function PrivacyPolicyPage() {
       </ul>
       <p>
         You can control or delete cookies through your browser settings. Blocking
-        cookies does not break the PDF tools on this site — they will keep working
+        cookies does not break the PDF tools on this site, they will keep working
         normally.
       </p>
 

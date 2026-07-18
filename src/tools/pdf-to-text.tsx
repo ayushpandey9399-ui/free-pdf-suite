@@ -111,7 +111,7 @@ export default function PdfToText() {
           {isEmpty && (
             <div className="flex items-start gap-2 rounded-lg border border-amber-300 bg-amber-50 p-3 text-xs text-amber-900">
               <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
-              <p>No text was found — this PDF may be a scanned document.</p>
+              <p>No text was found, this PDF may be a scanned document.</p>
             </div>
           )}
         </>

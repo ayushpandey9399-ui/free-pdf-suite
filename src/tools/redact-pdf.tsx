@@ -16,7 +16,7 @@ import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 
 /* Redaction stored in normalized [0..1] coords of the unrotated page viewport
  * (rotation=0), so mapping to overlay pixels or output canvas is a simple
- * multiply — no rotation math anywhere. Redacted pages are rerendered at
+ * multiply, no rotation math anywhere. Redacted pages are rerendered at
  * scale=2 (rotation=0) and inserted into the output at the page's on-screen
  * dimensions (viewport.width/height at scale=1 with rotation=0). */
 interface Redaction {
@@ -327,7 +327,7 @@ export default function RedactPdf() {
             <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
             <div>
               Redaction is permanent. Content under the black boxes is destroyed
-              and cannot be recovered — the affected pages are re-rendered as images.
+              and cannot be recovered, the affected pages are re-rendered as images.
             </div>
           </div>
 

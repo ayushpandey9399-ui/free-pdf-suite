@@ -5,7 +5,7 @@ import { tools, categories, type ToolCategory } from "@/tools/registry";
 import { HomeBottom } from "@/components/HomeBottom";
 import { SITE_URL, SITE_NAME, CONTACT_EMAIL } from "@/lib/site";
 
-const HOME_TITLE = "FreePDFHub — Every PDF tool, 100% free";
+const HOME_TITLE = "FreePDFHub | Every PDF tool, 100% free";
 const HOME_DESC =
   "Free PDF tools that run in your browser. Merge, split, convert, compress, edit, and organize PDFs. No signup, no upload step, no limits, no watermarks.";
 const HOME_URL = `${SITE_URL}/`;
@@ -20,7 +20,7 @@ const homeJsonLd = {
       name: SITE_NAME,
       url: SITE_URL,
       description:
-        "FreePDFHub is a free suite of browser-based PDF tools — merge, split, compress, sign, convert and more — built by a small independent team in India.",
+        "FreePDFHub is a free suite of browser-based PDF tools, merge, split, compress, sign, convert and more, built by a small independent team in India.",
       foundingDate: "2026",
       email: CONTACT_EMAIL,
       logo: {
@@ -147,7 +147,7 @@ function Home() {
             className="mx-auto mt-4 max-w-[720px] text-[16px] sm:text-[17px] leading-relaxed"
             style={{ color: "#6b6b78" }}
           >
-            28 free tools to merge, split, convert, edit and sign PDFs — right in your browser. Fast, private and free.
+            28 free tools to merge, split, convert, edit and sign PDFs, right in your browser. Fast, private and free.
           </p>
 
           {/* Filter pills */}
@@ -211,7 +211,7 @@ function Home() {
   );
 }
 
-/* Premium tool card — hover lift, icon scale, tinted border, inset top highlight, focus ring. */
+/* Premium tool card, hover lift, icon scale, tinted border, inset top highlight, focus ring. */
 function ToolCard({
   slug,
   name,

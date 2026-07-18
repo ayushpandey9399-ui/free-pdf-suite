@@ -6,7 +6,7 @@ export const Route = createFileRoute("/about")({
   head: () => {
     const title = "About FreePDFHub | Free Browser-Based PDF Tools";
     const description =
-      "FreePDFHub offers 28+ genuinely free PDF tools that run entirely in your browser — no uploads, no accounts, no watermarks. Learn why we built it.";
+      "FreePDFHub offers 28+ genuinely free PDF tools that run entirely in your browser, no uploads, no accounts, no watermarks. Learn why we built it.";
     const url = `${SITE_URL}/about`;
     const ogImage = `${SITE_URL}/og-cover.png`;
     return {
@@ -42,9 +42,9 @@ function AboutPage() {
       <p>
         FreePDFHub is built and maintained by a small independent team in India, since
         2026. We started it because every basic PDF task online was gated behind
-        signups, watermarks and upload limits — so instead we built tools that run
+        signups, watermarks and upload limits, so instead we built tools that run
         right in the browser. It's a focused project, not a big company, and you can
-        reach us any time at <a href={`mailto:${"hello@freepdfhub.in"}`}>hello@freepdfhub.in</a> — we read every message.
+        reach us any time at <a href={`mailto:${"hello@freepdfhub.in"}`}>hello@freepdfhub.in</a>, we read every message.
       </p>
 
       <p>
@@ -55,7 +55,7 @@ function AboutPage() {
 
       <h2>How it works</h2>
       <p>
-        Modern browsers are surprisingly powerful — they can open, edit, and re-save
+        Modern browsers are surprisingly powerful, they can open, edit, and re-save
         PDFs on their own. Every tool currently on FreePDFHub is built with client-side
         technology, which means your files don't travel to a server for these tools.
         They open, get processed, and get saved back to your device, all without
@@ -66,23 +66,23 @@ function AboutPage() {
       <h2>What we offer</h2>
       <ul>
         <li>
-          <strong>Organize</strong> — merge, split, reorder, delete, extract, rotate,
+          <strong>Organize</strong>, merge, split, reorder, delete, extract, rotate,
           crop, compress, and add blank pages.
         </li>
         <li>
-          <strong>Convert</strong> — images to PDF, PDF to images, PDF to text, TXT
+          <strong>Convert</strong>, images to PDF, PDF to images, PDF to text, TXT
           to PDF, and scan-to-PDF from your camera.
         </li>
         <li>
-          <strong>Edit</strong> — watermarks, page numbers, headers and footers,
+          <strong>Edit</strong>, watermarks, page numbers, headers and footers,
           annotations, metadata, and grayscale conversion.
         </li>
         <li>
-          <strong>Forms &amp; Compare</strong> — fill and flatten PDF forms, and
+          <strong>Forms &amp; Compare</strong>, fill and flatten PDF forms, and
           compare two documents side by side.
         </li>
         <li>
-          <strong>Security</strong> — protect with a password, unlock, sign, and
+          <strong>Security</strong>, protect with a password, unlock, sign, and
           truly redact sensitive content.
         </li>
       </ul>
@@ -90,7 +90,7 @@ function AboutPage() {
       <h2>How the site stays free</h2>
       <p>
         FreePDFHub is supported by advertising shown around the tools. For the current
-        browser-based tools, those ads don't see your files — they can't, because
+        browser-based tools, those ads don't see your files, they can't, because
         your files stay in your browser. If the site is useful to you, letting the
         ads load is the way you support the project.
       </p>

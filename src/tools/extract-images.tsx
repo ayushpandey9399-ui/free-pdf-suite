@@ -43,7 +43,7 @@ async function inflateFlate(data: Uint8Array): Promise<Uint8Array> {
 
 function decodeAscii85(data: Uint8Array): Uint8Array {
   // Strip whitespace and the optional "<~" prefix / "~>" suffix wrapper.
-  // Do NOT strip stray '<' chars — '<' (0x3C) is a valid ASCII85 digit.
+  // Do NOT strip stray '<' chars, '<' (0x3C) is a valid ASCII85 digit.
   let start = 0;
   if (data.length >= 2 && data[0] === 0x3c && data[1] === 0x7e) start = 2;
   const chars: number[] = [];
@@ -244,7 +244,7 @@ async function scanImages(
         } else if (f === "/ASCIIHexDecode" || f === "/AHx") {
           data = decodeAsciiHex(data);
         } else {
-          // Unsupported wrapper (LZW, CCITTFax, JBIG2, RunLength) — skip.
+          // Unsupported wrapper (LZW, CCITTFax, JBIG2, RunLength), skip.
           skip = true;
           break;
         }
@@ -480,7 +480,7 @@ export default function ExtractImages() {
             </span>
           </div>
           <InfoTip>
-            Images are extracted in their original quality — no re-compression for JPEGs.
+            Images are extracted in their original quality, no re-compression for JPEGs.
           </InfoTip>
         </>
       }

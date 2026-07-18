@@ -145,7 +145,7 @@ async function buildRasterPdfFromText(
   return await doc.save();
 }
 
-// Break a line by pixel width — force-break long unbroken tokens.
+// Break a line by pixel width, force-break long unbroken tokens.
 function wrapLine(
   text: string,
   font: import("pdf-lib").PDFFont,
@@ -427,7 +427,7 @@ export default function TxtToPdf() {
 
           {nonLatinDetected && (
             <InfoTip>
-              Non-Latin text detected — pages will be rendered as high-quality images so all scripts
+              Non-Latin text detected, pages will be rendered as high-quality images so all scripts
               (Hindi, Chinese, Arabic, etc.) display correctly. Text in the PDF won't be selectable.
             </InfoTip>
           )}

@@ -10,11 +10,11 @@ const steps = [
   },
   {
     title: "Drag the crop box to frame what you want to keep",
-    text: "Grab any of the eight handles to pull an edge or corner inward — the darkened overlay outside the box shows exactly what will be trimmed. Drag the middle of the box to slide the whole frame around without resizing it. If you prefer precision over dragging, the sidebar exposes Top, Right, Bottom and Left inputs in points (72pt = 1 inch) that stay perfectly in sync with the visual box.",
+    text: "Grab any of the eight handles to pull an edge or corner inward, the darkened overlay outside the box shows exactly what will be trimmed. Drag the middle of the box to slide the whole frame around without resizing it. If you prefer precision over dragging, the sidebar exposes Top, Right, Bottom and Left inputs in points (72pt = 1 inch) that stay perfectly in sync with the visual box.",
   },
   {
     title: "Choose all pages or a specific range",
-    text: "The Apply to all pages checkbox is on by default, so a single frame in the preview crops the entire document identically. Untick it to reveal a Pages input where you can type ranges like 1-3,5 to crop only selected pages — the rest of the document keeps its original page size.",
+    text: "The Apply to all pages checkbox is on by default, so a single frame in the preview crops the entire document identically. Untick it to reveal a Pages input where you can type ranges like 1-3,5 to crop only selected pages, the rest of the document keeps its original page size.",
   },
   {
     title: "Click Crop PDF and download",
@@ -29,11 +29,11 @@ const benefits = [
   },
   {
     h: "One crop or per-page",
-    p: "Leave Apply to all pages ticked to stamp the same frame across every page in one operation — ideal for a book scan with the same margins throughout. Untick it and type a page range like 1-3,5 to crop only those pages while the rest of the document keeps its original dimensions untouched.",
+    p: "Leave Apply to all pages ticked to stamp the same frame across every page in one operation, ideal for a book scan with the same margins throughout. Untick it and type a page range like 1-3,5 to crop only those pages while the rest of the document keeps its original dimensions untouched.",
   },
   {
     h: "Content quality untouched",
-    p: "Cropping this way rewrites the page's CropBox — the rectangle a PDF viewer chooses to display — without altering the underlying page contents. The text stays as text, vector diagrams stay as vector, photos stay at their original resolution, and nothing is re-rendered, re-compressed or converted to an image on the way out.",
+    p: "Cropping this way rewrites the page's CropBox, the rectangle a PDF viewer chooses to display, without altering the underlying page contents. The text stays as text, vector diagrams stay as vector, photos stay at their original resolution, and nothing is re-rendered, re-compressed or converted to an image on the way out.",
   },
   {
     h: "Perfect for phone reading",
@@ -56,7 +56,7 @@ const scenarios = [
   },
   {
     h: "Trimming a downloaded ticket or form before printing",
-    p: "Online tickets, boarding passes and short forms frequently ship on a full A4 page with a small block of actual content in the middle. Crop the page down to just that block and printing uses a fraction of the paper — some printers will even auto-scale the crop to fill a smaller physical sheet.",
+    p: "Online tickets, boarding passes and short forms frequently ship on a full A4 page with a small block of actual content in the middle. Crop the page down to just that block and printing uses a fraction of the paper, some printers will even auto-scale the crop to fill a smaller physical sheet.",
   },
 ];
 
@@ -69,7 +69,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
   },
   {
     q: "Can I crop all pages at once?",
-    a: "Yes — Apply to all pages is on by default. Set the frame once on the preview and the same margins apply to every page in the document in a single operation, no matter how many pages the file has.",
+    a: "Yes, Apply to all pages is on by default. Set the frame once on the preview and the same margins apply to every page in the document in a single operation, no matter how many pages the file has.",
     plain:
       "Yes. Apply to all pages is on by default; setting the frame once applies the same margins to every page in a single operation.",
   },
@@ -83,7 +83,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
     q: "Does cropping delete the cropped-out content permanently?",
     a: (
       <>
-        No — and this is important to understand. Cropping here adjusts the
+        No, and this is important to understand. Cropping here adjusts the
         page's <em>CropBox</em>, which is the rectangle a PDF viewer chooses to
         display; the trimmed-out pixels, text and graphics still live inside
         the file and can be revealed by anyone who resets the crop in a PDF
@@ -92,7 +92,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
         <Link to="/tools/redact-pdf" className="text-[#e5322d] underline">
           Redact PDF
         </Link>{" "}
-        instead — it actually deletes the underlying content, whereas cropping
+        instead, it actually deletes the underlying content, whereas cropping
         only changes what's on screen.
       </>
     ),
@@ -103,7 +103,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
     q: "Will cropping reduce quality?",
     a: "No. Because cropping only changes the visible page boundary and doesn't touch the underlying content stream, text remains selectable, embedded fonts stay embedded, vector diagrams stay crisp at any zoom and raster images keep their original resolution. There's no re-encoding step that could soften edges or introduce compression artefacts.",
     plain:
-      "No. Cropping only adjusts the visible page boundary; the content stream isn't touched. Text stays selectable, vector art stays crisp and raster images keep their original resolution — no re-encoding.",
+      "No. Cropping only adjusts the visible page boundary; the content stream isn't touched. Text stays selectable, vector art stays crisp and raster images keep their original resolution, no re-encoding.",
   },
   {
     q: "Do my files get uploaded to a server?",
@@ -113,19 +113,19 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
   },
   {
     q: "Can I undo a crop?",
-    a: "Your original file on your device is never modified — the tool only produces a new -cropped.pdf as a separate download. If you want to change the crop, delete that output and re-open the original here; drag a fresh frame and export again. Because the underlying content is preserved even in the cropped copy (see the CropBox answer above), a full-featured PDF editor can also reset the crop on the exported file.",
+    a: "Your original file on your device is never modified, the tool only produces a new -cropped.pdf as a separate download. If you want to change the crop, delete that output and re-open the original here; drag a fresh frame and export again. Because the underlying content is preserved even in the cropped copy (see the CropBox answer above), a full-featured PDF editor can also reset the crop on the exported file.",
     plain:
       "Yes. The original file on your device is never modified; the tool only produces a separate -cropped.pdf. Re-crop by opening the original again. A PDF editor can also reset the CropBox on the cropped copy.",
   },
   {
     q: "Can I crop a scanned PDF?",
-    a: "Yes — scanned PDFs are the most common thing people crop here, precisely because they arrive with dark scanner edges, uneven white borders and the occasional shadow of a neighbouring page. The visual crop box makes it easy to line the frame up with the actual content and trim those artefacts away without touching the scan's resolution.",
+    a: "Yes, scanned PDFs are the most common thing people crop here, precisely because they arrive with dark scanner edges, uneven white borders and the occasional shadow of a neighbouring page. The visual crop box makes it easy to line the frame up with the actual content and trim those artefacts away without touching the scan's resolution.",
     plain:
       "Yes. Scanned PDFs are the most common use case; the visual crop box makes it easy to trim scanner edges, white borders and shadows without touching the scan's resolution.",
   },
   {
     q: "Can I crop on my phone?",
-    a: "Yes. The crop box and all eight handles respond to touch — tap and drag any handle with your finger, or drag the middle of the box to move the whole frame. If precise pixel work is fiddly on a small screen, the Top/Right/Bottom/Left number inputs in the sidebar are usually the fastest way to nudge each edge into place on mobile.",
+    a: "Yes. The crop box and all eight handles respond to touch, tap and drag any handle with your finger, or drag the middle of the box to move the whole frame. If precise pixel work is fiddly on a small screen, the Top/Right/Bottom/Left number inputs in the sidebar are usually the fastest way to nudge each edge into place on mobile.",
     plain:
       "Yes. The crop box and all eight handles support touch dragging. For precise adjustments on a small screen, the Top/Right/Bottom/Left number inputs in the sidebar are often faster than dragging.",
   },
@@ -180,7 +180,7 @@ export function CropPdfSeo() {
         the scanner lid didn't quite meet the page, or a grey ghost of the
         opposite page bleeding in. Documents downloaded from institutional
         sites are often laid out for A4 print with margins wide enough to
-        scribble notes in — margins nobody scribbles in when the PDF is being
+        scribble notes in, margins nobody scribbles in when the PDF is being
         read on a laptop.
       </p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
@@ -198,7 +198,7 @@ export function CropPdfSeo() {
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         The documents people crop most often are the ones they least want
-        strangers reading — scanned bills, boarding passes, ID copies,
+        strangers reading, scanned bills, boarding passes, ID copies,
         salary slips, statements with a name and address in the corner.
         This tool renders the first-page preview and rewrites the page
         boundaries entirely inside the browser tab you already have open;
@@ -207,7 +207,7 @@ export function CropPdfSeo() {
       </p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
         Once the page has finished loading you can disconnect from the
-        internet and the crop still works — the JavaScript that does the
+        internet and the crop still works, the JavaScript that does the
         work lives on your device, not on a server. Nothing is retained,
         nothing is analysed, and there's no account to sign into that could
         remember what you cropped last week.
@@ -276,7 +276,7 @@ export const cropPdfHowToJsonLd = {
   "@type": "HowTo",
   name: "How to crop a PDF online for free",
   description:
-    "Crop any PDF entirely in the browser — drag a visual crop box on a live preview, or type exact margins in points, apply to all pages or a page range. No upload, no signup, no watermark.",
+    "Crop any PDF entirely in the browser, drag a visual crop box on a live preview, or type exact margins in points, apply to all pages or a page range. No upload, no signup, no watermark.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "A PDF file to crop" }],
   tool: [{ "@type": "HowToTool", name: "FreePDFHub Crop PDF (web browser)" }],
@@ -294,7 +294,7 @@ export const cropPdfSoftwareJsonLd = {
   "@type": "SoftwareApplication",
   name: "FreePDFHub Crop PDF",
   description:
-    "Crop PDF online free — trim white margins and unwanted edges with a visual crop box and live preview, apply to all pages or a page range. Entirely in the browser. No upload, no signup, no watermark.",
+    "Crop PDF online free, trim white margins and unwanted edges with a visual crop box and live preview, apply to all pages or a page range. Entirely in the browser. No upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Web",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

@@ -34,7 +34,7 @@ function ContactPage() {
   return (
     <LegalPage title="Contact Us">
       <p>
-        We read everything — bug reports, feature requests, and general feedback all
+        We read everything, bug reports, feature requests, and general feedback all
         land in the same inbox and help shape what FreePDFHub becomes next.
       </p>
 

@@ -110,7 +110,7 @@ export default function CompressPdf() {
         heading={result.keptOriginal ? "Already optimized" : "PDF compressed!"}
         subheading={
           result.keptOriginal
-            ? "Your PDF was already well optimized — we kept the best version."
+            ? "Your PDF was already well optimized, we kept the best version."
             : "Your compressed PDF is ready to download."
         }
         downloadLabel="Download PDF"

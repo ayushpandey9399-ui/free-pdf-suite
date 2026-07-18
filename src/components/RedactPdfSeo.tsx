@@ -5,7 +5,7 @@ import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 const steps = [
   {
     title: "Open the PDF you need to redact",
-    text: "Drop the file into the browser or click Select PDF file. Every page is rendered inside the tab so you can see exactly what has to be blacked out — the document is not sent anywhere at any point.",
+    text: "Drop the file into the browser or click Select PDF file. Every page is rendered inside the tab so you can see exactly what has to be blacked out, the document is not sent anywhere at any point.",
   },
   {
     title: "Draw a black box over anything sensitive",
@@ -24,15 +24,15 @@ const steps = [
 const benefits = [
   {
     h: "Your documents never leave your device",
-    p: "Redaction is used on the most private files people own — ID scans, bank statements, medical reports, salary slips, legal contracts. This tool opens, edits and saves those files entirely inside your browser using pdf.js and pdf-lib; nothing about the original document, the redaction boxes or the finished file is transmitted or stored on our side.",
+    p: "Redaction is used on the most private files people own, ID scans, bank statements, medical reports, salary slips, legal contracts. This tool opens, edits and saves those files entirely inside your browser using pdf.js and pdf-lib; nothing about the original document, the redaction boxes or the finished file is transmitted or stored on our side.",
   },
   {
     h: "Redact anything on any page",
-    p: "A redaction box is just a rectangle you draw, so it works for text, numbers, embedded photos, signatures, watermarks, tables and whole paragraphs alike. There is no cap on how many boxes you can add or how many pages they can cover — a single ID card or a 200-page contract are both fair game.",
+    p: "A redaction box is just a rectangle you draw, so it works for text, numbers, embedded photos, signatures, watermarks, tables and whole paragraphs alike. There is no cap on how many boxes you can add or how many pages they can cover, a single ID card or a 200-page contract are both fair game.",
   },
   {
     h: "Metadata cleaned too",
-    p: "Sensitive PDFs often carry hidden metadata — the original filename, the author, the software that produced them, sometimes the original document title. The redacted output has all of that cleared, so a nosy inspector cannot open File > Properties and learn something the redaction bars were supposed to hide.",
+    p: "Sensitive PDFs often carry hidden metadata, the original filename, the author, the software that produced them, sometimes the original document title. The redacted output has all of that cleared, so a nosy inspector cannot open File > Properties and learn something the redaction bars were supposed to hide.",
   },
   {
     h: "Untouched pages stay crisp",
@@ -43,7 +43,7 @@ const benefits = [
 const scenarios = [
   {
     h: "Aadhaar and PAN numbers on ID proofs",
-    p: "Rental agents, courier partners, hotels and small businesses routinely ask for an ID copy, and often they only need proof of identity — not the full number. Black out the first 8 digits of your Aadhaar and mask the PAN before you send the copy over WhatsApp, email or a portal.",
+    p: "Rental agents, courier partners, hotels and small businesses routinely ask for an ID copy, and often they only need proof of identity, not the full number. Black out the first 8 digits of your Aadhaar and mask the PAN before you send the copy over WhatsApp, email or a portal.",
   },
   {
     h: "Bank statements shared for verification",
@@ -51,30 +51,30 @@ const scenarios = [
   },
   {
     h: "Personal details on documents posted publicly",
-    p: "If you are uploading a resume, a certificate or a court order to a public page — a blog, a legal filing, a support forum — the phone number, home address and email are usually the parts you do not want indexed. A quick redaction pass removes them before the file goes live.",
+    p: "If you are uploading a resume, a certificate or a court order to a public page, a blog, a legal filing, a support forum, the phone number, home address and email are usually the parts you do not want indexed. A quick redaction pass removes them before the file goes live.",
   },
   {
     h: "Confidential clauses and prices in contracts",
-    p: "When a contract, quote or SOW has to be shared with a third party — a lawyer, an auditor, a new supplier — specific clauses, pricing tables or client names often need to stay confidential. Draw boxes over those sections so the reviewer sees the structure without the numbers.",
+    p: "When a contract, quote or SOW has to be shared with a third party, a lawyer, an auditor, a new supplier, specific clauses, pricing tables or client names often need to stay confidential. Draw boxes over those sections so the reviewer sees the structure without the numbers.",
   },
 ];
 
 const faqs = [
   {
     q: "Does redaction really delete the text, or just hide it?",
-    a: "It really deletes it. When you click Redact PDF, every page with a box on it is re-rendered as a flat image with the black rectangles painted in, and that image replaces the original vector page in the output PDF. The characters that used to sit under the box are not in the file any more — they were dropped when the page became an image. You can verify this yourself: open the redacted file in our PDF to Text tool and confirm the redacted words do not appear in the extracted text.",
+    a: "It really deletes it. When you click Redact PDF, every page with a box on it is re-rendered as a flat image with the black rectangles painted in, and that image replaces the original vector page in the output PDF. The characters that used to sit under the box are not in the file any more, they were dropped when the page became an image. You can verify this yourself: open the redacted file in our PDF to Text tool and confirm the redacted words do not appear in the extracted text.",
   },
   {
     q: "Can someone remove the black box and see the text?",
-    a: "No. In many other tools, a black rectangle is just an annotation drawn on top of the original page, so deleting the annotation reveals the text again. Here, the redacted pages are re-rendered as images, so there is no text object left underneath — there is nothing to reveal, no matter what software the recipient opens the file in.",
+    a: "No. In many other tools, a black rectangle is just an annotation drawn on top of the original page, so deleting the annotation reveals the text again. Here, the redacted pages are re-rendered as images, so there is no text object left underneath, there is nothing to reveal, no matter what software the recipient opens the file in.",
   },
   {
     q: "How do I hide my Aadhaar number in a PDF?",
-    a: "Open the Aadhaar PDF here and draw a black box over the first 8 digits of the number, leaving only the last 4 visible — that matches how UIDAI defines a masked Aadhaar. Do this on the front side and the back side wherever the full number appears, then click Redact PDF. The output is a safely masked Aadhaar copy you can share with couriers, hotels and businesses — and your Aadhaar was never uploaded to any server in the process.",
+    a: "Open the Aadhaar PDF here and draw a black box over the first 8 digits of the number, leaving only the last 4 visible, that matches how UIDAI defines a masked Aadhaar. Do this on the front side and the back side wherever the full number appears, then click Redact PDF. The output is a safely masked Aadhaar copy you can share with couriers, hotels and businesses, and your Aadhaar was never uploaded to any server in the process.",
   },
   {
     q: "Is it safe to redact bank statements online?",
-    a: "It is safe here because the statement never leaves your browser. Most online redaction sites upload the entire PDF to a server, redact it there and hand you back a download link — meaning a full copy of your bank statement has already left your machine. This tool opens the file locally, applies the redactions locally and saves the output locally; the statement bytes are never sent anywhere.",
+    a: "It is safe here because the statement never leaves your browser. Most online redaction sites upload the entire PDF to a server, redact it there and hand you back a download link, meaning a full copy of your bank statement has already left your machine. This tool opens the file locally, applies the redactions locally and saves the output locally; the statement bytes are never sent anywhere.",
   },
   {
     q: "Do my files get uploaded to a server?",
@@ -82,23 +82,23 @@ const faqs = [
   },
   {
     q: "Can I redact multiple areas and multiple pages?",
-    a: "Yes. Draw as many boxes as you need on any page — a single page can hold one box or a hundred, and every page in the document can have redactions. You can also use the Find feature to type a phrase (an email, an account number, a name) and have a box added automatically over every occurrence across the whole file.",
+    a: "Yes. Draw as many boxes as you need on any page, a single page can hold one box or a hundred, and every page in the document can have redactions. You can also use the Find feature to type a phrase (an email, an account number, a name) and have a box added automatically over every occurrence across the whole file.",
   },
   {
     q: "Will the rest of my document lose quality?",
-    a: "Only the pages you actually drew a box on are re-rendered — those pages are exported as high-quality JPEG images at 2× resolution, which keeps text and diagrams sharp for on-screen reading and normal printing. Every page you left untouched is copied through byte-for-byte from the original, so its vector text, fonts and file size are exactly the same as before.",
+    a: "Only the pages you actually drew a box on are re-rendered, those pages are exported as high-quality JPEG images at 2× resolution, which keeps text and diagrams sharp for on-screen reading and normal printing. Every page you left untouched is copied through byte-for-byte from the original, so its vector text, fonts and file size are exactly the same as before.",
   },
   {
     q: "Can I still select text on redacted pages?",
-    a: "No — and that is the point. The pages that carry redactions are turned into images, which is precisely what makes the redaction permanent (there is no text object left to select or copy). Pages without any redactions still have fully selectable text. If keeping the text layer everywhere matters more than removing the sensitive content, you probably want a different tool.",
+    a: "No, and that is the point. The pages that carry redactions are turned into images, which is precisely what makes the redaction permanent (there is no text object left to select or copy). Pages without any redactions still have fully selectable text. If keeping the text layer everywhere matters more than removing the sensitive content, you probably want a different tool.",
   },
   {
     q: "What's the difference between redacting and deleting a page?",
-    a: "Redacting hides specific areas — words, numbers, photos — while keeping the rest of the page intact and in place. Deleting removes an entire page from the document. If the sensitive content is one line of an otherwise useful page, redact it here; if a whole page has to go, use the Delete Pages tool instead.",
+    a: "Redacting hides specific areas, words, numbers, photos, while keeping the rest of the page intact and in place. Deleting removes an entire page from the document. If the sensitive content is one line of an otherwise useful page, redact it here; if a whole page has to go, use the Delete Pages tool instead.",
   },
   {
     q: "Do I need Adobe Acrobat to redact a PDF?",
-    a: "No. Adobe Acrobat's redaction feature is only in the paid Pro edition. This tool is free, runs in the browser, produces a genuinely redacted PDF (re-rendered pages, no recoverable text) and strips document metadata — everything you would expect from a proper redaction workflow, without a subscription.",
+    a: "No. Adobe Acrobat's redaction feature is only in the paid Pro edition. This tool is free, runs in the browser, produces a genuinely redacted PDF (re-rendered pages, no recoverable text) and strips document metadata, everything you would expect from a proper redaction workflow, without a subscription.",
   },
 ];
 
@@ -141,7 +141,7 @@ export function RedactPdfSeo() {
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         This is the part almost every online tool gets wrong. In the usual PDF editor, drawing a black rectangle
-        over sensitive text only covers it visually — the underlying characters remain inside the file as regular
+        over sensitive text only covers it visually, the underlying characters remain inside the file as regular
         text objects. Anyone who opens the PDF can select the covered area, copy the text out, or run the file
         through any text extractor and see everything the black bar was supposed to hide. That is not redaction;
         it is a cover-up that fools no one.
@@ -150,7 +150,7 @@ export function RedactPdfSeo() {
         This tool works differently. Every page you drew on is re-rendered as a flat image with the black
         rectangles painted directly onto the pixels, and that image replaces the original vector page in the
         output PDF. The characters that used to sit under the box are not in the file any more, and the document's
-        metadata — title, author, producer, keywords — is cleared at the same time so nothing sensitive leaks
+        metadata, title, author, producer, keywords, is cleared at the same time so nothing sensitive leaks
         through the properties dialog either.
       </p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
@@ -158,7 +158,7 @@ export function RedactPdfSeo() {
         <Link to="/tools/pdf-to-text" className="font-semibold text-[#e5322d] underline underline-offset-2">
           PDF to Text
         </Link>{" "}
-        tool and search for the words you blacked out — they will not appear. That is what permanently remove
+        tool and search for the words you blacked out, they will not appear. That is what permanently remove
         text from PDF actually looks like.
       </p>
 
@@ -170,12 +170,12 @@ export function RedactPdfSeo() {
         UIDAI defines a masked Aadhaar as a copy where only the last 4 digits of the 12-digit number are visible
         and the first 8 digits are hidden. Sharing the masked version instead of the full Aadhaar is now the
         recommended practice for hotels, couriers, rental agents, telecom stores and most private businesses that
-        ask for ID — the last 4 digits are enough for their verification, and giving them the full number
+        ask for ID, the last 4 digits are enough for their verification, and giving them the full number
         exposes you to misuse.
       </p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
         With this tool, open your Aadhaar PDF, draw a black box over the first 8 digits everywhere the number
-        appears (both the front and the back), and download a safely masked Aadhaar copy — without uploading your
+        appears (both the front and the back), and download a safely masked Aadhaar copy, without uploading your
         Aadhaar to any third-party server. You can also mask the parent's name, the address block or the QR code
         in the same pass if the recipient does not need them. The same workflow works on a PAN card (hide the
         middle digits of the PAN), a passport (hide the passport number or the date of birth) or a driving
@@ -185,7 +185,7 @@ export function RedactPdfSeo() {
         Honest tip: UIDAI's official myaadhaar portal (myaadhaar.uidai.gov.in) also lets you download a masked
         Aadhaar directly, and that is the most authoritative option when you are starting from scratch. This
         tool is the right pick when you already have the PDF in front of you, or when you need to mask more than
-        just the number — an address, a photograph or a specific field the official portal does not let you
+        just the number, an address, a photograph or a specific field the official portal does not let you
         touch.
       </p>
 
@@ -252,7 +252,7 @@ export const redactHowToJsonLd = {
   "@type": "HowTo",
   name: "How to redact a PDF online for free",
   description:
-    "Permanently black out sensitive text, numbers or images in a PDF using an in-browser redaction tool — the redacted pages are re-rendered so the hidden content is truly removed, not just covered.",
+    "Permanently black out sensitive text, numbers or images in a PDF using an in-browser redaction tool, the redacted pages are re-rendered so the hidden content is truly removed, not just covered.",
   totalTime: "PT2M",
   supply: [{ "@type": "HowToSupply", name: "A PDF containing sensitive content to remove" }],
   tool: [{ "@type": "HowToTool", name: "FreePDFHub Redact PDF (web browser)" }],
@@ -270,7 +270,7 @@ export const redactSoftwareJsonLd = {
   "@type": "SoftwareApplication",
   name: "FreePDFHub Redact PDF",
   description:
-    "Redact PDF online free — permanently black out Aadhaar numbers, account details and other sensitive content in your browser. Redacted pages are re-rendered so removed text cannot be recovered.",
+    "Redact PDF online free, permanently black out Aadhaar numbers, account details and other sensitive content in your browser. Redacted pages are re-rendered so removed text cannot be recovered.",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Web",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

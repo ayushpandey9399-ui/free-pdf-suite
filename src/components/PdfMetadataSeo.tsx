@@ -10,11 +10,11 @@ const steps = [
   },
   {
     title: "Read what the file is currently saying about itself",
-    text: "Four editable fields appear in the sidebar — Title, Author, Subject and Keywords — pre-filled with whatever is already stored inside the PDF. Below the thumbnail you can see the read-only trail: Created, Modified, Producer and Creator, each showing \"Not set\" when the field is empty.",
+    text: "Four editable fields appear in the sidebar, Title, Author, Subject and Keywords, pre-filled with whatever is already stored inside the PDF. Below the thumbnail you can see the read-only trail: Created, Modified, Producer and Creator, each showing \"Not set\" when the field is empty.",
   },
   {
     title: "Correct a field, or tick Clear all metadata",
-    text: "Type over any of the four editable fields to change them individually — for example, replacing a template's old author name with your own, or setting a proper document Title. To wipe the lot in one move, tick the Clear all metadata box: it blanks Title, Author, Subject and Keywords, resets Producer and Creator to empty strings, and removes the Created and Modified timestamps from the document information dictionary.",
+    text: "Type over any of the four editable fields to change them individually, for example, replacing a template's old author name with your own, or setting a proper document Title. To wipe the lot in one move, tick the Clear all metadata box: it blanks Title, Author, Subject and Keywords, resets Producer and Creator to empty strings, and removes the Created and Modified timestamps from the document information dictionary.",
   },
   {
     title: "Save the updated copy",
@@ -25,7 +25,7 @@ const steps = [
 const benefits = [
   {
     h: "See everything at once",
-    p: "The moment a PDF drops in, every property the file carries — Title, Author, Subject, Keywords, Producer, Creator, Created and Modified dates — is on screen. There are no separate tabs or dialogs; you're looking at the same summary a colleague or recipient would see when they open File → Properties.",
+    p: "The moment a PDF drops in, every property the file carries, Title, Author, Subject, Keywords, Producer, Creator, Created and Modified dates, is on screen. There are no separate tabs or dialogs; you're looking at the same summary a colleague or recipient would see when they open File → Properties.",
   },
   {
     h: "Edit or erase",
@@ -37,7 +37,7 @@ const benefits = [
   },
   {
     h: "Private inspection",
-    p: "Auditing a sensitive document — a resume, a contract draft, an internal memo — usually means uploading it somewhere just to see who created it. Here the file is opened, inspected and rewritten inside your browser tab, so a sensitive document never becomes a stranger's copy just to be checked.",
+    p: "Auditing a sensitive document, a resume, a contract draft, an internal memo, usually means uploading it somewhere just to see who created it. Here the file is opened, inspected and rewritten inside your browser tab, so a sensitive document never becomes a stranger's copy just to be checked.",
   },
 ];
 
@@ -48,7 +48,7 @@ const scenarios = [
   },
   {
     h: "Fixing embarrassing browser-tab titles on official documents",
-    p: "When an invoice, offer letter or tender opens in Chrome or Safari, the tab title comes from the metadata Title — which is why users sometimes see \"Microsoft Word - draft_v3_FINAL_use_this_one\" at the top of the browser. Set a clean Title here and every viewer that reads metadata shows it correctly.",
+    p: "When an invoice, offer letter or tender opens in Chrome or Safari, the tab title comes from the metadata Title, which is why users sometimes see \"Microsoft Word - draft_v3_FINAL_use_this_one\" at the top of the browser. Set a clean Title here and every viewer that reads metadata shows it correctly.",
   },
   {
     h: "Setting proper properties on reports, e-books and portfolios you distribute",
@@ -60,7 +60,7 @@ const scenarios = [
       <>
         For blind reviews, whistleblowing submissions and anonymous
         tips, clearing the metadata author and producer is a required
-        first step — but it's only the metadata half of the job. Pair
+        first step, but it's only the metadata half of the job. Pair
         this with{" "}
         <Link to="/tools/redact-pdf" className="text-[#e5322d] underline">
           Redact PDF
@@ -76,9 +76,9 @@ const scenarios = [
 const faqs: { q: string; a: ReactNode; plain: string }[] = [
   {
     q: "What is PDF metadata?",
-    a: "It's the set of properties every PDF quietly carries about itself — Title, Author, Subject, Keywords, the software that produced it (Producer and Creator), and the creation and modification timestamps. None of it shows on the printed page, but anyone who opens File → Properties in a PDF reader can read all of it in seconds.",
+    a: "It's the set of properties every PDF quietly carries about itself, Title, Author, Subject, Keywords, the software that produced it (Producer and Creator), and the creation and modification timestamps. None of it shows on the printed page, but anyone who opens File → Properties in a PDF reader can read all of it in seconds.",
     plain:
-      "It's the set of properties every PDF carries about itself — Title, Author, Subject, Keywords, Producer, Creator and creation/modification dates. Nothing shows on the page, but File → Properties in any reader reveals it.",
+      "It's the set of properties every PDF carries about itself, Title, Author, Subject, Keywords, Producer, Creator and creation/modification dates. Nothing shows on the page, but File → Properties in any reader reveals it.",
   },
   {
     q: "How do I remove all metadata from a PDF?",
@@ -94,13 +94,13 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
   },
   {
     q: "Does editing metadata change the document's content?",
-    a: "No. Only the property fields on the file are rewritten; the pages, text, images, layout, fonts and dimensions are copied through untouched. A recipient opening the -updated.pdf will see exactly the same document, just with different — or no — properties in the file dialog.",
+    a: "No. Only the property fields on the file are rewritten; the pages, text, images, layout, fonts and dimensions are copied through untouched. A recipient opening the -updated.pdf will see exactly the same document, just with different, or no, properties in the file dialog.",
     plain:
       "No. Only property fields change. Pages, text, images, layout, fonts and dimensions are copied through untouched.",
   },
   {
     q: "Which fields can I edit?",
-    a: "Four fields are directly editable in the sidebar: Title, Author, Subject and Keywords (comma-separated). Producer, Creator, Created and Modified are shown as read-only trail information so you can inspect them, and Clear all metadata wipes them too — Producer and Creator are reset to empty strings and the Created and Modified timestamps are removed from the document information dictionary.",
+    a: "Four fields are directly editable in the sidebar: Title, Author, Subject and Keywords (comma-separated). Producer, Creator, Created and Modified are shown as read-only trail information so you can inspect them, and Clear all metadata wipes them too, Producer and Creator are reset to empty strings and the Created and Modified timestamps are removed from the document information dictionary.",
     plain:
       "Editable: Title, Author, Subject and Keywords. Producer, Creator, Created and Modified are shown as read-only trail info; ticking Clear all metadata also resets Producer/Creator and removes the Created/Modified timestamps.",
   },
@@ -115,8 +115,8 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
     a: (
       <>
         No, and this is the important honest part. Clear all metadata
-        wipes the property fields — Title, Author, Subject, Keywords,
-        Producer, Creator — and removes the Created and Modified
+        wipes the property fields, Title, Author, Subject, Keywords,
+        Producer, Creator, and removes the Created and Modified
         timestamps from the document information dictionary, and
         pdf-lib is instructed not to stamp a fresh modification date
         when it saves. But everything printed on the pages themselves
@@ -137,25 +137,25 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
       </>
     ),
     plain:
-      "No. Clearing wipes Title, Author, Subject, Keywords, Producer, Creator and the Created/Modified timestamps, and pdf-lib is told not to stamp a fresh ModDate on save. But names, signatures and letterheads printed on the pages stay — use Redact PDF for visible content. Some PDFs also carry a separate XMP metadata stream that isn't rewritten here, so re-inspect a sanitised copy before relying on it.",
+      "No. Clearing wipes Title, Author, Subject, Keywords, Producer, Creator and the Created/Modified timestamps, and pdf-lib is told not to stamp a fresh ModDate on save. But names, signatures and letterheads printed on the pages stay, use Redact PDF for visible content. Some PDFs also carry a separate XMP metadata stream that isn't rewritten here, so re-inspect a sanitised copy before relying on it.",
   },
   {
     q: "Why does my PDF open with a weird title in the browser tab?",
-    a: "Because Chrome, Safari, Edge and Firefox all show the PDF's metadata Title in the tab, not the filename. If the Title was never set — or was inherited from a template — you end up with tab titles like \"Microsoft Word - final_v3_use_this\" or a colleague's document name. Set a real Title in this tool, save, and every browser tab will show what you want it to.",
+    a: "Because Chrome, Safari, Edge and Firefox all show the PDF's metadata Title in the tab, not the filename. If the Title was never set, or was inherited from a template, you end up with tab titles like \"Microsoft Word - final_v3_use_this\" or a colleague's document name. Set a real Title in this tool, save, and every browser tab will show what you want it to.",
     plain:
       "Because browsers show the metadata Title in the tab, not the filename. If the Title is empty or came from a template, viewers see whatever's inside. Set a real Title here and every tab shows it correctly.",
   },
   {
     q: "Can I edit metadata on my phone?",
-    a: "Yes. The tool is responsive and runs entirely client-side, so it works in mobile Chrome, Safari and Firefox on iOS and Android. Tap Select PDF file, pick a PDF from Files, Google Drive or iCloud, edit the four fields — or tick Clear all metadata — and save the -updated.pdf back to your device.",
+    a: "Yes. The tool is responsive and runs entirely client-side, so it works in mobile Chrome, Safari and Firefox on iOS and Android. Tap Select PDF file, pick a PDF from Files, Google Drive or iCloud, edit the four fields, or tick Clear all metadata, and save the -updated.pdf back to your device.",
     plain:
       "Yes. The tool runs client-side in mobile Chrome, Safari and Firefox on iOS and Android. Pick a PDF, edit the fields or clear all metadata, and save the -updated.pdf back to your device.",
   },
   {
     q: "Do I need Adobe Acrobat?",
-    a: "No. The editor is a web page that runs in any modern browser — Chrome, Safari, Firefox, Edge or Brave — with no Acrobat licence, no install and no signup. The download is a standard PDF that opens the same way in every reader, with your updated Title, Author, Subject and Keywords in place.",
+    a: "No. The editor is a web page that runs in any modern browser, Chrome, Safari, Firefox, Edge or Brave, with no Acrobat licence, no install and no signup. The download is a standard PDF that opens the same way in every reader, with your updated Title, Author, Subject and Keywords in place.",
     plain:
-      "No. It runs in Chrome, Safari, Firefox, Edge or Brave — no Acrobat licence, no install, no signup. Output is a standard PDF that opens anywhere.",
+      "No. It runs in Chrome, Safari, Firefox, Edge or Brave, no Acrobat licence, no install, no signup. Output is a standard PDF that opens anywhere.",
   },
 ];
 
@@ -186,9 +186,9 @@ export function PdfMetadataSeo() {
         printed pages you read.
       </p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        But it is one right-click away. Any PDF reader — Adobe,
+        But it is one right-click away. Any PDF reader, Adobe,
         Preview, a Windows Explorer Properties tab, even the browser
-        tab title — can display it in seconds, which means every file
+        tab title, can display it in seconds, which means every file
         you send out is also telling recipients a small story about
         who made it, on what, and when. That story is often not the
         one you meant to tell: the Author field may still show the
@@ -231,7 +231,7 @@ export function PdfMetadataSeo() {
         One tick of Clear all metadata strips those fields out, and
         because the whole flow runs inside your browser tab, auditing
         a sensitive file does not mean handing it to anyone. You open
-        it, look at it, clean it and save the cleaned copy — the
+        it, look at it, clean it and save the cleaned copy, the
         original never leaves your device, and neither does the copy.
       </p>
 
@@ -241,7 +241,7 @@ export function PdfMetadataSeo() {
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         When a PDF opens in a browser tab, the tab does not show the
-        filename — it shows the metadata Title. That is why official
+        filename, it shows the metadata Title. That is why official
         documents so often appear in the wild with tab captions like
         "Microsoft Word - final_v3_REAL_use_this" or the name of
         someone else's template.
@@ -258,18 +258,18 @@ export function PdfMetadataSeo() {
         A 30-second sanity check before every external send
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        Metadata leaks are almost always accidental — someone reused a template and never looked
+        Metadata leaks are almost always accidental, someone reused a template and never looked
         at the Author, or exported a client draft with the internal project code sitting in the
         Title. The fix is a habit, not a tool: before any resume, tender, proposal or contract
         leaves your machine, drop it in here and glance at the four editable fields (Title,
         Author, Subject and Keywords) plus the read-only Producer, Creator and timestamps. If
-        any of them tells a story you didn't mean to tell — an old employer's name, a
-        colleague's template, a working title with "draft" or "v3" in it — either overwrite the
+        any of them tells a story you didn't mean to tell, an old employer's name, a
+        colleague's template, a working title with "draft" or "v3" in it, either overwrite the
         field or tick Clear all metadata before you send.
       </p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
         For anonymised submissions (blind reviews, whistleblowing packets, media source
-        materials), clearing metadata is a required first step but not a sufficient one — page
+        materials), clearing metadata is a required first step but not a sufficient one, page
         content, signatures and embedded photo EXIF still identify the source. Pair the wipe
         here with{" "}
         <Link to="/tools/redact-pdf" className="text-[#e5322d] underline">Redact PDF</Link>{" "}
@@ -339,7 +339,7 @@ export const pdfMetadataHowToJsonLd = {
   "@type": "HowTo",
   name: "How to edit PDF metadata online for free",
   description:
-    "View, edit or clear PDF properties — Title, Author, Subject, Keywords, Producer and Creator — entirely in the browser. No upload, no signup, no watermark.",
+    "View, edit or clear PDF properties, Title, Author, Subject, Keywords, Producer and Creator, entirely in the browser. No upload, no signup, no watermark.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "Any PDF file" }],
   tool: [{ "@type": "HowToTool", name: "FreePDFHub PDF Metadata Editor (web browser)" }],
@@ -357,7 +357,7 @@ export const pdfMetadataSoftwareJsonLd = {
   "@type": "SoftwareApplication",
   name: "FreePDFHub PDF Metadata Editor",
   description:
-    "Edit PDF metadata online free — view, change or remove Title, Author, Subject, Keywords, Producer and Creator. Entirely in the browser. No upload, no signup, no watermark.",
+    "Edit PDF metadata online free, view, change or remove Title, Author, Subject, Keywords, Producer and Creator. Entirely in the browser. No upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Web",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

@@ -5,7 +5,7 @@ import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 const steps = [
   {
     title: "Open the PDF you want to trim",
-    text: "Drop a PDF onto the page or click Select PDF file. The document opens locally in your browser — every page shows up as a thumbnail in the workspace, ready to review.",
+    text: "Drop a PDF onto the page or click Select PDF file. The document opens locally in your browser, every page shows up as a thumbnail in the workspace, ready to review.",
   },
   {
     title: "Click the thumbnails you want to remove",
@@ -13,7 +13,7 @@ const steps = [
   },
   {
     title: "Check your selection",
-    text: "The button re-labels itself to Delete 4 pages (or whatever the count is) so there's no ambiguity right before you commit. Deselect anything you added by accident — nothing has been changed on disk yet.",
+    text: "The button re-labels itself to Delete 4 pages (or whatever the count is) so there's no ambiguity right before you commit. Deselect anything you added by accident, nothing has been changed on disk yet.",
   },
   {
     title: "Click Delete pages and download",
@@ -28,41 +28,41 @@ const benefits = [
   },
   {
     h: "No quality loss",
-    p: "The pages you keep are copied through byte-for-byte using pdf-lib — same fonts, same embedded images, same vector shapes at the same resolution. There is no re-render, no re-compression and no downgrade anywhere in the surviving pages.",
+    p: "The pages you keep are copied through byte-for-byte using pdf-lib, same fonts, same embedded images, same vector shapes at the same resolution. There is no re-render, no re-compression and no downgrade anywhere in the surviving pages.",
   },
   {
     h: "Original file stays safe",
-    p: "The tool never writes back to the file you opened. It builds a brand-new PDF in memory and downloads it as a separate -cleaned.pdf, so the source on your disk remains exactly as it was — a free undo if you change your mind later.",
+    p: "The tool never writes back to the file you opened. It builds a brand-new PDF in memory and downloads it as a separate -cleaned.pdf, so the source on your disk remains exactly as it was, a free undo if you change your mind later.",
   },
   {
     h: "Fast even for big files",
-    p: "Because everything runs locally, a 200-page statement or scan bundle processes in seconds — no upload wait, no round-trip to a server, no queue. Bigger documents just mean more thumbnails to scroll, not a longer download.",
+    p: "Because everything runs locally, a 200-page statement or scan bundle processes in seconds, no upload wait, no round-trip to a server, no queue. Bigger documents just mean more thumbnails to scroll, not a longer download.",
   },
 ];
 
 const scenarios = [
   {
     h: "Blank pages the scanner slipped in",
-    p: "Duplex scanners regularly emit a blank page whenever the back side of a sheet is empty, and phone scanner apps add stray blanks when a page is missed. Open the file here, click every blank thumbnail and delete the lot in one pass — the surviving pages keep their exact order and quality.",
+    p: "Duplex scanners regularly emit a blank page whenever the back side of a sheet is empty, and phone scanner apps add stray blanks when a page is missed. Open the file here, click every blank thumbnail and delete the lot in one pass, the surviving pages keep their exact order and quality.",
   },
   {
     h: "Trimming a statement or report before submitting",
-    p: "Downloaded bank statements, telecom bills and salary slips often carry pages of terms, marketing inserts or historical months you don't need to share. Delete the pages that are not relevant to the specific submission — a rental deposit, a visa application, a reimbursement — and send only what was asked for, nothing more.",
+    p: "Downloaded bank statements, telecom bills and salary slips often carry pages of terms, marketing inserts or historical months you don't need to share. Delete the pages that are not relevant to the specific submission, a rental deposit, a visa application, a reimbursement, and send only what was asked for, nothing more.",
   },
   {
     h: "Duplicate scans in a merged bundle",
-    p: "When you merge KYC files from different sources, the same ID or the same cheque copy often shows up twice or three times. Scroll the thumbnails, click every repeat and produce a clean, single-copy bundle before you forward it — easier for the recipient and less material floating around with your details on it.",
+    p: "When you merge KYC files from different sources, the same ID or the same cheque copy often shows up twice or three times. Scroll the thumbnails, click every repeat and produce a clean, single-copy bundle before you forward it, easier for the recipient and less material floating around with your details on it.",
   },
   {
     h: "Ads and instructions in downloaded forms",
-    p: "Government and utility PDF forms often ship as a 12-page file where only 3 pages are the actual form and the rest are instructions, ads or a checklist. Delete the filler pages so what prints out is just the form itself — no wasted paper, no confused clerk flipping past cover pages.",
+    p: "Government and utility PDF forms often ship as a 12-page file where only 3 pages are the actual form and the rest are instructions, ads or a checklist. Delete the filler pages so what prints out is just the form itself, no wasted paper, no confused clerk flipping past cover pages.",
   },
 ];
 
 const faqs = [
   {
     q: "How do I delete pages from a PDF for free?",
-    a: "Open this page, click Select PDF file and pick your document, then click the thumbnail of any page you want to remove — click again to unmark it. When you are happy with the selection, click the Delete pages button and a cleaned copy of the PDF downloads to your device. No account, no card, no watermark on the output.",
+    a: "Open this page, click Select PDF file and pick your document, then click the thumbnail of any page you want to remove, click again to unmark it. When you are happy with the selection, click the Delete pages button and a cleaned copy of the PDF downloads to your device. No account, no card, no watermark on the output.",
   },
   {
     q: "Can I delete multiple pages at once?",
@@ -70,7 +70,7 @@ const faqs = [
   },
   {
     q: "Is the deleted page really gone from the file?",
-    a: "Yes. The tool doesn't hide or blank the page — it builds a brand-new PDF that contains only the pages you kept and drops the rest entirely. The removed pages are not stored anywhere inside the output file, so a recipient can't reveal them by scrolling, searching or opening the PDF in an editor. That's the difference between deleting a page and hiding information on a page.",
+    a: "Yes. The tool doesn't hide or blank the page, it builds a brand-new PDF that contains only the pages you kept and drops the rest entirely. The removed pages are not stored anywhere inside the output file, so a recipient can't reveal them by scrolling, searching or opening the PDF in an editor. That's the difference between deleting a page and hiding information on a page.",
   },
   {
     q: "Do my files get uploaded to a server?",
@@ -78,27 +78,27 @@ const faqs = [
   },
   {
     q: "Will the remaining pages lose quality?",
-    a: "No. Every page you kept is copied through untouched — same fonts, same images at their original resolution, same vector artwork. The tool never re-renders or re-compresses the content, so a scanned page at 300 dpi stays at 300 dpi and a text page keeps its selectable, searchable text.",
+    a: "No. Every page you kept is copied through untouched, same fonts, same images at their original resolution, same vector artwork. The tool never re-renders or re-compresses the content, so a scanned page at 300 dpi stays at 300 dpi and a text page keeps its selectable, searchable text.",
   },
   {
     q: "Can I undo a deletion?",
-    a: "Before you click Delete pages, yes — just click the thumbnail again to remove it from the selection. After the cleaned PDF has been generated, the tool itself doesn't have an undo history, but your original PDF on disk is untouched, so you can drop it back into the tool and start again with the correct pages selected.",
+    a: "Before you click Delete pages, yes, just click the thumbnail again to remove it from the selection. After the cleaned PDF has been generated, the tool itself doesn't have an undo history, but your original PDF on disk is untouched, so you can drop it back into the tool and start again with the correct pages selected.",
   },
   {
     q: "Can I delete pages from a scanned PDF?",
-    a: "Yes. Scanned PDFs are just image pages wrapped in a PDF container, and the tool treats every page the same way — a thumbnail you can click to remove. The kept scans are copied through at their original resolution, so the cleaned output looks identical to the scans that were in the source file.",
+    a: "Yes. Scanned PDFs are just image pages wrapped in a PDF container, and the tool treats every page the same way, a thumbnail you can click to remove. The kept scans are copied through at their original resolution, so the cleaned output looks identical to the scans that were in the source file.",
   },
   {
     q: "How do I remove blank pages automatically?",
-    a: "This tool removes blank pages by click — the workspace shows a thumbnail of every page, so the blanks are the obviously white tiles you can spot at a glance. Click each blank thumbnail to mark it, watch the sidebar counter tick up as you go, then click Delete pages to drop them all in a single pass. For a duplex-scanned bundle of 30–50 pages this is usually faster than any auto-detect, because you can also skip a blank that is intentionally there (a page break, a chapter separator) instead of losing it.",
+    a: "This tool removes blank pages by click, the workspace shows a thumbnail of every page, so the blanks are the obviously white tiles you can spot at a glance. Click each blank thumbnail to mark it, watch the sidebar counter tick up as you go, then click Delete pages to drop them all in a single pass. For a duplex-scanned bundle of 30 to 50 pages this is usually faster than any auto-detect, because you can also skip a blank that is intentionally there (a page break, a chapter separator) instead of losing it.",
   },
   {
     q: "Can I delete pages on my phone?",
-    a: "Yes. The tool runs in the mobile browser exactly as it does on desktop — tap thumbnails to mark them, watch the counter update in the sidebar, tap Delete pages and the cleaned file saves to your phone's downloads. There is no app to install and no account required.",
+    a: "Yes. The tool runs in the mobile browser exactly as it does on desktop, tap thumbnails to mark them, watch the counter update in the sidebar, tap Delete pages and the cleaned file saves to your phone's downloads. There is no app to install and no account required.",
   },
   {
     q: "Do I need Adobe Acrobat?",
-    a: "No. Adobe Acrobat's page-deletion feature is behind the paid Acrobat Pro subscription, but nothing on this page requires installing software or signing in. Open the tool in any modern browser, remove the pages you don't want and download the cleaned PDF — that's the whole workflow.",
+    a: "No. Adobe Acrobat's page-deletion feature is behind the paid Acrobat Pro subscription, but nothing on this page requires installing software or signing in. Open the tool in any modern browser, remove the pages you don't want and download the cleaned PDF, that's the whole workflow.",
   },
 ];
 
@@ -143,7 +143,7 @@ export function DeletePagesSeo() {
         The whole PDF is laid out as a scrollable grid of thumbnails, so you can see
         every page before deciding what goes. Click the blank scan the printer added,
         the duplicate copy of your ID that got merged in twice, the appendix that no
-        longer belongs in the report — each click is reversible until you commit. The
+        longer belongs in the report, each click is reversible until you commit. The
         sidebar keeps a live count in the form 4 of 32 selected as you work, so the
         shape of the output is obvious at a glance. When you click Delete pages, the
         surviving pages keep their original order and their original quality, and the
@@ -155,11 +155,11 @@ export function DeletePagesSeo() {
         Clean up documents before sharing, privately
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        The pages people delete are almost always the sensitive ones — the salary
+        The pages people delete are almost always the sensitive ones, the salary
         annexure buried in a bank statement, the pay history at the back of an offer
         letter, the extra Aadhaar copy sitting inside a scanned bundle, the internal
         notes on the last page of a report meant for a client. Sending a PDF like
-        that to an online tool for trimming just moves the exposure — the sensitive
+        that to an online tool for trimming just moves the exposure, the sensitive
         pages still travel to somebody else's server before you get the clean copy
         back.
       </p>
@@ -169,7 +169,7 @@ export function DeletePagesSeo() {
         so a page you deleted was never seen by any server in the middle. One honest
         note: deleting a page removes it from the new file completely, but if the
         information you want to hide is on a page you actually need to keep, deletion
-        isn't the right tool — use{" "}
+        isn't the right tool, use{" "}
         <Link to="/tools/redact-pdf" className="text-[#e5322d] underline">
           Redact PDF
         </Link>{" "}
@@ -230,7 +230,7 @@ export function DeletePagesSeo() {
 const faqsPlain: { q: string; a: string }[] = [
   {
     q: "How do I delete pages from a PDF for free?",
-    a: "Open this page, click Select PDF file and pick your document, then click the thumbnail of any page you want to remove — click again to unmark it. When you are happy with the selection, click the Delete pages button and a cleaned copy of the PDF downloads to your device. No account, no card, no watermark on the output.",
+    a: "Open this page, click Select PDF file and pick your document, then click the thumbnail of any page you want to remove, click again to unmark it. When you are happy with the selection, click the Delete pages button and a cleaned copy of the PDF downloads to your device. No account, no card, no watermark on the output.",
   },
   {
     q: "Can I delete multiple pages at once?",
@@ -238,7 +238,7 @@ const faqsPlain: { q: string; a: string }[] = [
   },
   {
     q: "Is the deleted page really gone from the file?",
-    a: "Yes. The tool doesn't hide or blank the page — it builds a brand-new PDF that contains only the pages you kept and drops the rest entirely. The removed pages are not stored anywhere inside the output file, so a recipient can't reveal them by scrolling, searching or opening the PDF in an editor.",
+    a: "Yes. The tool doesn't hide or blank the page, it builds a brand-new PDF that contains only the pages you kept and drops the rest entirely. The removed pages are not stored anywhere inside the output file, so a recipient can't reveal them by scrolling, searching or opening the PDF in an editor.",
   },
   {
     q: "Do my files get uploaded to a server?",
@@ -246,27 +246,27 @@ const faqsPlain: { q: string; a: string }[] = [
   },
   {
     q: "Will the remaining pages lose quality?",
-    a: "No. Every page you kept is copied through untouched — same fonts, same images at their original resolution, same vector artwork. The tool never re-renders or re-compresses the content, so a scanned page at 300 dpi stays at 300 dpi and a text page keeps its selectable, searchable text.",
+    a: "No. Every page you kept is copied through untouched, same fonts, same images at their original resolution, same vector artwork. The tool never re-renders or re-compresses the content, so a scanned page at 300 dpi stays at 300 dpi and a text page keeps its selectable, searchable text.",
   },
   {
     q: "Can I undo a deletion?",
-    a: "Before you click Delete pages, yes — just click the thumbnail again to remove it from the selection. After the cleaned PDF has been generated, the tool itself doesn't have an undo history, but your original PDF on disk is untouched, so you can drop it back into the tool and start again with the correct pages selected.",
+    a: "Before you click Delete pages, yes, just click the thumbnail again to remove it from the selection. After the cleaned PDF has been generated, the tool itself doesn't have an undo history, but your original PDF on disk is untouched, so you can drop it back into the tool and start again with the correct pages selected.",
   },
   {
     q: "Can I delete pages from a scanned PDF?",
-    a: "Yes. Scanned PDFs are just image pages wrapped in a PDF container, and the tool treats every page the same way — a thumbnail you can click to remove. The kept scans are copied through at their original resolution, so the cleaned output looks identical to the scans that were in the source file.",
+    a: "Yes. Scanned PDFs are just image pages wrapped in a PDF container, and the tool treats every page the same way, a thumbnail you can click to remove. The kept scans are copied through at their original resolution, so the cleaned output looks identical to the scans that were in the source file.",
   },
   {
     q: "How do I remove blank pages automatically?",
-    a: "This tool removes blank pages by click — the workspace shows a thumbnail of every page, so blanks are the obviously white tiles you can spot at a glance. Click each blank thumbnail to mark it, watch the sidebar counter tick up as you go, then click Delete pages to drop them all in a single pass. For a duplex-scanned bundle this is usually faster than any auto-detect, because you can also skip a blank that is intentionally there (a page break, a chapter separator) instead of losing it.",
+    a: "This tool removes blank pages by click, the workspace shows a thumbnail of every page, so blanks are the obviously white tiles you can spot at a glance. Click each blank thumbnail to mark it, watch the sidebar counter tick up as you go, then click Delete pages to drop them all in a single pass. For a duplex-scanned bundle this is usually faster than any auto-detect, because you can also skip a blank that is intentionally there (a page break, a chapter separator) instead of losing it.",
   },
   {
     q: "Can I delete pages on my phone?",
-    a: "Yes. The tool runs in the mobile browser exactly as it does on desktop — tap thumbnails to mark them, watch the counter update in the sidebar, tap Delete pages and the cleaned file saves to your phone's downloads. There is no app to install and no account required.",
+    a: "Yes. The tool runs in the mobile browser exactly as it does on desktop, tap thumbnails to mark them, watch the counter update in the sidebar, tap Delete pages and the cleaned file saves to your phone's downloads. There is no app to install and no account required.",
   },
   {
     q: "Do I need Adobe Acrobat?",
-    a: "No. Adobe Acrobat's page-deletion feature is behind the paid Acrobat Pro subscription, but nothing on this page requires installing software or signing in. Open the tool in any modern browser, remove the pages you don't want and download the cleaned PDF — that's the whole workflow.",
+    a: "No. Adobe Acrobat's page-deletion feature is behind the paid Acrobat Pro subscription, but nothing on this page requires installing software or signing in. Open the tool in any modern browser, remove the pages you don't want and download the cleaned PDF, that's the whole workflow.",
   },
 ];
 
@@ -285,7 +285,7 @@ export const deletePagesHowToJsonLd = {
   "@type": "HowTo",
   name: "How to delete pages from a PDF online for free",
   description:
-    "Remove unwanted pages from a PDF entirely inside your browser — click thumbnails to select pages and download a cleaned copy. The original file is not modified and never leaves your device.",
+    "Remove unwanted pages from a PDF entirely inside your browser, click thumbnails to select pages and download a cleaned copy. The original file is not modified and never leaves your device.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "The PDF you want to trim" }],
   tool: [{ "@type": "HowToTool", name: "FreePDFHub Delete Pages (web browser)" }],
@@ -303,7 +303,7 @@ export const deletePagesSoftwareJsonLd = {
   "@type": "SoftwareApplication",
   name: "FreePDFHub Delete Pages",
   description:
-    "Delete pages from a PDF online free — select pages visually from a thumbnail grid and download a cleaned copy. Runs entirely in the browser, no upload, no signup, no watermark.",
+    "Delete pages from a PDF online free, select pages visually from a thumbnail grid and download a cleaned copy. Runs entirely in the browser, no upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Web",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

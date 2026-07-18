@@ -5,15 +5,15 @@ import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 const steps = [
   {
     title: "Open the source PDF in the browser",
-    text: "Drop the file onto the workspace or click Select PDF file. The document opens locally, and every page appears as a clickable thumbnail in the main panel — nothing is uploaded to reach this view.",
+    text: "Drop the file onto the workspace or click Select PDF file. The document opens locally, and every page appears as a clickable thumbnail in the main panel, nothing is uploaded to reach this view.",
   },
   {
     title: "Click the thumbnails of the pages you want to keep",
-    text: "Every thumbnail is a toggle. Pick page 4, jump down and pick page 12, then scroll back and add page 2 — the order of clicking doesn't matter, only which pages end up marked. The sidebar shows a live 3 of 48 selected counter so you can see the pull growing as you work.",
+    text: "Every thumbnail is a toggle. Pick page 4, jump down and pick page 12, then scroll back and add page 2, the order of clicking doesn't matter, only which pages end up marked. The sidebar shows a live 3 of 48 selected counter so you can see the pull growing as you work.",
   },
   {
     title: "Confirm the pull",
-    text: "The action button relabels itself to Extract 3 pages (or whatever the current count is) so it's obvious what you're about to commit. Uncheck anything you added by mistake — the source document has not been touched yet.",
+    text: "The action button relabels itself to Extract 3 pages (or whatever the current count is) so it's obvious what you're about to commit. Uncheck anything you added by mistake, the source document has not been touched yet.",
   },
   {
     title: "Click Extract pages and save the new PDF",
@@ -24,7 +24,7 @@ const steps = [
 const benefits = [
   {
     h: "Any pages, any order",
-    p: "The thumbnail grid is a free-form multi-select — grab a single page, a tidy range like 5 through 9, or a scattered pull like 2, 7 and 15. The output PDF contains exactly those pages, sorted by page number so the result stays predictable to read.",
+    p: "The thumbnail grid is a free-form multi-select, grab a single page, a tidy range like 5 through 9, or a scattered pull like 2, 7 and 15. The output PDF contains exactly those pages, sorted by page number so the result stays predictable to read.",
   },
   {
     h: "Exact copies, full quality",
@@ -32,7 +32,7 @@ const benefits = [
   },
   {
     h: "Original stays intact",
-    p: "You receive a brand-new PDF; the file you opened is never written to. If you decide later that you wanted page 8 as well, just reopen the same source and pick again — nothing you did to build the excerpt costs you the master document.",
+    p: "You receive a brand-new PDF; the file you opened is never written to. If you decide later that you wanted page 8 as well, just reopen the same source and pick again, nothing you did to build the excerpt costs you the master document.",
   },
   {
     h: "Instant, even from huge files",
@@ -43,7 +43,7 @@ const benefits = [
 const scenarios = [
   {
     h: "Submitting one specific page for verification",
-    p: "A landlord asks for the salary-credit line in a bank statement, a school asks for the marks page of a mark sheet, a visa office asks for a single certificate out of a bundle. Open the file, click that one thumbnail, extract, and send a one-page PDF — nothing else attached, nothing else revealed.",
+    p: "A landlord asks for the salary-credit line in a bank statement, a school asks for the marks page of a mark sheet, a visa office asks for a single certificate out of a bundle. Open the file, click that one thumbnail, extract, and send a one-page PDF, nothing else attached, nothing else revealed.",
   },
   {
     h: "Pulling a chapter from study material",
@@ -51,30 +51,30 @@ const scenarios = [
   },
   {
     h: "Building an excerpt for a meeting",
-    p: "A 60-page quarterly report is too much to circulate before a 20-minute review, but four pages of it really matter — the summary, the revenue chart, the risk section and the ask. Pick just those pages, extract, and send a focused four-page brief that attendees will actually open.",
+    p: "A 60-page quarterly report is too much to circulate before a 20-minute review, but four pages of it really matter, the summary, the revenue chart, the risk section and the ask. Pick just those pages, extract, and send a focused four-page brief that attendees will actually open.",
   },
   {
     h: "Collecting scattered pages from a scanned bundle",
-    p: "When you scan every receipt for a reimbursement into one big PDF, the pages that matter for a specific claim are almost always non-consecutive — pages 3, 9 and 22, say. Click those three thumbnails in any order and extract a single clean PDF that contains only the receipts backing that claim.",
+    p: "When you scan every receipt for a reimbursement into one big PDF, the pages that matter for a specific claim are almost always non-consecutive, pages 3, 9 and 22, say. Click those three thumbnails in any order and extract a single clean PDF that contains only the receipts backing that claim.",
   },
 ];
 
 const faqs = [
   {
     q: "How do I extract pages from a PDF for free?",
-    a: "Open this page, click Select PDF file and choose your document, then click the thumbnail of every page you want to keep. The sidebar shows a live selection counter as you work. When the picks are ready, click Extract pages and a new PDF containing only those pages downloads to your device — no account, no card, no watermark on the output.",
+    a: "Open this page, click Select PDF file and choose your document, then click the thumbnail of every page you want to keep. The sidebar shows a live selection counter as you work. When the picks are ready, click Extract pages and a new PDF containing only those pages downloads to your device, no account, no card, no watermark on the output.",
   },
   {
     q: "Can I extract just one page from a PDF?",
-    a: "Yes. Click exactly one thumbnail — the button will label itself Extract 1 page — and the tool produces a single-page PDF that is a byte-for-byte copy of that page from the source. This is the fastest way to save one page of a PDF as a separate file without opening any desktop software.",
+    a: "Yes. Click exactly one thumbnail, the button will label itself Extract 1 page, and the tool produces a single-page PDF that is a byte-for-byte copy of that page from the source. This is the fastest way to save one page of a PDF as a separate file without opening any desktop software.",
   },
   {
     q: "Can I extract non-consecutive pages like 2, 7 and 15?",
-    a: "Yes. Selection is free-form: click page 2, scroll down and click page 7, keep scrolling and click page 15. The order in which you click doesn't matter, and the pages don't have to be next to each other. In the extracted PDF they appear in numeric order — page 2 first, then page 7, then page 15 — as a single three-page document.",
+    a: "Yes. Selection is free-form: click page 2, scroll down and click page 7, keep scrolling and click page 15. The order in which you click doesn't matter, and the pages don't have to be next to each other. In the extracted PDF they appear in numeric order, page 2 first, then page 7, then page 15, as a single three-page document.",
   },
   {
     q: "Will the extracted pages keep their quality?",
-    a: "Yes. Each picked page is copied through untouched — the same fonts, the same embedded images at their original resolution, the same vector shapes. There is no re-render and no re-compression, so a scanned page at 300 dpi stays at 300 dpi and a text page keeps its selectable, searchable text.",
+    a: "Yes. Each picked page is copied through untouched, the same fonts, the same embedded images at their original resolution, the same vector shapes. There is no re-render and no re-compression, so a scanned page at 300 dpi stays at 300 dpi and a text page keeps its selectable, searchable text.",
   },
   {
     q: "Do my files get uploaded to a server?",
@@ -82,23 +82,23 @@ const faqs = [
   },
   {
     q: "Does the original PDF change?",
-    a: "No. The tool only reads from the file you opened; it never writes back to it. The extracted pages arrive as a separate download named with an -extracted.pdf suffix, and the source PDF on your disk remains exactly as it was — same bytes, same modification time.",
+    a: "No. The tool only reads from the file you opened; it never writes back to it. The extracted pages arrive as a separate download named with an -extracted.pdf suffix, and the source PDF on your disk remains exactly as it was, same bytes, same modification time.",
   },
   {
     q: "Can I extract pages from a scanned PDF?",
-    a: "Yes. Scanned PDFs are simply image pages wrapped in a PDF container, and this tool treats every page the same way — a thumbnail you can click to include. The picked scans move across at their original resolution, so the extracted PDF looks identical to those pages inside the source bundle.",
+    a: "Yes. Scanned PDFs are simply image pages wrapped in a PDF container, and this tool treats every page the same way, a thumbnail you can click to include. The picked scans move across at their original resolution, so the extracted PDF looks identical to those pages inside the source bundle.",
   },
   {
     q: "What's the difference between extracting and splitting?",
-    a: "Extracting means picking the pages you want and putting them into one new PDF — you decide precisely which pages, in any combination. Splitting means dividing the whole document into several smaller PDFs by range or every-N-pages — every page ends up somewhere. If you only want a subset, use extract; if you want to break the file into parts and keep everything, use Split PDF.",
+    a: "Extracting means picking the pages you want and putting them into one new PDF, you decide precisely which pages, in any combination. Splitting means dividing the whole document into several smaller PDFs by range or every-N-pages, every page ends up somewhere. If you only want a subset, use extract; if you want to break the file into parts and keep everything, use Split PDF.",
   },
   {
     q: "Can I extract pages on my phone?",
-    a: "Yes. The workspace runs in mobile browsers the same way it does on desktop — tap the thumbnails you want, watch the selection counter update in the sidebar, tap Extract pages and the new PDF saves into your phone's downloads. There is no app to install and nothing to sign up for.",
+    a: "Yes. The workspace runs in mobile browsers the same way it does on desktop, tap the thumbnails you want, watch the selection counter update in the sidebar, tap Extract pages and the new PDF saves into your phone's downloads. There is no app to install and nothing to sign up for.",
   },
   {
     q: "Do I need Adobe Acrobat or an account?",
-    a: "No. Adobe Acrobat's page-extraction feature sits behind the paid Acrobat Pro plan, and most online alternatives ask you to sign up or watermark the result. This page needs neither — it works entirely in-browser, is free, and the output PDF is clean.",
+    a: "No. Adobe Acrobat's page-extraction feature sits behind the paid Acrobat Pro plan, and most online alternatives ask you to sign up or watermark the result. This page needs neither, it works entirely in-browser, is free, and the output PDF is clean.",
   },
 ];
 
@@ -142,7 +142,7 @@ export function ExtractPagesSeo() {
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         The most common ask is a single page: pull page 47 out of a 300-page bank
         statement so a landlord only sees the credit line and nothing else on the
-        account. The workflow scales up the same way — grab three certificate pages
+        account. The workflow scales up the same way, grab three certificate pages
         from a scanned document bundle, or a scattered pull like pages 2, 7 and 15
         from a longer report. Selection is entirely visual, so you don't have to
         translate what you need into a range string. The extracted pages are exact
@@ -164,7 +164,7 @@ export function ExtractPagesSeo() {
       </p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
         Because this tool runs inside your browser tab, the full source document
-        never leaves your device either — pdf-lib opens the file, renders the
+        never leaves your device either, pdf-lib opens the file, renders the
         thumbnails and writes the extracted PDF locally, so the pages you skipped
         are never seen by anyone. The end result is double privacy: the recipient
         sees only the pages that matter, and no server in the middle saw anything
@@ -221,7 +221,7 @@ export function ExtractPagesSeo() {
               <td className="px-4 py-3 font-semibold text-[#33333c]">
                 <Link to="/tools/split" className="text-[#e5322d] underline">Split PDF</Link>
               </td>
-              <td className="px-4 py-3">Divide the whole document into parts or ranges — every page ends up in some output.</td>
+              <td className="px-4 py-3">Divide the whole document into parts or ranges, every page ends up in some output.</td>
             </tr>
             <tr>
               <td className="px-4 py-3 font-semibold text-[#33333c]">
@@ -273,7 +273,7 @@ export const extractPagesHowToJsonLd = {
   "@type": "HowTo",
   name: "How to extract pages from a PDF online for free",
   description:
-    "Save specific pages from a PDF as a new PDF, entirely inside your browser — click thumbnails to pick any pages in any combination and download an extracted copy. The original file is not modified and never leaves your device.",
+    "Save specific pages from a PDF as a new PDF, entirely inside your browser, click thumbnails to pick any pages in any combination and download an extracted copy. The original file is not modified and never leaves your device.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "The PDF you want to extract pages from" }],
   tool: [{ "@type": "HowToTool", name: "FreePDFHub Extract Pages (web browser)" }],
@@ -291,7 +291,7 @@ export const extractPagesSoftwareJsonLd = {
   "@type": "SoftwareApplication",
   name: "FreePDFHub Extract Pages",
   description:
-    "Extract pages from PDF online free — pick any pages in any combination from a thumbnail grid and save them as a new PDF. Runs entirely in the browser, no upload, no signup, no watermark.",
+    "Extract pages from PDF online free, pick any pages in any combination from a thumbnail grid and save them as a new PDF. Runs entirely in the browser, no upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Web",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

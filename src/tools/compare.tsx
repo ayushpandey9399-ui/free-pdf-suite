@@ -349,7 +349,7 @@ export default function Compare() {
               {docA.numPages !== docB.numPages && (
                 <div className="rounded-xl border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
                   Document A has {docA.numPages} pages, Document B has {docB.numPages} pages.
-                  Comparing pages 1–{overlap}. Pages {overlap + 1}–{maxPages} exist in only one
+                  Comparing pages 1, {overlap}. Pages {overlap + 1}, {maxPages} exist in only one
                   document and are listed as “only in” below.
                 </div>
               )}
@@ -434,7 +434,7 @@ function CompareNextSteps({ onReset }: { onReset: () => void }) {
         style={{ backgroundColor: "#eafaf0", color: "#1f9d55" }}
       >
         <Lock className="h-4 w-4" />
-        Your files were processed 100% locally on your device — never uploaded anywhere.
+        Your files were processed 100% locally on your device, never uploaded anywhere.
       </div>
     </div>
   );
@@ -458,7 +458,7 @@ function TextDiffView({
   return (
     <div className="space-y-3">
       <p className="text-xs text-muted-foreground">
-        Comparing extracted text content only — formatting and images are not
+        Comparing extracted text content only, formatting and images are not
         compared here. Switch to Visual Compare to see rendered pages.
       </p>
       <div className="grid gap-4 sm:grid-cols-2">
@@ -608,7 +608,7 @@ function PageColumn({
                 className="rounded-lg border-2 border-dashed border-slate-200 bg-slate-50/60 aspect-[3/4] grid place-items-center p-4 text-center"
               >
                 <div className="text-xs text-muted-foreground">
-                  Page {pageNum} — only in Document {side === "A" ? "B" : "A"}
+                  Page {pageNum}, only in Document {side === "A" ? "B" : "A"}
                 </div>
               </div>
             );
@@ -628,7 +628,7 @@ function PageColumn({
             >
               <div className="flex items-center justify-between border-b bg-slate-50 px-3 py-1.5 text-xs">
                 <span className="font-medium">
-                  {label} — Page {pageNum}
+                  {label}, Page {pageNum}
                 </span>
                 {changed && (
                   <span className="rounded-full bg-orange-100 px-2 py-0.5 text-[10px] font-semibold text-orange-700">

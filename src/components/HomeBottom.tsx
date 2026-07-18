@@ -16,7 +16,7 @@ const MUTED = "#6B7280";
 const BORDER = "#E5E7EB";
 const BAND = "#FAFAF9";
 
-/* Scroll reveal — reserves space, respects prefers-reduced-motion via CSS. */
+/* Scroll reveal, reserves space, respects prefers-reduced-motion via CSS. */
 function Reveal({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const [seen, setSeen] = useState(false);
@@ -69,19 +69,19 @@ function PrivacyStory() {
               <p className="mt-5 text-[16px]" style={{ color: MUTED, lineHeight: 1.7 }}>
                 Every tool on this page processes your files in your browser.
                 When you merge, compress, sign or redact a PDF here, the work
-                happens on your own computer or phone — powered by the same
+                happens on your own computer or phone, powered by the same
                 technology that runs modern web apps.
               </p>
               <p className="mt-4 text-[16px]" style={{ color: MUTED, lineHeight: 1.7 }}>
-                These tools have no upload step — your file opens directly in
+                These tools have no upload step, your file opens directly in
                 your browser and the processing happens right there. Nothing is
-                transmitted, nothing is stored, and nobody — including us —
+                transmitted, nothing is stored, and nobody, including us , 
                 sees your documents. Close the tab, and no trace of your file
                 remains.
               </p>
               <p className="mt-4 text-[14px]" style={{ color: "#8b8b95", lineHeight: 1.7 }}>
                 That's why FreePDFHub is safe even for your most sensitive
-                documents — ID cards, bank statements, contracts and medical
+                documents, ID cards, bank statements, contracts and medical
                 records.
               </p>
             </div>
@@ -203,7 +203,7 @@ function WhyChoose() {
             className="mx-auto mt-3 max-w-[640px] text-center text-[16px]"
             style={{ color: MUTED, lineHeight: 1.7 }}
           >
-            No tricks, no accounts, no fine print — just tools that work.
+            No tricks, no accounts, no fine print, just tools that work.
           </p>
 
           <div className="mt-12 grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
@@ -265,7 +265,7 @@ const STEPS = [
     n: 1,
     title: "Pick a tool",
     body:
-      "Choose any of the 28 tools above — from merging and compressing to signing and redacting.",
+      "Choose any of the 28 tools above, from merging and compressing to signing and redacting.",
   },
   {
     n: 2,
@@ -277,7 +277,7 @@ const STEPS = [
     n: 3,
     title: "Download the result",
     body:
-      "Get your finished PDF instantly — clean output, no watermark, no signup screen.",
+      "Get your finished PDF instantly, clean output, no watermark, no signup screen.",
   },
 ];
 
@@ -294,7 +294,7 @@ function HowItWorks() {
           </h2>
 
           <div className="relative mt-14">
-            {/* Dashed connector, desktop only — draws in on reveal */}
+            {/* Dashed connector, desktop only, draws in on reveal */}
             <div
               aria-hidden
               className="pointer-events-none absolute left-[16%] right-[16%] top-[22px] hidden lg:block connector-draw"
@@ -375,7 +375,7 @@ function SeoProse() {
               pages to images, pull the text out of any document, or turn plain
               text files into clean PDFs. Edit and annotate,{" "}
               <SeoLink slug="fill-forms">fill out forms</SeoLink>, add page
-              numbers, headers and watermarks — all without installing anything.
+              numbers, headers and watermarks, all without installing anything.
             </p>
             <p className="mt-5">
               When documents get sensitive,{" "}
@@ -425,7 +425,7 @@ function FinalCta() {
             All 28 tools. All free. All private.
           </h2>
           <p className="mt-3 text-[16px]" style={{ color: MUTED }}>
-            Every tool processes your file in your browser — start with any one.
+            Every tool processes your file in your browser, start with any one.
           </p>
           <button
             type="button"

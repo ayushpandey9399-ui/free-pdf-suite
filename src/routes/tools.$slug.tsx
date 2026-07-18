@@ -238,9 +238,9 @@ export const Route = createFileRoute("/tools/$slug")({
     return {
       meta: loaderData
         ? [
-            { title: `${loaderData.name} — FreePDFHub` },
+            { title: `${loaderData.name} | FreePDFHub` },
             { name: "description", content: loaderData.description },
-            { property: "og:title", content: `${loaderData.name} — FreePDFHub` },
+            { property: "og:title", content: `${loaderData.name}, FreePDFHub` },
             { property: "og:description", content: loaderData.description },
             { property: "og:url", content: url },
             { property: "og:image", content: OG_IMAGE },
@@ -249,7 +249,7 @@ export const Route = createFileRoute("/tools/$slug")({
             { name: "twitter:card", content: "summary_large_image" },
             { name: "twitter:image", content: OG_IMAGE },
           ]
-        : [{ title: "Tool — FreePDFHub" }],
+        : [{ title: "Tool | FreePDFHub" }],
       links: loaderData ? [{ rel: "canonical", href: url }] : [],
       scripts: loaderData
         ? [{ type: "application/ld+json", children: JSON.stringify(breadcrumbJsonLd) }]

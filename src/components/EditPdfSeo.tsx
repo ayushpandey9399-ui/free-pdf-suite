@@ -6,11 +6,11 @@ import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 const steps = [
   {
     title: "Open the PDF you want to edit",
-    text: "Click Select PDF file and pick your document. Every page renders as a stacked vertical preview in the workspace, ready to be marked up — click any page thumbnail in the sidebar to jump straight to it.",
+    text: "Click Select PDF file and pick your document. Every page renders as a stacked vertical preview in the workspace, ready to be marked up, click any page thumbnail in the sidebar to jump straight to it.",
   },
   {
     title: "Pick a tool from the sidebar toolbar",
-    text: "The right-hand sidebar shows nine tools laid out in a row: Select, Highlight, Text, Rectangle, Ellipse, Line, Arrow, Freehand and Image. Click one to arm it — a small style panel appears just below with the relevant colour swatches, font size, stroke width or fill opacity for whatever you're about to place.",
+    text: "The right-hand sidebar shows nine tools laid out in a row: Select, Highlight, Text, Rectangle, Ellipse, Line, Arrow, Freehand and Image. Click one to arm it, a small style panel appears just below with the relevant colour swatches, font size, stroke width or fill opacity for whatever you're about to place.",
   },
   {
     title: "Click, drag or draw directly on the page",
@@ -18,14 +18,14 @@ const steps = [
   },
   {
     title: "Undo, redo, then export as a new PDF",
-    text: "The toolbar has Undo and Redo buttons (Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z), plus a Trash icon on any selected element to remove it. When the page looks right, click Save PDF — the tool draws every annotation permanently into a fresh copy of the file and hands it back with an -edited suffix. Your original file on your device is untouched.",
+    text: "The toolbar has Undo and Redo buttons (Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z), plus a Trash icon on any selected element to remove it. When the page looks right, click Save PDF, the tool draws every annotation permanently into a fresh copy of the file and hands it back with an -edited suffix. Your original file on your device is untouched.",
   },
 ];
 
 const benefits = [
   {
     h: "Fill anything, form or not",
-    p: "Type text boxes anywhere on the page — on a real PDF form field, on a flat scanned form that has no fields at all, in the blank space beside a printed line, on top of a wrong value. Font size runs from small caption text to headline size, and the colour swatch lets you match ink-blue or plain black.",
+    p: "Type text boxes anywhere on the page, on a real PDF form field, on a flat scanned form that has no fields at all, in the blank space beside a printed line, on top of a wrong value. Font size runs from small caption text to headline size, and the colour swatch lets you match ink-blue or plain black.",
   },
   {
     h: "Review like on paper",
@@ -33,7 +33,7 @@ const benefits = [
   },
   {
     h: "Every annotation becomes part of the PDF",
-    p: "On export, each highlight, text box, shape, line, freehand path and image is drawn permanently into the page content stream with pdf-lib — not attached as a floating comment layer that some viewers ignore. The downloaded file shows your edits identically in Acrobat, Preview, Chrome, Edge, Foxit and every other reader.",
+    p: "On export, each highlight, text box, shape, line, freehand path and image is drawn permanently into the page content stream with pdf-lib, not attached as a floating comment layer that some viewers ignore. The downloaded file shows your edits identically in Acrobat, Preview, Chrome, Edge, Foxit and every other reader.",
   },
   {
     h: "Free and unlimited",
@@ -44,7 +44,7 @@ const benefits = [
 const scenarios = [
   {
     h: "Filling a form that has no fillable fields",
-    p: "Scanned tax forms, printed rental applications and older government PDFs frequently arrive without any interactive fields at all. Arm the Text tool, click on each blank line and type — no need to print, hand-fill and re-scan just because the original was flattened.",
+    p: "Scanned tax forms, printed rental applications and older government PDFs frequently arrive without any interactive fields at all. Arm the Text tool, click on each blank line and type, no need to print, hand-fill and re-scan just because the original was flattened.",
   },
   {
     h: "Reviewing a contract or draft before sending it back",
@@ -72,7 +72,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
     a: (
       <>
         Yes. Switch to <strong>Edit text</strong> mode, click any line of
-        existing text and retype it — the tool samples the line's
+        existing text and retype it, the tool samples the line's
         background colour, covers the original with a matching rectangle
         and draws your replacement in a font, size and colour that match
         the source as closely as possible. It works best on normal digital
@@ -90,17 +90,17 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
       </>
     ),
     plain:
-      "Yes. Switch to Edit text mode, click a line and retype it — the tool covers the original with a background-matched rectangle and draws your new text in a matching font, size and colour. Works on native PDFs; run OCR PDF (/tools/ocr-pdf) first for scans. For permanent removal, use Redact PDF (/tools/redact-pdf).",
+      "Yes. Switch to Edit text mode, click a line and retype it, the tool covers the original with a background-matched rectangle and draws your new text in a matching font, size and colour. Works on native PDFs; run OCR PDF (/tools/ocr-pdf) first for scans. For permanent removal, use Redact PDF (/tools/redact-pdf).",
   },
   {
     q: "Can I type on a scanned PDF?",
-    a: "Yes. The Text tool places a text box at whatever coordinate you click, whether the page is a scanned image or a native PDF. Pick a font size that matches the surrounding print, choose a colour and type — the box behaves the same on a scan as it does on a digitally-generated page.",
+    a: "Yes. The Text tool places a text box at whatever coordinate you click, whether the page is a scanned image or a native PDF. Pick a font size that matches the surrounding print, choose a colour and type, the box behaves the same on a scan as it does on a digitally-generated page.",
     plain:
       "Yes. The Text tool places a text box wherever you click, on scanned images or native PDFs identically. Pick a font size and colour and type.",
   },
   {
     q: "Can I highlight text?",
-    a: "Yes. Arm the Highlight tool and drag a rectangle over the passage you want to mark — you can pick yellow, green, pink or blue from the style panel. The highlight is a translucent coloured band drawn behind the text on export, so the words remain fully readable underneath.",
+    a: "Yes. Arm the Highlight tool and drag a rectangle over the passage you want to mark, you can pick yellow, green, pink or blue from the style panel. The highlight is a translucent coloured band drawn behind the text on export, so the words remain fully readable underneath.",
     plain:
       "Yes. Highlight tool draws a translucent yellow, green, pink or blue band over the area you drag; the text stays fully readable underneath on export.",
   },
@@ -112,7 +112,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
   },
   {
     q: "Will my edits show in other PDF readers?",
-    a: "Yes. On Save PDF the tool uses pdf-lib to draw every highlight, text box, shape, freehand path and image directly into the page's content stream — not as loose comment annotations that some viewers hide. The exported file renders identically in Acrobat Reader, Preview, Chrome, Edge, Foxit and any other PDF viewer, and prints the same way too.",
+    a: "Yes. On Save PDF the tool uses pdf-lib to draw every highlight, text box, shape, freehand path and image directly into the page's content stream, not as loose comment annotations that some viewers hide. The exported file renders identically in Acrobat Reader, Preview, Chrome, Edge, Foxit and any other PDF viewer, and prints the same way too.",
     plain:
       "Yes. Edits are drawn directly into the page content stream with pdf-lib, not attached as comment-layer annotations. The exported file renders identically in every PDF viewer and prints the same.",
   },
@@ -124,13 +124,13 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
   },
   {
     q: "Can I edit a PDF on my phone?",
-    a: "Yes — the Freehand tool follows your finger, highlights and shapes are drawn by touch-drag, and text boxes open a normal on-screen keyboard for typing. Fine positioning on a small screen is easier if you drop the element first with a rough touch and then switch to Select to nudge it into place.",
+    a: "Yes, the Freehand tool follows your finger, highlights and shapes are drawn by touch-drag, and text boxes open a normal on-screen keyboard for typing. Fine positioning on a small screen is easier if you drop the element first with a rough touch and then switch to Select to nudge it into place.",
     plain:
       "Yes. Freehand follows your finger, highlights and shapes are drawn by touch-drag, and text boxes open the on-screen keyboard. For precise placement, drop first and nudge with Select.",
   },
   {
     q: "Can I remove an annotation before saving?",
-    a: "Yes. Switch to the Select tool, click the annotation you want to remove and press the Trash icon that appears in its style panel, or hit Delete on your keyboard. Undo (Ctrl/Cmd+Z) rolls back the last change; Redo (Ctrl/Cmd+Shift+Z) puts it back — the history keeps roughly a hundred steps.",
+    a: "Yes. Switch to the Select tool, click the annotation you want to remove and press the Trash icon that appears in its style panel, or hit Delete on your keyboard. Undo (Ctrl/Cmd+Z) rolls back the last change; Redo (Ctrl/Cmd+Shift+Z) puts it back, the history keeps roughly a hundred steps.",
     plain:
       "Yes. Select the annotation and press the Trash icon or Delete key. Undo (Ctrl/Cmd+Z) and Redo (Ctrl/Cmd+Shift+Z) also work; history keeps about a hundred steps.",
   },
@@ -153,7 +153,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
   },
   {
     q: "How closely will the replacement text match the original?",
-    a: "Very closely for most native PDFs. When you click a line the tool reads its font family (serif, sans, monospaced), weight (regular or bold), style (upright or italic), size and colour from the PDF itself, then draws your replacement using the closest standard font (Helvetica, Times or Courier) at the same size and colour. It also samples the pixels behind the line so the cover rectangle blends with the paper. Unusual bespoke fonts, coloured backgrounds and multi-column layouts may show a small visual difference — the closer the original is to a plain office document, the more invisible the edit.",
+    a: "Very closely for most native PDFs. When you click a line the tool reads its font family (serif, sans, monospaced), weight (regular or bold), style (upright or italic), size and colour from the PDF itself, then draws your replacement using the closest standard font (Helvetica, Times or Courier) at the same size and colour. It also samples the pixels behind the line so the cover rectangle blends with the paper. Unusual bespoke fonts, coloured backgrounds and multi-column layouts may show a small visual difference, the closer the original is to a plain office document, the more invisible the edit.",
     plain:
       "Very closely on native PDFs. The tool detects the line's font family, weight, style, size and colour and renders the replacement in the closest standard font, over a sampled background rectangle. Unusual custom fonts or complex backgrounds may show a small visual difference.",
   },
@@ -161,7 +161,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
     q: "Why can't I click on text in my PDF?",
     a: (
       <>
-        Two common reasons. First, the page may be a <em>scan</em> — an
+        Two common reasons. First, the page may be a <em>scan</em>, an
         image of paper with no underlying text layer for the tool to
         detect. Run{" "}
         <Link to="/tools/ocr-pdf" className="text-[#e5322d] underline">
@@ -175,7 +175,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
       </>
     ),
     plain:
-      "Two reasons: the page is a scan with no text layer (run OCR PDF at /tools/ocr-pdf first), or the text is rotated / vertical (this version only edits horizontal lines — cover it with a Rectangle in Annotate mode and retype on top).",
+      "Two reasons: the page is a scan with no text layer (run OCR PDF at /tools/ocr-pdf first), or the text is rotated / vertical (this version only edits horizontal lines, cover it with a Rectangle in Annotate mode and retype on top).",
   },
 ];
 
@@ -239,8 +239,8 @@ export function EditPdfSeo() {
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         A PDF is not a Word file. Its existing text is baked into the
-        page — often with fonts embedded and each letter positioned
-        individually — which means no browser tool can genuinely rewrite
+        page, often with fonts embedded and each letter positioned
+        individually, which means no browser tool can genuinely rewrite
         that text the way you'd edit a paragraph in a document. What this
         editor does is let you <em>add</em> new content on top: type
         corrections beside a wrong value, strike through with a Line,
@@ -248,8 +248,8 @@ export function EditPdfSeo() {
         drop a comment in the margin.
       </p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        For everyday needs — filling a form that has no fields, marking
-        up a review, correcting a typo, annotating study material — the
+        For everyday needs, filling a form that has no fields, marking
+        up a review, correcting a typo, annotating study material, the
         add-on-top approach is exactly right. If you need to genuinely
         hide sensitive content so nobody can recover it, use{" "}
         <Link to="/tools/redact-pdf" className="text-[#e5322d] underline">
@@ -268,7 +268,7 @@ export function EditPdfSeo() {
         Private editing, your documents stay yours
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        The PDFs people edit or annotate are usually live working documents — a
+        The PDFs people edit or annotate are usually live working documents, a
         contract under review, an application with personal details, a
         salary slip being corrected, a form with a home address on
         it. This free PDF editor runs entirely inside your browser tab: the file
@@ -348,7 +348,7 @@ export const editPdfHowToJsonLd = {
   "@type": "HowTo",
   name: "How to edit a PDF online for free",
   description:
-    "Edit and annotate any PDF entirely in the browser — add text, highlights, shapes, lines, arrows, freehand drawings and images, then save a new PDF. No upload, no signup, no watermark.",
+    "Edit and annotate any PDF entirely in the browser, add text, highlights, shapes, lines, arrows, freehand drawings and images, then save a new PDF. No upload, no signup, no watermark.",
   totalTime: "PT2M",
   supply: [{ "@type": "HowToSupply", name: "A PDF file to edit" }],
   tool: [{ "@type": "HowToTool", name: "FreePDFHub Edit PDF (web browser)" }],
@@ -366,7 +366,7 @@ export const editPdfSoftwareJsonLd = {
   "@type": "SoftwareApplication",
   name: "FreePDFHub Edit PDF",
   description:
-    "Edit PDF online free — add text, highlights, rectangles, ellipses, lines, arrows, freehand drawings and images to any PDF. Entirely in the browser. No upload, no signup, no watermark.",
+    "Edit PDF online free, add text, highlights, rectangles, ellipses, lines, arrows, freehand drawings and images to any PDF. Entirely in the browser. No upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Web",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
