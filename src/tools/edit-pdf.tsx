@@ -698,8 +698,16 @@ export default function EditPdf() {
       }
 
       // Pass 1: every cover rectangle.
+      let skippedCoverCount = 0;
       for (const p of plans) {
         if (p.skipCover) continue;
+        // Fix Batch A.1 - Fix 3: skip the opaque erase when the sampler
+        // marked the area as busy / multi-color. Painting a solid rect here
+        // would erase content the user didn't intend to remove.
+        if (p.te.skipCover) {
+          skippedCoverCount++;
+          continue;
+        }
         const page = pdfPages[p.pageIndex];
         if (!page) continue;
         const te = p.te;
@@ -723,6 +731,11 @@ export default function EditPdf() {
             color: rgb(bg.r / 255, bg.g / 255, bg.b / 255),
           });
         }
+      }
+      if (skippedCoverCount > 0) {
+        toast.warning(
+          `Couldn't safely mask the old text on ${skippedCoverCount} edit${skippedCoverCount === 1 ? "" : "s"} - please review the exported PDF.`,
+        );
       }
 
       // Pass 2: every replacement string.
