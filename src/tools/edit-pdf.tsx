@@ -2029,6 +2029,14 @@ function PageOverlay(props: PageOverlayProps) {
   const [displayW, setDisplayW] = useState(0);
   const [draft, setDraft] = useState<Anno | null>(null);
   const [visible, setVisible] = useState(false);
+  const visibilityCallbackRef = useRef(onVisibilityChange);
+  const needLinesRef = useRef(onNeedLines);
+  const hasBeenVisibleRef = useRef(false);
+
+  useEffect(() => {
+    visibilityCallbackRef.current = onVisibilityChange;
+    needLinesRef.current = onNeedLines;
+  }, [onNeedLines, onVisibilityChange]);
 
   useEffect(() => {
     const el = wrapRef.current;
@@ -2040,8 +2048,11 @@ function PageOverlay(props: PageOverlayProps) {
     return () => ro.disconnect();
   }, []);
 
-  // Always track visibility so the parent can drive canvas eviction
-  // (Fix B1). Also triggers lazy line extraction when in edit-text mode.
+  // Keep one observer for the lifetime of this page. The callbacks passed by
+  // the parent are intentionally inline, so depending on them here would
+  // disconnect/reconnect on every page-state update. Its cleanup used to
+  // report the page as hidden during that reconnect, immediately evicting the
+  // canvas that had just rendered and leaving the placeholder on screen.
   useEffect(() => {
     const el = wrapRef.current;
     if (!el) return;
@@ -2050,8 +2061,12 @@ function PageOverlay(props: PageOverlayProps) {
         for (const ent of entries) {
           const isVis = ent.isIntersecting;
           setVisible((v) => (v === isVis ? v : isVis));
-          onVisibilityChange(isVis);
-          if (isVis && editTextMode && !lines) onNeedLines();
+          if (isVis) {
+            hasBeenVisibleRef.current = true;
+            visibilityCallbackRef.current(true);
+          } else if (hasBeenVisibleRef.current) {
+            visibilityCallbackRef.current(false);
+          }
         }
       },
       { rootMargin: "400px" },
@@ -2059,9 +2074,15 @@ function PageOverlay(props: PageOverlayProps) {
     io.observe(el);
     return () => {
       io.disconnect();
-      onVisibilityChange(false);
+      if (hasBeenVisibleRef.current) visibilityCallbackRef.current(false);
     };
-  }, [editTextMode, lines, onNeedLines, onVisibilityChange]);
+  }, []);
+
+  // Lazy text extraction is separate from observer setup so mode/line updates
+  // cannot churn visibility or evict an already-rendered page.
+  useEffect(() => {
+    if (visible && editTextMode && !lines) needLinesRef.current();
+  }, [editTextMode, lines, visible]);
 
   // Filter out lines that already have a saved edit (they render an
   // "edited" indicator instead of the raw hover outline).
