@@ -10,7 +10,7 @@ const steps = [
   },
   {
     title: "Click Extract Text and wait for the progress bar",
-    text: "The tool walks through the PDF one page at a time and pulls the text layer out of each one. You'll see a percentage tick up as pages are processed — a long report simply takes a few more seconds than a one-pager, but everything is happening in your browser tab.",
+    text: "The tool walks through the PDF one page at a time and pulls the text layer out of each one. You'll see a percentage tick up as pages are processed, a long report simply takes a few more seconds than a one-pager, but everything is happening in your browser tab.",
   },
   {
     title: "Read the preview to check the result",
@@ -18,22 +18,22 @@ const steps = [
   },
   {
     title: "Copy to clipboard or download as .txt",
-    text: "Hit Copy to clipboard to paste the whole document straight into a note, email or chat, or use Download .txt to save the extracted text as a plain-text file named after your original PDF. Both options give you the same content — pick whichever fits the next step in your workflow.",
+    text: "Hit Copy to clipboard to paste the whole document straight into a note, email or chat, or use Download .txt to save the extracted text as a plain-text file named after your original PDF. Both options give you the same content, pick whichever fits the next step in your workflow.",
   },
 ];
 
 const benefits = [
   {
     h: "Full document in one go",
-    p: "Every page of the PDF is processed in a single run and stitched into one output in reading order, with a --- Page N --- marker between pages. You don't have to feed pages one at a time or paste chunks together — a 300-page report comes out as a single continuous block of text.",
+    p: "Every page of the PDF is processed in a single run and stitched into one output in reading order, with a --- Page N --- marker between pages. You don't have to feed pages one at a time or paste chunks together, a 300-page report comes out as a single continuous block of text.",
   },
   {
     h: "Copy or download",
-    p: "The success screen gives you both options side by side: Copy to clipboard for a quick paste into another app, and Download .txt to save a plain-text file named after your PDF. Use the button that matches what you're about to do next — no need to choose ahead of time.",
+    p: "The success screen gives you both options side by side: Copy to clipboard for a quick paste into another app, and Download .txt to save a plain-text file named after your PDF. Use the button that matches what you're about to do next, no need to choose ahead of time.",
   },
   {
     h: "Private by design",
-    p: "Contracts, medical letters, salary slips and internal reports never leave your device. The PDF is parsed and its text extracted entirely inside your browser tab, so nothing about the document — filename, page count or content — is ever transmitted to us.",
+    p: "Contracts, medical letters, salary slips and internal reports never leave your device. The PDF is parsed and its text extracted entirely inside your browser tab, so nothing about the document, filename, page count or content, is ever transmitted to us.",
   },
   {
     h: "Verify your redactions",
@@ -52,7 +52,7 @@ const benefits = [
 const scenarios = [
   {
     h: "Quoting a report or research paper in your own document",
-    p: "You need to lift a paragraph from a PDF into a memo, a thesis or a blog post without retyping it. Extract the whole document once, then search for the passage you want and paste just those lines into your draft — no more copy-paste-and-fix-the-line-breaks from a PDF viewer.",
+    p: "You need to lift a paragraph from a PDF into a memo, a thesis or a blog post without retyping it. Extract the whole document once, then search for the passage you want and paste just those lines into your draft, no more copy-paste-and-fix-the-line-breaks from a PDF viewer.",
   },
   {
     h: "Converting an e-book or notes PDF into plain text for editing or translation",
@@ -64,7 +64,7 @@ const scenarios = [
   },
   {
     h: "Checking what text is really embedded in a file",
-    p: "Two PDFs can look identical and behave very differently — one may be a proper text document, the other a scan wearing a PDF wrapper. Running a file through this tool answers that question in one click and, after a redaction pass, confirms whether the sensitive words are truly gone or just visually covered.",
+    p: "Two PDFs can look identical and behave very differently, one may be a proper text document, the other a scan wearing a PDF wrapper. Running a file through this tool answers that question in one click and, after a redaction pass, confirms whether the sensitive words are truly gone or just visually covered.",
   },
 ];
 
@@ -77,9 +77,9 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
   },
   {
     q: "Why is my output empty or incomplete?",
-    a: "The most common reason is that the PDF has no real text layer inside it — pages are just images (a scan, a photo, or an image exported to PDF). This tool can only extract text that already exists in the file, so image-only pages come back marked [No text found on this page]. That isn't a bug; there is genuinely no text for the tool to read.",
+    a: "The most common reason is that the PDF has no real text layer inside it, pages are just images (a scan, a photo, or an image exported to PDF). This tool can only extract text that already exists in the file, so image-only pages come back marked [No text found on this page]. That isn't a bug; there is genuinely no text for the tool to read.",
     plain:
-      "The most common reason is that the PDF has no real text layer — the pages are images (a scan, a photo or an image exported to PDF). The tool can only extract text that already exists in the file, so image-only pages come back marked [No text found on this page].",
+      "The most common reason is that the PDF has no real text layer, the pages are images (a scan, a photo or an image exported to PDF). The tool can only extract text that already exists in the file, so image-only pages come back marked [No text found on this page].",
   },
   {
     q: "Do you support OCR for scanned documents?",
@@ -89,13 +89,13 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
   },
   {
     q: "Will the text keep its formatting?",
-    a: "Only the parts that plain text can carry — paragraphs, line breaks and reading order across pages. Fonts, bold/italic styling, colors, columns, tables and images are dropped, because a .txt file has no way to represent them. If you need the layout preserved, that's a different kind of job than pure text extraction.",
+    a: "Only the parts that plain text can carry, paragraphs, line breaks and reading order across pages. Fonts, bold/italic styling, colors, columns, tables and images are dropped, because a .txt file has no way to represent them. If you need the layout preserved, that's a different kind of job than pure text extraction.",
     plain:
-      "Only what plain text can carry — paragraphs, line breaks and reading order across pages. Fonts, styling, colors, columns, tables and images are dropped because a .txt file cannot represent them.",
+      "Only what plain text can carry, paragraphs, line breaks and reading order across pages. Fonts, styling, colors, columns, tables and images are dropped because a .txt file cannot represent them.",
   },
   {
     q: "Do my files get uploaded to a server?",
-    a: "No. The PDF is opened and parsed entirely inside your browser tab, and the extracted text never leaves your device. There is no queue on our side, no temporary server-side copy and no log of the document's contents — once this page has loaded, the actual extraction step keeps working even if you go offline.",
+    a: "No. The PDF is opened and parsed entirely inside your browser tab, and the extracted text never leaves your device. There is no queue on our side, no temporary server-side copy and no log of the document's contents, once this page has loaded, the actual extraction step keeps working even if you go offline.",
     plain:
       "No. The PDF is opened and parsed entirely inside your browser tab and the extracted text never leaves your device. No queue, no temporary server copy, no log.",
   },
@@ -103,7 +103,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
     q: "Can I extract text from a password-protected PDF?",
     a: (
       <>
-        Not directly — a locked PDF blocks even reading its text layer, and this tool will show a Password-protected notice instead of running. Remove the password first with{" "}
+        Not directly, a locked PDF blocks even reading its text layer, and this tool will show a Password-protected notice instead of running. Remove the password first with{" "}
         <Link to="/tools/unlock-pdf" className="text-[#e5322d] underline">
           Unlock PDF
         </Link>{" "}
@@ -115,7 +115,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
   },
   {
     q: "Is there a page limit?",
-    a: "No artificial cap. The tool processes as many pages as your PDF contains, one after another, and shows progress while it goes. The practical ceiling is your device's memory — very large books can be slower on an older phone than on a laptop, but there is no rule that stops you at 20 or 50 pages.",
+    a: "No artificial cap. The tool processes as many pages as your PDF contains, one after another, and shows progress while it goes. The practical ceiling is your device's memory, very large books can be slower on an older phone than on a laptop, but there is no rule that stops you at 20 or 50 pages.",
     plain:
       "No artificial cap. The tool processes every page in the PDF and shows progress while it goes. The practical ceiling is your device's memory.",
   },
@@ -127,15 +127,15 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
   },
   {
     q: "Can I extract text in Hindi or other languages?",
-    a: "Yes, provided the PDF has a real text layer in that language. Devanagari, Tamil, Bengali, Arabic, Chinese, Japanese and any other Unicode script all come out correctly when the file was authored with proper text (from Word, LaTeX, most modern report generators, and so on). If instead the pages are photographs of Hindi text with no text layer, no tool can extract without OCR — and this one won't either.",
+    a: "Yes, provided the PDF has a real text layer in that language. Devanagari, Tamil, Bengali, Arabic, Chinese, Japanese and any other Unicode script all come out correctly when the file was authored with proper text (from Word, LaTeX, most modern report generators, and so on). If instead the pages are photographs of Hindi text with no text layer, no tool can extract without OCR, and this one won't either.",
     plain:
       "Yes, provided the PDF has a real text layer in that language. Devanagari, Tamil, Arabic, Chinese and other Unicode scripts extract correctly when the file was authored with proper text. Scanned pages in any language still need OCR.",
   },
   {
     q: "How is this different from PDF to Word?",
-    a: "This tool gives you plain text — the words in reading order, with page markers, and nothing else. A PDF-to-Word conversion is a much heavier job that tries to rebuild fonts, headings, tables, images and column layout inside a .docx file, and FreePDFHub doesn't currently ship that tool. If all you need is the words themselves — to quote, translate, search or paste elsewhere — plain text is usually the right output and this page is the shortest path to it.",
+    a: "This tool gives you plain text, the words in reading order, with page markers, and nothing else. A PDF-to-Word conversion is a much heavier job that tries to rebuild fonts, headings, tables, images and column layout inside a .docx file, and FreePDFHub doesn't currently ship that tool. If all you need is the words themselves, to quote, translate, search or paste elsewhere, plain text is usually the right output and this page is the shortest path to it.",
     plain:
-      "This tool gives plain text — words in reading order with page markers. A PDF-to-Word conversion rebuilds fonts, tables and layout inside a .docx file, which is a different job; FreePDFHub doesn't ship a PDF-to-Word tool today.",
+      "This tool gives plain text, words in reading order with page markers. A PDF-to-Word conversion rebuilds fonts, tables and layout inside a .docx file, which is a different job; FreePDFHub doesn't ship a PDF-to-Word tool today.",
   },
 ];
 
@@ -186,13 +186,13 @@ export function PdfToTextSeo() {
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
         This tool skips the viewer entirely. It reads the PDF's underlying text
         layer directly, page by page, and returns everything as one flat
-        stream of Unicode — the same words in the same reading order, without
+        stream of Unicode, the same words in the same reading order, without
         the line-wrapping and column artifacts a manual copy tends to
         introduce. From there you can quote a report in your own document,
         reuse content in a slide deck, feed the text to a translator or a
         script, or just search a long file inside a plain text editor at full
         speed. It's the fastest way to convert PDF to plain text when the words
-        are what you need — not the layout.
+        are what you need, not the layout.
       </p>
 
       {/* Honest OCR note */}
@@ -201,8 +201,8 @@ export function PdfToTextSeo() {
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         This tool extracts the text <em>layer</em> of a PDF. If your PDF is a
-        scan — pages that are really just photographs of paper wrapped in a
-        PDF container — there is no text layer inside the file, and the
+        scan, pages that are really just photographs of paper wrapped in a
+        PDF container, there is no text layer inside the file, and the
         output will be empty (or a page will come back marked
         &ldquo;[No text found on this page]&rdquo;). That is not a bug; there
         is genuinely nothing textual for the tool to read.
@@ -211,7 +211,7 @@ export function PdfToTextSeo() {
         Reading words out of an image requires OCR (optical character
         recognition), which is a completely different technology from text
         extraction. To be transparent: FreePDFHub does not currently ship an OCR
-        tool — it's on our roadmap. Until it lands, this extractor will
+        tool, it's on our roadmap. Until it lands, this extractor will
         honestly tell you when a page has no text rather than guess. If your
         source is a scan today, you'll need an OCR-capable app to convert it
         into a searchable PDF first, then bring that result back here.
@@ -298,7 +298,7 @@ export const pdfToTextSoftwareJsonLd = {
   "@type": "SoftwareApplication",
   name: "FreePDFHub PDF to Text",
   description:
-    "Extract text from PDF online free — pull the full text layer out of any PDF with a text layer, page by page, entirely inside your browser. Copy to clipboard or download as a .txt file. No upload, no signup, no watermark.",
+    "Extract text from PDF online free, pull the full text layer out of any PDF with a text layer, page by page, entirely inside your browser. Copy to clipboard or download as a .txt file. No upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Web",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

@@ -212,7 +212,7 @@ export default function Merge() {
         </>
       }
     >
-      {/* Thumbnail grid — shares files state with sidebar list */}
+      {/* Thumbnail grid, shares files state with sidebar list */}
       <ThumbnailGrid
         files={files}
         thumbs={thumbs}

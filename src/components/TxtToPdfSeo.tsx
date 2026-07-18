@@ -5,12 +5,12 @@ import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
 const steps = [
   {
-    title: "Bring your text in — as a .txt file or by pasting it",
-    text: "Click Select TXT files to pick one or several .txt files from your device (the picker accepts .txt / text/plain and supports multi-select), or tap Or paste text instead to type or paste content straight into a textarea. Both routes feed the same converter — pick whichever is closer to hand.",
+    title: "Bring your text in, as a .txt file or by pasting it",
+    text: "Click Select TXT files to pick one or several .txt files from your device (the picker accepts .txt / text/plain and supports multi-select), or tap Or paste text instead to type or paste content straight into a textarea. Both routes feed the same converter, pick whichever is closer to hand.",
   },
   {
     title: "Set the page look on the right",
-    text: "Choose Page size A4 or Letter, a Font size (Small 10pt, Medium 12pt, Large 14pt), a Margin (Small, Normal, Big) and Line spacing (1.0, 1.15 or 1.5). With multiple files loaded you also get a Merge into one PDF switch — on gives you a single combined.pdf, off gives you one PDF per file.",
+    text: "Choose Page size A4 or Letter, a Font size (Small 10pt, Medium 12pt, Large 14pt), a Margin (Small, Normal, Big) and Line spacing (1.0, 1.15 or 1.5). With multiple files loaded you also get a Merge into one PDF switch, on gives you a single combined.pdf, off gives you one PDF per file.",
   },
   {
     title: "Click Convert to PDF and download",
@@ -21,19 +21,19 @@ const steps = [
 const benefits = [
   {
     h: "Clean page layout",
-    p: "Every PDF ships with proper A4 or Letter dimensions, the margin you picked (36, 54 or 90 points), the font size you chose and 1.0 / 1.15 / 1.5 line spacing. Long lines are wrapped to fit the printable width and the text flows onto as many pages as it needs — no truncation, no crushed lines.",
+    p: "Every PDF ships with proper A4 or Letter dimensions, the margin you picked (36, 54 or 90 points), the font size you chose and 1.0 / 1.15 / 1.5 line spacing. Long lines are wrapped to fit the printable width and the text flows onto as many pages as it needs, no truncation, no crushed lines.",
   },
   {
     h: "Multi-language support",
-    p: "Latin-1 English text is embedded as crisp, selectable vector text using the PDF standard font. When the input contains characters beyond that — Hindi, Marathi, Sanskrit, Chinese, Japanese, Arabic and other Unicode scripts — the tool automatically switches to a shaping pipeline that uses Noto Sans Devanagari and Noto Sans so matras, conjuncts and glyph joining come out correctly.",
+    p: "Latin-1 English text is embedded as crisp, selectable vector text using the PDF standard font. When the input contains characters beyond that, Hindi, Marathi, Sanskrit, Chinese, Japanese, Arabic and other Unicode scripts, the tool automatically switches to a shaping pipeline that uses Noto Sans Devanagari and Noto Sans so matras, conjuncts and glyph joining come out correctly.",
   },
   {
     h: "Private conversion",
-    p: "The whole conversion runs inside your browser tab, so notes, journals, drafts and personal letters never leave your device. There's no server-side upload of your text and no queue on our side — once the page loads, the actual conversion keeps working even if the connection drops.",
+    p: "The whole conversion runs inside your browser tab, so notes, journals, drafts and personal letters never leave your device. There's no server-side upload of your text and no queue on our side, once the page loads, the actual conversion keeps working even if the connection drops.",
   },
   {
     h: "No length limit",
-    p: "There is no artificial page or character cap. The tool wraps your text line by line and adds pages until every wrapped line has a home — a 3-line note becomes a 1-page PDF; a 10,000-line log paginates into as many pages as it needs. The practical ceiling is your device's memory.",
+    p: "There is no artificial page or character cap. The tool wraps your text line by line and adds pages until every wrapped line has a home, a 3-line note becomes a 1-page PDF; a 10,000-line log paginates into as many pages as it needs. The practical ceiling is your device's memory.",
   },
 ];
 
@@ -48,7 +48,7 @@ const scenarios = [
   },
   {
     h: "Archiving logs and records in a fixed, printable format",
-    p: "Chat logs, server output, invoice line lists and any other plain-text record are safer to archive as PDFs — the layout is frozen, printing is predictable, and the file survives any future changes to the source app. This tool paginates the log cleanly so you can file or print it without surprises.",
+    p: "Chat logs, server output, invoice line lists and any other plain-text record are safer to archive as PDFs, the layout is frozen, printing is predictable, and the file survives any future changes to the source app. This tool paginates the log cleanly so you can file or print it without surprises.",
   },
   {
     h: "Turning a Hindi or English letter into a document ready to send",
@@ -59,43 +59,43 @@ const scenarios = [
 const faqs: { q: string; a: ReactNode; plain: string }[] = [
   {
     q: "How do I convert a TXT file to PDF for free?",
-    a: "Open this page, click Select TXT files and pick your .txt file (or paste text with the Or paste text instead link). Choose a page size, font size, margin and line spacing on the right, then hit Convert to PDF. A PDF named after your source file downloads to your device — no account, no card, no watermark added.",
+    a: "Open this page, click Select TXT files and pick your .txt file (or paste text with the Or paste text instead link). Choose a page size, font size, margin and line spacing on the right, then hit Convert to PDF. A PDF named after your source file downloads to your device, no account, no card, no watermark added.",
     plain:
-      "Click Select TXT files (or paste text), pick page size, font size, margin and line spacing, then hit Convert to PDF. A PDF named after your source file downloads to your device — no account, no watermark.",
+      "Click Select TXT files (or paste text), pick page size, font size, margin and line spacing, then hit Convert to PDF. A PDF named after your source file downloads to your device, no account, no watermark.",
   },
   {
     q: "Can I convert Hindi text to PDF?",
-    a: "Yes — and getting Hindi right is one of the main reasons this tool exists. When the input contains Devanagari characters, the converter automatically switches to a shaping pipeline that uses Noto Sans Devanagari, so matras stay attached to their base letters and conjuncts like क्ष, त्र and ज्ञ render as proper ligatures. Marathi and Sanskrit written in Devanagari behave the same way. The trade-off is that Hindi pages are drawn as high-resolution images inside the PDF, so the text is not selectable in a viewer — but it prints and displays correctly everywhere.",
+    a: "Yes, and getting Hindi right is one of the main reasons this tool exists. When the input contains Devanagari characters, the converter automatically switches to a shaping pipeline that uses Noto Sans Devanagari, so matras stay attached to their base letters and conjuncts like क्ष, त्र and ज्ञ render as proper ligatures. Marathi and Sanskrit written in Devanagari behave the same way. The trade-off is that Hindi pages are drawn as high-resolution images inside the PDF, so the text is not selectable in a viewer, but it prints and displays correctly everywhere.",
     plain:
-      "Yes. Devanagari input is routed through a shaping pipeline that uses Noto Sans Devanagari so matras stay attached and conjuncts render as proper ligatures. Marathi and Sanskrit in Devanagari work the same way. Hindi pages are drawn as high-resolution images, so text is not selectable — but it displays and prints correctly.",
+      "Yes. Devanagari input is routed through a shaping pipeline that uses Noto Sans Devanagari so matras stay attached and conjuncts render as proper ligatures. Marathi and Sanskrit in Devanagari work the same way. Hindi pages are drawn as high-resolution images, so text is not selectable, but it displays and prints correctly.",
   },
   {
     q: "Why do other converters show \"????\" for Hindi?",
-    a: "Most free converters embed the standard PDF font (Helvetica), which only knows the first 256 Latin characters — Devanagari letters live far outside that range, so the encoder replaces each unknown character with a question mark. This tool detects that your text contains characters above that range and switches to a different pipeline that loads a proper Devanagari font in the browser and draws the shaped text onto the page. Same input, correct output.",
+    a: "Most free converters embed the standard PDF font (Helvetica), which only knows the first 256 Latin characters, Devanagari letters live far outside that range, so the encoder replaces each unknown character with a question mark. This tool detects that your text contains characters above that range and switches to a different pipeline that loads a proper Devanagari font in the browser and draws the shaped text onto the page. Same input, correct output.",
     plain:
       "Most free converters embed the standard PDF font Helvetica, which only knows the first 256 Latin characters, so Devanagari letters become question marks. This tool detects non-Latin characters and switches to a pipeline that loads a proper Devanagari font in the browser and draws shaped text onto the page.",
   },
   {
     q: "Can I paste text directly instead of uploading a file?",
-    a: "Yes. On the start screen there's a small Or paste text instead link under the file dropzone — tap it to switch to a paste view with a textarea, type or paste your content, and press Convert to PDF. The output is saved as pasted-text.pdf. You can flip back to file mode at any time with the Use a file instead link.",
+    a: "Yes. On the start screen there's a small Or paste text instead link under the file dropzone, tap it to switch to a paste view with a textarea, type or paste your content, and press Convert to PDF. The output is saved as pasted-text.pdf. You can flip back to file mode at any time with the Use a file instead link.",
     plain:
       "Yes. Click Or paste text instead under the file dropzone, type or paste into the textarea and press Convert to PDF. The output is saved as pasted-text.pdf. Switch back with Use a file instead.",
   },
   {
     q: "Will English text be selectable in the PDF?",
-    a: "Yes. When your input stays inside the standard Latin-1 range (English and most Western European languages), the tool takes a fast vector path that embeds the text using the standard PDF Helvetica font — so you can select, copy and search it in any viewer. The moment a Devanagari or CJK character appears, the tool switches to the image-based pipeline for that job and the output note tells you the pages aren't selectable.",
+    a: "Yes. When your input stays inside the standard Latin-1 range (English and most Western European languages), the tool takes a fast vector path that embeds the text using the standard PDF Helvetica font, so you can select, copy and search it in any viewer. The moment a Devanagari or CJK character appears, the tool switches to the image-based pipeline for that job and the output note tells you the pages aren't selectable.",
     plain:
       "Yes. Pure Latin-1 input takes a vector path with the standard PDF Helvetica font, so text is selectable, copyable and searchable in any viewer. If Devanagari or CJK characters appear, the tool switches to the image-based pipeline and the output note flags that the pages aren't selectable.",
   },
   {
     q: "Do my files get uploaded to a server?",
-    a: "No. Your .txt content and pasted text are read, converted and packaged into a PDF entirely inside your browser tab, so the words themselves never leave your device. To render Hindi and other non-Latin scripts, the browser does download the Noto Sans and Noto Sans Devanagari font files from Google Fonts the first time they're needed — but that request only fetches the font, it never carries your text back the other way.",
+    a: "No. Your .txt content and pasted text are read, converted and packaged into a PDF entirely inside your browser tab, so the words themselves never leave your device. To render Hindi and other non-Latin scripts, the browser does download the Noto Sans and Noto Sans Devanagari font files from Google Fonts the first time they're needed, but that request only fetches the font, it never carries your text back the other way.",
     plain:
-      "No. The .txt content and pasted text are converted into a PDF entirely inside your browser tab; the words never leave your device. For non-Latin scripts the browser downloads the Noto Sans and Noto Sans Devanagari font files from Google Fonts, but that request only fetches the fonts — your text is never uploaded.",
+      "No. The .txt content and pasted text are converted into a PDF entirely inside your browser tab; the words never leave your device. For non-Latin scripts the browser downloads the Noto Sans and Noto Sans Devanagari font files from Google Fonts, but that request only fetches the fonts, your text is never uploaded.",
   },
   {
     q: "Can I change font size or page size?",
-    a: "Yes — both, from the sidebar. Page size toggles between A4 and Letter, and Font size offers Small (10pt), Medium (12pt) and Large (14pt). You can also pick a Margin (Small, Normal, Big) and Line spacing (1.0, 1.15 or 1.5). Every setting affects both the vector and the image-based pipelines the same way.",
+    a: "Yes, both, from the sidebar. Page size toggles between A4 and Letter, and Font size offers Small (10pt), Medium (12pt) and Large (14pt). You can also pick a Margin (Small, Normal, Big) and Line spacing (1.0, 1.15 or 1.5). Every setting affects both the vector and the image-based pipelines the same way.",
     plain:
       "Yes. Page size toggles between A4 and Letter; Font size offers Small (10pt), Medium (12pt) and Large (14pt); Margin has Small, Normal and Big; Line spacing offers 1.0, 1.15 and 1.5. All settings apply to both pipelines.",
   },
@@ -112,7 +112,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
       "Yes. Select TXT files opens the phone's standard file picker, the paste option opens a textarea, and Convert to PDF uses the browser's normal download flow. No app to install.",
   },
   {
-    q: "How do I do the reverse — PDF to text?",
+    q: "How do I do the reverse, PDF to text?",
     a: (
       <>
         Use the reverse tool:{" "}
@@ -168,7 +168,7 @@ export function TxtToPdfSeo() {
         Try converting a paragraph of Hindi, Marathi or Sanskrit in most free
         online text-to-PDF tools and you'll see the same disappointing result:
         rows of question marks, empty boxes, or roman transliteration instead
-        of Devanagari. The reason is boring but simple — those converters build
+        of Devanagari. The reason is boring but simple, those converters build
         the PDF with the standard font that has been shipped with PDF viewers
         since the 1990s, and that font only knows a handful of Latin
         characters. Anything beyond it, including every Devanagari matra and
@@ -180,7 +180,7 @@ export function TxtToPdfSeo() {
         non-Latin character. It loads real Noto Sans Devanagari fonts inside
         the browser, uses the same shaping engine your browser uses to display
         Hindi on a normal web page, and paints each page onto a
-        high-resolution canvas — so matras attach to the right base letters,
+        high-resolution canvas, so matras attach to the right base letters,
         conjuncts like क्ष and ज्ञ render as proper ligatures, and half-forms
         connect the way native readers expect. English content, on the other
         hand, still goes through the fast selectable-text path, so a plain
@@ -272,7 +272,7 @@ export const txtToPdfHowToJsonLd = {
   "@type": "HowTo",
   name: "How to convert a text file to PDF online for free",
   description:
-    "Convert TXT files or pasted text into a clean, printable PDF entirely inside your browser — with Hindi and other non-Latin scripts rendered correctly. No upload, no signup, no watermark.",
+    "Convert TXT files or pasted text into a clean, printable PDF entirely inside your browser, with Hindi and other non-Latin scripts rendered correctly. No upload, no signup, no watermark.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "One or more .txt files, or a block of text to paste" }],
   tool: [{ "@type": "HowToTool", name: "FreePDFHub TXT to PDF (web browser)" }],
@@ -290,7 +290,7 @@ export const txtToPdfSoftwareJsonLd = {
   "@type": "SoftwareApplication",
   name: "FreePDFHub TXT to PDF",
   description:
-    "Convert TXT to PDF online free — turn text files or pasted content into clean, printable PDFs entirely inside the browser. Supports Hindi and other non-Latin scripts. No upload, no signup, no watermark.",
+    "Convert TXT to PDF online free, turn text files or pasted content into clean, printable PDFs entirely inside the browser. Supports Hindi and other non-Latin scripts. No upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Web",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

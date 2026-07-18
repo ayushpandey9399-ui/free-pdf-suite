@@ -5,15 +5,15 @@ import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 const steps = [
   {
     title: "Open the PDF you want to lock",
-    text: "Drop a PDF into the browser window or click Select PDF file. The document is loaded into the current tab and stays there — no upload of any kind happens at this or any later stage.",
+    text: "Drop a PDF into the browser window or click Select PDF file. The document is loaded into the current tab and stays there, no upload of any kind happens at this or any later stage.",
   },
   {
     title: "Type a password (and confirm it)",
-    text: "Enter the password you want the file to require and repeat it in the second field. A live strength meter grades what you typed as weak, medium or strong so you can catch a lazy password before you commit to it. The password is used purely inside your browser to derive the encryption key — it is never sent, stored or logged on our side.",
+    text: "Enter the password you want the file to require and repeat it in the second field. A live strength meter grades what you typed as weak, medium or strong so you can catch a lazy password before you commit to it. The password is used purely inside your browser to derive the encryption key, it is never sent, stored or logged on our side.",
   },
   {
     title: "Click Protect PDF",
-    text: "The tool applies the PDF standard's strongest encryption — AES-256 — to the document right on your machine using the mupdf WebAssembly engine. Both the user password (needed to open the file) and the owner password are set to the value you just typed.",
+    text: "The tool applies the PDF standard's strongest encryption, AES-256, to the document right on your machine using the mupdf WebAssembly engine. Both the user password (needed to open the file) and the owner password are set to the value you just typed.",
   },
   {
     title: "Download the encrypted PDF",
@@ -24,15 +24,15 @@ const steps = [
 const benefits = [
   {
     h: "Works with every PDF reader",
-    p: "The output is a plain, spec-compliant PDF with standard AES-256 encryption applied — the exact same format Adobe Acrobat writes when you password-protect a file there. Adobe Reader, Chrome, Edge, Firefox, Preview on macOS, and the built-in viewers on Android and iOS all recognise it and ask for the password before showing the first page.",
+    p: "The output is a plain, spec-compliant PDF with standard AES-256 encryption applied, the exact same format Adobe Acrobat writes when you password-protect a file there. Adobe Reader, Chrome, Edge, Firefox, Preview on macOS, and the built-in viewers on Android and iOS all recognise it and ask for the password before showing the first page.",
   },
   {
     h: "Encrypt sensitive documents safely",
-    p: "Salary slips, medical reports, bank statements, tax returns, offer letters, rental agreements — anything you would not want a stranger to skim if it landed in the wrong inbox. Locking the file before you attach it to an email or drop it into a shared folder means an intercepted or forwarded copy is useless without the password.",
+    p: "Salary slips, medical reports, bank statements, tax returns, offer letters, rental agreements, anything you would not want a stranger to skim if it landed in the wrong inbox. Locking the file before you attach it to an email or drop it into a shared folder means an intercepted or forwarded copy is useless without the password.",
   },
   {
     h: "No file size games or paywalls",
-    p: "Protect a 500 KB payslip or a 300 MB scanned dossier — the workflow is the same and the cost is the same, which is zero. There is no page cap, no daily quota, no watermark added to the output and no upgrade prompt at the end.",
+    p: "Protect a 500 KB payslip or a 300 MB scanned dossier, the workflow is the same and the cost is the same, which is zero. There is no page cap, no daily quota, no watermark added to the output and no upgrade prompt at the end.",
   },
   {
     h: "Instant, even for big files",
@@ -43,11 +43,11 @@ const benefits = [
 const scenarios = [
   {
     h: "Emailing financial or HR documents",
-    p: "Salary slips, Form 16s, offer letters, KYC packets and reimbursement claims are routinely sent as email attachments — and email attachments are trivially forwarded, printed and screenshot. Locking the PDF adds a second layer that stops a casually forwarded copy from being immediately readable.",
+    p: "Salary slips, Form 16s, offer letters, KYC packets and reimbursement claims are routinely sent as email attachments, and email attachments are trivially forwarded, printed and screenshot. Locking the PDF adds a second layer that stops a casually forwarded copy from being immediately readable.",
   },
   {
     h: "Sharing files via WhatsApp or a cloud link",
-    p: "WhatsApp messages get forwarded, Drive links get reshared, and a document you sent to one person can end up on a family group by evening. A password-protected PDF still travels the same way, but only the intended recipient — who you told the password to separately — can actually open it.",
+    p: "WhatsApp messages get forwarded, Drive links get reshared, and a document you sent to one person can end up on a family group by evening. A password-protected PDF still travels the same way, but only the intended recipient, who you told the password to separately, can actually open it.",
   },
   {
     h: "Storing sensitive records in cloud backups",
@@ -66,7 +66,7 @@ const faqs = [
   },
   {
     q: "Is the password sent to your server?",
-    a: "No. Nothing is. The PDF is opened in your browser's memory, the encryption runs there via a WebAssembly build of the mupdf engine, and the encrypted output is handed back to you as a local download. Your password is used only to derive the encryption key locally — we never receive it, log it or store it, because we never receive any data from the tool at all.",
+    a: "No. Nothing is. The PDF is opened in your browser's memory, the encryption runs there via a WebAssembly build of the mupdf engine, and the encrypted output is handed back to you as a local download. Your password is used only to derive the encryption key locally, we never receive it, log it or store it, because we never receive any data from the tool at all.",
   },
   {
     q: "How strong is the encryption?",
@@ -78,15 +78,15 @@ const faqs = [
   },
   {
     q: "What happens if I forget the password?",
-    a: "There is no recovery — not by us, not by anyone. We never received your password in the first place (it stayed in your browser), so we cannot look it up, reset it or send you a magic link. That is not a limitation of this tool; it is the point of real encryption. If a service can recover your password for you, it is holding your key on its servers, which means so can anyone who breaches those servers. Store the password somewhere safe (a password manager is ideal) before you close the tab.",
+    a: "There is no recovery, not by us, not by anyone. We never received your password in the first place (it stayed in your browser), so we cannot look it up, reset it or send you a magic link. That is not a limitation of this tool; it is the point of real encryption. If a service can recover your password for you, it is holding your key on its servers, which means so can anyone who breaches those servers. Store the password somewhere safe (a password manager is ideal) before you close the tab.",
   },
   {
     q: "Can I remove a password from a PDF?",
-    a: "Yes, if you know the current password. Use our free Unlock PDF tool for that — like this one, it runs entirely in your browser, so the password you type to unlock the file is never sent anywhere either.",
+    a: "Yes, if you know the current password. Use our free Unlock PDF tool for that, like this one, it runs entirely in your browser, so the password you type to unlock the file is never sent anywhere either.",
   },
   {
     q: "Can I protect multiple PDFs?",
-    a: "Yes. There is no daily quota, no per-file limit and no signup. Run one file, download it, drop in the next — repeat as many times as you need. Every run is independent and runs locally.",
+    a: "Yes. There is no daily quota, no per-file limit and no signup. Run one file, download it, drop in the next, repeat as many times as you need. Every run is independent and runs locally.",
   },
   {
     q: "Does protecting change the content or quality?",
@@ -94,11 +94,11 @@ const faqs = [
   },
   {
     q: "Is a password-protected PDF safe to email?",
-    a: "It is meaningfully safer than an unprotected one. Email attachments can be forwarded, mis-sent, backed up on a mail server and archived indefinitely — a locked PDF stays useless to anyone who does not have the password. The important rule: send the password through a different channel than the file. If both travel in the same email thread, an attacker who reads that thread has both, and the encryption has bought you nothing.",
+    a: "It is meaningfully safer than an unprotected one. Email attachments can be forwarded, mis-sent, backed up on a mail server and archived indefinitely, a locked PDF stays useless to anyone who does not have the password. The important rule: send the password through a different channel than the file. If both travel in the same email thread, an attacker who reads that thread has both, and the encryption has bought you nothing.",
   },
   {
     q: "Do I need an account or Adobe Acrobat?",
-    a: "Neither. There is no login, no free trial, no email capture and no need to install Acrobat Pro (whose encryption feature is a paid tier anyway). Open this page, drop a PDF, type a password, download the encrypted file — that is the whole workflow.",
+    a: "Neither. There is no login, no free trial, no email capture and no need to install Acrobat Pro (whose encryption feature is a paid tier anyway). Open this page, drop a PDF, type a password, download the encrypted file, that is the whole workflow.",
   },
 ];
 
@@ -143,7 +143,7 @@ export function ProtectPdfSeo() {
         Every other online tool that offers to password-protect a PDF for you needs two things from
         you: the document itself, and the password you want to lock it with. In other words, you
         are handing a stranger's server both the secret and the thing the secret is meant to
-        protect — often the same password you reuse on other accounts because most people do.
+        protect, often the same password you reuse on other accounts because most people do.
       </p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
         This tool does not ask for that trust because it does not need it. The PDF is opened in
@@ -153,7 +153,7 @@ export function ProtectPdfSeo() {
         password ever crossing the network.
       </p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        There is nothing to trust here — because there is nothing we ever receive. Open the
+        There is nothing to trust here, because there is nothing we ever receive. Open the
         Network tab in your browser's developer tools while you protect a file if you want to see
         for yourself: not a single request is made to our servers during the encryption.
       </p>
@@ -163,7 +163,7 @@ export function ProtectPdfSeo() {
         Real encryption, not a fake lock
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        The output is a genuine encrypted PDF with AES-256 applied — the strongest algorithm the
+        The output is a genuine encrypted PDF with AES-256 applied, the strongest algorithm the
         PDF specification defines and the same one Adobe Acrobat writes when you use its
         password-protect feature. It is not a viewer-only overlay, a watermark, or a metadata flag
         that pretends the file is locked. Open the protected PDF in Adobe Reader, Chrome, Preview
@@ -241,7 +241,7 @@ export const protectHowToJsonLd = {
   "@type": "HowTo",
   name: "How to password protect a PDF online for free",
   description:
-    "Add AES-256 password encryption to a PDF entirely in your browser — the file and password never leave your device.",
+    "Add AES-256 password encryption to a PDF entirely in your browser, the file and password never leave your device.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "The PDF you want to encrypt" }],
   tool: [{ "@type": "HowToTool", name: "FreePDFHub Protect PDF (web browser)" }],

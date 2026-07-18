@@ -166,7 +166,7 @@ export default function PageNumbers() {
       }
     >
       <div className="rounded-2xl bg-white p-4" style={{ border: "1px solid #ececef" }}>
-        <p className="mb-3 text-[12px]" style={{ color: "#7a7a86" }}>Live preview — page 1</p>
+        <p className="mb-3 text-[12px]" style={{ color: "#7a7a86" }}>Live preview, page 1</p>
         <div ref={containerRef} className="relative mx-auto w-full max-w-[600px]" style={{ height: displayH || undefined }}>
           {previewUrl && (
             <>

@@ -10,22 +10,22 @@ const steps = [
   },
   {
     title: "Pick where each blank page goes",
-    text: "Hover any thumbnail and a red + slot appears on the left edge — click it to drop a blank page before that page. Slots exist between every pair of pages and after the last one, so you can insert at the very beginning, in the middle, at the end, or in several spots in the same pass. Each pending blank shows up inline as a dashed placeholder labelled Blank with the position number so you can proof the final order.",
+    text: "Hover any thumbnail and a red + slot appears on the left edge, click it to drop a blank page before that page. Slots exist between every pair of pages and after the last one, so you can insert at the very beginning, in the middle, at the end, or in several spots in the same pass. Each pending blank shows up inline as a dashed placeholder labelled Blank with the position number so you can proof the final order.",
   },
   {
     title: "Or add many at once",
-    text: "Two sidebar shortcuts save clicking: Add blank page at end drops one at the tail, and Add blank page after every page inserts one between every existing page in a single click (with a confirm for documents over 50 pages). Removing a blank is a single click on its × badge, and Reset — remove all pending blank pages clears every pending insertion without touching the original document.",
+    text: "Two sidebar shortcuts save clicking: Add blank page at end drops one at the tail, and Add blank page after every page inserts one between every existing page in a single click (with a confirm for documents over 50 pages). Removing a blank is a single click on its × badge, and Reset, remove all pending blank pages clears every pending insertion without touching the original document.",
   },
   {
     title: "Choose a size and click Add Blank Pages",
-    text: "Under Blank page size pick Match previous — each blank inherits the dimensions of the page just before it (or the next page if the blank is at position 1) — or A4 to force every insertion to a standard A4 sheet. Click Add N Blank Pages and the tool writes a new copy suffixed -with-blanks.pdf, with a success screen telling you how many were added and the new total.",
+    text: "Under Blank page size pick Match previous, each blank inherits the dimensions of the page just before it (or the next page if the blank is at position 1), or A4 to force every insertion to a standard A4 sheet. Click Add N Blank Pages and the tool writes a new copy suffixed -with-blanks.pdf, with a success screen telling you how many were added and the new total.",
   },
 ];
 
 const benefits = [
   {
     h: "Any position",
-    p: "Insert at the very start, between any two pages, at the end, or in several spots at once — the + slot exists on every page and after the last one. There is no fixed limit on how many blanks you can queue up before you export.",
+    p: "Insert at the very start, between any two pages, at the end, or in several spots at once, the + slot exists on every page and after the last one. There is no fixed limit on how many blanks you can queue up before you export.",
   },
   {
     h: "Size-matched pages",
@@ -33,7 +33,7 @@ const benefits = [
   },
   {
     h: "Perfect for print planning",
-    p: "Because blanks land exactly where you place them, you can control what falls on the left versus the right side of a double-sided print — push each chapter opener onto an odd page, or leave a deliberate blank after a signature block so nothing prints on its reverse.",
+    p: "Because blanks land exactly where you place them, you can control what falls on the left versus the right side of a double-sided print, push each chapter opener onto an odd page, or leave a deliberate blank after a signature block so nothing prints on its reverse.",
   },
   {
     h: "Original untouched",
@@ -52,15 +52,15 @@ const scenarios = [
   },
   {
     h: "Separating sections in a compiled document",
-    p: "When you've merged several reports, invoices or scans into one PDF, a blank page between sections gives a clear visual break — especially when the document is printed and passed around. It's the paper equivalent of a divider tab.",
+    p: "When you've merged several reports, invoices or scans into one PDF, a blank page between sections gives a clear visual break, especially when the document is printed and passed around. It's the paper equivalent of a divider tab.",
   },
   {
     h: "Reserving space for content you'll add later",
-    p: "Sometimes you know a map, a chart, a form or an attachment is coming but you don't have it yet. Drop a blank as a placeholder at the right position, keep working, and swap the content in later — the surrounding page numbering stays exactly as planned.",
+    p: "Sometimes you know a map, a chart, a form or an attachment is coming but you don't have it yet. Drop a blank as a placeholder at the right position, keep working, and swap the content in later, the surrounding page numbering stays exactly as planned.",
   },
   {
     h: "Meeting agendas with reserved discussion pages",
-    p: "When an agenda goes out as a PDF, participants often want a blank sheet after each item to jot notes during the discussion. Insert one blank after every agenda point — or use Add blank page after every page for the whole document — so everyone prints a booklet-style handout with note space exactly where the conversation happens.",
+    p: "When an agenda goes out as a PDF, participants often want a blank sheet after each item to jot notes during the discussion. Insert one blank after every agenda point, or use Add blank page after every page for the whole document, so everyone prints a booklet-style handout with note space exactly where the conversation happens.",
   },
 ];
 
@@ -73,7 +73,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
   },
   {
     q: "Can I insert a page in the middle of the document?",
-    a: "Yes — insert slots exist on the left edge of every thumbnail and after the last page, so you can drop a blank between any two pages, at the very beginning or at the very end. There's no dropdown restricting you to first / last only.",
+    a: "Yes, insert slots exist on the left edge of every thumbnail and after the last page, so you can drop a blank between any two pages, at the very beginning or at the very end. There's no dropdown restricting you to first / last only.",
     plain:
       "Yes. Insert slots appear on the left edge of every thumbnail and after the last page, so blanks can go between any two pages, at the very start or at the end. No first/last-only restriction.",
   },
@@ -85,9 +85,9 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
   },
   {
     q: "Will the blank page match my document's page size?",
-    a: "By default yes — the sidebar's Blank page size is set to Match previous, so each blank inherits the dimensions of the page just before it (or the next page if the blank is at position 1). Switch to A4 if you want every inserted page forced to a standard A4 sheet regardless of what the surrounding pages look like.",
+    a: "By default yes, the sidebar's Blank page size is set to Match previous, so each blank inherits the dimensions of the page just before it (or the next page if the blank is at position 1). Switch to A4 if you want every inserted page forced to a standard A4 sheet regardless of what the surrounding pages look like.",
     plain:
-      "By default yes — the Blank page size setting is Match previous, so each blank inherits the size of the page before it (or the next page if at position 1). Switch to A4 to force every insertion to a standard A4 sheet.",
+      "By default yes, the Blank page size setting is Match previous, so each blank inherits the size of the page before it (or the next page if at position 1). Switch to A4 to force every insertion to a standard A4 sheet.",
   },
   {
     q: "Do my files get uploaded to a server?",
@@ -99,7 +99,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
     q: "Can I write on the blank page afterwards?",
     a: (
       <>
-        Yes — the inserted page is a real, editable PDF page. Open the
+        Yes, the inserted page is a real, editable PDF page. Open the
         finished document in{" "}
         <Link to="/tools/edit-pdf" className="text-[#e5322d] underline">
           Edit PDF
@@ -119,19 +119,19 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
         <Link to="/tools/delete-pages" className="text-[#e5322d] underline">
           Delete Pages
         </Link>{" "}
-        — pick the page numbers you want removed and export a copy
+       , pick the page numbers you want removed and export a copy
         without them. If a blank you just added here is wrong, the
         pending placeholder has an × badge you can click before you
-        export, and Reset — remove all pending blank pages clears every
+        export, and Reset, remove all pending blank pages clears every
         insertion at once.
       </>
     ),
     plain:
-      "Use Delete Pages (/tools/delete-pages) — pick the page numbers and export a copy without them. Before exporting here, click the × on any pending blank to drop it, or Reset to clear all insertions.",
+      "Use Delete Pages (/tools/delete-pages), pick the page numbers and export a copy without them. Before exporting here, click the × on any pending blank to drop it, or Reset to clear all insertions.",
   },
   {
     q: "Can I use this on my phone?",
-    a: "Yes. The tool is a mobile-friendly web page — on phones the + insertion slots stay visible on every thumbnail (rather than appearing on hover), and everything runs locally in your mobile browser without needing an app or a signup.",
+    a: "Yes. The tool is a mobile-friendly web page, on phones the + insertion slots stay visible on every thumbnail (rather than appearing on hover), and everything runs locally in your mobile browser without needing an app or a signup.",
     plain:
       "Yes. It's a mobile-friendly web page. On phones the + insertion slots stay visible on every thumbnail rather than appearing on hover, and everything runs in your mobile browser with no app or signup.",
   },
@@ -150,7 +150,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
         ends on an odd page, the next section will start on the back
         of that sheet unless a blank is inserted between them.
         Inserting a blank at that point forces the next section to
-        open on a fresh right-hand page — the same effect print books
+        open on a fresh right-hand page, the same effect print books
         use. After inserting, you may want to run the file through{" "}
         <Link to="/tools/page-numbers" className="text-[#e5322d] underline">
           Page Numbers
@@ -204,7 +204,7 @@ export function AddBlankPagesSeo() {
         Drop a blank right after the cover so the table of contents starts on a
         fresh page. Wedge one between two chapters so the next chapter opens on
         the right-hand side. Add one at the end for handwritten notes that need
-        to travel with the document. Every insertion happens where you click —
+        to travel with the document. Every insertion happens where you click , 
         no dropdown that only lets you pick "beginning" or "end".
       </p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
@@ -221,7 +221,7 @@ export function AddBlankPagesSeo() {
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         Like every FreePDFHub tool, the insertion runs entirely inside your
-        browser tab with pdf.js and pdf-lib — the document never leaves your
+        browser tab with pdf.js and pdf-lib, the document never leaves your
         device, and nothing is logged on our side. Even long files update in
         seconds because adding pages is a structural change, not a re-render of
         the existing content.
@@ -290,7 +290,7 @@ export const addBlankPagesHowToJsonLd = {
   "@type": "HowTo",
   name: "How to add a blank page to a PDF online for free",
   description:
-    "Insert one or more blank pages into a PDF entirely in the browser — anywhere in the document, at the size of your choice. No upload, no signup, no watermark.",
+    "Insert one or more blank pages into a PDF entirely in the browser, anywhere in the document, at the size of your choice. No upload, no signup, no watermark.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "A PDF file" }],
   tool: [{ "@type": "HowToTool", name: "FreePDFHub Add Blank Pages (web browser)" }],
@@ -308,7 +308,7 @@ export const addBlankPagesSoftwareJsonLd = {
   "@type": "SoftwareApplication",
   name: "FreePDFHub Add Blank Pages",
   description:
-    "Insert blank pages into a PDF online free — anywhere in the document, matching the surrounding page size, in your browser. No upload, no signup, no watermark.",
+    "Insert blank pages into a PDF online free, anywhere in the document, matching the surrounding page size, in your browser. No upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Web",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

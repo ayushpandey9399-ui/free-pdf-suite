@@ -376,7 +376,7 @@ export default function HeaderFooter() {
     >
       <div className="rounded-2xl bg-white p-4" style={{ border: "1px solid #ececef" }}>
         <div className="mb-3 flex items-center justify-between">
-          <p className="text-[12px]" style={{ color: "#7a7a86" }}>Live preview — page {previewPage} of {totalPages}</p>
+          <p className="text-[12px]" style={{ color: "#7a7a86" }}>Live preview, page {previewPage} of {totalPages}</p>
           {totalPages > 1 && (
             <div className="flex items-center gap-1">
               <button

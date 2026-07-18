@@ -128,7 +128,7 @@ export default function PdfToImages() {
           <LargeFileWarning
             pageCount={pageCount}
             fileSize={fileSize}
-            extraNote={pageCount > 30 ? `${pageCount} pages — will be generated page by page.` : undefined}
+            extraNote={pageCount > 30 ? `${pageCount} pages, will be generated page by page.` : undefined}
           />
         </>
       }

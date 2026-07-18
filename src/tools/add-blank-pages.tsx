@@ -106,7 +106,7 @@ export default function AddBlankPages() {
       // page ordering is unchanged (we only ADD pages), we can iterate items in order
       // and call insertPage at each blank's index. Original pages stay at their
       // original positions relative to each other; pdf-lib insertPage shifts later.
-      // However, pdf-lib pages are indexed in their current state — so inserting
+      // However, pdf-lib pages are indexed in their current state, so inserting
       // at the target index works as long as we walk left-to-right and every
       // preceding non-blank page in `items` already exists at that position.
       for (let i = 0; i < items.length; i++) {
@@ -142,7 +142,7 @@ export default function AddBlankPages() {
     return (
       <ToolSuccessScreen
         heading="Blank pages added!"
-        subheading={`${result.added} blank page${result.added === 1 ? "" : "s"} added — ${result.total} pages total.`}
+        subheading={`${result.added} blank page${result.added === 1 ? "" : "s"} added, ${result.total} pages total.`}
         downloadLabel="Download PDF"
         onDownload={() => downloadBlob(result.blob, result.filename, "application/pdf")}
         onReset={resetAll}
@@ -199,7 +199,7 @@ export default function AddBlankPages() {
                 className="text-xs font-medium underline"
                 style={{ color: "#7a7a86" }}
               >
-                Reset — remove all pending blank pages
+                Reset, remove all pending blank pages
               </button>
             )}
           </div>

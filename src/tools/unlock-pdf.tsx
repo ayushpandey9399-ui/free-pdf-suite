@@ -165,7 +165,7 @@ export default function UnlockPdf() {
           )}
 
           {status.kind === "unprotected" && (
-            <InfoTip>This PDF has no open password — nothing to unlock.</InfoTip>
+            <InfoTip>This PDF has no open password, nothing to unlock.</InfoTip>
           )}
 
           {status.kind === "invalid" && (

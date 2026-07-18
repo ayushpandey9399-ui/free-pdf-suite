@@ -4,11 +4,11 @@ import type { ComponentType, ReactNode } from "react";
  * Uniform tool icon system.
  *
  * Every icon is composed on a 64x64 viewBox from three fixed layers:
- *   1. BACK PAPER   — rounded rect 34x40 @ (4,6), rx=6, tinted, with folded corner + 3 text lines.
- *   2. FRONT BADGE  — rounded square 30x30 @ (26,26), rx=8, saturated color, white glyph centered.
- *   3. CONNECTOR    — optional soft arc arrow (convert/transform tools).
+ *   1. BACK PAPER  , rounded rect 34x40 @ (4,6), rx=6, tinted, with folded corner + 3 text lines.
+ *   2. FRONT BADGE , rounded square 30x30 @ (26,26), rx=8, saturated color, white glyph centered.
+ *   3. CONNECTOR   , optional soft arc arrow (convert/transform tools).
  *
- * ONLY the color and glyph change across icons — geometry is identical.
+ * ONLY the color and glyph change across icons, geometry is identical.
  */
 
 export interface ToolIconProps {
@@ -74,7 +74,7 @@ function FrontBadge({ color, children }: { color: string; children: ReactNode })
   return (
     <g>
       <rect x={26} y={26} width={30} height={30} rx={8} fill={color} />
-      {/* Glyphs are drawn in a 20x20 area centered at (41,41) — i.e. child coords 31..51 x 31..51 */}
+      {/* Glyphs are drawn in a 20x20 area centered at (41,41), i.e. child coords 31..51 x 31..51 */}
       {children}
     </g>
   );
@@ -82,7 +82,7 @@ function FrontBadge({ color, children }: { color: string; children: ReactNode })
 
 // Optional connector arrow from back paper toward front badge.
 function Connector({ color, reverse = false }: { color: string; reverse?: boolean }) {
-  // arc from (20,22) to (30,32) — soft curve
+  // arc from (20,22) to (30,32), soft curve
   const d = reverse
     ? "M30 32 Q22 32 20 22"
     : "M20 22 Q22 32 30 32";
@@ -147,7 +147,7 @@ const G = {
   },
 };
 
-// Merge — two arrows converging into one point (down-right)
+// Merge, two arrows converging into one point (down-right)
 const glyphMerge = (
   <g {...G.strokeProps}>
     <path d="M33 33 L41 41" />
@@ -157,7 +157,7 @@ const glyphMerge = (
   </g>
 );
 
-// Compress — four arrows pointing inward
+// Compress, four arrows pointing inward
 const glyphCompress = (
   <g {...G.strokeProps}>
     <path d="M33 33 L38 38" />
@@ -171,7 +171,7 @@ const glyphCompress = (
   </g>
 );
 
-// Split — two arrows diverging apart
+// Split, two arrows diverging apart
 const glyphSplit = (
   <g {...G.strokeProps}>
     <path d="M41 33 L41 37" />
@@ -184,7 +184,7 @@ const glyphSplit = (
   </g>
 );
 
-// Delete — trash bin
+// Delete, trash bin
 const glyphDelete = (
   <g {...G.strokeProps}>
     <rect x={34} y={35} width={14} height={14} rx={1.5} />
@@ -195,7 +195,7 @@ const glyphDelete = (
   </g>
 );
 
-// Extract Pages — sheet with up-arrow
+// Extract Pages, sheet with up-arrow
 const glyphExtract = (
   <g {...G.strokeProps}>
     <rect x={35} y={38} width={12} height={11} rx={1.5} />
@@ -204,7 +204,7 @@ const glyphExtract = (
   </g>
 );
 
-// Reorder — up/down swap arrows
+// Reorder, up/down swap arrows
 const glyphReorder = (
   <g {...G.strokeProps}>
     <line x1={37} y1={33} x2={37} y2={49} />
@@ -214,7 +214,7 @@ const glyphReorder = (
   </g>
 );
 
-// Add Blank Pages — plus sign
+// Add Blank Pages, plus sign
 const glyphAdd = (
   <g {...G.strokeProps} strokeWidth={2.6}>
     <line x1={41} y1={33} x2={41} y2={49} />
@@ -222,7 +222,7 @@ const glyphAdd = (
   </g>
 );
 
-// Rotate — circular rotation arrow
+// Rotate, circular rotation arrow
 const glyphRotate = (
   <g {...G.strokeProps}>
     <path d="M48 41 A7 7 0 1 1 41 34" />
@@ -230,7 +230,7 @@ const glyphRotate = (
   </g>
 );
 
-// Crop — corner frame marks
+// Crop, corner frame marks
 const glyphCrop = (
   <g {...G.strokeProps}>
     <polyline points="34,37 34,34 37,34" />
@@ -252,7 +252,7 @@ const glyphPhoto = (
   </g>
 );
 
-// Extract Images — two overlapping photos
+// Extract Images, two overlapping photos
 const glyphExtractImages = (
   <g>
     <rect x={31} y={36} width={13} height={11} rx={1.5} fill="none" stroke={S.stroke} strokeWidth={S.sw} />
@@ -262,7 +262,7 @@ const glyphExtractImages = (
   </g>
 );
 
-// PDF to Text — letter "T"
+// PDF to Text, letter "T"
 const glyphT = (
   <g fill={S.fill}>
     <rect x={33} y={33} width={16} height={3} rx={0.5} />
@@ -270,7 +270,7 @@ const glyphT = (
   </g>
 );
 
-// TXT to PDF — three text lines
+// TXT to PDF, three text lines
 const glyphLines = (
   <g fill={S.fill}>
     <rect x={33} y={35} width={16} height={2.4} rx={1} />
@@ -279,7 +279,7 @@ const glyphLines = (
   </g>
 );
 
-// Scan — camera
+// Scan, camera
 const glyphCamera = (
   <g {...G.strokeProps}>
     <path d="M34 39 h3 l1.5 -2 h5 l1.5 2 h3 a1 1 0 0 1 1 1 v7 a1 1 0 0 1 -1 1 h-14 a1 1 0 0 1 -1 -1 v-7 a1 1 0 0 1 1 -1 z" />
@@ -287,7 +287,7 @@ const glyphCamera = (
   </g>
 );
 
-// Edit — pencil
+// Edit, pencil
 const glyphPencil = (
   <g {...G.strokeProps}>
     <path d="M34 48 L34 44 L44 34 L48 38 L38 48 Z" />
@@ -295,7 +295,7 @@ const glyphPencil = (
   </g>
 );
 
-// Watermark — water drop
+// Watermark, water drop
 const glyphDrop = (
   <path
     d="M41 32 C 37 38, 34 41, 34 44 A7 7 0 0 0 48 44 C 48 41, 45 38, 41 32 Z"
@@ -303,7 +303,7 @@ const glyphDrop = (
   />
 );
 
-// Page Numbers — "123"
+// Page Numbers, "123"
 const glyph123 = (
   <g fill={S.fill} fontFamily="ui-sans-serif, system-ui, -apple-system, sans-serif" fontSize={12} fontWeight={800} textAnchor="middle">
     <text x={35} y={45}>1</text>
@@ -312,7 +312,7 @@ const glyph123 = (
   </g>
 );
 
-// Header & Footer — rectangle with top/bottom bars
+// Header & Footer, rectangle with top/bottom bars
 const glyphHeaderFooter = (
   <g fill={S.fill}>
     <rect x={33} y={33} width={16} height={3} rx={1} />
@@ -322,7 +322,7 @@ const glyphHeaderFooter = (
   </g>
 );
 
-// Grayscale — half-filled circle
+// Grayscale, half-filled circle
 const glyphGrayscale = (
   <g>
     <circle cx={41} cy={41} r={7} fill="none" stroke={S.stroke} strokeWidth={S.sw} />
@@ -330,7 +330,7 @@ const glyphGrayscale = (
   </g>
 );
 
-// Metadata — price tag
+// Metadata, price tag
 const glyphTag = (
   <g {...G.strokeProps}>
     <path d="M34 34 h8 l8 8 -8 8 -8 -8 Z" />
@@ -338,7 +338,7 @@ const glyphTag = (
   </g>
 );
 
-// Fill Forms — checkbox with tick
+// Fill Forms, checkbox with tick
 const glyphCheckbox = (
   <g {...G.strokeProps}>
     <rect x={34} y={34} width={14} height={14} rx={2} />
@@ -346,7 +346,7 @@ const glyphCheckbox = (
   </g>
 );
 
-// Flatten — layers pressed by down-arrow
+// Flatten, layers pressed by down-arrow
 const glyphFlatten = (
   <g fill={S.fill}>
     <rect x={33} y={45} width={16} height={2.5} rx={1} />
@@ -359,7 +359,7 @@ const glyphFlatten = (
   </g>
 );
 
-// Compare — magnifying glass
+// Compare, magnifying glass
 const glyphSearch = (
   <g {...G.strokeProps}>
     <circle cx={39} cy={39} r={5} />
@@ -382,7 +382,7 @@ const glyphLockOpen = (
   </g>
 );
 
-// Sign — pen nib with signature curve
+// Sign, pen nib with signature curve
 const glyphSign = (
   <g {...G.strokeProps}>
     <path d="M33 47 Q37 41 41 45 T49 43" />
@@ -390,7 +390,7 @@ const glyphSign = (
   </g>
 );
 
-// Redact — two solid censor bars
+// Redact, two solid censor bars
 const glyphRedact = (
   <g fill={S.fill}>
     <rect x={33} y={36} width={16} height={3.5} rx={0.8} />

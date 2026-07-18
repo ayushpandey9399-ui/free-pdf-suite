@@ -26,7 +26,7 @@ export function ScanToPdfSeo() {
         <ol className="mt-4 list-decimal space-y-2 pl-6">
           <li>
             Tap <strong>Open Camera</strong>. Your browser will ask permission the first
-            time — allow it so the live preview can appear.
+            time, allow it so the live preview can appear.
           </li>
           <li>
             Frame the page and tap the round red <strong>capture button</strong>. The shot
@@ -38,9 +38,9 @@ export function ScanToPdfSeo() {
             capture again. When the pages look right, tap <strong>Done</strong>.
           </li>
           <li>
-            Pick a filter — <strong>Document</strong> (auto-levelled, recommended),{" "}
+            Pick a filter, <strong>Document</strong> (auto-levelled, recommended),{" "}
             <strong>Grayscale</strong>, <strong>Black &amp; White</strong>, or{" "}
-            <strong>Original</strong> — choose <strong>A4 / Letter / Fit</strong>, drag
+            <strong>Original</strong>, choose <strong>A4 / Letter / Fit</strong>, drag
             thumbnails to reorder, then press <strong>Create PDF</strong> and download.
           </li>
         </ol>
@@ -54,7 +54,7 @@ export function ScanToPdfSeo() {
           capture to a cloud you didn't sign up for, buried in a paragraph of the terms.
           This scanner runs entirely inside your browser tab. Open the page, allow the
           camera, tap capture for each sheet, tap Create PDF, and download the result.
-          Close the tab and the whole thing is gone — no leftover app on your home screen,
+          Close the tab and the whole thing is gone, no leftover app on your home screen,
           no account to delete, no images sitting on someone else's server.
         </p>
       </section>
@@ -66,13 +66,13 @@ export function ScanToPdfSeo() {
           cards, passports, signed rental agreements, cheques, medical prescriptions.
           Those pages are exactly the ones that should never touch an unknown server. Here
           the camera feed and every captured frame live only in your browser's memory on
-          your own phone — nothing is uploaded, not even a thumbnail. When the scan is
+          your own phone, nothing is uploaded, not even a thumbnail. When the scan is
           ready, pair it with the other privacy tools before you send it off: write the
           purpose across an ID copy with{" "}
           <Link to="/tools/$slug" params={{ slug: "watermark" }} className="font-semibold underline" style={{ color: "#e5322d" }}>
             Watermark PDF
           </Link>{" "}
-          ("For KYC only — 12 Aug"), then wrap it in a password using{" "}
+          ("For KYC only, 12 Aug"), then wrap it in a password using{" "}
           <Link to="/tools/$slug" params={{ slug: "protect-pdf" }} className="font-semibold underline" style={{ color: "#e5322d" }}>
             Protect PDF
           </Link>{" "}
@@ -84,7 +84,7 @@ export function ScanToPdfSeo() {
         <div>
           <h3 className="text-lg font-bold">Multi-page documents</h3>
           <p className="mt-1 text-sm">
-            Tap capture for page one, flip to page two, capture again — the numbered
+            Tap capture for page one, flip to page two, capture again, the numbered
             thumbnail strip grows with every shot. When you press Done, all pages arrive
             in one PDF in the order you captured them.
           </p>
@@ -100,7 +100,7 @@ export function ScanToPdfSeo() {
         <div>
           <h3 className="text-lg font-bold">Works on any phone</h3>
           <p className="mt-1 text-sm">
-            Android or iPhone, Chrome or Safari — the tool uses the browser's built-in
+            Android or iPhone, Chrome or Safari, the tool uses the browser's built-in
             camera API, no app-store visit required. If a device exposes both a rear and
             front lens, a flip button appears automatically.
           </p>
@@ -108,7 +108,7 @@ export function ScanToPdfSeo() {
         <div>
           <h3 className="text-lg font-bold">Straight into your workflow</h3>
           <p className="mt-1 text-sm">
-            The output is a real PDF you can immediately feed into the rest of the site —
+            The output is a real PDF you can immediately feed into the rest of the site , 
             compress it for an upload limit, watermark an ID copy, or e-sign a scanned
             agreement without ever leaving the browser.
           </p>
@@ -119,7 +119,7 @@ export function ScanToPdfSeo() {
         <h2 className="text-2xl font-bold">Tips for scans that look professionally done</h2>
         <ul className="mt-3 list-disc space-y-2 pl-6">
           <li>
-            Fill the frame with the page and shoot straight down, not at an angle — a
+            Fill the frame with the page and shoot straight down, not at an angle, a
             square-on capture keeps text lines parallel instead of trapezoidal.
           </li>
           <li>
@@ -131,7 +131,7 @@ export function ScanToPdfSeo() {
             so the paper edges stand out cleanly instead of blending into a white table.
           </li>
           <li>
-            Hold steady for a beat after you tap capture — phones keep processing for a
+            Hold steady for a beat after you tap capture, phones keep processing for a
             fraction of a second, and moving early is the number-one cause of soft text.
           </li>
           <li>
@@ -151,7 +151,7 @@ export function ScanToPdfSeo() {
           <div>
             <h3 className="text-lg font-bold">Submitting IDs and certificates to online portals</h3>
             <p className="mt-1 text-sm">
-              College admission forms, job applications, KYC uploads, government portals —
+              College admission forms, job applications, KYC uploads, government portals , 
               most accept a PDF but reject a phone photo. Scan the physical certificate
               once and you have a submission-ready file.
             </p>
@@ -159,7 +159,7 @@ export function ScanToPdfSeo() {
           <div>
             <h3 className="text-lg font-bold">Digitising signed agreements and receipts</h3>
             <p className="mt-1 text-sm">
-              Rental agreements, freelance contracts, insurance forms, hotel bills — scan
+              Rental agreements, freelance contracts, insurance forms, hotel bills, scan
               them the moment they're signed so a searchable digital copy exists before
               the paper gets lost in a drawer.
             </p>
@@ -167,7 +167,7 @@ export function ScanToPdfSeo() {
           <div>
             <h3 className="text-lg font-bold">Sending homework and forms when there's no scanner</h3>
             <p className="mt-1 text-sm">
-              Handwritten assignments, permission slips, a doctor's form to email back —
+              Handwritten assignments, permission slips, a doctor's form to email back , 
               tasks that used to require finding an office multi-function printer are a
               two-minute job with a phone and this page.
             </p>
@@ -176,7 +176,7 @@ export function ScanToPdfSeo() {
             <h3 className="text-lg font-bold">Archiving paper before it fades</h3>
             <p className="mt-1 text-sm">
               Warranty cards, medical prescriptions, thermal-printer bills that go blank
-              in a year — a quick scan today saves the information forever, filed on your
+              in a year, a quick scan today saves the information forever, filed on your
               own drive instead of a shoebox.
             </p>
           </div>
@@ -211,11 +211,11 @@ const scanToPdfFaq = [
   },
   {
     q: "Are my scans uploaded anywhere?",
-    a: "No. The camera feed and every captured frame stay in your browser's memory on your own device. There is no server, no cloud storage, and no analytics call carrying image data — closing the tab wipes everything.",
+    a: "No. The camera feed and every captured frame stay in your browser's memory on your own device. There is no server, no cloud storage, and no analytics call carrying image data, closing the tab wipes everything.",
   },
   {
     q: "Why does the site ask for camera permission?",
-    a: "Browsers require your explicit permission before any page can show a live camera preview — that's a security rule, not a data collection ask. The camera is only used while you're actively scanning in this tab, and the stream stops the moment you leave the capture screen.",
+    a: "Browsers require your explicit permission before any page can show a live camera preview, that's a security rule, not a data collection ask. The camera is only used while you're actively scanning in this tab, and the stream stops the moment you leave the capture screen.",
   },
   {
     q: "Can I scan multiple pages into one PDF?",
@@ -227,19 +227,19 @@ const scanToPdfFaq = [
   },
   {
     q: "Does it work on iPhone and Android?",
-    a: "Yes — the tool uses the standard getUserMedia camera API supported by Safari on iOS and Chrome / Firefox / Samsung Internet on Android. If your device has both a rear and front camera, a flip button appears automatically in the top corner of the preview.",
+    a: "Yes, the tool uses the standard getUserMedia camera API supported by Safari on iOS and Chrome / Firefox / Samsung Internet on Android. If your device has both a rear and front camera, a flip button appears automatically in the top corner of the preview.",
   },
   {
     q: "Does it work on a laptop or desktop?",
-    a: "Yes. If your computer has a webcam, the same Open Camera flow will use it. A rear phone camera is far better for document capture, but a laptop webcam is a workable fallback — or use the 'upload photos instead' link to attach existing images.",
+    a: "Yes. If your computer has a webcam, the same Open Camera flow will use it. A rear phone camera is far better for document capture, but a laptop webcam is a workable fallback, or use the 'upload photos instead' link to attach existing images.",
   },
   {
     q: "How do I make the scan smaller for upload limits?",
-    a: "Run the finished PDF through Compress PDF. Multi-page phone scans are image-heavy, so recompression typically cuts the file by 60–80% while staying readable at screen size.",
+    a: "Run the finished PDF through Compress PDF. Multi-page phone scans are image-heavy, so recompression typically cuts the file by 60 to 80% while staying readable at screen size.",
   },
   {
     q: "How do I protect a scanned ID before sharing?",
-    a: "Two quick steps. Add a purpose watermark with Watermark PDF ('For loan application — 12 Aug') so a leaked copy can't be reused elsewhere, then wrap the file in a password with Protect PDF so only the intended recipient can open it.",
+    a: "Two quick steps. Add a purpose watermark with Watermark PDF ('For loan application, 12 Aug') so a leaked copy can't be reused elsewhere, then wrap the file in a password with Protect PDF so only the intended recipient can open it.",
   },
   {
     q: "Is there OCR? Can it read the text on the scan?",

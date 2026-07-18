@@ -5,11 +5,11 @@ import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 const steps = [
   {
     title: "Open the two PDFs you want to compare",
-    text: "Drop the original into the left slot and the revised copy into the right slot, or use the two Select PDF file buttons. Both documents open locally in your browser tab — nothing about either file is transmitted to reach this view.",
+    text: "Drop the original into the left slot and the revised copy into the right slot, or use the two Select PDF file buttons. Both documents open locally in your browser tab, nothing about either file is transmitted to reach this view.",
   },
   {
     title: "Wait for the pages to be analysed",
-    text: "The tool walks through each PDF page by page and pulls out its text layer, updating a live Comparing… (X of Y pages) counter as it goes. Analysis runs three pages at a time and does not block the interface — you can start scrolling the side-by-side view immediately.",
+    text: "The tool walks through each PDF page by page and pulls out its text layer, updating a live Comparing… (X of Y pages) counter as it goes. Analysis runs three pages at a time and does not block the interface, you can start scrolling the side-by-side view immediately.",
   },
   {
     title: "Read the verdict and open Visual Compare",
@@ -17,18 +17,18 @@ const steps = [
   },
   {
     title: "Switch to Text Diff for the word-level view",
-    text: "Click the Text Diff tab to see the extracted text of both PDFs merged into a single word-level diff — added text in green, removed text in red, unchanged lines in grey. Use it to answer what exactly changed on the pages Visual Compare flagged.",
+    text: "Click the Text Diff tab to see the extracted text of both PDFs merged into a single word-level diff, added text in green, removed text in red, unchanged lines in grey. Use it to answer what exactly changed on the pages Visual Compare flagged.",
   },
 ];
 
 const benefits = [
   {
     h: "Side by side, page by page",
-    p: "Both PDFs render together in Visual Compare — page 1 of the original next to page 1 of the revised version, page 2 next to page 2, all the way down. Pages render lazily as you scroll into them, so you can start reviewing before the whole document is drawn.",
+    p: "Both PDFs render together in Visual Compare, page 1 of the original next to page 1 of the revised version, page 2 next to page 2, all the way down. Pages render lazily as you scroll into them, so you can start reviewing before the whole document is drawn.",
   },
   {
     h: "Nothing missed on the pages that changed",
-    p: "Comparison reads the real text layer of each page and flags any page whose text no longer matches — a swapped number, a renamed party, an inserted clause, a shifted date. A red Differences detected banner appears above every flagged page so you cannot miss where to look.",
+    p: "Comparison reads the real text layer of each page and flags any page whose text no longer matches, a swapped number, a renamed party, an inserted clause, a shifted date. A red Differences detected banner appears above every flagged page so you cannot miss where to look.",
   },
   {
     h: "A clear final verdict",
@@ -43,19 +43,19 @@ const benefits = [
 const scenarios = [
   {
     h: "Reviewing a returned contract draft",
-    p: "You emailed a draft, the other side sent one back marked 'a few small edits' — but which ones? Drop both PDFs into the tool, wait for the analysis and jump straight to the pages that changed instead of re-reading the whole contract clause by clause looking for a rewritten sentence.",
+    p: "You emailed a draft, the other side sent one back marked 'a few small edits', but which ones? Drop both PDFs into the tool, wait for the analysis and jump straight to the pages that changed instead of re-reading the whole contract clause by clause looking for a rewritten sentence.",
   },
   {
     h: "Checking a revised quotation or invoice",
-    p: "A supplier sends a new quote after a call and says only the delivery date moved. Compare the two PDFs to confirm no line item, unit price, tax rate or payment term quietly changed at the same time — the flagged-page count tells you at a glance whether the note was accurate.",
+    p: "A supplier sends a new quote after a call and says only the delivery date moved. Compare the two PDFs to confirm no line item, unit price, tax rate or payment term quietly changed at the same time, the flagged-page count tells you at a glance whether the note was accurate.",
   },
   {
     h: "Verifying the final version before signing",
-    p: "The approved copy went out for one last formatting pass and came back as final.pdf. Compare it against the approved.pdf you signed off on to make sure the last pass really was cosmetic before you attach a signature — a five-second check that closes a common last-mile mistake.",
+    p: "The approved copy went out for one last formatting pass and came back as final.pdf. Compare it against the approved.pdf you signed off on to make sure the last pass really was cosmetic before you attach a signature, a five-second check that closes a common last-mile mistake.",
   },
   {
     h: "Confirming what a colleague updated",
-    p: "A shared report has been re-exported and you want to know what actually moved between your copy and today's version. Comparing the two exports surfaces every changed page and, in Text Diff, the exact wording that shifted — no more chasing 'what changed?' in Slack.",
+    p: "A shared report has been re-exported and you want to know what actually moved between your copy and today's version. Comparing the two exports surfaces every changed page and, in Text Diff, the exact wording that shifted, no more chasing 'what changed?' in Slack.",
   },
 ];
 
@@ -70,15 +70,15 @@ const faqs = [
   },
   {
     q: "What kinds of changes does it detect?",
-    a: "The comparison reads the actual text layer of each page and flags any page whose text no longer matches the other side. That covers edited sentences, changed numbers, swapped names and dates, inserted or removed paragraphs, and reordered content. Purely visual edits that do not touch the text — a repositioned logo, a colour change on a shape — will not flip a page as different on their own.",
+    a: "The comparison reads the actual text layer of each page and flags any page whose text no longer matches the other side. That covers edited sentences, changed numbers, swapped names and dates, inserted or removed paragraphs, and reordered content. Purely visual edits that do not touch the text, a repositioned logo, a colour change on a shape, will not flip a page as different on their own.",
   },
   {
     q: "Does it show exactly which words changed?",
-    a: "Yes, in Text Diff mode. Visual Compare is the page-level view: it tells you which pages differ and shows them side by side so you can read the changes in context. Switch to the Text Diff tab and both PDFs are merged into a single word-level diff — added text highlighted green, removed text highlighted red, unchanged lines in grey — so you can see the exact edits without re-scanning each page.",
+    a: "Yes, in Text Diff mode. Visual Compare is the page-level view: it tells you which pages differ and shows them side by side so you can read the changes in context. Switch to the Text Diff tab and both PDFs are merged into a single word-level diff, added text highlighted green, removed text highlighted red, unchanged lines in grey, so you can see the exact edits without re-scanning each page.",
   },
   {
     q: "Can I compare PDFs with different page counts?",
-    a: "Yes. If the left PDF has 28 pages and the right has 32, the tool compares pages 1–28 as the overlapping range and lists pages 29–32 separately as existing only in the second document. The summary and the flagged-page count refer to the overlap, and the extra pages are still visible in the side-by-side view so you can review what was added.",
+    a: "Yes. If the left PDF has 28 pages and the right has 32, the tool compares pages 1 to 28 as the overlapping range and lists pages 29 to 32 separately as existing only in the second document. The summary and the flagged-page count refer to the overlap, and the extra pages are still visible in the side-by-side view so you can review what was added.",
   },
   {
     q: "Can I compare scanned PDFs?",
@@ -86,19 +86,19 @@ const faqs = [
   },
   {
     q: "Is there a page limit?",
-    a: "There is no artificial page cap. Pages are rendered lazily as you scroll and no more than two render at the same time, so a several-hundred-page PDF stays responsive rather than freezing the tab. The practical ceiling is your device's memory — very large or image-heavy PDFs on a low-RAM phone will feel slower than on a desktop.",
+    a: "There is no artificial page cap. Pages are rendered lazily as you scroll and no more than two render at the same time, so a several-hundred-page PDF stays responsive rather than freezing the tab. The practical ceiling is your device's memory, very large or image-heavy PDFs on a low-RAM phone will feel slower than on a desktop.",
   },
   {
     q: "Can I compare PDFs on my phone?",
-    a: "Yes. The comparison workspace runs in mobile browsers the same way it does on desktop — pick both files, watch the progress counter, then swipe through the side-by-side view. Wide PDFs will need horizontal scrolling on a narrow screen, but every feature including Text Diff is available.",
+    a: "Yes. The comparison workspace runs in mobile browsers the same way it does on desktop, pick both files, watch the progress counter, then swipe through the side-by-side view. Wide PDFs will need horizontal scrolling on a narrow screen, but every feature including Text Diff is available.",
   },
   {
     q: "Can I compare password-protected PDFs?",
-    a: "Not directly. The tool detects a password-protected file when you upload it and asks you to unlock the PDF first. Run each file through the free Unlock PDF tool (linked in Related tools below) to strip the password, then bring the unlocked copies back here to compare — the unlock step also runs in-browser, so nothing gets uploaded at any stage.",
+    a: "Not directly. The tool detects a password-protected file when you upload it and asks you to unlock the PDF first. Run each file through the free Unlock PDF tool (linked in Related tools below) to strip the password, then bring the unlocked copies back here to compare, the unlock step also runs in-browser, so nothing gets uploaded at any stage.",
   },
   {
     q: "Do I need Adobe Acrobat to compare PDFs?",
-    a: "No. Acrobat's Compare Files feature sits behind Acrobat Pro, and most online PDF comparison services either require signup or upload your files to their servers to run the diff. This page needs neither — it is free, works entirely inside the browser, and produces both a page-level Visual Compare and a word-level Text Diff without either PDF ever being transmitted.",
+    a: "No. Acrobat's Compare Files feature sits behind Acrobat Pro, and most online PDF comparison services either require signup or upload your files to their servers to run the diff. This page needs neither, it is free, works entirely inside the browser, and produces both a page-level Visual Compare and a word-level Text Diff without either PDF ever being transmitted.",
   },
 ];
 
@@ -141,7 +141,7 @@ export function ComparePdfSeo() {
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         Someone sends a document back with a note that reads &ldquo;same as before, just
-        one small change&rdquo; — and the whole review turns into a hunt for a single
+        one small change&rdquo;, and the whole review turns into a hunt for a single
         edit hidden inside dozens of pages. Reading two PDFs in parallel by eye is
         exactly how quiet changes slip through, whether that is a swapped payment
         term, a renamed party or a shifted date. This tool loads both files
@@ -156,7 +156,7 @@ export function ComparePdfSeo() {
         The only safe place to compare contracts
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        The PDFs people most often compare are also the most sensitive ones —
+        The PDFs people most often compare are also the most sensitive ones , 
         contract drafts, non-disclosure agreements, supplier quotations, revised
         salary offers, board resolutions. Uploading two versions to a comparison
         website means the same confidential material is now sitting on someone
@@ -167,7 +167,7 @@ export function ComparePdfSeo() {
         rendered, text-extracted and diffed entirely inside your browser tab using
         PDF.js and jsdiff, with no upload endpoint on the other end. Once the tool
         code has loaded, you can drop your Wi-Fi and it will still finish the
-        comparison — that is the honest test for whether a &ldquo;private&rdquo; tool is
+        comparison, that is the honest test for whether a &ldquo;private&rdquo; tool is
         actually private.
       </p>
 
@@ -180,11 +180,11 @@ export function ComparePdfSeo() {
         and flags the page as different if the text no longer matches its
         counterpart in the other file. That reliably catches edited sentences,
         changed numbers, renamed parties and inserted or removed paragraphs.
-        Purely visual changes that do not touch the text — a repositioned logo, a
-        recoloured shape — will not turn a page red on their own. For a
+        Purely visual changes that do not touch the text, a repositioned logo, a
+        recoloured shape, will not turn a page red on their own. For a
         word-by-word view of the actual edits, switch to Text Diff, which
         highlights every added and removed word across both documents. Scanned
-        PDFs need a text layer (from OCR) to be comparable — pure image scans
+        PDFs need a text layer (from OCR) to be comparable, pure image scans
         will look identical because there is no text to diff.
       </p>
 
@@ -251,7 +251,7 @@ export const compareHowToJsonLd = {
   "@type": "HowTo",
   name: "How to compare two PDF files online for free",
   description:
-    "Compare two PDFs page by page inside your browser — upload both files, wait for text-layer analysis, and see every page that changed with a word-level Text Diff option. Nothing is uploaded to a server.",
+    "Compare two PDFs page by page inside your browser, upload both files, wait for text-layer analysis, and see every page that changed with a word-level Text Diff option. Nothing is uploaded to a server.",
   totalTime: "PT1M",
   supply: [
     { "@type": "HowToSupply", name: "The original PDF" },
@@ -272,7 +272,7 @@ export const compareSoftwareJsonLd = {
   "@type": "SoftwareApplication",
   name: "FreePDFHub Compare PDFs",
   description:
-    "Compare two PDF files online free — spot every changed page side by side and get a word-level Text Diff, entirely in the browser. No upload, no signup, no page limits.",
+    "Compare two PDF files online free, spot every changed page side by side and get a word-level Text Diff, entirely in the browser. No upload, no signup, no page limits.",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Web",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

@@ -133,7 +133,7 @@ export function ToolSuccessScreen({
         style={{ backgroundColor: "#eafaf0", color: "#1f9d55" }}
       >
         <Lock className="h-4 w-4" />
-        Your files were processed 100% locally on your device — never uploaded anywhere.
+        Your files were processed 100% locally on your device, never uploaded anywhere.
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ export const Route = createFileRoute("/terms")({
   head: () => {
     const title = "Terms of Use | FreePDFHub";
     const description =
-      "The terms that govern your use of FreePDFHub — free, browser-based PDF tools with no accounts, no uploads, and clear rules for acceptable use.";
+      "The terms that govern your use of FreePDFHub: free, browser-based PDF tools with no accounts, no uploads, and clear rules for acceptable use.";
     const url = `${SITE_URL}/terms`;
     const ogImage = `${SITE_URL}/og-cover.png`;
     return {
@@ -45,7 +45,7 @@ function TermsPage() {
       <h2>The service</h2>
       <p>
         FreePDFHub provides a set of free, browser-based tools for working with PDF
-        files. All processing happens locally in your browser — no files are uploaded
+        files. All processing happens locally in your browser, no files are uploaded
         to our servers. No account is required to use any tool.
       </p>
 
@@ -86,7 +86,7 @@ function TermsPage() {
       <h2>Intellectual property</h2>
       <p>
         The FreePDFHub site design, brand, and code are owned by us and protected by
-        applicable intellectual property laws. Your files remain entirely yours — we
+        applicable intellectual property laws. Your files remain entirely yours, we
         never receive them, and we make no claim to them.
       </p>
 

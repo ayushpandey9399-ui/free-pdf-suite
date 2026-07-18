@@ -5,7 +5,7 @@ import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 const steps = [
   {
     title: "Select or drop your PDFs",
-    text: "Click Select PDF files and pick the documents you want to combine, or drag them straight onto the page. Files are opened locally in your browser — nothing is uploaded.",
+    text: "Click Select PDF files and pick the documents you want to combine, or drag them straight onto the page. Files are opened locally in your browser, nothing is uploaded.",
   },
   {
     title: "Drag thumbnails to set the order",
@@ -13,26 +13,26 @@ const steps = [
   },
   {
     title: "Click Merge PDF",
-    text: "The files are combined into one PDF right on your device. It takes a couple of seconds — no upload progress bar, no queue, no server round-trip.",
+    text: "The files are combined into one PDF right on your device. It takes a couple of seconds, no upload progress bar, no queue, no server round-trip.",
   },
   {
     title: "Download the merged PDF",
-    text: "Save the combined file from the success screen. You can start over with new files at any time — no account, no watermark on the output.",
+    text: "Save the combined file from the success screen. You can start over with new files at any time, no account, no watermark on the output.",
   },
 ];
 
 const benefits = [
   {
     h: "No quality loss",
-    p: "Pages are copied byte-for-byte from your originals into the new document. Nothing is re-compressed, rasterized or downscaled — text stays selectable and images keep their original resolution.",
+    p: "Pages are copied byte-for-byte from your originals into the new document. Nothing is re-compressed, rasterized or downscaled, text stays selectable and images keep their original resolution.",
   },
   {
     h: "Reorder pages before merging",
-    p: "Drag and drop the thumbnails to arrange your files exactly how you want them. Your merged PDF comes out in exactly the order you arranged — never reversed or shuffled.",
+    p: "Drag and drop the thumbnails to arrange your files exactly how you want them. Your merged PDF comes out in exactly the order you arranged, never reversed or shuffled.",
   },
   {
     h: "Merge scanned documents easily",
-    p: "Combine multiple scanned files — certificates, receipts, signed contracts — into a single PDF in one step. If you still need to digitise paper first, use our Scan to PDF tool and drop the results straight in here.",
+    p: "Combine multiple scanned files, certificates, receipts, signed contracts, into a single PDF in one step. If you still need to digitise paper first, use our Scan to PDF tool and drop the results straight in here.",
   },
   {
     h: "Faster than upload-based tools",
@@ -62,19 +62,19 @@ const scenarios = [
 const faqs = [
   {
     q: "Is it safe to merge PDF files online?",
-    a: "Yes. FreePDFHub merges PDFs directly in your browser using client-side JavaScript and WebAssembly. Your files are opened, combined and saved on your own device — nothing is uploaded, so even confidential contracts, medical records or bank statements never leave your computer.",
+    a: "Yes. FreePDFHub merges PDFs directly in your browser using client-side JavaScript and WebAssembly. Your files are opened, combined and saved on your own device, nothing is uploaded, so even confidential contracts, medical records or bank statements never leave your computer.",
   },
   {
     q: "Do my files get uploaded to a server?",
-    a: "No. Processing is 100% in-browser. Once the page has loaded you can even disconnect from the internet and still merge PDFs — there is no upload step and no server-side copy of your documents at any point.",
+    a: "No. Processing is 100% in-browser. Once the page has loaded you can even disconnect from the internet and still merge PDFs, there is no upload step and no server-side copy of your documents at any point.",
   },
   {
     q: "How do I combine PDF files without Adobe Acrobat?",
-    a: "You don't need Adobe Acrobat or any paid software. Just open this page, add your PDFs and click Merge PDF — the free browser tool combines them for you. Nothing to install, no subscription, unlimited use.",
+    a: "You don't need Adobe Acrobat or any paid software. Just open this page, add your PDFs and click Merge PDF, the free browser tool combines them for you. Nothing to install, no subscription, unlimited use.",
   },
   {
     q: "Is there a limit on the number of files or file size?",
-    a: "There are no artificial limits, no daily quotas and no paywalled tiers. The only real limit is the memory of the device you are using — very large PDFs with thousands of pages may be slow on older phones, but any modern laptop handles typical documents without trouble.",
+    a: "There are no artificial limits, no daily quotas and no paywalled tiers. The only real limit is the memory of the device you are using, very large PDFs with thousands of pages may be slow on older phones, but any modern laptop handles typical documents without trouble.",
   },
   {
     q: "Will merging reduce the quality of my PDFs?",
@@ -86,7 +86,7 @@ const faqs = [
   },
   {
     q: "Can I merge PDFs on mobile?",
-    a: "Yes. FreePDFHub works in any modern mobile browser on Android and iPhone. There is no app to install and no permissions to grant — just open the page, pick your PDFs and download the merged file.",
+    a: "Yes. FreePDFHub works in any modern mobile browser on Android and iPhone. There is no app to install and no permissions to grant, just open the page, pick your PDFs and download the merged file.",
   },
   {
     q: "Do I need an account or email?",
@@ -94,7 +94,7 @@ const faqs = [
   },
   {
     q: "What's the difference between merge, combine and join PDF?",
-    a: "They mean the same thing. Merge, combine and join are just different words people use for putting several PDF files into one. This tool works for all three — it's a PDF combiner, a PDF joiner and a PDF merger in one.",
+    a: "They mean the same thing. Merge, combine and join are just different words people use for putting several PDF files into one. This tool works for all three, it's a PDF combiner, a PDF joiner and a PDF merger in one.",
   },
   {
     q: "Can I merge scanned documents or images with PDFs?",
@@ -136,7 +136,7 @@ export function MergePdfSeo() {
         ))}
       </ol>
       <p className="mt-5 text-[14.5px] leading-relaxed text-[#4a4a55]">
-        Works the same on Windows, Mac, Linux, Android and iPhone — no app or Adobe Acrobat needed.
+        Works the same on Windows, Mac, Linux, Android and iPhone, no app or Adobe Acrobat needed.
       </p>
 
       {/* Without Acrobat */}
@@ -145,8 +145,8 @@ export function MergePdfSeo() {
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         You do not need Adobe Acrobat, a paid subscription or any desktop installer to combine PDF files into one.
-        This free PDF combiner runs entirely in your browser — open the page, add your files and click Merge PDF.
-        People search for the same job under many names — combine PDF, join PDF, PDF combiner, PDF joiner, PDF merger —
+        This free PDF combiner runs entirely in your browser, open the page, add your files and click Merge PDF.
+        People search for the same job under many names, combine PDF, join PDF, PDF combiner, PDF joiner, PDF merger , 
         and whichever phrase you used, this is the tool. You can join or merge as many PDFs as you like, as often as
         you like, with no signup and no watermark on the result.
       </p>
@@ -157,7 +157,7 @@ export function MergePdfSeo() {
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         Most popular PDF sites upload your documents to their own servers, process them there and then delete them
-        after some time — you have to trust that they actually do. FreePDFHub is different. Merging happens entirely in
+        after some time, you have to trust that they actually do. FreePDFHub is different. Merging happens entirely in
         your browser through client-side processing, so contracts, bank statements, salary slips, ID or Aadhaar
         documents and legal papers never leave your computer.
       </p>
@@ -230,7 +230,7 @@ export const mergeHowToJsonLd = {
   "@type": "HowTo",
   name: "How to merge PDF files online for free",
   description:
-    "Combine multiple PDF files into one document for free, right in your browser — no upload, no signup, no watermark.",
+    "Combine multiple PDF files into one document for free, right in your browser, no upload, no signup, no watermark.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "Two or more PDF files" }],
   tool: [{ "@type": "HowToTool", name: "FreePDFHub Merge PDF (web browser)" }],
@@ -248,7 +248,7 @@ export const mergeSoftwareJsonLd = {
   "@type": "SoftwareApplication",
   name: "FreePDFHub Merge PDF",
   description:
-    "Merge PDF online free — combine PDF files in your browser with no upload, no signup and no watermark.",
+    "Merge PDF online free, combine PDF files in your browser with no upload, no signup and no watermark.",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Web",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

@@ -5,7 +5,7 @@ import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 const steps = [
   {
     title: "Drop your PDF onto the page",
-    text: "Click Select PDF file or drag the document straight into the browser. The file opens locally — no upload starts and no copy is sent anywhere.",
+    text: "Click Select PDF file or drag the document straight into the browser. The file opens locally, no upload starts and no copy is sent anywhere.",
   },
   {
     title: "Pick a split mode",
@@ -66,7 +66,7 @@ const faqs = [
   },
   {
     q: "Can I extract specific pages from a PDF?",
-    a: "Yes. Use Split by ranges and type something like 1-3, 5, 8-10 — each range comes back as its own PDF, so you can cut a PDF into exactly the sections you want. If you only need scattered single pages picked from all over the document, our dedicated Extract Pages tool is often quicker.",
+    a: "Yes. Use Split by ranges and type something like 1-3, 5, 8-10, each range comes back as its own PDF, so you can cut a PDF into exactly the sections you want. If you only need scattered single pages picked from all over the document, our dedicated Extract Pages tool is often quicker.",
   },
   {
     q: "Is it safe to split PDFs with sensitive information?",
@@ -74,7 +74,7 @@ const faqs = [
   },
   {
     q: "Do my files get uploaded to a server?",
-    a: "No. The tool is fully client-side. Once the page has loaded you can switch off your internet connection and still separate PDF pages — the file only ever lives on your own device.",
+    a: "No. The tool is fully client-side. Once the page has loaded you can switch off your internet connection and still separate PDF pages, the file only ever lives on your own device.",
   },
   {
     q: "Will splitting reduce quality?",
@@ -82,7 +82,7 @@ const faqs = [
   },
   {
     q: "Is there a page or file size limit?",
-    a: "There are no artificial limits, no daily cap and no paid tier. The only real ceiling is the memory of the device you are using — very large PDFs with hundreds of high-resolution scans can be slow on older phones but split fine on any modern browser.",
+    a: "There are no artificial limits, no daily cap and no paid tier. The only real ceiling is the memory of the device you are using, very large PDFs with hundreds of high-resolution scans can be slow on older phones but split fine on any modern browser.",
   },
   {
     q: "Can I split a PDF on my phone?",
@@ -98,7 +98,7 @@ const faqs = [
   },
   {
     q: "What's the difference between Split PDF, Extract Pages, and Delete Pages?",
-    a: "Split PDF cuts one document into multiple new files, either by ranges or one per page. Extract Pages pulls a set of pages you pick from a thumbnail grid into a single new PDF — best when you want scattered pages combined. Delete Pages does the opposite: it removes the pages you no longer want and gives you back the same document minus those pages.",
+    a: "Split PDF cuts one document into multiple new files, either by ranges or one per page. Extract Pages pulls a set of pages you pick from a thumbnail grid into a single new PDF, best when you want scattered pages combined. Delete Pages does the opposite: it removes the pages you no longer want and gives you back the same document minus those pages.",
   },
 ];
 
@@ -141,13 +141,13 @@ export function SplitPdfSeo() {
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         Two modes on this PDF splitter cover almost every reason people want to divide a PDF. Split by ranges pulls out specific
-        sections — type 12-25 to extract one chapter of a long report, or 1-3, 5, 8-10 to cut a PDF into three
+        sections, type 12-25 to extract one chapter of a long report, or 1-3, 5, 8-10 to cut a PDF into three
         separate documents in a single pass. Every page → separate PDF is the fast way to break a hundred-page
         scan into individual pages you can rename, share or file one by one.
       </p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        When there is only one range to save, the download is a single PDF. When there are several output files —
-        either multiple ranges or every-page mode — they are packaged into a ZIP so you can grab everything in
+        When there is only one range to save, the download is a single PDF. When there are several output files , 
+        either multiple ranges or every-page mode, they are packaged into a ZIP so you can grab everything in
         one click and unzip locally.
       </p>
 
@@ -159,12 +159,12 @@ export function SplitPdfSeo() {
         Splitting tends to happen on the documents you least want floating around: contracts where only one clause
         should be shared, bank statements where a single page is being submitted for verification, medical reports
         where you want to send just a lab result. Typical online splitters ask you to upload the whole document to
-        their servers first — the very thing you were trying to avoid. FreePDFHub runs the split inside your browser
+        their servers first, the very thing you were trying to avoid. FreePDFHub runs the split inside your browser
         instead, so the original document is read, cut and saved without ever touching a remote server.
       </p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
         Once this page has loaded you can go offline and keep splitting. That is the honest meaning of split PDF
-        without uploading — the file only ever exists on your own device.
+        without uploading, the file only ever exists on your own device.
       </p>
 
       {/* Four benefit sections */}
@@ -230,7 +230,7 @@ export const splitHowToJsonLd = {
   "@type": "HowTo",
   name: "How to split a PDF online for free",
   description:
-    "Split PDF pages online free — cut a PDF into ranges or one file per page, directly in your browser with no upload, no signup and no watermark.",
+    "Split PDF pages online free, cut a PDF into ranges or one file per page, directly in your browser with no upload, no signup and no watermark.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "A PDF file you want to split" }],
   tool: [{ "@type": "HowToTool", name: "FreePDFHub Split PDF (web browser)" }],
@@ -248,7 +248,7 @@ export const splitSoftwareJsonLd = {
   "@type": "SoftwareApplication",
   name: "FreePDFHub Split PDF",
   description:
-    "Split PDF online free — separate pages or extract page ranges in your browser with no upload, no signup and no watermark.",
+    "Split PDF online free, separate pages or extract page ranges in your browser with no upload, no signup and no watermark.",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Web",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

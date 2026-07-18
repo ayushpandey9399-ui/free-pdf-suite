@@ -5,7 +5,7 @@ import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 const steps = [
   {
     title: "Open the PDF you want to convert",
-    text: "Drag your PDF into the browser or click Select PDF file to pick it from your device. The document is opened locally by the built-in PDF renderer — nothing is sent anywhere, even when the file has dozens of pages.",
+    text: "Drag your PDF into the browser or click Select PDF file to pick it from your device. The document is opened locally by the built-in PDF renderer, nothing is sent anywhere, even when the file has dozens of pages.",
   },
   {
     title: "Pick JPG or PNG",
@@ -13,7 +13,7 @@ const steps = [
   },
   {
     title: "Set quality and resolution",
-    text: "The Quality slider (30–100%, JPG only) controls how much compression is applied to each JPG. The Scale slider (1× to 4×, default 2×) renders every page at that multiple of its natural size, so 2× gives you a sharp image roughly double the on-screen dimensions.",
+    text: "The Quality slider (30 to 100%, JPG only) controls how much compression is applied to each JPG. The Scale slider (1× to 4×, default 2×) renders every page at that multiple of its natural size, so 2× gives you a sharp image roughly double the on-screen dimensions.",
   },
   {
     title: "Click Convert to Images and download",
@@ -24,7 +24,7 @@ const steps = [
 const benefits = [
   {
     h: "JPG or PNG, your choice",
-    p: "Pick JPG when the goal is a small file you can drop into a chat, an email or a form — a page usually lands under a few hundred kilobytes. Pick PNG when you need lossless quality: screenshots of contracts, technical drawings, invoices and anything where text and thin lines have to stay perfectly sharp.",
+    p: "Pick JPG when the goal is a small file you can drop into a chat, an email or a form, a page usually lands under a few hundred kilobytes. Pick PNG when you need lossless quality: screenshots of contracts, technical drawings, invoices and anything where text and thin lines have to stay perfectly sharp.",
   },
   {
     h: "Sharp, readable output",
@@ -32,11 +32,11 @@ const benefits = [
   },
   {
     h: "All pages at once",
-    p: "Point the tool at a 50-page report and you get 50 numbered images without touching the file again — page-1.jpg through page-50.jpg, bundled into a single ZIP. Extracting one page from that ZIP is a two-second job in any file manager.",
+    p: "Point the tool at a 50-page report and you get 50 numbered images without touching the file again, page-1.jpg through page-50.jpg, bundled into a single ZIP. Extracting one page from that ZIP is a two-second job in any file manager.",
   },
   {
     h: "Nothing to install",
-    p: "The converter is a normal web page, so it runs anywhere a browser runs — a Windows laptop, a MacBook, a Chromebook, an Android phone or an iPhone. No Acrobat licence, no desktop converter and no app store download stand between you and the images.",
+    p: "The converter is a normal web page, so it runs anywhere a browser runs, a Windows laptop, a MacBook, a Chromebook, an Android phone or an iPhone. No Acrobat licence, no desktop converter and no app store download stand between you and the images.",
   },
 ];
 
@@ -47,11 +47,11 @@ const scenarios = [
   },
   {
     h: "Inserting PDF pages into PowerPoint, Word or Canva",
-    p: "Slide and design tools accept images natively but handle imported PDFs awkwardly — usually only the first page comes in, and the layout breaks. Exporting the pages you need as PNGs first lets you drag each one onto a slide, into a document or onto a Canva canvas exactly like a photo.",
+    p: "Slide and design tools accept images natively but handle imported PDFs awkwardly, usually only the first page comes in, and the layout breaks. Exporting the pages you need as PNGs first lets you drag each one onto a slide, into a document or onto a Canva canvas exactly like a photo.",
   },
   {
     h: "Uploading to portals that only accept JPG or PNG",
-    p: "A lot of government sites, university applications, tender portals and job boards restrict document uploads to image formats and cap the file size — think passport-size photos, signature scans, marksheet uploads or ID proofs. Converting the PDF page to a JPG with a suitable quality setting fits those forms without a rejection.",
+    p: "A lot of government sites, university applications, tender portals and job boards restrict document uploads to image formats and cap the file size, think passport-size photos, signature scans, marksheet uploads or ID proofs. Converting the PDF page to a JPG with a suitable quality setting fits those forms without a rejection.",
   },
   {
     h: "Creating thumbnails or previews of documents",
@@ -66,19 +66,19 @@ const faqs = [
   },
   {
     q: "Should I choose JPG or PNG?",
-    a: "Choose JPG when the file has to be small — for messaging apps, email attachments and portals that limit upload size. Choose PNG when quality matters more than size: pages that are mostly text, contracts, diagrams, technical drawings or anything that will be re-shared, zoomed into or printed. PNG is lossless, so the quality slider has no effect on it.",
+    a: "Choose JPG when the file has to be small, for messaging apps, email attachments and portals that limit upload size. Choose PNG when quality matters more than size: pages that are mostly text, contracts, diagrams, technical drawings or anything that will be re-shared, zoomed into or printed. PNG is lossless, so the quality slider has no effect on it.",
   },
   {
     q: "Will the images be high quality?",
-    a: "Yes. Pages are rendered by pdf.js at 2× their natural size by default, which is roughly 144 DPI — enough for on-screen reading and most uploads. If you need print-quality output, push the Scale slider to 3× or 4×; the file gets larger but the text stays perfectly crisp under a zoom.",
+    a: "Yes. Pages are rendered by pdf.js at 2× their natural size by default, which is roughly 144 DPI, enough for on-screen reading and most uploads. If you need print-quality output, push the Scale slider to 3× or 4×; the file gets larger but the text stays perfectly crisp under a zoom.",
   },
   {
     q: "Do my files get uploaded to a server?",
-    a: "No. The PDF is loaded into your browser's memory, every page is drawn to a local canvas and the images are packaged in-browser. Nothing about the document — not the file, not the extracted images, not the filename — is transmitted or stored on our side.",
+    a: "No. The PDF is loaded into your browser's memory, every page is drawn to a local canvas and the images are packaged in-browser. Nothing about the document, not the file, not the extracted images, not the filename, is transmitted or stored on our side.",
   },
   {
     q: "Can I convert only one page instead of all?",
-    a: "Not directly — the converter renders every page of the PDF in one pass. If you only need one page as an image, first run the file through the Extract Pages tool to keep just the page you want, then bring that one-page PDF here and it will download as a single image.",
+    a: "Not directly, the converter renders every page of the PDF in one pass. If you only need one page as an image, first run the file through the Extract Pages tool to keep just the page you want, then bring that one-page PDF here and it will download as a single image.",
   },
   {
     q: "How do I convert PDF to image on my phone?",
@@ -86,7 +86,7 @@ const faqs = [
   },
   {
     q: "Is there a page limit?",
-    a: "There is no artificial cap — a two-page brochure or a 300-page annual report both work. Because rendering happens in your browser, the practical limit is your device's memory. On a phone, very large PDFs (hundreds of pages combined with a 4× scale) may slow down or hit the tab's memory ceiling; on a laptop, that ceiling is much higher.",
+    a: "There is no artificial cap, a two-page brochure or a 300-page annual report both work. Because rendering happens in your browser, the practical limit is your device's memory. On a phone, very large PDFs (hundreds of pages combined with a 4× scale) may slow down or hit the tab's memory ceiling; on a laptop, that ceiling is much higher.",
   },
   {
     q: "Why is my downloaded file a ZIP?",
@@ -97,8 +97,8 @@ const faqs = [
     a: "Yes. A scanned PDF is essentially images already embedded in a PDF container, so each scanned page is re-rendered here into a standalone JPG or PNG at the scale you picked. If you would rather pull out the exact embedded scans without re-rendering them, use the Extract Images tool instead.",
   },
   {
-    q: "How do I do the reverse — images to PDF?",
-    a: "Use the Image to PDF tool. Drop JPG or PNG files in the order you want, arrange them into a single PDF and download the combined document — useful when you have to submit a set of photos or scans as one PDF attachment.",
+    q: "How do I do the reverse, images to PDF?",
+    a: "Use the Image to PDF tool. Drop JPG or PNG files in the order you want, arrange them into a single PDF and download the combined document, useful when you have to submit a set of photos or scans as one PDF attachment.",
   },
 ];
 
@@ -142,7 +142,7 @@ export function PdfToImagesSeo() {
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         Every page of your PDF is rendered to its own image at the scale you pick, so a 12-page brochure becomes
         twelve numbered pictures and a single-page invoice becomes one. JPG is the right pick when you want a small
-        file to drop into a chat, an email or a form; PNG is the right pick when quality has to be lossless — text
+        file to drop into a chat, an email or a form; PNG is the right pick when quality has to be lossless, text
         stays razor-sharp and thin lines never smudge, which matters for contracts, diagrams and scans that will be
         re-shared.
       </p>
@@ -160,7 +160,7 @@ export function PdfToImagesSeo() {
         The pages people usually want as images are the sensitive ones: a specific line from a bank statement to
         send to an accountant, a single page of an ID for a rental form, a slide from an internal report to embed
         in a deck. Most PDF-to-JPG sites quietly upload the whole file to a conversion server, process it there
-        and hand you back a download link — meaning a complete copy of that private document has already left
+        and hand you back a download link, meaning a complete copy of that private document has already left
         your machine.
       </p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
@@ -232,7 +232,7 @@ export const pdfToImagesHowToJsonLd = {
   "@type": "HowTo",
   name: "How to convert PDF to JPG online for free",
   description:
-    "Convert a PDF to JPG or PNG images in your browser — pick the format, adjust quality and scale, and download every page as an image without uploading the file anywhere.",
+    "Convert a PDF to JPG or PNG images in your browser, pick the format, adjust quality and scale, and download every page as an image without uploading the file anywhere.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "A PDF you want to turn into images" }],
   tool: [{ "@type": "HowToTool", name: "FreePDFHub PDF to Images (web browser)" }],
@@ -250,7 +250,7 @@ export const pdfToImagesSoftwareJsonLd = {
   "@type": "SoftwareApplication",
   name: "FreePDFHub PDF to Images",
   description:
-    "Convert PDF to JPG or PNG online free — render every page as a high-quality image in your browser. No upload, no signup, no watermark.",
+    "Convert PDF to JPG or PNG online free, render every page as a high-quality image in your browser. No upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Web",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
