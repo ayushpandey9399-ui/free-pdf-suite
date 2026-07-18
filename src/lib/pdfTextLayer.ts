@@ -39,10 +39,13 @@ export interface EditableLine {
   /** baseline y, PDF units, from TOP of page. */
   baselineY: number;
   fontSize: number;
+  /** Base PostScript name with any "ABCDEF+" subset prefix stripped. */
   fontName: string;
   bold: boolean;
   italic: boolean;
   family: FontFamily;
+  /** Metric-compatible open twin chosen for this run (Phase A). */
+  twin: TwinFamily;
   /**
    * Column-alignment inference (Fix B5). When multiple segments on
    * different baselines share a near-equal right/left/center edge, they
