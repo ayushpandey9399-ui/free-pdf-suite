@@ -457,22 +457,26 @@ export default function EditPdf() {
   /* =========== export =========== */
 
   const run = async () => {
-    if (!file || !annos.length) return;
+    if (!file || (!annos.length && !edits.length)) return;
     setLoading(true);
     try {
       const doc = await loadPdfLibDoc(await file.arrayBuffer());
       const pdfPages = doc.getPages();
 
-      let helv: PDFFont | null = null;
-      let helvBold: PDFFont | null = null;
-      const getFont = async (bold: boolean) => {
-        if (bold) {
-          if (!helvBold) helvBold = await doc.embedFont(StandardFonts.HelveticaBold);
-          return helvBold;
+      // Font cache — Helvetica pair for annotations, plus a per-classification
+      // cache for text-edit lines.
+      const fontCache = new Map<string, PDFFont>();
+      const getStdFont = async (name: (typeof StandardFonts)[keyof typeof StandardFonts]) => {
+        const key = String(name);
+        let f = fontCache.get(key);
+        if (!f) {
+          f = await doc.embedFont(name);
+          fontCache.set(key, f);
         }
-        if (!helv) helv = await doc.embedFont(StandardFonts.Helvetica);
-        return helv;
+        return f;
       };
+      const getFont = async (bold: boolean) =>
+        getStdFont(bold ? StandardFonts.HelveticaBold : StandardFonts.Helvetica);
 
       const imgCache: Record<string, PDFImage> = {};
       const embedImg = async (dataUrl: string, mime: string) => {
@@ -483,6 +487,88 @@ export default function EditPdf() {
         imgCache[dataUrl] = img;
         return img;
       };
+
+      // ---- Text edits FIRST (rectangles cover the original text, then
+      // replacement text is drawn on top). Annotations render afterwards so
+      // any highlight / shape can compose over the rewritten line.
+      for (const te of edits) {
+        const page = pdfPages[te.page];
+        if (!page) continue;
+        const pH = page.getHeight();
+        const bg = hexToRgb255(te.bgColor);
+        // Proportional padding: 25% below baseline for descenders, 10% above
+        // top of line, 1.5px horizontal.
+        const padBelow = te.fontSize * 0.25;
+        const padAbove = te.fontSize * 0.1;
+        const padX = 1.5;
+        // In our coord system y is measured from top; convert to PDF bottom-up.
+        const rectTopFromTop = te.y - padAbove;
+        const rectBotFromTop = te.baselineY + padBelow;
+        const rectH = rectBotFromTop - rectTopFromTop;
+        const rectY = pH - rectBotFromTop;
+        page.drawRectangle({
+          x: te.x - padX,
+          y: rectY,
+          width: te.width + padX * 2,
+          height: rectH,
+          color: rgb(bg.r / 255, bg.g / 255, bg.b / 255),
+        });
+        const cls = classifyPdfFont(null, { bold: te.bold, italic: te.italic });
+        // Preserve the user-picked family too (may differ from classification if
+        // they overrode in the mini toolbar). We stored `family` directly.
+        const chosenFontName = (() => {
+          if (te.family === "serif") {
+            return te.bold && te.italic
+              ? StandardFonts.TimesRomanBoldItalic
+              : te.bold
+                ? StandardFonts.TimesRomanBold
+                : te.italic
+                  ? StandardFonts.TimesRomanItalic
+                  : StandardFonts.TimesRoman;
+          }
+          if (te.family === "mono") {
+            return te.bold && te.italic
+              ? StandardFonts.CourierBoldOblique
+              : te.bold
+                ? StandardFonts.CourierBold
+                : te.italic
+                  ? StandardFonts.CourierOblique
+                  : StandardFonts.Courier;
+          }
+          return te.bold && te.italic
+            ? StandardFonts.HelveticaBoldOblique
+            : te.bold
+              ? StandardFonts.HelveticaBold
+              : te.italic
+                ? StandardFonts.HelveticaOblique
+                : StandardFonts.Helvetica;
+        })();
+        void cls;
+        const font = await getStdFont(chosenFontName);
+        const fg = hexToRgb255(te.color);
+        // Sanitize characters WinAnsi standard fonts cannot encode.
+        const safe = te.newText.replace(/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/g, "?");
+        try {
+          page.drawText(safe, {
+            x: te.x,
+            y: pH - te.baselineY,
+            size: te.fontSize,
+            font,
+            color: rgb(fg.r / 255, fg.g / 255, fg.b / 255),
+          });
+        } catch {
+          // fall back to Helvetica if the chosen font choked
+          const fb = await getStdFont(StandardFonts.Helvetica);
+          page.drawText(safe, {
+            x: te.x,
+            y: pH - te.baselineY,
+            size: te.fontSize,
+            font: fb,
+            color: rgb(fg.r / 255, fg.g / 255, fg.b / 255),
+          });
+        }
+      }
+
 
       for (const a of annos) {
         const page = pdfPages[a.page];
