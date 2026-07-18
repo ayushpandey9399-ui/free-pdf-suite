@@ -1452,6 +1452,18 @@ interface PageOverlayProps {
   styleCtx: StyleCtx;
   pendingImage: { dataUrl: string; mime: string; w: number; h: number } | null;
   consumePendingImage: () => void;
+  /* Edit-text mode props */
+  editTextMode: boolean;
+  lines: EditableLine[] | null;
+  edits: TextEdit[];
+  activeEditLineId: string | null;
+  showAllEditable: boolean;
+  onNeedLines: () => void;
+  onOpenLine: (lineId: string) => void;
+  onCloseLine: () => void;
+  onCommitEdit: (edit: TextEdit) => void;
+  onRemoveEdit: (lineId: string) => void;
+  getPageCanvas: () => HTMLCanvasElement | null;
 }
 
 function PageOverlay(props: PageOverlayProps) {
