@@ -154,10 +154,18 @@ export async function extractEditableLines(
       if (g > 0) gaps.push(g);
     }
     const fs0 = bucket[0].fontSize;
-    // Prefer measured space widths, fall back to gaps, fall back to fs*0.28.
-    let spaceRef = spaceWidths.length ? median(spaceWidths) : 0;
-    if (!spaceRef) spaceRef = gaps.length ? median(gaps) : fs0 * 0.28;
+    // Proxy for a normal single-word-space glyph. pdfjs collapses inter-cell
+    // whitespace into one wide bridge item, so measured medians overshoot;
+    // cap at ~0.35em so `1.2 × spaceRef` stays below the 0.6em fallback and
+    // any bridge / large gap trips the threshold.
+    const capped = (n: number) => Math.min(n, fs0 * 0.35);
+    const spaceRef = spaceWidths.length
+      ? capped(median(spaceWidths))
+      : gaps.length
+        ? capped(median(gaps))
+        : fs0 * 0.28;
     const threshold = Math.max(1.2 * spaceRef, 0.6 * fs0);
+
 
     const segments: Raw[][] = [];
     let cur: Raw[] = [];
