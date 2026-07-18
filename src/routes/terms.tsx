@@ -1,21 +1,28 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LegalPage } from "@/components/LegalPage";
-import { CONTACT_EMAIL, LAST_UPDATED } from "@/lib/site";
+import { CONTACT_EMAIL, LAST_UPDATED, SITE_URL } from "@/lib/site";
 
 export const Route = createFileRoute("/terms")({
   head: () => {
     const title = "Terms of Use | FreePDFHub";
     const description =
       "The terms that govern your use of FreePDFHub — free, browser-based PDF tools with no accounts, no uploads, and clear rules for acceptable use.";
+    const url = `${SITE_URL}/terms`;
+    const ogImage = `${SITE_URL}/og-cover.png`;
     return {
       meta: [
         { title },
         { name: "description", content: description },
         { property: "og:title", content: title },
         { property: "og:description", content: description },
-        { property: "og:url", content: "/terms" },
+        { property: "og:url", content: url },
+        { property: "og:image", content: ogImage },
+        { property: "og:image:width", content: "1200" },
+        { property: "og:image:height", content: "630" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:image", content: ogImage },
       ],
-      links: [{ rel: "canonical", href: "/terms" }],
+      links: [{ rel: "canonical", href: url }],
     };
   },
   component: TermsPage,
