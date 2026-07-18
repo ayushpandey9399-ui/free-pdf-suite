@@ -552,7 +552,7 @@ export default function EditPdf() {
         if (cancelled || loadGenRef.current !== gen) return;
         pdfjsDocRef.current = doc;
         const out: PageInfo[] = [];
-        const maxW = 800;
+        
         // Eager-render only the first few pages so the viewer feels
         // instant; every other page starts with url="" and is rendered on
         // demand as it scrolls into view (Fix B1 memory cap).
