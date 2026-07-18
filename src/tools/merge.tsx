@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
+import { ToolWorkspace, InfoTip } from "@/components/ToolWorkspace";
 import { downloadBlob } from "@/lib/download";
-import { ArrowRight, GripVertical, Info, Loader2, Plus, X } from "lucide-react";
+import { GripVertical, Loader2, Plus, X } from "lucide-react";
 import {
   DndContext,
   closestCenter,
@@ -13,7 +14,13 @@ import {
   useSensors,
   type DragEndEvent,
 } from "@dnd-kit/core";
-import { SortableContext, arrayMove, rectSortingStrategy, useSortable } from "@dnd-kit/sortable";
+import {
+  SortableContext,
+  arrayMove,
+  rectSortingStrategy,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { PDFDocument } from "pdf-lib";
 import { loadPdfLibDoc, loadPdfJsDoc, isPdfPasswordError } from "@/lib/pdfGuard";
@@ -23,6 +30,12 @@ import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 import { cn } from "@/lib/utils";
 
 const keyOf = (f: File) => `${f.name}__${f.size}`;
+
+function formatSize(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
 
 async function renderFirstPageThumb(file: File, maxWidth = 220): Promise<string | null> {
   try {
@@ -48,13 +61,8 @@ export default function Merge() {
   const [thumbs, setThumbs] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ blob: Blob; filename: string; count: number } | null>(null);
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
-    useSensor(TouchSensor, { activationConstraint: { delay: 180, tolerance: 6 } }),
-  );
   const { protectedName, reset } = usePdfPasswordCheck(files, () => setFiles([]));
 
-  // Render a first-page thumbnail per file (once).
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -140,12 +148,8 @@ export default function Merge() {
     }
   };
 
-  const onDragEnd = (e: DragEndEvent) => {
-    const { active, over } = e;
-    if (!over || active.id === over.id) return;
-    const oldIndex = files.findIndex((_, i) => String(i) === active.id);
-    const newIndex = files.findIndex((_, i) => String(i) === over.id);
-    setFiles(arrayMove(files, oldIndex, newIndex));
+  const reorderFiles = (oldIndex: number, newIndex: number) => {
+    setFiles((prev) => arrayMove(prev, oldIndex, newIndex));
   };
 
   if (result) {
@@ -161,7 +165,6 @@ export default function Merge() {
     );
   }
 
-  // Empty state — keep the current simplified upload UI.
   if (files.length === 0) {
     return (
       <FileDropzone
@@ -179,138 +182,106 @@ export default function Merge() {
     return <PasswordProtectedNotice fileName={protectedName} onReset={reset} />;
   }
 
-  const canRun = files.length >= 2 && !loading;
+  const totalBytes = files.reduce((s, f) => s + f.size, 0);
+  const notEnough = files.length < 2;
 
   return (
-    <div className="lg:-mx-8 xl:-mx-16">
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
-        {/* LEFT: file cards */}
-        <div className="min-w-0">
-          <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
-            <SortableContext items={files.map((_, i) => String(i))} strategy={rectSortingStrategy}>
-              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-                {files.map((f, i) => (
-                  <ThumbCard
-                    key={keyOf(f) + "-" + i}
-                    id={String(i)}
-                    index={i}
-                    name={f.name}
-                    thumb={thumbs[keyOf(f)]}
-                    onRemove={() => removeAt(i)}
-                  />
-                ))}
-                <button
-                  type="button"
-                  onClick={openMoreFilesPicker}
-                  className="flex aspect-[3/4] flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed text-[13px] font-semibold transition-colors hover:border-[#e5322d] hover:text-[#e5322d]"
-                  style={{ borderColor: "#e5d4d3", color: "#7a7a86" }}
-                  aria-label="Add more PDFs"
-                >
-                  <span
-                    className="grid h-10 w-10 place-items-center rounded-full text-white"
-                    style={{ backgroundColor: "#e5322d" }}
-                  >
-                    <Plus className="h-5 w-5" />
-                  </span>
-                  Add more
-                </button>
-              </div>
-            </SortableContext>
-          </DndContext>
-        </div>
-
-        {/* RIGHT: sidebar */}
-        <aside className="lg:sticky lg:top-24 lg:self-start">
-          <div
-            className="flex flex-col rounded-2xl bg-white p-5"
-            style={{
-              border: "1px solid #ececef",
-              boxShadow: "0 1px 2px rgba(20,20,43,0.04)",
-              minHeight: "clamp(320px, 60vh, 520px)",
-            }}
-          >
-            <h2 className="text-[18px] font-bold" style={{ color: "#33333c" }}>
-              Merge PDF
-            </h2>
-            <div className="mt-3 h-px w-full" style={{ backgroundColor: "#ececef" }} />
-
-            <div
-              className="mt-4 flex gap-2.5 rounded-lg p-3 text-[13px]"
-              style={{ backgroundColor: "#eef4ff", color: "#254a9e" }}
-            >
-              <Info className="mt-0.5 h-4 w-4 shrink-0" />
-              <p>Drag and drop the files to change the merge order.</p>
-            </div>
-
-            <div className="flex-1" />
-
-            <button
-              type="button"
-              onClick={run}
-              disabled={!canRun}
-              className={cn(
-                "mt-6 hidden lg:inline-flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-[15px] font-bold uppercase text-white transition-all duration-150",
-                canRun && "hover:scale-[1.01]",
-                !canRun && "cursor-not-allowed",
-              )}
-              style={{
-                backgroundColor: canRun ? "#e5322d" : "#d7d7dc",
-                color: canRun ? "#ffffff" : "#8a8a93",
-                letterSpacing: "0.04em",
-                boxShadow: canRun ? "0 10px 24px -8px rgba(229,50,45,0.55)" : "none",
-              }}
-              onMouseEnter={(e) => canRun && (e.currentTarget.style.backgroundColor = "#c72620")}
-              onMouseLeave={(e) => canRun && (e.currentTarget.style.backgroundColor = "#e5322d")}
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin" /> Merging…
-                </>
-              ) : (
-                <>
-                  Merge PDF <ArrowRight className="h-4 w-4" />
-                </>
-              )}
-            </button>
+    <ToolWorkspace
+      title="Merge PDF"
+      actionLabel="Merge PDF"
+      loadingLabel="Merging…"
+      onAction={run}
+      loading={loading}
+      actionDisabled={notEnough}
+      disabledReason="Add at least 2 PDFs to merge"
+      sidebar={
+        <>
+          <div>
+            <p className="text-[13px] font-semibold" style={{ color: "#33333c" }}>
+              {files.length} {files.length === 1 ? "file" : "files"} · {formatSize(totalBytes)}
+            </p>
           </div>
-        </aside>
-      </div>
 
-      {/* Mobile sticky action bar */}
-      <div
-        className="lg:hidden fixed inset-x-0 bottom-0 z-30 border-t bg-white px-4 py-3"
-        style={{
-          borderColor: "#ececef",
-          paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom))",
-        }}
-      >
-        <button
-          type="button"
-          onClick={run}
-          disabled={!canRun}
-          className={cn(
-            "inline-flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-[15px] font-bold uppercase text-white",
-            !canRun && "cursor-not-allowed",
-          )}
-          style={{
-            backgroundColor: canRun ? "#e5322d" : "#d7d7dc",
-            color: canRun ? "#ffffff" : "#8a8a93",
-            letterSpacing: "0.04em",
-          }}
-        >
-          {loading ? (
-            <>
-              <Loader2 className="h-4 w-4 animate-spin" /> Merging…
-            </>
-          ) : (
-            <>
-              Merge PDF <ArrowRight className="h-4 w-4" />
-            </>
-          )}
-        </button>
-      </div>
-      <div className="lg:hidden h-24" aria-hidden />
-    </div>
+          <SidebarFileList
+            files={files}
+            onReorder={reorderFiles}
+            onRemove={removeAt}
+          />
+
+          <InfoTip>Drag files to change the merge order.</InfoTip>
+        </>
+      }
+    >
+      {/* Thumbnail grid — shares files state with sidebar list */}
+      <ThumbnailGrid
+        files={files}
+        thumbs={thumbs}
+        onReorder={reorderFiles}
+        onRemove={removeAt}
+        onAddMore={openMoreFilesPicker}
+      />
+    </ToolWorkspace>
+  );
+}
+
+/* ============ Thumbnail grid ============ */
+
+function ThumbnailGrid({
+  files,
+  thumbs,
+  onReorder,
+  onRemove,
+  onAddMore,
+}: {
+  files: File[];
+  thumbs: Record<string, string>;
+  onReorder: (oldIndex: number, newIndex: number) => void;
+  onRemove: (i: number) => void;
+  onAddMore: () => void;
+}) {
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 180, tolerance: 6 } }),
+  );
+
+  const onDragEnd = (e: DragEndEvent) => {
+    const { active, over } = e;
+    if (!over || active.id === over.id) return;
+    onReorder(Number(active.id), Number(over.id));
+  };
+
+  return (
+    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+      <SortableContext items={files.map((_, i) => String(i))} strategy={rectSortingStrategy}>
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+          {files.map((f, i) => (
+            <ThumbCard
+              key={keyOf(f) + "-" + i}
+              id={String(i)}
+              index={i}
+              name={f.name}
+              thumb={thumbs[keyOf(f)]}
+              onRemove={() => onRemove(i)}
+            />
+          ))}
+          <button
+            type="button"
+            onClick={onAddMore}
+            className="flex min-h-[200px] flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed text-[13px] font-semibold transition-colors hover:border-[#e5322d] hover:text-[#e5322d]"
+            style={{ borderColor: "#e5d4d3", color: "#7a7a86" }}
+            aria-label="Add more PDFs"
+          >
+            <span
+              className="grid h-10 w-10 place-items-center rounded-full text-white"
+              style={{ backgroundColor: "#e5322d" }}
+            >
+              <Plus className="h-5 w-5" />
+            </span>
+            Add more
+          </button>
+        </div>
+      </SortableContext>
+    </DndContext>
   );
 }
 
@@ -355,7 +326,7 @@ function ThumbCard({
         <X className="h-3.5 w-3.5" />
       </button>
       <div
-        className="relative aspect-[3/4] overflow-hidden rounded-lg"
+        className="relative min-h-[200px] aspect-[3/4] overflow-hidden rounded-lg"
         style={{ border: "1px solid #ececef", backgroundColor: "#f6f4f9" }}
       >
         <span
@@ -379,10 +350,112 @@ function ThumbCard({
           </div>
         )}
       </div>
-      <p className="mt-2 truncate px-1 text-[12.5px] font-medium" title={name} style={{ color: "#33333c" }}>
+      <p
+        className="mt-2 truncate px-1 text-[12.5px] font-medium"
+        title={name}
+        style={{ color: "#33333c" }}
+      >
         {name}
       </p>
     </div>
   );
 }
 
+/* ============ Sidebar compact ordered list ============ */
+
+function SidebarFileList({
+  files,
+  onReorder,
+  onRemove,
+}: {
+  files: File[];
+  onReorder: (oldIndex: number, newIndex: number) => void;
+  onRemove: (i: number) => void;
+}) {
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 180, tolerance: 6 } }),
+  );
+
+  const onDragEnd = (e: DragEndEvent) => {
+    const { active, over } = e;
+    if (!over || active.id === over.id) return;
+    onReorder(Number(active.id), Number(over.id));
+  };
+
+  return (
+    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+      <SortableContext items={files.map((_, i) => String(i))} strategy={verticalListSortingStrategy}>
+        <ol className="space-y-1.5">
+          {files.map((f, i) => (
+            <SidebarFileRow
+              key={keyOf(f) + "-" + i}
+              id={String(i)}
+              index={i}
+              name={f.name}
+              onRemove={() => onRemove(i)}
+            />
+          ))}
+        </ol>
+      </SortableContext>
+    </DndContext>
+  );
+}
+
+function SidebarFileRow({
+  id,
+  index,
+  name,
+  onRemove,
+}: {
+  id: string;
+  index: number;
+  name: string;
+  onRemove: () => void;
+}) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id });
+  return (
+    <li
+      ref={setNodeRef}
+      style={{
+        transform: CSS.Transform.toString(transform),
+        transition,
+        opacity: isDragging ? 0.5 : 1,
+      }}
+      className={cn(
+        "group flex items-center gap-1.5 rounded-md px-1.5 py-1.5 text-[12.5px]",
+        "hover:bg-[#f6f4f9]",
+        isDragging && "ring-1 ring-[#e5322d] bg-white shadow",
+      )}
+    >
+      <button
+        type="button"
+        {...attributes}
+        {...listeners}
+        aria-label={`Reorder ${name}`}
+        className="cursor-grab active:cursor-grabbing touch-none text-[#c8c8d0] hover:text-[#33333c]"
+      >
+        <GripVertical className="h-3.5 w-3.5" />
+      </button>
+      <span className="w-4 shrink-0 text-right font-semibold" style={{ color: "#7a7a86" }}>
+        {index + 1}.
+      </span>
+      <span
+        className="min-w-0 flex-1 truncate"
+        title={name}
+        style={{ color: "#33333c" }}
+      >
+        {name}
+      </span>
+      <button
+        type="button"
+        onClick={onRemove}
+        onPointerDown={(e) => e.stopPropagation()}
+        aria-label={`Remove ${name}`}
+        className="shrink-0 text-[#c8c8d0] opacity-0 transition-opacity hover:text-[#e5322d] group-hover:opacity-100"
+      >
+        <X className="h-3.5 w-3.5" />
+      </button>
+    </li>
+  );
+}
