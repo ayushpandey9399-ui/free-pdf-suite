@@ -13,7 +13,7 @@ function slugFromTo(to: string): string {
   return m ? m[1] : "";
 }
 
-export function RelatedToolsGrid({ items }: { items: RelatedToolItem[] }) {
+export function RelatedToolsGrid({ items }: { items: readonly RelatedToolItem[] }) {
   return (
     <div className="mt-6 grid gap-4 sm:grid-cols-2">
       {items.map((r) => {
