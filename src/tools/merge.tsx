@@ -437,11 +437,11 @@ function SidebarFileRow({
       >
         <GripVertical className="h-3.5 w-3.5" />
       </button>
-      <span className="w-4 shrink-0 text-right font-semibold" style={{ color: "#7a7a86" }}>
+      <span className="shrink-0 font-semibold" style={{ color: "#7a7a86" }}>
         {index + 1}.
       </span>
       <span
-        className="min-w-0 flex-1 truncate"
+        className="min-w-0 flex-1 truncate text-left"
         title={name}
         style={{ color: "#33333c" }}
       >
