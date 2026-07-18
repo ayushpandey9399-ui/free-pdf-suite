@@ -229,6 +229,25 @@ export function FlattenPdfSeo() {
         first, then flatten here — fill, flatten, send.
       </p>
 
+      {/* Flatten vs Print-to-PDF */}
+      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
+        Flatten vs Print-to-PDF: why the shortcut isn't the same
+      </h2>
+      <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
+        The common workaround for locking a filled form is Print → Save as PDF, and it does
+        remove the interactive fields. What it also does is rasterise every page: the printer
+        driver treats the document as an image, so selectable text stops being selectable, the
+        file often gets larger, searchability breaks and any high-quality vector content
+        becomes pixels. It is flattening by demolition.
+      </p>
+      <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
+        This tool takes the opposite route. pdf-lib merges only the form-field layer into the
+        page content stream; the original page text stays real text, images stay at their
+        embedded resolution, and the file size barely moves. The output looks and behaves
+        exactly like the original PDF minus the editable fields — no print-driver detour and
+        no loss of quality.
+      </p>
+
       {/* Privacy differentiator */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Private flattening, your form stays with you
