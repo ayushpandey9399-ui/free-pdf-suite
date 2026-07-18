@@ -170,6 +170,11 @@ export async function extractEditableLines(
     const segments: Raw[][] = [];
     let cur: Raw[] = [];
     const push = () => { if (cur.length) { segments.push(cur); cur = []; } };
+    // Also split at any horizontal gap >= 1.0 x fontSize regardless of the
+    // computed threshold - this catches visually-separated borderless labels
+    // (e.g. "SINGH ASSOCIATES" and "NAME OF UNIT(S)") that pdfjs emits
+    // without a bridge whitespace item.
+    const hardSplit = 1.0 * fs0;
     for (let k = 0; k < bucket.length; k++) {
       const r = bucket[k];
       const isSpace = /^\s+$/.test(r.str);
@@ -180,7 +185,7 @@ export async function extractEditableLines(
       if (cur.length) {
         const prev = cur[cur.length - 1];
         const gap = r.x - (prev.x + prev.width);
-        if (gap > threshold) push();
+        if (gap > threshold || gap >= hardSplit) push();
       }
       cur.push(r);
     }

@@ -136,6 +136,12 @@ interface TextEdit {
   /** cell bounds in PDF units (top-origin), if rulings were detected on both sides. */
   cellLeft?: number;
   cellRight?: number;
+  /**
+   * When true, the cover rectangle is NOT drawn on export - the area was
+   * too busy/multi-colored to safely mask. The replacement text is drawn
+   * on top of the original ink. Flagged low-confidence + toasted on save.
+   */
+  skipCover?: boolean;
 }
 
 interface PageInfo {
@@ -692,8 +698,16 @@ export default function EditPdf() {
       }
 
       // Pass 1: every cover rectangle.
+      let skippedCoverCount = 0;
       for (const p of plans) {
         if (p.skipCover) continue;
+        // Fix Batch A.1 - Fix 3: skip the opaque erase when the sampler
+        // marked the area as busy / multi-color. Painting a solid rect here
+        // would erase content the user didn't intend to remove.
+        if (p.te.skipCover) {
+          skippedCoverCount++;
+          continue;
+        }
         const page = pdfPages[p.pageIndex];
         if (!page) continue;
         const te = p.te;
@@ -717,6 +731,11 @@ export default function EditPdf() {
             color: rgb(bg.r / 255, bg.g / 255, bg.b / 255),
           });
         }
+      }
+      if (skippedCoverCount > 0) {
+        toast.warning(
+          `Couldn't safely mask the old text on ${skippedCoverCount} edit${skippedCoverCount === 1 ? "" : "s"} - please review the exported PDF.`,
+        );
       }
 
       // Pass 2: every replacement string.
@@ -2382,6 +2401,7 @@ function EditLineOverlay({
     align: "left" | "center" | "right";
     cellLeft?: number;
     cellRight?: number;
+    skipCover: boolean;
   } | null>(null);
 
   useEffect(() => {
@@ -2444,11 +2464,12 @@ function EditLineOverlay({
     setSampled({
       bg: rgbToHex(s.background),
       fg: rgbToHex(s.text),
-      lowConfidence: !s.bgConfident,
+      lowConfidence: !s.bgConfident || s.bgBusy,
       edgeInsets: insets,
       align,
       cellLeft,
       cellRight,
+      skipCover: !s.bgConfident && s.bgBusy,
     });
   }, [isActive, existing, sampled, getPageCanvas, line, pageWidth, pageHeight]);
 
@@ -2482,6 +2503,33 @@ function EditLineOverlay({
         initialFamily={existing?.family ?? line.family}
         onCancel={onCancel}
         onCommit={(next) => {
+          // ---- Fix Batch A.1 - Fix 1: NO-OP GUARD ----
+          // If the committed text is identical to the original AND font/
+          // style/size are unchanged, create NO TextEdit. Prevents accidental
+          // click-and-Enter from covering the cell with a redundant edit.
+          const origText = line.text;
+          const sameText = next.text === origText;
+          const sameStyle =
+            next.fontSize === (existing?.fontSize ?? line.fontSize) &&
+            next.bold === (existing?.bold ?? line.bold) &&
+            next.italic === (existing?.italic ?? line.italic) &&
+            next.family === (existing?.family ?? line.family) &&
+            next.color === (existing?.color ?? sampled?.fg ?? "#000000");
+          if (sameText && sameStyle && !existing) {
+            onCancel();
+            return;
+          }
+          // Empty commit: only accept as an intentional delete if the user
+          // confirms. Otherwise cancel and keep the original text.
+          if (next.text.trim() === "" && origText.trim() !== "") {
+            const ok =
+              typeof window !== "undefined" &&
+              window.confirm("Delete this text from the PDF?");
+            if (!ok) {
+              onCancel();
+              return;
+            }
+          }
           onCommit({
             id: existing?.id ?? `TE-${line.id}`,
             page: line.page,
@@ -2504,6 +2552,7 @@ function EditLineOverlay({
             align: existing?.align ?? sampled?.align,
             cellLeft: existing?.cellLeft ?? sampled?.cellLeft,
             cellRight: existing?.cellRight ?? sampled?.cellRight,
+            skipCover: existing?.skipCover ?? sampled?.skipCover ?? false,
           });
         }}
       />
