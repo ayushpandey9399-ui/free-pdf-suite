@@ -105,7 +105,7 @@ export function FileDropzone({
           >
             {defaultBtn}
           </button>
-          <p className="mt-3 mb-[72px] sm:mb-20 text-[14px]" style={{ color: "#7a7a86" }}>
+          <p className="mt-3 mb-14 sm:mb-16 text-[14px]" style={{ color: "#7a7a86" }}>
             {defaultHint}
           </p>
 
