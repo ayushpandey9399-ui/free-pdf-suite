@@ -250,6 +250,29 @@ export function PdfMetadataSeo() {
         externally shared PDF look professional.
       </p>
 
+      {/* 30-second sanity check */}
+      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
+        A 30-second sanity check before every external send
+      </h2>
+      <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
+        Metadata leaks are almost always accidental — someone reused a template and never looked
+        at the Author, or exported a client draft with the internal project code sitting in the
+        Title. The fix is a habit, not a tool: before any resume, tender, proposal or contract
+        leaves your machine, drop it in here and glance at the four editable fields (Title,
+        Author, Subject and Keywords) plus the read-only Producer, Creator and timestamps. If
+        any of them tells a story you didn't mean to tell — an old employer's name, a
+        colleague's template, a working title with "draft" or "v3" in it — either overwrite the
+        field or tick Clear all metadata before you send.
+      </p>
+      <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
+        For anonymised submissions (blind reviews, whistleblowing packets, media source
+        materials), clearing metadata is a required first step but not a sufficient one — page
+        content, signatures and embedded photo EXIF still identify the source. Pair the wipe
+        here with{" "}
+        <Link to="/tools/redact-pdf" className="text-[#e5322d] underline">Redact PDF</Link>{" "}
+        to blank the identifying content on the pages themselves.
+      </p>
+
       {/* Four benefits */}
       <div className="mt-10 grid gap-6 sm:grid-cols-2">
         {benefits.map((b) => (
