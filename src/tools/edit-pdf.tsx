@@ -710,10 +710,11 @@ export default function EditPdf() {
   };
 
   if (result) {
+    const totalChanges = annos.length + edits.length;
     return (
       <ToolSuccessScreen
         heading="Your PDF has been edited!"
-        subheading={`${annos.length} annotation${annos.length === 1 ? "" : "s"} added.`}
+        subheading={`${totalChanges} change${totalChanges === 1 ? "" : "s"} applied${edits.length ? ` (${edits.length} text edit${edits.length === 1 ? "" : "s"})` : ""}.`}
         downloadLabel="Download Edited PDF"
         onDownload={() => downloadBlob(result.blob, result.filename, "application/pdf")}
         onReset={resetAll}
@@ -729,6 +730,8 @@ export default function EditPdf() {
   }
 
   if (protectedName) return <PasswordProtectedNotice fileName={protectedName} onReset={reset} />;
+
+  const totalChanges = annos.length + edits.length;
 
   return (
     <>
@@ -749,49 +752,104 @@ export default function EditPdf() {
         loadingLabel="Saving…"
         onAction={run}
         loading={loading}
-        actionDisabled={!annos.length}
+        actionDisabled={!totalChanges}
         sidebar={
-          <Sidebar
-            mode={mode}
-            setMode={(m) => {
-              setMode(m);
-              setSelectedId(null);
-              if (m === "image") openImagePicker();
-              else setPendingImage(null);
-            }}
-            selected={selected}
-            updateSelected={(patch) => {
-              if (!selected) return;
-              commitAnnos((prev) =>
-                prev.map((a) => (a.id === selected.id ? ({ ...a, ...patch } as Anno) : a)),
-              );
-            }}
-            removeSelected={() => {
-              if (!selected) return;
-              commitAnnos((prev) => prev.filter((a) => a.id !== selected.id));
-              setSelectedId(null);
-            }}
-            hlColor={hlColor} setHlColor={setHlColor}
-            txtSize={txtSize} setTxtSize={setTxtSize}
-            txtColor={txtColor} setTxtColor={setTxtColor}
-            txtBold={txtBold} setTxtBold={setTxtBold}
-            shapeStroke={shapeStroke} setShapeStroke={setShapeStroke}
-            shapeWidth={shapeWidth} setShapeWidth={setShapeWidth}
-            shapeFill={shapeFill} setShapeFill={setShapeFill}
-            shapeFillOpacity={shapeFillOpacity} setShapeFillOpacity={setShapeFillOpacity}
-            lineColor={lineColor} setLineColor={setLineColor}
-            lineWidth={lineWidth} setLineWidth={setLineWidth}
-            drawColor={drawColor} setDrawColor={setDrawColor}
-            drawWidth={drawWidth} setDrawWidth={setDrawWidth}
-            pendingImage={pendingImage}
-            reopenImage={openImagePicker}
-            undo={undo} redo={redo} canUndo={canUndo} canRedo={canRedo}
-            count={annos.length}
-            onClearAll={clearAll}
-          />
+          editMode === "annotate" ? (
+            <Sidebar
+              mode={mode}
+              setMode={(m) => {
+                setMode(m);
+                setSelectedId(null);
+                if (m === "image") openImagePicker();
+                else setPendingImage(null);
+              }}
+              selected={selected}
+              updateSelected={(patch) => {
+                if (!selected) return;
+                commitAnnos((prev) =>
+                  prev.map((a) => (a.id === selected.id ? ({ ...a, ...patch } as Anno) : a)),
+                );
+              }}
+              removeSelected={() => {
+                if (!selected) return;
+                commitAnnos((prev) => prev.filter((a) => a.id !== selected.id));
+                setSelectedId(null);
+              }}
+              hlColor={hlColor} setHlColor={setHlColor}
+              txtSize={txtSize} setTxtSize={setTxtSize}
+              txtColor={txtColor} setTxtColor={setTxtColor}
+              txtBold={txtBold} setTxtBold={setTxtBold}
+              shapeStroke={shapeStroke} setShapeStroke={setShapeStroke}
+              shapeWidth={shapeWidth} setShapeWidth={setShapeWidth}
+              shapeFill={shapeFill} setShapeFill={setShapeFill}
+              shapeFillOpacity={shapeFillOpacity} setShapeFillOpacity={setShapeFillOpacity}
+              lineColor={lineColor} setLineColor={setLineColor}
+              lineWidth={lineWidth} setLineWidth={setLineWidth}
+              drawColor={drawColor} setDrawColor={setDrawColor}
+              drawWidth={drawWidth} setDrawWidth={setDrawWidth}
+              pendingImage={pendingImage}
+              reopenImage={openImagePicker}
+              undo={undo} redo={redo} canUndo={canUndo} canRedo={canRedo}
+              count={annos.length}
+              onClearAll={clearAll}
+            />
+          ) : (
+            <EditTextSidebar
+              editsCount={edits.length}
+              annosCount={annos.length}
+              showAll={showAllEditableHint}
+              setShowAll={setShowAllEditableHint}
+              undo={undo}
+              redo={redo}
+              canUndo={canUndo}
+              canRedo={canRedo}
+              onClearAll={clearAll}
+            />
+          )
         }
       >
         <div className="space-y-4">
+          {/* Mode tabs */}
+          <div className="rounded-2xl bg-white p-3" style={{ border: "1px solid #ececef" }}>
+            <div className="flex gap-1.5 rounded-lg bg-[#f7f7f8] p-1">
+              {(["edit-text", "annotate"] as const).map((m) => {
+                const active = editMode === m;
+                return (
+                  <button
+                    key={m}
+                    type="button"
+                    onClick={() => {
+                      setEditMode(m);
+                      setSelectedId(null);
+                      setActiveEditLineId(null);
+                    }}
+                    className="flex-1 rounded-md py-2 text-[13px] font-semibold transition-colors"
+                    style={{
+                      backgroundColor: active ? "#ffffff" : "transparent",
+                      color: active ? "#e5322d" : "#7a7a86",
+                      boxShadow: active ? "0 1px 2px rgba(0,0,0,0.06)" : "none",
+                    }}
+                  >
+                    {m === "edit-text" ? "Edit text" : "Annotate"}
+                  </button>
+                );
+              })}
+            </div>
+            <p className="mt-2.5 text-[12.5px] leading-relaxed" style={{ color: "#7a7a86" }}>
+              {editMode === "edit-text"
+                ? "Click any text to edit it. We match the original style as closely as possible. Most PDFs blend seamlessly."
+                : "Pick a tool from the sidebar and click or drag on a page to add annotations."}
+            </p>
+            {editMode === "edit-text" && hasAnyText === false && (
+              <div
+                className="mt-3 rounded-lg p-3 text-[13px] leading-relaxed"
+                style={{ backgroundColor: "#fdf5e6", border: "1px solid #f0e0b8", color: "#5a4a1a" }}
+              >
+                This looks like a scanned PDF, so there is no editable text. You can still use Annotate mode to write on top.
+              </div>
+            )}
+          </div>
+
           {loadingPages && (
             <div
               className="grid h-64 place-items-center rounded-2xl bg-white text-sm text-muted-foreground"
@@ -807,7 +865,7 @@ export default function EditPdf() {
               page={page}
               annos={annos.filter((a) => a.page === i)}
               selectedId={selectedId}
-              mode={mode}
+              mode={editMode === "annotate" ? mode : "select"}
               onSelect={(id) => setSelectedId(id)}
               onCreate={(a) => {
                 setAnnos((prev) => {
@@ -816,7 +874,6 @@ export default function EditPdf() {
                   return next;
                 });
                 setSelectedId(a.id);
-                // After creating with a shape tool, drop back to select for easy tweaking
                 if (a.kind !== "draw" && a.kind !== "highlight") setMode("select");
               }}
               onUpdate={(a) => {
@@ -838,6 +895,31 @@ export default function EditPdf() {
               }}
               pendingImage={pendingImage}
               consumePendingImage={() => setPendingImage(null)}
+              /* Edit-text mode props */
+              editTextMode={editMode === "edit-text"}
+              lines={linesByPageRef.current.get(i) ?? null}
+              edits={edits.filter((e) => e.page === i)}
+              activeEditLineId={activeEditLineId}
+              showAllEditable={showAllEditableHint}
+              onNeedLines={() => ensureLinesForPage(i)}
+              onOpenLine={(lineId) => setActiveEditLineId(lineId)}
+              onCloseLine={() => setActiveEditLineId(null)}
+              onCommitEdit={(next) => {
+                commitEdits((prev) => {
+                  const idx = prev.findIndex((p) => p.lineId === next.lineId);
+                  if (idx >= 0) {
+                    const copy = prev.slice();
+                    copy[idx] = next;
+                    return copy;
+                  }
+                  return [...prev, next];
+                });
+                setActiveEditLineId(null);
+              }}
+              onRemoveEdit={(lineId) => {
+                commitEdits((prev) => prev.filter((p) => p.lineId !== lineId));
+              }}
+              getPageCanvas={() => pageCanvasesRef.current.get(i) ?? null}
             />
           ))}
         </div>
@@ -845,6 +927,85 @@ export default function EditPdf() {
     </>
   );
 }
+
+/* =============================== Edit-text sidebar =============================== */
+
+function EditTextSidebar(props: {
+  editsCount: number;
+  annosCount: number;
+  showAll: boolean;
+  setShowAll: (v: boolean) => void;
+  undo: () => void;
+  redo: () => void;
+  canUndo: boolean;
+  canRedo: boolean;
+  onClearAll: () => void;
+}) {
+  return (
+    <>
+      <div>
+        <p className="mb-2 text-[11px] font-bold uppercase" style={{ color: "#7a7a86", letterSpacing: "0.08em" }}>
+          Edit existing text
+        </p>
+        <p className="text-[13px] leading-relaxed" style={{ color: "#33333c" }}>
+          Hover a line of text on the page. Click to retype. Enter to save, Escape to cancel.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        onClick={() => props.setShowAll(!props.showAll)}
+        className="flex items-center justify-center gap-1.5 rounded-lg py-2 text-[12.5px] font-semibold transition-colors"
+        style={{
+          border: "1px solid #ececef",
+          color: props.showAll ? "#e5322d" : "#33333c",
+          backgroundColor: props.showAll ? "#fdeceb" : "#ffffff",
+        }}
+      >
+        {props.showAll ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+        {props.showAll ? "Hide editable areas" : "Show editable areas"}
+      </button>
+
+      <div className="flex gap-2">
+        <button
+          type="button"
+          onClick={props.undo}
+          disabled={!props.canUndo}
+          className="flex flex-1 items-center justify-center gap-1.5 rounded-lg py-2 text-[12.5px] font-semibold disabled:opacity-40"
+          style={{ border: "1px solid #ececef", color: "#33333c" }}
+        >
+          <Undo2 className="h-3.5 w-3.5" /> Undo
+        </button>
+        <button
+          type="button"
+          onClick={props.redo}
+          disabled={!props.canRedo}
+          className="flex flex-1 items-center justify-center gap-1.5 rounded-lg py-2 text-[12.5px] font-semibold disabled:opacity-40"
+          style={{ border: "1px solid #ececef", color: "#33333c" }}
+        >
+          <Redo2 className="h-3.5 w-3.5" /> Redo
+        </button>
+      </div>
+
+      <InfoTip>
+        {props.editsCount
+          ? `${props.editsCount} text edit${props.editsCount === 1 ? "" : "s"}${props.annosCount ? ` plus ${props.annosCount} annotation${props.annosCount === 1 ? "" : "s"}` : ""} ready to save.`
+          : "Hover any text line to reveal an editable outline, then click to retype it."}
+      </InfoTip>
+
+      {(props.editsCount > 0 || props.annosCount > 0) && (
+        <button
+          type="button"
+          onClick={props.onClearAll}
+          className="flex items-center gap-1.5 self-start text-[12px] font-semibold text-[#7a7a86] transition-colors hover:text-[#e5322d]"
+        >
+          <Trash2 className="h-3 w-3" /> Clear all
+        </button>
+      )}
+    </>
+  );
+}
+
 
 /* =============================== Sidebar =============================== */
 
