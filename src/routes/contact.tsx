@@ -51,3 +51,45 @@ function ContactPage() {
     </LegalPage>
   );
 }
+
+function ContactEmail() {
+  const [copied, setCopied] = useState(false);
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(CONTACT_EMAIL);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* ignore */
+    }
+  };
+  return (
+    <div className="flex items-center gap-3 flex-wrap my-4">
+      <a
+        href={`mailto:${CONTACT_EMAIL}`}
+        style={{ fontSize: 20, fontWeight: 600 }}
+      >
+        {CONTACT_EMAIL}
+      </a>
+      <button
+        type="button"
+        onClick={copy}
+        aria-label={copied ? "Email copied" : "Copy email to clipboard"}
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-md border transition-colors hover:bg-neutral-50"
+        style={{ borderColor: "#d8d8de", color: "#3b3b48" }}
+      >
+        {copied ? (
+          <>
+            <Check className="h-4 w-4" style={{ color: "#16a34a" }} />
+            Copied
+          </>
+        ) : (
+          <>
+            <Copy className="h-4 w-4" />
+            Copy
+          </>
+        )}
+      </button>
+    </div>
+  );
+}
