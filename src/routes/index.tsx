@@ -19,6 +19,10 @@ const homeJsonLd = {
       "@id": `${SITE_URL}/#organization`,
       name: SITE_NAME,
       url: SITE_URL,
+      description:
+        "FreePDFHub is a free suite of browser-based PDF tools — merge, split, compress, sign, convert and more — built by a small independent team in India.",
+      foundingDate: "2026",
+      email: CONTACT_EMAIL,
       logo: {
         "@type": "ImageObject",
         url: `${SITE_URL}/favicon-192.png`,
