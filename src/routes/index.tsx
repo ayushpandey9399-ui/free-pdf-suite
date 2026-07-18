@@ -7,7 +7,7 @@ import { SITE_URL, SITE_NAME, CONTACT_EMAIL } from "@/lib/site";
 
 const HOME_TITLE = "FreePDFHub — Every PDF tool, 100% free";
 const HOME_DESC =
-  "Free PDF tools that run in your browser. Merge, split, convert, compress, edit, and organize PDFs — no signup, no upload step, no limits.";
+  "Free PDF tools that run in your browser. Merge, split, convert, compress, edit, and organize PDFs. No signup, no upload step, no limits, no watermarks.";
 const HOME_URL = `${SITE_URL}/`;
 const OG_IMAGE = `${SITE_URL}/og-cover.png`;
 

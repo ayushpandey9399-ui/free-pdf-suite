@@ -105,9 +105,9 @@ const faqs = [
 const related = [
   { to: "/tools/pdf-to-text", name: "PDF to Text", blurb: "Verify your redaction — the removed words should not appear." },
   { to: "/tools/delete-pages", name: "Delete Pages", blurb: "Remove whole pages instead of blacking out parts of them." },
-  { to: "/tools/protect", name: "Protect PDF", blurb: "Add a password before sending the redacted file." },
-  { to: "/tools/metadata", name: "Metadata Editor", blurb: "Review or edit document properties before sharing." },
-  { to: "/tools/flatten", name: "Flatten PDF", blurb: "Lock the redacted document so form fields cannot be edited." },
+  { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Add a password before sending the redacted file." },
+  { to: "/tools/pdf-metadata", name: "Metadata Editor", blurb: "Review or edit document properties before sharing." },
+  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Lock the redacted document so form fields cannot be edited." },
 ];
 
 export function RedactPdfSeo() {

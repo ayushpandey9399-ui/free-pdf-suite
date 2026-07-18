@@ -108,7 +108,7 @@ const related = [
   { to: "/tools/merge", name: "Merge PDF", blurb: "Combine multiple PDFs back into a single document." },
   { to: "/tools/reorder-pages", name: "Reorder Pages", blurb: "Drag pages into a new order before or after splitting." },
   { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink the file size of each split PDF for upload limits." },
-  { to: "/tools/unlock", name: "Unlock PDF", blurb: "Remove a known password so the file can be split." },
+  { to: "/tools/unlock-pdf", name: "Unlock PDF", blurb: "Remove a known password so the file can be split." },
 ];
 
 export function SplitPdfSeo() {

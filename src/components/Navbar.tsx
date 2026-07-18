@@ -89,7 +89,7 @@ export function Navbar() {
       >
         <div className="flex items-center gap-10">
           <Logo />
-          <nav className="hidden min-[860px]:flex items-center gap-8">
+          <nav aria-label="Primary" className="hidden min-[860px]:flex items-center gap-8">
             <Link
               to="/tools/$slug"
               params={{ slug: "merge" }}

@@ -104,7 +104,7 @@ const faqs = [
 
 const related = [
   { to: "/tools/scan-to-pdf", name: "Scan to PDF", blurb: "Turn phone photos of documents into a proper multi-page PDF." },
-  { to: "/tools/reorder", name: "Reorder Pages", blurb: "Fix page order after fixing orientation." },
+  { to: "/tools/reorder-pages", name: "Reorder Pages", blurb: "Fix page order after fixing orientation." },
   { to: "/tools/crop", name: "Crop PDF", blurb: "Trim scan margins once every page is finally the right way up." },
   { to: "/tools/delete-pages", name: "Delete Pages", blurb: "Remove blank or duplicate pages from a scan batch." },
   { to: "/tools/merge", name: "Merge PDF", blurb: "Combine the rotated file with other documents." },

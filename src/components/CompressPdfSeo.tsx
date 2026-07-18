@@ -103,11 +103,11 @@ const faqs = [
 ];
 
 const related = [
-  { to: "/tools/grayscale", name: "Grayscale PDF", blurb: "Convert colour scans to grayscale to shrink them further." },
+  { to: "/tools/grayscale-pdf", name: "Grayscale PDF", blurb: "Convert colour scans to grayscale to shrink them further." },
   { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Keep only the pages you need to hit tight upload limits." },
   { to: "/tools/split", name: "Split PDF", blurb: "Break a large PDF into smaller separate files." },
   { to: "/tools/merge", name: "Merge PDF", blurb: "Combine multiple PDFs into a single document." },
-  { to: "/tools/unlock", name: "Unlock PDF", blurb: "Remove a known password so the file can be compressed." },
+  { to: "/tools/unlock-pdf", name: "Unlock PDF", blurb: "Remove a known password so the file can be compressed." },
 ];
 
 export function CompressPdfSeo() {

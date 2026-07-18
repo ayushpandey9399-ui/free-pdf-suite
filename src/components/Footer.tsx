@@ -64,7 +64,7 @@ export function Footer() {
   };
   return (
     <footer style={{ backgroundColor: "#0F172A", color: "#9CA3AF" }}>
-      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 pt-14 pb-10 sm:pt-16 sm:pb-10">
+      <nav aria-label="Footer" className="mx-auto max-w-[1200px] px-4 sm:px-6 pt-14 pb-10 sm:pt-16 sm:pb-10">
         <div className="grid gap-10 sm:gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 items-start">
           {/* Brand — 2 col wide on desktop */}
           <div className="lg:col-span-2">
@@ -122,7 +122,7 @@ export function Footer() {
             </div>
           </div>
         </div>
-      </div>
+      </nav>
 
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
         <div

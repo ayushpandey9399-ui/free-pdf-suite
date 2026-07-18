@@ -106,8 +106,8 @@ const related = [
   { to: "/tools/unlock-pdf", name: "Unlock PDF", blurb: "Remove the password from a PDF you know the password to." },
   { to: "/tools/redact-pdf", name: "Redact PDF", blurb: "Permanently remove sensitive parts instead of locking the whole file." },
   { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Add a signature before encrypting a contract for delivery." },
-  { to: "/tools/flatten", name: "Flatten PDF", blurb: "Lock down form fields and annotations before you protect the file." },
-  { to: "/tools/metadata", name: "Metadata Editor", blurb: "Clean out author and title info before you send the encrypted PDF." },
+  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Lock down form fields and annotations before you protect the file." },
+  { to: "/tools/pdf-metadata", name: "Metadata Editor", blurb: "Clean out author and title info before you send the encrypted PDF." },
 ];
 
 export function ProtectPdfSeo() {

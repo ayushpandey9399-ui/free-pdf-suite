@@ -107,7 +107,7 @@ const related = [
   { to: "/tools/merge", name: "Merge PDF", blurb: "Unlock first, then combine the file with others." },
   { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink the unlocked statement before archiving it." },
   { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Add a signature to a contract once the encryption is removed." },
-  { to: "/tools/flatten", name: "Flatten PDF", blurb: "Lock down annotations and form fields on the unlocked copy." },
+  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Lock down annotations and form fields on the unlocked copy." },
 ];
 
 export function UnlockPdfSeo() {
