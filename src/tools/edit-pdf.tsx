@@ -2204,7 +2204,12 @@ function EditLineOverlay({
   const [hover, setHover] = useState(false);
   // Sample colors on demand (once) when the line becomes active for editing
   // OR already has an existing edit (for cover preview + color).
-  const [sampled, setSampled] = useState<{ bg: string; fg: string } | null>(null);
+  const [sampled, setSampled] = useState<{
+    bg: string;
+    fg: string;
+    lowConfidence: boolean;
+    edgeInsets: { top: number; bottom: number; left: number; right: number };
+  } | null>(null);
 
   useEffect(() => {
     if (!isActive && !existing) return;
@@ -2221,7 +2226,20 @@ function EditLineOverlay({
     const cw = Math.ceil((line.width + 2) * sx);
     const ch = Math.ceil((line.baselineY + padBelow - (line.y - padAbove)) * sy);
     const s = sampleBackgroundAndTextColor(canvas, { x: cx, y: cy, w: cw, h: ch });
-    setSampled({ bg: rgbToHex(s.background), fg: rgbToHex(s.text) });
+    // Convert per-side pixel insets back to PDF units (add a hair of safety
+    // so we never overpaint the detected edge).
+    const insets = {
+      top: s.edgeInsets.top ? s.edgeInsets.top / sy + 0.5 : 0,
+      bottom: s.edgeInsets.bottom ? s.edgeInsets.bottom / sy + 0.5 : 0,
+      left: s.edgeInsets.left ? s.edgeInsets.left / sx + 0.5 : 0,
+      right: s.edgeInsets.right ? s.edgeInsets.right / sx + 0.5 : 0,
+    };
+    setSampled({
+      bg: rgbToHex(s.background),
+      fg: rgbToHex(s.text),
+      lowConfidence: !s.bgConfident,
+      edgeInsets: insets,
+    });
   }, [isActive, existing, sampled, getPageCanvas, line, pageWidth, pageHeight]);
 
   const bgColor = existing?.bgColor ?? sampled?.bg ?? "#ffffff";
@@ -2267,11 +2285,14 @@ function EditLineOverlay({
             bold: next.bold,
             italic: next.italic,
             family: next.family,
+            edgeInsets: existing?.edgeInsets ?? sampled?.edgeInsets,
+            lowConfidence: existing?.lowConfidence ?? sampled?.lowConfidence,
           });
         }}
       />
     );
   }
+
 
   if (existing) {
     // Show the committed replacement text over the cover rect, plus a small
