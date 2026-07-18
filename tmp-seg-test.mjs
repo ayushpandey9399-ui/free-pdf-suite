@@ -36,3 +36,9 @@ for (const g of groups) {
   }
   console.log(`baseline y=${g.b.toFixed(1)} medianGap=${med.toFixed(2)} → ${segs.length} segments: ${segs.map(s=>s.map(i=>i.str).join('')).join(' | ')}`);
 }
+
+console.log('---- raw items ----');
+for (const it of items) {
+  const [a,b,c,d,e,f] = it.transform;
+  console.log(JSON.stringify({ str: it.str, x: e, y: (vp.height-f).toFixed(1), w: it.width, fs: Math.abs(d) }));
+}
