@@ -817,9 +817,15 @@ export default function EditPdf() {
         if (align === "center") drawX = boxLeft + (boxWidth - textW) / 2;
         else if (align === "right") drawX = boxRight - textW;
 
+        // Fix B3: after the shrink-to-0.7 floor, if text STILL overflows
+        // the cell, mark it so Pass 2 clips the draw to the box width and
+        // the export can surface a review toast.
+        const overflow = textW > boxWidth + 0.5;
+
         plans.push({
           te, pageIndex: te.page, pH, font, safeText, drawX, drawSize,
           color: fg, unencodable, skipCover: false,
+          overflow, boxLeft, boxRight,
         });
       }
 
