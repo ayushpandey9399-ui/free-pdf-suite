@@ -105,21 +105,10 @@ export function FileDropzone({
           >
             {defaultBtn}
           </button>
-          <p className="mt-3 text-[14px]" style={{ color: "#7a7a86" }}>
+          <p className="mt-3 mb-[72px] sm:mb-20 text-[14px]" style={{ color: "#7a7a86" }}>
             {defaultHint}
           </p>
 
-          <span
-            className="mt-4 sm:mt-5 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11.5px] font-medium"
-            style={{
-              backgroundColor: "#FAFAF9",
-              border: "1px solid #EEEEEE",
-              color: "#6B7280",
-            }}
-          >
-            <Lock className="h-3 w-3" style={{ color: "#9ca3af" }} />
-            100% private, processed on your device
-          </span>
 
           <input
             ref={inputRef}
