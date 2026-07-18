@@ -81,29 +81,34 @@ export function FileDropzone({
           <button
             type="button"
             onClick={openPicker}
-            className="inline-flex items-center justify-center text-[15px] font-semibold text-white transition-all duration-150"
+            className="inline-flex items-center justify-center text-white transition-all duration-150"
             style={{
               backgroundColor: "#e5322d",
-              padding: "16px 36px",
+              minWidth: "240px",
+              height: "60px",
+              padding: "0 36px",
+              fontSize: "18px",
+              fontWeight: 600,
               borderRadius: "10px",
-              boxShadow: "0 8px 24px rgba(229,50,45,0.25)",
+              boxShadow: "0 10px 28px rgba(229,50,45,0.28)",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = "#c72620";
               e.currentTarget.style.transform = "translateY(-1px)";
-              e.currentTarget.style.boxShadow = "0 12px 28px rgba(229,50,45,0.32)";
+              e.currentTarget.style.boxShadow = "0 14px 32px rgba(229,50,45,0.34)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.backgroundColor = "#e5322d";
               e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.boxShadow = "0 8px 24px rgba(229,50,45,0.25)";
+              e.currentTarget.style.boxShadow = "0 10px 28px rgba(229,50,45,0.28)";
             }}
           >
             {defaultBtn}
           </button>
-          <p className="mt-3 sm:mt-3.5 text-[13px]" style={{ color: "#7a7a86" }}>
+          <p className="mt-3 text-[14px]" style={{ color: "#7a7a86" }}>
             {defaultHint}
           </p>
+
           <span
             className="mt-4 sm:mt-5 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11.5px] font-medium"
             style={{
