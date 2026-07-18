@@ -74,8 +74,8 @@ export function FileDropzone({
             if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
           }}
           className={cn(
-            "flex flex-col items-center justify-center rounded-2xl py-8 transition-colors",
-            dragging ? "bg-[#fff6f5]" : "bg-transparent",
+            "flex flex-col items-center justify-center rounded-2xl transition-colors",
+            dragging ? "bg-[#fff6f5] py-6" : "bg-transparent",
           )}
         >
           <button
@@ -101,11 +101,11 @@ export function FileDropzone({
           >
             {defaultBtn}
           </button>
-          <p className="mt-2.5 text-[13px]" style={{ color: "#7a7a86" }}>
+          <p className="mt-3 sm:mt-3.5 text-[13px]" style={{ color: "#7a7a86" }}>
             {defaultHint}
           </p>
           <span
-            className="mt-7 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11.5px] font-medium"
+            className="mt-4 sm:mt-5 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11.5px] font-medium"
             style={{
               backgroundColor: "#FAFAF9",
               border: "1px solid #EEEEEE",
@@ -115,6 +115,7 @@ export function FileDropzone({
             <Lock className="h-3 w-3" style={{ color: "#9ca3af" }} />
             100% private, processed on your device
           </span>
+
           <input
             ref={inputRef}
             type="file"
