@@ -122,7 +122,7 @@ export function Footer() {
             </div>
           </div>
         </div>
-      </div>
+      </nav>
 
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
         <div
