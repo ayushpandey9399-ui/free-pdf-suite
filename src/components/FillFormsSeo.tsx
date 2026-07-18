@@ -159,11 +159,14 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
 ];
 
 const related = [
-  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Lock your answers in before sending so recipients can't edit or blank them." },
-  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Draw or type a signature and stamp it into the signature block." },
-  { to: "/tools/edit-pdf", name: "Edit PDF", blurb: "Type answers onto scanned or flat forms that have no interactive fields." },
-  { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Add an AES-256 password so only the recipient can open the completed form." },
-  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine the filled form with supporting documents into one file to submit." },
+  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Make form fields and annotations permanent." },
+  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Draw or type a signature and place it on any page." },
+  { to: "/tools/edit-pdf", name: "Edit & Annotate PDF", blurb: "Highlight, comment, draw and add shapes to a PDF." },
+  { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Add a password and encrypt to lock the document." },
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
+  { to: "/tools/pdf-metadata", name: "PDF Metadata", blurb: "View and edit title, author, subject and keywords." },
+  { to: "/tools/watermark", name: "Watermark PDF", blurb: "Overlay text or an image with adjustable opacity." },
+  { to: "/tools/header-footer", name: "Header & Footer", blurb: "Stamp text at the top or bottom of every page." },
 ] as const;
 
 export function FillFormsSeo() {

@@ -158,11 +158,14 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
 ];
 
 const related = [
-  { to: "/tools/fill-forms", name: "Fill PDF Forms", blurb: "Fill first, then flatten — the safe workflow before you send." },
-  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Draw or type a signature that's stamped straight into the page content." },
-  { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Add an AES-256 password so only the recipient can open the flattened file." },
-  { to: "/tools/edit-pdf", name: "Edit PDF", blurb: "Draw annotations that become permanent page content on save." },
-  { to: "/tools/pdf-metadata", name: "PDF Metadata Editor", blurb: "Clean up the title, author and other fields shown by every PDF reader." },
+  { to: "/tools/fill-forms", name: "Fill PDF Forms", blurb: "Fill interactive form fields and save the result." },
+  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Draw or type a signature and place it on any page." },
+  { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Add a password and encrypt to lock the document." },
+  { to: "/tools/edit-pdf", name: "Edit & Annotate PDF", blurb: "Highlight, comment, draw and add shapes to a PDF." },
+  { to: "/tools/watermark", name: "Watermark PDF", blurb: "Overlay text or an image with adjustable opacity." },
+  { to: "/tools/pdf-metadata", name: "PDF Metadata", blurb: "View and edit title, author, subject and keywords." },
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink file size while keeping the best possible quality." },
 ] as const;
 
 export function FlattenPdfSeo() {

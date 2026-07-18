@@ -103,11 +103,14 @@ const faqs = [
 ];
 
 const related = [
-  { to: "/tools/split", name: "Split PDF", blurb: "Divide a long PDF into several smaller PDFs by range or every-N-pages." },
-  { to: "/tools/delete-pages", name: "Delete Pages", blurb: "Keep most of the file and drop just the pages you don't want." },
-  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine extracted pages from multiple files into one document." },
-  { to: "/tools/reorder-pages", name: "Reorder Pages", blurb: "Rearrange the sequence of pages inside a PDF before or after extracting." },
-  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink the extracted PDF further before emailing or uploading it." },
+  { to: "/tools/split", name: "Split PDF", blurb: "Break one PDF into multiple files or page ranges." },
+  { to: "/tools/delete-pages", name: "Delete Pages", blurb: "Remove one or more unwanted pages from your PDF." },
+  { to: "/tools/reorder-pages", name: "Reorder Pages", blurb: "Drag pages into a new sequence with a visual grid." },
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
+  { to: "/tools/rotate", name: "Rotate PDF", blurb: "Turn pages 90, 180 or 270 degrees, one page or all." },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink file size while keeping the best possible quality." },
+  { to: "/tools/pdf-to-images", name: "PDF to Image", blurb: "Export each page as a high-quality JPG or PNG." },
+  { to: "/tools/extract-images", name: "Extract Images", blurb: "Pull embedded photos out of a PDF in original quality." },
 ] as const;
 
 export function ExtractPagesSeo() {

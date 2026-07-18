@@ -138,11 +138,14 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
 ];
 
 const related = [
-  { to: "/tools/rotate", name: "Rotate PDF", blurb: "Fix sideways or upside-down pages and save the new orientation permanently." },
-  { to: "/tools/redact-pdf", name: "Redact PDF", blurb: "Permanently remove content instead of hiding it outside the crop box." },
-  { to: "/tools/scan-to-pdf", name: "Scan to PDF", blurb: "Turn photos of pages into a clean PDF, then crop the borders down." },
-  { to: "/tools/delete-pages", name: "Delete Pages", blurb: "Remove unwanted pages entirely — a different job from trimming margins." },
-  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink the file after cropping to make it easier to share." },
+  { to: "/tools/rotate", name: "Rotate PDF", blurb: "Turn pages 90, 180 or 270 degrees, one page or all." },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink file size while keeping the best possible quality." },
+  { to: "/tools/edit-pdf", name: "Edit & Annotate PDF", blurb: "Highlight, comment, draw and add shapes to a PDF." },
+  { to: "/tools/reorder-pages", name: "Reorder Pages", blurb: "Drag pages into a new sequence with a visual grid." },
+  { to: "/tools/split", name: "Split PDF", blurb: "Break one PDF into multiple files or page ranges." },
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
+  { to: "/tools/grayscale-pdf", name: "Grayscale PDF", blurb: "Convert to black and white for cheaper printing." },
+  { to: "/tools/pdf-to-images", name: "PDF to Image", blurb: "Export each page as a high-quality JPG or PNG." },
 ] as const;
 
 export function CropPdfSeo() {

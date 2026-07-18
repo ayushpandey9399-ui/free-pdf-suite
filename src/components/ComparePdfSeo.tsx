@@ -103,11 +103,14 @@ const faqs = [
 ];
 
 const related = [
-  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Sign the final version once you have verified it matches what was approved." },
-  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine both versions or supporting documents into a single file after review." },
-  { to: "/tools/pdf-to-text", name: "PDF to Text", blurb: "Export the text of a PDF for a manual, word-level review outside the diff tool." },
-  { to: "/tools/unlock-pdf", name: "Unlock PDF", blurb: "Remove passwords from either PDF so both files can be compared." },
-  { to: "/tools/pdf-metadata", name: "PDF Metadata Editor", blurb: "Check or edit hidden authoring properties on either version before circulating it." },
+  { to: "/tools/pdf-to-text", name: "PDF to Text", blurb: "Extract selectable text and download it as .txt." },
+  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Draw or type a signature and place it on any page." },
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
+  { to: "/tools/unlock-pdf", name: "Unlock PDF", blurb: "Remove a known password so the PDF opens freely." },
+  { to: "/tools/redact-pdf", name: "Redact PDF", blurb: "Permanently black out sensitive text and images." },
+  { to: "/tools/pdf-metadata", name: "PDF Metadata", blurb: "View and edit title, author, subject and keywords." },
+  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Make form fields and annotations permanent." },
+  { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Pull specific pages out as a brand-new PDF." },
 ] as const;
 
 export function ComparePdfSeo() {

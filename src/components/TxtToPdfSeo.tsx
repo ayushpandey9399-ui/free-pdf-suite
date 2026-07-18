@@ -128,11 +128,14 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
 ];
 
 const related = [
-  { to: "/tools/pdf-to-text", name: "PDF to Text", blurb: "The reverse direction — pull the words out of a PDF as plain text." },
-  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine your fresh PDF with other documents into a single file." },
-  { to: "/tools/page-numbers", name: "Page Numbers", blurb: "Number the pages after converting for reports, dissertations and printouts." },
-  { to: "/tools/header-footer", name: "Header & Footer", blurb: "Add a title, date or filename to every page of the converted PDF." },
-  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink the file — especially useful when the Hindi image pipeline produces a larger PDF." },
+  { to: "/tools/images-to-pdf", name: "Image to PDF", blurb: "Convert JPG or PNG images into a single PDF." },
+  { to: "/tools/pdf-to-text", name: "PDF to Text", blurb: "Extract selectable text and download it as .txt." },
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink file size while keeping the best possible quality." },
+  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Draw or type a signature and place it on any page." },
+  { to: "/tools/page-numbers", name: "Page Numbers", blurb: "Add page numbers with custom position and style." },
+  { to: "/tools/header-footer", name: "Header & Footer", blurb: "Stamp text at the top or bottom of every page." },
+  { to: "/tools/watermark", name: "Watermark PDF", blurb: "Overlay text or an image with adjustable opacity." },
 ] as const;
 
 export function TxtToPdfSeo() {

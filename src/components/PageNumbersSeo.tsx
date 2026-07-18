@@ -124,11 +124,14 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
 ];
 
 const related = [
-  { to: "/tools/header-footer", name: "Header & Footer", blurb: "Add dates, filenames or titles along with numbers on every page." },
-  { to: "/tools/merge", name: "Merge PDF", blurb: "Number a freshly combined file so the whole document has one continuous count." },
-  { to: "/tools/watermark", name: "Watermark PDF", blurb: "Stamp a logo or a confidentiality mark across every page alongside the numbers." },
-  { to: "/tools/txt-to-pdf", name: "TXT to PDF", blurb: "Turn a text file into a PDF first, then come back here to number the pages." },
-  { to: "/tools/reorder-pages", name: "Reorder Pages", blurb: "Reshuffle the pages before numbering so the sequence lands in the right order." },
+  { to: "/tools/header-footer", name: "Header & Footer", blurb: "Stamp text at the top or bottom of every page." },
+  { to: "/tools/watermark", name: "Watermark PDF", blurb: "Overlay text or an image with adjustable opacity." },
+  { to: "/tools/reorder-pages", name: "Reorder Pages", blurb: "Drag pages into a new sequence with a visual grid." },
+  { to: "/tools/add-blank-pages", name: "Add Blank Pages", blurb: "Insert empty pages anywhere in the document." },
+  { to: "/tools/edit-pdf", name: "Edit & Annotate PDF", blurb: "Highlight, comment, draw and add shapes to a PDF." },
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
+  { to: "/tools/split", name: "Split PDF", blurb: "Break one PDF into multiple files or page ranges." },
+  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Make form fields and annotations permanent." },
 ] as const;
 
 export function PageNumbersSeo() {

@@ -114,11 +114,14 @@ const faqsPlain = faqs.map((f) => ({
 }));
 
 const related = [
-  { to: "/tools/scan-to-pdf", name: "Scan to PDF", blurb: "Use your phone camera as a guided scanner — better than raw photos when the source is a flat document." },
-  { to: "/tools/pdf-to-images", name: "PDF to Image", blurb: "The reverse direction — turn each PDF page back into a JPG or PNG image." },
-  { to: "/tools/merge", name: "Merge PDF", blurb: "Already have a PDF and want to add photos to the end? Convert the images here, then merge." },
-  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink the PDF after converting photos — high-resolution phone shots make big files." },
-  { to: "/tools/reorder-pages", name: "Reorder Pages", blurb: "Fix the sequence of the exported PDF by dragging pages into the order you want." },
+  { to: "/tools/pdf-to-images", name: "PDF to Image", blurb: "Export each page as a high-quality JPG or PNG." },
+  { to: "/tools/scan-to-pdf", name: "Scan to PDF", blurb: "Use your camera to scan pages straight into a PDF." },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink file size while keeping the best possible quality." },
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
+  { to: "/tools/extract-images", name: "Extract Images", blurb: "Pull embedded photos out of a PDF in original quality." },
+  { to: "/tools/rotate", name: "Rotate PDF", blurb: "Turn pages 90, 180 or 270 degrees, one page or all." },
+  { to: "/tools/txt-to-pdf", name: "TXT to PDF", blurb: "Turn a plain-text file into a clean, readable PDF." },
+  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Draw or type a signature and place it on any page." },
 ] as const;
 
 export function ImagesToPdfSeo() {

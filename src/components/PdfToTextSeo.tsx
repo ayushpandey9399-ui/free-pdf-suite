@@ -140,11 +140,14 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
 ];
 
 const related = [
-  { to: "/tools/txt-to-pdf", name: "TXT to PDF", blurb: "The reverse direction — turn a plain-text file back into a PDF." },
-  { to: "/tools/redact-pdf", name: "Redact PDF", blurb: "Verify a redaction with this tool: extract the text and confirm the hidden words are truly gone." },
-  { to: "/tools/unlock-pdf", name: "Unlock PDF", blurb: "Remove a password from a PDF so the text layer becomes readable again." },
-  { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Save just the pages you care about as a new PDF before pulling the text out." },
-  { to: "/tools/pdf-to-images", name: "PDF to Image", blurb: "Need the visuals instead of the words? Render each page as a JPG or PNG." },
+  { to: "/tools/extract-images", name: "Extract Images", blurb: "Pull embedded photos out of a PDF in original quality." },
+  { to: "/tools/pdf-to-images", name: "PDF to Image", blurb: "Export each page as a high-quality JPG or PNG." },
+  { to: "/tools/txt-to-pdf", name: "TXT to PDF", blurb: "Turn a plain-text file into a clean, readable PDF." },
+  { to: "/tools/compare", name: "Compare PDFs", blurb: "See the differences between two versions side by side." },
+  { to: "/tools/split", name: "Split PDF", blurb: "Break one PDF into multiple files or page ranges." },
+  { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Pull specific pages out as a brand-new PDF." },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink file size while keeping the best possible quality." },
+  { to: "/tools/redact-pdf", name: "Redact PDF", blurb: "Permanently black out sensitive text and images." },
 ] as const;
 
 export function PdfToTextSeo() {

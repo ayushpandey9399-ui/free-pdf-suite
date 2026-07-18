@@ -124,11 +124,14 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
 ];
 
 const related = [
-  { to: "/tools/compress", name: "Compress PDF", blurb: "Compress after grayscale for the smallest possible file." },
-  { to: "/tools/pdf-to-images", name: "PDF to JPG", blurb: "Export the grayscale pages as standalone JPG images." },
-  { to: "/tools/images-to-pdf", name: "Image to PDF", blurb: "Combine scanned photos into a single PDF before converting." },
-  { to: "/tools/rotate", name: "Rotate PDF", blurb: "Straighten sideways scans before or after grayscaling." },
-  { to: "/tools/crop", name: "Crop PDF", blurb: "Trim scan borders so the grayscale copy looks even cleaner." },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink file size while keeping the best possible quality." },
+  { to: "/tools/pdf-to-images", name: "PDF to Image", blurb: "Export each page as a high-quality JPG or PNG." },
+  { to: "/tools/split", name: "Split PDF", blurb: "Break one PDF into multiple files or page ranges." },
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
+  { to: "/tools/crop", name: "Crop PDF", blurb: "Trim margins and adjust the visible area of pages." },
+  { to: "/tools/rotate", name: "Rotate PDF", blurb: "Turn pages 90, 180 or 270 degrees, one page or all." },
+  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Make form fields and annotations permanent." },
+  { to: "/tools/extract-images", name: "Extract Images", blurb: "Pull embedded photos out of a PDF in original quality." },
 ] as const;
 
 export function GrayscalePdfSeo() {
