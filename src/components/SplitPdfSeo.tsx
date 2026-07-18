@@ -138,7 +138,7 @@ export function SplitPdfSeo() {
         Split a PDF into separate pages or page ranges
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        Two modes cover almost every reason people want to divide a PDF. Split by ranges pulls out specific
+        Two modes on this PDF splitter cover almost every reason people want to divide a PDF. Split by ranges pulls out specific
         sections — type 12-25 to extract one chapter of a long report, or 1-3, 5, 8-10 to cut a PDF into three
         separate documents in a single pass. Every page → separate PDF is the fast way to break a hundred-page
         scan into individual pages you can rename, share or file one by one.
