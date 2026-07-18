@@ -307,5 +307,32 @@ export async function extractEditableLines(
     }
   }
 
+  // ---- Fix B5: column-alignment inference (borderless-table fallback).
+  // Cluster segments across baselines whose right / left / center edges are
+  // near-equal (within ~2pt). A cluster of ≥3 members marks that column.
+  // Priority: right > center > left when a segment participates in more
+  // than one cluster with equal support.
+  const TOL = 2; // PDF units
+  const bucket = (v: number) => Math.round(v / TOL);
+  const rMap = new Map<number, number>();
+  const lMap = new Map<number, number>();
+  const cMap = new Map<number, number>();
+  for (const ln of out) {
+    const rK = bucket(ln.x + ln.width);
+    const lK = bucket(ln.x);
+    const cK = bucket(ln.x + ln.width / 2);
+    rMap.set(rK, (rMap.get(rK) ?? 0) + 1);
+    lMap.set(lK, (lMap.get(lK) ?? 0) + 1);
+    cMap.set(cK, (cMap.get(cK) ?? 0) + 1);
+  }
+  for (const ln of out) {
+    const rN = rMap.get(bucket(ln.x + ln.width)) ?? 0;
+    const lN = lMap.get(bucket(ln.x)) ?? 0;
+    const cN = cMap.get(bucket(ln.x + ln.width / 2)) ?? 0;
+    if (rN >= 3 && rN >= lN && rN >= cN) ln.columnAlign = "right";
+    else if (cN >= 3 && cN > lN) ln.columnAlign = "center";
+    else if (lN >= 3) ln.columnAlign = "left";
+  }
+
   return out;
 }
