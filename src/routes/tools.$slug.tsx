@@ -194,6 +194,16 @@ export const Route = createFileRoute("/tools/$slug")({
   head: ({ loaderData, params }) => {
     const slug = loaderData?.slug ?? params.slug;
     const url = `${SITE_URL}/tools/${slug}`;
+    const crumbName = loaderData?.name ?? "Tool";
+    const breadcrumbJsonLd = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+        { "@type": "ListItem", position: 2, name: "All tools", item: `${SITE_URL}/#tools` },
+        { "@type": "ListItem", position: 3, name: crumbName, item: url },
+      ],
+    };
     const meta = TOOL_META[slug];
     if (meta) {
       return {
@@ -213,10 +223,16 @@ export const Route = createFileRoute("/tools/$slug")({
           { name: "twitter:image", content: OG_IMAGE },
         ],
         links: [{ rel: "canonical", href: url }],
-        scripts: meta.jsonLd.map((v) => ({
-          type: "application/ld+json",
-          children: JSON.stringify(v),
-        })),
+        scripts: [
+          ...meta.jsonLd.map((v) => ({
+            type: "application/ld+json",
+            children: JSON.stringify(v),
+          })),
+          {
+            type: "application/ld+json",
+            children: JSON.stringify(breadcrumbJsonLd),
+          },
+        ],
       };
     }
     return {
@@ -235,6 +251,9 @@ export const Route = createFileRoute("/tools/$slug")({
           ]
         : [{ title: "Tool — FreePDFHub" }],
       links: loaderData ? [{ rel: "canonical", href: url }] : [],
+      scripts: loaderData
+        ? [{ type: "application/ld+json", children: JSON.stringify(breadcrumbJsonLd) }]
+        : [],
     };
   },
   component: ToolPage,
