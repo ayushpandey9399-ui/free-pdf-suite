@@ -200,9 +200,21 @@ export default function EditPdf() {
   const [pages, setPages] = useState<PageInfo[]>([]);
   const [loadingPages, setLoadingPages] = useState(false);
 
+  const [editMode, setEditMode] = useState<EditMode>("edit-text");
   const [mode, setMode] = useState<ToolMode>("select");
   const [annos, setAnnos] = useState<Anno[]>([]);
+  const [edits, setEdits] = useState<TextEdit[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [showAllEditableHint, setShowAllEditableHint] = useState(false);
+  const [activeEditLineId, setActiveEditLineId] = useState<string | null>(null);
+
+  // pdfjs doc + rendered canvases (kept in memory for lazy text extraction
+  // and for background/foreground color sampling at edit / export time).
+  const pdfjsDocRef = useRef<PDFDocumentProxy | null>(null);
+  const pageCanvasesRef = useRef<Map<number, HTMLCanvasElement>>(new Map());
+  const linesByPageRef = useRef<Map<number, EditableLine[]>>(new Map());
+  const [linesTick, setLinesTick] = useState(0);
+  const [hasAnyText, setHasAnyText] = useState<boolean | null>(null); // null = unknown
 
   // Contextual style state (used when creating NEW elements)
   const [hlColor, setHlColor] = useState(HIGHLIGHT_COLORS[0].value);
@@ -227,14 +239,15 @@ export default function EditPdf() {
   } | null>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
 
-  // history
-  const historyRef = useRef<Anno[][]>([[]]);
+  // history — snapshots BOTH annotation list and text-edit list.
+  interface Snapshot { annos: Anno[]; edits: TextEdit[] }
+  const historyRef = useRef<Snapshot[]>([{ annos: [], edits: [] }]);
   const historyIdxRef = useRef(0);
   const [historyTick, setHistoryTick] = useState(0);
 
-  const pushHistory = useCallback((next: Anno[]) => {
+  const pushHistorySnap = useCallback((snap: Snapshot) => {
     const arr = historyRef.current.slice(0, historyIdxRef.current + 1);
-    arr.push(next);
+    arr.push(snap);
     if (arr.length > 100) arr.shift();
     historyRef.current = arr;
     historyIdxRef.current = arr.length - 1;
@@ -245,24 +258,39 @@ export default function EditPdf() {
     (updater: (prev: Anno[]) => Anno[]) => {
       setAnnos((prev) => {
         const next = updater(prev);
-        pushHistory(next);
+        pushHistorySnap({ annos: next, edits: historyRef.current[historyIdxRef.current].edits });
         return next;
       });
     },
-    [pushHistory],
+    [pushHistorySnap],
+  );
+
+  const commitEdits = useCallback(
+    (updater: (prev: TextEdit[]) => TextEdit[]) => {
+      setEdits((prev) => {
+        const next = updater(prev);
+        pushHistorySnap({ annos: historyRef.current[historyIdxRef.current].annos, edits: next });
+        return next;
+      });
+    },
+    [pushHistorySnap],
   );
 
   const undo = useCallback(() => {
     if (historyIdxRef.current <= 0) return;
     historyIdxRef.current -= 1;
-    setAnnos(historyRef.current[historyIdxRef.current]);
+    const s = historyRef.current[historyIdxRef.current];
+    setAnnos(s.annos);
+    setEdits(s.edits);
     setSelectedId(null);
     setHistoryTick((t) => t + 1);
   }, []);
   const redo = useCallback(() => {
     if (historyIdxRef.current >= historyRef.current.length - 1) return;
     historyIdxRef.current += 1;
-    setAnnos(historyRef.current[historyIdxRef.current]);
+    const s = historyRef.current[historyIdxRef.current];
+    setAnnos(s.annos);
+    setEdits(s.edits);
     setSelectedId(null);
     setHistoryTick((t) => t + 1);
   }, []);
@@ -271,6 +299,7 @@ export default function EditPdf() {
   const canRedo = historyIdxRef.current < historyRef.current.length - 1;
   // reference historyTick so linter/react keep this component subscribed to updates
   void historyTick;
+  void linesTick;
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -302,8 +331,14 @@ export default function EditPdf() {
     let cancelled = false;
     setPages([]);
     setAnnos([]);
+    setEdits([]);
     setSelectedId(null);
-    historyRef.current = [[]];
+    setActiveEditLineId(null);
+    setHasAnyText(null);
+    pdfjsDocRef.current = null;
+    pageCanvasesRef.current = new Map();
+    linesByPageRef.current = new Map();
+    historyRef.current = [{ annos: [], edits: [] }];
     historyIdxRef.current = 0;
     setHistoryTick((t) => t + 1);
     if (!file) return;
@@ -311,6 +346,8 @@ export default function EditPdf() {
     (async () => {
       try {
         const doc = await loadPdfJsDoc(await file.arrayBuffer());
+        if (cancelled) return;
+        pdfjsDocRef.current = doc;
         const out: PageInfo[] = [];
         const maxW = 800;
         for (let i = 1; i <= doc.numPages; i++) {
@@ -321,9 +358,10 @@ export default function EditPdf() {
           const canvas = document.createElement("canvas");
           canvas.width = Math.floor(vp.width);
           canvas.height = Math.floor(vp.height);
-          const ctx = canvas.getContext("2d")!;
+          const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
           await page.render({ canvasContext: ctx, viewport: vp, canvas } as never).promise;
           if (cancelled) return;
+          pageCanvasesRef.current.set(i - 1, canvas);
           out.push({
             url: canvas.toDataURL("image/jpeg", 0.85),
             width: vp1.width,
@@ -332,6 +370,21 @@ export default function EditPdf() {
           });
         }
         if (!cancelled) setPages(out);
+        // Probe first few pages for any extractable text — used for the
+        // "looks like a scanned PDF" callout.
+        if (!cancelled) {
+          const probe = Math.min(3, doc.numPages);
+          let total = 0;
+          for (let i = 1; i <= probe; i++) {
+            const lines = await extractEditableLines(doc, i);
+            linesByPageRef.current.set(i - 1, lines);
+            total += lines.reduce((n, l) => n + l.text.length, 0);
+          }
+          if (!cancelled) {
+            setHasAnyText(total > 0);
+            setLinesTick((t) => t + 1);
+          }
+        }
       } catch (e) {
         if (!isPdfPasswordError(e)) toast.error(`Preview failed: ${(e as Error).message}`);
       } finally {
@@ -342,6 +395,21 @@ export default function EditPdf() {
       cancelled = true;
     };
   }, [file]);
+
+  // Lazy line extraction for a specific page (called from PageOverlay when
+  // it becomes visible). Idempotent.
+  const ensureLinesForPage = useCallback(async (pageIdx: number) => {
+    if (linesByPageRef.current.has(pageIdx)) return;
+    const doc = pdfjsDocRef.current;
+    if (!doc) return;
+    try {
+      const lines = await extractEditableLines(doc, pageIdx + 1);
+      linesByPageRef.current.set(pageIdx, lines);
+      setLinesTick((t) => t + 1);
+    } catch {
+      linesByPageRef.current.set(pageIdx, []);
+    }
+  }, []);
 
   // Handle IMAGE tool file picker
   const openImagePicker = () => imageInputRef.current?.click();
