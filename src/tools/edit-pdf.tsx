@@ -2220,13 +2220,14 @@ function EditLineOverlay({
   onRemove: () => void;
 }) {
   const [hover, setHover] = useState(false);
-  // Sample colors on demand (once) when the line becomes active for editing
-  // OR already has an existing edit (for cover preview + color).
   const [sampled, setSampled] = useState<{
     bg: string;
     fg: string;
     lowConfidence: boolean;
     edgeInsets: { top: number; bottom: number; left: number; right: number };
+    align: "left" | "center" | "right";
+    cellLeft?: number;
+    cellRight?: number;
   } | null>(null);
 
   useEffect(() => {
@@ -2234,41 +2235,81 @@ function EditLineOverlay({
     if (sampled) return;
     const canvas = getPageCanvas();
     if (!canvas) return;
-    // Convert line rect from PDF units (pageWidth × pageHeight) to canvas px.
+
     const sx = canvas.width / pageWidth;
     const sy = canvas.height / pageHeight;
-    const padBelow = line.fontSize * 0.25;
-    const padAbove = line.fontSize * 0.1;
-    const cx = Math.floor((line.x - 1) * sx);
-    const cy = Math.floor((line.y - padAbove) * sy);
-    const cw = Math.ceil((line.width + 2) * sx);
-    const ch = Math.ceil((line.baselineY + padBelow - (line.y - padAbove)) * sy);
+    // Sample within the TIGHT box (line.x/y/width/height already tight).
+    const cx = Math.floor(line.x * sx);
+    const cy = Math.floor(line.y * sy);
+    const cw = Math.max(1, Math.ceil(line.width * sx));
+    const ch = Math.max(1, Math.ceil(line.height * sy));
     const s = sampleBackgroundAndTextColor(canvas, { x: cx, y: cy, w: cw, h: ch });
-    // Convert per-side pixel insets back to PDF units (add a hair of safety
-    // so we never overpaint the detected edge).
+
+    // Convert per-side pixel insets back to PDF units.
     const insets = {
       top: s.edgeInsets.top ? s.edgeInsets.top / sy + 0.5 : 0,
       bottom: s.edgeInsets.bottom ? s.edgeInsets.bottom / sy + 0.5 : 0,
       left: s.edgeInsets.left ? s.edgeInsets.left / sx + 0.5 : 0,
       right: s.edgeInsets.right ? s.edgeInsets.right / sx + 0.5 : 0,
     };
+
+    // Cell-border rulings (clamp = 8px for cover-rect protection; align =
+    // up to 200px each side to find the cell bounds for alignment).
+    const rulings = findCellRulings(
+      canvas,
+      { x: cx, y: cy, w: cw, h: ch },
+      s.background,
+      { clampMax: 8, alignMax: 220 },
+    );
+    // Fold clamp rulings into edgeInsets so the export never overpaints them.
+    if (rulings.clamp.top != null)
+      insets.top = Math.max(insets.top, Math.max(0, rulings.clamp.top - 1) / sy);
+    if (rulings.clamp.bottom != null)
+      insets.bottom = Math.max(insets.bottom, Math.max(0, rulings.clamp.bottom - 1) / sy);
+    if (rulings.clamp.left != null)
+      insets.left = Math.max(insets.left, Math.max(0, rulings.clamp.left - 1) / sx);
+    if (rulings.clamp.right != null)
+      insets.right = Math.max(insets.right, Math.max(0, rulings.clamp.right - 1) / sx);
+
+    // Alignment: need rulings on BOTH sides (from clamp or align search).
+    const dL = rulings.align.left ?? rulings.clamp.left;
+    const dR = rulings.align.right ?? rulings.clamp.right;
+    let align: "left" | "center" | "right" = "left";
+    let cellLeft: number | undefined;
+    let cellRight: number | undefined;
+    if (dL != null && dR != null) {
+      cellLeft = line.x - dL / sx;
+      cellRight = line.x + line.width + dR / sx;
+      const leftGap = dL / sx;
+      const rightGap = dR / sx;
+      if (Math.abs(leftGap - rightGap) < 4 && Math.min(leftGap, rightGap) > 3) align = "center";
+      else if (rightGap > leftGap + 4) align = "left";
+      else align = "right";
+    }
+
     setSampled({
       bg: rgbToHex(s.background),
       fg: rgbToHex(s.text),
       lowConfidence: !s.bgConfident,
       edgeInsets: insets,
+      align,
+      cellLeft,
+      cellRight,
     });
   }, [isActive, existing, sampled, getPageCanvas, line, pageWidth, pageHeight]);
 
   const bgColor = existing?.bgColor ?? sampled?.bg ?? "#ffffff";
   const fgColor = existing?.color ?? sampled?.fg ?? "#000000";
+  const align = existing?.align ?? sampled?.align ?? "left";
 
+  // Tight box in screen coordinates.
   const style: React.CSSProperties = {
     position: "absolute",
-    left: (line.x - 1.5) * scale,
-    top: (line.y - line.fontSize * 0.1) * scale,
-    width: (line.width + 3) * scale,
-    height: (line.baselineY + line.fontSize * 0.25 - (line.y - line.fontSize * 0.1)) * scale,
+    left: line.x * scale,
+    top: line.y * scale,
+    width: line.width * scale,
+    height: line.height * scale,
+    overflow: "hidden",
   };
 
   if (isActive) {
@@ -2279,6 +2320,7 @@ function EditLineOverlay({
         style={style}
         bgColor={bgColor}
         fgColor={fgColor}
+        align={align}
         initialText={existing?.newText ?? line.text}
         initialSize={existing?.fontSize ?? line.fontSize}
         initialBold={existing?.bold ?? line.bold}
@@ -2305,69 +2347,71 @@ function EditLineOverlay({
             family: next.family,
             edgeInsets: existing?.edgeInsets ?? sampled?.edgeInsets,
             lowConfidence: existing?.lowConfidence ?? sampled?.lowConfidence,
+            align: existing?.align ?? sampled?.align,
+            cellLeft: existing?.cellLeft ?? sampled?.cellLeft,
+            cellRight: existing?.cellRight ?? sampled?.cellRight,
           });
         }}
       />
     );
   }
 
-
   if (existing) {
-    // Show the committed replacement text over the cover rect, plus a small
-    // corner dot indicator.
+    const textAlign: React.CSSProperties["textAlign"] =
+      align === "center" ? "center" : align === "right" ? "right" : "left";
     return (
-      <div style={style} className="group">
-        <div
-          className="absolute inset-0"
-          style={{ backgroundColor: bgColor }}
-        />
-        <div
-          className="absolute"
-          style={{
-            left: 1.5 * scale,
-            top: (line.fontSize * 0.1) * scale,
-            width: (line.width) * scale,
-            fontSize: existing.fontSize * scale,
-            lineHeight: 1,
-            color: existing.color,
-            fontWeight: existing.bold ? 700 : 400,
-            fontStyle: existing.italic ? "italic" : "normal",
-            fontFamily:
-              existing.family === "serif"
-                ? "'Times New Roman', Times, serif"
-                : existing.family === "mono"
-                  ? "Menlo, Consolas, monospace"
-                  : "Helvetica, Arial, sans-serif",
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-          }}
-        >
-          {existing.newText}
+      <div className="group" style={{ position: "absolute", left: line.x * scale, top: line.y * scale, width: line.width * scale, height: line.height * scale }}>
+        <div style={{ ...style, left: 0, top: 0 }}>
+          <div className="absolute inset-0" style={{ backgroundColor: bgColor }} />
+          <div
+            className="absolute inset-0 flex items-center"
+            style={{
+              fontSize: existing.fontSize * scale,
+              lineHeight: 1,
+              color: existing.color,
+              fontWeight: existing.bold ? 700 : 400,
+              fontStyle: existing.italic ? "italic" : "normal",
+              fontFamily:
+                existing.family === "serif"
+                  ? "'Times New Roman', Times, serif"
+                  : existing.family === "mono"
+                    ? "Menlo, Consolas, monospace"
+                    : "Helvetica, Arial, sans-serif",
+              whiteSpace: "nowrap",
+              justifyContent: align === "center" ? "center" : align === "right" ? "flex-end" : "flex-start",
+              textAlign,
+            }}
+          >
+            {existing.newText}
+          </div>
+          <button
+            type="button"
+            onClick={onOpen}
+            className="absolute inset-0 cursor-text"
+            style={{ background: "transparent" }}
+            aria-label="Edit segment again"
+          />
         </div>
-        <button
-          type="button"
-          onClick={onOpen}
-          className="absolute inset-0 cursor-text"
-          style={{ background: "transparent" }}
-          aria-label="Edit line again"
-        />
+        {/* Corner dot at the tight box's top-right, precisely. */}
         <span
-          className="absolute -right-1 -top-1 h-2 w-2 rounded-full"
+          className="absolute h-2 w-2 rounded-full"
           style={{
+            right: -1,
+            top: -1,
             backgroundColor: existing.lowConfidence ? "#f59e0b" : "#e5322d",
             boxShadow: "0 0 0 1.5px #ffffff",
           }}
           title={
             existing.lowConfidence
-              ? "Background looks busy here — preview the exported PDF to make sure the cover blends in."
+              ? "Text may be tight in this cell — preview the exported PDF."
               : undefined
           }
         />
         <button
           type="button"
           onClick={onRemove}
-          className="absolute -right-2 -top-3 grid h-4 w-4 place-items-center rounded-full bg-white text-[#e5322d] opacity-0 shadow group-hover:opacity-100"
-          style={{ border: "1px solid #ececef" }}
+          className="absolute grid h-4 w-4 place-items-center rounded-full bg-white text-[#e5322d] opacity-0 shadow group-hover:opacity-100"
+          style={{ right: -8, top: -12, border: "1px solid #ececef" }}
           aria-label="Undo this text edit"
         >
           <X className="h-2.5 w-2.5" />
@@ -2376,7 +2420,7 @@ function EditLineOverlay({
     );
   }
 
-  // Idle: hover-only dashed outline (or always-on when "Show editable areas" is on).
+  // Idle: solid hover outline hugging tight box.
   const outlineVisible = hover || showAll;
   return (
     <button
@@ -2386,12 +2430,12 @@ function EditLineOverlay({
       onClick={onOpen}
       style={{
         ...style,
-        border: outlineVisible ? "1px dashed #D1D5DB" : "1px dashed transparent",
-        backgroundColor: hover ? "rgba(229,50,45,0.04)" : "transparent",
+        border: outlineVisible ? "1px solid rgba(229,50,45,0.4)" : "1px solid transparent",
+        backgroundColor: showAll && !hover ? "rgba(229,50,45,0.06)" : hover ? "rgba(229,50,45,0.06)" : "transparent",
         cursor: "text",
       }}
       className="rounded-[2px] transition-colors"
-      aria-label={`Edit line: ${line.text.slice(0, 60)}`}
+      aria-label={`Edit segment: ${line.text.slice(0, 60)}`}
     />
   );
 }
@@ -2402,6 +2446,7 @@ function EditLineInlineEditor({
   style,
   bgColor,
   fgColor,
+  align,
   initialText,
   initialSize,
   initialBold,
@@ -2415,6 +2460,7 @@ function EditLineInlineEditor({
   style: React.CSSProperties;
   bgColor: string;
   fgColor: string;
+  align: "left" | "center" | "right";
   initialText: string;
   initialSize: number;
   initialBold: boolean;
@@ -2453,6 +2499,9 @@ function EditLineInlineEditor({
         ? "Menlo, Consolas, monospace"
         : "Helvetica, Arial, sans-serif";
 
+  const textAlign: React.CSSProperties["textAlign"] =
+    align === "center" ? "center" : align === "right" ? "right" : "left";
+
   return (
     <div style={style}>
       <div
@@ -2464,32 +2513,23 @@ function EditLineInlineEditor({
         value={text}
         onChange={(e) => setText(e.target.value)}
         onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            e.preventDefault();
-            commit();
-          } else if (e.key === "Escape") {
-            e.preventDefault();
-            onCancel();
-          }
+          if (e.key === "Enter") { e.preventDefault(); commit(); }
+          else if (e.key === "Escape") { e.preventDefault(); onCancel(); }
         }}
         onBlur={(e) => {
-          // Ignore blur when focus moves into our own toolbar.
           const to = e.relatedTarget as HTMLElement | null;
           if (to && to.closest("[data-edit-toolbar]")) return;
           commit();
         }}
-        className="absolute border-0 bg-transparent p-0 outline-none"
+        className="absolute inset-0 border-0 bg-transparent p-0 outline-none"
         style={{
-          left: 1.5 * scale,
-          top: (line.fontSize * 0.1) * scale,
-          width: (line.width) * scale,
-          height: (line.baselineY + line.fontSize * 0.05 - line.y) * scale,
           fontSize: size * scale,
-          lineHeight: 1,
+          lineHeight: `${line.height * scale}px`,
           color,
           fontWeight: bold ? 700 : 400,
           fontStyle: italic ? "italic" : "normal",
           fontFamily: cssFamily,
+          textAlign,
         }}
       />
 
@@ -2498,56 +2538,18 @@ function EditLineInlineEditor({
         data-edit-toolbar
         onMouseDown={(e) => e.preventDefault()}
         className="absolute z-10 flex items-center gap-1 rounded-lg bg-white p-1 shadow-lg"
-        style={{
-          left: 0,
-          top: -40,
-          border: "1px solid #ececef",
-        }}
+        style={{ left: 0, top: -40, border: "1px solid #ececef" }}
       >
-        <button
-          type="button"
-          onClick={() => setSize((s) => Math.max(6, s - 1))}
-          className="grid h-6 w-6 place-items-center rounded text-[13px] font-bold text-[#33333c] hover:bg-[#f7f7f8]"
-        >
-          −
-        </button>
+        <button type="button" onClick={() => setSize((s) => Math.max(6, s - 1))} className="grid h-6 w-6 place-items-center rounded text-[13px] font-bold text-[#33333c] hover:bg-[#f7f7f8]">−</button>
         <span className="min-w-[24px] text-center text-[11.5px] font-semibold" style={{ color: "#33333c" }}>{Math.round(size)}</span>
-        <button
-          type="button"
-          onClick={() => setSize((s) => Math.min(200, s + 1))}
-          className="grid h-6 w-6 place-items-center rounded text-[13px] font-bold text-[#33333c] hover:bg-[#f7f7f8]"
-        >
-          +
-        </button>
+        <button type="button" onClick={() => setSize((s) => Math.min(200, s + 1))} className="grid h-6 w-6 place-items-center rounded text-[13px] font-bold text-[#33333c] hover:bg-[#f7f7f8]">+</button>
         <span className="mx-1 h-4 w-px bg-[#ececef]" />
-        <button
-          type="button"
-          onClick={() => setBold((v) => !v)}
-          className="grid h-6 w-6 place-items-center rounded hover:bg-[#f7f7f8]"
-          style={{ backgroundColor: bold ? "#f7f7f8" : "transparent", color: bold ? "#e5322d" : "#33333c" }}
-          aria-label="Bold"
-        >
-          <Bold className="h-3.5 w-3.5" />
-        </button>
-        <button
-          type="button"
-          onClick={() => setItalic((v) => !v)}
-          className="grid h-6 w-6 place-items-center rounded hover:bg-[#f7f7f8]"
-          style={{ backgroundColor: italic ? "#f7f7f8" : "transparent", color: italic ? "#e5322d" : "#33333c" }}
-          aria-label="Italic"
-        >
-          <Italic className="h-3.5 w-3.5" />
-        </button>
+        <button type="button" onClick={() => setBold((v) => !v)} className="grid h-6 w-6 place-items-center rounded hover:bg-[#f7f7f8]" style={{ backgroundColor: bold ? "#f7f7f8" : "transparent", color: bold ? "#e5322d" : "#33333c" }} aria-label="Bold"><Bold className="h-3.5 w-3.5" /></button>
+        <button type="button" onClick={() => setItalic((v) => !v)} className="grid h-6 w-6 place-items-center rounded hover:bg-[#f7f7f8]" style={{ backgroundColor: italic ? "#f7f7f8" : "transparent", color: italic ? "#e5322d" : "#33333c" }} aria-label="Italic"><Italic className="h-3.5 w-3.5" /></button>
         <span className="mx-1 h-4 w-px bg-[#ececef]" />
-        <input
-          type="color"
-          value={color}
-          onChange={(e) => setColor(e.target.value)}
-          className="h-5 w-5 cursor-pointer rounded border-0 bg-transparent p-0"
-          aria-label="Text color"
-          style={{ padding: 0 }}
-        />
+        <input type="color" value={color} onChange={(e) => setColor(e.target.value)} className="h-5 w-5 cursor-pointer rounded border-0 bg-transparent p-0" aria-label="Text color" style={{ padding: 0 }} />
       </div>
     </div>
   );
 }
+
