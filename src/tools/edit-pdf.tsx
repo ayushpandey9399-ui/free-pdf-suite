@@ -1791,6 +1791,7 @@ interface PageOverlayProps {
   onCommitEdit: (edit: TextEdit) => void;
   onRemoveEdit: (lineId: string) => void;
   getPageCanvas: () => HTMLCanvasElement | null;
+  onVisibilityChange: (visible: boolean) => void;
 }
 
 function PageOverlay(props: PageOverlayProps) {
