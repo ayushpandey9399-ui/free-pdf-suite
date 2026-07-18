@@ -122,6 +122,14 @@ interface TextEdit {
   bold: boolean;
   italic: boolean;
   family: FontFamily;
+  /**
+   * Per-side cover-rect insets in PDF units. Non-zero values mean the
+   * sampler detected a rule/table border at that edge of the line box and
+   * we should shrink the cover rectangle so it doesn't paint over it.
+   */
+  edgeInsets?: { top: number; bottom: number; left: number; right: number };
+  /** true when background sampling was noisy (busy bg / table shading). */
+  lowConfidence?: boolean;
 }
 
 interface PageInfo {
