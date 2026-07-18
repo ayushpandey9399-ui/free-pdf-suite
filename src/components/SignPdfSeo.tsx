@@ -62,7 +62,7 @@ const scenarios = [
 const faqs = [
   {
     q: "How can I sign a PDF for free without Adobe?",
-    a: "Open the PDF here, create your signature by drawing, typing or uploading a photo of your handwritten one, place it on the document and click Sign PDF. There is no Adobe Acrobat, no paid installer and no signup — the free PDF signer runs entirely in your browser.",
+    a: "Open the PDF here, create your signature by drawing, typing or uploading a photo of your handwritten one, place it on the document and click Sign PDF to e-sign the PDF right in the tab. There is no Adobe Acrobat, no paid installer and no signup — the free PDF signer runs entirely in your browser and lets you add a signature to a PDF as many times as you need.",
   },
   {
     q: "Is it safe to sign contracts online here?",

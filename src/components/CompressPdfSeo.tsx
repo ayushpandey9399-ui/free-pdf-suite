@@ -98,7 +98,7 @@ const faqs = [
   },
   {
     q: "How much smaller will my PDF get?",
-    a: "For scanned or image-heavy PDFs, reductions of 50–90% are common with Strong compression. Text-only PDFs typically shrink much less because they are already efficient. Rather than guess, run the file and check the size summary — it shows the exact before and after so you know before you download.",
+    a: "For scanned or image-heavy PDFs, reductions of 50–90% are common with Strong compression — enough to make a PDF smaller by half or more in one pass. Text-only PDFs typically shrink much less because they are already efficient. Rather than guess, run the file and check the size summary — it shows the exact before and after so you know before you download.",
   },
 ];
 
@@ -137,7 +137,7 @@ export function CompressPdfSeo() {
         Compress PDF to meet upload size limits (100 KB, 200 KB, 500 KB)
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        A lot of the pressure to reduce PDF file size comes from strict portal caps: job application forms that only
+        A lot of the pressure to reduce PDF size comes from strict portal caps: job application forms that only
         accept a 100 KB photo, exam sites that reject anything over 200 KB, visa uploads limited to 500 KB, or bank
         onboarding that maxes out at 1 MB per document. Our compressor is built for exactly this: start with the Strong
         level and check the size summary — scanned and photo-heavy PDFs often drop dramatically in a single pass.

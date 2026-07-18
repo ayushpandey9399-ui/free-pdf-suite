@@ -175,6 +175,27 @@ export function GrayscalePdfSeo() {
         greens, the blues — are gone and every page reads as neutral, professional black and white.
       </p>
 
+      {/* Ink vs toner + readability */}
+      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
+        Ink, toner and when grayscale actually helps readability
+      </h2>
+      <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
+        The print-cost story differs by printer. On inkjet printers colour cartridges are the most
+        expensive consumable per page and are consumed even by tiny logos and header bands —
+        grayscaling the PDF first stops the printer from touching cyan, magenta or yellow at all,
+        which is where most of the running cost sits. On laser printers the same page prints from
+        the black toner cartridge exclusively, so a heavy report finishes faster and colour toner
+        is reserved for the jobs that genuinely need it.
+      </p>
+      <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
+        Grayscale can also help readability in specific cases. Low-contrast coloured text on a
+        coloured background — pastel-on-pastel tables, red text on a green highlight — often reads
+        better once the hues collapse into neutral tones and the eye stops fighting the clash. For
+        readers with colour-vision differences, converting a colour-coded document to grayscale
+        turns colour distinctions into shade distinctions and quickly reveals any place where the
+        original design relied on hue alone to convey meaning.
+      </p>
+
       {/* Privacy differentiator */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Private conversion, your documents stay with you

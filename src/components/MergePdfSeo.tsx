@@ -144,9 +144,9 @@ export function MergePdfSeo() {
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         You do not need Adobe Acrobat, a paid subscription or any desktop installer to combine PDF files into one.
         This free PDF combiner runs entirely in your browser — open the page, add your files and click Merge PDF.
-        People call the same job by different names (PDF combiner, PDF joiner, PDF merger); whichever term you searched
-        for, this is the tool. You can merge as many PDFs as you like, as often as you like, with no signup and no
-        watermark on the result.
+        People search for the same job under many names — combine PDF, join PDF, PDF combiner, PDF joiner, PDF merger —
+        and whichever phrase you used, this is the tool. You can join or merge as many PDFs as you like, as often as
+        you like, with no signup and no watermark on the result.
       </p>
 
       {/* Privacy killer differentiator */}

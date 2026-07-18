@@ -58,6 +58,10 @@ const scenarios = [
     h: "Fixing forms that misprint or drop values in some viewers",
     p: "If a recipient tells you the fields print blank or look wrong on their end, the field appearances are usually the problem. Re-flatten your copy and resend — with the values baked into the page content, every viewer and printer renders them identically.",
   },
+  {
+    h: "Legal, HR and compliance packages",
+    p: "Solicitors sending signed agreements, HR teams distributing offer letters and compliance officers issuing acknowledgement forms all need certainty that the document received is the document sent. Flattening the completed PDF before it leaves your outbox is the standard fix — the recipient reads the exact values you filled in and cannot silently adjust a figure, a date or a name in a free reader before forwarding it on.",
+  },
 ];
 
 const faqs: { q: string; a: ReactNode; plain: string }[] = [
@@ -223,6 +227,25 @@ export function FlattenPdfSeo() {
           Fill PDF Forms
         </Link>{" "}
         first, then flatten here — fill, flatten, send.
+      </p>
+
+      {/* Flatten vs Print-to-PDF */}
+      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
+        Flatten vs Print-to-PDF: why the shortcut isn't the same
+      </h2>
+      <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
+        The common workaround for locking a filled form is Print → Save as PDF, and it does
+        remove the interactive fields. What it also does is rasterise every page: the printer
+        driver treats the document as an image, so selectable text stops being selectable, the
+        file often gets larger, searchability breaks and any high-quality vector content
+        becomes pixels. It is flattening by demolition.
+      </p>
+      <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
+        This tool takes the opposite route. pdf-lib merges only the form-field layer into the
+        page content stream; the original page text stays real text, images stay at their
+        embedded resolution, and the file size barely moves. The output looks and behaves
+        exactly like the original PDF minus the editable fields — no print-driver detour and
+        no loss of quality.
       </p>
 
       {/* Privacy differentiator */}

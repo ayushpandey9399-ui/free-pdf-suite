@@ -239,14 +239,15 @@ export function EditPdfSeo() {
         Private editing, your documents stay yours
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        The PDFs people edit are usually live working documents — a
+        The PDFs people edit or annotate are usually live working documents — a
         contract under review, an application with personal details, a
         salary slip being corrected, a form with a home address on
-        it. This editor runs entirely inside your browser tab: the file
+        it. This free PDF editor runs entirely inside your browser tab: the file
         loads locally, the annotations are painted on the local page
         previews and the final file is written on your device with
         pdf-lib. Nothing is transmitted to us or to any third party at
-        any point.
+        any point, so you can annotate a PDF containing personal data without
+        it ever leaving your machine.
       </p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
         Once the page has finished loading you can disconnect from the

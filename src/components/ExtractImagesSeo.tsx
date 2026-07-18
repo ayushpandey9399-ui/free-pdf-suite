@@ -41,6 +41,27 @@ export function ExtractImagesSeo() {
         </p>
       </section>
 
+      <section>
+        <h2 className="text-2xl font-bold">Which formats extract, and what doesn't</h2>
+        <p className="mt-3">
+          PDFs embed images in a handful of stream types, and each comes out in the most sensible file
+          extension. JPEG-embedded photos are copied straight through as <code>.jpg</code> — byte-for-byte,
+          no re-encoding. Raw pixel images with an alpha channel or an unusual colour space are wrapped as
+          lossless <code>.png</code>. JPEG 2000 streams are saved with their native <code>.jp2</code>
+          extension. Every filename ends in the format the source actually used, so a spec sheet with
+          product photography drops out as sharp JPEGs and a diagram-heavy ebook drops out as PNGs.
+        </p>
+        <p className="mt-3">
+          One honest limit: vector art is not extractable. Charts built from lines and shapes, tables
+          drawn with rules and rectangles, logos rendered from vector paths, and any illustration made of
+          curves rather than pixels are drawing instructions the reader paints on demand — there is no
+          image file inside the PDF to hand back. If you need those elements as pictures, render whole
+          pages with{" "}
+          <Link to="/tools/$slug" params={{ slug: "pdf-to-images" }} className="font-semibold underline" style={{ color: "#e5322d" }}>PDF to Image</Link>
+          {" "}and clip the region you want; extraction is only for real embedded raster images.
+        </p>
+      </section>
+
       <section className="grid gap-6 md:grid-cols-2">
         <div>
           <h3 className="text-lg font-bold">Full original quality</h3>
@@ -79,6 +100,14 @@ export function ExtractImagesSeo() {
             <h3 className="text-lg font-bold">Grabbing a logo or graphic from a brochure</h3>
             <p className="mt-1 text-sm">A company sent a brochure PDF and you need their logo at true quality for your own material — extract it directly instead of chasing a design team for the source file.</p>
           </div>
+          <div>
+            <h3 className="text-lg font-bold">Pulling product photos out of spec sheets</h3>
+            <p className="mt-1 text-sm">Manufacturer datasheets, catalogue PDFs and dealer packs bury product photography inside long documents. Extracting hands you back the original high-resolution JPEGs the designer embedded, ready to reuse in a listing, a quote or a presentation without re-shooting anything.</p>
+          </div>
+          <div>
+            <h3 className="text-lg font-bold">Reclaiming diagrams and figures from ebooks</h3>
+            <p className="mt-1 text-sm">Ebooks, papers and textbooks embed each diagram as its own image behind the page layout. Pulling those out gives you clean copies to reference in study notes, teaching material or research at the resolution the publisher shipped — not a screenshot of your reader.</p>
+          </div>
         </div>
       </section>
 
@@ -114,6 +143,8 @@ const extractImagesFaq = [
   { q: "Can I extract just one image instead of all?", a: "Yes. After the scan every thumbnail is a toggle — deselect the ones you don't want, or press Deselect all and click only the images you need. When exactly one is selected, it downloads as a single image file rather than a ZIP." },
   { q: "Is it legal to extract images from a PDF?", a: "For your own PDFs and any document you have the right to reuse — yes, entirely. When the images belong to someone else, extraction itself is fine, but reusing or publishing them still needs the copyright holder's permission just like copying any other file." },
   { q: "Do I need Adobe Acrobat?", a: "No. This is a free browser tool — no Acrobat, no plugin, no signup, no watermark. It runs anywhere a modern browser runs, including phones and Chromebooks." },
+  { q: "What image formats come out of the tool?", a: "It depends on how each image is stored inside the PDF. JPEG-embedded photos come out as .jpg with zero re-encoding, raw pixel images come out as lossless .png, and JPEG 2000 streams come out as .jp2 (their native format). The tool never converts between formats — each image is saved in its own native encoding so quality is identical to the embedded source." },
+  { q: "Can I extract charts, tables or logos drawn with vectors?", a: "No — and no browser tool can. Vector charts, ruled tables and logos rendered from paths are drawing instructions in the page's content stream, not embedded image files, so there is nothing to hand back as a picture. If you need those elements as images, use PDF to Image to render the whole page and crop the region you want afterwards." },
 ];
 
 export const extractImagesFaqJsonLd = {

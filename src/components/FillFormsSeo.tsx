@@ -63,9 +63,9 @@ const scenarios = [
 const faqs: { q: string; a: ReactNode; plain: string }[] = [
   {
     q: "How do I fill out a PDF form for free?",
-    a: "Click Select PDF file, pick your form, then fill in the labelled inputs the tool generates for every detected field — text boxes, checkboxes, dropdowns and radio groups. When you're happy, click Download Filled PDF and the completed document downloads to your device with a -filled suffix. No signup, no upload, no watermark, no Acrobat.",
+    a: "Click Select PDF file, pick your form, and this free PDF form filler generates a labelled input for every detected field — text boxes, checkboxes, dropdowns and radio groups. Fill out the PDF on screen, click Download Filled PDF and the completed document downloads to your device with a -filled suffix. No signup, no upload, no watermark, no Acrobat.",
     plain:
-      "Click Select PDF file, choose your form, fill the labelled inputs the tool generates for each detected field (text, checkboxes, dropdowns, radio groups), then click Download Filled PDF to save a completed copy with a -filled suffix. No signup, no upload, no watermark, no Acrobat.",
+      "Click Select PDF file, pick your form, and this free PDF form filler generates a labelled input for each detected field (text, checkboxes, dropdowns, radio groups). Fill out the PDF on screen, then click Download Filled PDF to save a completed copy with a -filled suffix. No signup, no upload, no watermark, no Acrobat.",
   },
   {
     q: "Why can't I type into my PDF?",

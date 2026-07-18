@@ -58,6 +58,10 @@ const scenarios = [
     h: "Reserving space for content you'll add later",
     p: "Sometimes you know a map, a chart, a form or an attachment is coming but you don't have it yet. Drop a blank as a placeholder at the right position, keep working, and swap the content in later — the surrounding page numbering stays exactly as planned.",
   },
+  {
+    h: "Meeting agendas with reserved discussion pages",
+    p: "When an agenda goes out as a PDF, participants often want a blank sheet after each item to jot notes during the discussion. Insert one blank after every agenda point — or use Add blank page after every page for the whole document — so everyone prints a booklet-style handout with note space exactly where the conversation happens.",
+  },
 ];
 
 const faqs: { q: string; a: ReactNode; plain: string }[] = [
