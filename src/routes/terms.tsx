@@ -6,7 +6,7 @@ export const Route = createFileRoute("/terms")({
   head: () => {
     const title = "Terms of Use | FreePDFHub";
     const description =
-      "The terms that govern your use of FreePDFHub, free, browser-based PDF tools with no accounts, no uploads, and clear rules for acceptable use.";
+      "The terms that govern your use of FreePDFHub: free, browser-based PDF tools with no accounts, no uploads, and clear rules for acceptable use.";
     const url = `${SITE_URL}/terms`;
     const ogImage = `${SITE_URL}/og-cover.png`;
     return {
