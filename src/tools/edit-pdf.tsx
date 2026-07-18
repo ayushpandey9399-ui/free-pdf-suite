@@ -2919,6 +2919,8 @@ function EditLineOverlay({
             bold: next.bold,
             italic: next.italic,
             family: next.family,
+            fontName: line.fontName,
+            twin: line.twin,
             edgeInsets: existing?.edgeInsets ?? sampled?.edgeInsets,
             lowConfidence: existing?.lowConfidence ?? sampled?.lowConfidence,
             align: existing?.align ?? sampled?.align,
