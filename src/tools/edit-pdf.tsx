@@ -610,7 +610,9 @@ export default function EditPdf() {
     setEditMode("edit-text");
     pdfjsDocRef.current = null;
     pageCanvasesRef.current = new Map();
+    renderingRef.current = new Set();
     linesByPageRef.current = new Map();
+    setVisiblePages(new Set());
     historyRef.current = [{ annos: [], edits: [] }];
     historyIdxRef.current = 0;
     setResult(null);
