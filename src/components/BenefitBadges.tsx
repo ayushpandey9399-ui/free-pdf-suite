@@ -6,7 +6,8 @@ import { CheckCircle2 } from "lucide-react";
  */
 export function BenefitBadges({ items }: { items: string[] }) {
   return (
-    <div className="mt-8 flex flex-wrap justify-center gap-3">
+    <div className="mt-9 sm:mt-12 mb-14 sm:mb-[72px] flex flex-wrap justify-center gap-3">
+
       {items.map((b) => (
         <span
           key={b}
