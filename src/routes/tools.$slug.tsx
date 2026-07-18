@@ -44,7 +44,7 @@ export const Route = createFileRoute("/tools/$slug")({
   head: ({ loaderData, params }) => {
     if (loaderData?.slug === "merge") {
       const title =
-        "Merge PDF Online Free — Combine PDF Files Without Uploading | FreePDFHub";
+        "Merge PDF Online Free | FreePDFHub";
       const desc =
         "Merge PDF files online free — no upload, no signup, no watermark. Your files never leave your device. Combine PDFs on any browser in seconds.";
       const url = "/tools/merge";
@@ -70,7 +70,7 @@ export const Route = createFileRoute("/tools/$slug")({
     }
     if (loaderData?.slug === "compress") {
       const title =
-        "Compress PDF Online Free — Reduce PDF File Size Without Uploading | FreePDFHub";
+        "Compress PDF Online Free | FreePDFHub";
       const desc =
         "Compress PDF online free — reduce PDF file size in your browser. No upload, no signup, no watermark. Your files never leave your device.";
       const url = "/tools/compress";
@@ -96,7 +96,7 @@ export const Route = createFileRoute("/tools/$slug")({
     }
     if (loaderData?.slug === "split") {
       const title =
-        "Split PDF Online Free — Separate PDF Pages Without Uploading | FreePDFHub";
+        "Split PDF Online Free | FreePDFHub";
       const desc =
         "Split PDF online free — separate pages or extract page ranges in your browser. No upload, no signup, no watermark. Files never leave your device.";
       const url = "/tools/split";
@@ -122,7 +122,7 @@ export const Route = createFileRoute("/tools/$slug")({
     }
     if (loaderData?.slug === "sign-pdf") {
       const title =
-        "Sign PDF Online Free — Add Signature Without Uploading | FreePDFHub";
+        "Sign PDF Online Free | FreePDFHub";
       const desc =
         "Sign PDF online free — draw, type, or upload your signature in your browser. No upload, no signup. Contracts never leave your device.";
       const url = "/tools/sign-pdf";
@@ -148,7 +148,7 @@ export const Route = createFileRoute("/tools/$slug")({
     }
     if (loaderData?.slug === "pdf-to-images") {
       const title =
-        "PDF to JPG Online Free — Convert PDF to Images Without Uploading | FreePDFHub";
+        "PDF to JPG Converter Free | FreePDFHub";
       const desc =
         "Convert PDF to JPG or PNG online free — high quality, right in your browser. No upload, no signup, no watermark. Files never leave your device.";
       const url = "/tools/pdf-to-images";
@@ -174,7 +174,7 @@ export const Route = createFileRoute("/tools/$slug")({
     }
     if (loaderData?.slug === "redact-pdf") {
       const title =
-        "Redact PDF Online Free — Black Out Text Permanently, No Upload | FreePDFHub";
+        "Redact PDF Online Free | FreePDFHub";
       const desc =
         "Redact PDF online free — permanently black out Aadhaar numbers, account details & sensitive text in your browser. No upload. Truly removed, not just covered.";
       const url = "/tools/redact-pdf";
@@ -200,7 +200,7 @@ export const Route = createFileRoute("/tools/$slug")({
     }
     if (loaderData?.slug === "protect-pdf") {
       const title =
-        "Password Protect PDF Online Free — Encrypt Without Uploading | FreePDFHub";
+        "Password Protect PDF Free | FreePDFHub";
       const desc =
         "Password protect PDF online free with real AES-256 encryption — in your browser. Your file AND password never leave your device. No signup.";
       const url = "/tools/protect-pdf";
@@ -226,7 +226,7 @@ export const Route = createFileRoute("/tools/$slug")({
     }
     if (loaderData?.slug === "unlock-pdf") {
       const title =
-        "Unlock PDF Online Free — Remove Password Without Uploading | FreePDFHub";
+        "Unlock PDF Online Free | FreePDFHub";
       const desc =
         "Remove password from PDF online free — decrypt in your browser with the password you know. File and password never leave your device. No signup.";
       const url = "/tools/unlock-pdf";
@@ -252,7 +252,7 @@ export const Route = createFileRoute("/tools/$slug")({
     }
     if (loaderData?.slug === "watermark") {
       const title =
-        "Add Watermark to PDF Online Free — Text Watermark, No Upload | FreePDFHub";
+        "Add Watermark to PDF Free | FreePDFHub";
       const desc =
         "Add watermark to PDF online free — stamp text like CONFIDENTIAL or your brand on every page, in your browser. No upload, no signup, no watermark ads.";
       const url = "/tools/watermark";
@@ -278,7 +278,7 @@ export const Route = createFileRoute("/tools/$slug")({
     }
     if (loaderData?.slug === "rotate") {
       const title =
-        "Rotate PDF Online Free — Rotate & Save Permanently, No Upload | FreePDFHub";
+        "Rotate PDF Online Free | FreePDFHub";
       const desc =
         "Rotate PDF pages online free and save permanently — fix sideways or upside-down pages in your browser. No upload, no signup, no watermark.";
       const url = "/tools/rotate";
@@ -304,7 +304,7 @@ export const Route = createFileRoute("/tools/$slug")({
     }
     if (loaderData?.slug === "delete-pages") {
       const title =
-        "Delete Pages from PDF Online Free — Remove Pages, No Upload | FreePDFHub";
+        "Delete Pages from PDF Free | FreePDFHub";
       const desc =
         "Delete pages from PDF online free — remove unwanted pages in your browser and download a clean copy. No upload, no signup, no watermark.";
       const url = "/tools/delete-pages";
@@ -330,7 +330,7 @@ export const Route = createFileRoute("/tools/$slug")({
     }
     if (loaderData?.slug === "extract-pages") {
       const title =
-        "Extract Pages from PDF Online Free — Save Specific Pages | FreePDFHub";
+        "Extract PDF Pages Online Free | FreePDFHub";
       const desc =
         "Extract pages from PDF online free — save specific pages as a new PDF, in your browser. No upload, no signup, no watermark. Files stay on your device.";
       const url = "/tools/extract-pages";
@@ -356,7 +356,7 @@ export const Route = createFileRoute("/tools/$slug")({
     }
     if (loaderData?.slug === "reorder-pages") {
       const title =
-        "Reorder PDF Pages Online Free — Rearrange by Drag & Drop | FreePDFHub";
+        "Reorder PDF Pages Online Free | FreePDFHub";
       const desc =
         "Rearrange PDF pages online free — drag and drop pages into the right order in your browser. No upload, no signup, no watermark.";
       const url = "/tools/reorder-pages";
@@ -382,7 +382,7 @@ export const Route = createFileRoute("/tools/$slug")({
     }
     if (loaderData?.slug === "images-to-pdf") {
       const title =
-        "JPG to PDF Online Free — Convert Images to PDF, No Upload | FreePDFHub";
+        "JPG to PDF Converter Free | FreePDFHub";
       const desc =
         "Convert JPG, PNG images to PDF online free — combine photos into one PDF in your browser. No upload, no signup, no watermark.";
       const url = "/tools/images-to-pdf";
@@ -408,7 +408,7 @@ export const Route = createFileRoute("/tools/$slug")({
     }
     if (loaderData?.slug === "pdf-to-text") {
       const title =
-        "PDF to Text Online Free — Extract Text From PDF, No Upload | FreePDFHub";
+        "PDF to Text Online Free | FreePDFHub";
       const desc =
         "Extract text from PDF online free — copy all text or download as .txt, right in your browser. No upload, no signup. Files never leave your device.";
       const url = "/tools/pdf-to-text";
@@ -434,7 +434,7 @@ export const Route = createFileRoute("/tools/$slug")({
     }
     if (loaderData?.slug === "txt-to-pdf") {
       const title =
-        "TXT to PDF Online Free — Convert Text to PDF (Hindi Supported) | FreePDFHub";
+        "TXT to PDF Online Free | FreePDFHub";
       const desc =
         "Convert TXT to PDF online free — clean, printable PDFs from text files, in your browser. Supports Hindi & other languages. No upload, no signup.";
       const url = "/tools/txt-to-pdf";
@@ -460,7 +460,7 @@ export const Route = createFileRoute("/tools/$slug")({
     }
     if (loaderData?.slug === "page-numbers") {
       const title =
-        "Add Page Numbers to PDF Online Free — No Upload | FreePDFHub";
+        "Add Page Numbers to PDF Free | FreePDFHub";
       const desc =
         "Add page numbers to PDF online free — choose position, format and starting number, in your browser. No upload, no signup, no watermark.";
       const url = "/tools/page-numbers";
@@ -486,7 +486,7 @@ export const Route = createFileRoute("/tools/$slug")({
     }
     if (loaderData?.slug === "header-footer") {
       const title =
-        "Add Header & Footer to PDF Online Free — Text, Date, Page Numbers | FreePDFHub";
+        "Add Header & Footer to PDF Free | FreePDFHub";
       const desc =
         "Add headers and footers to PDF online free — title, date, filename or page numbers on every page, in your browser. No upload, no signup.";
       const url = "/tools/header-footer";
@@ -512,7 +512,7 @@ export const Route = createFileRoute("/tools/$slug")({
     }
     if (loaderData?.slug === "crop") {
       const title =
-        "Crop PDF Online Free — Trim Margins & White Space, No Upload | FreePDFHub";
+        "Crop PDF Online Free | FreePDFHub";
       const desc =
         "Crop PDF online free — trim white margins and unwanted edges in your browser. No upload, no signup, no watermark. Files never leave your device.";
       const url = "/tools/crop";
@@ -538,7 +538,7 @@ export const Route = createFileRoute("/tools/$slug")({
     }
     if (loaderData?.slug === "edit-pdf") {
       const title =
-        "Edit PDF Online Free — Add Text, Highlight & Draw, No Upload | FreePDFHub";
+        "Edit PDF Online Free | FreePDFHub";
       const desc =
         "Edit PDF online free — add text, highlights, shapes and freehand notes in your browser. No upload, no signup, no watermark.";
       const url = "/tools/edit-pdf";
@@ -564,7 +564,7 @@ export const Route = createFileRoute("/tools/$slug")({
     }
     if (loaderData?.slug === "fill-forms") {
       const title =
-        "Fill PDF Form Online Free — Type Into Forms, No Upload | FreePDFHub";
+        "Fill PDF Forms Online Free | FreePDFHub";
       const desc =
         "Fill out PDF forms online free — type into text fields, tick checkboxes and select options in your browser. No upload, no signup, no watermark.";
       const url = "/tools/fill-forms";
@@ -590,7 +590,7 @@ export const Route = createFileRoute("/tools/$slug")({
     }
     if (loaderData?.slug === "flatten-pdf") {
       const title =
-        "Flatten PDF Online Free — Make Form Fields Permanent | FreePDFHub";
+        "Flatten PDF Online Free | FreePDFHub";
       const desc =
         "Flatten PDF online free — lock form fields so answers can't be changed. Runs in your browser: no upload, no signup, no watermark.";
       const url = "/tools/flatten-pdf";
@@ -616,7 +616,7 @@ export const Route = createFileRoute("/tools/$slug")({
     }
     if (loaderData?.slug === "pdf-metadata") {
       const title =
-        "Edit PDF Metadata Online Free — View, Change & Remove Properties | FreePDFHub";
+        "Edit PDF Metadata Online Free | FreePDFHub";
       const desc =
         "View, edit or remove PDF metadata online free — title, author & hidden properties, in your browser. No upload. Clean files before sharing.";
       const url = "/tools/pdf-metadata";
@@ -642,7 +642,7 @@ export const Route = createFileRoute("/tools/$slug")({
     }
     if (loaderData?.slug === "grayscale-pdf") {
       const title =
-        "Convert PDF to Grayscale Online Free — Black & White PDF | FreePDFHub";
+        "Grayscale PDF Converter Free | FreePDFHub";
       const desc =
         "Convert PDF to grayscale online free — black and white pages in your browser. Save printer ink and shrink scans. No upload, no signup.";
       const url = "/tools/grayscale-pdf";
@@ -668,7 +668,7 @@ export const Route = createFileRoute("/tools/$slug")({
     }
     if (loaderData?.slug === "add-blank-pages") {
       const title =
-        "Add Blank Page to PDF Online Free — Insert Empty Pages | FreePDFHub";
+        "Add Blank Pages to PDF Free | FreePDFHub";
       const desc =
         "Insert blank pages into a PDF online free — anywhere in the document, in your browser. No upload, no signup, no watermark.";
       const url = "/tools/add-blank-pages";
@@ -694,7 +694,7 @@ export const Route = createFileRoute("/tools/$slug")({
     }
     if (loaderData?.slug === "scan-to-pdf") {
       const title =
-        "Scan to PDF Online Free — Use Your Phone as a Scanner | FreePDFHub";
+        "Scan to PDF Online Free | FreePDFHub";
       const desc =
         "Scan documents to PDF free using your phone camera — right in the browser, no app install. No upload, no signup. Scans never leave your device.";
       const url = "/tools/scan-to-pdf";
@@ -719,7 +719,7 @@ export const Route = createFileRoute("/tools/$slug")({
       };
     }
     if (loaderData?.slug === "extract-images") {
-      const title = "Extract Images from PDF Online Free — Save Original Photos | FreePDFHub";
+      const title = "Extract Images from PDF Free | FreePDFHub";
       const desc = "Extract images from PDF online free — pull out the original embedded photos at full quality, in your browser. No upload, no signup.";
       const url = "/tools/extract-images";
       return {
@@ -743,7 +743,7 @@ export const Route = createFileRoute("/tools/$slug")({
       };
     }
     if (loaderData?.slug === "compare") {
-      const title = "Compare PDF Files Online Free — Find Differences, No Upload | FreePDFHub";
+      const title = "Compare PDF Files Online Free | FreePDFHub";
       const desc = "Compare two PDFs online free — spot every changed page side by side in your browser. No upload, no signup. Both files stay on your device.";
       const url = "/tools/compare";
       return {
