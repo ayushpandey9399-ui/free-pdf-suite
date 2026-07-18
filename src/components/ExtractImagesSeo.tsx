@@ -41,6 +41,27 @@ export function ExtractImagesSeo() {
         </p>
       </section>
 
+      <section>
+        <h2 className="text-2xl font-bold">Which formats extract, and what doesn't</h2>
+        <p className="mt-3">
+          PDFs embed images in a handful of stream types, and each comes out in the most sensible file
+          extension. JPEG-embedded photos are copied straight through as <code>.jpg</code> — byte-for-byte,
+          no re-encoding. Raw pixel images with an alpha channel or an unusual colour space are wrapped as
+          lossless <code>.png</code>. JPEG 2000 streams are saved with their native <code>.jp2</code>
+          extension. Every filename ends in the format the source actually used, so a spec sheet with
+          product photography drops out as sharp JPEGs and a diagram-heavy ebook drops out as PNGs.
+        </p>
+        <p className="mt-3">
+          One honest limit: vector art is not extractable. Charts built from lines and shapes, tables
+          drawn with rules and rectangles, logos rendered from vector paths, and any illustration made of
+          curves rather than pixels are drawing instructions the reader paints on demand — there is no
+          image file inside the PDF to hand back. If you need those elements as pictures, render whole
+          pages with{" "}
+          <Link to="/tools/$slug" params={{ slug: "pdf-to-images" }} className="font-semibold underline" style={{ color: "#e5322d" }}>PDF to Image</Link>
+          {" "}and clip the region you want; extraction is only for real embedded raster images.
+        </p>
+      </section>
+
       <section className="grid gap-6 md:grid-cols-2">
         <div>
           <h3 className="text-lg font-bold">Full original quality</h3>
