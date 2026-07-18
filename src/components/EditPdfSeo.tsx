@@ -71,26 +71,26 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
     q: "Can I change or delete the existing text in a PDF?",
     a: (
       <>
-        No — and this is worth being clear about. A PDF stores its existing
-        text as fixed content on the page (often with fonts baked in and
-        letters positioned individually), so it isn't editable the way a
-        Word document is. This tool lets you <em>add</em> on top: type a
-        new value beside the wrong one, draw a Line through text to strike
-        it out, or paint a white Rectangle over a block to cover it. If
-        you need to permanently remove sensitive content so it can't be
-        recovered, use{" "}
+        Yes. Switch to <strong>Edit text</strong> mode, click any line of
+        existing text and retype it — the tool samples the line's
+        background colour, covers the original with a matching rectangle
+        and draws your replacement in a font, size and colour that match
+        the source as closely as possible. It works best on normal digital
+        PDFs (contracts, invoices, letters); scanned PDFs have no
+        underlying text layer, so use{" "}
+        <Link to="/tools/ocr-pdf" className="text-[#e5322d] underline">
+          OCR PDF
+        </Link>{" "}
+        first to make the text selectable. To permanently remove sensitive
+        content so it can't be recovered, use{" "}
         <Link to="/tools/redact-pdf" className="text-[#e5322d] underline">
           Redact PDF
         </Link>
-        . If the PDF has real interactive form fields, use{" "}
-        <Link to="/tools/fill-forms" className="text-[#e5322d] underline">
-          Fill PDF Forms
-        </Link>{" "}
-        to type into them properly.
+        .
       </>
     ),
     plain:
-      "No. PDFs bake their text into the page, so you can't rewrite existing text here. You can add new text on top, strike through with a Line, or cover a block with a Rectangle. To permanently remove sensitive content use Redact PDF (/tools/redact-pdf); to fill real interactive form fields use Fill PDF Forms (/tools/fill-forms).",
+      "Yes. Switch to Edit text mode, click a line and retype it — the tool covers the original with a background-matched rectangle and draws your new text in a matching font, size and colour. Works on native PDFs; run OCR PDF (/tools/ocr-pdf) first for scans. For permanent removal, use Redact PDF (/tools/redact-pdf).",
   },
   {
     q: "Can I type on a scanned PDF?",
