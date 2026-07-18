@@ -1,4 +1,4 @@
-import type { ReactNode, ComponentType } from "react";
+import type { ReactNode, ComponentType, CSSProperties } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import type { ToolIconProps } from "@/components/icons/ToolIcons";
@@ -17,7 +17,7 @@ export function ToolLayout({
   return (
     <div className="mx-auto max-w-4xl px-4 pb-16">
       <section
-        className="relative flex flex-col md:min-h-[58vh] pt-12 md:pt-6 pb-14"
+        className="relative flex flex-col md:min-h-[50vh] pt-12 md:pt-6 pb-14"
       >
         <Link
           to="/"
@@ -41,8 +41,8 @@ export function ToolLayout({
             {title}
           </h1>
           <p
-            className="mx-auto mt-4 max-w-[560px] text-[15px] sm:text-[18px]"
-            style={{ color: "#6B7280", lineHeight: 1.65 }}
+            className="mx-auto mt-4 max-w-[640px] text-[15px] sm:text-[18px]"
+            style={{ color: "#6B7280", lineHeight: 1.65, textWrap: "balance", textWrapStyle: "balance" } as CSSProperties}
           >
             {description}
           </p>
