@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { BenefitBadges } from "@/components/BenefitBadges";
 import { Check } from "lucide-react";
 
 const steps = [
@@ -112,22 +113,7 @@ const related = [
 export function ExtractPagesSeo() {
   return (
     <section className="mx-auto max-w-4xl px-4 pb-16 text-[#33333c]">
-      {/* Benefit strip */}
-      <div className="mt-6 grid gap-3 sm:grid-cols-3">
-        {[
-          "Files never leave your device",
-          "Pick any pages, in any combination",
-          "Free — no signup, no watermark",
-        ].map((b) => (
-          <div
-            key={b}
-            className="flex items-center gap-2 rounded-lg border border-[#f3d4d2] bg-[#fef6f5] px-3 py-2 text-[13px] font-semibold"
-          >
-            <Check className="h-4 w-4 shrink-0 text-[#e5322d]" />
-            <span>{b}</span>
-          </div>
-        ))}
-      </div>
+      <BenefitBadges items={["Files never leave your device", "Pick any pages, in any combination", "Free, no signup, no watermark"]} />
 
       {/* How-to */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
