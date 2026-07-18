@@ -100,6 +100,30 @@ type Anno =
   | (Base & { kind: "draw"; points: Pt[]; color: string; width: number })
   | (Base & { kind: "image"; x: number; y: number; w: number; h: number; dataUrl: string; mime: string });
 
+type EditMode = "edit-text" | "annotate";
+
+interface TextEdit {
+  id: string;
+  page: number;
+  lineId: string;
+  /** left, PDF units, from LEFT */
+  x: number;
+  /** top of line box, PDF units, from TOP */
+  y: number;
+  width: number;
+  height: number;
+  /** baseline y, PDF units, from TOP */
+  baselineY: number;
+  originalText: string;
+  newText: string;
+  fontSize: number;
+  color: string;   // hex
+  bgColor: string; // hex (sampled)
+  bold: boolean;
+  italic: boolean;
+  family: FontFamily;
+}
+
 interface PageInfo {
   url: string;
   width: number;

@@ -140,7 +140,7 @@ const TOOL_META: Record<string, ToolMeta> = {
   },
   "edit-pdf": {
     title: "Edit PDF Online Free | FreePDFHub",
-    desc: "Edit PDF online free by adding text, highlights, shapes, or freehand notes on top of any page. Save annotated copies from your browser in seconds.",
+    desc: "Edit existing PDF text in your browser. Click any line, retype it, and we match the original style. Also highlight, draw, and add images for free.",
     jsonLd: [editPdfFaqJsonLd, editPdfHowToJsonLd, editPdfSoftwareJsonLd],
   },
   "fill-forms": {
