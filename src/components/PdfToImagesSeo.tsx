@@ -23,7 +23,7 @@ const steps = [
 
 const benefits = [
   {
-    h: "JPG or PNG — your choice",
+    h: "JPG or PNG, your choice",
     p: "Pick JPG when the goal is a small file you can drop into a chat, an email or a form — a page usually lands under a few hundred kilobytes. Pick PNG when you need lossless quality: screenshots of contracts, technical drawings, invoices and anything where text and thin lines have to stay perfectly sharp.",
   },
   {

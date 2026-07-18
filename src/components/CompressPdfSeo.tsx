@@ -35,7 +35,7 @@ const benefits = [
     p: "There are no daily quotas, no locked tiers and no watermark stamped onto the output. Compress as many PDFs as you want, as often as you want, completely free.",
   },
   {
-    h: "Instant — no upload wait",
+    h: "Instant: no upload wait",
     p: "Because the file never leaves your device, compression begins the moment you click the button. Large PDFs do not have to crawl through a slow connection first, and there is nothing to download back afterwards.",
   },
 ];
