@@ -34,9 +34,8 @@ function ContactPage() {
       <p>
         The best way to reach us is by email:
       </p>
-      <p style={{ fontSize: 20, fontWeight: 600 }}>
-        <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
-      </p>
+      <ContactEmail />
+
 
       <h2>Reporting a bug</h2>
       <p>To help us reproduce and fix the issue quickly, please include:</p>
