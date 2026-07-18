@@ -546,6 +546,9 @@ export default function EditPdf() {
         // space; we also stash pdfWidth/pdfHeight (unrotated) so the
         // export can convert display coords back to content-stream space.
         const EAGER = Math.min(3, doc.numPages);
+        const eagerSet = new Set<number>();
+        for (let i = 0; i < EAGER; i++) eagerSet.add(i);
+        setVisiblePages(eagerSet);
         for (let i = 1; i <= doc.numPages; i++) {
           const page = await doc.getPage(i);
           if (cancelled || loadGenRef.current !== gen) return;
