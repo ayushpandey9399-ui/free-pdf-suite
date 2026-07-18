@@ -1796,7 +1796,7 @@ interface PageOverlayProps {
 
 function PageOverlay(props: PageOverlayProps) {
   const { index, page, annos, selectedId, mode, onSelect, onCreate, onUpdate, onCommitChange, onRemove } = props;
-  const { editTextMode, lines, edits, activeEditLineId, showAllEditable, onNeedLines, onOpenLine, onCloseLine, onCommitEdit, onRemoveEdit, getPageCanvas } = props;
+  const { editTextMode, lines, edits, activeEditLineId, showAllEditable, onNeedLines, onOpenLine, onCloseLine, onCommitEdit, onRemoveEdit, getPageCanvas, onVisibilityChange } = props;
   const wrapRef = useRef<HTMLDivElement>(null);
   const [displayW, setDisplayW] = useState(0);
   const [draft, setDraft] = useState<Anno | null>(null);
@@ -1812,26 +1812,28 @@ function PageOverlay(props: PageOverlayProps) {
     return () => ro.disconnect();
   }, []);
 
-  // Lazy trigger line extraction when this page scrolls into view AND we're
-  // in edit-text mode.
+  // Always track visibility so the parent can drive canvas eviction
+  // (Fix B1). Also triggers lazy line extraction when in edit-text mode.
   useEffect(() => {
     const el = wrapRef.current;
-    if (!el || !editTextMode) return;
-    if (lines) return; // already have them
+    if (!el) return;
     const io = new IntersectionObserver(
       (entries) => {
         for (const ent of entries) {
-          if (ent.isIntersecting) {
-            setVisible(true);
-            onNeedLines();
-          }
+          const isVis = ent.isIntersecting;
+          setVisible((v) => (v === isVis ? v : isVis));
+          onVisibilityChange(isVis);
+          if (isVis && editTextMode && !lines) onNeedLines();
         }
       },
-      { rootMargin: "200px" },
+      { rootMargin: "400px" },
     );
     io.observe(el);
-    return () => io.disconnect();
-  }, [editTextMode, lines, onNeedLines]);
+    return () => {
+      io.disconnect();
+      onVisibilityChange(false);
+    };
+  }, [editTextMode, lines, onNeedLines, onVisibilityChange]);
 
   // Filter out lines that already have a saved edit (they render an
   // "edited" indicator instead of the raw hover outline).
