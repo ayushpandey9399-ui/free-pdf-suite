@@ -171,6 +171,7 @@ export function sampleBackgroundAndTextColor(
       text: { r: 0, g: 0, b: 0 },
       confident: false,
       bgConfident: false,
+      bgBusy: true,
       edgeInsets: noEdges,
     };
   }
