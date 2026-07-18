@@ -270,8 +270,10 @@ export default function EditPdf() {
   // and for background/foreground color sampling at edit / export time).
   const pdfjsDocRef = useRef<PDFDocumentProxy | null>(null);
   const pageCanvasesRef = useRef<Map<number, HTMLCanvasElement>>(new Map());
+  const renderingRef = useRef<Set<number>>(new Set());
   const linesByPageRef = useRef<Map<number, EditableLine[]>>(new Map());
   const [linesTick, setLinesTick] = useState(0);
+  const [visiblePages, setVisiblePages] = useState<Set<number>>(() => new Set());
   const [hasAnyText, setHasAnyText] = useState<boolean | null>(null); // null = unknown
 
   // Contextual style state (used when creating NEW elements)
