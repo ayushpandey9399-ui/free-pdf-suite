@@ -512,8 +512,8 @@ export default function EditPdf() {
         copy[pageIdx] = { ...copy[pageIdx], url };
         return copy;
       });
-    } catch {
-      /* ignore render failures for evicted pages */
+    } catch (error) {
+      console.error("Edit PDF page render failed", error);
     } finally {
       renderingRef.current.delete(pageIdx);
     }
