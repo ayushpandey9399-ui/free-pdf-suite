@@ -25,28 +25,28 @@ export function ToolLayout({
         Back to all tools
       </Link>
 
-      <div className="mt-6 sm:mt-8 text-center">
+      <div className="mt-8 sm:mt-10 text-center">
         <h1
-          className="mx-auto max-w-[640px] text-[26px] sm:text-[36px] font-extrabold"
+          className="mx-auto text-[28px] sm:text-[40px] font-extrabold whitespace-nowrap"
           style={{
-            color: "#171717",
-            letterSpacing: "-0.025em",
-            lineHeight: 1.25,
-            textWrap: "balance",
+            color: "#111111",
+            letterSpacing: "-0.02em",
+            lineHeight: 1.15,
           }}
         >
           {title}
         </h1>
         <p
-          className="mx-auto mt-3.5 sm:mt-5 max-w-[560px] text-[15px] sm:text-[17px]"
-          style={{ color: "#6B7280", lineHeight: 1.6 }}
+          className="mx-auto mt-4 max-w-[640px] text-[15px] sm:text-[18px]"
+          style={{ color: "#4B5563", lineHeight: 1.6 }}
         >
           {description}
         </p>
       </div>
 
-      <div className="mt-9 sm:mt-12">{children}</div>
+      <div className="mt-10 sm:mt-12">{children}</div>
     </div>
 
   );
 }
+
