@@ -705,6 +705,9 @@ export default function EditPdf() {
         color: { r: number; g: number; b: number };
         unencodable: number;
         skipCover: boolean;   // complex-script or empty commit — leave original
+        overflow: boolean;    // Fix B3: still doesn't fit at 0.7× — clip
+        boxLeft: number;
+        boxRight: number;
       }
 
       const plans: DrawPlan[] = [];
