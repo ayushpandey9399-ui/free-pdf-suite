@@ -2490,6 +2490,33 @@ function EditLineOverlay({
         initialFamily={existing?.family ?? line.family}
         onCancel={onCancel}
         onCommit={(next) => {
+          // ---- Fix Batch A.1 - Fix 1: NO-OP GUARD ----
+          // If the committed text is identical to the original AND font/
+          // style/size are unchanged, create NO TextEdit. Prevents accidental
+          // click-and-Enter from covering the cell with a redundant edit.
+          const origText = line.text;
+          const sameText = next.text === origText;
+          const sameStyle =
+            next.fontSize === (existing?.fontSize ?? line.fontSize) &&
+            next.bold === (existing?.bold ?? line.bold) &&
+            next.italic === (existing?.italic ?? line.italic) &&
+            next.family === (existing?.family ?? line.family) &&
+            next.color === (existing?.color ?? sampled?.fg ?? "#000000");
+          if (sameText && sameStyle && !existing) {
+            onCancel();
+            return;
+          }
+          // Empty commit: only accept as an intentional delete if the user
+          // confirms. Otherwise cancel and keep the original text.
+          if (next.text.trim() === "" && origText.trim() !== "") {
+            const ok =
+              typeof window !== "undefined" &&
+              window.confirm("Delete this text from the PDF?");
+            if (!ok) {
+              onCancel();
+              return;
+            }
+          }
           onCommit({
             id: existing?.id ?? `TE-${line.id}`,
             page: line.page,
@@ -2512,6 +2539,7 @@ function EditLineOverlay({
             align: existing?.align ?? sampled?.align,
             cellLeft: existing?.cellLeft ?? sampled?.cellLeft,
             cellRight: existing?.cellRight ?? sampled?.cellRight,
+            skipCover: existing?.skipCover ?? sampled?.skipCover ?? false,
           });
         }}
       />
