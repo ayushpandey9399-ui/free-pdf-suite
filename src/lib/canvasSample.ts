@@ -217,6 +217,7 @@ export function sampleBackgroundAndTextColor(
       text: { r: 0, g: 0, b: 0 },
       confident: false,
       bgConfident,
+      bgBusy: !bgConfident,
       edgeInsets: noEdges,
     };
   }
@@ -224,6 +225,22 @@ export function sampleBackgroundAndTextColor(
   // Choose final background: dominant-in-rect when the border is noisy;
   // otherwise stick with the border median.
   const background = bgConfident ? borderMedian : dominantColor(img);
+
+  // ---- Busy detection. When the border was noisy, verify the dominant
+  // in-rect color actually accounts for most of the pixels (>= 55% within
+  // 30 RGB units). If not, the area is genuinely multi-colored/busy and
+  // painting an opaque cover rect would erase content the user cares about.
+  let bgBusy = false;
+  if (!bgConfident) {
+    const NEAR_SQ = 30 * 30;
+    let near = 0;
+    const dtot = img.data;
+    const npix = dtot.length / 4;
+    for (let i = 0; i < dtot.length; i += 4) {
+      if (dist2(background, dtot[i], dtot[i + 1], dtot[i + 2]) <= NEAR_SQ) near++;
+    }
+    if (near / npix < 0.55) bgBusy = true;
+  }
 
   // ---- Edge inset detection. For each side, look at the *first row/col
   //      inside* the rect and check whether its median colour differs from
@@ -269,6 +286,7 @@ export function sampleBackgroundAndTextColor(
       text: { r: 0, g: 0, b: 0 },
       confident: false,
       bgConfident,
+      bgBusy,
       edgeInsets,
     };
   }
@@ -277,6 +295,7 @@ export function sampleBackgroundAndTextColor(
     text: { r: median(rs), g: median(gs), b: median(bs) },
     confident: true,
     bgConfident,
+    bgBusy,
     edgeInsets,
   };
 }
