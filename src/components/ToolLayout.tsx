@@ -42,7 +42,7 @@ export function ToolLayout({
           </h1>
           <p
             className="mx-auto mt-4 max-w-[640px] text-[15px] sm:text-[18px]"
-            style={{ color: "#6B7280", lineHeight: 1.65, textWrap: "balance", textWrapStyle: "balance" } as React.CSSProperties}
+            style={{ color: "#6B7280", lineHeight: 1.65, textWrap: "balance", textWrapStyle: "balance" } as CSSProperties}
           >
             {description}
           </p>
