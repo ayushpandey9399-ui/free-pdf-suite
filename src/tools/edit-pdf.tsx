@@ -430,7 +430,9 @@ export default function EditPdf() {
           let total = 0;
           for (let i = 1; i <= probe; i++) {
             const c = pageCanvasesRef.current.get(i - 1);
-            const rc = c ? { canvas: c, scale: c.width / vp1.width } : null;
+            const p = await doc.getPage(i);
+            const pv = p.getViewport({ scale: 1, rotation: 0 });
+            const rc = c ? { canvas: c, scale: c.width / pv.width } : null;
             const lines = await extractEditableLines(doc, i, rc);
             linesByPageRef.current.set(i - 1, lines);
             total += lines.reduce((n, l) => n + l.text.length, 0);
