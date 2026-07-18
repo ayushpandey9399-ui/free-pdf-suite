@@ -728,6 +728,7 @@ export default function EditPdf() {
             te, pageIndex: te.page, pH,
             font: (await getFont(false)), safeText: "", drawX: 0, drawSize: 0,
             color: { r: 0, g: 0, b: 0 }, unencodable: 0, skipCover: true,
+            overflow: false, boxLeft: te.x, boxRight: te.x + te.width,
           });
           continue;
         }
