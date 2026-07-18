@@ -363,6 +363,7 @@ function ToolPage() {
       <ToolLayout
         title={layoutTitle}
         description={tool.description}
+        crumbName={tool.name}
         icon={tool.icon}
         tint={categoryTint[tool.category]}
       >
