@@ -17,7 +17,7 @@ export function ToolLayout({
   return (
     <div className="mx-auto max-w-4xl px-4 pb-16">
       <section
-        className="relative flex flex-col md:min-h-[58vh] pt-12 md:pt-6 pb-14"
+        className="relative flex flex-col md:min-h-[50vh] pt-12 md:pt-6 pb-14"
       >
         <Link
           to="/"
