@@ -3,21 +3,33 @@ import type { TextItem } from "pdfjs-dist/types/src/display/api";
 import { classifyPdfFont, type FontFamily } from "./fontMatch";
 
 /**
- * One clickable "line" of existing PDF text, in PDF user-space with a
- * top-left origin (y grows downward, matching the on-screen overlay layout
- * used by edit-pdf.tsx).
+ * One clickable text SEGMENT (Phase 1.5). A segment is a horizontally
+ * contiguous run of text on a single baseline; a table row that visually
+ * reads "2 | 2026-27 | Micro" produces THREE segments, not one long line,
+ * so each cell can be edited independently.
+ *
+ * Coordinates are PDF user-space with a top-left origin (y grows downward,
+ * matching the on-screen overlay layout used by edit-pdf.tsx).
+ *
+ * The box (x, y, width, height) is a TIGHT bounding box around the actual
+ * glyph run:
+ *   left   = x of first glyph's origin
+ *   right  = x of last glyph + its advance width
+ *   top    = baseline − ascent  (fontSize × 0.80)
+ *   bottom = baseline + descent (fontSize × 0.22)
+ * Never a fixed-width or full-line rectangle.
  */
 export interface EditableLine {
   id: string;
   page: number;
   text: string;
-  /** left edge, PDF units, from left of page. */
+  /** left edge of tight glyph box, PDF units, from left of page. */
   x: number;
-  /** top edge of the line box, PDF units, from TOP of page. */
+  /** top edge of tight glyph box, PDF units, from TOP of page. */
   y: number;
   width: number;
   height: number;
-  /** baseline y, PDF units, from TOP of page (used to render replacement text). */
+  /** baseline y, PDF units, from TOP of page. */
   baselineY: number;
   fontSize: number;
   fontName: string;
@@ -26,11 +38,27 @@ export interface EditableLine {
   family: FontFamily;
 }
 
-const uid = (n: number, i: number) => `L${n}-${i}-${Math.random().toString(36).slice(2, 8)}`;
+const uid = (n: number, i: number, j: number) =>
+  `L${n}-${i}-${j}-${Math.random().toString(36).slice(2, 8)}`;
+
+/** Ascent / descent as a fraction of fontSize when the font metric isn't available. */
+const ASCENT = 0.80;
+const DESCENT = 0.22;
+
+function median(nums: number[]): number {
+  if (!nums.length) return 0;
+  const s = [...nums].sort((a, b) => a - b);
+  const m = s.length >> 1;
+  return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
+}
 
 /**
- * Extract editable text lines for one page. Non-rotated / non-sheared text
- * only (Phase 1). Groups pdfjs text items into visual lines by baseline y.
+ * Extract editable text segments for one page. Non-rotated / non-sheared
+ * text only (Phase 1). Two-step grouping:
+ *   1. Bucket items by baseline y (existing tolerance).
+ *   2. WITHIN each baseline bucket, split into segments wherever the
+ *      horizontal gap between adjacent items exceeds
+ *      max(1.2 × median gap, 0.6 × fontSize).
  */
 export async function extractEditableLines(
   pdfjsDoc: PDFDocumentProxy,
@@ -40,38 +68,36 @@ export async function extractEditableLines(
   const viewport = page.getViewport({ scale: 1, rotation: 0 });
   const pageHeight = viewport.height;
 
-  // Ensure fonts are resolved so commonObjs lookups return real font metadata.
   const content = await page.getTextContent();
   const items = content.items.filter((it): it is TextItem => "str" in it);
 
   interface Raw {
     str: string;
-    x: number;       // left, from LEFT
+    x: number;        // left, from LEFT
     baseline: number; // baseline y from TOP
-    top: number;     // top of glyph box, from TOP
-    width: number;
-    height: number;
+    width: number;    // advance width
     fontSize: number;
     fontName: string;
     bold: boolean;
     italic: boolean;
   }
 
-  const commonObjs = (page as unknown as { commonObjs: { has: (id: string) => boolean; get: (id: string) => { name?: string; bold?: boolean; italic?: boolean } | null } }).commonObjs;
+  const commonObjs = (page as unknown as {
+    commonObjs: {
+      has: (id: string) => boolean;
+      get: (id: string) => { name?: string; bold?: boolean; italic?: boolean } | null;
+    };
+  }).commonObjs;
 
   const raws: Raw[] = [];
   for (const it of items) {
-    if (!it.str || !it.str.trim()) continue;
+    if (!it.str) continue;
     const [a, b, c, d, e, f] = it.transform as [number, number, number, number, number, number];
-    // Reject rotated / sheared runs. Only near-identity orientation allowed.
-    if (Math.abs(b) > 0.01 || Math.abs(c) > 0.01) continue;
+    if (Math.abs(b) > 0.01 || Math.abs(c) > 0.01) continue; // rotated / sheared
     if (a <= 0 || d <= 0) continue;
 
     const fontSize = Math.abs(d) || Math.abs(a);
-    const height = Math.max(fontSize, it.height || fontSize);
-    // baseline in PDF-native coords is f (from bottom); convert to top-origin:
     const baseline = pageHeight - f;
-    const top = baseline - fontSize;
     const width = it.width || (a * it.str.length * 0.5);
 
     let bold = false;
@@ -86,91 +112,131 @@ export async function extractEditableLines(
           if (typeof meta.italic === "boolean") italic = meta.italic;
         }
       }
-    } catch {
-      /* commonObjs may throw if font not yet resolved; fall back to name-only */
-    }
+    } catch { /* font not resolved yet */ }
 
-    raws.push({
-      str: it.str,
-      x: e,
-      baseline,
-      top,
-      width,
-      height,
-      fontSize,
-      fontName: realFontName,
-      bold,
-      italic,
-    });
+    raws.push({ str: it.str, x: e, baseline, width, fontSize, fontName: realFontName, bold, italic });
   }
 
-  // Sort by baseline then x
   raws.sort((p, q) => p.baseline - q.baseline || p.x - q.x);
 
-  // Group items into lines (baseline within tolerance, same font size bucket).
-  const lines: Raw[][] = [];
+  // Step 1: baseline buckets.
+  const buckets: Raw[][] = [];
   for (const r of raws) {
-    const last = lines[lines.length - 1];
+    const last = buckets[buckets.length - 1];
     if (last) {
       const ref = last[last.length - 1];
       const sameLine =
         Math.abs(r.baseline - ref.baseline) <= Math.max(1.5, r.fontSize * 0.25) &&
         Math.abs(r.fontSize - ref.fontSize) <= Math.max(1, ref.fontSize * 0.2);
-      if (sameLine) {
-        last.push(r);
-        continue;
-      }
+      if (sameLine) { last.push(r); continue; }
     }
-    lines.push([r]);
+    buckets.push([r]);
   }
 
   const out: EditableLine[] = [];
-  for (let i = 0; i < lines.length; i++) {
-    const grp = lines[i];
-    // Reconstruct string with a space between items whose horizontal gap
-    // looks like whitespace.
-    let text = "";
-    for (let j = 0; j < grp.length; j++) {
-      const g = grp[j];
-      if (j > 0) {
-        const prev = grp[j - 1];
-        const gap = g.x - (prev.x + prev.width);
-        const avgCh = prev.fontSize * 0.25;
-        if (gap > avgCh) text += " ";
-      }
-      text += g.str;
+  for (let i = 0; i < buckets.length; i++) {
+    const bucket = buckets[i];
+
+    // Step 2: split into segments. Two kinds of breaks:
+    //   (a) an item whose str is only whitespace AND whose advance width
+    //       exceeds the per-line break threshold — pdfjs emits these as
+    //       "bridge" items across table columns.
+    //   (b) a positive gap between adjacent items exceeding the same
+    //       threshold (some PDFs omit the bridge item entirely).
+    // Threshold per spec: max(1.2 × median space-width, 0.6 × fontSize).
+    const spaceWidths: number[] = [];
+    for (const r of bucket) {
+      if (/^\s+$/.test(r.str)) spaceWidths.push(r.width);
     }
-    text = text.replace(/\s+/g, " ").trim();
-    if (!text) continue;
+    const gaps: number[] = [];
+    for (let k = 1; k < bucket.length; k++) {
+      const g = bucket[k].x - (bucket[k - 1].x + bucket[k - 1].width);
+      if (g > 0) gaps.push(g);
+    }
+    const fs0 = bucket[0].fontSize;
+    // Proxy for a normal single-word-space glyph. pdfjs collapses inter-cell
+    // whitespace into one wide bridge item, so measured medians overshoot;
+    // cap at ~0.35em so `1.2 × spaceRef` stays below the 0.6em fallback and
+    // any bridge / large gap trips the threshold.
+    const capped = (n: number) => Math.min(n, fs0 * 0.35);
+    const spaceRef = spaceWidths.length
+      ? capped(median(spaceWidths))
+      : gaps.length
+        ? capped(median(gaps))
+        : fs0 * 0.28;
+    const threshold = Math.max(1.2 * spaceRef, 0.6 * fs0);
 
-    const x = Math.min(...grp.map((g) => g.x));
-    const right = Math.max(...grp.map((g) => g.x + g.width));
-    const width = right - x;
-    const fontSize = grp[0].fontSize;
-    const baselineY = grp[0].baseline;
-    const top = Math.min(...grp.map((g) => g.top));
-    const height = Math.max(fontSize, baselineY - top + fontSize * 0.25);
 
-    const cls = classifyPdfFont(grp[0].fontName, {
-      bold: grp[0].bold,
-      italic: grp[0].italic,
-    });
+    const segments: Raw[][] = [];
+    let cur: Raw[] = [];
+    const push = () => { if (cur.length) { segments.push(cur); cur = []; } };
+    for (let k = 0; k < bucket.length; k++) {
+      const r = bucket[k];
+      const isSpace = /^\s+$/.test(r.str);
+      if (isSpace && r.width > threshold) {
+        push();
+        continue;
+      }
+      if (cur.length) {
+        const prev = cur[cur.length - 1];
+        const gap = r.x - (prev.x + prev.width);
+        if (gap > threshold) push();
+      }
+      cur.push(r);
+    }
+    push();
 
-    out.push({
-      id: uid(pageNumber, i),
-      page: pageNumber - 1, // zero-based for the tool
-      text,
-      x,
-      y: top,
-      width,
-      height,
-      baselineY,
-      fontSize,
-      fontName: grp[0].fontName,
-      bold: cls.bold,
-      italic: cls.italic,
-      family: cls.family,
-    });
+
+
+    for (let j = 0; j < segments.length; j++) {
+      const grp = segments[j];
+
+      // Reconstruct text with intra-segment spaces where an item gap looks
+      // like whitespace.
+      let text = "";
+      for (let k = 0; k < grp.length; k++) {
+        const g = grp[k];
+        if (k > 0) {
+          const prev = grp[k - 1];
+          const gap = g.x - (prev.x + prev.width);
+          if (gap > prev.fontSize * 0.18) text += " ";
+        }
+        text += g.str;
+      }
+      text = text.replace(/\s+/g, " ").trim();
+      if (!text) continue;
+
+      // Tight bounding box.
+      const left = Math.min(...grp.map((g) => g.x));
+      const right = Math.max(...grp.map((g) => g.x + g.width));
+      const width = Math.max(1, right - left);
+      const fontSize = grp[0].fontSize;
+      const baselineY = grp[0].baseline;
+      const top = baselineY - fontSize * ASCENT;
+      const bottom = baselineY + fontSize * DESCENT;
+      const height = bottom - top;
+
+      const cls = classifyPdfFont(grp[0].fontName, {
+        bold: grp[0].bold,
+        italic: grp[0].italic,
+      });
+
+      out.push({
+        id: uid(pageNumber, i, j),
+        page: pageNumber - 1,
+        text,
+        x: left,
+        y: top,
+        width,
+        height,
+        baselineY,
+        fontSize,
+        fontName: grp[0].fontName,
+        bold: cls.bold,
+        italic: cls.italic,
+        family: cls.family,
+      });
+    }
   }
   return out;
 }
