@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
 
 const steps = [
