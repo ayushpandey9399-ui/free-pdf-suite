@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { BenefitBadges } from "@/components/BenefitBadges";
 
 
 const steps = [
@@ -114,7 +113,6 @@ export function RotatePdfSeo() {
   return (
     <section className="mx-auto max-w-4xl px-4 pb-16 text-[#33333c]">
 
-      <BenefitBadges items={["Files never leave your device", "Rotation saved permanently in the file", "Free, no signup, no watermark"]} />
 
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         How to rotate a PDF online for free

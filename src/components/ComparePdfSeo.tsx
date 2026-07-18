@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { BenefitBadges } from "@/components/BenefitBadges";
 
 
 const steps = [
@@ -113,7 +112,6 @@ const related = [
 export function ComparePdfSeo() {
   return (
     <section className="mx-auto max-w-4xl px-4 pb-16 text-[#33333c]">
-      <BenefitBadges items={["Both files stay on your device", "Page-by-page visual comparison", "Free, no signup, no limits"]} />
 
       {/* How-to */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">

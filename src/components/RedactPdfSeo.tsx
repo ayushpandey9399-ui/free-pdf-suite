@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { BenefitBadges } from "@/components/BenefitBadges";
 
 
 const steps = [
@@ -113,7 +112,6 @@ const related = [
 export function RedactPdfSeo() {
   return (
     <section className="mx-auto max-w-4xl px-4 pb-16 text-[#33333c]">
-      <BenefitBadges items={["Files never leave your device", "True redaction, content permanently removed", "Free, no signup, no watermark"]} />
 
       {/* How-to */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">

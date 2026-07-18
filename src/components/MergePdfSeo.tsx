@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { BenefitBadges } from "@/components/BenefitBadges";
 
 
 const steps = [
@@ -114,7 +113,6 @@ const related = [
 export function MergePdfSeo() {
   return (
     <section className="mx-auto max-w-4xl px-4 pb-16 text-[#33333c]">
-      <BenefitBadges items={["Files never leave your device", "100% free, no signup, no watermark", "No file limits"]} />
 
 
       {/* How-to */}

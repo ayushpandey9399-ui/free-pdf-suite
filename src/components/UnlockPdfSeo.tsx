@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { BenefitBadges } from "@/components/BenefitBadges";
 
 
 const steps = [
@@ -113,7 +112,6 @@ const related = [
 export function UnlockPdfSeo() {
   return (
     <section className="mx-auto max-w-4xl px-4 pb-16 text-[#33333c]">
-      <BenefitBadges items={["File and password never leave your device", "Permanent, enter the password once, never again", "Free, no signup, no watermark"]} />
 
       {/* How-to */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">

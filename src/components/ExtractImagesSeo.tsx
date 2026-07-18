@@ -1,11 +1,9 @@
 import { Link } from "@tanstack/react-router";
-import { BenefitBadges } from "@/components/BenefitBadges";
 
 export function ExtractImagesSeo() {
   return (
     <div className="mx-auto mt-16 max-w-3xl space-y-12 text-[15px] leading-relaxed" style={{ color: "#33333c" }}>
 
-      <BenefitBadges items={["Files never leave your device", "Original embedded images, full quality", "Free, no signup, no watermark"]} />
 
       <section>
         <h2 className="text-2xl font-bold">How to extract images from a PDF online for free</h2>
