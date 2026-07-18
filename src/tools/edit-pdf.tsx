@@ -2157,3 +2157,336 @@ function getImageSize(dataUrl: string): Promise<{ w: number; h: number }> {
     img.src = dataUrl;
   });
 }
+
+/* =============================== Edit-text line overlay =============================== */
+
+function EditLineOverlay({
+  line,
+  scale,
+  pageWidth,
+  pageHeight,
+  isActive,
+  existing,
+  showAll,
+  getPageCanvas,
+  onOpen,
+  onCancel,
+  onCommit,
+  onRemove,
+}: {
+  line: EditableLine;
+  scale: number;
+  pageWidth: number;
+  pageHeight: number;
+  isActive: boolean;
+  existing: TextEdit | null;
+  showAll: boolean;
+  getPageCanvas: () => HTMLCanvasElement | null;
+  onOpen: () => void;
+  onCancel: () => void;
+  onCommit: (edit: TextEdit) => void;
+  onRemove: () => void;
+}) {
+  const [hover, setHover] = useState(false);
+  // Sample colors on demand (once) when the line becomes active for editing
+  // OR already has an existing edit (for cover preview + color).
+  const [sampled, setSampled] = useState<{ bg: string; fg: string } | null>(null);
+
+  useEffect(() => {
+    if (!isActive && !existing) return;
+    if (sampled) return;
+    const canvas = getPageCanvas();
+    if (!canvas) return;
+    // Convert line rect from PDF units (pageWidth × pageHeight) to canvas px.
+    const sx = canvas.width / pageWidth;
+    const sy = canvas.height / pageHeight;
+    const padBelow = line.fontSize * 0.25;
+    const padAbove = line.fontSize * 0.1;
+    const cx = Math.floor((line.x - 1) * sx);
+    const cy = Math.floor((line.y - padAbove) * sy);
+    const cw = Math.ceil((line.width + 2) * sx);
+    const ch = Math.ceil((line.baselineY + padBelow - (line.y - padAbove)) * sy);
+    const s = sampleBackgroundAndTextColor(canvas, { x: cx, y: cy, w: cw, h: ch });
+    setSampled({ bg: rgbToHex(s.background), fg: rgbToHex(s.text) });
+  }, [isActive, existing, sampled, getPageCanvas, line, pageWidth, pageHeight]);
+
+  const bgColor = existing?.bgColor ?? sampled?.bg ?? "#ffffff";
+  const fgColor = existing?.color ?? sampled?.fg ?? "#000000";
+
+  const style: React.CSSProperties = {
+    position: "absolute",
+    left: (line.x - 1.5) * scale,
+    top: (line.y - line.fontSize * 0.1) * scale,
+    width: (line.width + 3) * scale,
+    height: (line.baselineY + line.fontSize * 0.25 - (line.y - line.fontSize * 0.1)) * scale,
+  };
+
+  if (isActive) {
+    return (
+      <EditLineInlineEditor
+        line={line}
+        scale={scale}
+        style={style}
+        bgColor={bgColor}
+        fgColor={fgColor}
+        initialText={existing?.newText ?? line.text}
+        initialSize={existing?.fontSize ?? line.fontSize}
+        initialBold={existing?.bold ?? line.bold}
+        initialItalic={existing?.italic ?? line.italic}
+        initialFamily={existing?.family ?? line.family}
+        onCancel={onCancel}
+        onCommit={(next) => {
+          onCommit({
+            id: existing?.id ?? `TE-${line.id}`,
+            page: line.page,
+            lineId: line.id,
+            x: line.x,
+            y: line.y,
+            width: line.width,
+            height: line.height,
+            baselineY: line.baselineY,
+            originalText: line.text,
+            newText: next.text,
+            fontSize: next.fontSize,
+            color: next.color,
+            bgColor,
+            bold: next.bold,
+            italic: next.italic,
+            family: next.family,
+          });
+        }}
+      />
+    );
+  }
+
+  if (existing) {
+    // Show the committed replacement text over the cover rect, plus a small
+    // corner dot indicator.
+    return (
+      <div style={style} className="group">
+        <div
+          className="absolute inset-0"
+          style={{ backgroundColor: bgColor }}
+        />
+        <div
+          className="absolute"
+          style={{
+            left: 1.5 * scale,
+            top: (line.fontSize * 0.1) * scale,
+            width: (line.width) * scale,
+            fontSize: existing.fontSize * scale,
+            lineHeight: 1,
+            color: existing.color,
+            fontWeight: existing.bold ? 700 : 400,
+            fontStyle: existing.italic ? "italic" : "normal",
+            fontFamily:
+              existing.family === "serif"
+                ? "'Times New Roman', Times, serif"
+                : existing.family === "mono"
+                  ? "Menlo, Consolas, monospace"
+                  : "Helvetica, Arial, sans-serif",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+          }}
+        >
+          {existing.newText}
+        </div>
+        <button
+          type="button"
+          onClick={onOpen}
+          className="absolute inset-0 cursor-text"
+          style={{ background: "transparent" }}
+          aria-label="Edit line again"
+        />
+        <span
+          className="absolute -right-1 -top-1 h-2 w-2 rounded-full"
+          style={{ backgroundColor: "#e5322d", boxShadow: "0 0 0 1.5px #ffffff" }}
+        />
+        <button
+          type="button"
+          onClick={onRemove}
+          className="absolute -right-2 -top-3 grid h-4 w-4 place-items-center rounded-full bg-white text-[#e5322d] opacity-0 shadow group-hover:opacity-100"
+          style={{ border: "1px solid #ececef" }}
+          aria-label="Undo this text edit"
+        >
+          <X className="h-2.5 w-2.5" />
+        </button>
+      </div>
+    );
+  }
+
+  // Idle: hover-only dashed outline (or always-on when "Show editable areas" is on).
+  const outlineVisible = hover || showAll;
+  return (
+    <button
+      type="button"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      onClick={onOpen}
+      style={{
+        ...style,
+        border: outlineVisible ? "1px dashed #D1D5DB" : "1px dashed transparent",
+        backgroundColor: hover ? "rgba(229,50,45,0.04)" : "transparent",
+        cursor: "text",
+      }}
+      className="rounded-[2px] transition-colors"
+      aria-label={`Edit line: ${line.text.slice(0, 60)}`}
+    />
+  );
+}
+
+function EditLineInlineEditor({
+  line,
+  scale,
+  style,
+  bgColor,
+  fgColor,
+  initialText,
+  initialSize,
+  initialBold,
+  initialItalic,
+  initialFamily,
+  onCancel,
+  onCommit,
+}: {
+  line: EditableLine;
+  scale: number;
+  style: React.CSSProperties;
+  bgColor: string;
+  fgColor: string;
+  initialText: string;
+  initialSize: number;
+  initialBold: boolean;
+  initialItalic: boolean;
+  initialFamily: FontFamily;
+  onCancel: () => void;
+  onCommit: (v: { text: string; fontSize: number; color: string; bold: boolean; italic: boolean; family: FontFamily }) => void;
+}) {
+  const [text, setText] = useState(initialText);
+  const [size, setSize] = useState(initialSize);
+  const [bold, setBold] = useState(initialBold);
+  const [italic, setItalic] = useState(initialItalic);
+  const [color, setColor] = useState(fgColor);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+    inputRef.current?.select();
+  }, []);
+
+  const commit = () => {
+    onCommit({
+      text: text.trim() === "" ? "" : text,
+      fontSize: size,
+      color,
+      bold,
+      italic,
+      family: initialFamily,
+    });
+  };
+
+  const cssFamily =
+    initialFamily === "serif"
+      ? "'Times New Roman', Times, serif"
+      : initialFamily === "mono"
+        ? "Menlo, Consolas, monospace"
+        : "Helvetica, Arial, sans-serif";
+
+  return (
+    <div style={style}>
+      <div
+        className="absolute inset-0"
+        style={{ backgroundColor: bgColor, outline: "1.5px solid #e5322d" }}
+      />
+      <input
+        ref={inputRef}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            commit();
+          } else if (e.key === "Escape") {
+            e.preventDefault();
+            onCancel();
+          }
+        }}
+        onBlur={(e) => {
+          // Ignore blur when focus moves into our own toolbar.
+          const to = e.relatedTarget as HTMLElement | null;
+          if (to && to.closest("[data-edit-toolbar]")) return;
+          commit();
+        }}
+        className="absolute border-0 bg-transparent p-0 outline-none"
+        style={{
+          left: 1.5 * scale,
+          top: (line.fontSize * 0.1) * scale,
+          width: (line.width) * scale,
+          height: (line.baselineY + line.fontSize * 0.05 - line.y) * scale,
+          fontSize: size * scale,
+          lineHeight: 1,
+          color,
+          fontWeight: bold ? 700 : 400,
+          fontStyle: italic ? "italic" : "normal",
+          fontFamily: cssFamily,
+        }}
+      />
+
+      {/* Floating mini toolbar */}
+      <div
+        data-edit-toolbar
+        onMouseDown={(e) => e.preventDefault()}
+        className="absolute z-10 flex items-center gap-1 rounded-lg bg-white p-1 shadow-lg"
+        style={{
+          left: 0,
+          top: -40,
+          border: "1px solid #ececef",
+        }}
+      >
+        <button
+          type="button"
+          onClick={() => setSize((s) => Math.max(6, s - 1))}
+          className="grid h-6 w-6 place-items-center rounded text-[13px] font-bold text-[#33333c] hover:bg-[#f7f7f8]"
+        >
+          −
+        </button>
+        <span className="min-w-[24px] text-center text-[11.5px] font-semibold" style={{ color: "#33333c" }}>{Math.round(size)}</span>
+        <button
+          type="button"
+          onClick={() => setSize((s) => Math.min(200, s + 1))}
+          className="grid h-6 w-6 place-items-center rounded text-[13px] font-bold text-[#33333c] hover:bg-[#f7f7f8]"
+        >
+          +
+        </button>
+        <span className="mx-1 h-4 w-px bg-[#ececef]" />
+        <button
+          type="button"
+          onClick={() => setBold((v) => !v)}
+          className="grid h-6 w-6 place-items-center rounded hover:bg-[#f7f7f8]"
+          style={{ backgroundColor: bold ? "#f7f7f8" : "transparent", color: bold ? "#e5322d" : "#33333c" }}
+          aria-label="Bold"
+        >
+          <Bold className="h-3.5 w-3.5" />
+        </button>
+        <button
+          type="button"
+          onClick={() => setItalic((v) => !v)}
+          className="grid h-6 w-6 place-items-center rounded hover:bg-[#f7f7f8]"
+          style={{ backgroundColor: italic ? "#f7f7f8" : "transparent", color: italic ? "#e5322d" : "#33333c" }}
+          aria-label="Italic"
+        >
+          <Italic className="h-3.5 w-3.5" />
+        </button>
+        <span className="mx-1 h-4 w-px bg-[#ececef]" />
+        <input
+          type="color"
+          value={color}
+          onChange={(e) => setColor(e.target.value)}
+          className="h-5 w-5 cursor-pointer rounded border-0 bg-transparent p-0"
+          aria-label="Text color"
+          style={{ padding: 0 }}
+        />
+      </div>
+    </div>
+  );
+}
