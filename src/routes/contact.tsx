@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { Check, Copy } from "lucide-react";
 import { LegalPage } from "@/components/LegalPage";
 import { CONTACT_EMAIL } from "@/lib/site";
 
@@ -32,9 +34,8 @@ function ContactPage() {
       <p>
         The best way to reach us is by email:
       </p>
-      <p style={{ fontSize: 20, fontWeight: 600 }}>
-        <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
-      </p>
+      <ContactEmail />
+
 
       <h2>Reporting a bug</h2>
       <p>To help us reproduce and fix the issue quickly, please include:</p>
@@ -48,5 +49,47 @@ function ContactPage() {
       <h2>Response time</h2>
       <p>We usually respond within a few days. Thanks for your patience.</p>
     </LegalPage>
+  );
+}
+
+function ContactEmail() {
+  const [copied, setCopied] = useState(false);
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(CONTACT_EMAIL);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* ignore */
+    }
+  };
+  return (
+    <div className="flex items-center gap-3 flex-wrap my-4">
+      <a
+        href={`mailto:${CONTACT_EMAIL}`}
+        style={{ fontSize: 20, fontWeight: 600 }}
+      >
+        {CONTACT_EMAIL}
+      </a>
+      <button
+        type="button"
+        onClick={copy}
+        aria-label={copied ? "Email copied" : "Copy email to clipboard"}
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-md border transition-colors hover:bg-neutral-50"
+        style={{ borderColor: "#d8d8de", color: "#3b3b48" }}
+      >
+        {copied ? (
+          <>
+            <Check className="h-4 w-4" style={{ color: "#16a34a" }} />
+            Copied
+          </>
+        ) : (
+          <>
+            <Copy className="h-4 w-4" />
+            Copy
+          </>
+        )}
+      </button>
+    </div>
   );
 }
