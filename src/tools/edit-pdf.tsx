@@ -5,6 +5,11 @@ import {
   rgb,
   BlendMode,
   LineCapStyle,
+  pushGraphicsState,
+  popGraphicsState,
+  rectangle,
+  clip,
+  endPath,
   type PDFFont,
   type PDFImage,
 } from "pdf-lib";
@@ -265,8 +270,10 @@ export default function EditPdf() {
   // and for background/foreground color sampling at edit / export time).
   const pdfjsDocRef = useRef<PDFDocumentProxy | null>(null);
   const pageCanvasesRef = useRef<Map<number, HTMLCanvasElement>>(new Map());
+  const renderingRef = useRef<Set<number>>(new Set());
   const linesByPageRef = useRef<Map<number, EditableLine[]>>(new Map());
   const [linesTick, setLinesTick] = useState(0);
+  const [visiblePages, setVisiblePages] = useState<Set<number>>(() => new Set());
   const [hasAnyText, setHasAnyText] = useState<boolean | null>(null); // null = unknown
 
   // Contextual style state (used when creating NEW elements)
@@ -379,6 +386,41 @@ export default function EditPdf() {
 
   const file = files[0];
 
+  // ---- Fix B1: per-page render/evict. On file load we set up all page
+  // slots with empty urls, eager-render only the first few, then let the
+  // visibility observer + eviction effect drive the rest. Total retained
+  // canvases stays bounded at ~5 (visible ± 2) regardless of doc length.
+  const renderPage = useCallback(async (pageIdx: number): Promise<void> => {
+    const doc = pdfjsDocRef.current;
+    if (!doc) return;
+    if (pageCanvasesRef.current.has(pageIdx)) return;
+    if (renderingRef.current.has(pageIdx)) return;
+    renderingRef.current.add(pageIdx);
+    try {
+      const page = await doc.getPage(pageIdx + 1);
+      const vp1 = page.getViewport({ scale: 1, rotation: 0 });
+      const scale = Math.min(2, 800 / vp1.width);
+      const vp = page.getViewport({ scale, rotation: 0 });
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.floor(vp.width);
+      canvas.height = Math.floor(vp.height);
+      const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
+      await page.render({ canvasContext: ctx, viewport: vp, canvas } as never).promise;
+      pageCanvasesRef.current.set(pageIdx, canvas);
+      const url = canvas.toDataURL("image/jpeg", 0.85);
+      setPages((prev) => {
+        if (!prev[pageIdx] || prev[pageIdx].url === url) return prev;
+        const copy = prev.slice();
+        copy[pageIdx] = { ...copy[pageIdx], url };
+        return copy;
+      });
+    } catch {
+      /* ignore render failures for evicted pages */
+    } finally {
+      renderingRef.current.delete(pageIdx);
+    }
+  }, []);
+
   // load pages
   useEffect(() => {
     let cancelled = false;
@@ -388,8 +430,10 @@ export default function EditPdf() {
     setSelectedId(null);
     setActiveEditLineId(null);
     setHasAnyText(null);
+    setVisiblePages(new Set());
     pdfjsDocRef.current = null;
     pageCanvasesRef.current = new Map();
+    renderingRef.current = new Set();
     linesByPageRef.current = new Map();
     historyRef.current = [{ annos: [], edits: [] }];
     historyIdxRef.current = 0;
@@ -403,28 +447,39 @@ export default function EditPdf() {
         pdfjsDocRef.current = doc;
         const out: PageInfo[] = [];
         const maxW = 800;
+        // Eager-render only the first few pages so the viewer feels
+        // instant; every other page starts with url="" and is rendered on
+        // demand as it scrolls into view (Fix B1 memory cap).
+        const EAGER = Math.min(3, doc.numPages);
         for (let i = 1; i <= doc.numPages; i++) {
           const page = await doc.getPage(i);
           const vp1 = page.getViewport({ scale: 1, rotation: 0 });
-          const scale = Math.min(2, maxW / vp1.width);
-          const vp = page.getViewport({ scale, rotation: 0 });
-          const canvas = document.createElement("canvas");
-          canvas.width = Math.floor(vp.width);
-          canvas.height = Math.floor(vp.height);
-          const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
-          await page.render({ canvasContext: ctx, viewport: vp, canvas } as never).promise;
-          if (cancelled) return;
-          pageCanvasesRef.current.set(i - 1, canvas);
-          out.push({
-            url: canvas.toDataURL("image/jpeg", 0.85),
-            width: vp1.width,
-            height: vp1.height,
-            rotation: (page as unknown as { rotate: number }).rotate ?? 0,
-          });
+          const rotation = (page as unknown as { rotate: number }).rotate ?? 0;
+          if (i <= EAGER) {
+            const scale = Math.min(2, maxW / vp1.width);
+            const vp = page.getViewport({ scale, rotation: 0 });
+            const canvas = document.createElement("canvas");
+            canvas.width = Math.floor(vp.width);
+            canvas.height = Math.floor(vp.height);
+            const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
+            await page.render({ canvasContext: ctx, viewport: vp, canvas } as never).promise;
+            if (cancelled) return;
+            pageCanvasesRef.current.set(i - 1, canvas);
+            out.push({
+              url: canvas.toDataURL("image/jpeg", 0.85),
+              width: vp1.width,
+              height: vp1.height,
+              rotation,
+            });
+          } else {
+            out.push({ url: "", width: vp1.width, height: vp1.height, rotation });
+          }
         }
         if (!cancelled) setPages(out);
         // Probe first few pages for any extractable text — used for the
-        // "looks like a scanned PDF" callout.
+        // "looks like a scanned PDF" callout. Only the pre-rendered pages
+        // have canvases at this point, which is fine — the probe stays
+        // bounded to EAGER pages.
         if (!cancelled) {
           const probe = Math.min(3, doc.numPages);
           let total = 0;
@@ -452,6 +507,63 @@ export default function EditPdf() {
       cancelled = true;
     };
   }, [file]);
+
+  // ---- Fix B1: canvas eviction. Retain only visible pages ± 2 buffer,
+  // hard cap at 5. Everything else releases its HTMLCanvasElement AND the
+  // JPEG dataURL. Re-renders on scroll back into view.
+  const pagesLen = pages.length;
+  const setPageVisibility = useCallback((idx: number, visible: boolean) => {
+    setVisiblePages((prev) => {
+      const has = prev.has(idx);
+      if (visible === has) return prev;
+      const next = new Set(prev);
+      if (visible) next.add(idx);
+      else next.delete(idx);
+      return next;
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!pagesLen) return;
+    const RETAIN_CAP = 5;
+    const BUFFER = 2;
+    const keep = new Set<number>();
+    for (const v of visiblePages) {
+      for (let i = v - BUFFER; i <= v + BUFFER; i++) {
+        if (i >= 0 && i < pagesLen) keep.add(i);
+      }
+    }
+    if (keep.size > RETAIN_CAP && visiblePages.size) {
+      const centers = [...visiblePages];
+      const nearest = (i: number) => Math.min(...centers.map((c) => Math.abs(c - i)));
+      const sorted = [...keep].sort((a, b) => nearest(a) - nearest(b));
+      keep.clear();
+      for (const i of sorted.slice(0, RETAIN_CAP)) keep.add(i);
+    }
+    // Evict canvases + drop their JPEG urls.
+    const toEvict: number[] = [];
+    for (const idx of pageCanvasesRef.current.keys()) {
+      if (!keep.has(idx)) toEvict.push(idx);
+    }
+    for (const idx of toEvict) pageCanvasesRef.current.delete(idx);
+    if (toEvict.length) {
+      setPages((prev) => {
+        let changed = false;
+        const copy = prev.slice();
+        for (const idx of toEvict) {
+          if (copy[idx] && copy[idx].url) {
+            copy[idx] = { ...copy[idx], url: "" };
+            changed = true;
+          }
+        }
+        return changed ? copy : prev;
+      });
+    }
+    // Render anything in `keep` we don't have.
+    keep.forEach((i) => {
+      if (!pageCanvasesRef.current.has(i)) void renderPage(i);
+    });
+  }, [visiblePages, pagesLen, renderPage]);
 
   // Lazy line extraction for a specific page (called from PageOverlay when
   // it becomes visible). Idempotent.
@@ -498,7 +610,9 @@ export default function EditPdf() {
     setEditMode("edit-text");
     pdfjsDocRef.current = null;
     pageCanvasesRef.current = new Map();
+    renderingRef.current = new Set();
     linesByPageRef.current = new Map();
+    setVisiblePages(new Set());
     historyRef.current = [{ annos: [], edits: [] }];
     historyIdxRef.current = 0;
     setResult(null);
@@ -591,6 +705,9 @@ export default function EditPdf() {
         color: { r: number; g: number; b: number };
         unencodable: number;
         skipCover: boolean;   // complex-script or empty commit — leave original
+        overflow: boolean;    // Fix B3: still doesn't fit at 0.7× — clip
+        boxLeft: number;
+        boxRight: number;
       }
 
       const plans: DrawPlan[] = [];
@@ -611,6 +728,7 @@ export default function EditPdf() {
             te, pageIndex: te.page, pH,
             font: (await getFont(false)), safeText: "", drawX: 0, drawSize: 0,
             color: { r: 0, g: 0, b: 0 }, unencodable: 0, skipCover: true,
+            overflow: false, boxLeft: te.x, boxRight: te.x + te.width,
           });
           continue;
         }
@@ -699,9 +817,15 @@ export default function EditPdf() {
         if (align === "center") drawX = boxLeft + (boxWidth - textW) / 2;
         else if (align === "right") drawX = boxRight - textW;
 
+        // Fix B3: after the shrink-to-0.7 floor, if text STILL overflows
+        // the cell, mark it so Pass 2 clips the draw to the box width and
+        // the export can surface a review toast.
+        const overflow = textW > boxWidth + 0.5;
+
         plans.push({
           te, pageIndex: te.page, pH, font, safeText, drawX, drawSize,
           color: fg, unencodable, skipCover: false,
+          overflow, boxLeft, boxRight,
         });
       }
 
@@ -746,11 +870,28 @@ export default function EditPdf() {
         );
       }
 
-      // Pass 2: every replacement string.
+      // Pass 2: every replacement string. Clipped to the cell width when
+      // the plan was flagged as overflow so text never bleeds into the
+      // neighbouring cell (Fix B3).
+      let overflowCount = 0;
       for (const p of plans) {
         if (p.skipCover) continue;
         const page = pdfPages[p.pageIndex];
         if (!page) continue;
+        const boxW = Math.max(1, p.boxRight - p.boxLeft);
+        const clipYTop = p.pH - (p.te.y - 1);
+        const clipYBot = p.pH - (p.te.y + p.te.height + 1);
+        const clipH = Math.max(1, clipYTop - clipYBot);
+        const doClip = p.overflow;
+        if (doClip) {
+          overflowCount++;
+          page.pushOperators(
+            pushGraphicsState(),
+            rectangle(p.boxLeft, clipYBot, boxW, clipH),
+            clip(),
+            endPath(),
+          );
+        }
         try {
           page.drawText(p.safeText, {
             x: p.drawX,
@@ -770,6 +911,9 @@ export default function EditPdf() {
             color: rgb(p.color.r / 255, p.color.g / 255, p.color.b / 255),
           });
         }
+        if (doClip) {
+          page.pushOperators(popGraphicsState());
+        }
       }
 
       if (totalUnencodable > 0) {
@@ -777,6 +921,12 @@ export default function EditPdf() {
           `${totalUnencodable} character${totalUnencodable === 1 ? "" : "s"} in ${editsWithUnencodable} edit${editsWithUnencodable === 1 ? "" : "s"} couldn't be encoded and were replaced with "?".`,
         );
       }
+      if (overflowCount > 0) {
+        toast.warning(
+          `${overflowCount} edit${overflowCount === 1 ? "" : "s"} didn't fit their original space — please review.`,
+        );
+      }
+
 
 
 
@@ -1133,6 +1283,7 @@ export default function EditPdf() {
                 commitEdits((prev) => prev.filter((p) => p.lineId !== lineId));
               }}
               getPageCanvas={() => pageCanvasesRef.current.get(i) ?? null}
+              onVisibilityChange={(v) => setPageVisibility(i, v)}
             />
           ))}
         </div>
@@ -1677,11 +1828,12 @@ interface PageOverlayProps {
   onCommitEdit: (edit: TextEdit) => void;
   onRemoveEdit: (lineId: string) => void;
   getPageCanvas: () => HTMLCanvasElement | null;
+  onVisibilityChange: (visible: boolean) => void;
 }
 
 function PageOverlay(props: PageOverlayProps) {
   const { index, page, annos, selectedId, mode, onSelect, onCreate, onUpdate, onCommitChange, onRemove } = props;
-  const { editTextMode, lines, edits, activeEditLineId, showAllEditable, onNeedLines, onOpenLine, onCloseLine, onCommitEdit, onRemoveEdit, getPageCanvas } = props;
+  const { editTextMode, lines, edits, activeEditLineId, showAllEditable, onNeedLines, onOpenLine, onCloseLine, onCommitEdit, onRemoveEdit, getPageCanvas, onVisibilityChange } = props;
   const wrapRef = useRef<HTMLDivElement>(null);
   const [displayW, setDisplayW] = useState(0);
   const [draft, setDraft] = useState<Anno | null>(null);
@@ -1697,26 +1849,28 @@ function PageOverlay(props: PageOverlayProps) {
     return () => ro.disconnect();
   }, []);
 
-  // Lazy trigger line extraction when this page scrolls into view AND we're
-  // in edit-text mode.
+  // Always track visibility so the parent can drive canvas eviction
+  // (Fix B1). Also triggers lazy line extraction when in edit-text mode.
   useEffect(() => {
     const el = wrapRef.current;
-    if (!el || !editTextMode) return;
-    if (lines) return; // already have them
+    if (!el) return;
     const io = new IntersectionObserver(
       (entries) => {
         for (const ent of entries) {
-          if (ent.isIntersecting) {
-            setVisible(true);
-            onNeedLines();
-          }
+          const isVis = ent.isIntersecting;
+          setVisible((v) => (v === isVis ? v : isVis));
+          onVisibilityChange(isVis);
+          if (isVis && editTextMode && !lines) onNeedLines();
         }
       },
-      { rootMargin: "200px" },
+      { rootMargin: "400px" },
     );
     io.observe(el);
-    return () => io.disconnect();
-  }, [editTextMode, lines, onNeedLines]);
+    return () => {
+      io.disconnect();
+      onVisibilityChange(false);
+    };
+  }, [editTextMode, lines, onNeedLines, onVisibilityChange]);
 
   // Filter out lines that already have a saved edit (they render an
   // "edited" indicator instead of the raw hover outline).
@@ -1923,12 +2077,18 @@ function PageOverlay(props: PageOverlayProps) {
           }
         }}
       >
-        <img
-          src={page.url}
-          alt={`Page ${index + 1}`}
-          className="pointer-events-none absolute inset-0 h-full w-full"
-          draggable={false}
-        />
+        {page.url ? (
+          <img
+            src={page.url}
+            alt={`Page ${index + 1}`}
+            className="pointer-events-none absolute inset-0 h-full w-full"
+            draggable={false}
+          />
+        ) : (
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-neutral-50 text-xs text-neutral-400">
+            Loading page {index + 1}…
+          </div>
+        )}
         {/* SVG layer for shape/line/freehand rendering */}
         {scale > 0 && (
           <svg
@@ -2493,6 +2653,16 @@ function EditLineOverlay({
       if (Math.abs(leftGap - rightGap) < 4 && Math.min(leftGap, rightGap) > 3) align = "center";
       else if (rightGap > leftGap + 4) align = "left";
       else align = "right";
+    }
+    // Fix B5: borderless-table fallback. When rulings are absent on either
+    // side, defer to the column-alignment cluster the extractor inferred
+    // from siblings sharing a right/left/center edge across baselines.
+    // Anchor cellLeft/cellRight to the current glyph edges so a shorter
+    // replacement stays anchored to the shared column edge.
+    if ((dL == null || dR == null) && line.columnAlign) {
+      align = line.columnAlign;
+      if (cellLeft == null) cellLeft = line.x;
+      if (cellRight == null) cellRight = line.x + line.width;
     }
 
     setSampled({
