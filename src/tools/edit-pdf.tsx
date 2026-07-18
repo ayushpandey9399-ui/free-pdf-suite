@@ -136,6 +136,12 @@ interface TextEdit {
   /** cell bounds in PDF units (top-origin), if rulings were detected on both sides. */
   cellLeft?: number;
   cellRight?: number;
+  /**
+   * When true, the cover rectangle is NOT drawn on export - the area was
+   * too busy/multi-colored to safely mask. The replacement text is drawn
+   * on top of the original ink. Flagged low-confidence + toasted on save.
+   */
+  skipCover?: boolean;
 }
 
 interface PageInfo {
