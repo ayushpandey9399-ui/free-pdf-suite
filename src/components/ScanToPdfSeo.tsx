@@ -1,4 +1,14 @@
 import { Link } from "@tanstack/react-router";
+import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
+
+const scanToPdfRelated = [
+  { to: "/tools/images-to-pdf", name: "Image to PDF", blurb: "Already have photos? Convert them straight to PDF instead." },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink the scan to fit portal upload limits." },
+  { to: "/tools/grayscale-pdf", name: "Grayscale PDF", blurb: "Clean photocopier look and smaller file size." },
+  { to: "/tools/watermark", name: "Watermark PDF", blurb: "Mark an ID copy with its purpose before sharing." },
+  { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Password a sensitive scan before sending." },
+];
+
 
 export function ScanToPdfSeo() {
   return (
