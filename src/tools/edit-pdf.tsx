@@ -39,7 +39,7 @@ import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 import { cn } from "@/lib/utils";
 import { classifyPdfFont, type FontFamily } from "@/lib/fontMatch";
 import { extractEditableLines, type EditableLine } from "@/lib/pdfTextLayer";
-import { sampleBackgroundAndTextColor, rgbToHex, hexToRgb255 } from "@/lib/canvasSample";
+import { sampleBackgroundAndTextColor, findCellRulings, rgbToHex, hexToRgb255 } from "@/lib/canvasSample";
 
 /* =============================== types =============================== */
 
