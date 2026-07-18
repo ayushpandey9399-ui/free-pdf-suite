@@ -1,4 +1,14 @@
 import { Link } from "@tanstack/react-router";
+import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
+
+const extractImagesRelated = [
+  { to: "/tools/pdf-to-images", name: "PDF to Image", blurb: "Render whole pages as pictures instead of pulling embedded photos." },
+  { to: "/tools/images-to-pdf", name: "Image to PDF", blurb: "Rebuild the extracted images into a fresh PDF." },
+  { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Save specific pages of a PDF as a smaller PDF." },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink an image-heavy PDF for easier sharing." },
+  { to: "/tools/grayscale-pdf", name: "Grayscale PDF", blurb: "Convert the whole document to black & white." },
+];
+
 
 export function ExtractImagesSeo() {
   return (
