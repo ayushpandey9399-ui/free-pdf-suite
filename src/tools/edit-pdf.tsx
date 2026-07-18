@@ -2031,6 +2031,7 @@ function PageOverlay(props: PageOverlayProps) {
   const [visible, setVisible] = useState(false);
   const visibilityCallbackRef = useRef(onVisibilityChange);
   const needLinesRef = useRef(onNeedLines);
+  const hasBeenVisibleRef = useRef(false);
 
   useEffect(() => {
     visibilityCallbackRef.current = onVisibilityChange;
@@ -2060,7 +2061,12 @@ function PageOverlay(props: PageOverlayProps) {
         for (const ent of entries) {
           const isVis = ent.isIntersecting;
           setVisible((v) => (v === isVis ? v : isVis));
-          visibilityCallbackRef.current(isVis);
+          if (isVis) {
+            hasBeenVisibleRef.current = true;
+            visibilityCallbackRef.current(true);
+          } else if (hasBeenVisibleRef.current) {
+            visibilityCallbackRef.current(false);
+          }
         }
       },
       { rootMargin: "400px" },
@@ -2068,7 +2074,7 @@ function PageOverlay(props: PageOverlayProps) {
     io.observe(el);
     return () => {
       io.disconnect();
-      visibilityCallbackRef.current(false);
+      if (hasBeenVisibleRef.current) visibilityCallbackRef.current(false);
     };
   }, []);
 
