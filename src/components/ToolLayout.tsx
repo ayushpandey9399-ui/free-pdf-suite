@@ -21,7 +21,7 @@ export function ToolLayout({
         <nav
           aria-label="Breadcrumb"
           className="text-[13px] leading-none"
-          style={{ color: "#9CA3AF" }}
+          style={{ color: "#6B7280" }}
         >
           <ol className="flex items-center gap-[6px] whitespace-nowrap overflow-hidden">
             <li className="shrink-0">
@@ -43,7 +43,7 @@ export function ToolLayout({
             <li
               aria-current="page"
               className="min-w-0 truncate"
-              style={{ color: "#6B7280" }}
+              style={{ color: "#4B5563" }}
             >
               {crumbName ?? title}
             </li>
