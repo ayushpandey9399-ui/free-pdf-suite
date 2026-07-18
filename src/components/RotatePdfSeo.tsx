@@ -103,12 +103,15 @@ const faqs = [
 ];
 
 const related = [
-  { to: "/tools/scan-to-pdf", name: "Scan to PDF", blurb: "Turn phone photos of documents into a proper multi-page PDF." },
-  { to: "/tools/reorder-pages", name: "Reorder Pages", blurb: "Fix page order after fixing orientation." },
-  { to: "/tools/crop", name: "Crop PDF", blurb: "Trim scan margins once every page is finally the right way up." },
-  { to: "/tools/delete-pages", name: "Delete Pages", blurb: "Remove blank or duplicate pages from a scan batch." },
-  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine the rotated file with other documents." },
-];
+  { to: "/tools/crop", name: "Crop PDF", blurb: "Trim margins and adjust the visible area of pages." },
+  { to: "/tools/reorder-pages", name: "Reorder Pages", blurb: "Drag pages into a new sequence with a visual grid." },
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
+  { to: "/tools/split", name: "Split PDF", blurb: "Break one PDF into multiple files or page ranges." },
+  { to: "/tools/delete-pages", name: "Delete Pages", blurb: "Remove one or more unwanted pages from your PDF." },
+  { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Pull specific pages out as a brand-new PDF." },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink file size while keeping the best possible quality." },
+  { to: "/tools/pdf-to-images", name: "PDF to Image", blurb: "Export each page as a high-quality JPG or PNG." },
+] as const;
 
 export function RotatePdfSeo() {
   return (

@@ -2,12 +2,15 @@ import { Link } from "@tanstack/react-router";
 import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
 const scanToPdfRelated = [
-  { to: "/tools/images-to-pdf", name: "Image to PDF", blurb: "Already have photos? Convert them straight to PDF instead." },
-  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink the scan to fit portal upload limits." },
-  { to: "/tools/grayscale-pdf", name: "Grayscale PDF", blurb: "Clean photocopier look and smaller file size." },
-  { to: "/tools/watermark", name: "Watermark PDF", blurb: "Mark an ID copy with its purpose before sharing." },
-  { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Password a sensitive scan before sending." },
-];
+  { to: "/tools/images-to-pdf", name: "Image to PDF", blurb: "Convert JPG or PNG images into a single PDF." },
+  { to: "/tools/pdf-to-images", name: "PDF to Image", blurb: "Export each page as a high-quality JPG or PNG." },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink file size while keeping the best possible quality." },
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
+  { to: "/tools/grayscale-pdf", name: "Grayscale PDF", blurb: "Convert to black and white for cheaper printing." },
+  { to: "/tools/rotate", name: "Rotate PDF", blurb: "Turn pages 90, 180 or 270 degrees, one page or all." },
+  { to: "/tools/crop", name: "Crop PDF", blurb: "Trim margins and adjust the visible area of pages." },
+  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Draw or type a signature and place it on any page." },
+] as const;
 
 
 export function ScanToPdfSeo() {

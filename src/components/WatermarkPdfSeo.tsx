@@ -108,12 +108,15 @@ const faqs = [
 ];
 
 const related = [
-  { to: "/tools/header-footer", name: "Header & Footer", blurb: "Repeating text at the top or bottom instead of stamped across the page." },
-  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Add a signature to a specific spot rather than a page-wide stamp." },
-  { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Lock the watermarked file with a password before you send it." },
-  { to: "/tools/redact-pdf", name: "Redact PDF", blurb: "Permanently remove sensitive content instead of masking it with a stamp." },
-  { to: "/tools/page-numbers", name: "Page Numbers", blurb: "Number every page as part of the same finishing pass." },
-];
+  { to: "/tools/header-footer", name: "Header & Footer", blurb: "Stamp text at the top or bottom of every page." },
+  { to: "/tools/page-numbers", name: "Page Numbers", blurb: "Add page numbers with custom position and style." },
+  { to: "/tools/edit-pdf", name: "Edit & Annotate PDF", blurb: "Highlight, comment, draw and add shapes to a PDF." },
+  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Draw or type a signature and place it on any page." },
+  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Make form fields and annotations permanent." },
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
+  { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Add a password and encrypt to lock the document." },
+  { to: "/tools/redact-pdf", name: "Redact PDF", blurb: "Permanently black out sensitive text and images." },
+] as const;
 
 export function WatermarkPdfSeo() {
   return (

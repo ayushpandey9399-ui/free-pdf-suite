@@ -103,12 +103,15 @@ const faqs = [
 ];
 
 const related = [
-  { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Set a new password on the unlocked file when you need to." },
-  { to: "/tools/merge", name: "Merge PDF", blurb: "Unlock first, then combine the file with others." },
-  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink the unlocked statement before archiving it." },
-  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Add a signature to a contract once the encryption is removed." },
-  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Lock down annotations and form fields on the unlocked copy." },
-];
+  { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Add a password and encrypt to lock the document." },
+  { to: "/tools/redact-pdf", name: "Redact PDF", blurb: "Permanently black out sensitive text and images." },
+  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Make form fields and annotations permanent." },
+  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Draw or type a signature and place it on any page." },
+  { to: "/tools/pdf-metadata", name: "PDF Metadata", blurb: "View and edit title, author, subject and keywords." },
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
+  { to: "/tools/split", name: "Split PDF", blurb: "Break one PDF into multiple files or page ranges." },
+  { to: "/tools/compare", name: "Compare PDFs", blurb: "See the differences between two versions side by side." },
+] as const;
 
 export function UnlockPdfSeo() {
   return (

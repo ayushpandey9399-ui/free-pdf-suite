@@ -2,12 +2,15 @@ import { Link } from "@tanstack/react-router";
 import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
 const extractImagesRelated = [
-  { to: "/tools/pdf-to-images", name: "PDF to Image", blurb: "Render whole pages as pictures instead of pulling embedded photos." },
-  { to: "/tools/images-to-pdf", name: "Image to PDF", blurb: "Rebuild the extracted images into a fresh PDF." },
-  { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Save specific pages of a PDF as a smaller PDF." },
-  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink an image-heavy PDF for easier sharing." },
-  { to: "/tools/grayscale-pdf", name: "Grayscale PDF", blurb: "Convert the whole document to black & white." },
-];
+  { to: "/tools/pdf-to-images", name: "PDF to Image", blurb: "Export each page as a high-quality JPG or PNG." },
+  { to: "/tools/images-to-pdf", name: "Image to PDF", blurb: "Convert JPG or PNG images into a single PDF." },
+  { to: "/tools/pdf-to-text", name: "PDF to Text", blurb: "Extract selectable text and download it as .txt." },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink file size while keeping the best possible quality." },
+  { to: "/tools/split", name: "Split PDF", blurb: "Break one PDF into multiple files or page ranges." },
+  { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Pull specific pages out as a brand-new PDF." },
+  { to: "/tools/grayscale-pdf", name: "Grayscale PDF", blurb: "Convert to black and white for cheaper printing." },
+  { to: "/tools/scan-to-pdf", name: "Scan to PDF", blurb: "Use your camera to scan pages straight into a PDF." },
+] as const;
 
 
 export function ExtractImagesSeo() {

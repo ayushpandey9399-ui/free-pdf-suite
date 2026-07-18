@@ -103,12 +103,15 @@ const faqs = [
 ];
 
 const related = [
-  { to: "/tools/images-to-pdf", name: "Image to PDF", blurb: "Turn JPG or PNG files back into a single PDF." },
-  { to: "/tools/extract-images", name: "Extract Images", blurb: "Pull out embedded photos instead of rendering pages." },
-  { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Keep only the page you want before converting." },
-  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink a heavy PDF before exporting it as images." },
-  { to: "/tools/pdf-to-text", name: "PDF to Text", blurb: "Get the plain text out of a PDF instead of an image." },
-];
+  { to: "/tools/images-to-pdf", name: "Image to PDF", blurb: "Convert JPG or PNG images into a single PDF." },
+  { to: "/tools/extract-images", name: "Extract Images", blurb: "Pull embedded photos out of a PDF in original quality." },
+  { to: "/tools/pdf-to-text", name: "PDF to Text", blurb: "Extract selectable text and download it as .txt." },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink file size while keeping the best possible quality." },
+  { to: "/tools/split", name: "Split PDF", blurb: "Break one PDF into multiple files or page ranges." },
+  { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Pull specific pages out as a brand-new PDF." },
+  { to: "/tools/rotate", name: "Rotate PDF", blurb: "Turn pages 90, 180 or 270 degrees, one page or all." },
+  { to: "/tools/grayscale-pdf", name: "Grayscale PDF", blurb: "Convert to black and white for cheaper printing." },
+] as const;
 
 export function PdfToImagesSeo() {
   return (

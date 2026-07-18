@@ -103,12 +103,15 @@ const faqs = [
 ];
 
 const related = [
-  { to: "/tools/pdf-to-text", name: "PDF to Text", blurb: "Verify your redaction — the removed words should not appear." },
-  { to: "/tools/delete-pages", name: "Delete Pages", blurb: "Remove whole pages instead of blacking out parts of them." },
-  { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Add a password before sending the redacted file." },
-  { to: "/tools/pdf-metadata", name: "Metadata Editor", blurb: "Review or edit document properties before sharing." },
-  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Lock the redacted document so form fields cannot be edited." },
-];
+  { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Add a password and encrypt to lock the document." },
+  { to: "/tools/unlock-pdf", name: "Unlock PDF", blurb: "Remove a known password so the PDF opens freely." },
+  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Make form fields and annotations permanent." },
+  { to: "/tools/pdf-metadata", name: "PDF Metadata", blurb: "View and edit title, author, subject and keywords." },
+  { to: "/tools/edit-pdf", name: "Edit & Annotate PDF", blurb: "Highlight, comment, draw and add shapes to a PDF." },
+  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Draw or type a signature and place it on any page." },
+  { to: "/tools/watermark", name: "Watermark PDF", blurb: "Overlay text or an image with adjustable opacity." },
+  { to: "/tools/compare", name: "Compare PDFs", blurb: "See the differences between two versions side by side." },
+] as const;
 
 export function RedactPdfSeo() {
   return (

@@ -103,13 +103,15 @@ const faqs = [
 ];
 
 const related = [
-  { to: "/tools/split", name: "Split PDF", blurb: "Break one PDF into separate files or page ranges." },
-  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink file size while keeping quality high." },
-  { to: "/tools/reorder-pages", name: "Reorder Pages", blurb: "Drag and drop to rearrange pages inside a PDF." },
-  { to: "/tools/scan-to-pdf", name: "Scan to PDF", blurb: "Turn phone-camera scans into a clean PDF." },
-  { to: "/tools/images-to-pdf", name: "Image to PDF", blurb: "Convert JPG or PNG photos into a single PDF." },
-  { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Pick specific pages and save them as a new PDF." },
-];
+  { to: "/tools/split", name: "Split PDF", blurb: "Break one PDF into multiple files or page ranges." },
+  { to: "/tools/reorder-pages", name: "Reorder Pages", blurb: "Drag pages into a new sequence with a visual grid." },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink file size while keeping the best possible quality." },
+  { to: "/tools/add-blank-pages", name: "Add Blank Pages", blurb: "Insert empty pages anywhere in the document." },
+  { to: "/tools/delete-pages", name: "Delete Pages", blurb: "Remove one or more unwanted pages from your PDF." },
+  { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Pull specific pages out as a brand-new PDF." },
+  { to: "/tools/rotate", name: "Rotate PDF", blurb: "Turn pages 90, 180 or 270 degrees, one page or all." },
+  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Draw or type a signature and place it on any page." },
+] as const;
 
 export function MergePdfSeo() {
   return (
