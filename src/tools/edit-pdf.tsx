@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import {
   StandardFonts,
   rgb,
+  degrees,
   BlendMode,
   LineCapStyle,
   pushGraphicsState,
@@ -151,8 +152,15 @@ interface TextEdit {
 
 interface PageInfo {
   url: string;
+  /** Display-space dimensions (rotation applied). All UI + edit + sample
+   *  coordinates live in this space. Fix B-2 #2. */
   width: number;
   height: number;
+  /** Unrotated PDF-content-stream dimensions, used only at export time
+   *  by dispToPdf / dispRectToPdf to convert display coords back into
+   *  the true content coordinate system. Fix B-2 #2. */
+  pdfWidth: number;
+  pdfHeight: number;
   rotation: number;
 }
 
@@ -249,7 +257,64 @@ function isWinAnsiOnly(s: string): boolean {
   return true;
 }
 
+/* ============ rotation helpers (Fix B-2 #2: /Rotate page support) ============ */
 
+/**
+ * Normalise a raw /Rotate value to one of {0, 90, 180, 270}.
+ */
+function normRot(n: number): number {
+  const r = ((Math.round(n) % 360) + 360) % 360;
+  return r === 90 || r === 180 || r === 270 ? r : 0;
+}
+
+/**
+ * Map a display-space point (top-origin, in the rotated preview) back to
+ * the page's UNROTATED PDF coordinate system (bottom-origin). Used to
+ * position drawText anchors and drawImage anchors on export; combined
+ * with `rotate: degrees(R)` on those calls the drawn content appears
+ * upright once the viewer applies the page's /Rotate.
+ *
+ * Verified per corner for R ∈ {0, 90, 180, 270}.
+ */
+function dispToPdf(
+  dx: number,
+  dyTop: number,
+  rot: number,
+  Wu: number,
+  Hu: number,
+): { x: number; y: number } {
+  switch (normRot(rot)) {
+    case 90:  return { x: dyTop,          y: dx };
+    case 180: return { x: Wu - dx,        y: dyTop };
+    case 270: return { x: Wu - dyTop,     y: Hu - dx };
+    default:  return { x: dx,             y: Hu - dyTop };
+  }
+}
+
+/**
+ * Map a display-space axis-aligned rectangle (top-origin) to the page's
+ * UNROTATED PDF coordinate system, returning an axis-aligned rectangle
+ * that covers the SAME visual region after the viewer applies /Rotate R.
+ * Because the mapping is a rotation-only isometry, an axis-aligned
+ * display rect always maps to an axis-aligned unrotated rect — so we can
+ * draw cover / clip rectangles WITHOUT passing `rotate` to pdf-lib.
+ */
+function dispRectToPdf(
+  dx: number,
+  dyTop: number,
+  dw: number,
+  dh: number,
+  rot: number,
+  Wu: number,
+  Hu: number,
+): { x: number; y: number; width: number; height: number } {
+  switch (normRot(rot)) {
+    case 90:  return { x: dyTop,              y: dx,              width: dh, height: dw };
+    case 180: return { x: Wu - dx - dw,       y: dyTop,           width: dw, height: dh };
+    case 270: return { x: Wu - dyTop - dh,    y: Hu - dx - dw,    width: dh, height: dw };
+    default:  return { x: dx,                 y: Hu - dyTop - dh, width: dw, height: dh };
+  }
+}
 
 /* =============================== main component =============================== */
 
@@ -269,6 +334,10 @@ export default function EditPdf() {
   // pdfjs doc + rendered canvases (kept in memory for lazy text extraction
   // and for background/foreground color sampling at edit / export time).
   const pdfjsDocRef = useRef<PDFDocumentProxy | null>(null);
+  // Fix B-2 #26: bumped on every new file load. Any in-flight render /
+  // extraction that captured an older token discards its result instead
+  // of writing it into the new file's refs.
+  const loadGenRef = useRef(0);
   const pageCanvasesRef = useRef<Map<number, HTMLCanvasElement>>(new Map());
   const renderingRef = useRef<Set<number>>(new Set());
   const linesByPageRef = useRef<Map<number, EditableLine[]>>(new Map());
@@ -308,7 +377,10 @@ export default function EditPdf() {
   const pushHistorySnap = useCallback((snap: Snapshot) => {
     const arr = historyRef.current.slice(0, historyIdxRef.current + 1);
     arr.push(snap);
-    if (arr.length > 100) arr.shift();
+    // Fix B-2 #1: cap history at 50 (was 100). Each snapshot deep-copies
+    // both the annos and edits arrays; on heavy edits this doubles the
+    // per-edit heap cost, so a smaller cap keeps memory bounded.
+    if (arr.length > 50) arr.shift();
     historyRef.current = arr;
     historyIdxRef.current = arr.length - 1;
     setHistoryTick((t) => t + 1);
@@ -395,17 +467,25 @@ export default function EditPdf() {
     if (!doc) return;
     if (pageCanvasesRef.current.has(pageIdx)) return;
     if (renderingRef.current.has(pageIdx)) return;
+    // Fix B-2 #26: capture generation now; discard the render if a new
+    // file has been loaded before this render completes.
+    const gen = loadGenRef.current;
     renderingRef.current.add(pageIdx);
     try {
       const page = await doc.getPage(pageIdx + 1);
-      const vp1 = page.getViewport({ scale: 1, rotation: 0 });
+      if (loadGenRef.current !== gen) return;
+      // Fix B-2 #2: render preview in DISPLAY orientation so what the
+      // user sees matches the geometry used for edits + sampling.
+      const rotation = (page as unknown as { rotate: number }).rotate ?? 0;
+      const vp1 = page.getViewport({ scale: 1, rotation });
       const scale = Math.min(2, 800 / vp1.width);
-      const vp = page.getViewport({ scale, rotation: 0 });
+      const vp = page.getViewport({ scale, rotation });
       const canvas = document.createElement("canvas");
       canvas.width = Math.floor(vp.width);
       canvas.height = Math.floor(vp.height);
       const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
       await page.render({ canvasContext: ctx, viewport: vp, canvas } as never).promise;
+      if (loadGenRef.current !== gen) return;
       pageCanvasesRef.current.set(pageIdx, canvas);
       const url = canvas.toDataURL("image/jpeg", 0.85);
       setPages((prev) => {
@@ -424,6 +504,11 @@ export default function EditPdf() {
   // load pages
   useEffect(() => {
     let cancelled = false;
+    // Fix B-2 #26: bump the load-generation token so any in-flight
+    // render / extraction from the previous file (a) sees a stale gen
+    // and (b) discards its result instead of leaking into new refs.
+    loadGenRef.current += 1;
+    const gen = loadGenRef.current;
     setPages([]);
     setAnnos([]);
     setEdits([]);
@@ -443,59 +528,75 @@ export default function EditPdf() {
     (async () => {
       try {
         const doc = await loadPdfJsDoc(await file.arrayBuffer());
-        if (cancelled) return;
+        if (cancelled || loadGenRef.current !== gen) return;
         pdfjsDocRef.current = doc;
         const out: PageInfo[] = [];
         const maxW = 800;
         // Eager-render only the first few pages so the viewer feels
         // instant; every other page starts with url="" and is rendered on
         // demand as it scrolls into view (Fix B1 memory cap).
+        // Fix B-2 #2: preview + extraction operate in DISPLAY (rotated)
+        // space; we also stash pdfWidth/pdfHeight (unrotated) so the
+        // export can convert display coords back to content-stream space.
         const EAGER = Math.min(3, doc.numPages);
         for (let i = 1; i <= doc.numPages; i++) {
           const page = await doc.getPage(i);
-          const vp1 = page.getViewport({ scale: 1, rotation: 0 });
+          if (cancelled || loadGenRef.current !== gen) return;
           const rotation = (page as unknown as { rotate: number }).rotate ?? 0;
+          const vpU = page.getViewport({ scale: 1, rotation: 0 });
+          const vp1 = page.getViewport({ scale: 1, rotation });
           if (i <= EAGER) {
             const scale = Math.min(2, maxW / vp1.width);
-            const vp = page.getViewport({ scale, rotation: 0 });
+            const vp = page.getViewport({ scale, rotation });
             const canvas = document.createElement("canvas");
             canvas.width = Math.floor(vp.width);
             canvas.height = Math.floor(vp.height);
             const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
             await page.render({ canvasContext: ctx, viewport: vp, canvas } as never).promise;
-            if (cancelled) return;
+            if (cancelled || loadGenRef.current !== gen) return;
             pageCanvasesRef.current.set(i - 1, canvas);
             out.push({
               url: canvas.toDataURL("image/jpeg", 0.85),
               width: vp1.width,
               height: vp1.height,
+              pdfWidth: vpU.width,
+              pdfHeight: vpU.height,
               rotation,
             });
           } else {
-            out.push({ url: "", width: vp1.width, height: vp1.height, rotation });
+            out.push({
+              url: "",
+              width: vp1.width,
+              height: vp1.height,
+              pdfWidth: vpU.width,
+              pdfHeight: vpU.height,
+              rotation,
+            });
           }
         }
-        if (!cancelled) setPages(out);
+        if (cancelled || loadGenRef.current !== gen) return;
+        setPages(out);
         // Probe first few pages for any extractable text — used for the
         // "looks like a scanned PDF" callout. Only the pre-rendered pages
         // have canvases at this point, which is fine — the probe stays
         // bounded to EAGER pages.
-        if (!cancelled) {
-          const probe = Math.min(3, doc.numPages);
-          let total = 0;
-          for (let i = 1; i <= probe; i++) {
-            const c = pageCanvasesRef.current.get(i - 1);
-            const p = await doc.getPage(i);
-            const pv = p.getViewport({ scale: 1, rotation: 0 });
-            const rc = c ? { canvas: c, scale: c.width / pv.width } : null;
-            const lines = await extractEditableLines(doc, i, rc);
-            linesByPageRef.current.set(i - 1, lines);
-            total += lines.reduce((n, l) => n + l.text.length, 0);
-          }
-          if (!cancelled) {
-            setHasAnyText(total > 0);
-            setLinesTick((t) => t + 1);
-          }
+        const probe = Math.min(3, doc.numPages);
+        let total = 0;
+        for (let i = 1; i <= probe; i++) {
+          const c = pageCanvasesRef.current.get(i - 1);
+          const p = await doc.getPage(i);
+          if (cancelled || loadGenRef.current !== gen) return;
+          const rot = (p as unknown as { rotate: number }).rotate ?? 0;
+          const pv = p.getViewport({ scale: 1, rotation: rot });
+          const rc = c ? { canvas: c, scale: c.width / pv.width } : null;
+          const lines = await extractEditableLines(doc, i, rc);
+          if (cancelled || loadGenRef.current !== gen) return;
+          linesByPageRef.current.set(i - 1, lines);
+          total += lines.reduce((n, l) => n + l.text.length, 0);
+        }
+        if (!cancelled && loadGenRef.current === gen) {
+          setHasAnyText(total > 0);
+          setLinesTick((t) => t + 1);
         }
       } catch (e) {
         if (!isPdfPasswordError(e)) toast.error(`Preview failed: ${(e as Error).message}`);
@@ -559,6 +660,18 @@ export default function EditPdf() {
         return changed ? copy : prev;
       });
     }
+    // Fix B-2 #1: evict extracted lines for far pages too. Re-extraction
+    // is cheap and happens on demand when the page next scrolls back
+    // into view. Without this, `linesByPageRef` grows monotonically on
+    // long docs and defeats the canvas eviction ceiling.
+    let linesEvicted = false;
+    for (const idx of Array.from(linesByPageRef.current.keys())) {
+      if (!keep.has(idx)) {
+        linesByPageRef.current.delete(idx);
+        linesEvicted = true;
+      }
+    }
+    if (linesEvicted) setLinesTick((t) => t + 1);
     // Render anything in `keep` we don't have.
     keep.forEach((i) => {
       if (!pageCanvasesRef.current.has(i)) void renderPage(i);
@@ -571,16 +684,25 @@ export default function EditPdf() {
     if (linesByPageRef.current.has(pageIdx)) return;
     const doc = pdfjsDocRef.current;
     if (!doc) return;
+    // Fix B-2 #26: gen check so a stale in-flight extraction from a
+    // previous file doesn't leak lines into the new file's ref.
+    const gen = loadGenRef.current;
     try {
       const c = pageCanvasesRef.current.get(pageIdx);
       const p = await doc.getPage(pageIdx + 1);
-      const pv = p.getViewport({ scale: 1, rotation: 0 });
+      if (loadGenRef.current !== gen) return;
+      // Fix B-2 #2: viewport at page.rotate matches the display canvas
+      // dimensions, so ruling-canvas scale (canvas.width / pv.width) is
+      // correct regardless of page rotation.
+      const rot = (p as unknown as { rotate: number }).rotate ?? 0;
+      const pv = p.getViewport({ scale: 1, rotation: rot });
       const rc = c ? { canvas: c, scale: c.width / pv.width } : null;
       const lines = await extractEditableLines(doc, pageIdx + 1, rc);
+      if (loadGenRef.current !== gen) return;
       linesByPageRef.current.set(pageIdx, lines);
       setLinesTick((t) => t + 1);
     } catch {
-      linesByPageRef.current.set(pageIdx, []);
+      if (loadGenRef.current === gen) linesByPageRef.current.set(pageIdx, []);
     }
   }, []);
 
@@ -608,6 +730,9 @@ export default function EditPdf() {
     setActiveEditLineId(null);
     setMode("select");
     setEditMode("edit-text");
+    // Fix B-2 #26: bump generation so any in-flight render/extraction
+    // from the previous file is discarded on completion.
+    loadGenRef.current += 1;
     pdfjsDocRef.current = null;
     pageCanvasesRef.current = new Map();
     renderingRef.current = new Set();
@@ -693,11 +818,19 @@ export default function EditPdf() {
       // string. This guarantees a later edit's cover rect never paints over
       // an earlier edit's replacement text, so descenders on chained /
       // adjacent edits are never clipped.
+      //
+      // Fix B-2 #2: edit coordinates are DISPLAY-space (rotation applied).
+      // Convert every rect / anchor to the page's UNROTATED content
+      // coordinate system via dispRectToPdf / dispToPdf, and draw text
+      // with rotate: degrees(R) so it appears upright once the viewer
+      // reapplies /Rotate R.
 
       interface DrawPlan {
         te: TextEdit;
         pageIndex: number;
-        pH: number;
+        R: number;
+        Wu: number;
+        Hu: number;
         font: PDFFont;
         safeText: string;
         drawX: number;
@@ -717,7 +850,9 @@ export default function EditPdf() {
       for (const te of edits) {
         const page = pdfPages[te.page];
         if (!page) continue;
-        const pH = page.getHeight();
+        const R = normRot(page.getRotation().angle);
+        const Wu = page.getWidth();
+        const Hu = page.getHeight();
 
         // Complex-script guard: never touch the original run. The commit
         // block in the editor already prevents new complex-script edits,
@@ -725,7 +860,7 @@ export default function EditPdf() {
         // them entirely so the source text is preserved verbatim.
         if (hasComplexScript(te.newText)) {
           plans.push({
-            te, pageIndex: te.page, pH,
+            te, pageIndex: te.page, R, Wu, Hu,
             font: (await getFont(false)), safeText: "", drawX: 0, drawSize: 0,
             color: { r: 0, g: 0, b: 0 }, unencodable: 0, skipCover: true,
             overflow: false, boxLeft: te.x, boxRight: te.x + te.width,
@@ -823,13 +958,14 @@ export default function EditPdf() {
         const overflow = textW > boxWidth + 0.5;
 
         plans.push({
-          te, pageIndex: te.page, pH, font, safeText, drawX, drawSize,
+          te, pageIndex: te.page, R, Wu, Hu, font, safeText, drawX, drawSize,
           color: fg, unencodable, skipCover: false,
           overflow, boxLeft, boxRight,
         });
       }
 
-      // Pass 1: every cover rectangle.
+      // Pass 1: every cover rectangle (axis-aligned in unrotated space,
+      // computed from the display rect via dispRectToPdf).
       let skippedCoverCount = 0;
       for (const p of plans) {
         if (p.skipCover) continue;
@@ -851,15 +987,14 @@ export default function EditPdf() {
         const padLef = Math.max(0, pad - ins.left);
         const padRig = Math.max(0, pad - ins.right);
 
-        const rectTopFromTop = te.y - padTop;
-        const rectBotFromTop = te.y + te.height + padBot;
-        const rectH = Math.max(0, rectBotFromTop - rectTopFromTop);
-        const rectX = te.x - padLef;
-        const rectW = Math.max(0, te.width + padLef + padRig);
-        const rectY = p.pH - rectBotFromTop;
-        if (rectW > 0 && rectH > 0) {
+        const rectLefDisp = te.x - padLef;
+        const rectTopDisp = te.y - padTop;
+        const rectWDisp = Math.max(0, te.width + padLef + padRig);
+        const rectHDisp = Math.max(0, te.height + padTop + padBot);
+        if (rectWDisp > 0 && rectHDisp > 0) {
+          const r = dispRectToPdf(rectLefDisp, rectTopDisp, rectWDisp, rectHDisp, p.R, p.Wu, p.Hu);
           page.drawRectangle({
-            x: rectX, y: rectY, width: rectW, height: rectH,
+            x: r.x, y: r.y, width: r.width, height: r.height,
             color: rgb(bg.r / 255, bg.g / 255, bg.b / 255),
           });
         }
@@ -870,45 +1005,47 @@ export default function EditPdf() {
         );
       }
 
-      // Pass 2: every replacement string. Clipped to the cell width when
-      // the plan was flagged as overflow so text never bleeds into the
-      // neighbouring cell (Fix B3).
+      // Pass 2: every replacement string. Clip rect (when overflow) and
+      // text anchor are both converted from display space to the page's
+      // unrotated PDF space; text is drawn with rotate: degrees(R) so it
+      // appears upright once the viewer reapplies /Rotate R.
       let overflowCount = 0;
       for (const p of plans) {
         if (p.skipCover) continue;
         const page = pdfPages[p.pageIndex];
         if (!page) continue;
         const boxW = Math.max(1, p.boxRight - p.boxLeft);
-        const clipYTop = p.pH - (p.te.y - 1);
-        const clipYBot = p.pH - (p.te.y + p.te.height + 1);
-        const clipH = Math.max(1, clipYTop - clipYBot);
         const doClip = p.overflow;
         if (doClip) {
           overflowCount++;
+          const cr = dispRectToPdf(p.boxLeft, p.te.y - 1, boxW, p.te.height + 2, p.R, p.Wu, p.Hu);
           page.pushOperators(
             pushGraphicsState(),
-            rectangle(p.boxLeft, clipYBot, boxW, clipH),
+            rectangle(cr.x, cr.y, cr.width, cr.height),
             clip(),
             endPath(),
           );
         }
+        const anchor = dispToPdf(p.drawX, p.te.baselineY, p.R, p.Wu, p.Hu);
         try {
           page.drawText(p.safeText, {
-            x: p.drawX,
-            y: p.pH - p.te.baselineY,
+            x: anchor.x,
+            y: anchor.y,
             size: p.drawSize,
             font: p.font,
             color: rgb(p.color.r / 255, p.color.g / 255, p.color.b / 255),
+            rotate: degrees(p.R),
           });
         } catch {
           const fb = await getStdFont(StandardFonts.Helvetica);
           const scrubbed = p.safeText.replace(/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/g, "?");
           page.drawText(scrubbed, {
-            x: p.drawX,
-            y: p.pH - p.te.baselineY,
+            x: anchor.x,
+            y: anchor.y,
             size: p.drawSize,
             font: fb,
             color: rgb(p.color.r / 255, p.color.g / 255, p.color.b / 255),
+            rotate: degrees(p.R),
           });
         }
         if (doClip) {
@@ -933,18 +1070,22 @@ export default function EditPdf() {
 
 
 
+      // Annotation coords are DISPLAY-space (Fix B-2 #2). Convert each
+      // draw call to the page's unrotated PDF space and, for orientation-
+      // aware kinds (text / image), pass rotate: degrees(R) so the drawn
+      // content appears upright after the viewer reapplies /Rotate R.
       for (const a of annos) {
         const page = pdfPages[a.page];
         if (!page) continue;
-        const pH = page.getHeight();
+        const R = normRot(page.getRotation().angle);
+        const Wu = page.getWidth();
+        const Hu = page.getHeight();
 
         if (a.kind === "highlight") {
           const c = hexToRgb(a.color);
+          const r = dispRectToPdf(a.x, a.y, a.w, a.h, R, Wu, Hu);
           page.drawRectangle({
-            x: a.x,
-            y: pH - a.y - a.h,
-            width: a.w,
-            height: a.h,
+            x: r.x, y: r.y, width: r.width, height: r.height,
             color: rgb(c.r, c.g, c.b),
             opacity: 0.45,
             blendMode: BlendMode.Multiply,
@@ -955,24 +1096,23 @@ export default function EditPdf() {
           const lines = a.text.split("\n");
           const lh = a.size * 1.2;
           for (let i = 0; i < lines.length; i++) {
-            const yTop = a.y + i * lh;
-            const baselineY = pH - yTop - a.size;
+            const baselineTop = a.y + i * lh + a.size;
+            const anc = dispToPdf(a.x, baselineTop, R, Wu, Hu);
             page.drawText(lines[i], {
-              x: a.x,
-              y: baselineY,
+              x: anc.x,
+              y: anc.y,
               size: a.size,
               font,
               color: rgb(c.r, c.g, c.b),
+              rotate: degrees(R),
             });
           }
         } else if (a.kind === "rect") {
           const s = hexToRgb(a.stroke);
           const fillColor = a.fill ? hexToRgb(a.fill) : null;
+          const r = dispRectToPdf(a.x, a.y, a.w, a.h, R, Wu, Hu);
           page.drawRectangle({
-            x: a.x,
-            y: pH - a.y - a.h,
-            width: a.w,
-            height: a.h,
+            x: r.x, y: r.y, width: r.width, height: r.height,
             borderColor: rgb(s.r, s.g, s.b),
             borderWidth: a.strokeWidth,
             color: fillColor ? rgb(fillColor.r, fillColor.g, fillColor.b) : undefined,
@@ -981,13 +1121,17 @@ export default function EditPdf() {
         } else if (a.kind === "ellipse") {
           const s = hexToRgb(a.stroke);
           const fillColor = a.fill ? hexToRgb(a.fill) : null;
-          const cx = a.x + a.w / 2;
-          const cy = a.y + a.h / 2;
+          const cxDisp = a.x + a.w / 2;
+          const cyDisp = a.y + a.h / 2;
+          const c = dispToPdf(cxDisp, cyDisp, R, Wu, Hu);
+          // For R = 90/270 the display x-axis maps to the unrotated
+          // y-axis, so swap xScale/yScale to keep the visual axes.
+          const swap = R === 90 || R === 270;
           page.drawEllipse({
-            x: cx,
-            y: pH - cy,
-            xScale: a.w / 2,
-            yScale: a.h / 2,
+            x: c.x,
+            y: c.y,
+            xScale: swap ? a.h / 2 : a.w / 2,
+            yScale: swap ? a.w / 2 : a.h / 2,
             borderColor: rgb(s.r, s.g, s.b),
             borderWidth: a.strokeWidth,
             color: fillColor ? rgb(fillColor.r, fillColor.g, fillColor.b) : undefined,
@@ -996,40 +1140,42 @@ export default function EditPdf() {
         } else if (a.kind === "line" || a.kind === "arrow") {
           const c = hexToRgb(a.color);
           const col = rgb(c.r, c.g, c.b);
+          const p1 = dispToPdf(a.x1, a.y1, R, Wu, Hu);
+          const p2 = dispToPdf(a.x2, a.y2, R, Wu, Hu);
           page.drawLine({
-            start: { x: a.x1, y: pH - a.y1 },
-            end: { x: a.x2, y: pH - a.y2 },
+            start: p1,
+            end: p2,
             thickness: a.width,
             color: col,
             lineCap: LineCapStyle.Round,
           });
           if (a.kind === "arrow") {
-            const dx = a.x2 - a.x1;
-            const dy = a.y2 - a.y1;
+            // Arrow-head math is a rotation-only isometry — using unrotated
+            // endpoints and unrotated deltas gives correct display arrows
+            // for every R because the length is preserved.
+            const dx = p2.x - p1.x;
+            const dy = p2.y - p1.y;
             const len = Math.hypot(dx, dy) || 1;
             const ux = dx / len;
             const uy = dy / len;
             const headLen = Math.max(8, a.width * 4);
             const headAng = Math.PI / 6;
-            // rotate unit vector by ±headAng, then step back from tip
             const cosA = Math.cos(headAng);
             const sinA = Math.sin(headAng);
-            const b1x = -ux * cosA - -uy * sinA;
-            const b1y = -uy * cosA + -ux * sinA;
+            const b1x = -ux * cosA + uy * sinA;
+            const b1y = -uy * cosA - ux * sinA;
             const b2x = -ux * cosA - uy * sinA;
-            const b2y = -uy * cosA - ux * sinA;
-            const tipX = a.x2;
-            const tipY = a.y2;
+            const b2y = -uy * cosA + ux * sinA;
             page.drawLine({
-              start: { x: tipX, y: pH - tipY },
-              end: { x: tipX + b1x * headLen, y: pH - (tipY + b1y * headLen) },
+              start: { x: p2.x, y: p2.y },
+              end: { x: p2.x + b1x * headLen, y: p2.y + b1y * headLen },
               thickness: a.width,
               color: col,
               lineCap: LineCapStyle.Round,
             });
             page.drawLine({
-              start: { x: tipX, y: pH - tipY },
-              end: { x: tipX + b2x * headLen, y: pH - (tipY + b2y * headLen) },
+              start: { x: p2.x, y: p2.y },
+              end: { x: p2.x + b2x * headLen, y: p2.y + b2y * headLen },
               thickness: a.width,
               color: col,
               lineCap: LineCapStyle.Round,
@@ -1039,11 +1185,13 @@ export default function EditPdf() {
           const c = hexToRgb(a.color);
           const col = rgb(c.r, c.g, c.b);
           for (let i = 1; i < a.points.length; i++) {
-            const p0 = a.points[i - 1];
-            const p1 = a.points[i];
+            const p0d = a.points[i - 1];
+            const p1d = a.points[i];
+            const p0 = dispToPdf(p0d.x, p0d.y, R, Wu, Hu);
+            const p1 = dispToPdf(p1d.x, p1d.y, R, Wu, Hu);
             page.drawLine({
-              start: { x: p0.x, y: pH - p0.y },
-              end: { x: p1.x, y: pH - p1.y },
+              start: p0,
+              end: p1,
               thickness: a.width,
               color: col,
               lineCap: LineCapStyle.Round,
@@ -1051,11 +1199,15 @@ export default function EditPdf() {
           }
         } else if (a.kind === "image") {
           const img = await embedImg(a.dataUrl, a.mime);
+          // Anchor = display bottom-left mapped to unrotated PDF space,
+          // then rotate: degrees(R) so the image appears upright.
+          const anc = dispToPdf(a.x, a.y + a.h, R, Wu, Hu);
           page.drawImage(img, {
-            x: a.x,
-            y: pH - a.y - a.h,
+            x: anc.x,
+            y: anc.y,
             width: a.w,
             height: a.h,
+            rotate: degrees(R),
           });
         }
       }
@@ -2161,6 +2313,7 @@ function PageOverlay(props: PageOverlayProps) {
                   isActive={isActive}
                   existing={existing ?? null}
                   showAll={showAllEditable}
+                  nearby={visible}
                   getPageCanvas={getPageCanvas}
                   onOpen={() => onOpenLine(ln.id)}
                   onCancel={onCloseLine}
@@ -2567,6 +2720,7 @@ function EditLineOverlay({
   isActive,
   existing,
   showAll,
+  nearby,
   getPageCanvas,
   onOpen,
   onCancel,
@@ -2580,6 +2734,9 @@ function EditLineOverlay({
   isActive: boolean;
   existing: TextEdit | null;
   showAll: boolean;
+  /** True when this line's page is within the visible ± buffer window.
+   *  When false, the sampler cache is evicted (Fix B-2 #1). */
+  nearby: boolean;
   getPageCanvas: () => HTMLCanvasElement | null;
   onOpen: () => void;
   onCancel: () => void;
@@ -2597,6 +2754,13 @@ function EditLineOverlay({
     cellRight?: number;
     skipCover: boolean;
   } | null>(null);
+
+  // Fix B-2 #1: evict the sampler cache when the page scrolls out of the
+  // nearby window. Keeps overall heap bounded on long docs; the sampler
+  // re-runs cheaply the next time the page comes back into view.
+  useEffect(() => {
+    if (!nearby) setSampled(null);
+  }, [nearby]);
 
   useEffect(() => {
     if (!isActive && !existing) return;

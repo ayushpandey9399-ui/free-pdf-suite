@@ -302,22 +302,30 @@ export function sampleBackgroundAndTextColor(
   }
 
   const confident = rs.length >= Math.max(20, total * 0.02);
-  if (!confident) {
-    return {
-      background,
-      text: { r: 0, g: 0, b: 0 },
-      confident: false,
-      bgConfident,
-      bgBusy,
-      edgeInsets,
-    };
+  const textRgb: Rgb = confident
+    ? { r: median(rs), g: median(gs), b: median(bs) }
+    : { r: 0, g: 0, b: 0 };
+
+  // ---- Fix B-2 #5: cover background must be LIGHTER than the text ink.
+  // If the sampled "background" is as dark as / darker than the ink, we
+  // most likely picked up a table rule / cell border rather than real
+  // background (the zebra + rule false-positive from B9). Never paint an
+  // opaque cover in that case — set bgBusy + drop bgConfident so the UI
+  // shows the amber marker and the export skips the mask.
+  const lum = (c: Rgb) => 0.299 * c.r + 0.587 * c.g + 0.114 * c.b;
+  let bgBusyFinal = bgBusy;
+  let bgConfidentFinal = bgConfident;
+  if (lum(background) <= lum(textRgb) + 20) {
+    bgBusyFinal = true;
+    bgConfidentFinal = false;
   }
+
   return {
     background,
-    text: { r: median(rs), g: median(gs), b: median(bs) },
-    confident: true,
-    bgConfident,
-    bgBusy,
+    text: textRgb,
+    confident,
+    bgConfident: bgConfidentFinal,
+    bgBusy: bgBusyFinal,
     edgeInsets,
   };
 }

@@ -80,17 +80,22 @@ export async function extractEditableLines(
   ruling?: RulingCanvas | null,
 ): Promise<EditableLine[]> {
   const page = await pdfjsDoc.getPage(pageNumber);
-  const viewport = page.getViewport({ scale: 1, rotation: 0 });
-  const pageHeight = viewport.height;
+  // Fix B-2 #2: extract in DISPLAY space (rotation applied) so every UI
+  // coordinate is consistent with the rendered preview. Composing the
+  // viewport transform with each item's raw transform makes segmentation
+  // and cover-rect math identical across /Rotate 0/90/180/270 pages.
+  const rotation = (page as unknown as { rotate: number }).rotate ?? 0;
+  const viewport = page.getViewport({ scale: 1, rotation });
+  const vt = viewport.transform as [number, number, number, number, number, number];
 
   const content = await page.getTextContent();
   const items = content.items.filter((it): it is TextItem => "str" in it);
 
   interface Raw {
     str: string;
-    x: number;        // left, from LEFT
-    baseline: number; // baseline y from TOP
-    width: number;    // advance width
+    x: number;        // display top-origin left
+    baseline: number; // display top-origin baseline y
+    width: number;    // advance width (display units)
     fontSize: number;
     fontName: string;
     bold: boolean;
@@ -105,15 +110,28 @@ export async function extractEditableLines(
   }).commonObjs;
 
   const raws: Raw[] = [];
+  const [va, vb, vc, vd, ve, vf] = vt;
   for (const it of items) {
     if (!it.str) continue;
-    const [a, b, c, d, e, f] = it.transform as [number, number, number, number, number, number];
-    if (Math.abs(b) > 0.01 || Math.abs(c) > 0.01) continue; // rotated / sheared
-    if (a <= 0 || d <= 0) continue;
+    const [ta, tb, tc, td, te, tf] = it.transform as [number, number, number, number, number, number];
+    // Compose viewport * item = display-space transform. Upright display
+    // text has cb ≈ 0, cc ≈ 0, ca > 0 (advances right), cd < 0 (glyph
+    // ascent goes UP in top-origin coords). Anything else is rotated /
+    // vertical / sheared and we skip it — same policy as before, just
+    // now measured in display space instead of unrotated content space.
+    const ca = va * ta + vc * tb;
+    const cb = vb * ta + vd * tb;
+    const cc = va * tc + vc * td;
+    const cd = vb * tc + vd * td;
+    const ce = va * te + vc * tf + ve;
+    const cf = vb * te + vd * tf + vf;
+    if (Math.abs(cb) > 0.01 || Math.abs(cc) > 0.01) continue;
+    if (ca <= 0) continue;
+    const fontSize = Math.abs(cd) || Math.abs(ca);
+    if (fontSize <= 0) continue;
 
-    const fontSize = Math.abs(d) || Math.abs(a);
-    const baseline = pageHeight - f;
-    const width = it.width || (a * it.str.length * 0.5);
+    const baseline = cf;
+    const width = it.width || (ca * it.str.length * 0.5);
 
     let bold = false;
     let italic = false;
@@ -129,7 +147,7 @@ export async function extractEditableLines(
       }
     } catch { /* font not resolved yet */ }
 
-    raws.push({ str: it.str, x: e, baseline, width, fontSize, fontName: realFontName, bold, italic });
+    raws.push({ str: it.str, x: ce, baseline, width, fontSize, fontName: realFontName, bold, italic });
   }
 
   raws.sort((p, q) => p.baseline - q.baseline || p.x - q.x);
