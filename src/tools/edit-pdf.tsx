@@ -44,7 +44,7 @@ import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
 import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 import { cn } from "@/lib/utils";
-import { type FontFamily } from "@/lib/fontMatch";
+import { classifyPdfFont, type FontFamily, type TwinFamily } from "@/lib/fontMatch";
 import { extractEditableLines, type EditableLine } from "@/lib/pdfTextLayer";
 import { sampleBackgroundAndTextColor, findCellRulings, rgbToHex, hexToRgb255 } from "@/lib/canvasSample";
 
@@ -129,6 +129,10 @@ interface TextEdit {
   bold: boolean;
   italic: boolean;
   family: FontFamily;
+  /** Base PostScript font name (subset prefix stripped). Used to pick a metric-compatible twin at export time. */
+  fontName?: string;
+  /** Metric-compatible open twin (Phase A). */
+  twin?: TwinFamily;
   /**
    * Per-side cover-rect insets in PDF units. Non-zero values mean the
    * sampler detected a rule/table border at that edge of the line box and
@@ -780,28 +784,41 @@ export default function EditPdf() {
       const getFont = async (bold: boolean) =>
         getStdFont(bold ? StandardFonts.HelveticaBold : StandardFonts.Helvetica);
 
-      const notoBytesCache = new Map<string, Uint8Array>();
-      const getNotoFont = async (family: FontFamily, bold: boolean, italic: boolean): Promise<PDFFont> => {
-        // mono → sans (no Noto Mono shipped; the standard-14 mono path
-        // already handles WinAnsi mono, and non-WinAnsi mono is extremely
-        // rare in the wild).
-        const isSerif = family === "serif";
+      // Twin font cache. Fonts are fetched from /fonts ON DEMAND (only the
+      // faces an edit actually needs) and embedded subset:true so exported
+      // PDFs stay small and same-origin (privacy: no third-party CDN).
+      const twinBytesCache = new Map<string, Uint8Array>();
+      const twinFileName = (twin: TwinFamily): string => {
+        switch (twin) {
+          case "arimo": return "Arimo";
+          case "tinos": return "Tinos";
+          case "cousine": return "Cousine";
+          case "carlito": return "Carlito";
+          case "caladea": return "Caladea";
+          case "notoserif": return "NotoSerif";
+          case "notosans":
+          default: return "NotoSans";
+        }
+      };
+      const getTwinFont = async (twin: TwinFamily, bold: boolean, italic: boolean): Promise<PDFFont> => {
         const style = bold && italic ? "BoldItalic" : bold ? "Bold" : italic ? "Italic" : "Regular";
-        const face = `${isSerif ? "NotoSerif" : "NotoSans"}-${style}`;
-        const key = "noto:" + face;
+        const face = `${twinFileName(twin)}-${style}`;
+        const key = "twin:" + face;
         let f = fontCache.get(key);
         if (f) return f;
-        let bytes = notoBytesCache.get(face);
+        let bytes = twinBytesCache.get(face);
         if (!bytes) {
           const res = await fetch(`/fonts/${face}.ttf`);
           if (!res.ok) throw new Error(`font ${face}`);
           bytes = new Uint8Array(await res.arrayBuffer());
-          notoBytesCache.set(face, bytes);
+          twinBytesCache.set(face, bytes);
         }
         f = await doc.embedFont(bytes, { subset: true });
         fontCache.set(key, f);
         return f;
       };
+      const getNotoFallback = (family: FontFamily, bold: boolean, italic: boolean) =>
+        getTwinFont(family === "serif" ? "notoserif" : "notosans", bold, italic);
 
       const imgCache: Record<string, PDFImage> = {};
       const embedImg = async (dataUrl: string, mime: string) => {
@@ -868,41 +885,29 @@ export default function EditPdf() {
           continue;
         }
 
-        // Pick font: keep StandardFonts when everything is WinAnsi (exact
-        // visual match for the common English case); otherwise embed the
-        // matching Noto face so curly quotes / em-dashes / accented Latin /
-        // Cyrillic / Greek / etc. render correctly instead of becoming "?".
-        const winAnsi = isWinAnsiOnly(te.newText);
+        // Font decision chain (Phase A - Tier 2 twin mapping):
+        //   1. Resolve the metric-compatible twin from the run's REAL
+        //      PostScript name (te.twin was set at edit-commit time; older
+        //      edits without it fall back to classifying te.fontName, then
+        //      finally to the coarse family).
+        //   2. Try that twin first.
+        //   3. If the twin can't encode every char, fall back to Noto
+        //      Sans/Serif (broader Unicode).
+        //   4. If both fail (asset fetch error), fall back to Standard-14
+        //      Helvetica; missed chars are counted as unencodable and
+        //      surfaced via the amber marker + toast.
+        const resolvedTwin: TwinFamily =
+          te.twin
+          ?? classifyPdfFont(te.fontName ?? "", { bold: te.bold, italic: te.italic }).twin
+          ?? (te.family === "serif" ? "tinos" : te.family === "mono" ? "cousine" : "arimo");
+
         let font: PDFFont;
-        if (winAnsi) {
-          const chosenFontName = (() => {
-            if (te.family === "serif") {
-              return te.bold && te.italic
-                ? StandardFonts.TimesRomanBoldItalic
-                : te.bold ? StandardFonts.TimesRomanBold
-                : te.italic ? StandardFonts.TimesRomanItalic
-                : StandardFonts.TimesRoman;
-            }
-            if (te.family === "mono") {
-              return te.bold && te.italic
-                ? StandardFonts.CourierBoldOblique
-                : te.bold ? StandardFonts.CourierBold
-                : te.italic ? StandardFonts.CourierOblique
-                : StandardFonts.Courier;
-            }
-            return te.bold && te.italic
-              ? StandardFonts.HelveticaBoldOblique
-              : te.bold ? StandardFonts.HelveticaBold
-              : te.italic ? StandardFonts.HelveticaOblique
-              : StandardFonts.Helvetica;
-          })();
-          font = await getStdFont(chosenFontName);
-        } else {
+        try {
+          font = await getTwinFont(resolvedTwin, te.bold, te.italic);
+        } catch {
           try {
-            font = await getNotoFont(te.family, te.bold, te.italic);
+            font = await getNotoFallback(te.family, te.bold, te.italic);
           } catch {
-            // Font asset missing — fall back to standard Helvetica; any
-            // extended chars are counted as unencodable below.
             font = await getStdFont(StandardFonts.Helvetica);
           }
         }
@@ -912,22 +917,35 @@ export default function EditPdf() {
         // — never a silent corruption.
         let safeText: string;
         let unencodable = 0;
-        try {
-          font.widthOfTextAtSize(te.newText, te.fontSize);
-          safeText = te.newText;
-        } catch {
-          let rebuilt = "";
-          for (const ch of te.newText) {
-            try {
-              font.widthOfTextAtSize(ch, te.fontSize);
-              rebuilt += ch;
-            } catch {
-              rebuilt += "?";
-              unencodable++;
+        const encodeCheck = (f: PDFFont): { text: string; missed: number } => {
+          try {
+            f.widthOfTextAtSize(te.newText, te.fontSize);
+            return { text: te.newText, missed: 0 };
+          } catch {
+            let rebuilt = ""; let missed = 0;
+            for (const ch of te.newText) {
+              try { f.widthOfTextAtSize(ch, te.fontSize); rebuilt += ch; }
+              catch { rebuilt += "?"; missed++; }
             }
+            return { text: rebuilt, missed };
           }
-          safeText = rebuilt;
+        };
+        let enc = encodeCheck(font);
+        // If the chosen twin can't encode every char, retry once with the
+        // broader Noto fallback (spec step 3). Adopt it if it does strictly
+        // better; otherwise keep the twin result for visual fidelity.
+        if (enc.missed > 0) {
+          try {
+            const noto = await getNotoFallback(te.family, te.bold, te.italic);
+            const encNoto = encodeCheck(noto);
+            if (encNoto.missed < enc.missed) {
+              font = noto;
+              enc = encNoto;
+            }
+          } catch { /* fallback unavailable */ }
         }
+        safeText = enc.text;
+        unencodable = enc.missed;
         if (unencodable > 0) {
           totalUnencodable += unencodable;
           editsWithUnencodable++;
@@ -2915,6 +2933,8 @@ function EditLineOverlay({
             bold: next.bold,
             italic: next.italic,
             family: next.family,
+            fontName: line.fontName,
+            twin: line.twin,
             edgeInsets: existing?.edgeInsets ?? sampled?.edgeInsets,
             lowConfidence: existing?.lowConfidence ?? sampled?.lowConfidence,
             align: existing?.align ?? sampled?.align,

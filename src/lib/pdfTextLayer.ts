@@ -1,6 +1,6 @@
 import type { PDFDocumentProxy } from "pdfjs-dist";
 import type { TextItem } from "pdfjs-dist/types/src/display/api";
-import { classifyPdfFont, type FontFamily } from "./fontMatch";
+import { classifyPdfFont, stripSubsetPrefix, type FontFamily, type TwinFamily } from "./fontMatch";
 import { hasVerticalRulingInGap } from "./canvasSample";
 
 export interface RulingCanvas {
@@ -39,10 +39,13 @@ export interface EditableLine {
   /** baseline y, PDF units, from TOP of page. */
   baselineY: number;
   fontSize: number;
+  /** Base PostScript name with any "ABCDEF+" subset prefix stripped. */
   fontName: string;
   bold: boolean;
   italic: boolean;
   family: FontFamily;
+  /** Metric-compatible open twin chosen for this run (Phase A). */
+  twin: TwinFamily;
   /**
    * Column-alignment inference (Fix B5). When multiple segments on
    * different baselines share a near-equal right/left/center edge, they
@@ -140,7 +143,7 @@ export async function extractEditableLines(
       if (commonObjs?.has(it.fontName)) {
         const meta = commonObjs.get(it.fontName);
         if (meta) {
-          if (typeof meta.name === "string") realFontName = meta.name;
+          if (typeof meta.name === "string") realFontName = stripSubsetPrefix(meta.name);
           if (typeof meta.bold === "boolean") bold = meta.bold;
           if (typeof meta.italic === "boolean") italic = meta.italic;
         }
@@ -287,6 +290,7 @@ export async function extractEditableLines(
         bold: cls.bold,
         italic: cls.italic,
         family: cls.family,
+        twin: cls.twin,
       });
     }
   }
