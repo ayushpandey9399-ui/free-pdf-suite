@@ -62,7 +62,7 @@ const scenarios = [
 const faqs = [
   {
     q: "How do I convert a PDF to JPG for free?",
-    a: "Open the PDF here, leave the format on JPG (or switch to PNG), adjust the quality and scale sliders if needed and click Convert to Images. A one-page PDF downloads as a single JPG; a multi-page PDF downloads as a ZIP containing one image per page. There is no signup, no watermark and no page cap.",
+    a: "Open the PDF here, leave the format on JPG (or switch to PNG for a lossless PDF to PNG conversion instead), adjust the quality and scale sliders if needed and click Convert to Images. A one-page PDF downloads as a single JPG; a multi-page PDF downloads as a ZIP containing one image per page. There is no signup, no watermark and no page cap.",
   },
   {
     q: "Should I choose JPG or PNG?",
