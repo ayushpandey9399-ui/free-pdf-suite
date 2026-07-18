@@ -15,6 +15,8 @@ export interface ToolWorkspaceProps {
   /** Called when the primary action button is clicked. */
   onAction?: () => void;
   actionDisabled?: boolean;
+  /** Shown as a small centered hint under the disabled button. */
+  disabledReason?: string;
   loading?: boolean;
   loadingLabel?: string;
   /** Optional progress 0-100 shown above the action button while loading. */
@@ -25,6 +27,14 @@ export interface ToolWorkspaceProps {
   extraSidebarButton?: ReactNode;
 }
 
+/** Breakout wrapper: escape the max-w-4xl parent and re-cap at 1100px, centered. */
+export const WORKSPACE_CONTAINER_CLASS =
+  "lg:w-[min(1100px,calc(100vw-2rem))] lg:relative lg:left-1/2 lg:-translate-x-1/2";
+
+/** Two-column workspace grid: thumbnails ~2/3, sidebar ~1/3. */
+export const WORKSPACE_GRID_CLASS =
+  "grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]";
+
 export function ToolWorkspace({
   title,
   children,
@@ -32,6 +42,7 @@ export function ToolWorkspace({
   actionLabel,
   onAction,
   actionDisabled,
+  disabledReason,
   loading,
   loadingLabel,
   progress,
@@ -39,10 +50,11 @@ export function ToolWorkspace({
   extraSidebarButton,
 }: ToolWorkspaceProps) {
   const canRun = !actionDisabled && !loading;
+  const showHint = !!disabledReason && actionDisabled && !loading;
 
   return (
-    <div className="lg:-mx-8 xl:-mx-16">
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
+    <div className={WORKSPACE_CONTAINER_CLASS}>
+      <div className={WORKSPACE_GRID_CLASS}>
         {/* LEFT panel */}
         <div className="min-w-0">{children}</div>
 
@@ -105,6 +117,14 @@ export function ToolWorkspace({
                     </>
                   )}
                 </button>
+                {showHint && (
+                  <p
+                    className="mt-2 hidden lg:block text-center text-[13px]"
+                    style={{ color: "#9CA3AF" }}
+                  >
+                    {disabledReason}
+                  </p>
+                )}
               </>
             )}
           </div>
@@ -150,6 +170,11 @@ export function ToolWorkspace({
                 </>
               )}
             </button>
+            {showHint && (
+              <p className="mt-2 text-center text-[13px]" style={{ color: "#9CA3AF" }}>
+                {disabledReason}
+              </p>
+            )}
           </div>
           <div className="lg:hidden h-24" aria-hidden />
         </>
