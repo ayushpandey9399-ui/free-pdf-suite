@@ -4,6 +4,7 @@ import { Loader2 } from "lucide-react";
 import { ToolLayout } from "@/components/ToolLayout";
 import { ClientOnly } from "@/components/ClientOnly";
 import { getTool, categoryTint } from "@/tools/registry";
+import { SITE_URL } from "@/lib/site";
 import { MergePdfSeo, mergeFaqJsonLd, mergeHowToJsonLd, mergeSoftwareJsonLd } from "@/components/MergePdfSeo";
 import { CompressPdfSeo, compressFaqJsonLd, compressHowToJsonLd, compressSoftwareJsonLd } from "@/components/CompressPdfSeo";
 import { SplitPdfSeo, splitFaqJsonLd, splitHowToJsonLd, splitSoftwareJsonLd } from "@/components/SplitPdfSeo";
@@ -33,7 +34,156 @@ import { ScanToPdfSeo, scanToPdfFaqJsonLd, scanToPdfHowToJsonLd, scanToPdfSoftwa
 import { ExtractImagesSeo, extractImagesFaqJsonLd, extractImagesHowToJsonLd, extractImagesSoftwareJsonLd } from "@/components/ExtractImagesSeo";
 import { ComparePdfSeo, compareFaqJsonLd, compareHowToJsonLd, compareSoftwareJsonLd } from "@/components/ComparePdfSeo";
 
+const OG_IMAGE = `${SITE_URL}/og-cover.png`;
 
+type ToolMeta = {
+  title: string;
+  desc: string;
+  jsonLd: readonly unknown[];
+};
+
+const TOOL_META: Record<string, ToolMeta> = {
+  "merge": {
+    title: "Merge PDF Online Free | FreePDFHub",
+    desc: "Merge PDF files online free — no upload, no signup, no watermark. Your files never leave your device. Combine PDFs on any browser in seconds.",
+    jsonLd: [mergeFaqJsonLd, mergeHowToJsonLd, mergeSoftwareJsonLd],
+  },
+  "compress": {
+    title: "Compress PDF Online Free | FreePDFHub",
+    desc: "Compress PDF online free — reduce PDF file size in your browser. No upload, no signup, no watermark. Your files never leave your device.",
+    jsonLd: [compressFaqJsonLd, compressHowToJsonLd, compressSoftwareJsonLd],
+  },
+  "split": {
+    title: "Split PDF Online Free | FreePDFHub",
+    desc: "Split PDF online free — separate pages or extract page ranges in your browser. No upload, no signup, no watermark. Files never leave your device.",
+    jsonLd: [splitFaqJsonLd, splitHowToJsonLd, splitSoftwareJsonLd],
+  },
+  "sign-pdf": {
+    title: "Sign PDF Online Free | FreePDFHub",
+    desc: "Sign PDF online free — draw, type, or upload your signature in your browser. No upload, no signup. Contracts never leave your device.",
+    jsonLd: [signFaqJsonLd, signHowToJsonLd, signSoftwareJsonLd],
+  },
+  "pdf-to-images": {
+    title: "PDF to JPG Converter Free | FreePDFHub",
+    desc: "Convert PDF to JPG or PNG online free — high quality, right in your browser. No upload, no signup, no watermark. Files never leave your device.",
+    jsonLd: [pdfToImagesFaqJsonLd, pdfToImagesHowToJsonLd, pdfToImagesSoftwareJsonLd],
+  },
+  "redact-pdf": {
+    title: "Redact PDF Online Free | FreePDFHub",
+    desc: "Redact PDF online free — permanently black out Aadhaar numbers, account details & sensitive text in your browser. No upload. Truly removed, not just covered.",
+    jsonLd: [redactFaqJsonLd, redactHowToJsonLd, redactSoftwareJsonLd],
+  },
+  "protect-pdf": {
+    title: "Password Protect PDF Free | FreePDFHub",
+    desc: "Password protect PDF online free with real AES-256 encryption — in your browser. Your file AND password never leave your device. No signup.",
+    jsonLd: [protectFaqJsonLd, protectHowToJsonLd, protectSoftwareJsonLd],
+  },
+  "unlock-pdf": {
+    title: "Unlock PDF Online Free | FreePDFHub",
+    desc: "Remove password from PDF online free — decrypt in your browser with the password you know. File and password never leave your device. No signup.",
+    jsonLd: [unlockFaqJsonLd, unlockHowToJsonLd, unlockSoftwareJsonLd],
+  },
+  "watermark": {
+    title: "Add Watermark to PDF Free | FreePDFHub",
+    desc: "Add watermark to PDF online free — stamp text like CONFIDENTIAL or your brand on every page, in your browser. No upload, no signup, no watermark ads.",
+    jsonLd: [watermarkFaqJsonLd, watermarkHowToJsonLd, watermarkSoftwareJsonLd],
+  },
+  "rotate": {
+    title: "Rotate PDF Online Free | FreePDFHub",
+    desc: "Rotate PDF pages online free and save permanently — fix sideways or upside-down pages in your browser. No upload, no signup, no watermark.",
+    jsonLd: [rotateFaqJsonLd, rotateHowToJsonLd, rotateSoftwareJsonLd],
+  },
+  "delete-pages": {
+    title: "Delete Pages from PDF Free | FreePDFHub",
+    desc: "Delete pages from PDF online free — remove unwanted pages in your browser and download a clean copy. No upload, no signup, no watermark.",
+    jsonLd: [deletePagesFaqJsonLd, deletePagesHowToJsonLd, deletePagesSoftwareJsonLd],
+  },
+  "extract-pages": {
+    title: "Extract PDF Pages Online Free | FreePDFHub",
+    desc: "Extract pages from PDF online free — save specific pages as a new PDF, in your browser. No upload, no signup, no watermark. Files stay on your device.",
+    jsonLd: [extractPagesFaqJsonLd, extractPagesHowToJsonLd, extractPagesSoftwareJsonLd],
+  },
+  "reorder-pages": {
+    title: "Reorder PDF Pages Online Free | FreePDFHub",
+    desc: "Rearrange PDF pages online free — drag and drop pages into the right order in your browser. No upload, no signup, no watermark.",
+    jsonLd: [reorderPagesFaqJsonLd, reorderPagesHowToJsonLd, reorderPagesSoftwareJsonLd],
+  },
+  "images-to-pdf": {
+    title: "JPG to PDF Converter Free | FreePDFHub",
+    desc: "Convert JPG, PNG images to PDF online free — combine photos into one PDF in your browser. No upload, no signup, no watermark.",
+    jsonLd: [imagesToPdfFaqJsonLd, imagesToPdfHowToJsonLd, imagesToPdfSoftwareJsonLd],
+  },
+  "pdf-to-text": {
+    title: "PDF to Text Online Free | FreePDFHub",
+    desc: "Extract text from PDF online free — copy all text or download as .txt, right in your browser. No upload, no signup. Files never leave your device.",
+    jsonLd: [pdfToTextFaqJsonLd, pdfToTextHowToJsonLd, pdfToTextSoftwareJsonLd],
+  },
+  "txt-to-pdf": {
+    title: "TXT to PDF Online Free | FreePDFHub",
+    desc: "Convert TXT to PDF online free — clean, printable PDFs from text files, in your browser. Supports Hindi & other languages. No upload, no signup.",
+    jsonLd: [txtToPdfFaqJsonLd, txtToPdfHowToJsonLd, txtToPdfSoftwareJsonLd],
+  },
+  "page-numbers": {
+    title: "Add Page Numbers to PDF Free | FreePDFHub",
+    desc: "Add page numbers to PDF online free — choose position, format and starting number, in your browser. No upload, no signup, no watermark.",
+    jsonLd: [pageNumbersFaqJsonLd, pageNumbersHowToJsonLd, pageNumbersSoftwareJsonLd],
+  },
+  "header-footer": {
+    title: "Add Header & Footer to PDF Free | FreePDFHub",
+    desc: "Add headers and footers to PDF online free — title, date, filename or page numbers on every page, in your browser. No upload, no signup.",
+    jsonLd: [headerFooterFaqJsonLd, headerFooterHowToJsonLd, headerFooterSoftwareJsonLd],
+  },
+  "crop": {
+    title: "Crop PDF Online Free | FreePDFHub",
+    desc: "Crop PDF online free — trim white margins and unwanted edges in your browser. No upload, no signup, no watermark. Files never leave your device.",
+    jsonLd: [cropPdfFaqJsonLd, cropPdfHowToJsonLd, cropPdfSoftwareJsonLd],
+  },
+  "edit-pdf": {
+    title: "Edit PDF Online Free | FreePDFHub",
+    desc: "Edit PDF online free — add text, highlights, shapes and freehand notes in your browser. No upload, no signup, no watermark.",
+    jsonLd: [editPdfFaqJsonLd, editPdfHowToJsonLd, editPdfSoftwareJsonLd],
+  },
+  "fill-forms": {
+    title: "Fill PDF Forms Online Free | FreePDFHub",
+    desc: "Fill out PDF forms online free — type into text fields, tick checkboxes and select options in your browser. No upload, no signup, no watermark.",
+    jsonLd: [fillFormsFaqJsonLd, fillFormsHowToJsonLd, fillFormsSoftwareJsonLd],
+  },
+  "flatten-pdf": {
+    title: "Flatten PDF Online Free | FreePDFHub",
+    desc: "Flatten PDF online free — lock form fields so answers can't be changed. Runs in your browser: no upload, no signup, no watermark.",
+    jsonLd: [flattenPdfFaqJsonLd, flattenPdfHowToJsonLd, flattenPdfSoftwareJsonLd],
+  },
+  "pdf-metadata": {
+    title: "Edit PDF Metadata Online Free | FreePDFHub",
+    desc: "View, edit or remove PDF metadata online free — title, author & hidden properties, in your browser. No upload. Clean files before sharing.",
+    jsonLd: [pdfMetadataFaqJsonLd, pdfMetadataHowToJsonLd, pdfMetadataSoftwareJsonLd],
+  },
+  "grayscale-pdf": {
+    title: "Grayscale PDF Converter Free | FreePDFHub",
+    desc: "Convert PDF to grayscale online free — black and white pages in your browser. Save printer ink and shrink scans. No upload, no signup.",
+    jsonLd: [grayscalePdfFaqJsonLd, grayscalePdfHowToJsonLd, grayscalePdfSoftwareJsonLd],
+  },
+  "add-blank-pages": {
+    title: "Add Blank Pages to PDF Free | FreePDFHub",
+    desc: "Insert blank pages into a PDF online free — anywhere in the document, in your browser. No upload, no signup, no watermark.",
+    jsonLd: [addBlankPagesFaqJsonLd, addBlankPagesHowToJsonLd, addBlankPagesSoftwareJsonLd],
+  },
+  "scan-to-pdf": {
+    title: "Scan to PDF Online Free | FreePDFHub",
+    desc: "Scan documents to PDF free using your phone camera — right in the browser, no app install. No upload, no signup. Scans never leave your device.",
+    jsonLd: [scanToPdfFaqJsonLd, scanToPdfHowToJsonLd, scanToPdfSoftwareJsonLd],
+  },
+  "extract-images": {
+    title: "Extract Images from PDF Free | FreePDFHub",
+    desc: "Extract images from PDF online free — pull out the original embedded photos at full quality, in your browser. No upload, no signup.",
+    jsonLd: [extractImagesFaqJsonLd, extractImagesHowToJsonLd, extractImagesSoftwareJsonLd],
+  },
+  "compare": {
+    title: "Compare PDF Files Online Free | FreePDFHub",
+    desc: "Compare two PDFs online free — spot every changed page side by side in your browser. No upload, no signup. Both files stay on your device.",
+    jsonLd: [compareFaqJsonLd, compareHowToJsonLd, compareSoftwareJsonLd],
+  },
+};
 
 export const Route = createFileRoute("/tools/$slug")({
   loader: ({ params }) => {
@@ -42,728 +192,31 @@ export const Route = createFileRoute("/tools/$slug")({
     return { slug: tool.slug, name: tool.name, description: tool.description };
   },
   head: ({ loaderData, params }) => {
-    if (loaderData?.slug === "merge") {
-      const title =
-        "Merge PDF Online Free | FreePDFHub";
-      const desc =
-        "Merge PDF files online free — no upload, no signup, no watermark. Your files never leave your device. Combine PDFs on any browser in seconds.";
-      const url = "/tools/merge";
+    const slug = loaderData?.slug ?? params.slug;
+    const url = `${SITE_URL}/tools/${slug}`;
+    const meta = TOOL_META[slug];
+    if (meta) {
       return {
         meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
+          { title: meta.title },
+          { name: "description", content: meta.desc },
+          { property: "og:title", content: meta.title },
+          { property: "og:description", content: meta.desc },
           { property: "og:type", content: "website" },
           { property: "og:url", content: url },
+          { property: "og:image", content: OG_IMAGE },
+          { property: "og:image:width", content: "1200" },
+          { property: "og:image:height", content: "630" },
           { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
+          { name: "twitter:title", content: meta.title },
+          { name: "twitter:description", content: meta.desc },
+          { name: "twitter:image", content: OG_IMAGE },
         ],
         links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(mergeFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(mergeHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(mergeSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "compress") {
-      const title =
-        "Compress PDF Online Free | FreePDFHub";
-      const desc =
-        "Compress PDF online free — reduce PDF file size in your browser. No upload, no signup, no watermark. Your files never leave your device.";
-      const url = "/tools/compress";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(compressFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(compressHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(compressSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "split") {
-      const title =
-        "Split PDF Online Free | FreePDFHub";
-      const desc =
-        "Split PDF online free — separate pages or extract page ranges in your browser. No upload, no signup, no watermark. Files never leave your device.";
-      const url = "/tools/split";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(splitFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(splitHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(splitSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "sign-pdf") {
-      const title =
-        "Sign PDF Online Free | FreePDFHub";
-      const desc =
-        "Sign PDF online free — draw, type, or upload your signature in your browser. No upload, no signup. Contracts never leave your device.";
-      const url = "/tools/sign-pdf";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(signFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(signHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(signSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "pdf-to-images") {
-      const title =
-        "PDF to JPG Converter Free | FreePDFHub";
-      const desc =
-        "Convert PDF to JPG or PNG online free — high quality, right in your browser. No upload, no signup, no watermark. Files never leave your device.";
-      const url = "/tools/pdf-to-images";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(pdfToImagesFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(pdfToImagesHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(pdfToImagesSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "redact-pdf") {
-      const title =
-        "Redact PDF Online Free | FreePDFHub";
-      const desc =
-        "Redact PDF online free — permanently black out Aadhaar numbers, account details & sensitive text in your browser. No upload. Truly removed, not just covered.";
-      const url = "/tools/redact-pdf";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(redactFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(redactHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(redactSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "protect-pdf") {
-      const title =
-        "Password Protect PDF Free | FreePDFHub";
-      const desc =
-        "Password protect PDF online free with real AES-256 encryption — in your browser. Your file AND password never leave your device. No signup.";
-      const url = "/tools/protect-pdf";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(protectFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(protectHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(protectSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "unlock-pdf") {
-      const title =
-        "Unlock PDF Online Free | FreePDFHub";
-      const desc =
-        "Remove password from PDF online free — decrypt in your browser with the password you know. File and password never leave your device. No signup.";
-      const url = "/tools/unlock-pdf";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(unlockFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(unlockHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(unlockSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "watermark") {
-      const title =
-        "Add Watermark to PDF Free | FreePDFHub";
-      const desc =
-        "Add watermark to PDF online free — stamp text like CONFIDENTIAL or your brand on every page, in your browser. No upload, no signup, no watermark ads.";
-      const url = "/tools/watermark";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(watermarkFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(watermarkHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(watermarkSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "rotate") {
-      const title =
-        "Rotate PDF Online Free | FreePDFHub";
-      const desc =
-        "Rotate PDF pages online free and save permanently — fix sideways or upside-down pages in your browser. No upload, no signup, no watermark.";
-      const url = "/tools/rotate";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(rotateFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(rotateHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(rotateSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "delete-pages") {
-      const title =
-        "Delete Pages from PDF Free | FreePDFHub";
-      const desc =
-        "Delete pages from PDF online free — remove unwanted pages in your browser and download a clean copy. No upload, no signup, no watermark.";
-      const url = "/tools/delete-pages";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(deletePagesFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(deletePagesHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(deletePagesSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "extract-pages") {
-      const title =
-        "Extract PDF Pages Online Free | FreePDFHub";
-      const desc =
-        "Extract pages from PDF online free — save specific pages as a new PDF, in your browser. No upload, no signup, no watermark. Files stay on your device.";
-      const url = "/tools/extract-pages";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(extractPagesFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(extractPagesHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(extractPagesSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "reorder-pages") {
-      const title =
-        "Reorder PDF Pages Online Free | FreePDFHub";
-      const desc =
-        "Rearrange PDF pages online free — drag and drop pages into the right order in your browser. No upload, no signup, no watermark.";
-      const url = "/tools/reorder-pages";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(reorderPagesFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(reorderPagesHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(reorderPagesSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "images-to-pdf") {
-      const title =
-        "JPG to PDF Converter Free | FreePDFHub";
-      const desc =
-        "Convert JPG, PNG images to PDF online free — combine photos into one PDF in your browser. No upload, no signup, no watermark.";
-      const url = "/tools/images-to-pdf";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(imagesToPdfFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(imagesToPdfHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(imagesToPdfSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "pdf-to-text") {
-      const title =
-        "PDF to Text Online Free | FreePDFHub";
-      const desc =
-        "Extract text from PDF online free — copy all text or download as .txt, right in your browser. No upload, no signup. Files never leave your device.";
-      const url = "/tools/pdf-to-text";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(pdfToTextFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(pdfToTextHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(pdfToTextSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "txt-to-pdf") {
-      const title =
-        "TXT to PDF Online Free | FreePDFHub";
-      const desc =
-        "Convert TXT to PDF online free — clean, printable PDFs from text files, in your browser. Supports Hindi & other languages. No upload, no signup.";
-      const url = "/tools/txt-to-pdf";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(txtToPdfFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(txtToPdfHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(txtToPdfSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "page-numbers") {
-      const title =
-        "Add Page Numbers to PDF Free | FreePDFHub";
-      const desc =
-        "Add page numbers to PDF online free — choose position, format and starting number, in your browser. No upload, no signup, no watermark.";
-      const url = "/tools/page-numbers";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(pageNumbersFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(pageNumbersHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(pageNumbersSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "header-footer") {
-      const title =
-        "Add Header & Footer to PDF Free | FreePDFHub";
-      const desc =
-        "Add headers and footers to PDF online free — title, date, filename or page numbers on every page, in your browser. No upload, no signup.";
-      const url = "/tools/header-footer";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(headerFooterFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(headerFooterHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(headerFooterSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "crop") {
-      const title =
-        "Crop PDF Online Free | FreePDFHub";
-      const desc =
-        "Crop PDF online free — trim white margins and unwanted edges in your browser. No upload, no signup, no watermark. Files never leave your device.";
-      const url = "/tools/crop";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(cropPdfFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(cropPdfHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(cropPdfSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "edit-pdf") {
-      const title =
-        "Edit PDF Online Free | FreePDFHub";
-      const desc =
-        "Edit PDF online free — add text, highlights, shapes and freehand notes in your browser. No upload, no signup, no watermark.";
-      const url = "/tools/edit-pdf";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(editPdfFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(editPdfHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(editPdfSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "fill-forms") {
-      const title =
-        "Fill PDF Forms Online Free | FreePDFHub";
-      const desc =
-        "Fill out PDF forms online free — type into text fields, tick checkboxes and select options in your browser. No upload, no signup, no watermark.";
-      const url = "/tools/fill-forms";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(fillFormsFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(fillFormsHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(fillFormsSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "flatten-pdf") {
-      const title =
-        "Flatten PDF Online Free | FreePDFHub";
-      const desc =
-        "Flatten PDF online free — lock form fields so answers can't be changed. Runs in your browser: no upload, no signup, no watermark.";
-      const url = "/tools/flatten-pdf";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(flattenPdfFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(flattenPdfHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(flattenPdfSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "pdf-metadata") {
-      const title =
-        "Edit PDF Metadata Online Free | FreePDFHub";
-      const desc =
-        "View, edit or remove PDF metadata online free — title, author & hidden properties, in your browser. No upload. Clean files before sharing.";
-      const url = "/tools/pdf-metadata";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(pdfMetadataFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(pdfMetadataHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(pdfMetadataSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "grayscale-pdf") {
-      const title =
-        "Grayscale PDF Converter Free | FreePDFHub";
-      const desc =
-        "Convert PDF to grayscale online free — black and white pages in your browser. Save printer ink and shrink scans. No upload, no signup.";
-      const url = "/tools/grayscale-pdf";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(grayscalePdfFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(grayscalePdfHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(grayscalePdfSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "add-blank-pages") {
-      const title =
-        "Add Blank Pages to PDF Free | FreePDFHub";
-      const desc =
-        "Insert blank pages into a PDF online free — anywhere in the document, in your browser. No upload, no signup, no watermark.";
-      const url = "/tools/add-blank-pages";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(addBlankPagesFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(addBlankPagesHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(addBlankPagesSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "scan-to-pdf") {
-      const title =
-        "Scan to PDF Online Free | FreePDFHub";
-      const desc =
-        "Scan documents to PDF free using your phone camera — right in the browser, no app install. No upload, no signup. Scans never leave your device.";
-      const url = "/tools/scan-to-pdf";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(scanToPdfFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(scanToPdfHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(scanToPdfSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "extract-images") {
-      const title = "Extract Images from PDF Free | FreePDFHub";
-      const desc = "Extract images from PDF online free — pull out the original embedded photos at full quality, in your browser. No upload, no signup.";
-      const url = "/tools/extract-images";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(extractImagesFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(extractImagesHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(extractImagesSoftwareJsonLd) },
-        ],
-      };
-    }
-    if (loaderData?.slug === "compare") {
-      const title = "Compare PDF Files Online Free | FreePDFHub";
-      const desc = "Compare two PDFs online free — spot every changed page side by side in your browser. No upload, no signup. Both files stay on your device.";
-      const url = "/tools/compare";
-      return {
-        meta: [
-          { title },
-          { name: "description", content: desc },
-          { property: "og:title", content: title },
-          { property: "og:description", content: desc },
-          { property: "og:type", content: "website" },
-          { property: "og:url", content: url },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: title },
-          { name: "twitter:description", content: desc },
-        ],
-        links: [{ rel: "canonical", href: url }],
-        scripts: [
-          { type: "application/ld+json", children: JSON.stringify(compareFaqJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(compareHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(compareSoftwareJsonLd) },
-        ],
+        scripts: meta.jsonLd.map((v) => ({
+          type: "application/ld+json",
+          children: JSON.stringify(v),
+        })),
       };
     }
     return {
@@ -773,10 +226,15 @@ export const Route = createFileRoute("/tools/$slug")({
             { name: "description", content: loaderData.description },
             { property: "og:title", content: `${loaderData.name} — FreePDFHub` },
             { property: "og:description", content: loaderData.description },
-            { property: "og:url", content: `/tools/${params.slug}` },
+            { property: "og:url", content: url },
+            { property: "og:image", content: OG_IMAGE },
+            { property: "og:image:width", content: "1200" },
+            { property: "og:image:height", content: "630" },
+            { name: "twitter:card", content: "summary_large_image" },
+            { name: "twitter:image", content: OG_IMAGE },
           ]
         : [{ title: "Tool — FreePDFHub" }],
-      links: loaderData ? [{ rel: "canonical", href: `/tools/${params.slug}` }] : [],
+      links: loaderData ? [{ rel: "canonical", href: url }] : [],
     };
   },
   component: ToolPage,
@@ -880,8 +338,6 @@ function ToolPage() {
     : isCompare
     ? "Compare two PDFs"
     : tool.name;
-
-
 
   return (
     <>
