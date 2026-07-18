@@ -1,32 +1,54 @@
 import type { ReactNode, ComponentType, CSSProperties } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowLeft } from "lucide-react";
 import type { ToolIconProps } from "@/components/icons/ToolIcons";
 
 export function ToolLayout({
   title,
   description,
+  crumbName,
   children,
 }: {
   title: string;
   description: string;
+  crumbName?: string;
   icon?: ComponentType<ToolIconProps>;
   tint?: { bg: string; fg: string };
   children: ReactNode;
 }) {
   return (
     <div className="mx-auto max-w-4xl px-4 pb-16">
-      <section
-        className="relative flex flex-col md:min-h-[50vh] pt-12 md:pt-6 pb-14"
-      >
-        <Link
-          to="/"
-          className="group inline-flex items-center gap-1.5 text-[13px] font-medium transition-colors hover:text-[#e5322d] md:absolute md:top-6 md:left-0"
-          style={{ color: "#7a7a86" }}
+      <section className="relative flex flex-col md:min-h-[50vh] pt-6 pb-14">
+        <nav
+          aria-label="Breadcrumb"
+          className="text-[13px] leading-none"
+          style={{ color: "#9CA3AF" }}
         >
-          <ArrowLeft className="h-3.5 w-3.5 transition-transform duration-150 group-hover:-translate-x-0.5" />
-          Back to all tools
-        </Link>
+          <ol className="flex items-center gap-[6px] whitespace-nowrap overflow-hidden">
+            <li className="shrink-0">
+              <Link to="/" className="transition-colors hover:text-[#e5322d]">
+                Home
+              </Link>
+            </li>
+            <li aria-hidden="true" className="shrink-0">›</li>
+            <li className="shrink-0">
+              <Link
+                to="/"
+                hash="tools"
+                className="transition-colors hover:text-[#e5322d]"
+              >
+                All tools
+              </Link>
+            </li>
+            <li aria-hidden="true" className="shrink-0">›</li>
+            <li
+              aria-current="page"
+              className="min-w-0 truncate"
+              style={{ color: "#6B7280" }}
+            >
+              {crumbName ?? title}
+            </li>
+          </ol>
+        </nav>
 
         <div className="flex flex-1 flex-col justify-center text-center mt-8 md:mt-0">
           <h1

@@ -45,142 +45,142 @@ type ToolMeta = {
 const TOOL_META: Record<string, ToolMeta> = {
   "merge": {
     title: "Merge PDF Online Free | FreePDFHub",
-    desc: "Merge PDF files online free — no upload, no signup, no watermark. Your files never leave your device. Combine PDFs on any browser in seconds.",
+    desc: "Merge PDF files online free and combine multiple documents into one clean file. Works right in your browser with no signup and no watermark added.",
     jsonLd: [mergeFaqJsonLd, mergeHowToJsonLd, mergeSoftwareJsonLd],
   },
   "compress": {
     title: "Compress PDF Online Free | FreePDFHub",
-    desc: "Compress PDF online free — reduce PDF file size in your browser. No upload, no signup, no watermark. Your files never leave your device.",
+    desc: "Compress PDF file size online free without losing quality. Shrink large scans and reports in your browser so they fit email limits and load faster.",
     jsonLd: [compressFaqJsonLd, compressHowToJsonLd, compressSoftwareJsonLd],
   },
   "split": {
     title: "Split PDF Online Free | FreePDFHub",
-    desc: "Split PDF online free — separate pages or extract page ranges in your browser. No upload, no signup, no watermark. Files never leave your device.",
+    desc: "Split PDF into separate files or extract page ranges online free. Runs offline in your browser, so you can break up long documents without an account.",
     jsonLd: [splitFaqJsonLd, splitHowToJsonLd, splitSoftwareJsonLd],
   },
   "sign-pdf": {
     title: "Sign PDF Online Free | FreePDFHub",
-    desc: "Sign PDF online free — draw, type, or upload your signature in your browser. No upload, no signup. Contracts never leave your device.",
+    desc: "Sign PDF documents online free by drawing, typing, or uploading your signature. Place it anywhere on any page and download a signed copy in seconds.",
     jsonLd: [signFaqJsonLd, signHowToJsonLd, signSoftwareJsonLd],
   },
   "pdf-to-images": {
     title: "PDF to JPG Converter Free | FreePDFHub",
-    desc: "Convert PDF to JPG or PNG online free — high quality, right in your browser. No upload, no signup, no watermark. Files never leave your device.",
+    desc: "Convert PDF to JPG or PNG online free at high resolution. Each page becomes a separate image, processed in your browser with no signup required.",
     jsonLd: [pdfToImagesFaqJsonLd, pdfToImagesHowToJsonLd, pdfToImagesSoftwareJsonLd],
   },
   "redact-pdf": {
     title: "Redact PDF Online Free | FreePDFHub",
-    desc: "Redact PDF online free — permanently black out Aadhaar numbers, account details & sensitive text in your browser. No upload. Truly removed, not just covered.",
+    desc: "Redact PDF online free and permanently black out names, Aadhaar numbers, or account details. Text is truly removed from the file, not just covered.",
     jsonLd: [redactFaqJsonLd, redactHowToJsonLd, redactSoftwareJsonLd],
   },
   "protect-pdf": {
     title: "Password Protect PDF Free | FreePDFHub",
-    desc: "Password protect PDF online free with real AES-256 encryption — in your browser. Your file AND password never leave your device. No signup.",
+    desc: "Password protect PDF online free with real AES-256 encryption. Set a password directly in your browser, so your file and password stay on your device.",
     jsonLd: [protectFaqJsonLd, protectHowToJsonLd, protectSoftwareJsonLd],
   },
   "unlock-pdf": {
     title: "Unlock PDF Online Free | FreePDFHub",
-    desc: "Remove password from PDF online free — decrypt in your browser with the password you know. File and password never leave your device. No signup.",
+    desc: "Unlock a password protected PDF online free using the password you already know. Decryption runs in your browser with no account or upload needed.",
     jsonLd: [unlockFaqJsonLd, unlockHowToJsonLd, unlockSoftwareJsonLd],
   },
   "watermark": {
     title: "Add Watermark to PDF Free | FreePDFHub",
-    desc: "Add watermark to PDF online free — stamp text like CONFIDENTIAL or your brand on every page, in your browser. No upload, no signup, no watermark ads.",
+    desc: "Add a watermark to PDF online free. Stamp text like CONFIDENTIAL, DRAFT, or your brand across every page, with adjustable size, angle, and opacity.",
     jsonLd: [watermarkFaqJsonLd, watermarkHowToJsonLd, watermarkSoftwareJsonLd],
   },
   "rotate": {
     title: "Rotate PDF Online Free | FreePDFHub",
-    desc: "Rotate PDF pages online free and save permanently — fix sideways or upside-down pages in your browser. No upload, no signup, no watermark.",
+    desc: "Rotate PDF pages online free and save the change permanently. Fix sideways or upside-down pages one at a time or in bulk, right from your browser.",
     jsonLd: [rotateFaqJsonLd, rotateHowToJsonLd, rotateSoftwareJsonLd],
   },
   "delete-pages": {
     title: "Delete Pages from PDF Free | FreePDFHub",
-    desc: "Delete pages from PDF online free — remove unwanted pages in your browser and download a clean copy. No upload, no signup, no watermark.",
+    desc: "Delete pages from a PDF online free. Pick unwanted pages in the thumbnail view and download a clean copy of the document without them in seconds.",
     jsonLd: [deletePagesFaqJsonLd, deletePagesHowToJsonLd, deletePagesSoftwareJsonLd],
   },
   "extract-pages": {
     title: "Extract PDF Pages Online Free | FreePDFHub",
-    desc: "Extract pages from PDF online free — save specific pages as a new PDF, in your browser. No upload, no signup, no watermark. Files stay on your device.",
+    desc: "Extract pages from PDF online free and save any selection as a new document. Great for pulling one chapter or invoice out of a longer report.",
     jsonLd: [extractPagesFaqJsonLd, extractPagesHowToJsonLd, extractPagesSoftwareJsonLd],
   },
   "reorder-pages": {
     title: "Reorder PDF Pages Online Free | FreePDFHub",
-    desc: "Rearrange PDF pages online free — drag and drop pages into the right order in your browser. No upload, no signup, no watermark.",
+    desc: "Reorder PDF pages online free with drag and drop. Rearrange chapters, invoices, or scan sheets into the right order and download the updated file.",
     jsonLd: [reorderPagesFaqJsonLd, reorderPagesHowToJsonLd, reorderPagesSoftwareJsonLd],
   },
   "images-to-pdf": {
     title: "JPG to PDF Converter Free | FreePDFHub",
-    desc: "Convert JPG, PNG images to PDF online free — combine photos into one PDF in your browser. No upload, no signup, no watermark.",
+    desc: "Convert JPG or PNG images to PDF online free. Combine phone photos, screenshots, and scans into one tidy document with A4, Letter, or auto page sizes.",
     jsonLd: [imagesToPdfFaqJsonLd, imagesToPdfHowToJsonLd, imagesToPdfSoftwareJsonLd],
   },
   "pdf-to-text": {
     title: "PDF to Text Online Free | FreePDFHub",
-    desc: "Extract text from PDF online free — copy all text or download as .txt, right in your browser. No upload, no signup. Files never leave your device.",
+    desc: "Extract text from PDF online free. Copy the full contents to your clipboard or download a clean .txt file, all processed locally in your browser.",
     jsonLd: [pdfToTextFaqJsonLd, pdfToTextHowToJsonLd, pdfToTextSoftwareJsonLd],
   },
   "txt-to-pdf": {
     title: "TXT to PDF Online Free | FreePDFHub",
-    desc: "Convert TXT to PDF online free — clean, printable PDFs from text files, in your browser. Supports Hindi & other languages. No upload, no signup.",
+    desc: "Convert TXT to PDF online free with clean typography and proper page breaks. Supports Hindi, Tamil, Arabic, Chinese, and other non-Latin scripts.",
     jsonLd: [txtToPdfFaqJsonLd, txtToPdfHowToJsonLd, txtToPdfSoftwareJsonLd],
   },
   "page-numbers": {
     title: "Add Page Numbers to PDF Free | FreePDFHub",
-    desc: "Add page numbers to PDF online free — choose position, format and starting number, in your browser. No upload, no signup, no watermark.",
+    desc: "Add page numbers to PDF online free. Choose position, starting number, and format like 1 of 20 or Roman numerals, and preview before you download.",
     jsonLd: [pageNumbersFaqJsonLd, pageNumbersHowToJsonLd, pageNumbersSoftwareJsonLd],
   },
   "header-footer": {
     title: "Add Header & Footer to PDF Free | FreePDFHub",
-    desc: "Add headers and footers to PDF online free — title, date, filename or page numbers on every page, in your browser. No upload, no signup.",
+    desc: "Add headers and footers to PDF online free. Print titles, dates, filenames, or page counts on every page with custom fonts and alignment options.",
     jsonLd: [headerFooterFaqJsonLd, headerFooterHowToJsonLd, headerFooterSoftwareJsonLd],
   },
   "crop": {
     title: "Crop PDF Online Free | FreePDFHub",
-    desc: "Crop PDF online free — trim white margins and unwanted edges in your browser. No upload, no signup, no watermark. Files never leave your device.",
+    desc: "Crop PDF online free to trim white margins or cut unwanted edges from scans. Live preview shows the exact crop box before you save the updated file.",
     jsonLd: [cropPdfFaqJsonLd, cropPdfHowToJsonLd, cropPdfSoftwareJsonLd],
   },
   "edit-pdf": {
     title: "Edit PDF Online Free | FreePDFHub",
-    desc: "Edit PDF online free — add text, highlights, shapes and freehand notes in your browser. No upload, no signup, no watermark.",
+    desc: "Edit PDF online free by adding text, highlights, shapes, or freehand notes on top of any page. Save annotated copies from your browser in seconds.",
     jsonLd: [editPdfFaqJsonLd, editPdfHowToJsonLd, editPdfSoftwareJsonLd],
   },
   "fill-forms": {
     title: "Fill PDF Forms Online Free | FreePDFHub",
-    desc: "Fill out PDF forms online free — type into text fields, tick checkboxes and select options in your browser. No upload, no signup, no watermark.",
+    desc: "Fill out PDF forms online free. Type into text fields, tick checkboxes, and pick options, then download the completed form ready to send or print.",
     jsonLd: [fillFormsFaqJsonLd, fillFormsHowToJsonLd, fillFormsSoftwareJsonLd],
   },
   "flatten-pdf": {
     title: "Flatten PDF Online Free | FreePDFHub",
-    desc: "Flatten PDF online free — lock form fields so answers can't be changed. Runs in your browser: no upload, no signup, no watermark.",
+    desc: "Flatten PDF online free to lock form fields and annotations into the page. Recipients can view but not change the answers, and printing stays sharp.",
     jsonLd: [flattenPdfFaqJsonLd, flattenPdfHowToJsonLd, flattenPdfSoftwareJsonLd],
   },
   "pdf-metadata": {
     title: "Edit PDF Metadata Online Free | FreePDFHub",
-    desc: "View, edit or remove PDF metadata online free — title, author & hidden properties, in your browser. No upload. Clean files before sharing.",
+    desc: "View, edit, or remove PDF metadata online free including title, author, subject, and keywords. Clean hidden properties before sharing sensitive files.",
     jsonLd: [pdfMetadataFaqJsonLd, pdfMetadataHowToJsonLd, pdfMetadataSoftwareJsonLd],
   },
   "grayscale-pdf": {
     title: "Grayscale PDF Converter Free | FreePDFHub",
-    desc: "Convert PDF to grayscale online free — black and white pages in your browser. Save printer ink and shrink scans. No upload, no signup.",
+    desc: "Convert PDF to grayscale online free. Turn color pages into clean black and white to save printer ink, shrink file size, and prep documents for print.",
     jsonLd: [grayscalePdfFaqJsonLd, grayscalePdfHowToJsonLd, grayscalePdfSoftwareJsonLd],
   },
   "add-blank-pages": {
     title: "Add Blank Pages to PDF Free | FreePDFHub",
-    desc: "Insert blank pages into a PDF online free — anywhere in the document, in your browser. No upload, no signup, no watermark.",
+    desc: "Insert blank pages into a PDF online free at any position. Add spacers between chapters, signature pages, or notes pages before you download.",
     jsonLd: [addBlankPagesFaqJsonLd, addBlankPagesHowToJsonLd, addBlankPagesSoftwareJsonLd],
   },
   "scan-to-pdf": {
     title: "Scan to PDF Online Free | FreePDFHub",
-    desc: "Scan documents to PDF free using your phone camera — right in the browser, no app install. No upload, no signup. Scans never leave your device.",
+    desc: "Scan documents to PDF free with your phone camera, right in the browser. No app to install. Capture multiple pages and export them as a single PDF.",
     jsonLd: [scanToPdfFaqJsonLd, scanToPdfHowToJsonLd, scanToPdfSoftwareJsonLd],
   },
   "extract-images": {
     title: "Extract Images from PDF Free | FreePDFHub",
-    desc: "Extract images from PDF online free — pull out the original embedded photos at full quality, in your browser. No upload, no signup.",
+    desc: "Extract images from PDF online free. Pull out the original embedded photos, logos, and figures at full quality, then download them individually.",
     jsonLd: [extractImagesFaqJsonLd, extractImagesHowToJsonLd, extractImagesSoftwareJsonLd],
   },
   "compare": {
     title: "Compare PDF Files Online Free | FreePDFHub",
-    desc: "Compare two PDFs online free — spot every changed page side by side in your browser. No upload, no signup. Both files stay on your device.",
+    desc: "Compare two PDF files online free and see every changed page side by side. Switch between visual diff and text diff to spot edits in contracts fast.",
     jsonLd: [compareFaqJsonLd, compareHowToJsonLd, compareSoftwareJsonLd],
   },
 };
@@ -194,6 +194,16 @@ export const Route = createFileRoute("/tools/$slug")({
   head: ({ loaderData, params }) => {
     const slug = loaderData?.slug ?? params.slug;
     const url = `${SITE_URL}/tools/${slug}`;
+    const crumbName = loaderData?.name ?? "Tool";
+    const breadcrumbJsonLd = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+        { "@type": "ListItem", position: 2, name: "All tools", item: `${SITE_URL}/#tools` },
+        { "@type": "ListItem", position: 3, name: crumbName, item: url },
+      ],
+    };
     const meta = TOOL_META[slug];
     if (meta) {
       return {
@@ -213,10 +223,16 @@ export const Route = createFileRoute("/tools/$slug")({
           { name: "twitter:image", content: OG_IMAGE },
         ],
         links: [{ rel: "canonical", href: url }],
-        scripts: meta.jsonLd.map((v) => ({
-          type: "application/ld+json",
-          children: JSON.stringify(v),
-        })),
+        scripts: [
+          ...meta.jsonLd.map((v) => ({
+            type: "application/ld+json",
+            children: JSON.stringify(v),
+          })),
+          {
+            type: "application/ld+json",
+            children: JSON.stringify(breadcrumbJsonLd),
+          },
+        ],
       };
     }
     return {
@@ -235,6 +251,9 @@ export const Route = createFileRoute("/tools/$slug")({
           ]
         : [{ title: "Tool — FreePDFHub" }],
       links: loaderData ? [{ rel: "canonical", href: url }] : [],
+      scripts: loaderData
+        ? [{ type: "application/ld+json", children: JSON.stringify(breadcrumbJsonLd) }]
+        : [],
     };
   },
   component: ToolPage,
@@ -344,6 +363,7 @@ function ToolPage() {
       <ToolLayout
         title={layoutTitle}
         description={tool.description}
+        crumbName={tool.name}
         icon={tool.icon}
         tint={categoryTint[tool.category]}
       >
