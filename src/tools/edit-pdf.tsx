@@ -44,7 +44,7 @@ import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
 import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 import { cn } from "@/lib/utils";
-import { type FontFamily } from "@/lib/fontMatch";
+import { classifyPdfFont, type FontFamily, type TwinFamily } from "@/lib/fontMatch";
 import { extractEditableLines, type EditableLine } from "@/lib/pdfTextLayer";
 import { sampleBackgroundAndTextColor, findCellRulings, rgbToHex, hexToRgb255 } from "@/lib/canvasSample";
 
