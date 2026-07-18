@@ -1,6 +1,6 @@
 import type { PDFDocumentProxy } from "pdfjs-dist";
 import type { TextItem } from "pdfjs-dist/types/src/display/api";
-import { classifyPdfFont, type FontFamily } from "./fontMatch";
+import { classifyPdfFont, stripSubsetPrefix, type FontFamily, type TwinFamily } from "./fontMatch";
 import { hasVerticalRulingInGap } from "./canvasSample";
 
 export interface RulingCanvas {
