@@ -94,7 +94,7 @@ const faqs = [
   },
   {
     q: "Can I convert PNG screenshots to PDF?",
-    a: "Yes. PNG is one of the two formats the file picker accepts, so screenshots taken on Windows, macOS, iOS or Android drop in the same way phone photos do. A screenshot's transparency, if any, is preserved during embedding but PDF viewers typically render the transparent area as white.",
+    a: "Yes — PNG to PDF works exactly the same way as JPG to PDF here. PNG is one of the two formats the file picker accepts, so screenshots taken on Windows, macOS, iOS or Android drop in the same way phone photos do. A screenshot's transparency, if any, is preserved during embedding but PDF viewers typically render the transparent area as white.",
   },
   {
     q: "How do I do the reverse — PDF to images?",
