@@ -468,6 +468,7 @@ export default function EditPdf() {
   // canvases stays bounded at ~5 (visible ± 2) regardless of doc length.
   const renderPage = useCallback(async (pageIdx: number): Promise<void> => {
     const doc = pdfjsDocRef.current;
+    console.debug("edit render start", pageIdx, Boolean(doc), loadGenRef.current);
     if (!doc) return;
     // If we already have a canvas for this page, make sure pages state
     // has its url (may have been cleared by a prior eviction pass that
@@ -491,6 +492,7 @@ export default function EditPdf() {
     renderingRef.current.add(pageIdx);
     try {
       const page = await doc.getPage(pageIdx + 1);
+      console.debug("edit render got page", pageIdx, gen, loadGenRef.current);
       if (loadGenRef.current !== gen) return;
       // Fix B-2 #2: render preview in DISPLAY orientation so what the
       // user sees matches the geometry used for edits + sampling.
@@ -503,6 +505,7 @@ export default function EditPdf() {
       canvas.height = Math.floor(vp.height);
       const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
       await page.render({ canvasContext: ctx, viewport: vp, canvas } as never).promise;
+      console.debug("edit render painted", pageIdx, gen, loadGenRef.current);
       if (loadGenRef.current !== gen) return;
       pageCanvasesRef.current.set(pageIdx, canvas);
       const url = canvas.toDataURL("image/jpeg", 0.85);
