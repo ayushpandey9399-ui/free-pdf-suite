@@ -2595,21 +2595,8 @@ function EditLineOverlay({
             aria-label="Edit segment again"
           />
         </div>
-        {/* Corner dot at the tight box's top-right, precisely. */}
-        <span
-          className="absolute h-2 w-2 rounded-full"
-          style={{
-            right: -1,
-            top: -1,
-            backgroundColor: existing.lowConfidence ? "#f59e0b" : "#e5322d",
-            boxShadow: "0 0 0 1.5px #ffffff",
-          }}
-          title={
-            existing.lowConfidence
-              ? "Text may be tight in this cell — preview the exported PDF."
-              : undefined
-          }
-        />
+        {/* Edit indicators live in the page's left-gutter change-bar, not
+            over the glyphs — see PageOverlay. */}
         <button
           type="button"
           onClick={onRemove}
