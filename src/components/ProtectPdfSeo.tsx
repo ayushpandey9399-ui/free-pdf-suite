@@ -62,7 +62,7 @@ const scenarios = [
 const faqs = [
   {
     q: "How do I put a password on a PDF for free?",
-    a: "Open this page, click Select PDF file, choose the document you want to lock, type the password you want the file to require, confirm it in the second field and click Protect PDF. A password-protected copy downloads to your device a moment later. You do not need Adobe Acrobat, an account or a card — the whole thing takes about ten seconds and costs nothing.",
+    a: "You can password protect PDF files here in about ten seconds. Click Select PDF file, choose the document you want to lock, type the password you want the file to require, confirm it in the second field and click Protect PDF to encrypt the PDF with AES-256. A password-protected copy downloads to your device a moment later. You do not need Adobe Acrobat, an account or a card.",
   },
   {
     q: "Is the password sent to your server?",
