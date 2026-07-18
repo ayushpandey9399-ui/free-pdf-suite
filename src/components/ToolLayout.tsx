@@ -42,7 +42,7 @@ export function ToolLayout({
             <li aria-hidden="true" className="shrink-0">›</li>
             <li
               aria-current="page"
-              className="min-w-0 truncate"
+              className="min-w-0 overflow-x-hidden text-ellipsis"
               style={{ color: "#4B5563" }}
             >
               {crumbName ?? title}
