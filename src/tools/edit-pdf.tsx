@@ -505,22 +505,28 @@ export default function EditPdf() {
         const pH = page.getHeight();
         const bg = hexToRgb255(te.bgColor);
         // Proportional padding: 25% below baseline for descenders, 10% above
-        // top of line, 1.5px horizontal.
+        // top of line, 1.5px horizontal — then clamp with any detected
+        // table/rule edges so we never overpaint them.
         const padBelow = te.fontSize * 0.25;
         const padAbove = te.fontSize * 0.1;
         const padX = 1.5;
+        const ins = te.edgeInsets ?? { top: 0, bottom: 0, left: 0, right: 0 };
         // In our coord system y is measured from top; convert to PDF bottom-up.
-        const rectTopFromTop = te.y - padAbove;
-        const rectBotFromTop = te.baselineY + padBelow;
-        const rectH = rectBotFromTop - rectTopFromTop;
+        const rectTopFromTop = te.y - padAbove + ins.top;
+        const rectBotFromTop = te.baselineY + padBelow - ins.bottom;
+        const rectH = Math.max(0, rectBotFromTop - rectTopFromTop);
         const rectY = pH - rectBotFromTop;
-        page.drawRectangle({
-          x: te.x - padX,
-          y: rectY,
-          width: te.width + padX * 2,
-          height: rectH,
-          color: rgb(bg.r / 255, bg.g / 255, bg.b / 255),
-        });
+        const rectX = te.x - padX + ins.left;
+        const rectW = Math.max(0, te.width + padX * 2 - ins.left - ins.right);
+        if (rectW > 0 && rectH > 0) {
+          page.drawRectangle({
+            x: rectX,
+            y: rectY,
+            width: rectW,
+            height: rectH,
+            color: rgb(bg.r / 255, bg.g / 255, bg.b / 255),
+          });
+        }
         const cls = classifyPdfFont(null, { bold: te.bold, italic: te.italic });
         // Preserve the user-picked family too (may differ from classification if
         // they overrode in the mini toolbar). We stored `family` directly.
