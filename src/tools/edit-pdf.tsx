@@ -1468,9 +1468,11 @@ interface PageOverlayProps {
 
 function PageOverlay(props: PageOverlayProps) {
   const { index, page, annos, selectedId, mode, onSelect, onCreate, onUpdate, onCommitChange, onRemove } = props;
+  const { editTextMode, lines, edits, activeEditLineId, showAllEditable, onNeedLines, onOpenLine, onCloseLine, onCommitEdit, onRemoveEdit, getPageCanvas } = props;
   const wrapRef = useRef<HTMLDivElement>(null);
   const [displayW, setDisplayW] = useState(0);
   const [draft, setDraft] = useState<Anno | null>(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const el = wrapRef.current;
@@ -1481,6 +1483,37 @@ function PageOverlay(props: PageOverlayProps) {
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
+
+  // Lazy trigger line extraction when this page scrolls into view AND we're
+  // in edit-text mode.
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el || !editTextMode) return;
+    if (lines) return; // already have them
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const ent of entries) {
+          if (ent.isIntersecting) {
+            setVisible(true);
+            onNeedLines();
+          }
+        }
+      },
+      { rootMargin: "200px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [editTextMode, lines, onNeedLines]);
+
+  // Filter out lines that already have a saved edit (they render an
+  // "edited" indicator instead of the raw hover outline).
+  const editsByLineId = useMemo(() => {
+    const m = new Map<string, TextEdit>();
+    for (const e of edits) m.set(e.lineId, e);
+    return m;
+  }, [edits]);
+
+  void visible;
 
   const scale = displayW ? displayW / page.width : 0;
   const displayH = page.height * scale;
