@@ -3,28 +3,64 @@ import { useMemo, useState } from "react";
 
 import { tools, categories, type ToolCategory } from "@/tools/registry";
 import { HomeBottom } from "@/components/HomeBottom";
+import { SITE_URL, SITE_NAME, CONTACT_EMAIL } from "@/lib/site";
+
+const HOME_TITLE = "FreePDFHub — Every PDF tool, 100% free";
+const HOME_DESC =
+  "Free PDF tools that run in your browser. Merge, split, convert, compress, edit, and organize PDFs — no signup, no upload step, no limits.";
+const HOME_URL = `${SITE_URL}/`;
+const OG_IMAGE = `${SITE_URL}/og-cover.png`;
+
+const homeJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
+      name: SITE_NAME,
+      url: SITE_URL,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/favicon-192.png`,
+      },
+      contactPoint: {
+        "@type": "ContactPoint",
+        email: CONTACT_EMAIL,
+        contactType: "customer support",
+      },
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      name: SITE_NAME,
+      url: SITE_URL,
+      publisher: { "@id": `${SITE_URL}/#organization` },
+    },
+  ],
+};
 
 export const Route = createFileRoute("/")({
-  head: () => {
-    const title = "FreePDFHub — Every PDF tool, 100% free";
-    const description =
-      "Free PDF tools that run in your browser. Merge, split, convert, compress, edit and organize PDFs — no signup, no upload step, no limits.";
-    const url = "https://freepdfhub.in/";
-    return {
-      meta: [
-        { title },
-        { name: "description", content: description },
-        { property: "og:title", content: title },
-        { property: "og:description", content: description },
-        { property: "og:url", content: url },
-        { property: "og:type", content: "website" },
-        { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:title", content: title },
-        { name: "twitter:description", content: description },
-      ],
-      links: [{ rel: "canonical", href: url }],
-    };
-  },
+  head: () => ({
+    meta: [
+      { title: HOME_TITLE },
+      { name: "description", content: HOME_DESC },
+      { property: "og:title", content: HOME_TITLE },
+      { property: "og:description", content: HOME_DESC },
+      { property: "og:url", content: HOME_URL },
+      { property: "og:type", content: "website" },
+      { property: "og:image", content: OG_IMAGE },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: HOME_TITLE },
+      { name: "twitter:description", content: HOME_DESC },
+      { name: "twitter:image", content: OG_IMAGE },
+    ],
+    links: [{ rel: "canonical", href: HOME_URL }],
+    scripts: [
+      { type: "application/ld+json", children: JSON.stringify(homeJsonLd) },
+    ],
+  }),
   component: Home,
 });
 
