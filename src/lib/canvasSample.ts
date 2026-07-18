@@ -429,3 +429,58 @@ export function findCellRulings(
   };
 }
 
+/**
+ * Scan a horizontal band on the rendered page canvas and detect whether a
+ * *thin, dark vertical ruling* (a table cell border) sits somewhere between
+ * two adjacent text runs. Used by the text-layer segmenter to force a
+ * segment split when a border separates two runs that are otherwise close
+ * enough to have merged by the gap heuristic.
+ *
+ * Coordinates are canvas pixels. Returns true if a column within [xLeft, xRight)
+ * has >= 60% "dark" pixels (perceived luminance <= 160) AND is thin: the
+ * columns 2px to either side are mostly light. That pattern matches a
+ * cell border, not a stray glyph descender.
+ */
+export function hasVerticalRulingInGap(
+  canvas: HTMLCanvasElement,
+  xLeft: number,
+  xRight: number,
+  yTop: number,
+  yBottom: number,
+): boolean {
+  const ctx = canvas.getContext("2d", { willReadFrequently: true });
+  if (!ctx) return false;
+  const x = clampInt(xLeft, 0, canvas.width - 1);
+  const xr = clampInt(xRight, x + 1, canvas.width);
+  const y = clampInt(yTop, 0, canvas.height - 1);
+  const yb = clampInt(yBottom, y + 1, canvas.height);
+  const w = xr - x;
+  const h = yb - y;
+  if (w < 1 || h < 2) return false;
+  // Read one row extra on each side for the thinness check.
+  const padX = 3;
+  const rx = Math.max(0, x - padX);
+  const rw = Math.min(canvas.width - rx, w + padX * 2);
+  const img = readRect(ctx, rx, y, rw, h);
+  if (!img) return false;
+  const darkFrac = new Float32Array(rw);
+  for (let col = 0; col < rw; col++) {
+    let dark = 0;
+    for (let row = 0; row < h; row++) {
+      const i = (row * rw + col) * 4;
+      const lum = 0.299 * img.data[i] + 0.587 * img.data[i + 1] + 0.114 * img.data[i + 2];
+      if (lum <= 160) dark++;
+    }
+    darkFrac[col] = dark / h;
+  }
+  // Look for a dark column inside the actual gap (offset by padX) that is
+  // flanked by light columns ~2px away.
+  for (let col = padX; col < padX + w; col++) {
+    if (darkFrac[col] < 0.6) continue;
+    const leftLight = col - 2 >= 0 && darkFrac[col - 2] < 0.3;
+    const rightLight = col + 2 < rw && darkFrac[col + 2] < 0.3;
+    if (leftLight && rightLight) return true;
+  }
+  return false;
+}
+

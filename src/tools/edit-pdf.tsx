@@ -429,7 +429,11 @@ export default function EditPdf() {
           const probe = Math.min(3, doc.numPages);
           let total = 0;
           for (let i = 1; i <= probe; i++) {
-            const lines = await extractEditableLines(doc, i);
+            const c = pageCanvasesRef.current.get(i - 1);
+            const p = await doc.getPage(i);
+            const pv = p.getViewport({ scale: 1, rotation: 0 });
+            const rc = c ? { canvas: c, scale: c.width / pv.width } : null;
+            const lines = await extractEditableLines(doc, i, rc);
             linesByPageRef.current.set(i - 1, lines);
             total += lines.reduce((n, l) => n + l.text.length, 0);
           }
@@ -456,7 +460,11 @@ export default function EditPdf() {
     const doc = pdfjsDocRef.current;
     if (!doc) return;
     try {
-      const lines = await extractEditableLines(doc, pageIdx + 1);
+      const c = pageCanvasesRef.current.get(pageIdx);
+      const p = await doc.getPage(pageIdx + 1);
+      const pv = p.getViewport({ scale: 1, rotation: 0 });
+      const rc = c ? { canvas: c, scale: c.width / pv.width } : null;
+      const lines = await extractEditableLines(doc, pageIdx + 1, rc);
       linesByPageRef.current.set(pageIdx, lines);
       setLinesTick((t) => t + 1);
     } catch {
@@ -1954,6 +1962,32 @@ function PageOverlay(props: PageOverlayProps) {
         {/* Edit-text overlay layer */}
         {scale > 0 && editTextMode && lines && (
           <div className="absolute inset-0">
+            {/* Left-gutter change-bar: one marker per edited line, sitting
+                in the page card's padding — never over glyph content. */}
+            {lines.map((ln) => {
+              const existing = editsByLineId.get(ln.id);
+              if (!existing) return null;
+              const cy = (ln.y + ln.height / 2) * scale;
+              return (
+                <span
+                  key={`mark-${ln.id}`}
+                  className="pointer-events-none absolute rounded-sm"
+                  style={{
+                    left: -8,
+                    top: cy - 6,
+                    width: 3,
+                    height: 12,
+                    backgroundColor: existing.lowConfidence ? "#f59e0b" : "#e5322d",
+                    boxShadow: "0 0 0 1px #ffffff",
+                  }}
+                  title={
+                    existing.lowConfidence
+                      ? "Low-confidence edit — preview the exported PDF."
+                      : "Edited"
+                  }
+                />
+              );
+            })}
             {lines.map((ln) => {
               const existing = editsByLineId.get(ln.id);
               const isActive = activeEditLineId === ln.id;
@@ -2595,21 +2629,8 @@ function EditLineOverlay({
             aria-label="Edit segment again"
           />
         </div>
-        {/* Corner dot at the tight box's top-right, precisely. */}
-        <span
-          className="absolute h-2 w-2 rounded-full"
-          style={{
-            right: -1,
-            top: -1,
-            backgroundColor: existing.lowConfidence ? "#f59e0b" : "#e5322d",
-            boxShadow: "0 0 0 1.5px #ffffff",
-          }}
-          title={
-            existing.lowConfidence
-              ? "Text may be tight in this cell — preview the exported PDF."
-              : undefined
-          }
-        />
+        {/* Edit indicators live in the page's left-gutter change-bar, not
+            over the glyphs — see PageOverlay. */}
         <button
           type="button"
           onClick={onRemove}

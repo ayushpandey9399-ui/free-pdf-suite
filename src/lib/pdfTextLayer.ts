@@ -1,6 +1,13 @@
 import type { PDFDocumentProxy } from "pdfjs-dist";
 import type { TextItem } from "pdfjs-dist/types/src/display/api";
 import { classifyPdfFont, type FontFamily } from "./fontMatch";
+import { hasVerticalRulingInGap } from "./canvasSample";
+
+export interface RulingCanvas {
+  canvas: HTMLCanvasElement;
+  /** canvas pixels per PDF unit. */
+  scale: number;
+}
 
 /**
  * One clickable text SEGMENT (Phase 1.5). A segment is a horizontally
@@ -63,6 +70,7 @@ function median(nums: number[]): number {
 export async function extractEditableLines(
   pdfjsDoc: PDFDocumentProxy,
   pageNumber: number,
+  ruling?: RulingCanvas | null,
 ): Promise<EditableLine[]> {
   const page = await pdfjsDoc.getPage(pageNumber);
   const viewport = page.getViewport({ scale: 1, rotation: 0 });
@@ -185,7 +193,21 @@ export async function extractEditableLines(
       if (cur.length) {
         const prev = cur[cur.length - 1];
         const gap = r.x - (prev.x + prev.width);
-        if (gap > threshold || gap >= hardSplit) push();
+        let split = gap > threshold || gap >= hardSplit;
+        // Rule: any detectable vertical ruling between prev and r means
+        // they live in different table cells - force a split regardless
+        // of gap size. Only inspect real positive gaps.
+        if (!split && ruling && gap > 0.5) {
+          const s = ruling.scale;
+          const yTop = (Math.min(prev.baseline, r.baseline) - fs0 * ASCENT) * s;
+          const yBot = (Math.max(prev.baseline, r.baseline) + fs0 * DESCENT) * s;
+          const xL = (prev.x + prev.width) * s;
+          const xR = r.x * s;
+          if (xR - xL >= 1 && hasVerticalRulingInGap(ruling.canvas, xL, xR, yTop, yBot)) {
+            split = true;
+          }
+        }
+        if (split) push();
       }
       cur.push(r);
     }
