@@ -443,3 +443,8 @@ const specs: Record<string, Spec> = {
 export const toolIcons: Record<string, ComponentType<ToolIconProps>> = Object.fromEntries(
   Object.entries(specs).map(([slug, spec]) => [slug, makeIcon(spec)]),
 );
+
+export const toolAccent: Record<string, string> = Object.fromEntries(
+  Object.entries(specs).map(([slug, spec]) => [slug, spec.color]),
+);
+

@@ -1,4 +1,14 @@
 import { Link } from "@tanstack/react-router";
+import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
+
+const scanToPdfRelated = [
+  { to: "/tools/images-to-pdf", name: "Image to PDF", blurb: "Already have photos? Convert them straight to PDF instead." },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink the scan to fit portal upload limits." },
+  { to: "/tools/grayscale-pdf", name: "Grayscale PDF", blurb: "Clean photocopier look and smaller file size." },
+  { to: "/tools/watermark", name: "Watermark PDF", blurb: "Mark an ID copy with its purpose before sharing." },
+  { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Password a sensitive scan before sending." },
+];
+
 
 export function ScanToPdfSeo() {
   return (
@@ -184,39 +194,9 @@ export function ScanToPdfSeo() {
 
       <section>
         <h2 className="text-2xl font-bold">Related PDF tools</h2>
-        <ul className="mt-3 list-disc space-y-1 pl-6 text-sm">
-          <li>
-            <Link to="/tools/$slug" params={{ slug: "images-to-pdf" }} className="font-semibold underline" style={{ color: "#e5322d" }}>
-              Image to PDF
-            </Link>{" "}
-            — already have photos? Convert them straight to PDF instead.
-          </li>
-          <li>
-            <Link to="/tools/$slug" params={{ slug: "compress" }} className="font-semibold underline" style={{ color: "#e5322d" }}>
-              Compress PDF
-            </Link>{" "}
-            — shrink the scan to fit portal upload limits.
-          </li>
-          <li>
-            <Link to="/tools/$slug" params={{ slug: "grayscale-pdf" }} className="font-semibold underline" style={{ color: "#e5322d" }}>
-              Grayscale PDF
-            </Link>{" "}
-            — clean photocopier look and smaller file size.
-          </li>
-          <li>
-            <Link to="/tools/$slug" params={{ slug: "watermark" }} className="font-semibold underline" style={{ color: "#e5322d" }}>
-              Watermark PDF
-            </Link>{" "}
-            — mark an ID copy with its purpose before sharing.
-          </li>
-          <li>
-            <Link to="/tools/$slug" params={{ slug: "protect-pdf" }} className="font-semibold underline" style={{ color: "#e5322d" }}>
-              Protect PDF
-            </Link>{" "}
-            — password a sensitive scan before sending.
-          </li>
-        </ul>
+        <RelatedToolsGrid items={scanToPdfRelated} />
       </section>
+
     </div>
   );
 }

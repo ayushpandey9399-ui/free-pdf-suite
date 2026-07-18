@@ -1,4 +1,14 @@
 import { Link } from "@tanstack/react-router";
+import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
+
+const extractImagesRelated = [
+  { to: "/tools/pdf-to-images", name: "PDF to Image", blurb: "Render whole pages as pictures instead of pulling embedded photos." },
+  { to: "/tools/images-to-pdf", name: "Image to PDF", blurb: "Rebuild the extracted images into a fresh PDF." },
+  { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Save specific pages of a PDF as a smaller PDF." },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink an image-heavy PDF for easier sharing." },
+  { to: "/tools/grayscale-pdf", name: "Grayscale PDF", blurb: "Convert the whole document to black & white." },
+];
+
 
 export function ExtractImagesSeo() {
   return (
@@ -86,14 +96,9 @@ export function ExtractImagesSeo() {
 
       <section>
         <h2 className="text-2xl font-bold">Related PDF tools</h2>
-        <ul className="mt-3 list-disc space-y-1 pl-6 text-sm">
-          <li><Link to="/tools/$slug" params={{ slug: "pdf-to-images" }} className="font-semibold underline" style={{ color: "#e5322d" }}>PDF to Image</Link> — render whole pages as pictures instead of pulling embedded photos.</li>
-          <li><Link to="/tools/$slug" params={{ slug: "images-to-pdf" }} className="font-semibold underline" style={{ color: "#e5322d" }}>Image to PDF</Link> — rebuild the extracted images into a fresh PDF.</li>
-          <li><Link to="/tools/$slug" params={{ slug: "extract-pages" }} className="font-semibold underline" style={{ color: "#e5322d" }}>Extract Pages</Link> — save specific pages of a PDF as a smaller PDF.</li>
-          <li><Link to="/tools/$slug" params={{ slug: "compress" }} className="font-semibold underline" style={{ color: "#e5322d" }}>Compress PDF</Link> — shrink an image-heavy PDF for easier sharing.</li>
-          <li><Link to="/tools/$slug" params={{ slug: "grayscale-pdf" }} className="font-semibold underline" style={{ color: "#e5322d" }}>Grayscale PDF</Link> — convert the whole document to black &amp; white.</li>
-        </ul>
+        <RelatedToolsGrid items={extractImagesRelated} />
       </section>
+
     </div>
   );
 }
