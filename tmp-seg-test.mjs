@@ -21,7 +21,7 @@ for (const g of groups) {
   const spaces = bucket.filter(r=>/^\s+$/.test(r.str)).map(r=>r.w);
   const gaps=[]; for (let k=1;k<bucket.length;k++){const gp=bucket[k].x-(bucket[k-1].x+bucket[k-1].w); if(gp>0)gaps.push(gp);}
   const fs0=bucket[0].fs;
-  let sref = spaces.length? med(spaces) : (gaps.length? med(gaps): fs0*0.28);
+  const cap=n=>Math.min(n,fs0*0.35); let sref = spaces.length? cap(med(spaces)) : (gaps.length? cap(med(gaps)): fs0*0.28);
   const th = Math.max(1.2*sref, 0.6*fs0);
   const segs=[]; let cur=[]; const push=()=>{if(cur.length){segs.push(cur);cur=[];}};
   for (const r of bucket){
