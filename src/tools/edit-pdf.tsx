@@ -128,8 +128,13 @@ interface TextEdit {
    * we should shrink the cover rectangle so it doesn't paint over it.
    */
   edgeInsets?: { top: number; bottom: number; left: number; right: number };
-  /** true when background sampling was noisy (busy bg / table shading). */
+  /** true when background sampling was noisy (busy bg / table shading) OR text is too tight after auto-shrink. */
   lowConfidence?: boolean;
+  /** horizontal alignment within its cell (detected from ruling positions). */
+  align?: "left" | "center" | "right";
+  /** cell bounds in PDF units (top-origin), if rulings were detected on both sides. */
+  cellLeft?: number;
+  cellRight?: number;
 }
 
 interface PageInfo {
