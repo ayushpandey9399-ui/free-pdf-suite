@@ -290,6 +290,7 @@ export async function extractEditableLines(
         bold: cls.bold,
         italic: cls.italic,
         family: cls.family,
+        twin: cls.twin,
       });
     }
   }
