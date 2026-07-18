@@ -143,7 +143,7 @@ export async function extractEditableLines(
       if (commonObjs?.has(it.fontName)) {
         const meta = commonObjs.get(it.fontName);
         if (meta) {
-          if (typeof meta.name === "string") realFontName = meta.name;
+          if (typeof meta.name === "string") realFontName = stripSubsetPrefix(meta.name);
           if (typeof meta.bold === "boolean") bold = meta.bold;
           if (typeof meta.italic === "boolean") italic = meta.italic;
         }
