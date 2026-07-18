@@ -2654,6 +2654,12 @@ function EditLineOverlay({
       else if (rightGap > leftGap + 4) align = "left";
       else align = "right";
     }
+    // Fix B5: borderless-table fallback. When rulings are absent on either
+    // side, defer to the column-alignment cluster the extractor inferred
+    // from siblings sharing a right/left/center edge across baselines.
+    if ((dL == null || dR == null) && line.columnAlign) {
+      align = line.columnAlign;
+    }
 
     setSampled({
       bg: rgbToHex(s.background),
