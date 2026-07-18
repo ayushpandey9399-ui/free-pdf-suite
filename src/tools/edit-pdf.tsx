@@ -2335,7 +2335,15 @@ function EditLineOverlay({
         />
         <span
           className="absolute -right-1 -top-1 h-2 w-2 rounded-full"
-          style={{ backgroundColor: "#e5322d", boxShadow: "0 0 0 1.5px #ffffff" }}
+          style={{
+            backgroundColor: existing.lowConfidence ? "#f59e0b" : "#e5322d",
+            boxShadow: "0 0 0 1.5px #ffffff",
+          }}
+          title={
+            existing.lowConfidence
+              ? "Background looks busy here — preview the exported PDF to make sure the cover blends in."
+              : undefined
+          }
         />
         <button
           type="button"
