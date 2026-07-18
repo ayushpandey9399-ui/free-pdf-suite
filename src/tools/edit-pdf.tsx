@@ -509,20 +509,22 @@ export default function EditPdf() {
         if (!page) continue;
         const pH = page.getHeight();
         const bg = hexToRgb255(te.bgColor);
-        // Proportional padding: 25% below baseline for descenders, 10% above
-        // top of line, 1.5px horizontal — then clamp with any detected
-        // table/rule edges so we never overpaint them.
-        const padBelow = te.fontSize * 0.25;
-        const padAbove = te.fontSize * 0.1;
-        const padX = 1.5;
+
+        // Cover rect = tight box + tiny 1px anti-alias pad, then clamped by
+        // ruling insets so we never paint over a detected cell border.
+        const pad = 1;
         const ins = te.edgeInsets ?? { top: 0, bottom: 0, left: 0, right: 0 };
-        // In our coord system y is measured from top; convert to PDF bottom-up.
-        const rectTopFromTop = te.y - padAbove + ins.top;
-        const rectBotFromTop = te.baselineY + padBelow - ins.bottom;
+        const padTop = Math.max(0, pad - ins.top);
+        const padBot = Math.max(0, pad - ins.bottom);
+        const padLef = Math.max(0, pad - ins.left);
+        const padRig = Math.max(0, pad - ins.right);
+
+        const rectTopFromTop = te.y - padTop;
+        const rectBotFromTop = te.y + te.height + padBot;
         const rectH = Math.max(0, rectBotFromTop - rectTopFromTop);
+        const rectX = te.x - padLef;
+        const rectW = Math.max(0, te.width + padLef + padRig);
         const rectY = pH - rectBotFromTop;
-        const rectX = te.x - padX + ins.left;
-        const rectW = Math.max(0, te.width + padX * 2 - ins.left - ins.right);
         if (rectW > 0 && rectH > 0) {
           page.drawRectangle({
             x: rectX,
@@ -532,61 +534,72 @@ export default function EditPdf() {
             color: rgb(bg.r / 255, bg.g / 255, bg.b / 255),
           });
         }
-        const cls = classifyPdfFont(null, { bold: te.bold, italic: te.italic });
-        // Preserve the user-picked family too (may differ from classification if
-        // they overrode in the mini toolbar). We stored `family` directly.
+
         const chosenFontName = (() => {
           if (te.family === "serif") {
             return te.bold && te.italic
               ? StandardFonts.TimesRomanBoldItalic
-              : te.bold
-                ? StandardFonts.TimesRomanBold
-                : te.italic
-                  ? StandardFonts.TimesRomanItalic
-                  : StandardFonts.TimesRoman;
+              : te.bold ? StandardFonts.TimesRomanBold
+              : te.italic ? StandardFonts.TimesRomanItalic
+              : StandardFonts.TimesRoman;
           }
           if (te.family === "mono") {
             return te.bold && te.italic
               ? StandardFonts.CourierBoldOblique
-              : te.bold
-                ? StandardFonts.CourierBold
-                : te.italic
-                  ? StandardFonts.CourierOblique
-                  : StandardFonts.Courier;
+              : te.bold ? StandardFonts.CourierBold
+              : te.italic ? StandardFonts.CourierOblique
+              : StandardFonts.Courier;
           }
           return te.bold && te.italic
             ? StandardFonts.HelveticaBoldOblique
-            : te.bold
-              ? StandardFonts.HelveticaBold
-              : te.italic
-                ? StandardFonts.HelveticaOblique
-                : StandardFonts.Helvetica;
+            : te.bold ? StandardFonts.HelveticaBold
+            : te.italic ? StandardFonts.HelveticaOblique
+            : StandardFonts.Helvetica;
         })();
-        void cls;
         const font = await getStdFont(chosenFontName);
         const fg = hexToRgb255(te.color);
-        // Sanitize characters WinAnsi standard fonts cannot encode.
         const safe = te.newText.replace(/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/g, "?");
+
+        // Effective placement box uses cellBounds when detected, else segment box.
+        const boxLeft = te.cellLeft ?? te.x;
+        const boxRight = te.cellRight ?? te.x + te.width;
+        const boxWidth = Math.max(1, boxRight - boxLeft);
+
+        // Auto-shrink to fit (floor 70% of original size).
+        let drawSize = te.fontSize;
+        const minSize = te.fontSize * 0.7;
+        let textW = 0;
+        try { textW = font.widthOfTextAtSize(safe, drawSize); } catch { textW = 0; }
+        if (textW > boxWidth && textW > 0) {
+          drawSize = Math.max(minSize, drawSize * (boxWidth / textW));
+          try { textW = font.widthOfTextAtSize(safe, drawSize); } catch { /* keep */ }
+        }
+
+        const align = te.align ?? "left";
+        let drawX = te.x;
+        if (align === "center") drawX = boxLeft + (boxWidth - textW) / 2;
+        else if (align === "right") drawX = boxRight - textW;
+
         try {
           page.drawText(safe, {
-            x: te.x,
+            x: drawX,
             y: pH - te.baselineY,
-            size: te.fontSize,
+            size: drawSize,
             font,
             color: rgb(fg.r / 255, fg.g / 255, fg.b / 255),
           });
         } catch {
-          // fall back to Helvetica if the chosen font choked
           const fb = await getStdFont(StandardFonts.Helvetica);
           page.drawText(safe, {
-            x: te.x,
+            x: drawX,
             y: pH - te.baselineY,
-            size: te.fontSize,
+            size: drawSize,
             font: fb,
             color: rgb(fg.r / 255, fg.g / 255, fg.b / 255),
           });
         }
       }
+
 
 
       for (const a of annos) {
