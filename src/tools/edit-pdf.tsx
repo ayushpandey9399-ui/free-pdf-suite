@@ -2041,12 +2041,18 @@ function PageOverlay(props: PageOverlayProps) {
           }
         }}
       >
-        <img
-          src={page.url}
-          alt={`Page ${index + 1}`}
-          className="pointer-events-none absolute inset-0 h-full w-full"
-          draggable={false}
-        />
+        {page.url ? (
+          <img
+            src={page.url}
+            alt={`Page ${index + 1}`}
+            className="pointer-events-none absolute inset-0 h-full w-full"
+            draggable={false}
+          />
+        ) : (
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-neutral-50 text-xs text-neutral-400">
+            Loading page {index + 1}…
+          </div>
+        )}
         {/* SVG layer for shape/line/freehand rendering */}
         {scale > 0 && (
           <svg
