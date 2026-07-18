@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { ShieldCheck, Zap, Gift } from "lucide-react";
+
 import { tools, categories, type ToolCategory } from "@/tools/registry";
 import { HomeBottom } from "@/components/HomeBottom";
 
@@ -90,28 +90,9 @@ function Home() {
             28 free tools to merge, split, convert, edit and sign PDFs — right in your browser. Fast, private and free.
           </p>
 
-          {/* Trust line with tiny icons */}
-          <ul
-            className="mx-auto mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[13px]"
-            style={{ color: "#6b6b78" }}
-          >
-            <li className="inline-flex items-center gap-1.5">
-              <ShieldCheck className="h-4 w-4" style={{ color: "#E5322D" }} strokeWidth={2.25} />
-              Files stay in your browser
-            </li>
-            <li className="inline-flex items-center gap-1.5">
-              <Zap className="h-4 w-4" style={{ color: "#E5322D" }} strokeWidth={2.25} />
-              Instant, no upload wait
-            </li>
-            <li className="inline-flex items-center gap-1.5">
-              <Gift className="h-4 w-4" style={{ color: "#E5322D" }} strokeWidth={2.25} />
-              100% free, no signup
-            </li>
-          </ul>
-
           {/* Filter pills */}
           <div
-            className="mx-auto mt-8 flex flex-nowrap sm:flex-wrap items-center justify-start sm:justify-center gap-3 overflow-x-auto sm:overflow-visible px-1 -mx-1 sm:mx-auto"
+            className="mx-auto mt-7 flex flex-nowrap sm:flex-wrap items-center justify-start sm:justify-center gap-3 overflow-x-auto sm:overflow-visible px-1 -mx-1 sm:mx-auto"
             role="tablist"
             aria-label="Filter tools by category"
             style={{ scrollbarWidth: "none" }}
