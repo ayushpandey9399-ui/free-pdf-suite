@@ -70,6 +70,7 @@ function median(nums: number[]): number {
 export async function extractEditableLines(
   pdfjsDoc: PDFDocumentProxy,
   pageNumber: number,
+  ruling?: RulingCanvas | null,
 ): Promise<EditableLine[]> {
   const page = await pdfjsDoc.getPage(pageNumber);
   const viewport = page.getViewport({ scale: 1, rotation: 0 });
