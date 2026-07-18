@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import {
-  PDFDocument,
   StandardFonts,
   rgb,
   BlendMode,
@@ -23,7 +22,12 @@ import {
   Redo2,
   X,
   Trash2,
+  Eye,
+  EyeOff,
+  Bold,
+  Italic,
 } from "lucide-react";
+import type { PDFDocumentProxy } from "pdfjs-dist";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ToolWorkspace, InfoTip } from "@/components/ToolWorkspace";
 import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
@@ -33,6 +37,9 @@ import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
 import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 import { cn } from "@/lib/utils";
+import { classifyPdfFont, type FontFamily } from "@/lib/fontMatch";
+import { extractEditableLines, type EditableLine } from "@/lib/pdfTextLayer";
+import { sampleBackgroundAndTextColor, rgbToHex, hexToRgb255 } from "@/lib/canvasSample";
 
 /* =============================== types =============================== */
 
@@ -92,6 +99,30 @@ type Anno =
     })
   | (Base & { kind: "draw"; points: Pt[]; color: string; width: number })
   | (Base & { kind: "image"; x: number; y: number; w: number; h: number; dataUrl: string; mime: string });
+
+type EditMode = "edit-text" | "annotate";
+
+interface TextEdit {
+  id: string;
+  page: number;
+  lineId: string;
+  /** left, PDF units, from LEFT */
+  x: number;
+  /** top of line box, PDF units, from TOP */
+  y: number;
+  width: number;
+  height: number;
+  /** baseline y, PDF units, from TOP */
+  baselineY: number;
+  originalText: string;
+  newText: string;
+  fontSize: number;
+  color: string;   // hex
+  bgColor: string; // hex (sampled)
+  bold: boolean;
+  italic: boolean;
+  family: FontFamily;
+}
 
 interface PageInfo {
   url: string;
@@ -169,9 +200,21 @@ export default function EditPdf() {
   const [pages, setPages] = useState<PageInfo[]>([]);
   const [loadingPages, setLoadingPages] = useState(false);
 
+  const [editMode, setEditMode] = useState<EditMode>("edit-text");
   const [mode, setMode] = useState<ToolMode>("select");
   const [annos, setAnnos] = useState<Anno[]>([]);
+  const [edits, setEdits] = useState<TextEdit[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [showAllEditableHint, setShowAllEditableHint] = useState(false);
+  const [activeEditLineId, setActiveEditLineId] = useState<string | null>(null);
+
+  // pdfjs doc + rendered canvases (kept in memory for lazy text extraction
+  // and for background/foreground color sampling at edit / export time).
+  const pdfjsDocRef = useRef<PDFDocumentProxy | null>(null);
+  const pageCanvasesRef = useRef<Map<number, HTMLCanvasElement>>(new Map());
+  const linesByPageRef = useRef<Map<number, EditableLine[]>>(new Map());
+  const [linesTick, setLinesTick] = useState(0);
+  const [hasAnyText, setHasAnyText] = useState<boolean | null>(null); // null = unknown
 
   // Contextual style state (used when creating NEW elements)
   const [hlColor, setHlColor] = useState(HIGHLIGHT_COLORS[0].value);
@@ -196,14 +239,15 @@ export default function EditPdf() {
   } | null>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
 
-  // history
-  const historyRef = useRef<Anno[][]>([[]]);
+  // history — snapshots BOTH annotation list and text-edit list.
+  interface Snapshot { annos: Anno[]; edits: TextEdit[] }
+  const historyRef = useRef<Snapshot[]>([{ annos: [], edits: [] }]);
   const historyIdxRef = useRef(0);
   const [historyTick, setHistoryTick] = useState(0);
 
-  const pushHistory = useCallback((next: Anno[]) => {
+  const pushHistorySnap = useCallback((snap: Snapshot) => {
     const arr = historyRef.current.slice(0, historyIdxRef.current + 1);
-    arr.push(next);
+    arr.push(snap);
     if (arr.length > 100) arr.shift();
     historyRef.current = arr;
     historyIdxRef.current = arr.length - 1;
@@ -214,24 +258,39 @@ export default function EditPdf() {
     (updater: (prev: Anno[]) => Anno[]) => {
       setAnnos((prev) => {
         const next = updater(prev);
-        pushHistory(next);
+        pushHistorySnap({ annos: next, edits: historyRef.current[historyIdxRef.current].edits });
         return next;
       });
     },
-    [pushHistory],
+    [pushHistorySnap],
+  );
+
+  const commitEdits = useCallback(
+    (updater: (prev: TextEdit[]) => TextEdit[]) => {
+      setEdits((prev) => {
+        const next = updater(prev);
+        pushHistorySnap({ annos: historyRef.current[historyIdxRef.current].annos, edits: next });
+        return next;
+      });
+    },
+    [pushHistorySnap],
   );
 
   const undo = useCallback(() => {
     if (historyIdxRef.current <= 0) return;
     historyIdxRef.current -= 1;
-    setAnnos(historyRef.current[historyIdxRef.current]);
+    const s = historyRef.current[historyIdxRef.current];
+    setAnnos(s.annos);
+    setEdits(s.edits);
     setSelectedId(null);
     setHistoryTick((t) => t + 1);
   }, []);
   const redo = useCallback(() => {
     if (historyIdxRef.current >= historyRef.current.length - 1) return;
     historyIdxRef.current += 1;
-    setAnnos(historyRef.current[historyIdxRef.current]);
+    const s = historyRef.current[historyIdxRef.current];
+    setAnnos(s.annos);
+    setEdits(s.edits);
     setSelectedId(null);
     setHistoryTick((t) => t + 1);
   }, []);
@@ -240,6 +299,7 @@ export default function EditPdf() {
   const canRedo = historyIdxRef.current < historyRef.current.length - 1;
   // reference historyTick so linter/react keep this component subscribed to updates
   void historyTick;
+  void linesTick;
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -271,8 +331,14 @@ export default function EditPdf() {
     let cancelled = false;
     setPages([]);
     setAnnos([]);
+    setEdits([]);
     setSelectedId(null);
-    historyRef.current = [[]];
+    setActiveEditLineId(null);
+    setHasAnyText(null);
+    pdfjsDocRef.current = null;
+    pageCanvasesRef.current = new Map();
+    linesByPageRef.current = new Map();
+    historyRef.current = [{ annos: [], edits: [] }];
     historyIdxRef.current = 0;
     setHistoryTick((t) => t + 1);
     if (!file) return;
@@ -280,6 +346,8 @@ export default function EditPdf() {
     (async () => {
       try {
         const doc = await loadPdfJsDoc(await file.arrayBuffer());
+        if (cancelled) return;
+        pdfjsDocRef.current = doc;
         const out: PageInfo[] = [];
         const maxW = 800;
         for (let i = 1; i <= doc.numPages; i++) {
@@ -290,9 +358,10 @@ export default function EditPdf() {
           const canvas = document.createElement("canvas");
           canvas.width = Math.floor(vp.width);
           canvas.height = Math.floor(vp.height);
-          const ctx = canvas.getContext("2d")!;
+          const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
           await page.render({ canvasContext: ctx, viewport: vp, canvas } as never).promise;
           if (cancelled) return;
+          pageCanvasesRef.current.set(i - 1, canvas);
           out.push({
             url: canvas.toDataURL("image/jpeg", 0.85),
             width: vp1.width,
@@ -301,6 +370,21 @@ export default function EditPdf() {
           });
         }
         if (!cancelled) setPages(out);
+        // Probe first few pages for any extractable text — used for the
+        // "looks like a scanned PDF" callout.
+        if (!cancelled) {
+          const probe = Math.min(3, doc.numPages);
+          let total = 0;
+          for (let i = 1; i <= probe; i++) {
+            const lines = await extractEditableLines(doc, i);
+            linesByPageRef.current.set(i - 1, lines);
+            total += lines.reduce((n, l) => n + l.text.length, 0);
+          }
+          if (!cancelled) {
+            setHasAnyText(total > 0);
+            setLinesTick((t) => t + 1);
+          }
+        }
       } catch (e) {
         if (!isPdfPasswordError(e)) toast.error(`Preview failed: ${(e as Error).message}`);
       } finally {
@@ -311,6 +395,21 @@ export default function EditPdf() {
       cancelled = true;
     };
   }, [file]);
+
+  // Lazy line extraction for a specific page (called from PageOverlay when
+  // it becomes visible). Idempotent.
+  const ensureLinesForPage = useCallback(async (pageIdx: number) => {
+    if (linesByPageRef.current.has(pageIdx)) return;
+    const doc = pdfjsDocRef.current;
+    if (!doc) return;
+    try {
+      const lines = await extractEditableLines(doc, pageIdx + 1);
+      linesByPageRef.current.set(pageIdx, lines);
+      setLinesTick((t) => t + 1);
+    } catch {
+      linesByPageRef.current.set(pageIdx, []);
+    }
+  }, []);
 
   // Handle IMAGE tool file picker
   const openImagePicker = () => imageInputRef.current?.click();
@@ -331,40 +430,53 @@ export default function EditPdf() {
     setFiles([]);
     setPages([]);
     setAnnos([]);
+    setEdits([]);
     setSelectedId(null);
+    setActiveEditLineId(null);
     setMode("select");
-    historyRef.current = [[]];
+    setEditMode("edit-text");
+    pdfjsDocRef.current = null;
+    pageCanvasesRef.current = new Map();
+    linesByPageRef.current = new Map();
+    historyRef.current = [{ annos: [], edits: [] }];
     historyIdxRef.current = 0;
     setResult(null);
     setPendingImage(null);
   };
 
   const clearAll = () => {
-    if (!annos.length) return;
-    if (!confirm("Remove all annotations?")) return;
-    commitAnnos(() => []);
+    if (!annos.length && !edits.length) return;
+    if (!confirm("Remove all annotations and text edits?")) return;
+    setAnnos([]);
+    setEdits([]);
+    pushHistorySnap({ annos: [], edits: [] });
     setSelectedId(null);
+    setActiveEditLineId(null);
   };
 
   /* =========== export =========== */
 
   const run = async () => {
-    if (!file || !annos.length) return;
+    if (!file || (!annos.length && !edits.length)) return;
     setLoading(true);
     try {
       const doc = await loadPdfLibDoc(await file.arrayBuffer());
       const pdfPages = doc.getPages();
 
-      let helv: PDFFont | null = null;
-      let helvBold: PDFFont | null = null;
-      const getFont = async (bold: boolean) => {
-        if (bold) {
-          if (!helvBold) helvBold = await doc.embedFont(StandardFonts.HelveticaBold);
-          return helvBold;
+      // Font cache — Helvetica pair for annotations, plus a per-classification
+      // cache for text-edit lines.
+      const fontCache = new Map<string, PDFFont>();
+      const getStdFont = async (name: (typeof StandardFonts)[keyof typeof StandardFonts]) => {
+        const key = String(name);
+        let f = fontCache.get(key);
+        if (!f) {
+          f = await doc.embedFont(name);
+          fontCache.set(key, f);
         }
-        if (!helv) helv = await doc.embedFont(StandardFonts.Helvetica);
-        return helv;
+        return f;
       };
+      const getFont = async (bold: boolean) =>
+        getStdFont(bold ? StandardFonts.HelveticaBold : StandardFonts.Helvetica);
 
       const imgCache: Record<string, PDFImage> = {};
       const embedImg = async (dataUrl: string, mime: string) => {
@@ -375,6 +487,88 @@ export default function EditPdf() {
         imgCache[dataUrl] = img;
         return img;
       };
+
+      // ---- Text edits FIRST (rectangles cover the original text, then
+      // replacement text is drawn on top). Annotations render afterwards so
+      // any highlight / shape can compose over the rewritten line.
+      for (const te of edits) {
+        const page = pdfPages[te.page];
+        if (!page) continue;
+        const pH = page.getHeight();
+        const bg = hexToRgb255(te.bgColor);
+        // Proportional padding: 25% below baseline for descenders, 10% above
+        // top of line, 1.5px horizontal.
+        const padBelow = te.fontSize * 0.25;
+        const padAbove = te.fontSize * 0.1;
+        const padX = 1.5;
+        // In our coord system y is measured from top; convert to PDF bottom-up.
+        const rectTopFromTop = te.y - padAbove;
+        const rectBotFromTop = te.baselineY + padBelow;
+        const rectH = rectBotFromTop - rectTopFromTop;
+        const rectY = pH - rectBotFromTop;
+        page.drawRectangle({
+          x: te.x - padX,
+          y: rectY,
+          width: te.width + padX * 2,
+          height: rectH,
+          color: rgb(bg.r / 255, bg.g / 255, bg.b / 255),
+        });
+        const cls = classifyPdfFont(null, { bold: te.bold, italic: te.italic });
+        // Preserve the user-picked family too (may differ from classification if
+        // they overrode in the mini toolbar). We stored `family` directly.
+        const chosenFontName = (() => {
+          if (te.family === "serif") {
+            return te.bold && te.italic
+              ? StandardFonts.TimesRomanBoldItalic
+              : te.bold
+                ? StandardFonts.TimesRomanBold
+                : te.italic
+                  ? StandardFonts.TimesRomanItalic
+                  : StandardFonts.TimesRoman;
+          }
+          if (te.family === "mono") {
+            return te.bold && te.italic
+              ? StandardFonts.CourierBoldOblique
+              : te.bold
+                ? StandardFonts.CourierBold
+                : te.italic
+                  ? StandardFonts.CourierOblique
+                  : StandardFonts.Courier;
+          }
+          return te.bold && te.italic
+            ? StandardFonts.HelveticaBoldOblique
+            : te.bold
+              ? StandardFonts.HelveticaBold
+              : te.italic
+                ? StandardFonts.HelveticaOblique
+                : StandardFonts.Helvetica;
+        })();
+        void cls;
+        const font = await getStdFont(chosenFontName);
+        const fg = hexToRgb255(te.color);
+        // Sanitize characters WinAnsi standard fonts cannot encode.
+        const safe = te.newText.replace(/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/g, "?");
+        try {
+          page.drawText(safe, {
+            x: te.x,
+            y: pH - te.baselineY,
+            size: te.fontSize,
+            font,
+            color: rgb(fg.r / 255, fg.g / 255, fg.b / 255),
+          });
+        } catch {
+          // fall back to Helvetica if the chosen font choked
+          const fb = await getStdFont(StandardFonts.Helvetica);
+          page.drawText(safe, {
+            x: te.x,
+            y: pH - te.baselineY,
+            size: te.fontSize,
+            font: fb,
+            color: rgb(fg.r / 255, fg.g / 255, fg.b / 255),
+          });
+        }
+      }
+
 
       for (const a of annos) {
         const page = pdfPages[a.page];
@@ -516,10 +710,11 @@ export default function EditPdf() {
   };
 
   if (result) {
+    const totalChanges = annos.length + edits.length;
     return (
       <ToolSuccessScreen
         heading="Your PDF has been edited!"
-        subheading={`${annos.length} annotation${annos.length === 1 ? "" : "s"} added.`}
+        subheading={`${totalChanges} change${totalChanges === 1 ? "" : "s"} applied${edits.length ? ` (${edits.length} text edit${edits.length === 1 ? "" : "s"})` : ""}.`}
         downloadLabel="Download Edited PDF"
         onDownload={() => downloadBlob(result.blob, result.filename, "application/pdf")}
         onReset={resetAll}
@@ -535,6 +730,8 @@ export default function EditPdf() {
   }
 
   if (protectedName) return <PasswordProtectedNotice fileName={protectedName} onReset={reset} />;
+
+  const totalChanges = annos.length + edits.length;
 
   return (
     <>
@@ -555,49 +752,104 @@ export default function EditPdf() {
         loadingLabel="Saving…"
         onAction={run}
         loading={loading}
-        actionDisabled={!annos.length}
+        actionDisabled={!totalChanges}
         sidebar={
-          <Sidebar
-            mode={mode}
-            setMode={(m) => {
-              setMode(m);
-              setSelectedId(null);
-              if (m === "image") openImagePicker();
-              else setPendingImage(null);
-            }}
-            selected={selected}
-            updateSelected={(patch) => {
-              if (!selected) return;
-              commitAnnos((prev) =>
-                prev.map((a) => (a.id === selected.id ? ({ ...a, ...patch } as Anno) : a)),
-              );
-            }}
-            removeSelected={() => {
-              if (!selected) return;
-              commitAnnos((prev) => prev.filter((a) => a.id !== selected.id));
-              setSelectedId(null);
-            }}
-            hlColor={hlColor} setHlColor={setHlColor}
-            txtSize={txtSize} setTxtSize={setTxtSize}
-            txtColor={txtColor} setTxtColor={setTxtColor}
-            txtBold={txtBold} setTxtBold={setTxtBold}
-            shapeStroke={shapeStroke} setShapeStroke={setShapeStroke}
-            shapeWidth={shapeWidth} setShapeWidth={setShapeWidth}
-            shapeFill={shapeFill} setShapeFill={setShapeFill}
-            shapeFillOpacity={shapeFillOpacity} setShapeFillOpacity={setShapeFillOpacity}
-            lineColor={lineColor} setLineColor={setLineColor}
-            lineWidth={lineWidth} setLineWidth={setLineWidth}
-            drawColor={drawColor} setDrawColor={setDrawColor}
-            drawWidth={drawWidth} setDrawWidth={setDrawWidth}
-            pendingImage={pendingImage}
-            reopenImage={openImagePicker}
-            undo={undo} redo={redo} canUndo={canUndo} canRedo={canRedo}
-            count={annos.length}
-            onClearAll={clearAll}
-          />
+          editMode === "annotate" ? (
+            <Sidebar
+              mode={mode}
+              setMode={(m) => {
+                setMode(m);
+                setSelectedId(null);
+                if (m === "image") openImagePicker();
+                else setPendingImage(null);
+              }}
+              selected={selected}
+              updateSelected={(patch) => {
+                if (!selected) return;
+                commitAnnos((prev) =>
+                  prev.map((a) => (a.id === selected.id ? ({ ...a, ...patch } as Anno) : a)),
+                );
+              }}
+              removeSelected={() => {
+                if (!selected) return;
+                commitAnnos((prev) => prev.filter((a) => a.id !== selected.id));
+                setSelectedId(null);
+              }}
+              hlColor={hlColor} setHlColor={setHlColor}
+              txtSize={txtSize} setTxtSize={setTxtSize}
+              txtColor={txtColor} setTxtColor={setTxtColor}
+              txtBold={txtBold} setTxtBold={setTxtBold}
+              shapeStroke={shapeStroke} setShapeStroke={setShapeStroke}
+              shapeWidth={shapeWidth} setShapeWidth={setShapeWidth}
+              shapeFill={shapeFill} setShapeFill={setShapeFill}
+              shapeFillOpacity={shapeFillOpacity} setShapeFillOpacity={setShapeFillOpacity}
+              lineColor={lineColor} setLineColor={setLineColor}
+              lineWidth={lineWidth} setLineWidth={setLineWidth}
+              drawColor={drawColor} setDrawColor={setDrawColor}
+              drawWidth={drawWidth} setDrawWidth={setDrawWidth}
+              pendingImage={pendingImage}
+              reopenImage={openImagePicker}
+              undo={undo} redo={redo} canUndo={canUndo} canRedo={canRedo}
+              count={annos.length}
+              onClearAll={clearAll}
+            />
+          ) : (
+            <EditTextSidebar
+              editsCount={edits.length}
+              annosCount={annos.length}
+              showAll={showAllEditableHint}
+              setShowAll={setShowAllEditableHint}
+              undo={undo}
+              redo={redo}
+              canUndo={canUndo}
+              canRedo={canRedo}
+              onClearAll={clearAll}
+            />
+          )
         }
       >
         <div className="space-y-4">
+          {/* Mode tabs */}
+          <div className="rounded-2xl bg-white p-3" style={{ border: "1px solid #ececef" }}>
+            <div className="flex gap-1.5 rounded-lg bg-[#f7f7f8] p-1">
+              {(["edit-text", "annotate"] as const).map((m) => {
+                const active = editMode === m;
+                return (
+                  <button
+                    key={m}
+                    type="button"
+                    onClick={() => {
+                      setEditMode(m);
+                      setSelectedId(null);
+                      setActiveEditLineId(null);
+                    }}
+                    className="flex-1 rounded-md py-2 text-[13px] font-semibold transition-colors"
+                    style={{
+                      backgroundColor: active ? "#ffffff" : "transparent",
+                      color: active ? "#e5322d" : "#7a7a86",
+                      boxShadow: active ? "0 1px 2px rgba(0,0,0,0.06)" : "none",
+                    }}
+                  >
+                    {m === "edit-text" ? "Edit text" : "Annotate"}
+                  </button>
+                );
+              })}
+            </div>
+            <p className="mt-2.5 text-[12.5px] leading-relaxed" style={{ color: "#7a7a86" }}>
+              {editMode === "edit-text"
+                ? "Click any text to edit it. We match the original style as closely as possible. Most PDFs blend seamlessly."
+                : "Pick a tool from the sidebar and click or drag on a page to add annotations."}
+            </p>
+            {editMode === "edit-text" && hasAnyText === false && (
+              <div
+                className="mt-3 rounded-lg p-3 text-[13px] leading-relaxed"
+                style={{ backgroundColor: "#fdf5e6", border: "1px solid #f0e0b8", color: "#5a4a1a" }}
+              >
+                This looks like a scanned PDF, so there is no editable text. You can still use Annotate mode to write on top.
+              </div>
+            )}
+          </div>
+
           {loadingPages && (
             <div
               className="grid h-64 place-items-center rounded-2xl bg-white text-sm text-muted-foreground"
@@ -613,23 +865,22 @@ export default function EditPdf() {
               page={page}
               annos={annos.filter((a) => a.page === i)}
               selectedId={selectedId}
-              mode={mode}
+              mode={editMode === "annotate" ? mode : "select"}
               onSelect={(id) => setSelectedId(id)}
               onCreate={(a) => {
                 setAnnos((prev) => {
                   const next = [...prev, a];
-                  pushHistory(next);
+                  pushHistorySnap({ annos: next, edits });
                   return next;
                 });
                 setSelectedId(a.id);
-                // After creating with a shape tool, drop back to select for easy tweaking
                 if (a.kind !== "draw" && a.kind !== "highlight") setMode("select");
               }}
               onUpdate={(a) => {
                 setAnnos((prev) => prev.map((p) => (p.id === a.id ? a : p)));
               }}
               onCommitChange={() => {
-                pushHistory([...annos]);
+                pushHistorySnap({ annos: [...annos], edits });
               }}
               onRemove={(id) => {
                 commitAnnos((prev) => prev.filter((a) => a.id !== id));
@@ -644,6 +895,31 @@ export default function EditPdf() {
               }}
               pendingImage={pendingImage}
               consumePendingImage={() => setPendingImage(null)}
+              /* Edit-text mode props */
+              editTextMode={editMode === "edit-text"}
+              lines={linesByPageRef.current.get(i) ?? null}
+              edits={edits.filter((e) => e.page === i)}
+              activeEditLineId={activeEditLineId}
+              showAllEditable={showAllEditableHint}
+              onNeedLines={() => ensureLinesForPage(i)}
+              onOpenLine={(lineId) => setActiveEditLineId(lineId)}
+              onCloseLine={() => setActiveEditLineId(null)}
+              onCommitEdit={(next) => {
+                commitEdits((prev) => {
+                  const idx = prev.findIndex((p) => p.lineId === next.lineId);
+                  if (idx >= 0) {
+                    const copy = prev.slice();
+                    copy[idx] = next;
+                    return copy;
+                  }
+                  return [...prev, next];
+                });
+                setActiveEditLineId(null);
+              }}
+              onRemoveEdit={(lineId) => {
+                commitEdits((prev) => prev.filter((p) => p.lineId !== lineId));
+              }}
+              getPageCanvas={() => pageCanvasesRef.current.get(i) ?? null}
             />
           ))}
         </div>
@@ -651,6 +927,85 @@ export default function EditPdf() {
     </>
   );
 }
+
+/* =============================== Edit-text sidebar =============================== */
+
+function EditTextSidebar(props: {
+  editsCount: number;
+  annosCount: number;
+  showAll: boolean;
+  setShowAll: (v: boolean) => void;
+  undo: () => void;
+  redo: () => void;
+  canUndo: boolean;
+  canRedo: boolean;
+  onClearAll: () => void;
+}) {
+  return (
+    <>
+      <div>
+        <p className="mb-2 text-[11px] font-bold uppercase" style={{ color: "#7a7a86", letterSpacing: "0.08em" }}>
+          Edit existing text
+        </p>
+        <p className="text-[13px] leading-relaxed" style={{ color: "#33333c" }}>
+          Hover a line of text on the page. Click to retype. Enter to save, Escape to cancel.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        onClick={() => props.setShowAll(!props.showAll)}
+        className="flex items-center justify-center gap-1.5 rounded-lg py-2 text-[12.5px] font-semibold transition-colors"
+        style={{
+          border: "1px solid #ececef",
+          color: props.showAll ? "#e5322d" : "#33333c",
+          backgroundColor: props.showAll ? "#fdeceb" : "#ffffff",
+        }}
+      >
+        {props.showAll ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+        {props.showAll ? "Hide editable areas" : "Show editable areas"}
+      </button>
+
+      <div className="flex gap-2">
+        <button
+          type="button"
+          onClick={props.undo}
+          disabled={!props.canUndo}
+          className="flex flex-1 items-center justify-center gap-1.5 rounded-lg py-2 text-[12.5px] font-semibold disabled:opacity-40"
+          style={{ border: "1px solid #ececef", color: "#33333c" }}
+        >
+          <Undo2 className="h-3.5 w-3.5" /> Undo
+        </button>
+        <button
+          type="button"
+          onClick={props.redo}
+          disabled={!props.canRedo}
+          className="flex flex-1 items-center justify-center gap-1.5 rounded-lg py-2 text-[12.5px] font-semibold disabled:opacity-40"
+          style={{ border: "1px solid #ececef", color: "#33333c" }}
+        >
+          <Redo2 className="h-3.5 w-3.5" /> Redo
+        </button>
+      </div>
+
+      <InfoTip>
+        {props.editsCount
+          ? `${props.editsCount} text edit${props.editsCount === 1 ? "" : "s"}${props.annosCount ? ` plus ${props.annosCount} annotation${props.annosCount === 1 ? "" : "s"}` : ""} ready to save.`
+          : "Hover any text line to reveal an editable outline, then click to retype it."}
+      </InfoTip>
+
+      {(props.editsCount > 0 || props.annosCount > 0) && (
+        <button
+          type="button"
+          onClick={props.onClearAll}
+          className="flex items-center gap-1.5 self-start text-[12px] font-semibold text-[#7a7a86] transition-colors hover:text-[#e5322d]"
+        >
+          <Trash2 className="h-3 w-3" /> Clear all
+        </button>
+      )}
+    </>
+  );
+}
+
 
 /* =============================== Sidebar =============================== */
 
@@ -1097,13 +1452,27 @@ interface PageOverlayProps {
   styleCtx: StyleCtx;
   pendingImage: { dataUrl: string; mime: string; w: number; h: number } | null;
   consumePendingImage: () => void;
+  /* Edit-text mode props */
+  editTextMode: boolean;
+  lines: EditableLine[] | null;
+  edits: TextEdit[];
+  activeEditLineId: string | null;
+  showAllEditable: boolean;
+  onNeedLines: () => void;
+  onOpenLine: (lineId: string) => void;
+  onCloseLine: () => void;
+  onCommitEdit: (edit: TextEdit) => void;
+  onRemoveEdit: (lineId: string) => void;
+  getPageCanvas: () => HTMLCanvasElement | null;
 }
 
 function PageOverlay(props: PageOverlayProps) {
   const { index, page, annos, selectedId, mode, onSelect, onCreate, onUpdate, onCommitChange, onRemove } = props;
+  const { editTextMode, lines, edits, activeEditLineId, showAllEditable, onNeedLines, onOpenLine, onCloseLine, onCommitEdit, onRemoveEdit, getPageCanvas } = props;
   const wrapRef = useRef<HTMLDivElement>(null);
   const [displayW, setDisplayW] = useState(0);
   const [draft, setDraft] = useState<Anno | null>(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const el = wrapRef.current;
@@ -1114,6 +1483,37 @@ function PageOverlay(props: PageOverlayProps) {
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
+
+  // Lazy trigger line extraction when this page scrolls into view AND we're
+  // in edit-text mode.
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el || !editTextMode) return;
+    if (lines) return; // already have them
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const ent of entries) {
+          if (ent.isIntersecting) {
+            setVisible(true);
+            onNeedLines();
+          }
+        }
+      },
+      { rootMargin: "200px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [editTextMode, lines, onNeedLines]);
+
+  // Filter out lines that already have a saved edit (they render an
+  // "edited" indicator instead of the raw hover outline).
+  const editsByLineId = useMemo(() => {
+    const m = new Map<string, TextEdit>();
+    for (const e of edits) m.set(e.lineId, e);
+    return m;
+  }, [edits]);
+
+  void visible;
 
   const scale = displayW ? displayW / page.width : 0;
   const displayH = page.height * scale;
@@ -1345,6 +1745,33 @@ function PageOverlay(props: PageOverlayProps) {
               onRemove={() => onRemove(a.id)}
             />
           ))}
+
+        {/* Edit-text overlay layer */}
+        {scale > 0 && editTextMode && lines && (
+          <div className="absolute inset-0">
+            {lines.map((ln) => {
+              const existing = editsByLineId.get(ln.id);
+              const isActive = activeEditLineId === ln.id;
+              return (
+                <EditLineOverlay
+                  key={ln.id}
+                  line={ln}
+                  scale={scale}
+                  pageWidth={page.width}
+                  pageHeight={page.height}
+                  isActive={isActive}
+                  existing={existing ?? null}
+                  showAll={showAllEditable}
+                  getPageCanvas={getPageCanvas}
+                  onOpen={() => onOpenLine(ln.id)}
+                  onCancel={onCloseLine}
+                  onCommit={onCommitEdit}
+                  onRemove={() => onRemoveEdit(ln.id)}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -1729,4 +2156,337 @@ function getImageSize(dataUrl: string): Promise<{ w: number; h: number }> {
     img.onerror = rej;
     img.src = dataUrl;
   });
+}
+
+/* =============================== Edit-text line overlay =============================== */
+
+function EditLineOverlay({
+  line,
+  scale,
+  pageWidth,
+  pageHeight,
+  isActive,
+  existing,
+  showAll,
+  getPageCanvas,
+  onOpen,
+  onCancel,
+  onCommit,
+  onRemove,
+}: {
+  line: EditableLine;
+  scale: number;
+  pageWidth: number;
+  pageHeight: number;
+  isActive: boolean;
+  existing: TextEdit | null;
+  showAll: boolean;
+  getPageCanvas: () => HTMLCanvasElement | null;
+  onOpen: () => void;
+  onCancel: () => void;
+  onCommit: (edit: TextEdit) => void;
+  onRemove: () => void;
+}) {
+  const [hover, setHover] = useState(false);
+  // Sample colors on demand (once) when the line becomes active for editing
+  // OR already has an existing edit (for cover preview + color).
+  const [sampled, setSampled] = useState<{ bg: string; fg: string } | null>(null);
+
+  useEffect(() => {
+    if (!isActive && !existing) return;
+    if (sampled) return;
+    const canvas = getPageCanvas();
+    if (!canvas) return;
+    // Convert line rect from PDF units (pageWidth × pageHeight) to canvas px.
+    const sx = canvas.width / pageWidth;
+    const sy = canvas.height / pageHeight;
+    const padBelow = line.fontSize * 0.25;
+    const padAbove = line.fontSize * 0.1;
+    const cx = Math.floor((line.x - 1) * sx);
+    const cy = Math.floor((line.y - padAbove) * sy);
+    const cw = Math.ceil((line.width + 2) * sx);
+    const ch = Math.ceil((line.baselineY + padBelow - (line.y - padAbove)) * sy);
+    const s = sampleBackgroundAndTextColor(canvas, { x: cx, y: cy, w: cw, h: ch });
+    setSampled({ bg: rgbToHex(s.background), fg: rgbToHex(s.text) });
+  }, [isActive, existing, sampled, getPageCanvas, line, pageWidth, pageHeight]);
+
+  const bgColor = existing?.bgColor ?? sampled?.bg ?? "#ffffff";
+  const fgColor = existing?.color ?? sampled?.fg ?? "#000000";
+
+  const style: React.CSSProperties = {
+    position: "absolute",
+    left: (line.x - 1.5) * scale,
+    top: (line.y - line.fontSize * 0.1) * scale,
+    width: (line.width + 3) * scale,
+    height: (line.baselineY + line.fontSize * 0.25 - (line.y - line.fontSize * 0.1)) * scale,
+  };
+
+  if (isActive) {
+    return (
+      <EditLineInlineEditor
+        line={line}
+        scale={scale}
+        style={style}
+        bgColor={bgColor}
+        fgColor={fgColor}
+        initialText={existing?.newText ?? line.text}
+        initialSize={existing?.fontSize ?? line.fontSize}
+        initialBold={existing?.bold ?? line.bold}
+        initialItalic={existing?.italic ?? line.italic}
+        initialFamily={existing?.family ?? line.family}
+        onCancel={onCancel}
+        onCommit={(next) => {
+          onCommit({
+            id: existing?.id ?? `TE-${line.id}`,
+            page: line.page,
+            lineId: line.id,
+            x: line.x,
+            y: line.y,
+            width: line.width,
+            height: line.height,
+            baselineY: line.baselineY,
+            originalText: line.text,
+            newText: next.text,
+            fontSize: next.fontSize,
+            color: next.color,
+            bgColor,
+            bold: next.bold,
+            italic: next.italic,
+            family: next.family,
+          });
+        }}
+      />
+    );
+  }
+
+  if (existing) {
+    // Show the committed replacement text over the cover rect, plus a small
+    // corner dot indicator.
+    return (
+      <div style={style} className="group">
+        <div
+          className="absolute inset-0"
+          style={{ backgroundColor: bgColor }}
+        />
+        <div
+          className="absolute"
+          style={{
+            left: 1.5 * scale,
+            top: (line.fontSize * 0.1) * scale,
+            width: (line.width) * scale,
+            fontSize: existing.fontSize * scale,
+            lineHeight: 1,
+            color: existing.color,
+            fontWeight: existing.bold ? 700 : 400,
+            fontStyle: existing.italic ? "italic" : "normal",
+            fontFamily:
+              existing.family === "serif"
+                ? "'Times New Roman', Times, serif"
+                : existing.family === "mono"
+                  ? "Menlo, Consolas, monospace"
+                  : "Helvetica, Arial, sans-serif",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+          }}
+        >
+          {existing.newText}
+        </div>
+        <button
+          type="button"
+          onClick={onOpen}
+          className="absolute inset-0 cursor-text"
+          style={{ background: "transparent" }}
+          aria-label="Edit line again"
+        />
+        <span
+          className="absolute -right-1 -top-1 h-2 w-2 rounded-full"
+          style={{ backgroundColor: "#e5322d", boxShadow: "0 0 0 1.5px #ffffff" }}
+        />
+        <button
+          type="button"
+          onClick={onRemove}
+          className="absolute -right-2 -top-3 grid h-4 w-4 place-items-center rounded-full bg-white text-[#e5322d] opacity-0 shadow group-hover:opacity-100"
+          style={{ border: "1px solid #ececef" }}
+          aria-label="Undo this text edit"
+        >
+          <X className="h-2.5 w-2.5" />
+        </button>
+      </div>
+    );
+  }
+
+  // Idle: hover-only dashed outline (or always-on when "Show editable areas" is on).
+  const outlineVisible = hover || showAll;
+  return (
+    <button
+      type="button"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      onClick={onOpen}
+      style={{
+        ...style,
+        border: outlineVisible ? "1px dashed #D1D5DB" : "1px dashed transparent",
+        backgroundColor: hover ? "rgba(229,50,45,0.04)" : "transparent",
+        cursor: "text",
+      }}
+      className="rounded-[2px] transition-colors"
+      aria-label={`Edit line: ${line.text.slice(0, 60)}`}
+    />
+  );
+}
+
+function EditLineInlineEditor({
+  line,
+  scale,
+  style,
+  bgColor,
+  fgColor,
+  initialText,
+  initialSize,
+  initialBold,
+  initialItalic,
+  initialFamily,
+  onCancel,
+  onCommit,
+}: {
+  line: EditableLine;
+  scale: number;
+  style: React.CSSProperties;
+  bgColor: string;
+  fgColor: string;
+  initialText: string;
+  initialSize: number;
+  initialBold: boolean;
+  initialItalic: boolean;
+  initialFamily: FontFamily;
+  onCancel: () => void;
+  onCommit: (v: { text: string; fontSize: number; color: string; bold: boolean; italic: boolean; family: FontFamily }) => void;
+}) {
+  const [text, setText] = useState(initialText);
+  const [size, setSize] = useState(initialSize);
+  const [bold, setBold] = useState(initialBold);
+  const [italic, setItalic] = useState(initialItalic);
+  const [color, setColor] = useState(fgColor);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+    inputRef.current?.select();
+  }, []);
+
+  const commit = () => {
+    onCommit({
+      text: text.trim() === "" ? "" : text,
+      fontSize: size,
+      color,
+      bold,
+      italic,
+      family: initialFamily,
+    });
+  };
+
+  const cssFamily =
+    initialFamily === "serif"
+      ? "'Times New Roman', Times, serif"
+      : initialFamily === "mono"
+        ? "Menlo, Consolas, monospace"
+        : "Helvetica, Arial, sans-serif";
+
+  return (
+    <div style={style}>
+      <div
+        className="absolute inset-0"
+        style={{ backgroundColor: bgColor, outline: "1.5px solid #e5322d" }}
+      />
+      <input
+        ref={inputRef}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            commit();
+          } else if (e.key === "Escape") {
+            e.preventDefault();
+            onCancel();
+          }
+        }}
+        onBlur={(e) => {
+          // Ignore blur when focus moves into our own toolbar.
+          const to = e.relatedTarget as HTMLElement | null;
+          if (to && to.closest("[data-edit-toolbar]")) return;
+          commit();
+        }}
+        className="absolute border-0 bg-transparent p-0 outline-none"
+        style={{
+          left: 1.5 * scale,
+          top: (line.fontSize * 0.1) * scale,
+          width: (line.width) * scale,
+          height: (line.baselineY + line.fontSize * 0.05 - line.y) * scale,
+          fontSize: size * scale,
+          lineHeight: 1,
+          color,
+          fontWeight: bold ? 700 : 400,
+          fontStyle: italic ? "italic" : "normal",
+          fontFamily: cssFamily,
+        }}
+      />
+
+      {/* Floating mini toolbar */}
+      <div
+        data-edit-toolbar
+        onMouseDown={(e) => e.preventDefault()}
+        className="absolute z-10 flex items-center gap-1 rounded-lg bg-white p-1 shadow-lg"
+        style={{
+          left: 0,
+          top: -40,
+          border: "1px solid #ececef",
+        }}
+      >
+        <button
+          type="button"
+          onClick={() => setSize((s) => Math.max(6, s - 1))}
+          className="grid h-6 w-6 place-items-center rounded text-[13px] font-bold text-[#33333c] hover:bg-[#f7f7f8]"
+        >
+          −
+        </button>
+        <span className="min-w-[24px] text-center text-[11.5px] font-semibold" style={{ color: "#33333c" }}>{Math.round(size)}</span>
+        <button
+          type="button"
+          onClick={() => setSize((s) => Math.min(200, s + 1))}
+          className="grid h-6 w-6 place-items-center rounded text-[13px] font-bold text-[#33333c] hover:bg-[#f7f7f8]"
+        >
+          +
+        </button>
+        <span className="mx-1 h-4 w-px bg-[#ececef]" />
+        <button
+          type="button"
+          onClick={() => setBold((v) => !v)}
+          className="grid h-6 w-6 place-items-center rounded hover:bg-[#f7f7f8]"
+          style={{ backgroundColor: bold ? "#f7f7f8" : "transparent", color: bold ? "#e5322d" : "#33333c" }}
+          aria-label="Bold"
+        >
+          <Bold className="h-3.5 w-3.5" />
+        </button>
+        <button
+          type="button"
+          onClick={() => setItalic((v) => !v)}
+          className="grid h-6 w-6 place-items-center rounded hover:bg-[#f7f7f8]"
+          style={{ backgroundColor: italic ? "#f7f7f8" : "transparent", color: italic ? "#e5322d" : "#33333c" }}
+          aria-label="Italic"
+        >
+          <Italic className="h-3.5 w-3.5" />
+        </button>
+        <span className="mx-1 h-4 w-px bg-[#ececef]" />
+        <input
+          type="color"
+          value={color}
+          onChange={(e) => setColor(e.target.value)}
+          className="h-5 w-5 cursor-pointer rounded border-0 bg-transparent p-0"
+          aria-label="Text color"
+          style={{ padding: 0 }}
+        />
+      </div>
+    </div>
+  );
 }
