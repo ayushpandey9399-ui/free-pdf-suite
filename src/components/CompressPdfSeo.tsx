@@ -98,7 +98,7 @@ const faqs = [
   },
   {
     q: "How much smaller will my PDF get?",
-    a: "For scanned or image-heavy PDFs, reductions of 50–90% are common with Strong compression. Text-only PDFs typically shrink much less because they are already efficient. Rather than guess, run the file and check the size summary — it shows the exact before and after so you know before you download.",
+    a: "For scanned or image-heavy PDFs, reductions of 50–90% are common with Strong compression — enough to make a PDF smaller by half or more in one pass. Text-only PDFs typically shrink much less because they are already efficient. Rather than guess, run the file and check the size summary — it shows the exact before and after so you know before you download.",
   },
 ];
 
