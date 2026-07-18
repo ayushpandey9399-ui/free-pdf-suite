@@ -20,7 +20,7 @@ export function ToolLayout({
       <section className="relative flex flex-col md:min-h-[50vh] pt-6 pb-14">
         <nav
           aria-label="Breadcrumb"
-          className="text-[13px] leading-none"
+          className="text-[13px] leading-normal pb-[3px]"
           style={{ color: "#6B7280" }}
         >
           <ol className="flex items-center gap-[6px] whitespace-nowrap overflow-hidden">
