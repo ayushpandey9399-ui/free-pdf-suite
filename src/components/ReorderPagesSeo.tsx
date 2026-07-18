@@ -103,11 +103,14 @@ const faqs = [
 ];
 
 const related = [
-  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one — then reorder the pages here into the exact sequence you need." },
-  { to: "/tools/rotate", name: "Rotate PDF", blurb: "Fix sideways or upside-down pages while you're at it — reorder solves sequence, rotate solves orientation." },
-  { to: "/tools/delete-pages", name: "Delete Pages", blurb: "Drop the pages you don't want before rearranging the rest." },
-  { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Pull specific pages out into a new PDF instead of shuffling the whole document." },
-  { to: "/tools/add-blank-pages", name: "Add Blank Pages", blurb: "Insert blank spacer pages at chosen positions before reordering." },
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
+  { to: "/tools/split", name: "Split PDF", blurb: "Break one PDF into multiple files or page ranges." },
+  { to: "/tools/delete-pages", name: "Delete Pages", blurb: "Remove one or more unwanted pages from your PDF." },
+  { to: "/tools/add-blank-pages", name: "Add Blank Pages", blurb: "Insert empty pages anywhere in the document." },
+  { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Pull specific pages out as a brand-new PDF." },
+  { to: "/tools/rotate", name: "Rotate PDF", blurb: "Turn pages 90, 180 or 270 degrees, one page or all." },
+  { to: "/tools/page-numbers", name: "Page Numbers", blurb: "Add page numbers with custom position and style." },
+  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Draw or type a signature and place it on any page." },
 ] as const;
 
 export function ReorderPagesSeo() {

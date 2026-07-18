@@ -136,11 +136,14 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
 ];
 
 const related = [
-  { to: "/tools/page-numbers", name: "Page Numbers", blurb: "Add just page numbers with six preset positions — a more focused numbering tool." },
-  { to: "/tools/watermark", name: "Watermark PDF", blurb: "Stamp diagonal text or a logo across the middle of every page instead of the margins." },
-  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine files first, then stamp the whole bundle with one continuous header and footer." },
-  { to: "/tools/txt-to-pdf", name: "TXT to PDF", blurb: "Turn plain text into a PDF, then bring it back here to add a title and date." },
-  { to: "/tools/pdf-metadata", name: "Metadata Editor", blurb: "Update the PDF's internal Title, Author and Subject fields to match the header you stamped." },
+  { to: "/tools/page-numbers", name: "Page Numbers", blurb: "Add page numbers with custom position and style." },
+  { to: "/tools/watermark", name: "Watermark PDF", blurb: "Overlay text or an image with adjustable opacity." },
+  { to: "/tools/edit-pdf", name: "Edit & Annotate PDF", blurb: "Highlight, comment, draw and add shapes to a PDF." },
+  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Draw or type a signature and place it on any page." },
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
+  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Make form fields and annotations permanent." },
+  { to: "/tools/pdf-metadata", name: "PDF Metadata", blurb: "View and edit title, author, subject and keywords." },
+  { to: "/tools/add-blank-pages", name: "Add Blank Pages", blurb: "Insert empty pages anywhere in the document." },
 ] as const;
 
 export function HeaderFooterSeo() {

@@ -103,12 +103,15 @@ const faqs = [
 ];
 
 const related = [
-  { to: "/tools/grayscale-pdf", name: "Grayscale PDF", blurb: "Convert colour scans to grayscale to shrink them further." },
-  { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Keep only the pages you need to hit tight upload limits." },
-  { to: "/tools/split", name: "Split PDF", blurb: "Break a large PDF into smaller separate files." },
-  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine multiple PDFs into a single document." },
-  { to: "/tools/unlock-pdf", name: "Unlock PDF", blurb: "Remove a known password so the file can be compressed." },
-];
+  { to: "/tools/grayscale-pdf", name: "Grayscale PDF", blurb: "Convert to black and white for cheaper printing." },
+  { to: "/tools/split", name: "Split PDF", blurb: "Break one PDF into multiple files or page ranges." },
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
+  { to: "/tools/pdf-to-images", name: "PDF to Image", blurb: "Export each page as a high-quality JPG or PNG." },
+  { to: "/tools/images-to-pdf", name: "Image to PDF", blurb: "Convert JPG or PNG images into a single PDF." },
+  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Make form fields and annotations permanent." },
+  { to: "/tools/crop", name: "Crop PDF", blurb: "Trim margins and adjust the visible area of pages." },
+  { to: "/tools/rotate", name: "Rotate PDF", blurb: "Turn pages 90, 180 or 270 degrees, one page or all." },
+] as const;
 
 export function CompressPdfSeo() {
   return (

@@ -103,13 +103,15 @@ const faqs = [
 ];
 
 const related = [
-  { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Pick scattered pages from a thumbnail grid into one new PDF." },
-  { to: "/tools/delete-pages", name: "Delete Pages", blurb: "Remove unwanted pages and keep the rest of the document." },
-  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine multiple PDFs back into a single document." },
-  { to: "/tools/reorder-pages", name: "Reorder Pages", blurb: "Drag pages into a new order before or after splitting." },
-  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink the file size of each split PDF for upload limits." },
-  { to: "/tools/unlock-pdf", name: "Unlock PDF", blurb: "Remove a known password so the file can be split." },
-];
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
+  { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Pull specific pages out as a brand-new PDF." },
+  { to: "/tools/delete-pages", name: "Delete Pages", blurb: "Remove one or more unwanted pages from your PDF." },
+  { to: "/tools/reorder-pages", name: "Reorder Pages", blurb: "Drag pages into a new sequence with a visual grid." },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink file size while keeping the best possible quality." },
+  { to: "/tools/rotate", name: "Rotate PDF", blurb: "Turn pages 90, 180 or 270 degrees, one page or all." },
+  { to: "/tools/pdf-to-images", name: "PDF to Image", blurb: "Export each page as a high-quality JPG or PNG." },
+  { to: "/tools/extract-images", name: "Extract Images", blurb: "Pull embedded photos out of a PDF in original quality." },
+] as const;
 
 export function SplitPdfSeo() {
   return (

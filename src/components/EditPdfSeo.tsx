@@ -154,11 +154,14 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
 ];
 
 const related = [
-  { to: "/tools/fill-forms", name: "Fill PDF Forms", blurb: "Type into the document's real AcroForm fields instead of placing text on top." },
-  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Draw or type a signature and stamp it anywhere across the document." },
-  { to: "/tools/redact-pdf", name: "Redact PDF", blurb: "Permanently remove sensitive content so it can't be recovered later." },
-  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Lock your annotations in place so no reader can move or delete them." },
-  { to: "/tools/watermark", name: "Watermark PDF", blurb: "Stamp Draft, Confidential or your logo diagonally across every page." },
+  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Draw or type a signature and place it on any page." },
+  { to: "/tools/watermark", name: "Watermark PDF", blurb: "Overlay text or an image with adjustable opacity." },
+  { to: "/tools/header-footer", name: "Header & Footer", blurb: "Stamp text at the top or bottom of every page." },
+  { to: "/tools/page-numbers", name: "Page Numbers", blurb: "Add page numbers with custom position and style." },
+  { to: "/tools/fill-forms", name: "Fill PDF Forms", blurb: "Fill interactive form fields and save the result." },
+  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Make form fields and annotations permanent." },
+  { to: "/tools/redact-pdf", name: "Redact PDF", blurb: "Permanently black out sensitive text and images." },
+  { to: "/tools/pdf-metadata", name: "PDF Metadata", blurb: "View and edit title, author, subject and keywords." },
 ] as const;
 
 export function EditPdfSeo() {

@@ -103,12 +103,15 @@ const faqs = [
 ];
 
 const related = [
-  { to: "/tools/unlock-pdf", name: "Unlock PDF", blurb: "Remove the password from a PDF you know the password to." },
-  { to: "/tools/redact-pdf", name: "Redact PDF", blurb: "Permanently remove sensitive parts instead of locking the whole file." },
-  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Add a signature before encrypting a contract for delivery." },
-  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Lock down form fields and annotations before you protect the file." },
-  { to: "/tools/pdf-metadata", name: "Metadata Editor", blurb: "Clean out author and title info before you send the encrypted PDF." },
-];
+  { to: "/tools/unlock-pdf", name: "Unlock PDF", blurb: "Remove a known password so the PDF opens freely." },
+  { to: "/tools/redact-pdf", name: "Redact PDF", blurb: "Permanently black out sensitive text and images." },
+  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Make form fields and annotations permanent." },
+  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Draw or type a signature and place it on any page." },
+  { to: "/tools/pdf-metadata", name: "PDF Metadata", blurb: "View and edit title, author, subject and keywords." },
+  { to: "/tools/watermark", name: "Watermark PDF", blurb: "Overlay text or an image with adjustable opacity." },
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink file size while keeping the best possible quality." },
+] as const;
 
 export function ProtectPdfSeo() {
   return (

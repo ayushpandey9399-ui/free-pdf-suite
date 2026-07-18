@@ -164,11 +164,14 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
 ];
 
 const related = [
-  { to: "/tools/delete-pages", name: "Delete Pages", blurb: "Remove a page you no longer want — the opposite operation." },
-  { to: "/tools/reorder-pages", name: "Reorder Pages", blurb: "Drag pages into a new sequence after inserting blanks." },
-  { to: "/tools/edit-pdf", name: "Edit PDF", blurb: "Write on your new blank page — text, shapes, signature." },
-  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs, then drop blank separators between them." },
-  { to: "/tools/page-numbers", name: "Page Numbers", blurb: "Renumber the whole document cleanly after inserting pages." },
+  { to: "/tools/delete-pages", name: "Delete Pages", blurb: "Remove one or more unwanted pages from your PDF." },
+  { to: "/tools/reorder-pages", name: "Reorder Pages", blurb: "Drag pages into a new sequence with a visual grid." },
+  { to: "/tools/edit-pdf", name: "Edit & Annotate PDF", blurb: "Highlight, comment, draw and add shapes to a PDF." },
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
+  { to: "/tools/page-numbers", name: "Page Numbers", blurb: "Add page numbers with custom position and style." },
+  { to: "/tools/header-footer", name: "Header & Footer", blurb: "Stamp text at the top or bottom of every page." },
+  { to: "/tools/split", name: "Split PDF", blurb: "Break one PDF into multiple files or page ranges." },
+  { to: "/tools/rotate", name: "Rotate PDF", blurb: "Turn pages 90, 180 or 270 degrees, one page or all." },
 ] as const;
 
 export function AddBlankPagesSeo() {

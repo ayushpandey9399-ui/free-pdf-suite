@@ -160,11 +160,14 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
 ];
 
 const related = [
-  { to: "/tools/redact-pdf", name: "Redact PDF", blurb: "Remove sensitive content from the pages too, not just the properties." },
-  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Lock filled form fields into the page so answers can't be changed." },
-  { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Add an AES-256 password so only your recipient can open the cleaned file." },
-  { to: "/tools/compare", name: "Compare PDFs", blurb: "Diff two documents side by side to confirm only the metadata changed." },
-  { to: "/tools/watermark", name: "Watermark PDF", blurb: "Stamp confidentiality or ownership marks across every page." },
+  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Make form fields and annotations permanent." },
+  { to: "/tools/redact-pdf", name: "Redact PDF", blurb: "Permanently black out sensitive text and images." },
+  { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Add a password and encrypt to lock the document." },
+  { to: "/tools/edit-pdf", name: "Edit & Annotate PDF", blurb: "Highlight, comment, draw and add shapes to a PDF." },
+  { to: "/tools/header-footer", name: "Header & Footer", blurb: "Stamp text at the top or bottom of every page." },
+  { to: "/tools/watermark", name: "Watermark PDF", blurb: "Overlay text or an image with adjustable opacity." },
+  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Draw or type a signature and place it on any page." },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink file size while keeping the best possible quality." },
 ] as const;
 
 export function PdfMetadataSeo() {

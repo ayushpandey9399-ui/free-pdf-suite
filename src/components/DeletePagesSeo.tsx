@@ -103,10 +103,14 @@ const faqs = [
 ];
 
 const related = [
-  { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Keep a few pages instead of deleting many — pull just the pages you want into a new PDF." },
-  { to: "/tools/split", name: "Split PDF", blurb: "Break a long PDF into several smaller PDFs by range." },
-  { to: "/tools/redact-pdf", name: "Redact PDF", blurb: "Permanently hide sensitive text or areas on pages you're keeping." },
-  { to: "/tools/reorder-pages", name: "Reorder Pages", blurb: "Drag pages into a new sequence before or after cleaning up the file." },
+  { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Pull specific pages out as a brand-new PDF." },
+  { to: "/tools/reorder-pages", name: "Reorder Pages", blurb: "Drag pages into a new sequence with a visual grid." },
+  { to: "/tools/add-blank-pages", name: "Add Blank Pages", blurb: "Insert empty pages anywhere in the document." },
+  { to: "/tools/split", name: "Split PDF", blurb: "Break one PDF into multiple files or page ranges." },
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
+  { to: "/tools/rotate", name: "Rotate PDF", blurb: "Turn pages 90, 180 or 270 degrees, one page or all." },
+  { to: "/tools/crop", name: "Crop PDF", blurb: "Trim margins and adjust the visible area of pages." },
+  { to: "/tools/page-numbers", name: "Page Numbers", blurb: "Add page numbers with custom position and style." },
 ] as const;
 
 export function DeletePagesSeo() {

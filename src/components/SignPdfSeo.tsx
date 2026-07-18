@@ -103,12 +103,15 @@ const faqs = [
 ];
 
 const related = [
-  { to: "/tools/fill-forms", name: "Fill PDF Forms", blurb: "Type into form fields before adding your signature." },
-  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Lock filled fields and signatures so they cannot be edited." },
-  { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Add a password before sending the signed contract." },
-  { to: "/tools/edit-pdf", name: "Edit PDF", blurb: "Add text or notes to the document before signing." },
-  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine the signed contract with annexures into one file." },
-];
+  { to: "/tools/fill-forms", name: "Fill PDF Forms", blurb: "Fill interactive form fields and save the result." },
+  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Make form fields and annotations permanent." },
+  { to: "/tools/edit-pdf", name: "Edit & Annotate PDF", blurb: "Highlight, comment, draw and add shapes to a PDF." },
+  { to: "/tools/watermark", name: "Watermark PDF", blurb: "Overlay text or an image with adjustable opacity." },
+  { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Add a password and encrypt to lock the document." },
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
+  { to: "/tools/pdf-metadata", name: "PDF Metadata", blurb: "View and edit title, author, subject and keywords." },
+  { to: "/tools/header-footer", name: "Header & Footer", blurb: "Stamp text at the top or bottom of every page." },
+] as const;
 
 export function SignPdfSeo() {
   return (

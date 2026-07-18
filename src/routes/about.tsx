@@ -38,6 +38,15 @@ function AboutPage() {
         servers, sign up for an account, or accept an ugly watermark on the result.
       </p>
 
+      <h2>Who runs FreePDFHub</h2>
+      <p>
+        FreePDFHub is built and maintained by a small independent team in India, since
+        2026. We started it because every basic PDF task online was gated behind
+        signups, watermarks and upload limits — so instead we built tools that run
+        right in the browser. It's a focused project, not a big company, and you can
+        reach us any time at <a href={`mailto:${"hello@freepdfhub.in"}`}>hello@freepdfhub.in</a> — we read every message.
+      </p>
+
       <p>
         We thought that was backwards. So we built FreePDFHub: 28+ genuinely free PDF
         tools that run entirely in your browser. No uploads. No accounts. No
