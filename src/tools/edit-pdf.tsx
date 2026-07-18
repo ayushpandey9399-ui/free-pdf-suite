@@ -2451,11 +2451,12 @@ function EditLineOverlay({
     setSampled({
       bg: rgbToHex(s.background),
       fg: rgbToHex(s.text),
-      lowConfidence: !s.bgConfident,
+      lowConfidence: !s.bgConfident || s.bgBusy,
       edgeInsets: insets,
       align,
       cellLeft,
       cellRight,
+      skipCover: !s.bgConfident && s.bgBusy,
     });
   }, [isActive, existing, sampled, getPageCanvas, line, pageWidth, pageHeight]);
 
