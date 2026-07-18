@@ -43,6 +43,13 @@ export interface EditableLine {
   bold: boolean;
   italic: boolean;
   family: FontFamily;
+  /**
+   * Column-alignment inference (Fix B5). When multiple segments on
+   * different baselines share a near-equal right/left/center edge, they
+   * form a column and inherit that alignment. Falls back to `undefined`
+   * (i.e. caller decides) when no column pattern is found.
+   */
+  columnAlign?: "left" | "center" | "right";
 }
 
 const uid = (n: number, i: number, j: number) =>
