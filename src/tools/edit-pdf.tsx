@@ -122,6 +122,14 @@ interface TextEdit {
   bold: boolean;
   italic: boolean;
   family: FontFamily;
+  /**
+   * Per-side cover-rect insets in PDF units. Non-zero values mean the
+   * sampler detected a rule/table border at that edge of the line box and
+   * we should shrink the cover rectangle so it doesn't paint over it.
+   */
+  edgeInsets?: { top: number; bottom: number; left: number; right: number };
+  /** true when background sampling was noisy (busy bg / table shading). */
+  lowConfidence?: boolean;
 }
 
 interface PageInfo {
@@ -497,22 +505,28 @@ export default function EditPdf() {
         const pH = page.getHeight();
         const bg = hexToRgb255(te.bgColor);
         // Proportional padding: 25% below baseline for descenders, 10% above
-        // top of line, 1.5px horizontal.
+        // top of line, 1.5px horizontal — then clamp with any detected
+        // table/rule edges so we never overpaint them.
         const padBelow = te.fontSize * 0.25;
         const padAbove = te.fontSize * 0.1;
         const padX = 1.5;
+        const ins = te.edgeInsets ?? { top: 0, bottom: 0, left: 0, right: 0 };
         // In our coord system y is measured from top; convert to PDF bottom-up.
-        const rectTopFromTop = te.y - padAbove;
-        const rectBotFromTop = te.baselineY + padBelow;
-        const rectH = rectBotFromTop - rectTopFromTop;
+        const rectTopFromTop = te.y - padAbove + ins.top;
+        const rectBotFromTop = te.baselineY + padBelow - ins.bottom;
+        const rectH = Math.max(0, rectBotFromTop - rectTopFromTop);
         const rectY = pH - rectBotFromTop;
-        page.drawRectangle({
-          x: te.x - padX,
-          y: rectY,
-          width: te.width + padX * 2,
-          height: rectH,
-          color: rgb(bg.r / 255, bg.g / 255, bg.b / 255),
-        });
+        const rectX = te.x - padX + ins.left;
+        const rectW = Math.max(0, te.width + padX * 2 - ins.left - ins.right);
+        if (rectW > 0 && rectH > 0) {
+          page.drawRectangle({
+            x: rectX,
+            y: rectY,
+            width: rectW,
+            height: rectH,
+            color: rgb(bg.r / 255, bg.g / 255, bg.b / 255),
+          });
+        }
         const cls = classifyPdfFont(null, { bold: te.bold, italic: te.italic });
         // Preserve the user-picked family too (may differ from classification if
         // they overrode in the mini toolbar). We stored `family` directly.
@@ -2190,7 +2204,12 @@ function EditLineOverlay({
   const [hover, setHover] = useState(false);
   // Sample colors on demand (once) when the line becomes active for editing
   // OR already has an existing edit (for cover preview + color).
-  const [sampled, setSampled] = useState<{ bg: string; fg: string } | null>(null);
+  const [sampled, setSampled] = useState<{
+    bg: string;
+    fg: string;
+    lowConfidence: boolean;
+    edgeInsets: { top: number; bottom: number; left: number; right: number };
+  } | null>(null);
 
   useEffect(() => {
     if (!isActive && !existing) return;
@@ -2207,7 +2226,20 @@ function EditLineOverlay({
     const cw = Math.ceil((line.width + 2) * sx);
     const ch = Math.ceil((line.baselineY + padBelow - (line.y - padAbove)) * sy);
     const s = sampleBackgroundAndTextColor(canvas, { x: cx, y: cy, w: cw, h: ch });
-    setSampled({ bg: rgbToHex(s.background), fg: rgbToHex(s.text) });
+    // Convert per-side pixel insets back to PDF units (add a hair of safety
+    // so we never overpaint the detected edge).
+    const insets = {
+      top: s.edgeInsets.top ? s.edgeInsets.top / sy + 0.5 : 0,
+      bottom: s.edgeInsets.bottom ? s.edgeInsets.bottom / sy + 0.5 : 0,
+      left: s.edgeInsets.left ? s.edgeInsets.left / sx + 0.5 : 0,
+      right: s.edgeInsets.right ? s.edgeInsets.right / sx + 0.5 : 0,
+    };
+    setSampled({
+      bg: rgbToHex(s.background),
+      fg: rgbToHex(s.text),
+      lowConfidence: !s.bgConfident,
+      edgeInsets: insets,
+    });
   }, [isActive, existing, sampled, getPageCanvas, line, pageWidth, pageHeight]);
 
   const bgColor = existing?.bgColor ?? sampled?.bg ?? "#ffffff";
@@ -2253,11 +2285,14 @@ function EditLineOverlay({
             bold: next.bold,
             italic: next.italic,
             family: next.family,
+            edgeInsets: existing?.edgeInsets ?? sampled?.edgeInsets,
+            lowConfidence: existing?.lowConfidence ?? sampled?.lowConfidence,
           });
         }}
       />
     );
   }
+
 
   if (existing) {
     // Show the committed replacement text over the cover rect, plus a small
@@ -2300,7 +2335,15 @@ function EditLineOverlay({
         />
         <span
           className="absolute -right-1 -top-1 h-2 w-2 rounded-full"
-          style={{ backgroundColor: "#e5322d", boxShadow: "0 0 0 1.5px #ffffff" }}
+          style={{
+            backgroundColor: existing.lowConfidence ? "#f59e0b" : "#e5322d",
+            boxShadow: "0 0 0 1.5px #ffffff",
+          }}
+          title={
+            existing.lowConfidence
+              ? "Background looks busy here — preview the exported PDF to make sure the cover blends in."
+              : undefined
+          }
         />
         <button
           type="button"

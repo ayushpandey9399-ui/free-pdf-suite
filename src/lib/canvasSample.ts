@@ -26,6 +26,14 @@ export interface RgbAndText {
   text: Rgb;
   /** true when we found enough ink pixels to trust the text color. */
   confident: boolean;
+  /** true when the border pixels agree with each other (low variance). */
+  bgConfident: boolean;
+  /**
+   * Pixel insets (in *canvas pixels*) suggesting a sharp non-background edge
+   * (e.g. table gridline) sits at that side of the rect. Cover rectangles
+   * should shrink by these amounts so they never paint over the border.
+   */
+  edgeInsets: { top: number; bottom: number; left: number; right: number };
 }
 
 const clampInt = (n: number, min: number, max: number) =>
@@ -103,14 +111,62 @@ function dist2(a: Rgb, r: number, g: number, b: number): number {
   return dr * dr + dg * dg + db * db;
 }
 
+/** Median-color of a single ImageData strip. */
+function stripMedian(strip: ImageData | null): Rgb | null {
+  if (!strip) return null;
+  const rs: number[] = [];
+  const gs: number[] = [];
+  const bs: number[] = [];
+  const d = strip.data;
+  for (let i = 0; i < d.length; i += 4) {
+    rs.push(d[i]);
+    gs.push(d[i + 1]);
+    bs.push(d[i + 2]);
+  }
+  if (!rs.length) return null;
+  return { r: median(rs), g: median(gs), b: median(bs) };
+}
+
+/**
+ * Dominant color in a rect via 16-bucket color histogram. Used as a
+ * fallback background when the border median is noisy (busy background or
+ * table shading crossing the rect edge).
+ */
+function dominantColor(img: ImageData): Rgb {
+  const buckets = new Map<number, { r: number; g: number; b: number; n: number }>();
+  const d = img.data;
+  for (let i = 0; i < d.length; i += 4) {
+    const r = d[i], g = d[i + 1], b = d[i + 2];
+    const key = ((r >> 4) << 8) | ((g >> 4) << 4) | (b >> 4);
+    const cur = buckets.get(key);
+    if (cur) {
+      cur.r += r; cur.g += g; cur.b += b; cur.n += 1;
+    } else {
+      buckets.set(key, { r, g, b, n: 1 });
+    }
+  }
+  let best: { r: number; g: number; b: number; n: number } | null = null;
+  for (const v of buckets.values()) {
+    if (!best || v.n > best.n) best = v;
+  }
+  if (!best) return { r: 255, g: 255, b: 255 };
+  return { r: Math.round(best.r / best.n), g: Math.round(best.g / best.n), b: Math.round(best.b / best.n) };
+}
+
 export function sampleBackgroundAndTextColor(
   canvas: HTMLCanvasElement,
   rect: { x: number; y: number; w: number; h: number },
 ): RgbAndText {
-  const background = sampleBackgroundColor(canvas, rect);
+  const noEdges = { top: 0, bottom: 0, left: 0, right: 0 };
   const ctx = canvas.getContext("2d", { willReadFrequently: true });
   if (!ctx) {
-    return { background, text: { r: 0, g: 0, b: 0 }, confident: false };
+    return {
+      background: { r: 255, g: 255, b: 255 },
+      text: { r: 0, g: 0, b: 0 },
+      confident: false,
+      bgConfident: false,
+      edgeInsets: noEdges,
+    };
   }
 
   const x = clampInt(rect.x, 0, canvas.width - 1);
@@ -118,13 +174,70 @@ export function sampleBackgroundAndTextColor(
   const w = clampInt(rect.w, 1, canvas.width - x);
   const h = clampInt(rect.h, 1, canvas.height - y);
 
+  // ---- Border-median background (existing behaviour) plus per-side medians
+  //      so we can measure variance between them and detect edge lines.
+  const bx = Math.max(0, x - 1);
+  const by = Math.max(0, y - 1);
+  const bw = Math.min(canvas.width - bx, w + 2);
+  const bh = Math.min(canvas.height - by, h + 2);
+  const topStrip = stripMedian(readRect(ctx, bx, by, bw, 1));
+  const botStrip = stripMedian(readRect(ctx, bx, by + bh - 1, bw, 1));
+  const lefStrip = stripMedian(readRect(ctx, bx, by, 1, bh));
+  const rigStrip = stripMedian(readRect(ctx, bx + bw - 1, by, 1, bh));
+  const sides = [topStrip, botStrip, lefStrip, rigStrip].filter(Boolean) as Rgb[];
+  const borderMedian: Rgb = sides.length
+    ? {
+        r: median(sides.map((s) => s.r)),
+        g: median(sides.map((s) => s.g)),
+        b: median(sides.map((s) => s.b)),
+      }
+    : { r: 255, g: 255, b: 255 };
+
+  // Variance across the 4 sides: if any side is far from the median, the
+  // border isn't a trustworthy background sample.
+  const VARIANCE_SQ = 40 * 40;
+  let maxSideDist = 0;
+  for (const s of sides) {
+    const d = dist2(borderMedian, s.r, s.g, s.b);
+    if (d > maxSideDist) maxSideDist = d;
+  }
+  const bgConfident = maxSideDist < VARIANCE_SQ;
+
   const img = readRect(ctx, x, y, w, h);
   if (!img) {
-    return { background, text: { r: 0, g: 0, b: 0 }, confident: false };
+    return {
+      background: borderMedian,
+      text: { r: 0, g: 0, b: 0 },
+      confident: false,
+      bgConfident,
+      edgeInsets: noEdges,
+    };
   }
 
-  // Threshold: at least ~60 units of RGB distance from background counts as ink.
-  // (Roughly one channel differing by 60, or two channels by ~42.)
+  // Choose final background: dominant-in-rect when the border is noisy;
+  // otherwise stick with the border median.
+  const background = bgConfident ? borderMedian : dominantColor(img);
+
+  // ---- Edge inset detection. For each side, look at the *first row/col
+  //      inside* the rect and check whether its median colour differs from
+  //      the chosen background by an amount that suggests a rule/border.
+  const EDGE_SQ = 55 * 55;
+  const insetSide = (strip: Rgb | null): number => {
+    if (!strip) return 0;
+    return dist2(background, strip.r, strip.g, strip.b) >= EDGE_SQ ? 1 : 0;
+  };
+  const innerTop = stripMedian(readRect(ctx, x, y, w, 1));
+  const innerBot = stripMedian(readRect(ctx, x, y + h - 1, w, 1));
+  const innerLef = stripMedian(readRect(ctx, x, y, 1, h));
+  const innerRig = stripMedian(readRect(ctx, x + w - 1, y, 1, h));
+  const edgeInsets = {
+    top: insetSide(innerTop),
+    bottom: insetSide(innerBot),
+    left: insetSide(innerLef),
+    right: insetSide(innerRig),
+  };
+
+  // ---- Text colour: median of high-contrast (non-background) pixels.
   const THRESHOLD_SQ = 60 * 60;
   const rs: number[] = [];
   const gs: number[] = [];
@@ -144,14 +257,23 @@ export function sampleBackgroundAndTextColor(
 
   const confident = rs.length >= Math.max(20, total * 0.02);
   if (!confident) {
-    return { background, text: { r: 0, g: 0, b: 0 }, confident: false };
+    return {
+      background,
+      text: { r: 0, g: 0, b: 0 },
+      confident: false,
+      bgConfident,
+      edgeInsets,
+    };
   }
   return {
     background,
     text: { r: median(rs), g: median(gs), b: median(bs) },
     confident: true,
+    bgConfident,
+    edgeInsets,
   };
 }
+
 
 export function rgbToHex({ r, g, b }: Rgb): string {
   const to = (n: number) => clampInt(n, 0, 255).toString(16).padStart(2, "0");
