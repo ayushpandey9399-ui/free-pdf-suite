@@ -917,22 +917,35 @@ export default function EditPdf() {
         // — never a silent corruption.
         let safeText: string;
         let unencodable = 0;
-        try {
-          font.widthOfTextAtSize(te.newText, te.fontSize);
-          safeText = te.newText;
-        } catch {
-          let rebuilt = "";
-          for (const ch of te.newText) {
-            try {
-              font.widthOfTextAtSize(ch, te.fontSize);
-              rebuilt += ch;
-            } catch {
-              rebuilt += "?";
-              unencodable++;
+        const encodeCheck = (f: PDFFont): { text: string; missed: number } => {
+          try {
+            f.widthOfTextAtSize(te.newText, te.fontSize);
+            return { text: te.newText, missed: 0 };
+          } catch {
+            let rebuilt = ""; let missed = 0;
+            for (const ch of te.newText) {
+              try { f.widthOfTextAtSize(ch, te.fontSize); rebuilt += ch; }
+              catch { rebuilt += "?"; missed++; }
             }
+            return { text: rebuilt, missed };
           }
-          safeText = rebuilt;
+        };
+        let enc = encodeCheck(font);
+        // If the chosen twin can't encode every char, retry once with the
+        // broader Noto fallback (spec step 3). Adopt it if it does strictly
+        // better; otherwise keep the twin result for visual fidelity.
+        if (enc.missed > 0) {
+          try {
+            const noto = await getNotoFallback(te.family, te.bold, te.italic);
+            const encNoto = encodeCheck(noto);
+            if (encNoto.missed < enc.missed) {
+              font = noto;
+              enc = encNoto;
+            }
+          } catch { /* fallback unavailable */ }
         }
+        safeText = enc.text;
+        unencodable = enc.missed;
         if (unencodable > 0) {
           totalUnencodable += unencodable;
           editsWithUnencodable++;
