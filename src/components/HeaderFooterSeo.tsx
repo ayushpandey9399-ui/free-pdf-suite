@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { BenefitBadges } from "@/components/BenefitBadges";
 import { Link } from "@tanstack/react-router";
-import { Check } from "lucide-react";
+
 
 const steps = [
   {
