@@ -1,6 +1,13 @@
 import type { PDFDocumentProxy } from "pdfjs-dist";
 import type { TextItem } from "pdfjs-dist/types/src/display/api";
 import { classifyPdfFont, type FontFamily } from "./fontMatch";
+import { hasVerticalRulingInGap } from "./canvasSample";
+
+export interface RulingCanvas {
+  canvas: HTMLCanvasElement;
+  /** canvas pixels per PDF unit. */
+  scale: number;
+}
 
 /**
  * One clickable text SEGMENT (Phase 1.5). A segment is a horizontally
