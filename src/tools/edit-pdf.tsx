@@ -922,6 +922,35 @@ export default function EditPdf() {
     setActiveEditLineId(null);
   };
 
+  // Fix B-3 #20: flatten AcroForm widgets into static content and reload
+  // the flattened bytes as the current file. The load-generation bump in
+  // the file-load effect discards any in-flight work from the pre-flatten
+  // document.
+  const handleFlattenForm = async () => {
+    if (!file || flatteningForm) return;
+    setFlatteningForm(true);
+    try {
+      const doc = await loadPdfLibDoc(await file.arrayBuffer());
+      try { doc.getForm().flatten(); } catch { /* no form */ }
+      const bytes = await doc.save();
+      const flat = new File(
+        [bytes as BlobPart],
+        file.name.replace(/\.pdf$/i, "") + "-flat.pdf",
+        { type: "application/pdf" },
+      );
+      setFiles([flat]);
+      toast.success("Form flattened. You can now edit the text.");
+    } catch (e) {
+      if (isPdfPasswordError(e)) toast.error("PDF is password-protected");
+      else toast.error(`Flatten failed: ${(e as Error).message}`);
+    } finally {
+      setFlatteningForm(false);
+    }
+  };
+
+  const anyPageHasForm = useMemo(() => pages.some((p) => p.hasFormFields), [pages]);
+
+
   /* =========== export =========== */
 
   const run = async () => {
