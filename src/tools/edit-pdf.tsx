@@ -2270,7 +2270,7 @@ interface PageOverlayProps {
   onVisibilityChange: (visible: boolean) => void;
 }
 
-function PageOverlay(props: PageOverlayProps) {
+function PageOverlayInner(props: PageOverlayProps) {
   const { index, page, annos, selectedId, mode, onSelect, onCreate, onUpdate, onCommitChange, onRemove } = props;
   const { editTextMode, lines, edits, activeEditLineId, showAllEditable, onNeedLines, onOpenLine, onCloseLine, onCommitEdit, onRemoveEdit, getPageCanvas, onVisibilityChange } = props;
   const wrapRef = useRef<HTMLDivElement>(null);
