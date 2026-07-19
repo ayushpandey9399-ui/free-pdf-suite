@@ -146,6 +146,9 @@ interface TextEdit {
   /** cell bounds in PDF units (top-origin), if rulings were detected on both sides. */
   cellLeft?: number;
   cellRight?: number;
+  /** Fix B-3 #9: column-cluster anchor edge (right/center/left median). */
+  columnAnchor?: { type: "left" | "center" | "right"; value: number };
+
   /**
    * When true, the cover rectangle is NOT drawn on export - the area was
    * too busy/multi-colored to safely mask. The replacement text is drawn
@@ -3214,6 +3217,8 @@ function EditLineOverlay({
             align: existing?.align ?? sampled?.align,
             cellLeft: existing?.cellLeft ?? sampled?.cellLeft,
             cellRight: existing?.cellRight ?? sampled?.cellRight,
+            columnAnchor: existing?.columnAnchor ?? line.columnAnchor,
+
             skipCover: existing?.skipCover ?? sampled?.skipCover ?? false,
           });
         }}
