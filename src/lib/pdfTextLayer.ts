@@ -53,7 +53,18 @@ export interface EditableLine {
    * (i.e. caller decides) when no column pattern is found.
    */
   columnAlign?: "left" | "center" | "right";
+  /**
+   * Fix B-3 #9: for lines that participate in a column cluster (≥3
+   * members) this is the column's anchor edge value in PDF units, so a
+   * right/center-aligned edit stays pinned to the shared edge even when
+   * the replacement text changes width.
+   *   type "right"  → value is the right edge x (median)
+   *   type "center" → value is the center x (median)
+   *   type "left"   → value is the left edge x (median)
+   */
+  columnAnchor?: { type: "left" | "center" | "right"; value: number };
 }
+
 
 const uid = (n: number, i: number, j: number) =>
   `L${n}-${i}-${j}-${Math.random().toString(36).slice(2, 8)}`;
@@ -329,32 +340,73 @@ export async function extractEditableLines(
     }
   }
 
-  // ---- Fix B5: column-alignment inference (borderless-table fallback).
-  // Cluster segments across baselines whose right / left / center edges are
-  // near-equal (within ~2pt). A cluster of ≥3 members marks that column.
-  // Priority: right > center > left when a segment participates in more
-  // than one cluster with equal support.
+  // ---- Fix B5 + Fix B-3 #9: column-alignment inference. Cluster
+  // segments across baselines whose right / left / center edges are
+  // near-equal (within ~2pt); ≥3 members marks a column. In addition to
+  // choosing an alignment we also record the cluster's median edge as
+  // `columnAnchor` so right/center-aligned exports can anchor to the
+  // shared edge instead of drifting with per-line width.
   const TOL = 2; // PDF units
   const bucket = (v: number) => Math.round(v / TOL);
-  const rMap = new Map<number, number>();
-  const lMap = new Map<number, number>();
-  const cMap = new Map<number, number>();
+  const rMap = new Map<number, number[]>();
+  const lMap = new Map<number, number[]>();
+  const cMap = new Map<number, number[]>();
+  const push = (m: Map<number, number[]>, k: number, v: number) => {
+    const arr = m.get(k);
+    if (arr) arr.push(v);
+    else m.set(k, [v]);
+  };
   for (const ln of out) {
-    const rK = bucket(ln.x + ln.width);
-    const lK = bucket(ln.x);
-    const cK = bucket(ln.x + ln.width / 2);
-    rMap.set(rK, (rMap.get(rK) ?? 0) + 1);
-    lMap.set(lK, (lMap.get(lK) ?? 0) + 1);
-    cMap.set(cK, (cMap.get(cK) ?? 0) + 1);
+    push(rMap, bucket(ln.x + ln.width), ln.x + ln.width);
+    push(lMap, bucket(ln.x), ln.x);
+    push(cMap, bucket(ln.x + ln.width / 2), ln.x + ln.width / 2);
   }
   for (const ln of out) {
-    const rN = rMap.get(bucket(ln.x + ln.width)) ?? 0;
-    const lN = lMap.get(bucket(ln.x)) ?? 0;
-    const cN = cMap.get(bucket(ln.x + ln.width / 2)) ?? 0;
-    if (rN >= 3 && rN >= lN && rN >= cN) ln.columnAlign = "right";
-    else if (cN >= 3 && cN > lN) ln.columnAlign = "center";
-    else if (lN >= 3) ln.columnAlign = "left";
+    const rArr = rMap.get(bucket(ln.x + ln.width)) ?? [];
+    const lArr = lMap.get(bucket(ln.x)) ?? [];
+    const cArr = cMap.get(bucket(ln.x + ln.width / 2)) ?? [];
+    const rN = rArr.length, lN = lArr.length, cN = cArr.length;
+    if (rN >= 3 && rN >= lN && rN >= cN) {
+      ln.columnAlign = "right";
+      ln.columnAnchor = { type: "right", value: median(rArr) };
+    } else if (cN >= 3 && cN > lN) {
+      ln.columnAlign = "center";
+      ln.columnAnchor = { type: "center", value: median(cArr) };
+    } else if (lN >= 3) {
+      ln.columnAlign = "left";
+      ln.columnAnchor = { type: "left", value: median(lArr) };
+    }
+  }
+
+  // ---- Fix B-3 #8: baseline-bucket snap. Group lines whose baselines
+  // are within max(1.5pt, 0.3 × fontSize) into one visual row and snap
+  // each member's baselineY to the row median. Segmentation from A.2
+  // is preserved (we never merge lines); only baselineY (and the derived
+  // top y) are aligned so edited text sits on one clean baseline.
+  {
+    const sorted = [...out].sort((a, b) => a.baselineY - b.baselineY);
+    const rows: EditableLine[][] = [];
+    for (const ln of sorted) {
+      const last = rows[rows.length - 1];
+      if (last) {
+        const ref = last[0];
+        const tol = Math.max(1.5, Math.max(ln.fontSize, ref.fontSize) * 0.3);
+        if (Math.abs(ln.baselineY - ref.baselineY) <= tol) { last.push(ln); continue; }
+      }
+      rows.push([ln]);
+    }
+    for (const row of rows) {
+      if (row.length < 2) continue;
+      const med = median(row.map((l) => l.baselineY));
+      for (const ln of row) {
+        const dy = med - ln.baselineY;
+        if (dy === 0) continue;
+        ln.baselineY = med;
+        ln.y += dy;
+      }
+    }
   }
 
   return out;
 }
+

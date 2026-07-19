@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import {
   StandardFonts,
@@ -146,6 +146,9 @@ interface TextEdit {
   /** cell bounds in PDF units (top-origin), if rulings were detected on both sides. */
   cellLeft?: number;
   cellRight?: number;
+  /** Fix B-3 #9: column-cluster anchor edge (right/center/left median). */
+  columnAnchor?: { type: "left" | "center" | "right"; value: number };
+
   /**
    * When true, the cover rectangle is NOT drawn on export - the area was
    * too busy/multi-colored to safely mask. The replacement text is drawn
@@ -166,7 +169,18 @@ interface PageInfo {
   pdfWidth: number;
   pdfHeight: number;
   rotation: number;
+  /** Fix B-3 #10: true once real meta (dims/rotation/widgets) has been
+   *  fetched. Pages 4..N start with placeholder dims copied from page 1
+   *  and get patched by renderPage. */
+  metaLoaded?: boolean;
+  /** Fix B-3 #20: interactive AcroForm widgets on this page. Display-space
+   *  top-origin rects. When non-empty the editable-text overlay filters
+   *  out any line whose box intersects a widget so users can't edit over
+   *  live form fields. */
+  hasFormFields?: boolean;
+  widgetRects?: { x: number; y: number; w: number; h: number }[];
 }
+
 
 /* =============================== constants =============================== */
 
@@ -320,7 +334,28 @@ function dispRectToPdf(
   }
 }
 
-/* =============================== main component =============================== */
+/* ============ Fix B-3 #20: AcroForm widget helpers ============ */
+
+/**
+ * Filter out any editable line whose tight glyph box intersects an
+ * interactive form-field widget rect. Prevents users from "editing" text
+ * that actually sits under a live AcroForm widget.
+ */
+function filterLinesByWidgets(
+  lines: EditableLine[],
+  widgets: { x: number; y: number; w: number; h: number }[] | undefined,
+): EditableLine[] {
+  if (!widgets || !widgets.length) return lines;
+  return lines.filter((ln) => {
+    for (const w of widgets) {
+      if (ln.x + ln.width <= w.x || w.x + w.w <= ln.x) continue;
+      if (ln.y + ln.height <= w.y || w.y + w.h <= ln.y) continue;
+      return false;
+    }
+    return true;
+  });
+}
+
 
 export default function EditPdf() {
   const [files, setFiles] = useState<File[]>([]);
@@ -345,9 +380,19 @@ export default function EditPdf() {
   const pageCanvasesRef = useRef<Map<number, HTMLCanvasElement>>(new Map());
   const renderingRef = useRef<Set<number>>(new Set());
   const linesByPageRef = useRef<Map<number, EditableLine[]>>(new Map());
+  // Fix B-3 #20: parallel map of widget rects per page. Populated by the
+  // loader (eager pages) and by renderPage (lazy pages). Used by
+  // ensureLinesForPage to filter out lines that overlap an interactive
+  // form widget, so users can't accidentally edit over a live field.
+  const widgetsByPageRef = useRef<Map<number, { x: number; y: number; w: number; h: number }[]>>(new Map());
+
   const [linesTick, setLinesTick] = useState(0);
   const [visiblePages, setVisiblePages] = useState<Set<number>>(() => new Set());
   const [hasAnyText, setHasAnyText] = useState<boolean | null>(null); // null = unknown
+  // Fix B-3 #20: AcroForm flatten flow.
+  const [flatteningForm, setFlatteningForm] = useState(false);
+  const [formBannerDismissed, setFormBannerDismissed] = useState(false);
+
 
   // Contextual style state (used when creating NEW elements)
   const [hlColor, setHlColor] = useState(HIGHLIGHT_COLORS[0].value);
@@ -466,6 +511,11 @@ export default function EditPdf() {
   // slots with empty urls, eager-render only the first few, then let the
   // visibility observer + eviction effect drive the rest. Total retained
   // canvases stays bounded at ~5 (visible ± 2) regardless of doc length.
+  //
+  // Fix B-3 #10: also patches the PageInfo slot with real dims / rotation
+  // / widget rects the first time a page is fetched. Load loop only
+  // eager-fetches meta for the first EAGER pages; every other page's real
+  // meta lands here on demand.
   const renderPage = useCallback(async (pageIdx: number): Promise<void> => {
     const doc = pdfjsDocRef.current;
     if (!doc) return;
@@ -506,10 +556,55 @@ export default function EditPdf() {
       if (loadGenRef.current !== gen) return;
       pageCanvasesRef.current.set(pageIdx, canvas);
       const url = canvas.toDataURL("image/jpeg", 0.85);
+
+      // Fix B-3 #10 + #20: fetch real meta + widget rects if this page
+      // slot is still a placeholder. Cheap enough to always compute the
+      // annotations pass on first-render.
+      let widgetRects: { x: number; y: number; w: number; h: number }[] = [];
+      let hasFormFields = false;
+      try {
+        const annots = await page.getAnnotations();
+        if (loadGenRef.current !== gen) return;
+        type Ann = { subtype?: string; rect?: number[] };
+        const widgets = (annots as Ann[]).filter((a) => a?.subtype === "Widget" && Array.isArray(a.rect));
+        hasFormFields = widgets.length > 0;
+        widgetRects = widgets.map((w) => {
+          const r = (vp1 as unknown as { convertToViewportRectangle: (r: number[]) => number[] })
+            .convertToViewportRectangle(w.rect as number[]);
+          const [x1, y1, x2, y2] = r;
+          const x = Math.min(x1, x2), y = Math.min(y1, y2);
+          return { x, y, w: Math.max(1, Math.abs(x2 - x1)), h: Math.max(1, Math.abs(y2 - y1)) };
+        });
+      } catch { /* annotations unavailable */ }
+      widgetsByPageRef.current.set(pageIdx, widgetRects);
+      // Widget set may have arrived after ensureLinesForPage; re-filter
+      // and refresh the overlay if we already have lines for this page.
+      if (linesByPageRef.current.has(pageIdx) && widgetRects.length) {
+        const cur = linesByPageRef.current.get(pageIdx) ?? [];
+        const next = filterLinesByWidgets(cur, widgetRects);
+        if (next.length !== cur.length) {
+          linesByPageRef.current.set(pageIdx, next);
+          setLinesTick((t) => t + 1);
+        }
+      }
+
+
+      const vpU = page.getViewport({ scale: 1, rotation: 0 });
       setPages((prev) => {
-        if (!prev[pageIdx] || prev[pageIdx].url === url) return prev;
+        if (!prev[pageIdx]) return prev;
         const copy = prev.slice();
-        copy[pageIdx] = { ...copy[pageIdx], url };
+        copy[pageIdx] = {
+          ...copy[pageIdx],
+          url,
+          width: vp1.width,
+          height: vp1.height,
+          pdfWidth: vpU.width,
+          pdfHeight: vpU.height,
+          rotation,
+          metaLoaded: true,
+          hasFormFields,
+          widgetRects,
+        };
         return copy;
       });
     } catch {
@@ -518,6 +613,7 @@ export default function EditPdf() {
       renderingRef.current.delete(pageIdx);
     }
   }, []);
+
 
   // load pages
   useEffect(() => {
@@ -533,6 +629,8 @@ export default function EditPdf() {
     setSelectedId(null);
     setActiveEditLineId(null);
     setHasAnyText(null);
+    setFormBannerDismissed(false);
+
     // Fix flicker: seed visible pages with the eager set so the eviction
     // pass on first paint cannot drop pages 0..EAGER-1 before the
     // IntersectionObserver reports them.
@@ -541,6 +639,8 @@ export default function EditPdf() {
     pageCanvasesRef.current = new Map();
     renderingRef.current = new Set();
     linesByPageRef.current = new Map();
+    widgetsByPageRef.current = new Map();
+
     historyRef.current = [{ annos: [], edits: [] }];
     historyIdxRef.current = 0;
     setHistoryTick((t) => t + 1);
@@ -552,29 +652,73 @@ export default function EditPdf() {
         if (cancelled || loadGenRef.current !== gen) return;
         pdfjsDocRef.current = doc;
         const out: PageInfo[] = [];
-        
-        // Eager-render only the first few pages so the viewer feels
-        // instant; every other page starts with url="" and is rendered on
-        // demand as it scrolls into view (Fix B1 memory cap).
-        // Fix B-2 #2: preview + extraction operate in DISPLAY (rotated)
-        // space; we also stash pdfWidth/pdfHeight (unrotated) so the
-        // export can convert display coords back to content-stream space.
+        // for the first EAGER pages. Remaining pages start with
+        // placeholder dims copied from page 1 (so layout is stable) and
+        // get patched by renderPage when they scroll into view. This
+        // makes load time roughly constant regardless of page count.
         const EAGER = Math.min(3, doc.numPages);
         const eagerSet = new Set<number>();
         for (let i = 0; i < EAGER; i++) eagerSet.add(i);
-        for (let i = 1; i <= doc.numPages; i++) {
+
+        // Meta for pages 1..EAGER.
+        const eagerMeta: {
+          width: number; height: number;
+          pdfWidth: number; pdfHeight: number;
+          rotation: number;
+          hasFormFields: boolean;
+          widgetRects: { x: number; y: number; w: number; h: number }[];
+        }[] = [];
+        for (let i = 1; i <= EAGER; i++) {
           const page = await doc.getPage(i);
           if (cancelled || loadGenRef.current !== gen) return;
           const rotation = (page as unknown as { rotate: number }).rotate ?? 0;
           const vpU = page.getViewport({ scale: 1, rotation: 0 });
           const vp1 = page.getViewport({ scale: 1, rotation });
+          let widgetRects: { x: number; y: number; w: number; h: number }[] = [];
+          let hasFormFields = false;
+          try {
+            const annots = await page.getAnnotations();
+            if (cancelled || loadGenRef.current !== gen) return;
+            type Ann = { subtype?: string; rect?: number[] };
+            const widgets = (annots as Ann[]).filter((a) => a?.subtype === "Widget" && Array.isArray(a.rect));
+            hasFormFields = widgets.length > 0;
+            widgetRects = widgets.map((w) => {
+              const r = (vp1 as unknown as { convertToViewportRectangle: (r: number[]) => number[] })
+                .convertToViewportRectangle(w.rect as number[]);
+              const [x1, y1, x2, y2] = r;
+              const x = Math.min(x1, x2), y = Math.min(y1, y2);
+              return { x, y, w: Math.max(1, Math.abs(x2 - x1)), h: Math.max(1, Math.abs(y2 - y1)) };
+            });
+          } catch { /* annotations unavailable */ }
+          widgetsByPageRef.current.set(i - 1, widgetRects);
+
+          eagerMeta.push({
+            width: vp1.width, height: vp1.height,
+            pdfWidth: vpU.width, pdfHeight: vpU.height,
+            rotation, hasFormFields, widgetRects,
+          });
+        }
+
+        // Placeholder dims for pages EAGER+1..N. Use page 1's dims so the
+        // scroll container reserves a reasonable amount of space; the
+        // real dims land the first time each page renders.
+        const placeholder = eagerMeta[0] ?? {
+          width: 800, height: 1000,
+          pdfWidth: 800, pdfHeight: 1000,
+          rotation: 0, hasFormFields: false, widgetRects: [] as { x: number; y: number; w: number; h: number }[],
+        };
+        for (let i = 0; i < doc.numPages; i++) {
+          const meta = i < EAGER ? eagerMeta[i] : placeholder;
           out.push({
             url: "",
-            width: vp1.width,
-            height: vp1.height,
-            pdfWidth: vpU.width,
-            pdfHeight: vpU.height,
-            rotation,
+            width: meta.width,
+            height: meta.height,
+            pdfWidth: meta.pdfWidth,
+            pdfHeight: meta.pdfHeight,
+            rotation: meta.rotation,
+            metaLoaded: i < EAGER,
+            hasFormFields: meta.hasFormFields,
+            widgetRects: meta.widgetRects,
           });
         }
         if (cancelled || loadGenRef.current !== gen) return;
@@ -584,19 +728,15 @@ export default function EditPdf() {
         // will also try, but we don't want to wait a full render cycle
         // for the seeded-visible pages to appear.
         for (const i of eagerSet) void renderPage(i);
-        // Await the first eager page so the "any extractable text" probe
-        // below has a canvas to sample. Sequentially await eager renders
-        //, they're bounded (<=3) and small.
         for (const i of eagerSet) {
-          // renderPage is idempotent; awaiting a re-entry is a no-op.
           // eslint-disable-next-line no-await-in-loop
           await renderPage(i);
           if (cancelled || loadGenRef.current !== gen) return;
         }
-        // Probe first few pages for any extractable text, used for the
-        // "looks like a scanned PDF" callout. Only the pre-rendered pages
-        // have canvases at this point, which is fine, the probe stays
-        // bounded to EAGER pages.
+        // Fix B-3 #10: probe ONLY the first 3 pages for extractable text.
+        // If those have no text, we mark the doc "likely scanned" but a
+        // later page that turns out to have text is still editable on
+        // demand via ensureLinesForPage.
         const probe = Math.min(3, doc.numPages);
         let total = 0;
         for (let i = 1; i <= probe; i++) {
@@ -608,13 +748,15 @@ export default function EditPdf() {
           const rc = c ? { canvas: c, scale: c.width / pv.width } : null;
           const lines = await extractEditableLines(doc, i, rc);
           if (cancelled || loadGenRef.current !== gen) return;
-          linesByPageRef.current.set(i - 1, lines);
-          total += lines.reduce((n, l) => n + l.text.length, 0);
+          const filtered = filterLinesByWidgets(lines, out[i - 1]?.widgetRects);
+          linesByPageRef.current.set(i - 1, filtered);
+          total += filtered.reduce((n, l) => n + l.text.length, 0);
         }
         if (!cancelled && loadGenRef.current === gen) {
           setHasAnyText(total > 0);
           setLinesTick((t) => t + 1);
         }
+
       } catch (e) {
         if (!isPdfPasswordError(e)) toast.error(`Preview failed: ${(e as Error).message}`);
       } finally {
@@ -724,7 +866,9 @@ export default function EditPdf() {
       const rc = c ? { canvas: c, scale: c.width / pv.width } : null;
       const lines = await extractEditableLines(doc, pageIdx + 1, rc);
       if (loadGenRef.current !== gen) return;
-      linesByPageRef.current.set(pageIdx, lines);
+      const filtered = filterLinesByWidgets(lines, widgetsByPageRef.current.get(pageIdx));
+      linesByPageRef.current.set(pageIdx, filtered);
+
       setLinesTick((t) => t + 1);
     } catch {
       if (loadGenRef.current === gen) linesByPageRef.current.set(pageIdx, []);
@@ -762,6 +906,8 @@ export default function EditPdf() {
     pageCanvasesRef.current = new Map();
     renderingRef.current = new Set();
     linesByPageRef.current = new Map();
+    widgetsByPageRef.current = new Map();
+
     setVisiblePages(new Set());
     historyRef.current = [{ annos: [], edits: [] }];
     historyIdxRef.current = 0;
@@ -778,6 +924,35 @@ export default function EditPdf() {
     setSelectedId(null);
     setActiveEditLineId(null);
   };
+
+  // Fix B-3 #20: flatten AcroForm widgets into static content and reload
+  // the flattened bytes as the current file. The load-generation bump in
+  // the file-load effect discards any in-flight work from the pre-flatten
+  // document.
+  const handleFlattenForm = async () => {
+    if (!file || flatteningForm) return;
+    setFlatteningForm(true);
+    try {
+      const doc = await loadPdfLibDoc(await file.arrayBuffer());
+      try { doc.getForm().flatten(); } catch { /* no form */ }
+      const bytes = await doc.save();
+      const flat = new File(
+        [bytes as BlobPart],
+        file.name.replace(/\.pdf$/i, "") + "-flat.pdf",
+        { type: "application/pdf" },
+      );
+      setFiles([flat]);
+      toast.success("Form flattened. You can now edit the text.");
+    } catch (e) {
+      if (isPdfPasswordError(e)) toast.error("PDF is password-protected");
+      else toast.error(`Flatten failed: ${(e as Error).message}`);
+    } finally {
+      setFlatteningForm(false);
+    }
+  };
+
+  const anyPageHasForm = useMemo(() => pages.some((p) => p.hasFormFields), [pages]);
+
 
   /* =========== export =========== */
 
@@ -987,9 +1162,22 @@ export default function EditPdf() {
         }
 
         const align = te.align ?? "left";
+        // Fix B-3 #9: prefer the column-cluster anchor (median edge across
+        // 3+ neighbours) over per-line box edges. This pins right/center
+        // aligned text to the shared visual column instead of drifting with
+        // the edited string's width.
+        const anchor = te.columnAnchor;
         let drawX = te.x;
-        if (align === "center") drawX = boxLeft + (boxWidth - textW) / 2;
-        else if (align === "right") drawX = boxRight - textW;
+        if (align === "center") {
+          const center = anchor && anchor.type === "center" ? anchor.value : boxLeft + boxWidth / 2;
+          drawX = center - textW / 2;
+        } else if (align === "right") {
+          const right = anchor && anchor.type === "right" ? anchor.value : boxRight;
+          drawX = right - textW;
+        } else if (anchor && anchor.type === "left") {
+          drawX = anchor.value;
+        }
+
 
         // Fix B3: after the shrink-to-0.7 floor, if text STILL overflows
         // the cell, mark it so Pass 2 clips the draw to the box width and
@@ -1020,7 +1208,21 @@ export default function EditPdf() {
         const te = p.te;
         const bg = hexToRgb255(te.bgColor);
         const pad = 1;
-        const ins = te.edgeInsets ?? { top: 0, bottom: 0, left: 0, right: 0 };
+        // Fix B-3 #6: clamp edgeInsets so the cover rect never becomes
+        // smaller than the measured tight glyph bounding box, and never
+        // over-covers a neighbour. Inset comes from sampled whitespace /
+        // rulings (canvasSample.findCellRulings); negative or NaN values
+        // are treated as 0 (fall back to cover-exactly-the-glyph-box).
+        const rawIns = te.edgeInsets ?? { top: 0, bottom: 0, left: 0, right: 0 };
+        const clampIns = (v: number) => (Number.isFinite(v) && v > 0 ? v : 0);
+        const ins = {
+          top: clampIns(rawIns.top),
+          bottom: clampIns(rawIns.bottom),
+          left: clampIns(rawIns.left),
+          right: clampIns(rawIns.right),
+        };
+        // Never subtract more than `pad`: rect always covers at least the
+        // tight glyph box (te.x, te.y, te.width, te.height).
         const padTop = Math.max(0, pad - ins.top);
         const padBot = Math.max(0, pad - ins.bottom);
         const padLef = Math.max(0, pad - ins.left);
@@ -1028,8 +1230,9 @@ export default function EditPdf() {
 
         const rectLefDisp = te.x - padLef;
         const rectTopDisp = te.y - padTop;
-        const rectWDisp = Math.max(0, te.width + padLef + padRig);
-        const rectHDisp = Math.max(0, te.height + padTop + padBot);
+        const rectWDisp = Math.max(te.width, te.width + padLef + padRig);
+        const rectHDisp = Math.max(te.height, te.height + padTop + padBot);
+
         if (rectWDisp > 0 && rectHDisp > 0) {
           const r = dispRectToPdf(rectLefDisp, rectTopDisp, rectWDisp, rectHDisp, p.R, p.Wu, p.Hu);
           page.drawRectangle({
@@ -1057,14 +1260,29 @@ export default function EditPdf() {
         const doClip = p.overflow;
         if (doClip) {
           overflowCount++;
-          const cr = dispRectToPdf(p.boxLeft, p.te.y - 1, boxW, p.te.height + 2, p.R, p.Wu, p.Hu);
+          // Fix B-3 #4: use exact float coordinates (no premature round),
+          // convert to unrotated PDF space via dispRectToPdf so we clip
+          // in the SAME coordinate frame the drawText/drawRectangle calls
+          // use, then inset by 0.25pt on every side so anti-aliased edges
+          // of a longer replacement never bleed past the tight box.
+          const EPS = 0.25;
+          const clipLeftDisp = p.boxLeft;
+          const clipTopDisp = p.te.y;
+          const clipWDisp = boxW;
+          const clipHDisp = p.te.height;
+          const cr = dispRectToPdf(clipLeftDisp, clipTopDisp, clipWDisp, clipHDisp, p.R, p.Wu, p.Hu);
+          const cx = cr.x + EPS;
+          const cy = cr.y + EPS;
+          const cw = Math.max(0, cr.width - 2 * EPS);
+          const ch = Math.max(0, cr.height - 2 * EPS);
           page.pushOperators(
             pushGraphicsState(),
-            rectangle(cr.x, cr.y, cr.width, cr.height),
+            rectangle(cx, cy, cw, ch),
             clip(),
             endPath(),
           );
         }
+
         const anchor = dispToPdf(p.drawX, p.te.baselineY, p.R, p.Wu, p.Hu);
         try {
           page.drawText(p.safeText, {
@@ -1400,6 +1618,36 @@ export default function EditPdf() {
                 style={{ backgroundColor: "#fdf5e6", border: "1px solid #f0e0b8", color: "#5a4a1a" }}
               >
                 This looks like a scanned PDF, so there is no editable text. You can still use Annotate mode to write on top.
+              </div>
+            )}
+            {editMode === "edit-text" && anyPageHasForm && !formBannerDismissed && (
+              <div
+                className="mt-3 flex flex-col gap-2 rounded-lg p-3 text-[13px] leading-relaxed sm:flex-row sm:items-center sm:justify-between"
+                style={{ backgroundColor: "#fff7ed", border: "1px solid #fdba74", color: "#7c2d12" }}
+              >
+                <span>
+                  This PDF has fillable form fields. Editing text directly may not work correctly. Flatten the form first to edit it as plain text.
+                </span>
+                <span className="flex shrink-0 items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={handleFlattenForm}
+                    disabled={flatteningForm}
+                    className="rounded-md px-3 py-1.5 text-[12.5px] font-semibold text-white disabled:opacity-60"
+                    style={{ backgroundColor: "#c2410c" }}
+                  >
+                    {flatteningForm ? "Flattening…" : "Flatten form & edit"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFormBannerDismissed(true)}
+                    className="rounded-md px-2 py-1.5 text-[12.5px] font-semibold"
+                    style={{ color: "#7c2d12" }}
+                    aria-label="Dismiss"
+                  >
+                    Dismiss
+                  </button>
+                </span>
               </div>
             )}
           </div>
@@ -2022,7 +2270,7 @@ interface PageOverlayProps {
   onVisibilityChange: (visible: boolean) => void;
 }
 
-function PageOverlay(props: PageOverlayProps) {
+function PageOverlayInner(props: PageOverlayProps) {
   const { index, page, annos, selectedId, mode, onSelect, onCreate, onUpdate, onCommitChange, onRemove } = props;
   const { editTextMode, lines, edits, activeEditLineId, showAllEditable, onNeedLines, onOpenLine, onCloseLine, onCommitEdit, onRemoveEdit, getPageCanvas, onVisibilityChange } = props;
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -2388,6 +2636,14 @@ function PageOverlay(props: PageOverlayProps) {
     </div>
   );
 }
+
+// Fix B-3 #11: memoize the per-page overlay. Without this every scroll-
+// induced re-render of EditPdfInner walks the full pages[] and re-renders
+// every PageOverlay, causing the visible-window observer to re-fire and
+// heap to spike on long docs. Referential-equal callbacks (all wrapped in
+// useCallback) + shallow-equal arrays keep this cheap; only the pages
+// whose props actually changed re-render.
+const PageOverlay = memo(PageOverlayInner);
 
 /* =============================== SVG rendering =============================== */
 
@@ -2982,6 +3238,8 @@ function EditLineOverlay({
             align: existing?.align ?? sampled?.align,
             cellLeft: existing?.cellLeft ?? sampled?.cellLeft,
             cellRight: existing?.cellRight ?? sampled?.cellRight,
+            columnAnchor: existing?.columnAnchor ?? line.columnAnchor,
+
             skipCover: existing?.skipCover ?? sampled?.skipCover ?? false,
           });
         }}
