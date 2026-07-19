@@ -386,6 +386,10 @@ export default function EditPdf() {
   const [linesTick, setLinesTick] = useState(0);
   const [visiblePages, setVisiblePages] = useState<Set<number>>(() => new Set());
   const [hasAnyText, setHasAnyText] = useState<boolean | null>(null); // null = unknown
+  // Fix B-3 #20: AcroForm flatten flow.
+  const [flatteningForm, setFlatteningForm] = useState(false);
+  const [formBannerDismissed, setFormBannerDismissed] = useState(false);
+
 
   // Contextual style state (used when creating NEW elements)
   const [hlColor, setHlColor] = useState(HIGHLIGHT_COLORS[0].value);
