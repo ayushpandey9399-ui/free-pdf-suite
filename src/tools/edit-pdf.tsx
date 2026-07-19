@@ -1192,7 +1192,21 @@ export default function EditPdf() {
         const te = p.te;
         const bg = hexToRgb255(te.bgColor);
         const pad = 1;
-        const ins = te.edgeInsets ?? { top: 0, bottom: 0, left: 0, right: 0 };
+        // Fix B-3 #6: clamp edgeInsets so the cover rect never becomes
+        // smaller than the measured tight glyph bounding box, and never
+        // over-covers a neighbour. Inset comes from sampled whitespace /
+        // rulings (canvasSample.findCellRulings); negative or NaN values
+        // are treated as 0 (fall back to cover-exactly-the-glyph-box).
+        const rawIns = te.edgeInsets ?? { top: 0, bottom: 0, left: 0, right: 0 };
+        const clampIns = (v: number) => (Number.isFinite(v) && v > 0 ? v : 0);
+        const ins = {
+          top: clampIns(rawIns.top),
+          bottom: clampIns(rawIns.bottom),
+          left: clampIns(rawIns.left),
+          right: clampIns(rawIns.right),
+        };
+        // Never subtract more than `pad`: rect always covers at least the
+        // tight glyph box (te.x, te.y, te.width, te.height).
         const padTop = Math.max(0, pad - ins.top);
         const padBot = Math.max(0, pad - ins.bottom);
         const padLef = Math.max(0, pad - ins.left);
@@ -1200,8 +1214,9 @@ export default function EditPdf() {
 
         const rectLefDisp = te.x - padLef;
         const rectTopDisp = te.y - padTop;
-        const rectWDisp = Math.max(0, te.width + padLef + padRig);
-        const rectHDisp = Math.max(0, te.height + padTop + padBot);
+        const rectWDisp = Math.max(te.width, te.width + padLef + padRig);
+        const rectHDisp = Math.max(te.height, te.height + padTop + padBot);
+
         if (rectWDisp > 0 && rectHDisp > 0) {
           const r = dispRectToPdf(rectLefDisp, rectTopDisp, rectWDisp, rectHDisp, p.R, p.Wu, p.Hu);
           page.drawRectangle({
