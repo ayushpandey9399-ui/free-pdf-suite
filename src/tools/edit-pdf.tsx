@@ -1229,14 +1229,29 @@ export default function EditPdf() {
         const doClip = p.overflow;
         if (doClip) {
           overflowCount++;
-          const cr = dispRectToPdf(p.boxLeft, p.te.y - 1, boxW, p.te.height + 2, p.R, p.Wu, p.Hu);
+          // Fix B-3 #4: use exact float coordinates (no premature round),
+          // convert to unrotated PDF space via dispRectToPdf so we clip
+          // in the SAME coordinate frame the drawText/drawRectangle calls
+          // use, then inset by 0.25pt on every side so anti-aliased edges
+          // of a longer replacement never bleed past the tight box.
+          const EPS = 0.25;
+          const clipLeftDisp = p.boxLeft;
+          const clipTopDisp = p.te.y;
+          const clipWDisp = boxW;
+          const clipHDisp = p.te.height;
+          const cr = dispRectToPdf(clipLeftDisp, clipTopDisp, clipWDisp, clipHDisp, p.R, p.Wu, p.Hu);
+          const cx = cr.x + EPS;
+          const cy = cr.y + EPS;
+          const cw = Math.max(0, cr.width - 2 * EPS);
+          const ch = Math.max(0, cr.height - 2 * EPS);
           page.pushOperators(
             pushGraphicsState(),
-            rectangle(cr.x, cr.y, cr.width, cr.height),
+            rectangle(cx, cy, cw, ch),
             clip(),
             endPath(),
           );
         }
+
         const anchor = dispToPdf(p.drawX, p.te.baselineY, p.R, p.Wu, p.Hu);
         try {
           page.drawText(p.safeText, {
