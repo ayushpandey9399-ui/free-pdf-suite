@@ -601,7 +601,7 @@ export default function EditPdf() {
         const doc = await loadPdfJsDoc(await file.arrayBuffer());
         if (cancelled || loadGenRef.current !== gen) return;
         pdfjsDocRef.current = doc;
-        // Fix B-3 #10: eager-fetch REAL meta (getPage + viewport) only
+        const out: PageInfo[] = [];
         // for the first EAGER pages. Remaining pages start with
         // placeholder dims copied from page 1 (so layout is stable) and
         // get patched by renderPage when they scroll into view. This
