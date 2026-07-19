@@ -569,6 +569,18 @@ export default function EditPdf() {
           return { x, y, w: Math.max(1, Math.abs(x2 - x1)), h: Math.max(1, Math.abs(y2 - y1)) };
         });
       } catch { /* annotations unavailable */ }
+      widgetsByPageRef.current.set(pageIdx, widgetRects);
+      // Widget set may have arrived after ensureLinesForPage; re-filter
+      // and refresh the overlay if we already have lines for this page.
+      if (linesByPageRef.current.has(pageIdx) && widgetRects.length) {
+        const cur = linesByPageRef.current.get(pageIdx) ?? [];
+        const next = filterLinesByWidgets(cur, widgetRects);
+        if (next.length !== cur.length) {
+          linesByPageRef.current.set(pageIdx, next);
+          setLinesTick((t) => t + 1);
+        }
+      }
+
 
       const vpU = page.getViewport({ scale: 1, rotation: 0 });
       setPages((prev) => {
