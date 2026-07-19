@@ -895,6 +895,8 @@ export default function EditPdf() {
     pageCanvasesRef.current = new Map();
     renderingRef.current = new Set();
     linesByPageRef.current = new Map();
+    widgetsByPageRef.current = new Map();
+
     setVisiblePages(new Set());
     historyRef.current = [{ annos: [], edits: [] }];
     historyIdxRef.current = 0;
