@@ -626,6 +626,8 @@ export default function EditPdf() {
     setSelectedId(null);
     setActiveEditLineId(null);
     setHasAnyText(null);
+    setFormBannerDismissed(false);
+
     // Fix flicker: seed visible pages with the eager set so the eviction
     // pass on first paint cannot drop pages 0..EAGER-1 before the
     // IntersectionObserver reports them.
