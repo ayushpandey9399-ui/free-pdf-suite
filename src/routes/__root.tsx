@@ -15,6 +15,8 @@ import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import { CookieBanner } from "../components/CookieBanner";
 import { Toaster } from "../components/ui/sonner";
+import { PwaRegister } from "../components/pwa/PwaRegister";
+import { InstallPrompt } from "../components/pwa/InstallPrompt";
 
 function NotFoundComponent() {
   return (
@@ -105,6 +107,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:title", content: "FreePDFHub | Every PDF tool, 100% free" },
       { name: "twitter:description", content: "Free PDF tools that run in your browser. Merge, split, convert, compress, edit, and organize PDFs, no signup, no upload step, no limits." },
       { name: "google-site-verification", content: "Hvu09ArzP_NwJvEh6EiU9tR2F6u9cHMtjMKCmNrQvoY" },
+      { name: "theme-color", content: "#e5322d" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "default" },
+      { name: "apple-mobile-web-app-title", content: "FreePDFHub" },
+      { name: "mobile-web-app-capable", content: "yes" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -112,7 +119,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", type: "image/png", sizes: "48x48", href: "/favicon-48.png" },
       { rel: "icon", type: "image/png", sizes: "96x96", href: "/favicon-96.png" },
       { rel: "icon", type: "image/png", sizes: "192x192", href: "/favicon-192.png" },
-      { rel: "apple-touch-icon", href: "/favicon-192.png" },
+      { rel: "apple-touch-icon", sizes: "180x180", href: "/icons/apple-touch-icon-180.png" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
     ],
   }),
   shellComponent: RootShell,
@@ -155,6 +163,8 @@ function RootComponent() {
       </div>
       <CookieBanner />
       <Toaster richColors position="top-center" />
+      <PwaRegister />
+      <InstallPrompt />
     </QueryClientProvider>
   );
 }
