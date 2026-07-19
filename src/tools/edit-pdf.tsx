@@ -1574,6 +1574,36 @@ export default function EditPdf() {
                 This looks like a scanned PDF, so there is no editable text. You can still use Annotate mode to write on top.
               </div>
             )}
+            {editMode === "edit-text" && anyPageHasForm && !formBannerDismissed && (
+              <div
+                className="mt-3 flex flex-col gap-2 rounded-lg p-3 text-[13px] leading-relaxed sm:flex-row sm:items-center sm:justify-between"
+                style={{ backgroundColor: "#fff7ed", border: "1px solid #fdba74", color: "#7c2d12" }}
+              >
+                <span>
+                  This PDF has fillable form fields. Editing text directly may not work correctly. Flatten the form first to edit it as plain text.
+                </span>
+                <span className="flex shrink-0 items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={handleFlattenForm}
+                    disabled={flatteningForm}
+                    className="rounded-md px-3 py-1.5 text-[12.5px] font-semibold text-white disabled:opacity-60"
+                    style={{ backgroundColor: "#c2410c" }}
+                  >
+                    {flatteningForm ? "Flattening…" : "Flatten form & edit"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFormBannerDismissed(true)}
+                    className="rounded-md px-2 py-1.5 text-[12.5px] font-semibold"
+                    style={{ color: "#7c2d12" }}
+                    aria-label="Dismiss"
+                  >
+                    Dismiss
+                  </button>
+                </span>
+              </div>
+            )}
           </div>
 
           {loadingPages && (
