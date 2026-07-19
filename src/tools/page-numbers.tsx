@@ -170,7 +170,7 @@ export default function PageNumbers() {
         <div ref={containerRef} className="relative mx-auto w-full max-w-[600px]" style={{ height: displayH || undefined }}>
           {previewUrl && (
             <>
-              <img src={previewUrl} alt="Preview" className="pointer-events-none absolute inset-0 h-full w-full" />
+              <img src={previewUrl} alt="PDF page preview with page number placement" className="pointer-events-none absolute inset-0 h-full w-full" />
               <div style={previewNumberStyle()}>{startNumber}</div>
             </>
           )}
