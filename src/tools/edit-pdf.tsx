@@ -601,30 +601,72 @@ export default function EditPdf() {
         const doc = await loadPdfJsDoc(await file.arrayBuffer());
         if (cancelled || loadGenRef.current !== gen) return;
         pdfjsDocRef.current = doc;
-        const out: PageInfo[] = [];
-        
-        // Eager-render only the first few pages so the viewer feels
-        // instant; every other page starts with url="" and is rendered on
-        // demand as it scrolls into view (Fix B1 memory cap).
-        // Fix B-2 #2: preview + extraction operate in DISPLAY (rotated)
-        // space; we also stash pdfWidth/pdfHeight (unrotated) so the
-        // export can convert display coords back to content-stream space.
+        // Fix B-3 #10: eager-fetch REAL meta (getPage + viewport) only
+        // for the first EAGER pages. Remaining pages start with
+        // placeholder dims copied from page 1 (so layout is stable) and
+        // get patched by renderPage when they scroll into view. This
+        // makes load time roughly constant regardless of page count.
         const EAGER = Math.min(3, doc.numPages);
         const eagerSet = new Set<number>();
         for (let i = 0; i < EAGER; i++) eagerSet.add(i);
-        for (let i = 1; i <= doc.numPages; i++) {
+
+        // Meta for pages 1..EAGER.
+        const eagerMeta: {
+          width: number; height: number;
+          pdfWidth: number; pdfHeight: number;
+          rotation: number;
+          hasFormFields: boolean;
+          widgetRects: { x: number; y: number; w: number; h: number }[];
+        }[] = [];
+        for (let i = 1; i <= EAGER; i++) {
           const page = await doc.getPage(i);
           if (cancelled || loadGenRef.current !== gen) return;
           const rotation = (page as unknown as { rotate: number }).rotate ?? 0;
           const vpU = page.getViewport({ scale: 1, rotation: 0 });
           const vp1 = page.getViewport({ scale: 1, rotation });
+          let widgetRects: { x: number; y: number; w: number; h: number }[] = [];
+          let hasFormFields = false;
+          try {
+            const annots = await page.getAnnotations();
+            if (cancelled || loadGenRef.current !== gen) return;
+            type Ann = { subtype?: string; rect?: number[] };
+            const widgets = (annots as Ann[]).filter((a) => a?.subtype === "Widget" && Array.isArray(a.rect));
+            hasFormFields = widgets.length > 0;
+            widgetRects = widgets.map((w) => {
+              const r = (vp1 as unknown as { convertToViewportRectangle: (r: number[]) => number[] })
+                .convertToViewportRectangle(w.rect as number[]);
+              const [x1, y1, x2, y2] = r;
+              const x = Math.min(x1, x2), y = Math.min(y1, y2);
+              return { x, y, w: Math.max(1, Math.abs(x2 - x1)), h: Math.max(1, Math.abs(y2 - y1)) };
+            });
+          } catch { /* annotations unavailable */ }
+          eagerMeta.push({
+            width: vp1.width, height: vp1.height,
+            pdfWidth: vpU.width, pdfHeight: vpU.height,
+            rotation, hasFormFields, widgetRects,
+          });
+        }
+
+        // Placeholder dims for pages EAGER+1..N. Use page 1's dims so the
+        // scroll container reserves a reasonable amount of space; the
+        // real dims land the first time each page renders.
+        const placeholder = eagerMeta[0] ?? {
+          width: 800, height: 1000,
+          pdfWidth: 800, pdfHeight: 1000,
+          rotation: 0, hasFormFields: false, widgetRects: [] as { x: number; y: number; w: number; h: number }[],
+        };
+        for (let i = 0; i < doc.numPages; i++) {
+          const meta = i < EAGER ? eagerMeta[i] : placeholder;
           out.push({
             url: "",
-            width: vp1.width,
-            height: vp1.height,
-            pdfWidth: vpU.width,
-            pdfHeight: vpU.height,
-            rotation,
+            width: meta.width,
+            height: meta.height,
+            pdfWidth: meta.pdfWidth,
+            pdfHeight: meta.pdfHeight,
+            rotation: meta.rotation,
+            metaLoaded: i < EAGER,
+            hasFormFields: meta.hasFormFields,
+            widgetRects: meta.widgetRects,
           });
         }
         if (cancelled || loadGenRef.current !== gen) return;
@@ -634,19 +676,15 @@ export default function EditPdf() {
         // will also try, but we don't want to wait a full render cycle
         // for the seeded-visible pages to appear.
         for (const i of eagerSet) void renderPage(i);
-        // Await the first eager page so the "any extractable text" probe
-        // below has a canvas to sample. Sequentially await eager renders
-        //, they're bounded (<=3) and small.
         for (const i of eagerSet) {
-          // renderPage is idempotent; awaiting a re-entry is a no-op.
           // eslint-disable-next-line no-await-in-loop
           await renderPage(i);
           if (cancelled || loadGenRef.current !== gen) return;
         }
-        // Probe first few pages for any extractable text, used for the
-        // "looks like a scanned PDF" callout. Only the pre-rendered pages
-        // have canvases at this point, which is fine, the probe stays
-        // bounded to EAGER pages.
+        // Fix B-3 #10: probe ONLY the first 3 pages for extractable text.
+        // If those have no text, we mark the doc "likely scanned" but a
+        // later page that turns out to have text is still editable on
+        // demand via ensureLinesForPage.
         const probe = Math.min(3, doc.numPages);
         let total = 0;
         for (let i = 1; i <= probe; i++) {
@@ -658,13 +696,15 @@ export default function EditPdf() {
           const rc = c ? { canvas: c, scale: c.width / pv.width } : null;
           const lines = await extractEditableLines(doc, i, rc);
           if (cancelled || loadGenRef.current !== gen) return;
-          linesByPageRef.current.set(i - 1, lines);
-          total += lines.reduce((n, l) => n + l.text.length, 0);
+          const filtered = filterLinesByWidgets(lines, out[i - 1]?.widgetRects);
+          linesByPageRef.current.set(i - 1, filtered);
+          total += filtered.reduce((n, l) => n + l.text.length, 0);
         }
         if (!cancelled && loadGenRef.current === gen) {
           setHasAnyText(total > 0);
           setLinesTick((t) => t + 1);
         }
+
       } catch (e) {
         if (!isPdfPasswordError(e)) toast.error(`Preview failed: ${(e as Error).message}`);
       } finally {
