@@ -53,7 +53,18 @@ export interface EditableLine {
    * (i.e. caller decides) when no column pattern is found.
    */
   columnAlign?: "left" | "center" | "right";
+  /**
+   * Fix B-3 #9: for lines that participate in a column cluster (≥3
+   * members) this is the column's anchor edge value in PDF units, so a
+   * right/center-aligned edit stays pinned to the shared edge even when
+   * the replacement text changes width.
+   *   type "right"  → value is the right edge x (median)
+   *   type "center" → value is the center x (median)
+   *   type "left"   → value is the left edge x (median)
+   */
+  columnAnchor?: { type: "left" | "center" | "right"; value: number };
 }
+
 
 const uid = (n: number, i: number, j: number) =>
   `L${n}-${i}-${j}-${Math.random().toString(36).slice(2, 8)}`;
