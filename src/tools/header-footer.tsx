@@ -399,7 +399,7 @@ export default function HeaderFooter() {
         <div ref={containerRef} className="relative mx-auto w-full max-w-[600px]" style={{ height: displayH || undefined }}>
           {previewUrl && (
             <>
-              <img src={previewUrl} alt="Preview" className="pointer-events-none absolute inset-0 h-full w-full" />
+              <img src={previewUrl} alt="PDF page preview with header and footer placement" className="pointer-events-none absolute inset-0 h-full w-full" />
               {(["hl", "hc", "hr", "fl", "fc", "fr"] as Slot[]).map((k) =>
                 previewValues[k] ? <div key={k} style={stampStyle(k)}>{previewValues[k]}</div> : null,
               )}

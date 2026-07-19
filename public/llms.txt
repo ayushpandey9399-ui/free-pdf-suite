@@ -1,0 +1,56 @@
+# FreePDFHub
+
+> Free browser-based PDF tools: merge, split, compress, convert, edit, sign, protect and more. All processing runs client-side in the browser, so files never leave the user's device. No signup, no watermarks, no limits.
+
+FreePDFHub is an independent, ad-supported suite of 28 PDF utilities. Every tool uses WebAssembly and JavaScript (pdf-lib, mupdf, pdfjs-dist) to process documents locally in the browser. There are no accounts, no server-side file storage, and the site works offline as an installable PWA.
+
+## Pages
+
+- [Home](/): Directory of all 28 free PDF tools, grouped by category.
+- [About](/about): Who builds FreePDFHub and the privacy-first philosophy.
+- [Contact](/contact): How to reach the team.
+- [Privacy Policy](/privacy-policy): What data is (and isn't) collected.
+- [Terms](/terms): Terms of use.
+
+## Organize PDF
+
+- [Merge PDF](/tools/merge): Combine multiple PDFs into one document in a chosen order.
+- [Split PDF](/tools/split): Separate one PDF into multiple files or extract page ranges.
+- [Compress PDF](/tools/compress): Reduce PDF file size while keeping quality.
+- [Delete Pages](/tools/delete-pages): Remove unwanted pages from a PDF.
+- [Extract Pages](/tools/extract-pages): Save selected pages as a new PDF.
+- [Reorder Pages](/tools/reorder-pages): Drag and drop pages to rearrange a PDF.
+- [Add Blank Pages](/tools/add-blank-pages): Insert empty pages anywhere in a PDF.
+- [Rotate PDF](/tools/rotate): Rotate pages by 90, 180, or 270 degrees.
+
+## Convert PDF
+
+- [Image to PDF](/tools/images-to-pdf): Convert JPG and PNG images to a PDF.
+- [PDF to Image](/tools/pdf-to-images): Export each PDF page as a JPG or PNG.
+- [Extract Images](/tools/extract-images): Pull all embedded images out of a PDF.
+- [PDF to Text](/tools/pdf-to-text): Extract all text from a PDF as .txt.
+- [TXT to PDF](/tools/txt-to-pdf): Convert a plain text file into a PDF.
+- [Scan to PDF](/tools/scan-to-pdf): Use the device camera to scan documents into a PDF.
+
+## Edit PDF
+
+- [Edit & Annotate PDF](/tools/edit-pdf): Edit existing text, highlight, add comments, shapes, images, and freehand drawings.
+- [Page Numbers](/tools/page-numbers): Add page numbers with custom position and style.
+- [Add Header & Footer](/tools/header-footer): Stamp dates, filenames, or company text on every page.
+- [Add Watermark](/tools/watermark): Stamp text or an image over a PDF with adjustable opacity.
+- [Crop PDF](/tools/crop): Trim margins and adjust the visible area of every page.
+- [PDF Metadata Editor](/tools/pdf-metadata): View and edit PDF title, author, subject, and keywords.
+- [Grayscale PDF](/tools/grayscale-pdf): Convert a PDF to black and white for cleaner printing.
+
+## Forms & Compare
+
+- [Fill PDF Forms](/tools/fill-forms): Fill in interactive PDF form fields.
+- [Flatten PDF](/tools/flatten-pdf): Make form fields and annotations permanent.
+- [Sign PDF](/tools/sign-pdf): Create an electronic signature and place it on a PDF.
+- [Compare PDFs](/tools/compare): Side-by-side visual and text diff of two PDFs.
+
+## Security
+
+- [Protect PDF](/tools/protect-pdf): Add a password and encrypt a PDF.
+- [Redact PDF](/tools/redact-pdf): Permanently remove sensitive text and images.
+- [Unlock PDF](/tools/unlock-pdf): Remove a known password from a PDF.
