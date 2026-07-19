@@ -2637,6 +2637,14 @@ function PageOverlayInner(props: PageOverlayProps) {
   );
 }
 
+// Fix B-3 #11: memoize the per-page overlay. Without this every scroll-
+// induced re-render of EditPdfInner walks the full pages[] and re-renders
+// every PageOverlay, causing the visible-window observer to re-fire and
+// heap to spike on long docs. Referential-equal callbacks (all wrapped in
+// useCallback) + shallow-equal arrays keep this cheap; only the pages
+// whose props actually changed re-render.
+const PageOverlay = React.memo(PageOverlayInner);
+
 /* =============================== SVG rendering =============================== */
 
 function renderSvg(a: Anno) {
