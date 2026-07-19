@@ -377,6 +377,12 @@ export default function EditPdf() {
   const pageCanvasesRef = useRef<Map<number, HTMLCanvasElement>>(new Map());
   const renderingRef = useRef<Set<number>>(new Set());
   const linesByPageRef = useRef<Map<number, EditableLine[]>>(new Map());
+  // Fix B-3 #20: parallel map of widget rects per page. Populated by the
+  // loader (eager pages) and by renderPage (lazy pages). Used by
+  // ensureLinesForPage to filter out lines that overlap an interactive
+  // form widget, so users can't accidentally edit over a live field.
+  const widgetsByPageRef = useRef<Map<number, { x: number; y: number; w: number; h: number }[]>>(new Map());
+
   const [linesTick, setLinesTick] = useState(0);
   const [visiblePages, setVisiblePages] = useState<Set<number>>(() => new Set());
   const [hasAnyText, setHasAnyText] = useState<boolean | null>(null); // null = unknown
