@@ -40,7 +40,7 @@ export function RelatedToolsGrid({ items }: { items: readonly RelatedToolItem[] 
             ) : null}
             <div className="min-w-0">
               <div className="font-semibold text-[15px] text-[#33333c]">{r.name}</div>
-              <div className="mt-1 text-[13.5px] leading-snug text-[#7a7a86]">{r.blurb}</div>
+              <div className="mt-1 text-[13.5px] leading-snug text-[#5a5a66]">{r.blurb}</div>
             </div>
           </Link>
         );

@@ -417,7 +417,7 @@ export default function TxtToPdf() {
             <div className="flex items-start justify-between gap-3 rounded-xl p-3" style={{ backgroundColor: "#f7f7f8" }}>
               <div className="min-w-0">
                 <Label className="text-[13.5px] font-semibold" style={{ color: "#33333c" }}>Merge into one PDF</Label>
-                <p className="mt-0.5 text-[12px]" style={{ color: "#7a7a86" }}>
+                <p className="mt-0.5 text-[12px]" style={{ color: "#5a5a66" }}>
                   {mergeAll ? "All files combined into combined.pdf." : "One PDF per file."}
                 </p>
               </div>
@@ -444,7 +444,7 @@ export default function TxtToPdf() {
                 type="button"
                 onClick={() => { setPasteMode(false); setPasted(""); }}
                 className="text-[12.5px] font-semibold"
-                style={{ color: "#7a7a86" }}
+                style={{ color: "#5a5a66" }}
               >
                 Use a file instead
               </button>
@@ -463,14 +463,14 @@ export default function TxtToPdf() {
                 <li key={`${f.name}-${i}`} className="flex items-center gap-3 py-2.5">
                   <FileText className="h-4 w-4" style={{ color: "#e5322d" }} />
                   <span className="truncate text-[14px]" style={{ color: "#33333c" }}>{f.name}</span>
-                  <span className="ml-auto text-[12px]" style={{ color: "#7a7a86" }}>
+                  <span className="ml-auto text-[12px]" style={{ color: "#5a5a66" }}>
                     {(f.size / 1024).toFixed(1)} KB
                   </span>
                   <button
                     type="button"
                     aria-label={`Remove ${f.name}`}
                     onClick={() => setFiles((prev) => prev.filter((_, j) => j !== i))}
-                    className="grid h-7 w-7 place-items-center rounded-full text-[#7a7a86] hover:bg-[#fbecec] hover:text-[#e5322d]"
+                    className="grid h-7 w-7 place-items-center rounded-full text-[#5a5a66] hover:bg-[#fbecec] hover:text-[#e5322d]"
                   >
                     <X className="h-3.5 w-3.5" />
                   </button>
@@ -482,7 +482,7 @@ export default function TxtToPdf() {
 
         {/* Live preview */}
         <div className="rounded-2xl bg-white p-5" style={{ border: "1px solid #ececef" }}>
-          <h3 className="text-[13px] font-bold uppercase" style={{ color: "#7a7a86", letterSpacing: "0.08em" }}>
+          <h3 className="text-[13px] font-bold uppercase" style={{ color: "#5a5a66", letterSpacing: "0.08em" }}>
             Preview
           </h3>
           <div className="mt-4 flex justify-center">

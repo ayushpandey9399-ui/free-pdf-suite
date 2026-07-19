@@ -173,7 +173,7 @@ function PwField({
 }: { label: string; value: string; onChange: (v: string) => void; show: boolean; onToggle: () => void }) {
   return (
     <div>
-      <label className="mb-1.5 block text-[12.5px] font-bold uppercase" style={{ color: "#7a7a86", letterSpacing: "0.06em" }}>
+      <label className="mb-1.5 block text-[12.5px] font-bold uppercase" style={{ color: "#5a5a66", letterSpacing: "0.06em" }}>
         {label}
       </label>
       <div className="relative">
@@ -189,7 +189,7 @@ function PwField({
           type="button"
           onClick={onToggle}
           aria-label={show ? "Hide password" : "Show password"}
-          className="absolute right-2 top-1/2 -translate-y-1/2 grid h-8 w-8 place-items-center rounded-md text-[#7a7a86] hover:bg-[#f6f4f9]"
+          className="absolute right-2 top-1/2 -translate-y-1/2 grid h-8 w-8 place-items-center rounded-md text-[#5a5a66] hover:bg-[#f6f4f9]"
         >
           {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
         </button>

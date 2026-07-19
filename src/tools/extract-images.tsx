@@ -475,7 +475,7 @@ export default function ExtractImages() {
             >
               {allSelected ? "Deselect all" : "Select all"}
             </button>
-            <span className="text-[12.5px]" style={{ color: "#7a7a86" }}>
+            <span className="text-[12.5px]" style={{ color: "#5a5a66" }}>
               {chosen.length} of {images.length} selected
             </span>
           </div>
@@ -510,7 +510,7 @@ export default function ExtractImages() {
             <p className="text-[15px] font-semibold" style={{ color: "#33333c" }}>
               No embedded images were found in this PDF.
             </p>
-            <p className="mt-2 text-[13px]" style={{ color: "#7a7a86" }}>
+            <p className="mt-2 text-[13px]" style={{ color: "#5a5a66" }}>
               If your PDF is a scan, try the <span className="font-semibold">PDF to Image</span>{" "}
               tool instead to save whole pages as images.
             </p>
@@ -557,7 +557,7 @@ export default function ExtractImages() {
                     >
                       {img.width}×{img.height}
                     </p>
-                    <p className="text-[11.5px]" style={{ color: "#7a7a86" }}>
+                    <p className="text-[11.5px]" style={{ color: "#5a5a66" }}>
                       Page {img.page} · {img.ext.toUpperCase()}
                     </p>
                   </div>

@@ -290,7 +290,7 @@ export default function SignPdf() {
                 )}
                 style={{
                   backgroundColor: active === k ? "#ffffff" : "transparent",
-                  color: active === k ? "#33333c" : "#7a7a86",
+                  color: active === k ? "#33333c" : "#5a5a66",
                   boxShadow: active === k ? "0 1px 2px rgba(20,20,43,0.08)" : "none",
                 }}
               >
@@ -313,7 +313,7 @@ export default function SignPdf() {
                 className="flex flex-1 items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-[12.5px] font-semibold transition-colors"
                 style={{
                   backgroundColor: tab === id ? "#ffffff" : "transparent",
-                  color: tab === id ? "#33333c" : "#7a7a86",
+                  color: tab === id ? "#33333c" : "#5a5a66",
                   boxShadow: tab === id ? "0 1px 2px rgba(20,20,43,0.08)" : "none",
                 }}
               >
@@ -328,7 +328,7 @@ export default function SignPdf() {
 
           {current && (
             <div>
-              <p className="mb-2 text-[12px] font-bold uppercase" style={{ color: "#7a7a86", letterSpacing: "0.06em" }}>
+              <p className="mb-2 text-[12px] font-bold uppercase" style={{ color: "#5a5a66", letterSpacing: "0.06em" }}>
                 Preview
               </p>
               <div className="rounded-lg p-3" style={{ border: "1px solid #ececef", backgroundColor: "#fafafb" }}>
@@ -354,7 +354,7 @@ export default function SignPdf() {
                 </button>
               )}
               {stampMode === active && (
-                <p className="mt-2 text-center text-[11.5px]" style={{ color: "#7a7a86" }}>
+                <p className="mt-2 text-center text-[11.5px]" style={{ color: "#5a5a66" }}>
                   <MousePointerClick className="mr-1 inline h-3 w-3" />
                   Click any page to drop another. Press Esc to finish.
                 </p>
@@ -482,9 +482,9 @@ function PageOverlay({
   return (
     <div ref={cardRef} data-page-index={index} className="rounded-2xl bg-white p-3" style={{ border: "1px solid #ececef" }}>
       <div className="mb-2 flex items-center justify-between">
-        <p className="text-[12px] font-semibold" style={{ color: "#7a7a86" }}>Page {index + 1}</p>
+        <p className="text-[12px] font-semibold" style={{ color: "#5a5a66" }}>Page {index + 1}</p>
         {placements.length > 0 && (
-          <p className="text-[11.5px]" style={{ color: "#7a7a86" }}>
+          <p className="text-[11.5px]" style={{ color: "#5a5a66" }}>
             {placements.length} placement{placements.length === 1 ? "" : "s"}
           </p>
         )}
@@ -749,7 +749,7 @@ function DrawPad({ onCommit }: { onCommit: (sig: Signature | null) => void }) {
         <button
           type="button"
           onClick={clear}
-          className="inline-flex items-center gap-1 text-[12px] font-semibold text-[#7a7a86] hover:text-[#e5322d]"
+          className="inline-flex items-center gap-1 text-[12px] font-semibold text-[#5a5a66] hover:text-[#e5322d]"
         >
           <Trash2 className="h-3 w-3" /> Clear
         </button>

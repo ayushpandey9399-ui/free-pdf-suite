@@ -50,7 +50,7 @@ export function ToolSuccessScreen({
           {heading}
         </h2>
         {subheading && (
-          <p className="mt-2 text-[15px]" style={{ color: "#7a7a86" }}>
+          <p className="mt-2 text-[15px]" style={{ color: "#5a5a66" }}>
             {subheading}
           </p>
         )}
@@ -84,7 +84,7 @@ export function ToolSuccessScreen({
           type="button"
           onClick={onReset}
           className="mt-5 inline-flex items-center gap-1.5 text-[13px] font-semibold transition-colors hover:text-[#e5322d]"
-          style={{ color: "#7a7a86" }}
+          style={{ color: "#5a5a66" }}
         >
           <RotateCcw className="h-3.5 w-3.5" />
           {resetLabel}
@@ -98,7 +98,7 @@ export function ToolSuccessScreen({
         <div>
           <h3
             className="text-[13px] font-bold uppercase"
-            style={{ color: "#7a7a86", letterSpacing: "0.08em" }}
+            style={{ color: "#5a5a66", letterSpacing: "0.08em" }}
           >
             Continue to…
           </h3>

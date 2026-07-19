@@ -130,7 +130,7 @@ export default function UnlockPdf() {
         <>
           {status.kind === "needs-password" && (
             <div>
-              <label className="mb-1.5 block text-[12.5px] font-bold uppercase" style={{ color: "#7a7a86", letterSpacing: "0.06em" }}>
+              <label className="mb-1.5 block text-[12.5px] font-bold uppercase" style={{ color: "#5a5a66", letterSpacing: "0.06em" }}>
                 Current password
               </label>
               <div className="relative">
@@ -146,7 +146,7 @@ export default function UnlockPdf() {
                   type="button"
                   onClick={() => setShow((v) => !v)}
                   aria-label={show ? "Hide password" : "Show password"}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 grid h-8 w-8 place-items-center rounded-md text-[#7a7a86] hover:bg-[#f6f4f9]"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 grid h-8 w-8 place-items-center rounded-md text-[#5a5a66] hover:bg-[#f6f4f9]"
                 >
                   {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
@@ -195,14 +195,14 @@ function LockedFileCard({ file, onRemove }: { file: File; onRemove: () => void }
       </div>
       <div className="min-w-0 flex-1">
         <p className="truncate text-[15px] font-semibold" style={{ color: "#33333c" }}>{file.name}</p>
-        <p className="mt-0.5 text-[12.5px]" style={{ color: "#7a7a86" }}>
+        <p className="mt-0.5 text-[12.5px]" style={{ color: "#5a5a66" }}>
           {sizeMb} MB · Password-protected
         </p>
       </div>
       <button
         type="button"
         onClick={onRemove}
-        className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-[#7a7a86] transition-colors hover:bg-[#fbecec] hover:text-[#e5322d]"
+        className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-[#5a5a66] transition-colors hover:bg-[#fbecec] hover:text-[#e5322d]"
         aria-label="Remove file"
       >
         ×

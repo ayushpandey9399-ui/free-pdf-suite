@@ -172,7 +172,7 @@ export default function AddBlankPages() {
             style={{ backgroundColor: "#fbf6f5", color: "#33333c" }}
           >
             <p className="font-semibold">{blankCount} blank page{blankCount === 1 ? "" : "s"} will be added</p>
-            <p className="mt-0.5 text-[12px]" style={{ color: "#7a7a86" }}>{files[0].name}</p>
+            <p className="mt-0.5 text-[12px]" style={{ color: "#5a5a66" }}>{files[0].name}</p>
           </div>
 
           <div className="space-y-2">
@@ -197,7 +197,7 @@ export default function AddBlankPages() {
                 type="button"
                 onClick={resetBlanks}
                 className="text-xs font-medium underline"
-                style={{ color: "#7a7a86" }}
+                style={{ color: "#5a5a66" }}
               >
                 Reset, remove all pending blank pages
               </button>
@@ -205,7 +205,7 @@ export default function AddBlankPages() {
           </div>
 
           <div>
-            <Label className="text-xs uppercase tracking-wide" style={{ color: "#7a7a86" }}>Blank page size</Label>
+            <Label className="text-xs uppercase tracking-wide" style={{ color: "#5a5a66" }}>Blank page size</Label>
             <div className="mt-2 grid grid-cols-2 gap-1.5">
               {([
                 ["match", "Match previous"],
@@ -217,7 +217,7 @@ export default function AddBlankPages() {
                   onClick={() => setSizeMode(k)}
                   className={cn(
                     "rounded-md border-2 py-2 text-[11px] font-semibold transition-colors",
-                    sizeMode === k ? "border-[#e5322d] bg-[#fbecec] text-[#e5322d]" : "border-[#ececef] text-[#7a7a86] hover:border-[#c8c8d0]",
+                    sizeMode === k ? "border-[#e5322d] bg-[#fbecec] text-[#e5322d]" : "border-[#ececef] text-[#5a5a66] hover:border-[#c8c8d0]",
                   )}
                 >
                   {lbl}

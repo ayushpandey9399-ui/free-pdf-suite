@@ -58,7 +58,7 @@ function SlotSection({
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => insertToken(t)}
             className="rounded-md border px-2 py-0.5 text-[11px] font-medium transition-colors hover:border-[#e5322d] hover:text-[#e5322d]"
-            style={{ borderColor: "#ececef", color: "#7a7a86" }}
+            style={{ borderColor: "#ececef", color: "#5a5a66" }}
           >
             {t}
           </button>
@@ -327,7 +327,7 @@ export default function HeaderFooter() {
           </div>
 
           <div>
-            <Label className="text-xs uppercase tracking-wide" style={{ color: "#7a7a86" }}>Margin from edge</Label>
+            <Label className="text-xs uppercase tracking-wide" style={{ color: "#5a5a66" }}>Margin from edge</Label>
             <div className="mt-2 grid grid-cols-3 gap-1.5">
               {(["small", "normal", "big"] as MarginKey[]).map((k) => (
                 <button
@@ -336,7 +336,7 @@ export default function HeaderFooter() {
                   onClick={() => setMarginKey(k)}
                   className={cn(
                     "rounded-md border-2 py-2 text-[11px] font-semibold capitalize transition-colors",
-                    marginKey === k ? "border-[#e5322d] bg-[#fbecec] text-[#e5322d]" : "border-[#ececef] text-[#7a7a86] hover:border-[#c8c8d0]",
+                    marginKey === k ? "border-[#e5322d] bg-[#fbecec] text-[#e5322d]" : "border-[#ececef] text-[#5a5a66] hover:border-[#c8c8d0]",
                   )}
                 >
                   {k}
@@ -346,7 +346,7 @@ export default function HeaderFooter() {
           </div>
 
           <div>
-            <Label className="text-xs uppercase tracking-wide" style={{ color: "#7a7a86" }}>Pages</Label>
+            <Label className="text-xs uppercase tracking-wide" style={{ color: "#5a5a66" }}>Pages</Label>
             <div className="mt-2 grid grid-cols-2 gap-1.5">
               {(["all", "range"] as const).map((k) => (
                 <button
@@ -355,7 +355,7 @@ export default function HeaderFooter() {
                   onClick={() => setRangeMode(k)}
                   className={cn(
                     "rounded-md border-2 py-2 text-[11px] font-semibold transition-colors",
-                    rangeMode === k ? "border-[#e5322d] bg-[#fbecec] text-[#e5322d]" : "border-[#ececef] text-[#7a7a86] hover:border-[#c8c8d0]",
+                    rangeMode === k ? "border-[#e5322d] bg-[#fbecec] text-[#e5322d]" : "border-[#ececef] text-[#5a5a66] hover:border-[#c8c8d0]",
                   )}
                 >
                   {k === "all" ? "All pages" : "Page range"}
@@ -376,7 +376,7 @@ export default function HeaderFooter() {
     >
       <div className="rounded-2xl bg-white p-4" style={{ border: "1px solid #ececef" }}>
         <div className="mb-3 flex items-center justify-between">
-          <p className="text-[12px]" style={{ color: "#7a7a86" }}>Live preview, page {previewPage} of {totalPages}</p>
+          <p className="text-[12px]" style={{ color: "#5a5a66" }}>Live preview, page {previewPage} of {totalPages}</p>
           {totalPages > 1 && (
             <div className="flex items-center gap-1">
               <button

@@ -192,7 +192,7 @@ export default function GrayscalePdf() {
         suggestedSlugs={TOOL_SUGGESTIONS["grayscale-pdf"] ?? ["compress", "merge", "split", "watermark", "page-numbers", "rotate"]}
       >
         <div className="rounded-2xl bg-white px-6 py-5 text-center" style={{ border: "1px solid #ececef" }}>
-          <p className="text-[13px] font-bold uppercase" style={{ color: "#7a7a86", letterSpacing: "0.08em" }}>
+          <p className="text-[13px] font-bold uppercase" style={{ color: "#5a5a66", letterSpacing: "0.08em" }}>
             File Size
           </p>
           <p className="mt-2 text-[18px] font-semibold" style={{ color: "#33333c" }}>
@@ -225,7 +225,7 @@ export default function GrayscalePdf() {
       sidebar={
         <>
           <div className="space-y-2">
-            <p className="text-[13px] font-bold uppercase" style={{ color: "#7a7a86", letterSpacing: "0.06em" }}>
+            <p className="text-[13px] font-bold uppercase" style={{ color: "#5a5a66", letterSpacing: "0.06em" }}>
               Output Quality
             </p>
             {(Object.keys(QUALITY) as Quality[]).map((k) => {
@@ -252,7 +252,7 @@ export default function GrayscalePdf() {
                   />
                   <span className="min-w-0">
                     <span className="block text-[14px] font-semibold" style={{ color: "#33333c" }}>{l.label}</span>
-                    <span className="mt-0.5 block text-[12.5px]" style={{ color: "#7a7a86" }}>{l.hint}</span>
+                    <span className="mt-0.5 block text-[12.5px]" style={{ color: "#5a5a66" }}>{l.hint}</span>
                   </span>
                 </button>
               );
@@ -276,7 +276,7 @@ export default function GrayscalePdf() {
         >
           <div className="min-w-0">
             <p className="truncate text-[14px] font-semibold" style={{ color: "#33333c" }}>{file.name}</p>
-            <p className="text-[12.5px]" style={{ color: "#7a7a86" }}>
+            <p className="text-[12.5px]" style={{ color: "#5a5a66" }}>
               {formatSize(fileSize ?? file.size)}{pageCount ? ` • ${pageCount} page${pageCount === 1 ? "" : "s"}` : ""}
             </p>
           </div>
@@ -285,7 +285,7 @@ export default function GrayscalePdf() {
             onClick={resetAll}
             aria-label="Remove file"
             className="ml-3 grid h-8 w-8 shrink-0 place-items-center rounded-lg hover:bg-neutral-100"
-            style={{ color: "#7a7a86" }}
+            style={{ color: "#5a5a66" }}
           >
             <X className="h-4 w-4" />
           </button>
@@ -298,7 +298,7 @@ export default function GrayscalePdf() {
 function PreviewPane({ label, src }: { label: string; src: string | null }) {
   return (
     <div className="rounded-2xl bg-white p-3" style={{ border: "1px solid #ececef" }}>
-      <p className="mb-2 text-center text-[12px] font-bold uppercase" style={{ color: "#7a7a86", letterSpacing: "0.08em" }}>
+      <p className="mb-2 text-center text-[12px] font-bold uppercase" style={{ color: "#5a5a66", letterSpacing: "0.08em" }}>
         {label}
       </p>
       <div

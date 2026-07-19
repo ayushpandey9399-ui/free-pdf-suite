@@ -214,7 +214,7 @@ export default function ImagesToPdf() {
             <Label htmlFor="margin">Margin (pt)</Label>
             <Input id="margin" type="number" min={0} value={margin} onChange={(e) => setMargin(Number(e.target.value) || 0)} className="mt-1" />
           </div>
-          <p className="text-[12px] leading-relaxed text-[#7a7a86]">
+          <p className="text-[12px] leading-relaxed text-[#5a5a66]">
             Drag the ⋮⋮ handle on any thumbnail to reorder. Pages in the PDF follow the grid order.
           </p>
         </>
@@ -226,7 +226,7 @@ export default function ImagesToPdf() {
           type="button"
           onClick={openPicker}
           className="inline-flex items-center gap-2 rounded-lg border-2 border-dashed px-4 py-2 text-[13px] font-semibold transition-colors hover:border-[#e5322d] hover:text-[#e5322d]"
-          style={{ borderColor: "#e5d4d3", color: "#7a7a86" }}
+          style={{ borderColor: "#e5d4d3", color: "#5a5a66" }}
         >
           <span className="grid h-6 w-6 place-items-center rounded-full text-white" style={{ backgroundColor: "#e5322d" }}>
             <Plus className="h-3.5 w-3.5" />
