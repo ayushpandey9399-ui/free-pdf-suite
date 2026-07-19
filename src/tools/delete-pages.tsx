@@ -95,7 +95,7 @@ export default function DeletePages() {
             style={{ backgroundColor: "#fbf6f5", color: "#33333c" }}
           >
             <p className="font-semibold">{selected.size} of {pageCount || ", "} selected</p>
-            <p className="mt-0.5 text-[12px]" style={{ color: "#7a7a86" }}>{file.name}</p>
+            <p className="mt-0.5 text-[12px]" style={{ color: "#5a5a66" }}>{file.name}</p>
           </div>
           <LargeFileWarning pageCount={pageCount} fileSize={fileSize} />
         </>

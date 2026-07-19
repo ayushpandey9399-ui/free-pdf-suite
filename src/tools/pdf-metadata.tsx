@@ -194,7 +194,7 @@ export default function PdfMetadata() {
               <Label htmlFor="md-clear" className="text-[13.5px] font-semibold" style={{ color: "#33333c" }}>
                 Clear all metadata
               </Label>
-              <p className="mt-0.5 text-[12px]" style={{ color: "#7a7a86" }}>
+              <p className="mt-0.5 text-[12px]" style={{ color: "#5a5a66" }}>
                 Blanks Title/Author/Subject/Keywords and resets Producer/Creator.
               </p>
             </div>
@@ -220,13 +220,13 @@ export default function PdfMetadata() {
               <button
                 type="button"
                 onClick={resetAll}
-                className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-[#7a7a86] hover:bg-[#fbecec] hover:text-[#e5322d]"
+                className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-[#5a5a66] hover:bg-[#fbecec] hover:text-[#e5322d]"
                 aria-label="Remove file"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
-            <p className="mt-0.5 text-[12.5px]" style={{ color: "#7a7a86" }}>
+            <p className="mt-0.5 text-[12.5px]" style={{ color: "#5a5a66" }}>
               {sizeMb} MB{original ? ` · ${original.pageCount} page${original.pageCount === 1 ? "" : "s"}` : ""}
             </p>
 
@@ -248,7 +248,7 @@ export default function PdfMetadata() {
 function MetaRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-baseline justify-between gap-3 sm:flex-col sm:items-start sm:gap-0">
-      <dt className="text-[12px] uppercase" style={{ color: "#7a7a86", letterSpacing: "0.06em" }}>{label}</dt>
+      <dt className="text-[12px] uppercase" style={{ color: "#5a5a66", letterSpacing: "0.06em" }}>{label}</dt>
       <dd className="truncate text-[13.5px]" style={{ color: "#33333c" }}>{value}</dd>
     </div>
   );

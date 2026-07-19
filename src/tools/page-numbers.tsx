@@ -136,7 +136,7 @@ export default function PageNumbers() {
       sidebar={
         <>
           <div>
-            <Label className="text-xs uppercase tracking-wide" style={{ color: "#7a7a86" }}>Position</Label>
+            <Label className="text-xs uppercase tracking-wide" style={{ color: "#5a5a66" }}>Position</Label>
             <div className="mt-2 grid grid-cols-3 gap-1.5">
               {POSITIONS.map((p) => (
                 <button
@@ -145,7 +145,7 @@ export default function PageNumbers() {
                   onClick={() => setPosition(p)}
                   className={cn(
                     "aspect-square rounded-md border-2 text-[10px] font-semibold transition-colors",
-                    position === p ? "border-[#e5322d] bg-[#fbecec] text-[#e5322d]" : "border-[#ececef] text-[#7a7a86] hover:border-[#c8c8d0]",
+                    position === p ? "border-[#e5322d] bg-[#fbecec] text-[#e5322d]" : "border-[#ececef] text-[#5a5a66] hover:border-[#c8c8d0]",
                   )}
                   aria-label={`Position ${p}`}
                 >
@@ -166,7 +166,7 @@ export default function PageNumbers() {
       }
     >
       <div className="rounded-2xl bg-white p-4" style={{ border: "1px solid #ececef" }}>
-        <p className="mb-3 text-[12px]" style={{ color: "#7a7a86" }}>Live preview, page 1</p>
+        <p className="mb-3 text-[12px]" style={{ color: "#5a5a66" }}>Live preview, page 1</p>
         <div ref={containerRef} className="relative mx-auto w-full max-w-[600px]" style={{ height: displayH || undefined }}>
           {previewUrl && (
             <>

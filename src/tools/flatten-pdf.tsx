@@ -168,7 +168,7 @@ export default function FlattenPdf() {
               <Label htmlFor="flatten-fields" className="text-[14px] font-semibold" style={{ color: "#33333c" }}>
                 Flatten form fields
               </Label>
-              <p className="mt-0.5 text-[12px]" style={{ color: "#7a7a86" }}>
+              <p className="mt-0.5 text-[12px]" style={{ color: "#5a5a66" }}>
                 Filled values become permanent page content.
               </p>
             </div>
@@ -185,7 +185,7 @@ export default function FlattenPdf() {
               <Label htmlFor="flatten-annotations" className="text-[14px] font-semibold" style={{ color: "#33333c" }}>
                 Flatten annotations
               </Label>
-              <p className="mt-0.5 text-[12px]" style={{ color: "#7a7a86" }}>
+              <p className="mt-0.5 text-[12px]" style={{ color: "#5a5a66" }}>
                 Annotation flattening not supported for this file.
               </p>
             </div>
@@ -201,16 +201,16 @@ export default function FlattenPdf() {
       <SelectedFileCard file={file} pageCount={pageCount} onRemove={resetAll} />
 
       <div className="mt-4 rounded-2xl bg-white p-5" style={{ border: "1px solid #ececef" }}>
-        <h3 className="text-[13px] font-bold uppercase" style={{ color: "#7a7a86", letterSpacing: "0.08em" }}>
+        <h3 className="text-[13px] font-bold uppercase" style={{ color: "#5a5a66", letterSpacing: "0.08em" }}>
           Detected in this PDF
         </h3>
 
         {detection.loading ? (
-          <p className="mt-4 text-[13.5px]" style={{ color: "#7a7a86" }}>Scanning…</p>
+          <p className="mt-4 text-[13.5px]" style={{ color: "#5a5a66" }}>Scanning…</p>
         ) : nothingToFlatten ? (
           <div
             className="mt-4 flex items-start gap-3 rounded-xl p-4"
-            style={{ backgroundColor: "#f7f7f8", color: "#7a7a86" }}
+            style={{ backgroundColor: "#f7f7f8", color: "#5a5a66" }}
           >
             <Layers className="mt-0.5 h-4 w-4 shrink-0" />
             <p className="text-[13.5px]">
@@ -221,13 +221,13 @@ export default function FlattenPdf() {
           <ul className="mt-4 space-y-2">
             <li className="flex items-center justify-between text-[14px]">
               <span style={{ color: "#33333c" }}>Form fields</span>
-              <span className="font-semibold" style={{ color: detection.fieldCount ? "#1f9d55" : "#7a7a86" }}>
+              <span className="font-semibold" style={{ color: detection.fieldCount ? "#1f9d55" : "#5a5a66" }}>
                 {detection.fieldCount} detected
               </span>
             </li>
             <li className="flex items-center justify-between text-[14px]">
               <span style={{ color: "#33333c" }}>Annotations</span>
-              <span className="font-semibold" style={{ color: detection.annotationCount ? "#254a9e" : "#7a7a86" }}>
+              <span className="font-semibold" style={{ color: detection.annotationCount ? "#254a9e" : "#5a5a66" }}>
                 {detection.annotationCount} detected
               </span>
             </li>

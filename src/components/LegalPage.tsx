@@ -15,7 +15,7 @@ export function LegalPage({
         {title}
       </h1>
       {updated && (
-        <p className="mt-2 text-sm" style={{ color: "#7a7a86" }}>
+        <p className="mt-2 text-sm" style={{ color: "#5a5a66" }}>
           Last updated: {updated}
         </p>
       )}

@@ -36,7 +36,7 @@ export function ActionBar({
         {loading && progress != null && (
           <div>
             <Progress value={progress} />
-            <p className="mt-1 text-center text-xs" style={{ color: "#7a7a86" }}>
+            <p className="mt-1 text-center text-xs" style={{ color: "#5a5a66" }}>
               {Math.round(progress)}%
             </p>
           </div>

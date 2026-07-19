@@ -146,7 +146,7 @@ export default function Watermark() {
       }
     >
       <SelectedFileCard file={file} pageCount={pageCount} onRemove={resetAll} extra={
-        <p className="mt-2 text-[12px]" style={{ color: "#7a7a86" }}>
+        <p className="mt-2 text-[12px]" style={{ color: "#5a5a66" }}>
           Watermark will be applied to every page.
         </p>
       } />

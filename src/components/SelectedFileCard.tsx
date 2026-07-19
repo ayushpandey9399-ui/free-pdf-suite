@@ -27,7 +27,7 @@ export function SelectedFileCard({ file, pageCount, onRemove, extra }: SelectedF
         <p className="truncate text-[15px] font-semibold" style={{ color: "#33333c" }}>
           {file.name}
         </p>
-        <p className="mt-0.5 text-[12.5px]" style={{ color: "#7a7a86" }}>
+        <p className="mt-0.5 text-[12.5px]" style={{ color: "#5a5a66" }}>
           {sizeMb} MB{pageCount ? ` · ${pageCount} page${pageCount === 1 ? "" : "s"}` : ""}
         </p>
         {extra}
@@ -36,7 +36,7 @@ export function SelectedFileCard({ file, pageCount, onRemove, extra }: SelectedF
         <button
           type="button"
           onClick={onRemove}
-          className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-[#7a7a86] transition-colors hover:bg-[#fbecec] hover:text-[#e5322d]"
+          className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-[#5a5a66] transition-colors hover:bg-[#fbecec] hover:text-[#e5322d]"
           aria-label="Remove file"
         >
           <X className="h-4 w-4" />

@@ -268,7 +268,7 @@ function ThumbnailGrid({
             type="button"
             onClick={onAddMore}
             className="flex min-h-[200px] flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed text-[13px] font-semibold transition-colors hover:border-[#e5322d] hover:text-[#e5322d]"
-            style={{ borderColor: "#e5d4d3", color: "#7a7a86" }}
+            style={{ borderColor: "#e5d4d3", color: "#5a5a66" }}
             aria-label="Add more PDFs"
           >
             <span
@@ -320,7 +320,7 @@ function ThumbCard({
         onClick={(e) => { e.stopPropagation(); onRemove(); }}
         onPointerDown={(e) => e.stopPropagation()}
         aria-label={`Remove ${name}`}
-        className="absolute -right-2 -top-2 z-20 grid h-7 w-7 place-items-center rounded-full bg-white text-[#7a7a86] opacity-0 shadow-md transition-opacity group-hover:opacity-100 hover:text-[#e5322d]"
+        className="absolute -right-2 -top-2 z-20 grid h-7 w-7 place-items-center rounded-full bg-white text-[#5a5a66] opacity-0 shadow-md transition-opacity group-hover:opacity-100 hover:text-[#e5322d]"
         style={{ border: "1px solid #ececef" }}
       >
         <X className="h-3.5 w-3.5" />
@@ -437,7 +437,7 @@ function SidebarFileRow({
       >
         <GripVertical className="h-3.5 w-3.5" />
       </button>
-      <span className="shrink-0 font-semibold" style={{ color: "#7a7a86" }}>
+      <span className="shrink-0 font-semibold" style={{ color: "#5a5a66" }}>
         {index + 1}.
       </span>
       <span

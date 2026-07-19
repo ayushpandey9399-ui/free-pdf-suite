@@ -206,7 +206,7 @@ export default function Crop() {
       loading={loading}
       sidebar={
         <>
-          <p className="text-[12.5px]" style={{ color: "#7a7a86" }}>Margins in points (72pt = 1 inch)</p>
+          <p className="text-[12.5px]" style={{ color: "#5a5a66" }}>Margins in points (72pt = 1 inch)</p>
           <div className="grid grid-cols-2 gap-2">
             {[
               { label: "Top", value: top, set: (v: number) => setMargins(v, right, bottom, left) },
@@ -235,7 +235,7 @@ export default function Crop() {
       }
     >
       <div className="rounded-2xl bg-white p-4" style={{ border: "1px solid #ececef" }}>
-        <p className="mb-3 text-[12.5px]" style={{ color: "#7a7a86" }}>Drag the crop box or its handles to adjust.</p>
+        <p className="mb-3 text-[12.5px]" style={{ color: "#5a5a66" }}>Drag the crop box or its handles to adjust.</p>
         <div
           ref={containerRef}
           className="relative mx-auto w-full max-w-[900px] select-none touch-none"

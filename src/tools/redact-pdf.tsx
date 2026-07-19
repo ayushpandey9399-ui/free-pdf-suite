@@ -356,7 +356,7 @@ export default function RedactPdf() {
               </button>
             </div>
             {lastMatchCount != null && (
-              <p className="mt-1 text-[11.5px]" style={{ color: "#7a7a86" }}>
+              <p className="mt-1 text-[11.5px]" style={{ color: "#5a5a66" }}>
                 Last search: {lastMatchCount} match{lastMatchCount === 1 ? "" : "es"}
               </p>
             )}
@@ -372,7 +372,7 @@ export default function RedactPdf() {
               type="button"
               onClick={clearAll}
               className="text-[13px] font-semibold underline underline-offset-4"
-              style={{ color: "#7a7a86" }}
+              style={{ color: "#5a5a66" }}
             >
               Clear all redactions
             </button>
@@ -383,8 +383,8 @@ export default function RedactPdf() {
       <div className="space-y-6">
         {pages.length === 0 && (
           <div className="flex items-center justify-center rounded-2xl bg-white py-16" style={{ border: "1px solid #ececef" }}>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin text-[#7a7a86]" />
-            <span className="text-[13px]" style={{ color: "#7a7a86" }}>Rendering pages…</span>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin text-[#5a5a66]" />
+            <span className="text-[13px]" style={{ color: "#5a5a66" }}>Rendering pages…</span>
           </div>
         )}
         {pages.map((p) => (
@@ -517,7 +517,7 @@ function PageCanvas({
 
   return (
     <div className="mx-auto" style={{ maxWidth: page.vpWidth * PREVIEW_SCALE }}>
-      <div className="mb-2 text-[11.5px] font-semibold uppercase" style={{ color: "#7a7a86", letterSpacing: "0.06em" }}>
+      <div className="mb-2 text-[11.5px] font-semibold uppercase" style={{ color: "#5a5a66", letterSpacing: "0.06em" }}>
         Page {page.pageIndex + 1}
       </div>
       <div

@@ -114,7 +114,7 @@ function Thumb({
           type="button"
           onClick={(e) => { e.stopPropagation(); onRemove(); }}
           onPointerDown={(e) => e.stopPropagation()}
-          className="absolute top-1.5 right-1.5 z-10 grid h-6 w-6 place-items-center rounded-full bg-white/95 text-[#7a7a86] shadow ring-1 ring-black/10 hover:text-[#e5322d]"
+          className="absolute top-1.5 right-1.5 z-10 grid h-6 w-6 place-items-center rounded-full bg-white/95 text-[#5a5a66] shadow ring-1 ring-black/10 hover:text-[#e5322d]"
           aria-label="Remove"
         >
           <X className="h-3.5 w-3.5" />

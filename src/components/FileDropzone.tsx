@@ -106,7 +106,7 @@ export function FileDropzone({
           >
             {defaultBtn}
           </button>
-          <p className="mt-3.5 text-[14px]" style={{ color: "#7a7a86" }}>
+          <p className="mt-3.5 text-[14px]" style={{ color: "#5a5a66" }}>
             {defaultHint}
           </p>
 
@@ -157,7 +157,7 @@ export function FileDropzone({
                     <p className="truncate text-sm font-semibold" style={{ color: "#33333c" }}>
                       {f.name}
                     </p>
-                    <p className="text-[11px]" style={{ color: "#7a7a86" }}>
+                    <p className="text-[11px]" style={{ color: "#5a5a66" }}>
                       {(f.size / 1024 / 1024).toFixed(2)} MB
                     </p>
                   </div>
@@ -166,7 +166,7 @@ export function FileDropzone({
                   type="button"
                   aria-label={`Remove ${f.name}`}
                   onClick={() => onFilesChange(files.filter((_, j) => j !== i))}
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-[#7a7a86] hover:bg-[#f6f4f9] hover:text-[#e5322d]"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-[#5a5a66] hover:bg-[#f6f4f9] hover:text-[#e5322d]"
                 >
                   <X className="h-4 w-4" />
                 </button>

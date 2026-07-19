@@ -122,7 +122,7 @@ export default function CompressPdf() {
           className="rounded-2xl bg-white px-6 py-5 text-center"
           style={{ border: "1px solid #ececef" }}
         >
-          <p className="text-[13px] font-bold uppercase" style={{ color: "#7a7a86", letterSpacing: "0.08em" }}>
+          <p className="text-[13px] font-bold uppercase" style={{ color: "#5a5a66", letterSpacing: "0.08em" }}>
             Compression Summary
           </p>
           <p className="mt-2 text-[18px] font-semibold" style={{ color: "#33333c" }}>
@@ -157,7 +157,7 @@ export default function CompressPdf() {
       sidebar={
         <>
           <div className="space-y-2">
-            <p className="text-[13px] font-bold uppercase" style={{ color: "#7a7a86", letterSpacing: "0.06em" }}>
+            <p className="text-[13px] font-bold uppercase" style={{ color: "#5a5a66", letterSpacing: "0.06em" }}>
               Compression Level
             </p>
             {(Object.keys(LEVELS) as Level[]).map((k) => {
@@ -188,7 +188,7 @@ export default function CompressPdf() {
                     <span className="block text-[14px] font-semibold" style={{ color: "#33333c" }}>
                       {l.label}
                     </span>
-                    <span className="mt-0.5 block text-[12.5px]" style={{ color: "#7a7a86" }}>
+                    <span className="mt-0.5 block text-[12.5px]" style={{ color: "#5a5a66" }}>
                       {l.hint}
                     </span>
                   </span>

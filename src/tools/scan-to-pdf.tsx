@@ -334,7 +334,7 @@ export default function ScanToPdf() {
           <Camera className="h-8 w-8" />
         </div>
         <h2 className="text-xl font-bold" style={{ color: "#33333c" }}>Scan a document</h2>
-        <p className="mt-1 text-sm" style={{ color: "#7a7a86" }}>
+        <p className="mt-1 text-sm" style={{ color: "#5a5a66" }}>
           Use your camera to capture pages, or upload photos you already have.
         </p>
         <button
@@ -351,7 +351,7 @@ export default function ScanToPdf() {
           type="button"
           onClick={openPhotoPicker}
           className="mt-3 inline-flex w-full items-center justify-center gap-2 text-sm font-semibold underline underline-offset-4"
-          style={{ color: "#7a7a86" }}
+          style={{ color: "#5a5a66" }}
         >
           <ImageIcon className="h-4 w-4" /> Or upload photos instead
         </button>
@@ -406,7 +406,7 @@ export default function ScanToPdf() {
             type="button"
             onClick={() => { stopCamera(); setMode(pages.length > 0 ? "configure" : "initial"); }}
             className="text-sm font-semibold"
-            style={{ color: "#7a7a86" }}
+            style={{ color: "#5a5a66" }}
           >
             Cancel
           </button>
@@ -443,7 +443,7 @@ export default function ScanToPdf() {
                 <button
                   type="button"
                   onClick={() => removePage(p.id)}
-                  className="absolute -top-1 -right-1 grid h-5 w-5 place-items-center rounded-full bg-white text-[#7a7a86] shadow hover:text-[#e5322d]"
+                  className="absolute -top-1 -right-1 grid h-5 w-5 place-items-center rounded-full bg-white text-[#5a5a66] shadow hover:text-[#e5322d]"
                   aria-label="Remove page"
                 >
                   <X className="h-3 w-3" />
@@ -481,7 +481,7 @@ export default function ScanToPdf() {
                   <SelectItem value="bw">Black &amp; White</SelectItem>
                 </SelectContent>
               </Select>
-              <p className="mt-1 text-[11px]" style={{ color: "#7a7a86" }}>
+              <p className="mt-1 text-[11px]" style={{ color: "#5a5a66" }}>
                 Per-page edits override this.
               </p>
             </div>
@@ -560,7 +560,7 @@ export default function ScanToPdf() {
               <button
                 type="button"
                 onClick={() => removePage(p.id)}
-                className="absolute top-1.5 right-1.5 grid h-6 w-6 place-items-center rounded-full bg-white/95 text-[#7a7a86] shadow hover:text-[#e5322d]"
+                className="absolute top-1.5 right-1.5 grid h-6 w-6 place-items-center rounded-full bg-white/95 text-[#5a5a66] shadow hover:text-[#e5322d]"
                 aria-label="Remove page"
               >
                 <X className="h-3.5 w-3.5" />
@@ -571,7 +571,7 @@ export default function ScanToPdf() {
             type="button"
             onClick={addMore}
             className="flex aspect-[3/4] flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed text-[13px] font-semibold transition-colors hover:border-[#e5322d] hover:text-[#e5322d]"
-            style={{ borderColor: "#e5d4d3", color: "#7a7a86" }}
+            style={{ borderColor: "#e5d4d3", color: "#5a5a66" }}
           >
             <span className="grid h-10 w-10 place-items-center rounded-full text-white" style={{ backgroundColor: "#e5322d" }}>
               <Plus className="h-5 w-5" />
@@ -664,7 +664,7 @@ function PageEditor({
       >
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-bold" style={{ color: "#33333c" }}>Edit page</h3>
-          <button type="button" onClick={onClose} className="text-[#7a7a86] hover:text-[#33333c]" aria-label="Close">
+          <button type="button" onClick={onClose} className="text-[#5a5a66] hover:text-[#33333c]" aria-label="Close">
             <X className="h-5 w-5" />
           </button>
         </div>
@@ -756,7 +756,7 @@ function PageEditor({
             type="button"
             onClick={onClose}
             className="rounded-xl px-4 py-2 text-sm font-semibold"
-            style={{ color: "#7a7a86" }}
+            style={{ color: "#5a5a66" }}
           >
             Cancel
           </button>

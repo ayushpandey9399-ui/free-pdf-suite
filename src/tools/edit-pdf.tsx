@@ -1380,7 +1380,7 @@ export default function EditPdf() {
                     className="flex-1 rounded-md py-2 text-[13px] font-semibold transition-colors"
                     style={{
                       backgroundColor: active ? "#ffffff" : "transparent",
-                      color: active ? "#e5322d" : "#7a7a86",
+                      color: active ? "#e5322d" : "#5a5a66",
                       boxShadow: active ? "0 1px 2px rgba(0,0,0,0.06)" : "none",
                     }}
                   >
@@ -1389,7 +1389,7 @@ export default function EditPdf() {
                 );
               })}
             </div>
-            <p className="mt-2.5 text-[12.5px] leading-relaxed" style={{ color: "#7a7a86" }}>
+            <p className="mt-2.5 text-[12.5px] leading-relaxed" style={{ color: "#5a5a66" }}>
               {editMode === "edit-text"
                 ? "Click any text to edit it. We match the original style as closely as possible. Most PDFs blend seamlessly."
                 : "Pick a tool from the sidebar and click or drag on a page to add annotations."}
@@ -1499,7 +1499,7 @@ function EditTextSidebar(props: {
   return (
     <>
       <div>
-        <p className="mb-2 text-[11px] font-bold uppercase" style={{ color: "#7a7a86", letterSpacing: "0.08em" }}>
+        <p className="mb-2 text-[11px] font-bold uppercase" style={{ color: "#5a5a66", letterSpacing: "0.08em" }}>
           Edit existing text
         </p>
         <p className="text-[13px] leading-relaxed" style={{ color: "#33333c" }}>
@@ -1552,7 +1552,7 @@ function EditTextSidebar(props: {
         <button
           type="button"
           onClick={props.onClearAll}
-          className="flex items-center gap-1.5 self-start text-[12px] font-semibold text-[#7a7a86] transition-colors hover:text-[#e5322d]"
+          className="flex items-center gap-1.5 self-start text-[12px] font-semibold text-[#5a5a66] transition-colors hover:text-[#e5322d]"
         >
           <Trash2 className="h-3 w-3" /> Clear all
         </button>
@@ -1617,7 +1617,7 @@ function Sidebar(p: SidebarProps) {
     <>
       {/* Tool picker */}
       <div>
-        <p className="mb-2 text-[11px] font-bold uppercase" style={{ color: "#7a7a86", letterSpacing: "0.08em" }}>
+        <p className="mb-2 text-[11px] font-bold uppercase" style={{ color: "#5a5a66", letterSpacing: "0.08em" }}>
           Tools
         </p>
         <div className="grid grid-cols-3 gap-1.5">
@@ -1682,7 +1682,7 @@ function Sidebar(p: SidebarProps) {
         <button
           type="button"
           onClick={p.onClearAll}
-          className="flex items-center gap-1.5 self-start text-[12px] font-semibold text-[#7a7a86] transition-colors hover:text-[#e5322d]"
+          className="flex items-center gap-1.5 self-start text-[12px] font-semibold text-[#5a5a66] transition-colors hover:text-[#e5322d]"
         >
           <Trash2 className="h-3 w-3" /> Clear all
         </button>
@@ -1698,13 +1698,13 @@ function ContextOptions(p: SidebarProps) {
     return (
       <div>
         <div className="mb-2 flex items-center justify-between">
-          <p className="text-[11px] font-bold uppercase" style={{ color: "#7a7a86", letterSpacing: "0.08em" }}>
+          <p className="text-[11px] font-bold uppercase" style={{ color: "#5a5a66", letterSpacing: "0.08em" }}>
             Selected: {sel.kind}
           </p>
           <button
             type="button"
             onClick={p.removeSelected}
-            className="text-[12px] font-semibold text-[#7a7a86] hover:text-[#e5322d]"
+            className="text-[12px] font-semibold text-[#5a5a66] hover:text-[#e5322d]"
           >
             Delete
           </button>
@@ -1758,7 +1758,7 @@ function ContextOptions(p: SidebarProps) {
           </>
         )}
         {sel.kind === "image" && (
-          <p className="text-[12.5px]" style={{ color: "#7a7a86" }}>
+          <p className="text-[12.5px]" style={{ color: "#5a5a66" }}>
             Drag to reposition. Use corner handles to resize.
           </p>
         )}
@@ -1771,7 +1771,7 @@ function ContextOptions(p: SidebarProps) {
   if (m === "select") return null;
   return (
     <div>
-      <p className="mb-2 text-[11px] font-bold uppercase" style={{ color: "#7a7a86", letterSpacing: "0.08em" }}>
+      <p className="mb-2 text-[11px] font-bold uppercase" style={{ color: "#5a5a66", letterSpacing: "0.08em" }}>
         {TOOLS.find((t) => t.id === m)?.label} options
       </p>
       {m === "highlight" && <ColorRow label="Color" colors={HIGHLIGHT_COLORS} value={p.hlColor} onChange={p.setHlColor} />}
@@ -1813,7 +1813,7 @@ function ContextOptions(p: SidebarProps) {
               <div className="rounded-lg p-2" style={{ border: "1px solid #ececef", backgroundColor: "#fafafb" }}>
                 <img src={p.pendingImage.dataUrl} alt="" className="mx-auto max-h-16" />
               </div>
-              <p className="text-[12.5px]" style={{ color: "#7a7a86" }}>
+              <p className="text-[12.5px]" style={{ color: "#5a5a66" }}>
                 Click a page to place. Drag corners to resize.
               </p>
               <button
@@ -1892,7 +1892,7 @@ function NumberRow({
   return (
     <div className="mb-3">
       <p className="mb-1.5 text-[12px] font-semibold" style={{ color: "#33333c" }}>
-        {label}: <span style={{ color: "#7a7a86" }}>{value}</span>
+        {label}: <span style={{ color: "#5a5a66" }}>{value}</span>
       </p>
       <input
         type="range"
@@ -1916,7 +1916,7 @@ function ToggleRow({ label, value, onChange }: { label: string; value: boolean; 
         className="rounded-md px-3 py-1 text-[12px] font-bold"
         style={{
           backgroundColor: value ? "#33333c" : "#f7f7f8",
-          color: value ? "#ffffff" : "#7a7a86",
+          color: value ? "#ffffff" : "#5a5a66",
         }}
       >
         {value ? "On" : "Off"}
@@ -1946,7 +1946,7 @@ function FillRow({
           className="rounded-md px-2 py-0.5 text-[11px] font-bold"
           style={{
             backgroundColor: fill ? "#33333c" : "#f7f7f8",
-            color: fill ? "#ffffff" : "#7a7a86",
+            color: fill ? "#ffffff" : "#5a5a66",
           }}
         >
           {fill ? "On" : "Off"}
@@ -1972,7 +1972,7 @@ function FillRow({
             ))}
           </div>
           <div className="mt-2">
-            <p className="mb-1 text-[11.5px]" style={{ color: "#7a7a86" }}>
+            <p className="mb-1 text-[11.5px]" style={{ color: "#5a5a66" }}>
               Opacity: {Math.round(opacity * 100)}%
             </p>
             <input
@@ -2272,7 +2272,7 @@ function PageOverlay(props: PageOverlayProps) {
 
   return (
     <div className="rounded-2xl bg-white p-3" style={{ border: "1px solid #ececef" }}>
-      <p className="mb-2 text-[12px] font-semibold" style={{ color: "#7a7a86" }}>
+      <p className="mb-2 text-[12px] font-semibold" style={{ color: "#5a5a66" }}>
         Page {index + 1}
       </p>
       <div

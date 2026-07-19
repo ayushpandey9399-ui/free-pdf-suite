@@ -84,7 +84,7 @@ export function ToolWorkspace({
                 {loading && progress != null && (
                   <div className="mt-4">
                     <Progress value={progress} />
-                    <p className="mt-1 text-center text-[11px]" style={{ color: "#7a7a86" }}>
+                    <p className="mt-1 text-center text-[11px]" style={{ color: "#5a5a66" }}>
                       {Math.round(progress)}%
                     </p>
                   </div>

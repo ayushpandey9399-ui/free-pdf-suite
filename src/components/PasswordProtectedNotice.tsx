@@ -28,7 +28,7 @@ export function PasswordProtectedNotice({
         <p className="text-[16px] font-bold" style={{ color: "#33333c" }}>
           {fileName ? `"${fileName}" is password-protected` : "This PDF is password-protected"}
         </p>
-        <p className="mt-1.5 text-[13.5px] leading-relaxed" style={{ color: "#7a7a86" }}>
+        <p className="mt-1.5 text-[13.5px] leading-relaxed" style={{ color: "#5a5a66" }}>
           Please remove the password first (e.g. using a PDF unlocking tool) before using this
           feature, or upload an unprotected version.
         </p>
