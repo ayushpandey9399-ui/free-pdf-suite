@@ -679,6 +679,8 @@ export default function EditPdf() {
               return { x, y, w: Math.max(1, Math.abs(x2 - x1)), h: Math.max(1, Math.abs(y2 - y1)) };
             });
           } catch { /* annotations unavailable */ }
+          widgetsByPageRef.current.set(i - 1, widgetRects);
+
           eagerMeta.push({
             width: vp1.width, height: vp1.height,
             pdfWidth: vpU.width, pdfHeight: vpU.height,
