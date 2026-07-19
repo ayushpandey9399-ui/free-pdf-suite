@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import {
   StandardFonts,
@@ -2643,7 +2643,7 @@ function PageOverlayInner(props: PageOverlayProps) {
 // heap to spike on long docs. Referential-equal callbacks (all wrapped in
 // useCallback) + shallow-equal arrays keep this cheap; only the pages
 // whose props actually changed re-render.
-const PageOverlay = React.memo(PageOverlayInner);
+const PageOverlay = memo(PageOverlayInner);
 
 /* =============================== SVG rendering =============================== */
 
