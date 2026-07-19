@@ -166,7 +166,18 @@ interface PageInfo {
   pdfWidth: number;
   pdfHeight: number;
   rotation: number;
+  /** Fix B-3 #10: true once real meta (dims/rotation/widgets) has been
+   *  fetched. Pages 4..N start with placeholder dims copied from page 1
+   *  and get patched by renderPage. */
+  metaLoaded?: boolean;
+  /** Fix B-3 #20: interactive AcroForm widgets on this page. Display-space
+   *  top-origin rects. When non-empty the editable-text overlay filters
+   *  out any line whose box intersects a widget so users can't edit over
+   *  live form fields. */
+  hasFormFields?: boolean;
+  widgetRects?: { x: number; y: number; w: number; h: number }[];
 }
+
 
 /* =============================== constants =============================== */
 
