@@ -1162,9 +1162,22 @@ export default function EditPdf() {
         }
 
         const align = te.align ?? "left";
+        // Fix B-3 #9: prefer the column-cluster anchor (median edge across
+        // 3+ neighbours) over per-line box edges. This pins right/center
+        // aligned text to the shared visual column instead of drifting with
+        // the edited string's width.
+        const anchor = te.columnAnchor;
         let drawX = te.x;
-        if (align === "center") drawX = boxLeft + (boxWidth - textW) / 2;
-        else if (align === "right") drawX = boxRight - textW;
+        if (align === "center") {
+          const center = anchor && anchor.type === "center" ? anchor.value : boxLeft + boxWidth / 2;
+          drawX = center - textW / 2;
+        } else if (align === "right") {
+          const right = anchor && anchor.type === "right" ? anchor.value : boxRight;
+          drawX = right - textW;
+        } else if (anchor && anchor.type === "left") {
+          drawX = anchor.value;
+        }
+
 
         // Fix B3: after the shrink-to-0.7 floor, if text STILL overflows
         // the cell, mark it so Pass 2 clips the draw to the box width and
