@@ -477,6 +477,11 @@ export default function EditPdf() {
   // slots with empty urls, eager-render only the first few, then let the
   // visibility observer + eviction effect drive the rest. Total retained
   // canvases stays bounded at ~5 (visible ± 2) regardless of doc length.
+  //
+  // Fix B-3 #10: also patches the PageInfo slot with real dims / rotation
+  // / widget rects the first time a page is fetched. Load loop only
+  // eager-fetches meta for the first EAGER pages; every other page's real
+  // meta lands here on demand.
   const renderPage = useCallback(async (pageIdx: number): Promise<void> => {
     const doc = pdfjsDocRef.current;
     if (!doc) return;
@@ -517,10 +522,43 @@ export default function EditPdf() {
       if (loadGenRef.current !== gen) return;
       pageCanvasesRef.current.set(pageIdx, canvas);
       const url = canvas.toDataURL("image/jpeg", 0.85);
+
+      // Fix B-3 #10 + #20: fetch real meta + widget rects if this page
+      // slot is still a placeholder. Cheap enough to always compute the
+      // annotations pass on first-render.
+      let widgetRects: { x: number; y: number; w: number; h: number }[] = [];
+      let hasFormFields = false;
+      try {
+        const annots = await page.getAnnotations();
+        if (loadGenRef.current !== gen) return;
+        type Ann = { subtype?: string; rect?: number[] };
+        const widgets = (annots as Ann[]).filter((a) => a?.subtype === "Widget" && Array.isArray(a.rect));
+        hasFormFields = widgets.length > 0;
+        widgetRects = widgets.map((w) => {
+          const r = (vp1 as unknown as { convertToViewportRectangle: (r: number[]) => number[] })
+            .convertToViewportRectangle(w.rect as number[]);
+          const [x1, y1, x2, y2] = r;
+          const x = Math.min(x1, x2), y = Math.min(y1, y2);
+          return { x, y, w: Math.max(1, Math.abs(x2 - x1)), h: Math.max(1, Math.abs(y2 - y1)) };
+        });
+      } catch { /* annotations unavailable */ }
+
+      const vpU = page.getViewport({ scale: 1, rotation: 0 });
       setPages((prev) => {
-        if (!prev[pageIdx] || prev[pageIdx].url === url) return prev;
+        if (!prev[pageIdx]) return prev;
         const copy = prev.slice();
-        copy[pageIdx] = { ...copy[pageIdx], url };
+        copy[pageIdx] = {
+          ...copy[pageIdx],
+          url,
+          width: vp1.width,
+          height: vp1.height,
+          pdfWidth: vpU.width,
+          pdfHeight: vpU.height,
+          rotation,
+          metaLoaded: true,
+          hasFormFields,
+          widgetRects,
+        };
         return copy;
       });
     } catch {
@@ -529,6 +567,7 @@ export default function EditPdf() {
       renderingRef.current.delete(pageIdx);
     }
   }, []);
+
 
   // load pages
   useEffect(() => {
