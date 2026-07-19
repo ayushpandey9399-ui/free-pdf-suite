@@ -331,7 +331,28 @@ function dispRectToPdf(
   }
 }
 
-/* =============================== main component =============================== */
+/* ============ Fix B-3 #20: AcroForm widget helpers ============ */
+
+/**
+ * Filter out any editable line whose tight glyph box intersects an
+ * interactive form-field widget rect. Prevents users from "editing" text
+ * that actually sits under a live AcroForm widget.
+ */
+function filterLinesByWidgets(
+  lines: EditableLine[],
+  widgets: { x: number; y: number; w: number; h: number }[] | undefined,
+): EditableLine[] {
+  if (!widgets || !widgets.length) return lines;
+  return lines.filter((ln) => {
+    for (const w of widgets) {
+      if (ln.x + ln.width <= w.x || w.x + w.w <= ln.x) continue;
+      if (ln.y + ln.height <= w.y || w.y + w.h <= ln.y) continue;
+      return false;
+    }
+    return true;
+  });
+}
+
 
 export default function EditPdf() {
   const [files, setFiles] = useState<File[]>([]);
