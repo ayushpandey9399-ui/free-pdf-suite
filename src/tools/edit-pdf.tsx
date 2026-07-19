@@ -857,7 +857,9 @@ export default function EditPdf() {
       const rc = c ? { canvas: c, scale: c.width / pv.width } : null;
       const lines = await extractEditableLines(doc, pageIdx + 1, rc);
       if (loadGenRef.current !== gen) return;
-      linesByPageRef.current.set(pageIdx, lines);
+      const filtered = filterLinesByWidgets(lines, widgetsByPageRef.current.get(pageIdx));
+      linesByPageRef.current.set(pageIdx, filtered);
+
       setLinesTick((t) => t + 1);
     } catch {
       if (loadGenRef.current === gen) linesByPageRef.current.set(pageIdx, []);
