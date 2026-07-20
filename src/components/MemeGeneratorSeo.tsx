@@ -280,9 +280,28 @@ export function MemeGeneratorSeo() {
       </p>
 
       <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">
-        Works on Windows, Mac, Android, and iPhone
+        Stickers, overlays, and multi-panel collages
       </h2>
       <p>
+        Modern memes are not always plain text on a photo. Open the emoji
+        picker to drop any of 60 popular emojis (faces, hands, hearts, symbols,
+        and misc) onto the image, or paste any Unicode emoji into the free-text
+        field. Every emoji becomes its own draggable, scalable, rotatable
+        layer, and the export renders the same emoji glyph shown in the
+        preview (appearance varies by device since we use native system
+        emoji, that is normal). Need to add your own logo, a reaction cut-out,
+        or a transparent PNG? Click Add image to upload a second file as an
+        overlay layer, scale it from the corner handle, and rotate it into
+        place. For four-panel jokes, drake-style comparisons, or before and
+        after shots, pick a layout: single, 2 stacked, 2 side by side, 3
+        stacked, or a 2 x 2 grid. Click each empty panel in the preview to
+        fill it with an image, and your text, emoji, and overlay layers float
+        above the whole collage in the export. The Layers panel lets you
+        bring a layer forward, send it backward, or delete it.
+      </p>
+
+      <p className="mt-3">
+
         The meme generator is a plain web page. It works in Chrome, Safari,
         Edge, and Firefox on Windows, macOS, and Linux, and it works in mobile
         Safari on iPhone and iPad and mobile Chrome on Android. Touch drag is
