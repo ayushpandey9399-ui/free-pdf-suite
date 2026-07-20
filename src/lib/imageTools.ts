@@ -9,6 +9,7 @@ import {
   Globe,
   Layers,
   Shrink,
+  Maximize2,
   type LucideIcon,
 } from "lucide-react";
 
