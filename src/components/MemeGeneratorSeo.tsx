@@ -108,6 +108,30 @@ export const memeGeneratorFaqJsonLd = {
     },
     {
       "@type": "Question",
+      name: "Can I add emojis or stickers to my meme?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Open the emoji picker for 60 popular emojis across faces, hands, hearts, symbols, and misc, or paste any Unicode emoji into the free-text field. Each emoji becomes its own draggable, scalable, rotatable layer. Emoji look varies by device (Apple, Android, Windows) since we render native system emoji, that is normal.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I add my own image as an overlay?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Click Add image to upload a second JPG, PNG, or WebP as an overlay layer. Transparent PNGs blend correctly, and every overlay can be dragged, scaled from the corner, and rotated. The overlay is processed locally like the base image, with the same size and safety guards.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I make a multi-panel meme or collage?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Pick a layout: single, 2 stacked, 2 side by side, 3 stacked, or a 2 x 2 grid. Click each empty panel in the preview to add its image. Panels cover-fit to keep aspect and are separated by a thin white gap. Text, emoji, and image layers float above the whole collage in the export.",
+      },
+    },
+    {
+      "@type": "Question",
       name: "Can I use my own photo?",
       acceptedAnswer: {
         "@type": "Answer",
