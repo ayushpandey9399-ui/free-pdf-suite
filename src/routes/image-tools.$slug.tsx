@@ -35,7 +35,8 @@ export const Route = createFileRoute("/image-tools/$slug")({
     const slug = loaderData?.tool.slug ?? params.slug;
     const tool = loaderData?.tool;
     const url = `${SITE_URL}/image-tools/${slug}`;
-    const isHeic = slug === "heic-to-jpg";
+    const isHeicJpg = slug === "heic-to-jpg";
+    const isHeicPng = slug === "heic-to-png";
 
     const breadcrumbJsonLd = {
       "@context": "https://schema.org",
@@ -52,26 +53,31 @@ export const Route = createFileRoute("/image-tools/$slug")({
       ],
     };
 
-    if (isHeic) {
+    if (isHeicJpg || isHeicPng) {
+      const title = isHeicJpg ? HEIC_TITLE : HEIC_PNG_TITLE;
+      const desc = isHeicJpg ? HEIC_DESC : HEIC_PNG_DESC;
+      const softwareLd = isHeicJpg ? heicToJpgSoftwareJsonLd : heicToPngSoftwareJsonLd;
+      const howToLd = isHeicJpg ? heicToJpgHowToJsonLd : heicToPngHowToJsonLd;
+      const faqLd = isHeicJpg ? heicToJpgFaqJsonLd : heicToPngFaqJsonLd;
       return {
         meta: [
-          { title: HEIC_TITLE },
-          { name: "description", content: HEIC_DESC },
-          { property: "og:title", content: HEIC_TITLE },
-          { property: "og:description", content: HEIC_DESC },
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
           { property: "og:type", content: "website" },
           { property: "og:url", content: url },
           { property: "og:image", content: `${SITE_URL}/og-cover.png` },
           { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: HEIC_TITLE },
-          { name: "twitter:description", content: HEIC_DESC },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
           { name: "twitter:image", content: `${SITE_URL}/og-cover.png` },
         ],
         links: [{ rel: "canonical", href: url }],
         scripts: [
-          { type: "application/ld+json", children: JSON.stringify(heicToJpgSoftwareJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(heicToJpgHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(heicToJpgFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(softwareLd) },
+          { type: "application/ld+json", children: JSON.stringify(howToLd) },
+          { type: "application/ld+json", children: JSON.stringify(faqLd) },
           { type: "application/ld+json", children: JSON.stringify(breadcrumbJsonLd) },
         ],
       };
