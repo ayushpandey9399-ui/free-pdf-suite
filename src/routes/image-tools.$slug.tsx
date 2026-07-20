@@ -101,6 +101,10 @@ const RESIZE_TITLE = "Resize Image in Pixels or KB Free, No Upload | FreePDFHub"
 const RESIZE_DESC =
   "Resize image online free. Change JPG, PNG, and WebP dimensions by pixels or percent in your browser. Presets for passport, signature, HD. No upload.";
 
+const JPG_WEBP_TITLE = "JPG to WebP Converter Free, No Upload | FreePDFHub";
+const JPG_WEBP_DESC =
+  "Convert JPG to WebP online free. Batch convert to modern WebP for faster websites, entirely in your browser. No upload, no signup, real .webp output.";
+
 
 export const Route = createFileRoute("/image-tools/$slug")({
   loader: ({ params }) => {
