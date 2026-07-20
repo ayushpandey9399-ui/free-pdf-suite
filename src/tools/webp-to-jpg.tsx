@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import { Loader2, Download, X, Upload } from "lucide-react";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
+import { guardDecodedSize, isSvgFile, uniqueZipName } from "@/lib/imageSafety";
 
 type Row = {
   id: string;
