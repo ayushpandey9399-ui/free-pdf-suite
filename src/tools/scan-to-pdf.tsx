@@ -35,6 +35,15 @@ import { downloadBlob } from "@/lib/download";
 import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 import { cn } from "@/lib/utils";
 import { straightenCropDims } from "@/lib/imageMath";
+import {
+  detectDocumentQuad,
+  outputSizeForQuad,
+  warpQuadToRect,
+  clampCornerMove,
+  isConvexQuad,
+  type Quad,
+  type Point as ScanPoint,
+} from "@/lib/scanGeometry";
 
 type FilterKind = "original" | "document" | "grayscale" | "bw";
 type PageSize = "a4" | "letter" | "fit";
@@ -52,6 +61,9 @@ const INGEST_MAX_EDGE = 3600;
 /** Cap heavy per-pixel work (Sauvola, shadow, BC) during preview to keep the UI snappy. */
 const PREVIEW_WORK_MAX_EDGE = 1600;
 
+/** 4 corners in normalized 0..1 source coords, ordered tl/tr/br/bl. */
+type NormQuad = [ScanPoint, ScanPoint, ScanPoint, ScanPoint];
+
 interface ScanPage {
   id: string;
   /** Source photo, downscaled + re-encoded, as a Blob (object URL for preview). */
@@ -66,6 +78,10 @@ interface ScanPage {
   brightness: number; // -50..+50
   contrast: number; // -50..+50
   shadow: boolean;
+  /** Auto or user-set document quad, normalized 0..1 in source coords. null = full photo. */
+  quad: NormQuad | null;
+  /** True when the quad came from automatic detection (badge = "Edges detected"). */
+  quadAuto: boolean;
 }
 
 const uid = () => Math.random().toString(36).slice(2, 10);
@@ -77,7 +93,8 @@ const isEdited = (p: ScanPage) =>
   p.angleDeg !== 0 ||
   p.brightness !== 0 ||
   p.contrast !== 0 ||
-  p.shadow;
+  p.shadow ||
+  (p.quad !== null && !p.quadAuto);
 
 /* ============================================================
  *  Decode + downscale pipeline
@@ -168,6 +185,8 @@ async function ingestSource(file: Blob): Promise<ScanPage> {
     brightness: 0,
     contrast: 0,
     shadow: false,
+    quad: null,
+    quadAuto: false,
   };
 }
 
@@ -386,20 +405,65 @@ async function renderPageToCanvas(
   const iw = bmp ? bmp.width : img!.naturalWidth;
   const ih = bmp ? bmp.height : img!.naturalHeight;
 
-  // 1. Crop from source
-  const crop = page.crop ?? { x: 0, y: 0, w: 1, h: 1 };
-  const sx = crop.x * iw;
-  const sy = crop.y * ih;
-  const sw = Math.max(1, crop.w * iw);
-  const sh = Math.max(1, crop.h * ih);
-  let working = document.createElement("canvas");
-  working.width = Math.max(1, Math.round(sw));
-  working.height = Math.max(1, Math.round(sh));
-  const wctx = working.getContext("2d")!;
-  wctx.imageSmoothingEnabled = true;
-  wctx.imageSmoothingQuality = "high";
-  wctx.drawImage(src, sx, sy, sw, sh, 0, 0, working.width, working.height);
-  if (bmp) bmp.close();
+  const workCap = Math.min(maxEdge, overrides.workMaxEdge ?? Infinity);
+
+  let working: HTMLCanvasElement;
+
+  if (page.quad) {
+    // 1a. Un-warp the quad in source coords onto a rectangle. Cap output
+    //     size to workCap for preview; full res only at export.
+    const pxQuad: Quad = page.quad.map((p) => ({
+      x: Math.max(0, Math.min(iw, p.x * iw)),
+      y: Math.max(0, Math.min(ih, p.y * ih)),
+    })) as Quad;
+    const natural = outputSizeForQuad(pxQuad);
+    const scale = Math.min(1, workCap / Math.max(natural.w, natural.h));
+    const outW = Math.max(1, Math.round(natural.w * scale));
+    const outH = Math.max(1, Math.round(natural.h * scale));
+
+    // Full-source canvas -> ImageData -> warp
+    const srcCanvas = document.createElement("canvas");
+    srcCanvas.width = iw;
+    srcCanvas.height = ih;
+    const sctx = srcCanvas.getContext("2d")!;
+    sctx.drawImage(src, 0, 0);
+    if (bmp) bmp.close();
+    const srcData = sctx.getImageData(0, 0, iw, ih);
+    const warped = warpQuadToRect(srcData, pxQuad, outW, outH);
+    working = document.createElement("canvas");
+    working.width = outW;
+    working.height = outH;
+    working.getContext("2d")!.putImageData(warped, 0, 0);
+
+    // 1b. Optional rect crop applied AFTER un-warp on the flattened result.
+    if (page.crop) {
+      const c = page.crop;
+      const cx = Math.max(0, Math.min(working.width - 1, Math.round(c.x * working.width)));
+      const cy = Math.max(0, Math.min(working.height - 1, Math.round(c.y * working.height)));
+      const cw = Math.max(1, Math.min(working.width - cx, Math.round(c.w * working.width)));
+      const ch = Math.max(1, Math.min(working.height - cy, Math.round(c.h * working.height)));
+      const cCanvas = document.createElement("canvas");
+      cCanvas.width = cw;
+      cCanvas.height = ch;
+      cCanvas.getContext("2d")!.drawImage(working, cx, cy, cw, ch, 0, 0, cw, ch);
+      working = cCanvas;
+    }
+  } else {
+    // 1. Crop from source (original path, no quad)
+    const crop = page.crop ?? { x: 0, y: 0, w: 1, h: 1 };
+    const sx = crop.x * iw;
+    const sy = crop.y * ih;
+    const sw = Math.max(1, crop.w * iw);
+    const sh = Math.max(1, crop.h * ih);
+    working = document.createElement("canvas");
+    working.width = Math.max(1, Math.round(sw));
+    working.height = Math.max(1, Math.round(sh));
+    const wctx = working.getContext("2d")!;
+    wctx.imageSmoothingEnabled = true;
+    wctx.imageSmoothingQuality = "high";
+    wctx.drawImage(src, sx, sy, sw, sh, 0, 0, working.width, working.height);
+    if (bmp) bmp.close();
+  }
 
   // 2. Rotate 90 increments
   if (page.rotation !== 0) working = rotate90Canvas(working, page.rotation);
@@ -408,7 +472,6 @@ async function renderPageToCanvas(
   if (page.angleDeg) working = straightenCanvas(working, page.angleDeg);
 
   // Downscale to output cap before heavy per-pixel work
-  const workCap = Math.min(maxEdge, overrides.workMaxEdge ?? Infinity);
   const long = Math.max(working.width, working.height);
   if (long > workCap) working = drawStepped(working, working.width, working.height, workCap);
 
@@ -621,6 +684,9 @@ export default function ScanToPdf() {
     (p: ScanPage) => {
       const c = p.crop;
       const cs = c ? `${c.x.toFixed(3)},${c.y.toFixed(3)},${c.w.toFixed(3)},${c.h.toFixed(3)}` : "-";
+      const qs = p.quad
+        ? "q:" + p.quad.map((pt) => `${pt.x.toFixed(3)},${pt.y.toFixed(3)}`).join(";")
+        : "q-";
       return [
         p.rotation,
         p.filter ?? `d:${defaultFilter}`,
@@ -629,10 +695,57 @@ export default function ScanToPdf() {
         `b${p.brightness}`,
         `k${p.contrast}`,
         p.shadow ? "s1" : "s0",
+        qs,
       ].join("|");
     },
     [defaultFilter],
   );
+
+  /* ---------- Automatic document edge detection (async) ---------- */
+  const detectedRef = useRef<Set<string>>(new Set());
+  useEffect(() => {
+    let cancelled = false;
+    for (const p of pages) {
+      if (detectedRef.current.has(p.id)) continue;
+      detectedRef.current.add(p.id);
+      void (async () => {
+        try {
+          const { bmp, img } = await decodeBitmap(p.blob);
+          const src: CanvasImageSource = bmp ?? img!;
+          const iw = bmp ? bmp.width : img!.naturalWidth;
+          const ih = bmp ? bmp.height : img!.naturalHeight;
+          const detW = 800;
+          const scale = Math.min(1, detW / Math.max(iw, ih));
+          const dw = Math.max(1, Math.round(iw * scale));
+          const dh = Math.max(1, Math.round(ih * scale));
+          const c = document.createElement("canvas");
+          c.width = dw;
+          c.height = dh;
+          const cx = c.getContext("2d")!;
+          cx.imageSmoothingEnabled = true;
+          cx.imageSmoothingQuality = "high";
+          cx.drawImage(src, 0, 0, dw, dh);
+          if (bmp) bmp.close();
+          const data = cx.getImageData(0, 0, dw, dh);
+          const res = detectDocumentQuad(data.data, dw, dh);
+          if (cancelled) return;
+          if (!res || res.confidence < 0.6) return;
+          // Convert to normalized 0..1 source coords.
+          const norm: NormQuad = res.quad.map((pt) => ({ x: pt.x / dw, y: pt.y / dh })) as NormQuad;
+          setPages((prev) =>
+            prev.map((x) =>
+              x.id === p.id && !x.quad ? { ...x, quad: norm, quadAuto: true } : x,
+            ),
+          );
+        } catch {
+          /* detection is best-effort */
+        }
+      })();
+    }
+    return () => {
+      cancelled = true;
+    };
+  }, [pages]);
 
   useEffect(() => {
     let cancelled = false;
@@ -1286,6 +1399,15 @@ function SortablePageCard({
           Edited
         </span>
       )}
+      {!edited && page.quad && page.quadAuto && (
+        <span
+          className="absolute top-1.5 left-9 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white"
+          style={{ backgroundColor: "#33333c" }}
+          title="Document edges detected automatically"
+        >
+          Edges
+        </span>
+      )}
       <div className="absolute bottom-1.5 left-1.5 right-1.5 flex justify-between gap-1">
         <button
           type="button"
@@ -1337,7 +1459,17 @@ function PageEditor({
   onClose: () => void;
   onChange: (patch: Partial<ScanPage>) => void;
 }) {
+  const initialQuad: NormQuad = page.quad ?? [
+    { x: 0.06, y: 0.06 },
+    { x: 0.94, y: 0.06 },
+    { x: 0.94, y: 0.94 },
+    { x: 0.06, y: 0.94 },
+  ];
+  const [editorMode, setEditorMode] = useState<"crop" | "edges">(page.quad ? "edges" : "crop");
   const [crop, setCrop] = useState(page.crop ?? { x: 0.05, y: 0.05, w: 0.9, h: 0.9 });
+  const [quad, setQuad] = useState<NormQuad>(initialQuad);
+  const [dragCorner, setDragCorner] = useState<0 | 1 | 2 | 3 | null>(null);
+  const [loupePos, setLoupePos] = useState<{ x: number; y: number } | null>(null);
   const [drag, setDrag] = useState<null | {
     corner: "nw" | "ne" | "sw" | "se" | "move";
     startX: number;
@@ -1345,21 +1477,27 @@ function PageEditor({
     base: typeof crop;
   }>(null);
   const [compareRaw, setCompareRaw] = useState(false);
+  const [redetecting, setRedetecting] = useState(false);
   const boxRef = useRef<HTMLDivElement>(null);
 
   const filter = page.filter ?? defaultFilter;
 
-  // Preview canvas mirrors the real pipeline. Debounce heavy re-renders.
+  // Preview canvas mirrors the real pipeline. In edges mode we show the raw
+  // source photo (no quad, no crop) so the user can place corners on the
+  // untransformed image.
   const previewRef = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
     let cancelled = false;
     const handle = window.setTimeout(async () => {
       try {
+        const src = editorMode === "edges"
+          ? { ...page, quad: null, crop: null }
+          : { ...page, crop: null };
         const canvas = await renderPageToCanvas(
-          { ...page, crop: null }, // preview the whole photo; crop overlay is user-driven
+          src,
           filter,
           900,
-          { rawCompare: compareRaw, workMaxEdge: PREVIEW_WORK_MAX_EDGE },
+          { rawCompare: compareRaw || editorMode === "edges", workMaxEdge: PREVIEW_WORK_MAX_EDGE },
         );
         if (cancelled || !previewRef.current) return;
         const dst = previewRef.current;
@@ -1374,16 +1512,16 @@ function PageEditor({
       cancelled = true;
       window.clearTimeout(handle);
     };
-  }, [page, filter, compareRaw]);
+  }, [page, filter, compareRaw, editorMode]);
 
   useEffect(() => {
-    if (!drag) return;
+    if (!drag && dragCorner === null) return;
     const prev = document.body.style.overscrollBehavior;
     document.body.style.overscrollBehavior = "contain";
     return () => {
       document.body.style.overscrollBehavior = prev;
     };
-  }, [drag]);
+  }, [drag, dragCorner]);
 
   const onPointerDown = (corner: "nw" | "ne" | "sw" | "se" | "move") => (e: React.PointerEvent) => {
     e.preventDefault();
@@ -1419,12 +1557,98 @@ function PageEditor({
 
   const onPointerUp = () => setDrag(null);
 
+  /* -------- Edges-mode corner dragging -------- */
+  const onCornerDown = (idx: 0 | 1 | 2 | 3) => (e: React.PointerEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    (e.target as Element).setPointerCapture(e.pointerId);
+    setDragCorner(idx);
+    if (boxRef.current) {
+      const rect = boxRef.current.getBoundingClientRect();
+      setLoupePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    }
+  };
+  const onCornerMove = (e: React.PointerEvent) => {
+    if (dragCorner === null || !boxRef.current) return;
+    const rect = boxRef.current.getBoundingClientRect();
+    const nx = (e.clientX - rect.left) / rect.width;
+    const ny = (e.clientY - rect.top) / rect.height;
+    // Convert to normalized "frame" coords 0..1 and clamp.
+    const pxQuad: Quad = quad.map((p) => ({ x: p.x, y: p.y })) as Quad;
+    const clamped = clampCornerMove(
+      pxQuad,
+      dragCorner,
+      { x: nx, y: ny },
+      1,
+      1,
+    );
+    const next = quad.slice() as NormQuad;
+    next[dragCorner] = clamped;
+    // Only commit if result is convex.
+    if (isConvexQuad(next.map((p) => ({ x: p.x, y: p.y })) as Quad)) {
+      setQuad(next);
+    }
+    setLoupePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  };
+  const onCornerUp = () => {
+    setDragCorner(null);
+    setLoupePos(null);
+  };
+
+  const useFullPhoto = () => {
+    setQuad(initialQuad);
+    onChange({ quad: null, quadAuto: false });
+  };
+
+  const redetect = async () => {
+    setRedetecting(true);
+    try {
+      const { bmp, img } = await decodeBitmap(page.blob);
+      const src: CanvasImageSource = bmp ?? img!;
+      const iw = bmp ? bmp.width : img!.naturalWidth;
+      const ih = bmp ? bmp.height : img!.naturalHeight;
+      const detW = 800;
+      const scale = Math.min(1, detW / Math.max(iw, ih));
+      const dw = Math.max(1, Math.round(iw * scale));
+      const dh = Math.max(1, Math.round(ih * scale));
+      const c = document.createElement("canvas");
+      c.width = dw;
+      c.height = dh;
+      const cx = c.getContext("2d")!;
+      cx.imageSmoothingEnabled = true;
+      cx.imageSmoothingQuality = "high";
+      cx.drawImage(src, 0, 0, dw, dh);
+      if (bmp) bmp.close();
+      const data = cx.getImageData(0, 0, dw, dh);
+      const res = detectDocumentQuad(data.data, dw, dh);
+      if (res && res.confidence >= 0.4) {
+        const norm: NormQuad = res.quad.map((pt) => ({ x: pt.x / dw, y: pt.y / dh })) as NormQuad;
+        setQuad(norm);
+        toast.success(`Edges detected (${Math.round(res.confidence * 100)}% confidence)`);
+      } else {
+        toast("Could not detect edges automatically. Drag the corners to place them.");
+      }
+    } catch {
+      toast.error("Detection failed.");
+    } finally {
+      setRedetecting(false);
+    }
+  };
+
   const save = () => {
-    onChange({ crop });
+    if (editorMode === "edges") {
+      onChange({ quad, quadAuto: false });
+    } else {
+      onChange({ crop });
+    }
     onClose();
   };
 
   const rotate = () => onChange({ rotation: (((page.rotation + 90) % 360) as ScanPage["rotation"]) });
+
+  // Loupe: 4x zoom of raw preview around the drag point.
+  const loupeSize = 120;
+  const loupeZoom = 2.5;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={onClose}>
@@ -1432,30 +1656,50 @@ function PageEditor({
         className="relative max-h-[95vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-6"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-2">
           <h3 className="text-lg font-bold" style={{ color: "#33333c" }}>Edit page</h3>
           <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onPointerDown={() => setCompareRaw(true)}
-              onPointerUp={() => setCompareRaw(false)}
-              onPointerLeave={() => setCompareRaw(false)}
-              onPointerCancel={() => setCompareRaw(false)}
-              className={cn(
-                "inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold",
-                compareRaw ? "text-white" : "",
-              )}
-              style={{
-                borderColor: compareRaw ? "#e5322d" : "#ececef",
-                color: compareRaw ? "#ffffff" : "#33333c",
-                backgroundColor: compareRaw ? "#e5322d" : "transparent",
-                touchAction: "none",
-              }}
-              title="Press and hold to see the original photo"
-            >
-              <Eye className="h-3.5 w-3.5" />
-              {compareRaw ? "Original" : "Compare"}
-            </button>
+            <div className="inline-flex overflow-hidden rounded-lg border" style={{ borderColor: "#ececef" }}>
+              <button
+                type="button"
+                onClick={() => setEditorMode("crop")}
+                className={cn("px-2.5 py-1.5 text-xs font-semibold", editorMode === "crop" ? "text-white" : "")}
+                style={{ backgroundColor: editorMode === "crop" ? "#33333c" : "transparent", color: editorMode === "crop" ? "#fff" : "#33333c" }}
+              >
+                Crop
+              </button>
+              <button
+                type="button"
+                onClick={() => setEditorMode("edges")}
+                className={cn("px-2.5 py-1.5 text-xs font-semibold", editorMode === "edges" ? "text-white" : "")}
+                style={{ backgroundColor: editorMode === "edges" ? "#33333c" : "transparent", color: editorMode === "edges" ? "#fff" : "#33333c" }}
+              >
+                Edges
+              </button>
+            </div>
+            {editorMode !== "edges" && (
+              <button
+                type="button"
+                onPointerDown={() => setCompareRaw(true)}
+                onPointerUp={() => setCompareRaw(false)}
+                onPointerLeave={() => setCompareRaw(false)}
+                onPointerCancel={() => setCompareRaw(false)}
+                className={cn(
+                  "inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold",
+                  compareRaw ? "text-white" : "",
+                )}
+                style={{
+                  borderColor: compareRaw ? "#e5322d" : "#ececef",
+                  color: compareRaw ? "#ffffff" : "#33333c",
+                  backgroundColor: compareRaw ? "#e5322d" : "transparent",
+                  touchAction: "none",
+                }}
+                title="Press and hold to see the original photo"
+              >
+                <Eye className="h-3.5 w-3.5" />
+                {compareRaw ? "Original" : "Compare"}
+              </button>
+            )}
             <button type="button" onClick={onClose} className="text-[#5a5a66] hover:text-[#33333c]" aria-label="Close">
               <X className="h-5 w-5" />
             </button>
@@ -1466,41 +1710,172 @@ function PageEditor({
           ref={boxRef}
           className="relative mt-4 overflow-hidden rounded-lg bg-[#f5f5f7]"
           style={{ aspectRatio: `${page.width} / ${page.height}`, touchAction: "none" }}
-          onPointerMove={onPointerMove}
-          onPointerUp={onPointerUp}
+          onPointerMove={editorMode === "edges" ? onCornerMove : onPointerMove}
+          onPointerUp={editorMode === "edges" ? onCornerUp : onPointerUp}
         >
           <canvas
             ref={previewRef}
             className="absolute inset-0 h-full w-full object-contain select-none"
           />
-          <div
-            className="absolute border-2 border-white shadow-[0_0_0_9999px_rgba(0,0,0,0.4)]"
-            style={{
-              left: `${crop.x * 100}%`,
-              top: `${crop.y * 100}%`,
-              width: `${crop.w * 100}%`,
-              height: `${crop.h * 100}%`,
-              cursor: "move",
-              touchAction: "none",
-            }}
-            onPointerDown={onPointerDown("move")}
-          >
-            {(["nw", "ne", "sw", "se"] as const).map((c) => (
-              <div
-                key={c}
-                onPointerDown={onPointerDown(c)}
-                className="absolute h-3 w-3 rounded-full bg-white border-2"
-                style={{
-                  borderColor: "#e5322d",
-                  cursor: `${c}-resize`,
-                  touchAction: "none",
-                  ...(c.includes("n") ? { top: -6 } : { bottom: -6 }),
-                  ...(c.includes("w") ? { left: -6 } : { right: -6 }),
-                }}
-              />
-            ))}
-          </div>
+
+          {editorMode === "crop" && (
+            <div
+              className="absolute border-2 border-white shadow-[0_0_0_9999px_rgba(0,0,0,0.4)]"
+              style={{
+                left: `${crop.x * 100}%`,
+                top: `${crop.y * 100}%`,
+                width: `${crop.w * 100}%`,
+                height: `${crop.h * 100}%`,
+                cursor: "move",
+                touchAction: "none",
+              }}
+              onPointerDown={onPointerDown("move")}
+            >
+              {(["nw", "ne", "sw", "se"] as const).map((c) => (
+                <div
+                  key={c}
+                  onPointerDown={onPointerDown(c)}
+                  className="absolute h-3 w-3 rounded-full bg-white border-2"
+                  style={{
+                    borderColor: "#e5322d",
+                    cursor: `${c}-resize`,
+                    touchAction: "none",
+                    ...(c.includes("n") ? { top: -6 } : { bottom: -6 }),
+                    ...(c.includes("w") ? { left: -6 } : { right: -6 }),
+                  }}
+                />
+              ))}
+            </div>
+          )}
+
+          {editorMode === "edges" && (
+            <>
+              <svg
+                className="pointer-events-none absolute inset-0 h-full w-full"
+                viewBox="0 0 100 100"
+                preserveAspectRatio="none"
+              >
+                <polygon
+                  points={quad.map((p) => `${p.x * 100},${p.y * 100}`).join(" ")}
+                  fill="rgba(229,50,45,0.10)"
+                  stroke="#e5322d"
+                  strokeWidth="0.4"
+                  vectorEffect="non-scaling-stroke"
+                />
+              </svg>
+              {quad.map((p, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  aria-label={`Corner ${i + 1}`}
+                  onPointerDown={onCornerDown(i as 0 | 1 | 2 | 3)}
+                  className="absolute grid place-items-center rounded-full"
+                  style={{
+                    left: `calc(${p.x * 100}% - 22px)`,
+                    top: `calc(${p.y * 100}% - 22px)`,
+                    width: 44,
+                    height: 44,
+                    touchAction: "none",
+                    background: "transparent",
+                    border: "none",
+                  }}
+                >
+                  <span
+                    className="block rounded-full bg-white shadow"
+                    style={{
+                      width: 16,
+                      height: 16,
+                      border: "3px solid #e5322d",
+                    }}
+                  />
+                </button>
+              ))}
+              {loupePos && previewRef.current && (
+                <div
+                  className="pointer-events-none absolute overflow-hidden rounded-full border-2 shadow-lg"
+                  style={{
+                    borderColor: "#e5322d",
+                    width: loupeSize,
+                    height: loupeSize,
+                    left: loupePos.x - loupeSize / 2,
+                    top: Math.max(6, loupePos.y - loupeSize - 30),
+                    backgroundColor: "#fff",
+                  }}
+                >
+                  {(() => {
+                    const canvas = previewRef.current!;
+                    const box = boxRef.current!;
+                    const scaleX = canvas.width / box.clientWidth;
+                    const scaleY = canvas.height / box.clientHeight;
+                    const sx = loupePos.x * scaleX;
+                    const sy = loupePos.y * scaleY;
+                    // Use CSS to zoom into the preview canvas.
+                    return (
+                      <div
+                        style={{
+                          position: "absolute",
+                          left: loupeSize / 2 - sx * loupeZoom * (box.clientWidth / canvas.width),
+                          top: loupeSize / 2 - sy * loupeZoom * (box.clientHeight / canvas.height),
+                          width: box.clientWidth * loupeZoom,
+                          height: box.clientHeight * loupeZoom,
+                          backgroundImage: `url(${canvas.toDataURL("image/jpeg", 0.7)})`,
+                          backgroundSize: "100% 100%",
+                        }}
+                      />
+                    );
+                  })()}
+                  <div
+                    className="pointer-events-none absolute"
+                    style={{
+                      left: loupeSize / 2 - 1,
+                      top: loupeSize / 2 - 8,
+                      width: 2,
+                      height: 16,
+                      background: "#e5322d",
+                    }}
+                  />
+                  <div
+                    className="pointer-events-none absolute"
+                    style={{
+                      left: loupeSize / 2 - 8,
+                      top: loupeSize / 2 - 1,
+                      width: 16,
+                      height: 2,
+                      background: "#e5322d",
+                    }}
+                  />
+                </div>
+              )}
+            </>
+          )}
         </div>
+
+        {editorMode === "edges" && (
+          <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
+            <p className="text-[12px]" style={{ color: "#5a5a66" }}>
+              Drag each corner to match the document. Un-warp flattens the perspective.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={redetect}
+                disabled={redetecting}
+                className="rounded-lg border px-3 py-1.5 text-xs font-semibold disabled:opacity-50"
+                style={{ borderColor: "#ececef", color: "#33333c" }}
+              >
+                {redetecting ? "Detecting..." : "Re-detect"}
+              </button>
+              <button
+                type="button"
+                onClick={useFullPhoto}
+                className="rounded-lg border px-3 py-1.5 text-xs font-semibold"
+                style={{ borderColor: "#ececef", color: "#33333c" }}
+              >
+                Use full photo
+              </button>
+            </div>
+          </div>
+        )}
 
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           <div>
@@ -1602,7 +1977,7 @@ function PageEditor({
               className="rounded-xl px-4 py-2 text-sm font-bold text-white"
               style={{ backgroundColor: "#e5322d" }}
             >
-              Apply
+              {editorMode === "edges" ? "Done" : "Apply"}
             </button>
           </div>
         </div>
