@@ -26,8 +26,10 @@ export const imageTools: readonly ImageTool[] = [
     id: "heic-to-png",
     slug: "heic-to-png",
     name: "HEIC to PNG",
-    description: "Convert HEIC photos to lossless PNG in your browser.",
-    status: "coming-soon",
+    description:
+      "Convert iPhone HEIC photos to lossless PNG in your browser. Batch convert and download as a ZIP.",
+    status: "live",
+    aliases: ["heic", "heif", "iphone photo to png"],
   },
   {
     id: "jpg-to-png",

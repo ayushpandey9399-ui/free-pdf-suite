@@ -3,16 +3,27 @@ import { useEffect } from "react";
 import { getImageTool } from "@/lib/imageTools";
 import { SITE_URL } from "@/lib/site";
 import { HeicToJpgTool } from "@/tools/heic-to-jpg";
+import { HeicToPngTool } from "@/tools/heic-to-png";
 import {
   HeicToJpgSeo,
   heicToJpgFaqJsonLd,
   heicToJpgSoftwareJsonLd,
   heicToJpgHowToJsonLd,
 } from "@/components/HeicToJpgSeo";
+import {
+  HeicToPngSeo,
+  heicToPngFaqJsonLd,
+  heicToPngSoftwareJsonLd,
+  heicToPngHowToJsonLd,
+} from "@/components/HeicToPngSeo";
 
 const HEIC_TITLE = "HEIC to JPG Converter Free, No Upload | FreePDFHub";
 const HEIC_DESC =
   "Convert HEIC to JPG online free. Batch convert iPhone photos in your browser with no upload, no signup, and no quality loss. Fast and 100% private.";
+
+const HEIC_PNG_TITLE = "HEIC to PNG Converter Free, No Upload | FreePDFHub";
+const HEIC_PNG_DESC =
+  "Convert HEIC to PNG online free. Batch convert iPhone HEIC photos to lossless PNG in your browser, no upload, no signup, 100% private.";
 
 export const Route = createFileRoute("/image-tools/$slug")({
   loader: ({ params }) => {
@@ -24,7 +35,8 @@ export const Route = createFileRoute("/image-tools/$slug")({
     const slug = loaderData?.tool.slug ?? params.slug;
     const tool = loaderData?.tool;
     const url = `${SITE_URL}/image-tools/${slug}`;
-    const isHeic = slug === "heic-to-jpg";
+    const isHeicJpg = slug === "heic-to-jpg";
+    const isHeicPng = slug === "heic-to-png";
 
     const breadcrumbJsonLd = {
       "@context": "https://schema.org",
@@ -41,26 +53,31 @@ export const Route = createFileRoute("/image-tools/$slug")({
       ],
     };
 
-    if (isHeic) {
+    if (isHeicJpg || isHeicPng) {
+      const title = isHeicJpg ? HEIC_TITLE : HEIC_PNG_TITLE;
+      const desc = isHeicJpg ? HEIC_DESC : HEIC_PNG_DESC;
+      const softwareLd = isHeicJpg ? heicToJpgSoftwareJsonLd : heicToPngSoftwareJsonLd;
+      const howToLd = isHeicJpg ? heicToJpgHowToJsonLd : heicToPngHowToJsonLd;
+      const faqLd = isHeicJpg ? heicToJpgFaqJsonLd : heicToPngFaqJsonLd;
       return {
         meta: [
-          { title: HEIC_TITLE },
-          { name: "description", content: HEIC_DESC },
-          { property: "og:title", content: HEIC_TITLE },
-          { property: "og:description", content: HEIC_DESC },
+          { title },
+          { name: "description", content: desc },
+          { property: "og:title", content: title },
+          { property: "og:description", content: desc },
           { property: "og:type", content: "website" },
           { property: "og:url", content: url },
           { property: "og:image", content: `${SITE_URL}/og-cover.png` },
           { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: HEIC_TITLE },
-          { name: "twitter:description", content: HEIC_DESC },
+          { name: "twitter:title", content: title },
+          { name: "twitter:description", content: desc },
           { name: "twitter:image", content: `${SITE_URL}/og-cover.png` },
         ],
         links: [{ rel: "canonical", href: url }],
         scripts: [
-          { type: "application/ld+json", children: JSON.stringify(heicToJpgSoftwareJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(heicToJpgHowToJsonLd) },
-          { type: "application/ld+json", children: JSON.stringify(heicToJpgFaqJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(softwareLd) },
+          { type: "application/ld+json", children: JSON.stringify(howToLd) },
+          { type: "application/ld+json", children: JSON.stringify(faqLd) },
           { type: "application/ld+json", children: JSON.stringify(breadcrumbJsonLd) },
         ],
       };
@@ -112,6 +129,32 @@ function ImageToolPage() {
           </div>
         </section>
         <HeicToJpgSeo />
+      </div>
+    );
+  }
+
+  if (tool.slug === "heic-to-png") {
+    return (
+      <div className="mx-auto max-w-4xl px-4 pb-16">
+        <Breadcrumb name={tool.name} />
+        <section className="flex flex-col pt-6 pb-10 text-center">
+          <h1
+            className="mx-auto text-[28px] sm:text-[42px]"
+            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
+          >
+            Convert HEIC to PNG online, free
+          </h1>
+          <p className="mx-auto mt-4 max-w-[620px] text-[15px] sm:text-[18px] text-[#6B7280]">
+            Turn iPhone HEIC photos into lossless PNGs in your browser. Batch convert and download individually or as a ZIP.
+          </p>
+          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
+            Your files never leave your device
+          </p>
+          <div className="mt-10">
+            <HeicToPngTool />
+          </div>
+        </section>
+        <HeicToPngSeo />
       </div>
     );
   }
