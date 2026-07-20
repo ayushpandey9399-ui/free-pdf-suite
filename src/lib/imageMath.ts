@@ -347,3 +347,92 @@ export function aspectResizeOther(
   return aspectLockOther(origW, origH, changed, value);
 }
 
+/* ================================================================
+ * COLLAGE / PANEL LAYOUT (meme generator multi-panel mode)
+ * ================================================================ */
+
+export type CollageLayout = "single" | "v2" | "h2" | "v3" | "g2x2";
+export interface PanelRect { x: number; y: number; w: number; h: number }
+
+/** Number of panels for a given layout. */
+export function collagePanelCount(l: CollageLayout): number {
+  if (l === "single") return 1;
+  if (l === "v2" || l === "h2") return 2;
+  if (l === "v3") return 3;
+  return 4;
+}
+
+/**
+ * Panel rectangles for a collage. Each panel is a non-overlapping rect
+ * inside a `baseW x baseH` canvas, separated by `gap` px between neighbors.
+ * Rects are integer-aligned so canvas draws don't produce sub-pixel seams.
+ */
+export function collagePanelRects(
+  baseW: number,
+  baseH: number,
+  l: CollageLayout,
+  gap: number,
+): PanelRect[] {
+  const g = Math.max(0, Math.floor(Number.isFinite(gap) ? gap : 0));
+  const W = Math.max(1, Math.floor(baseW));
+  const H = Math.max(1, Math.floor(baseH));
+  if (l === "single") return [{ x: 0, y: 0, w: W, h: H }];
+  if (l === "v2") {
+    const ph = Math.max(1, Math.floor((H - g) / 2));
+    return [
+      { x: 0, y: 0, w: W, h: ph },
+      { x: 0, y: H - ph, w: W, h: ph },
+    ];
+  }
+  if (l === "h2") {
+    const pw = Math.max(1, Math.floor((W - g) / 2));
+    return [
+      { x: 0, y: 0, w: pw, h: H },
+      { x: W - pw, y: 0, w: pw, h: H },
+    ];
+  }
+  if (l === "v3") {
+    const ph = Math.max(1, Math.floor((H - 2 * g) / 3));
+    return [
+      { x: 0, y: 0, w: W, h: ph },
+      { x: 0, y: ph + g, w: W, h: ph },
+      { x: 0, y: 2 * (ph + g), w: W, h: ph },
+    ];
+  }
+  // g2x2
+  const pw = Math.max(1, Math.floor((W - g) / 2));
+  const ph = Math.max(1, Math.floor((H - g) / 2));
+  return [
+    { x: 0, y: 0, w: pw, h: ph },
+    { x: W - pw, y: 0, w: pw, h: ph },
+    { x: 0, y: H - ph, w: pw, h: ph },
+    { x: W - pw, y: H - ph, w: pw, h: ph },
+  ];
+}
+
+/**
+ * Source-rect for "cover" drawing: return the crop from a `bw x bh` bitmap
+ * that fills a `dw x dh` destination while preserving aspect. The bitmap is
+ * center-cropped. Analogous to CSS object-fit: cover.
+ */
+export function coverSourceRect(
+  bw: number,
+  bh: number,
+  dw: number,
+  dh: number,
+): { sx: number; sy: number; sw: number; sh: number } {
+  if (bw <= 0 || bh <= 0 || dw <= 0 || dh <= 0) {
+    return { sx: 0, sy: 0, sw: Math.max(1, bw), sh: Math.max(1, bh) };
+  }
+  const ba = bw / bh;
+  const da = dw / dh;
+  if (ba > da) {
+    const sh = bh;
+    const sw = sh * da;
+    return { sx: (bw - sw) / 2, sy: 0, sw, sh };
+  }
+  const sw = bw;
+  const sh = sw / da;
+  return { sx: 0, sy: (bh - sh) / 2, sw, sh };
+}
+
