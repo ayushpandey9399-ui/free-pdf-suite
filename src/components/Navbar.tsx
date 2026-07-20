@@ -259,6 +259,15 @@ export function Navbar() {
             >
               Compress PDF
             </Link>
+            <Link
+              to="/image-tools"
+              onClick={closeAll}
+              className="rounded-lg px-3 py-3 text-[14px] font-bold uppercase hover:bg-[#f6f4f9]"
+              style={{ color: "#33333c", letterSpacing: "0.04em" }}
+            >
+              Image Tools
+
+            </Link>
 
             <MobileAccordion
               label="Convert PDF"
