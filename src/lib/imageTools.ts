@@ -116,6 +116,17 @@ export const imageTools: readonly ImageTool[] = [
     icon: Maximize2,
     tint: "#4F46E5",
   },
+  {
+    id: "jpg-to-webp",
+    slug: "jpg-to-webp",
+    name: "JPG to WebP",
+    description:
+      "Convert JPG to modern WebP for faster websites and smaller files. Batch convert in your browser and download as a ZIP.",
+    status: "live",
+    aliases: ["jpeg to webp", "convert jpg to webp", "image to webp for website"],
+    icon: Globe,
+    tint: "#65A30D",
+  },
 ];
 
 
