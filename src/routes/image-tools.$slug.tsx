@@ -102,6 +102,13 @@ import {
   memeGeneratorSoftwareJsonLd,
   memeGeneratorHowToJsonLd,
 } from "@/components/MemeGeneratorSeo";
+import { PhotoEditorTool } from "@/tools/photo-editor";
+import {
+  PhotoEditorSeo,
+  photoEditorFaqJsonLd,
+  photoEditorSoftwareJsonLd,
+  photoEditorHowToJsonLd,
+} from "@/components/PhotoEditorSeo";
 
 
 const HEIC_TITLE = "HEIC to JPG Converter Free, No Upload | FreePDFHub";
