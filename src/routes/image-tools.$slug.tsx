@@ -30,6 +30,13 @@ import {
   pngToJpgSoftwareJsonLd,
   pngToJpgHowToJsonLd,
 } from "@/components/PngToJpgSeo";
+import { WebpToJpgTool } from "@/tools/webp-to-jpg";
+import {
+  WebpToJpgSeo,
+  webpToJpgFaqJsonLd,
+  webpToJpgSoftwareJsonLd,
+  webpToJpgHowToJsonLd,
+} from "@/components/WebpToJpgSeo";
 
 const HEIC_TITLE = "HEIC to JPG Converter Free, No Upload | FreePDFHub";
 const HEIC_DESC =
@@ -47,6 +54,10 @@ const PNG_JPG_TITLE = "PNG to JPG Converter Free, No Upload | FreePDFHub";
 const PNG_JPG_DESC =
   "Convert PNG to JPG online free. Batch convert PNG images to smaller JPG files in your browser, adjustable quality, no upload, 100% private.";
 
+const WEBP_JPG_TITLE = "WebP to JPG Converter Free, No Upload | FreePDFHub";
+const WEBP_JPG_DESC =
+  "Convert WebP to JPG online free. Batch convert .webp images to universal JPG in your browser, adjustable quality, no upload, no signup.";
+
 export const Route = createFileRoute("/image-tools/$slug")({
   loader: ({ params }) => {
     const tool = getImageTool(params.slug);
@@ -61,6 +72,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
     const isHeicPng = slug === "heic-to-png";
     const isJpgPng = slug === "jpg-to-png";
     const isPngJpg = slug === "png-to-jpg";
+    const isWebpJpg = slug === "webp-to-jpg";
 
     const breadcrumbJsonLd = {
       "@context": "https://schema.org",
@@ -77,42 +89,52 @@ export const Route = createFileRoute("/image-tools/$slug")({
       ],
     };
 
-    if (isHeicJpg || isHeicPng || isJpgPng || isPngJpg) {
+    if (isHeicJpg || isHeicPng || isJpgPng || isPngJpg || isWebpJpg) {
       const title = isHeicJpg
         ? HEIC_TITLE
         : isHeicPng
           ? HEIC_PNG_TITLE
           : isJpgPng
             ? JPG_PNG_TITLE
-            : PNG_JPG_TITLE;
+            : isPngJpg
+              ? PNG_JPG_TITLE
+              : WEBP_JPG_TITLE;
       const desc = isHeicJpg
         ? HEIC_DESC
         : isHeicPng
           ? HEIC_PNG_DESC
           : isJpgPng
             ? JPG_PNG_DESC
-            : PNG_JPG_DESC;
+            : isPngJpg
+              ? PNG_JPG_DESC
+              : WEBP_JPG_DESC;
       const softwareLd = isHeicJpg
         ? heicToJpgSoftwareJsonLd
         : isHeicPng
           ? heicToPngSoftwareJsonLd
           : isJpgPng
             ? jpgToPngSoftwareJsonLd
-            : pngToJpgSoftwareJsonLd;
+            : isPngJpg
+              ? pngToJpgSoftwareJsonLd
+              : webpToJpgSoftwareJsonLd;
       const howToLd = isHeicJpg
         ? heicToJpgHowToJsonLd
         : isHeicPng
           ? heicToPngHowToJsonLd
           : isJpgPng
             ? jpgToPngHowToJsonLd
-            : pngToJpgHowToJsonLd;
+            : isPngJpg
+              ? pngToJpgHowToJsonLd
+              : webpToJpgHowToJsonLd;
       const faqLd = isHeicJpg
         ? heicToJpgFaqJsonLd
         : isHeicPng
           ? heicToPngFaqJsonLd
           : isJpgPng
             ? jpgToPngFaqJsonLd
-            : pngToJpgFaqJsonLd;
+            : isPngJpg
+              ? pngToJpgFaqJsonLd
+              : webpToJpgFaqJsonLd;
       return {
         meta: [
           { title },
@@ -261,6 +283,32 @@ function ImageToolPage() {
           </div>
         </section>
         <PngToJpgSeo />
+      </div>
+    );
+  }
+
+  if (tool.slug === "webp-to-jpg") {
+    return (
+      <div className="mx-auto max-w-4xl px-4 pb-16">
+        <Breadcrumb name={tool.name} />
+        <section className="flex flex-col pt-6 pb-10 text-center">
+          <h1
+            className="mx-auto text-[28px] sm:text-[42px]"
+            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
+          >
+            Convert WebP to JPG online, free
+          </h1>
+          <p className="mx-auto mt-4 max-w-[620px] text-[15px] sm:text-[18px] text-[#6B7280]">
+            Turn .webp images (including ones saved from the web) into universal JPGs in your browser. Adjustable quality, batch convert, and download individually or as a ZIP.
+          </p>
+          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
+            Your files never leave your device
+          </p>
+          <div className="mt-10">
+            <WebpToJpgTool />
+          </div>
+        </section>
+        <WebpToJpgSeo />
       </div>
     );
   }
