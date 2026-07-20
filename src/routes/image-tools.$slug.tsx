@@ -591,6 +591,33 @@ function ImageToolPage() {
     );
   }
 
+  if (tool.slug === "crop-image") {
+    return (
+      <div className="mx-auto max-w-4xl px-4 pb-16">
+        <Breadcrumb name={tool.name} />
+        <section className="flex flex-col pt-6 pb-10 text-center">
+          <ToolHeaderIcon tool={tool} />
+          <h1
+            className="mx-auto text-[28px] sm:text-[42px]"
+            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
+          >
+            Crop images online, free
+          </h1>
+          <p className="mx-auto mt-4 max-w-[620px] text-[15px] sm:text-[18px] text-[#6B7280]">
+            Crop JPG, PNG, and WebP to any size right in your browser. Drag the crop box, lock a preset like 1:1, 16:9, 9:16, or passport 35x45, or enter exact pixels. Batch and ZIP.
+          </p>
+          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
+            Your files never leave your device
+          </p>
+          <div className="mt-10">
+            <CropImageTool />
+          </div>
+        </section>
+        <CropImageSeo />
+      </div>
+    );
+  }
+
   return null;
 
 
