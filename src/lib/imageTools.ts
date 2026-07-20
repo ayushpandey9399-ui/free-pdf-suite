@@ -187,6 +187,17 @@ export const imageTools: readonly ImageTool[] = [
     icon: Smile,
     tint: "#EAB308",
   },
+  {
+    id: "photo-editor",
+    slug: "photo-editor",
+    name: "Photo Editor",
+    description:
+      "Edit photos in your browser, adjust brightness, contrast, color, and one-tap filters like B&W, sepia, and vintage. Export JPG, PNG, or WebP.",
+    status: "live",
+    aliases: ["photo editor online free", "edit photo online", "photo filters online", "adjust brightness and contrast online"],
+    icon: SlidersHorizontal,
+    tint: "#8B5CF6",
+  },
 ];
 
 
