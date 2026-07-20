@@ -44,6 +44,18 @@ const secure: ToolLink[] = [
   { slug: "pdf-metadata", name: "PDF Metadata" },
 ];
 
+type ImageLink = { to: string; name: string };
+const imageTools: ImageLink[] = [
+  { to: "/image-tools", name: "Image Tools" },
+  { to: "/image-tools/heic-to-jpg", name: "HEIC to JPG" },
+  { to: "/image-tools/compress-image", name: "Compress Image" },
+  { to: "/image-tools/image-resize", name: "Resize Image" },
+  { to: "/image-tools/crop-image", name: "Crop Image" },
+  { to: "/image-tools/photo-editor", name: "Photo Editor" },
+  { to: "/image-tools/meme-generator", name: "Meme Generator" },
+];
+
+
 const HEAD_STYLE = {
   color: "#6B7280",
   letterSpacing: "0.05em",
@@ -65,7 +77,7 @@ export function Footer() {
   return (
     <footer style={{ backgroundColor: "#0F172A", color: "#9CA3AF" }}>
       <nav aria-label="Footer" className="mx-auto max-w-[1200px] px-4 sm:px-6 pt-14 pb-10 sm:pt-16 sm:pb-10">
-        <div className="grid gap-10 sm:gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 items-start">
+        <div className="grid gap-10 sm:gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 items-start">
           {/* Brand, 2 col wide on desktop */}
           <div className="lg:col-span-2">
             <Link
@@ -75,16 +87,15 @@ export function Footer() {
             >
               <LogoMark size={38} />
               <span className="inline-flex items-baseline gap-0.5">
-                <span style={{ color: "#ffffff" }}>PDF</span>
-                <span style={{ color: "#ff6b67" }}>free</span>
+                <span style={{ color: "#ffffff" }}>FreePDF</span>
+                <span style={{ color: "#e5322d" }}>Hub</span>
               </span>
             </Link>
             <p
               className="mt-5 text-[14px] max-w-[280px]"
               style={{ color: "#9CA3AF", lineHeight: 1.65 }}
             >
-              Free PDF tools that process your files right in your browser , 
-              private, fast and completely free.
+              Free PDF tools that process your files right in your browser, private, fast and completely free.
             </p>
             <ul
               className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-[12px]"
@@ -99,6 +110,20 @@ export function Footer() {
           <FooterColumn title="Organize" links={organize} />
           <FooterColumn title="Convert" links={convert} />
           <FooterColumn title="Edit" links={edit} />
+
+          {/* Image Tools column */}
+          <div>
+            <FooterHeading>Image Tools</FooterHeading>
+            <ul className="mt-4">
+              {imageTools.map((l) => (
+                <li key={l.to}>
+                  <Link to={l.to} className={LINK_CLASS} style={LINK_STYLE}>
+                    {l.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
           {/* Secure + Company sharing a column */}
           <div>
@@ -123,6 +148,7 @@ export function Footer() {
           </div>
         </div>
       </nav>
+
 
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
         <div
