@@ -134,6 +134,10 @@ const CROP_TITLE = "Crop Image to Any Size Free, No Upload | FreePDFHub";
 const CROP_DESC =
   "Crop image online free. Drag the crop box, lock 1:1, 16:9, 9:16, or passport ratios, or enter exact pixels. Batch JPG, PNG, WebP in your browser.";
 
+const ROTATE_TITLE = "Rotate and Flip Image Free, No Upload | FreePDFHub";
+const ROTATE_DESC =
+  "Rotate image online free. Rotate 90, 180, or 270 degrees, mirror horizontally, or flip vertically. Batch fix sideways JPG, PNG, WebP in your browser.";
+
 
 export const Route = createFileRoute("/image-tools/$slug")({
   loader: ({ params }) => {
