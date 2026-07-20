@@ -684,6 +684,9 @@ export default function ScanToPdf() {
     (p: ScanPage) => {
       const c = p.crop;
       const cs = c ? `${c.x.toFixed(3)},${c.y.toFixed(3)},${c.w.toFixed(3)},${c.h.toFixed(3)}` : "-";
+      const qs = p.quad
+        ? "q:" + p.quad.map((pt) => `${pt.x.toFixed(3)},${pt.y.toFixed(3)}`).join(";")
+        : "q-";
       return [
         p.rotation,
         p.filter ?? `d:${defaultFilter}`,
@@ -692,10 +695,57 @@ export default function ScanToPdf() {
         `b${p.brightness}`,
         `k${p.contrast}`,
         p.shadow ? "s1" : "s0",
+        qs,
       ].join("|");
     },
     [defaultFilter],
   );
+
+  /* ---------- Automatic document edge detection (async) ---------- */
+  const detectedRef = useRef<Set<string>>(new Set());
+  useEffect(() => {
+    let cancelled = false;
+    for (const p of pages) {
+      if (detectedRef.current.has(p.id)) continue;
+      detectedRef.current.add(p.id);
+      void (async () => {
+        try {
+          const { bmp, img } = await decodeBitmap(p.blob);
+          const src: CanvasImageSource = bmp ?? img!;
+          const iw = bmp ? bmp.width : img!.naturalWidth;
+          const ih = bmp ? bmp.height : img!.naturalHeight;
+          const detW = 800;
+          const scale = Math.min(1, detW / Math.max(iw, ih));
+          const dw = Math.max(1, Math.round(iw * scale));
+          const dh = Math.max(1, Math.round(ih * scale));
+          const c = document.createElement("canvas");
+          c.width = dw;
+          c.height = dh;
+          const cx = c.getContext("2d")!;
+          cx.imageSmoothingEnabled = true;
+          cx.imageSmoothingQuality = "high";
+          cx.drawImage(src, 0, 0, dw, dh);
+          if (bmp) bmp.close();
+          const data = cx.getImageData(0, 0, dw, dh);
+          const res = detectDocumentQuad(data.data, dw, dh);
+          if (cancelled) return;
+          if (!res || res.confidence < 0.6) return;
+          // Convert to normalized 0..1 source coords.
+          const norm: NormQuad = res.quad.map((pt) => ({ x: pt.x / dw, y: pt.y / dh })) as NormQuad;
+          setPages((prev) =>
+            prev.map((x) =>
+              x.id === p.id && !x.quad ? { ...x, quad: norm, quadAuto: true } : x,
+            ),
+          );
+        } catch {
+          /* detection is best-effort */
+        }
+      })();
+    }
+    return () => {
+      cancelled = true;
+    };
+  }, [pages]);
 
   useEffect(() => {
     let cancelled = false;
