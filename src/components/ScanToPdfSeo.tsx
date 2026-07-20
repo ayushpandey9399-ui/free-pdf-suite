@@ -60,6 +60,23 @@ export function ScanToPdfSeo() {
       </section>
 
       <section>
+        <h2 className="text-2xl font-bold">Clean, flat, readable, even from a phone photo</h2>
+        <p className="mt-3">
+          Real receipts are crooked, real prescriptions have a shadow across the middle,
+          real ID copies were taken under a warm overhead bulb. The per-page editor
+          handles all of it in the browser: a straighten slider (with auto-zoom, so no
+          white corners ever creep in) fixes a tilted capture, a one-click shadow removal
+          flattens uneven lighting by estimating the background and dividing it back out,
+          and the Black &amp; White filter uses adaptive Sauvola thresholding so text
+          stays readable even in the shadowed half of a page. Brightness and contrast
+          sliders sit right there for the last mile, and press-hold Compare to see the
+          original photo before you commit.
+        </p>
+      </section>
+
+
+
+      <section>
         <h2 className="text-2xl font-bold">The private scanner in your pocket</h2>
         <p className="mt-3">
           Look at what people actually reach for a scanner to capture: Aadhaar cards, PAN
@@ -245,7 +262,12 @@ const scanToPdfFaq = [
     q: "Is there OCR? Can it read the text on the scan?",
     a: "Not yet. Right now the tool captures pages as images and embeds them in a PDF, so the scan looks perfect but you cannot select or search the text inside it. If OCR matters for your use case, run the file through a dedicated OCR tool after downloading.",
   },
+  {
+    q: "My photo is crooked or has a shadow across it. Can the tool fix that?",
+    a: "Yes. Open the page in the editor (crop icon on the thumbnail) and use the straighten slider to level a tilted capture, the Remove shadow toggle to flatten uneven lighting, and the Black & White filter for a clean scanned look on receipts and forms. Brightness and contrast sliders let you fine-tune before you commit.",
+  },
 ];
+
 
 export const scanToPdfFaqJsonLd = {
   "@context": "https://schema.org",
