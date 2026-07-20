@@ -57,6 +57,7 @@ export function ImageToolIcon({
   const isRotate = slug === "rotate-image";
   const isWatermark = slug === "watermark-image";
   const isMeme = slug === "meme-generator";
+  const isPhotoEditor = slug === "photo-editor";
 
   return (
     <svg
