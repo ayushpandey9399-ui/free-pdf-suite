@@ -444,6 +444,33 @@ function ImageToolPage() {
     );
   }
 
+  if (tool.slug === "image-resize") {
+    return (
+      <div className="mx-auto max-w-4xl px-4 pb-16">
+        <Breadcrumb name={tool.name} />
+        <section className="flex flex-col pt-6 pb-10 text-center">
+          <ToolHeaderIcon tool={tool} />
+          <h1
+            className="mx-auto text-[28px] sm:text-[42px]"
+            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
+          >
+            Resize images online, free
+          </h1>
+          <p className="mx-auto mt-4 max-w-[620px] text-[15px] sm:text-[18px] text-[#6B7280]">
+            Change JPG, PNG, and WebP dimensions right in your browser. Enter exact pixels, use a percent slider, or pick a preset for passport photo, signature, HD, or Full HD. Also compress to a target KB in the same pass.
+          </p>
+          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
+            Your files never leave your device
+          </p>
+          <div className="mt-10">
+            <ImageResizeTool />
+          </div>
+        </section>
+        <ImageResizeSeo />
+      </div>
+    );
+  }
+
   return null;
 
 }
