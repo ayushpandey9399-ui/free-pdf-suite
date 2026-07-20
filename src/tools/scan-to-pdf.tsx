@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { PDFDocument, PageSizes } from "pdf-lib";
+import { PDFDocument, PageSizes, StandardFonts, rgb, type PDFFont } from "pdf-lib";
+import fontkit from "@pdf-lib/fontkit";
 import { toast } from "sonner";
 import {
   Camera,
@@ -13,6 +14,7 @@ import {
   GripVertical,
   Info,
   Eye,
+  ScanText,
 } from "lucide-react";
 import {
   DndContext,
@@ -31,6 +33,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Switch } from "@/components/ui/switch";
 import { downloadBlob } from "@/lib/download";
 import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 import { cn } from "@/lib/utils";
@@ -44,6 +47,9 @@ import {
   type Quad,
   type Point as ScanPoint,
 } from "@/lib/scanGeometry";
+import { checkOcrAssets, getOcrWorker, ocrCanvas, terminateOcrWorker } from "@/lib/scanOcr";
+
+const OCR_CONSENT_KEY = "freepdfhub.scan.ocrConsented";
 
 type FilterKind = "original" | "document" | "grayscale" | "bw";
 type PageSize = "a4" | "letter" | "fit";
