@@ -134,7 +134,7 @@ describe("SEO: JSON-LD payloads", () => {
 describe("contract: every live registry entry is fully wired", () => {
   for (const t of live) {
     it(`${t.slug}: has a render branch in route file`, () => {
-      expect(ROUTE_SRC).toContain(`tool.slug === "${t.slug}"`);
+      expect(ROUTE_SRC).toContain(`"${t.slug}":`);
     });
     it(`${t.slug}: has a canonical/software URL entry`, () => {
       expect(TITLES[t.slug]).toBeTruthy();
