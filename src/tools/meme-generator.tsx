@@ -453,7 +453,11 @@ export function MemeGeneratorTool() {
     setSelectedId(id);
   };
   const removeLayer = (id: string) => {
-    setLayers((prev) => prev.filter((l) => l.id !== id));
+    setLayers((prev) => {
+      const gone = prev.find((l) => l.id === id);
+      if (gone && gone.kind === "image") gone.bitmap.close?.();
+      return prev.filter((l) => l.id !== id);
+    });
     if (selectedId === id) setSelectedId("__top");
   };
   const bringForward = (id: string) => {
