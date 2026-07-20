@@ -3,16 +3,27 @@ import { useEffect } from "react";
 import { getImageTool } from "@/lib/imageTools";
 import { SITE_URL } from "@/lib/site";
 import { HeicToJpgTool } from "@/tools/heic-to-jpg";
+import { HeicToPngTool } from "@/tools/heic-to-png";
 import {
   HeicToJpgSeo,
   heicToJpgFaqJsonLd,
   heicToJpgSoftwareJsonLd,
   heicToJpgHowToJsonLd,
 } from "@/components/HeicToJpgSeo";
+import {
+  HeicToPngSeo,
+  heicToPngFaqJsonLd,
+  heicToPngSoftwareJsonLd,
+  heicToPngHowToJsonLd,
+} from "@/components/HeicToPngSeo";
 
 const HEIC_TITLE = "HEIC to JPG Converter Free, No Upload | FreePDFHub";
 const HEIC_DESC =
   "Convert HEIC to JPG online free. Batch convert iPhone photos in your browser with no upload, no signup, and no quality loss. Fast and 100% private.";
+
+const HEIC_PNG_TITLE = "HEIC to PNG Converter Free, No Upload | FreePDFHub";
+const HEIC_PNG_DESC =
+  "Convert HEIC to PNG online free. Batch convert iPhone HEIC photos to lossless PNG in your browser, no upload, no signup, 100% private.";
 
 export const Route = createFileRoute("/image-tools/$slug")({
   loader: ({ params }) => {
