@@ -72,6 +72,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
     const isHeicPng = slug === "heic-to-png";
     const isJpgPng = slug === "jpg-to-png";
     const isPngJpg = slug === "png-to-jpg";
+    const isWebpJpg = slug === "webp-to-jpg";
 
     const breadcrumbJsonLd = {
       "@context": "https://schema.org",
@@ -88,42 +89,52 @@ export const Route = createFileRoute("/image-tools/$slug")({
       ],
     };
 
-    if (isHeicJpg || isHeicPng || isJpgPng || isPngJpg) {
+    if (isHeicJpg || isHeicPng || isJpgPng || isPngJpg || isWebpJpg) {
       const title = isHeicJpg
         ? HEIC_TITLE
         : isHeicPng
           ? HEIC_PNG_TITLE
           : isJpgPng
             ? JPG_PNG_TITLE
-            : PNG_JPG_TITLE;
+            : isPngJpg
+              ? PNG_JPG_TITLE
+              : WEBP_JPG_TITLE;
       const desc = isHeicJpg
         ? HEIC_DESC
         : isHeicPng
           ? HEIC_PNG_DESC
           : isJpgPng
             ? JPG_PNG_DESC
-            : PNG_JPG_DESC;
+            : isPngJpg
+              ? PNG_JPG_DESC
+              : WEBP_JPG_DESC;
       const softwareLd = isHeicJpg
         ? heicToJpgSoftwareJsonLd
         : isHeicPng
           ? heicToPngSoftwareJsonLd
           : isJpgPng
             ? jpgToPngSoftwareJsonLd
-            : pngToJpgSoftwareJsonLd;
+            : isPngJpg
+              ? pngToJpgSoftwareJsonLd
+              : webpToJpgSoftwareJsonLd;
       const howToLd = isHeicJpg
         ? heicToJpgHowToJsonLd
         : isHeicPng
           ? heicToPngHowToJsonLd
           : isJpgPng
             ? jpgToPngHowToJsonLd
-            : pngToJpgHowToJsonLd;
+            : isPngJpg
+              ? pngToJpgHowToJsonLd
+              : webpToJpgHowToJsonLd;
       const faqLd = isHeicJpg
         ? heicToJpgFaqJsonLd
         : isHeicPng
           ? heicToPngFaqJsonLd
           : isJpgPng
             ? jpgToPngFaqJsonLd
-            : pngToJpgFaqJsonLd;
+            : isPngJpg
+              ? pngToJpgFaqJsonLd
+              : webpToJpgFaqJsonLd;
       return {
         meta: [
           { title },
