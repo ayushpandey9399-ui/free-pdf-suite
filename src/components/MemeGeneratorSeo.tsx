@@ -92,10 +92,10 @@ export const memeGeneratorFaqJsonLd = {
     },
     {
       "@type": "Question",
-      name: "What font do memes use?",
+      name: "Can I change the meme font and color?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "The classic meme look uses Impact, a proprietary font. We use Anton, an open-license font from Google Fonts that looks nearly identical, so the output has the same iconic feel without a licensing issue.",
+        text: "Yes. Pick from 4 open-license fonts, Anton (the classic Impact lookalike), Oswald, Bebas Neue, and Comic Neue, and set any text color and outline color per box using the swatches or the custom color picker.",
       },
     },
     {
@@ -198,12 +198,16 @@ export function MemeGeneratorSeo() {
       <p>
         The bold uppercase style that made memes famous originally used the
         Impact typeface. Impact is proprietary, so we cannot legally ship it.
-        Instead we use Anton, an open-license font from Google Fonts that is
-        visually almost indistinguishable, tall condensed letterforms, thick
-        strokes, and heavy contrast. The result has the same iconic meme feel,
-        just without a licensing headache. Text is drawn white with a black
-        stroke whose thickness scales with the font size, so titles stay
-        readable on both light and dark photos.
+        Instead we offer 4 open-license fonts: Anton (an almost identical
+        Impact lookalike from Google Fonts, the default), Oswald, Bebas Neue,
+        and Comic Neue for a more playful vibe. Pick a font per text box.
+        Every box also has its own text color and outline color pickers with 8
+        preset swatches plus a custom color input, so you can match a brand
+        palette, invert to black-on-white for light photos, or drop the
+        outline entirely for a flatter modern look. Outline thickness still
+        auto scales with the font size, so titles stay readable on both light
+        and dark photos.
+
       </p>
 
       <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">
