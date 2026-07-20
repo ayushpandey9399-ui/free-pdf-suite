@@ -1,10 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
-import { PDFDocument, degrees } from "pdf-lib";
+import { PDFDocument, degrees, rgb, StandardFonts, type PDFFont } from "pdf-lib";
+import fontkit from "@pdf-lib/fontkit";
 import { getStroke } from "perfect-freehand";
 import {
   X, Trash2, Pen, Type as TypeIcon, Upload as UploadIcon,
   ChevronLeft, ChevronRight, MousePointerClick, Undo2, Maximize2, RotateCw, Check,
+  Calendar as CalendarIcon, CheckSquare, XSquare, Copy, Bookmark,
 } from "lucide-react";
 
 import { FileDropzone } from "@/components/FileDropzone";
@@ -21,8 +23,10 @@ import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
-type Tab = "draw" | "type" | "upload";
-type Kind = "signature" | "initials";
+type Tab = "draw" | "type" | "upload" | "saved";
+type Kind = "signature" | "initials" | "date" | "text" | "check";
+type CheckKind = "check" | "cross";
+type DateFormat = "DMY" | "MDY" | "DMonY";
 
 interface Signature {
   dataUrl: string;
@@ -30,11 +34,24 @@ interface Signature {
   h: number;
 }
 
+interface SavedSig extends Signature {
+  id: string;
+  createdAt: number;
+}
+
 interface PageInfo {
   url: string;
   width: number;
   height: number;
   rotation: number;
+}
+
+interface TextPayload {
+  variant: "date" | "text" | "check";
+  value: string;         // rendered date string, user text, or "" for check
+  checkKind?: CheckKind; // when variant === "check"
+  color: string;         // "#111111" or "#1a56db"
+  fontPx: number;        // font size in PDF points (used for text/date)
 }
 
 interface Placement {
@@ -46,6 +63,7 @@ interface Placement {
   w: number;
   h: number;
   rotation: number; // CW degrees, screen space
+  text?: TextPayload; // set for kind === "date" | "text" | "check"
 }
 
 type StrokePoint = [number, number, number]; // x, y, pressure
@@ -61,6 +79,11 @@ const COLORS = [
   { name: "Red", value: "#c72620" },
 ];
 
+const TEXT_COLORS = [
+  { name: "Black", value: "#111111" },
+  { name: "Blue", value: "#1a56db" },
+];
+
 const THICKNESS = [
   { name: "Thin", size: 3 },
   { name: "Medium", size: 5.5 },
@@ -74,8 +97,93 @@ const TYPE_FONTS = [
   { name: "Sacramento", family: "'Sacramento', cursive" },
 ];
 
+const DATE_FORMATS: { id: DateFormat; label: string }[] = [
+  { id: "DMY",   label: "DD/MM/YYYY" },
+  { id: "MDY",   label: "MM/DD/YYYY" },
+  { id: "DMonY", label: "DD Mon YYYY" },
+];
+
+/* -------- Complex script guard (mirrors edit-pdf) -------- */
+const COMPLEX_SCRIPT_RE =
+  /[\u0590-\u05FF\u0600-\u06FF\u0700-\u074F\u0900-\u097F\u0980-\u09FF\u0A00-\u0A7F\u0A80-\u0AFF\u0B00-\u0B7F\u0B80-\u0BFF\u0C00-\u0C7F\u0C80-\u0CFF\u0D00-\u0D7F\u0D80-\u0DFF\u0E00-\u0E7F\u0E80-\u0EFF\u0F00-\u0FFF\u1000-\u109F\u1780-\u17FF]/;
+
+function hasComplexScript(s: string): boolean {
+  return COMPLEX_SCRIPT_RE.test(s);
+}
+
+/* -------- Date helpers -------- */
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+function pad2(n: number) { return String(n).padStart(2, "0"); }
+function formatDate(d: Date, fmt: DateFormat): string {
+  const dd = pad2(d.getDate()), mm = pad2(d.getMonth() + 1), yyyy = d.getFullYear();
+  if (fmt === "DMY") return `${dd}/${mm}/${yyyy}`;
+  if (fmt === "MDY") return `${mm}/${dd}/${yyyy}`;
+  return `${dd} ${MONTHS[d.getMonth()]} ${yyyy}`;
+}
+
+/* -------- Saved signatures (device-only) -------- */
+const SAVED_MAX = 3;
+const SAVED_KEYS: Record<"signature" | "initials", string> = {
+  signature: "signpdf.saved.signatures.v1",
+  initials:  "signpdf.saved.initials.v1",
+};
+
+function loadSaved(k: "signature" | "initials"): SavedSig[] {
+  try {
+    const raw = localStorage.getItem(SAVED_KEYS[k]);
+    if (!raw) return [];
+    const arr = JSON.parse(raw);
+    if (!Array.isArray(arr)) return [];
+    return arr.filter((x) => x && typeof x.dataUrl === "string" && typeof x.w === "number" && typeof x.h === "number");
+  } catch { return []; }
+}
+function persistSaved(k: "signature" | "initials", list: SavedSig[]): boolean {
+  try {
+    localStorage.setItem(SAVED_KEYS[k], JSON.stringify(list));
+    return true;
+  } catch { return false; }
+}
+
+/* -------- Font measurement cache (Arimo for preview + export) -------- */
+let ARIMO_BYTES: Uint8Array | null = null;
+async function loadArimoBytes(): Promise<Uint8Array> {
+  if (ARIMO_BYTES) return ARIMO_BYTES;
+  const res = await fetch("/fonts/Arimo-Regular.ttf");
+  if (!res.ok) throw new Error("Font load failed");
+  ARIMO_BYTES = new Uint8Array(await res.arrayBuffer());
+  return ARIMO_BYTES;
+}
+
+// Inject an @font-face for Arimo so on-screen preview matches export.
+function useArimoFace() {
+  useEffect(() => {
+    if (document.getElementById("signpdf-arimo-face")) return;
+    const style = document.createElement("style");
+    style.id = "signpdf-arimo-face";
+    style.textContent = `
+      @font-face {
+        font-family: 'ArimoSignPdf';
+        src: url('/fonts/Arimo-Regular.ttf') format('truetype');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+    `;
+    document.head.appendChild(style);
+  }, []);
+}
+
+// Measure width of a text string in Arimo at a given font size (in px, matches PDF pt).
+function measureArimoWidth(text: string, fontPx: number): number {
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d")!;
+  ctx.font = `${fontPx}px 'ArimoSignPdf', Arial, sans-serif`;
+  return Math.max(1, Math.ceil(ctx.measureText(text).width));
+}
+
 export default function SignPdf() {
   const isMobile = useIsMobile();
+  useArimoFace();
 
   const [files, setFiles] = useState<File[]>([]);
   const [pages, setPages] = useState<PageInfo[]>([]);
@@ -86,6 +194,14 @@ export default function SignPdf() {
   const [signature, setSignature] = useState<Signature | null>(null);
   const [initials, setInitials] = useState<Signature | null>(null);
 
+  // Text primitives config
+  const [dateFormat, setDateFormat] = useState<DateFormat>("DMY");
+  const [dateColor, setDateColor] = useState(TEXT_COLORS[0].value);
+  const [textInput, setTextInput] = useState("");
+  const [textColor, setTextColor] = useState(TEXT_COLORS[0].value);
+  const [checkKind, setCheckKind] = useState<CheckKind>("check");
+  const [checkColor, setCheckColor] = useState(TEXT_COLORS[0].value);
+
   const [placements, setPlacements] = useState<Placement[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -94,6 +210,10 @@ export default function SignPdf() {
   const [stampMode, setStampMode] = useState<Kind | null>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [pulsePlace, setPulsePlace] = useState(false);
+
+  // Saved sigs state (only meaningful for signature/initials)
+  const [savedSigs, setSavedSigs] = useState<SavedSig[]>(() => loadSaved("signature"));
+  const [savedInits, setSavedInits] = useState<SavedSig[]>(() => loadSaved("initials"));
 
   const pagesContainerRef = useRef<HTMLDivElement>(null);
   const pageRefs = useRef<Map<number, HTMLElement>>(new Map());
@@ -148,16 +268,22 @@ export default function SignPdf() {
     return () => { cancelled = true; };
   }, [file]);
 
-  const current = active === "signature" ? signature : initials;
-  const setCurrent = (sig: Signature | null) => {
+  const current = active === "signature" ? signature : active === "initials" ? initials : null;
+  const setCurrentImage = (sig: Signature | null) => {
     if (active === "signature") setSignature(sig);
-    else setInitials(sig);
-    // Pulse the Place button once when a new signature is committed
+    else if (active === "initials") setInitials(sig);
     if (sig) {
       setPulsePlace(true);
       window.setTimeout(() => setPulsePlace(false), 1400);
     }
   };
+
+  // Reset tab when switching active kind
+  useEffect(() => {
+    if (active === "date" || active === "text" || active === "check") return;
+    if (tab === "saved") return; // stay on saved when switching signature<->initials
+    // keep current tab
+  }, [active, tab]);
 
   useEffect(() => {
     if (!pages.length) return;
@@ -222,8 +348,8 @@ export default function SignPdf() {
     return () => window.removeEventListener("keydown", onKey);
   }, [selectedId, pages]);
 
-  const addPlacement = useCallback(
-    (kind: Kind, pageIndex: number, cxPoints: number, cyPoints: number) => {
+  const addImagePlacement = useCallback(
+    (kind: "signature" | "initials", pageIndex: number, cxPoints: number, cyPoints: number) => {
       const sig = kind === "signature" ? signature : initials;
       const page = pages[pageIndex];
       if (!sig || !page) return;
@@ -240,16 +366,71 @@ export default function SignPdf() {
     [pages, signature, initials],
   );
 
+  const addTextPlacement = useCallback(
+    (variant: "date" | "text" | "check", pageIndex: number, cxPoints: number, cyPoints: number) => {
+      const page = pages[pageIndex];
+      if (!page) return;
+      let value = "";
+      let color = "#111111";
+      let ck: CheckKind | undefined;
+      if (variant === "date") { value = formatDate(new Date(), dateFormat); color = dateColor; }
+      else if (variant === "text") {
+        value = textInput.trim();
+        if (!value) { toast.error("Type something first"); return; }
+        if (hasComplexScript(value)) { toast.error("This script isn't supported yet"); return; }
+        color = textColor;
+      } else { ck = checkKind; color = checkColor; }
+
+      const fontPx = variant === "check" ? 22 : 20;
+      let w: number, h: number;
+      if (variant === "check") { w = 22; h = 22; }
+      else {
+        w = measureArimoWidth(value, fontPx) + 6;
+        h = Math.ceil(fontPx * 1.25);
+      }
+      const x = Math.max(0, Math.min(page.width - w, cxPoints - w / 2));
+      const y = Math.max(0, Math.min(page.height - h, cyPoints - h / 2));
+      const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      setPlacements((prev) => [...prev, {
+        id, pageIndex, kind: variant, x, y, w, h, rotation: 0,
+        text: { variant, value, checkKind: ck, color, fontPx },
+      }]);
+      setSelectedId(id);
+    },
+    [pages, dateFormat, dateColor, textInput, textColor, checkKind, checkColor],
+  );
+
+  const stampAt = useCallback((pageIndex: number, cxPts: number, cyPts: number) => {
+    if (!stampMode) return;
+    if (stampMode === "signature" || stampMode === "initials") {
+      addImagePlacement(stampMode, pageIndex, cxPts, cyPts);
+    } else {
+      addTextPlacement(stampMode, pageIndex, cxPts, cyPts);
+    }
+  }, [stampMode, addImagePlacement, addTextPlacement]);
+
+  const canPlace = useMemo(() => {
+    if (active === "signature") return !!signature;
+    if (active === "initials")  return !!initials;
+    if (active === "date")      return true;
+    if (active === "text")      return textInput.trim().length > 0;
+    if (active === "check")     return true;
+    return false;
+  }, [active, signature, initials, textInput]);
+
   const placeOnDocument = useCallback(() => {
-    if (!current) return;
+    if (!canPlace) return;
     const pageIndex = currentPage;
     const page = pages[pageIndex];
     if (!page) return;
     const samePage = placements.filter((p) => p.pageIndex === pageIndex).length;
     const offset = (samePage % 6) * 20;
-    addPlacement(active, pageIndex, page.width / 2 + offset, page.height / 2 + offset);
+    const cx = page.width / 2 + offset;
+    const cy = page.height / 2 + offset;
+    if (active === "signature" || active === "initials") addImagePlacement(active, pageIndex, cx, cy);
+    else addTextPlacement(active, pageIndex, cx, cy);
     setStampMode(active);
-  }, [current, currentPage, pages, placements, active, addPlacement]);
+  }, [canPlace, currentPage, pages, placements, active, addImagePlacement, addTextPlacement]);
 
   const scrollToPage = (idx: number) => {
     const el = pageRefs.current.get(idx);
@@ -260,7 +441,76 @@ export default function SignPdf() {
     setFiles([]); setPages([]); setPlacements([]); setSelectedId(null);
     setSignature(null); setInitials(null); setResult(null);
     setActive("signature"); setTab("draw"); setStampMode(null); setCurrentPage(0);
+    setTextInput("");
     pageRefs.current.clear();
+  };
+
+  /* -------- Apply to all pages -------- */
+  const applySelectedToAllPages = useCallback(() => {
+    if (!selectedId) return;
+    setPlacements((prev) => {
+      const src = prev.find((p) => p.id === selectedId);
+      if (!src) return prev;
+      const srcPage = pages[src.pageIndex]; if (!srcPage) return prev;
+      const rx = src.x / srcPage.width;
+      const ry = src.y / srcPage.height;
+      const rw = src.w / srcPage.width;
+      const clones: Placement[] = [];
+      for (let i = 0; i < pages.length; i++) {
+        if (i === src.pageIndex) continue;
+        const dst = pages[i]; if (!dst) continue;
+        // Duplicate detection: same kind, same content, close relative position + width
+        const exists = prev.some((p) => {
+          if (p.pageIndex !== i || p.kind !== src.kind) return false;
+          if ((p.text?.value ?? "") !== (src.text?.value ?? "")) return false;
+          if ((p.text?.variant ?? "") !== (src.text?.variant ?? "")) return false;
+          if ((p.text?.checkKind ?? "") !== (src.text?.checkKind ?? "")) return false;
+          const prx = p.x / dst.width, pry = p.y / dst.height, prw = p.w / dst.width;
+          return Math.abs(prx - rx) < 0.02 && Math.abs(pry - ry) < 0.02 && Math.abs(prw - rw) < 0.02;
+        });
+        if (exists) continue;
+        const w = rw * dst.width;
+        const aspect = src.h / src.w;
+        const h = w * aspect;
+        const x = Math.max(0, Math.min(dst.width - w, rx * dst.width));
+        const y = Math.max(0, Math.min(dst.height - h, ry * dst.height));
+        clones.push({
+          ...src,
+          id: `${Date.now()}-${i}-${Math.random().toString(36).slice(2, 6)}`,
+          pageIndex: i, x, y, w, h,
+        });
+      }
+      if (clones.length === 0) { toast.info("Already placed on every page"); return prev; }
+      toast.success(`Applied to ${clones.length} more page${clones.length === 1 ? "" : "s"}`);
+      return [...prev, ...clones];
+    });
+  }, [selectedId, pages]);
+
+  /* -------- Saved sigs actions -------- */
+  const saveCurrent = useCallback((asKind: "signature" | "initials", sig: Signature) => {
+    const key = asKind;
+    const cur = key === "signature" ? savedSigs : savedInits;
+    // Dedupe by dataUrl
+    if (cur.some((s) => s.dataUrl === sig.dataUrl)) return;
+    const next: SavedSig[] = [
+      { id: `${Date.now()}-${Math.random().toString(36).slice(2, 6)}`, createdAt: Date.now(), ...sig },
+      ...cur,
+    ].slice(0, SAVED_MAX);
+    const ok = persistSaved(key, next);
+    if (!ok) { toast.error("Could not save to this device (storage full)"); return; }
+    if (key === "signature") setSavedSigs(next); else setSavedInits(next);
+    toast.success("Saved on this device");
+  }, [savedSigs, savedInits]);
+
+  const deleteSaved = (kind: "signature" | "initials", id: string) => {
+    const cur = kind === "signature" ? savedSigs : savedInits;
+    const next = cur.filter((s) => s.id !== id);
+    persistSaved(kind, next);
+    if (kind === "signature") setSavedSigs(next); else setSavedInits(next);
+  };
+  const clearSaved = (kind: "signature" | "initials") => {
+    persistSaved(kind, []);
+    if (kind === "signature") setSavedSigs([]); else setSavedInits([]);
   };
 
   const run = async () => {
@@ -269,36 +519,101 @@ export default function SignPdf() {
     try {
       const doc = await loadPdfLibDoc(await file.arrayBuffer());
       const pdfPages = doc.getPages();
-      const cache: Record<string, Awaited<ReturnType<typeof doc.embedPng>>> = {};
-      for (const p of placements) {
-        const sig = p.kind === "signature" ? signature : initials;
-        if (!sig) continue;
-        if (!cache[sig.dataUrl]) {
-          const b64 = sig.dataUrl.split(",")[1];
-          const bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
-          cache[sig.dataUrl] = await doc.embedPng(bytes);
+      const imgCache: Record<string, Awaited<ReturnType<typeof doc.embedPng>>> = {};
+      let arimo: PDFFont | null = null;
+      let needsFont = placements.some((p) => p.kind === "date" || p.kind === "text");
+      if (needsFont) {
+        try {
+          doc.registerFontkit(fontkit);
+          const bytes = await loadArimoBytes();
+          arimo = await doc.embedFont(bytes, { subset: true });
+        } catch {
+          // Fallback to Helvetica for latin-only text
+          arimo = await doc.embedFont(StandardFonts.Helvetica);
         }
-        const png = cache[sig.dataUrl];
+      }
+
+      for (const p of placements) {
         const page = pdfPages[p.pageIndex];
         if (!page) continue;
         const { height } = page.getSize();
-        // Convert top-left screen coords to pdf-lib bottom-left origin,
-        // then apply rotation around the placement center.
-        const uiAngle = p.rotation || 0;
-        const rad = -uiAngle * Math.PI / 180; // pdf-lib rotates CCW
-        const cos = Math.cos(rad), sin = Math.sin(rad);
-        const cxPdf = p.x + p.w / 2;
-        const cyPdf = height - (p.y + p.h / 2);
-        const anchorX = cxPdf - (p.w / 2) * cos + (p.h / 2) * sin;
-        const anchorY = cyPdf - (p.w / 2) * sin - (p.h / 2) * cos;
-        page.drawImage(png, {
-          x: anchorX,
-          y: anchorY,
-          width: p.w,
-          height: p.h,
-          rotate: uiAngle ? degrees(-uiAngle) : undefined,
+
+        if (p.kind === "signature" || p.kind === "initials") {
+          const sig = p.kind === "signature" ? signature : initials;
+          if (!sig) continue;
+          if (!imgCache[sig.dataUrl]) {
+            const b64 = sig.dataUrl.split(",")[1];
+            const bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+            imgCache[sig.dataUrl] = await doc.embedPng(bytes);
+          }
+          const png = imgCache[sig.dataUrl];
+          const uiAngle = p.rotation || 0;
+          const rad = -uiAngle * Math.PI / 180;
+          const cos = Math.cos(rad), sin = Math.sin(rad);
+          const cxPdf = p.x + p.w / 2;
+          const cyPdf = height - (p.y + p.h / 2);
+          const anchorX = cxPdf - (p.w / 2) * cos + (p.h / 2) * sin;
+          const anchorY = cyPdf - (p.w / 2) * sin - (p.h / 2) * cos;
+          page.drawImage(png, {
+            x: anchorX,
+            y: anchorY,
+            width: p.w,
+            height: p.h,
+            rotate: uiAngle ? degrees(-uiAngle) : undefined,
+          });
+          continue;
+        }
+
+        // Text / date / check: no rotation on export
+        const t = p.text; if (!t) continue;
+        const col = hexToPdfRgb(t.color);
+
+        if (t.variant === "check") {
+          // vector strokes fit inside the box, drawn in PDF (bottom-origin) coords
+          const left = p.x;
+          const top  = height - p.y;                // top of box in bottom-origin
+          const w = p.w, h = p.h;
+          const lw = Math.max(1.5, Math.min(w, h) * 0.14);
+          if (t.checkKind === "cross") {
+            page.drawLine({
+              start: { x: left + w * 0.15, y: top - h * 0.15 },
+              end:   { x: left + w * 0.85, y: top - h * 0.85 },
+              thickness: lw, color: col,
+            });
+            page.drawLine({
+              start: { x: left + w * 0.15, y: top - h * 0.85 },
+              end:   { x: left + w * 0.85, y: top - h * 0.15 },
+              thickness: lw, color: col,
+            });
+          } else {
+            page.drawLine({
+              start: { x: left + w * 0.10, y: top - h * 0.55 },
+              end:   { x: left + w * 0.40, y: top - h * 0.85 },
+              thickness: lw, color: col,
+            });
+            page.drawLine({
+              start: { x: left + w * 0.40, y: top - h * 0.85 },
+              end:   { x: left + w * 0.90, y: top - h * 0.15 },
+              thickness: lw, color: col,
+            });
+          }
+          continue;
+        }
+
+        // Date / text: draw vector text
+        if (!arimo) continue;
+        const fontPx = t.fontPx;
+        // Baseline sits about 20% up from the bottom of our layout box.
+        const baselineY = height - (p.y + p.h) + p.h * 0.22;
+        page.drawText(t.value, {
+          x: p.x + 3,
+          y: baselineY,
+          size: fontPx,
+          font: arimo,
+          color: col,
         });
       }
+
       const bytes = await doc.save();
       const blob = new Blob([bytes as BlobPart], { type: "application/pdf" });
       setResult({ blob, filename: `${file.name.replace(/\.pdf$/i, "")}-signed.pdf` });
@@ -315,7 +630,7 @@ export default function SignPdf() {
     return (
       <ToolSuccessScreen
         heading="Your PDF has been signed!"
-        subheading={`${placements.length} signature${placements.length === 1 ? "" : "s"} added.`}
+        subheading={`${placements.length} placement${placements.length === 1 ? "" : "s"} added.`}
         downloadLabel="Download Signed PDF"
         onDownload={() => downloadBlob(result.blob, result.filename, "application/pdf")}
         onReset={resetAll}
@@ -331,7 +646,10 @@ export default function SignPdf() {
   if (protectedName) return <PasswordProtectedNotice fileName={protectedName} onReset={reset} />;
 
   const hasRotatedPages = pages.some((p) => p.rotation % 360 !== 0);
-  const stepIdx = !current ? 0 : placements.length === 0 ? 1 : 2;
+  const stepIdx: 0 | 1 | 2 = !canPlace ? 0 : placements.length === 0 ? 1 : 2;
+
+  const showImagePads = active === "signature" || active === "initials";
+  const savedList = active === "initials" ? savedInits : savedSigs;
 
   return (
     <>
@@ -347,59 +665,134 @@ export default function SignPdf() {
             {/* 1-2-3 strip */}
             <StepStrip step={stepIdx} />
 
-            {/* Kind selector */}
-            <div className="flex rounded-lg p-1" style={{ backgroundColor: "#f4f4f6" }}>
-              {(["signature", "initials"] as Kind[]).map((k) => (
-                <button
-                  key={k}
-                  type="button"
-                  onClick={() => setActive(k)}
-                  className="flex-1 rounded-md px-3 py-1.5 text-[13px] font-semibold capitalize transition-colors"
-                  style={{
-                    backgroundColor: active === k ? "#ffffff" : "transparent",
-                    color: active === k ? "#33333c" : "#5a5a66",
-                    boxShadow: active === k ? "0 1px 2px rgba(20,20,43,0.08)" : "none",
-                  }}
-                >
-                  {k === "signature" ? "Signature" : "Initials (optional)"}
-                </button>
-              ))}
-            </div>
-
-            {/* Tab selector */}
-            <div className="flex gap-1 rounded-lg p-1" style={{ backgroundColor: "#f4f4f6" }}>
+            {/* Kind selector (5 primitives) */}
+            <div className="grid grid-cols-5 gap-1 rounded-lg p-1" style={{ backgroundColor: "#f4f4f6" }}>
               {([
-                { id: "draw", label: "Draw", icon: Pen },
-                { id: "type", label: "Type", icon: TypeIcon },
-                { id: "upload", label: "Upload", icon: UploadIcon },
-              ] as { id: Tab; label: string; icon: typeof Pen }[]).map(({ id, label, icon: Icon }) => (
+                { id: "signature", label: "Sign" },
+                { id: "initials",  label: "Init." },
+                { id: "date",      label: "Date" },
+                { id: "text",      label: "Text" },
+                { id: "check",     label: "Check" },
+              ] as { id: Kind; label: string }[]).map((k) => (
                 <button
-                  key={id}
+                  key={k.id}
                   type="button"
-                  onClick={() => setTab(id)}
-                  className="flex flex-1 items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-[12.5px] font-semibold transition-colors"
+                  onClick={() => setActive(k.id)}
+                  className="rounded-md py-1.5 text-[12px] font-semibold transition-colors"
                   style={{
-                    backgroundColor: tab === id ? "#ffffff" : "transparent",
-                    color: tab === id ? "#33333c" : "#5a5a66",
-                    boxShadow: tab === id ? "0 1px 2px rgba(20,20,43,0.08)" : "none",
+                    backgroundColor: active === k.id ? "#ffffff" : "transparent",
+                    color: active === k.id ? "#33333c" : "#5a5a66",
+                    boxShadow: active === k.id ? "0 1px 2px rgba(20,20,43,0.08)" : "none",
                   }}
                 >
-                  <Icon className="h-3.5 w-3.5" /> {label}
+                  {k.label}
                 </button>
               ))}
             </div>
 
-            {tab === "draw" && <DrawTab onCommit={setCurrent} isMobile={isMobile} />}
-            {tab === "type" && <TypePad onCommit={setCurrent} />}
-            {tab === "upload" && <UploadPad onCommit={setCurrent} />}
+            {/* Signature / Initials creators */}
+            {showImagePads && (
+              <>
+                <div className="flex gap-1 rounded-lg p-1" style={{ backgroundColor: "#f4f4f6" }}>
+                  {([
+                    { id: "draw",   label: "Draw",   icon: Pen },
+                    { id: "type",   label: "Type",   icon: TypeIcon },
+                    { id: "upload", label: "Upload", icon: UploadIcon },
+                    { id: "saved",  label: "Saved",  icon: Bookmark },
+                  ] as { id: Tab; label: string; icon: typeof Pen }[]).map(({ id, label, icon: Icon }) => (
+                    <button
+                      key={id}
+                      type="button"
+                      onClick={() => setTab(id)}
+                      className="flex flex-1 items-center justify-center gap-1 rounded-md px-1 py-1.5 text-[11.5px] font-semibold transition-colors"
+                      style={{
+                        backgroundColor: tab === id ? "#ffffff" : "transparent",
+                        color: tab === id ? "#33333c" : "#5a5a66",
+                        boxShadow: tab === id ? "0 1px 2px rgba(20,20,43,0.08)" : "none",
+                      }}
+                    >
+                      <Icon className="h-3.5 w-3.5" /> {label}
+                    </button>
+                  ))}
+                </div>
 
-            {current && (
+                {tab === "draw" && (
+                  <DrawTab
+                    onCommit={setCurrentImage}
+                    isMobile={isMobile}
+                    onSave={(sig) => saveCurrent(active as "signature" | "initials", sig)}
+                  />
+                )}
+                {tab === "type" && (
+                  <TypePad
+                    onCommit={setCurrentImage}
+                    onSave={(sig) => saveCurrent(active as "signature" | "initials", sig)}
+                  />
+                )}
+                {tab === "upload" && (
+                  <UploadPad
+                    onCommit={setCurrentImage}
+                    onSave={(sig) => saveCurrent(active as "signature" | "initials", sig)}
+                  />
+                )}
+                {tab === "saved" && (
+                  <SavedTab
+                    list={savedList}
+                    onUse={(s) => setCurrentImage({ dataUrl: s.dataUrl, w: s.w, h: s.h })}
+                    onDelete={(id) => deleteSaved(active as "signature" | "initials", id)}
+                    onClear={() => clearSaved(active as "signature" | "initials")}
+                  />
+                )}
+              </>
+            )}
+
+            {/* Date pad */}
+            {active === "date" && (
+              <DatePad
+                format={dateFormat}
+                setFormat={setDateFormat}
+                color={dateColor}
+                setColor={setDateColor}
+              />
+            )}
+
+            {/* Text pad */}
+            {active === "text" && (
+              <TextStampPad
+                value={textInput}
+                setValue={setTextInput}
+                color={textColor}
+                setColor={setTextColor}
+              />
+            )}
+
+            {/* Check pad */}
+            {active === "check" && (
+              <CheckPad
+                kind={checkKind}
+                setKind={setCheckKind}
+                color={checkColor}
+                setColor={setCheckColor}
+              />
+            )}
+
+            {/* Preview + Place */}
+            {(current || active === "date" || active === "text" || active === "check") && (
               <div>
                 <p className="mb-2 text-[12px] font-bold uppercase" style={{ color: "#5a5a66", letterSpacing: "0.06em" }}>
                   Preview
                 </p>
                 <div className="rounded-lg p-3" style={{ border: "1px solid #ececef", backgroundColor: "#fafafb" }}>
-                  <img src={current.dataUrl} alt="Signature preview" className="mx-auto max-h-16" />
+                  <PreviewChip
+                    active={active}
+                    current={current}
+                    dateValue={formatDate(new Date(), dateFormat)}
+                    dateColor={dateColor}
+                    textValue={textInput}
+                    textColor={textColor}
+                    checkKind={checkKind}
+                    checkColor={checkColor}
+                  />
                 </div>
                 {stampMode === active ? (
                   <button
@@ -414,8 +807,9 @@ export default function SignPdf() {
                   <button
                     type="button"
                     onClick={placeOnDocument}
+                    disabled={!canPlace}
                     data-pulse={pulsePlace ? "1" : "0"}
-                    className="sign-place-btn mt-3 w-full rounded-lg py-2.5 text-[13px] font-bold uppercase text-white transition-colors"
+                    className="sign-place-btn mt-3 w-full rounded-lg py-2.5 text-[13px] font-bold uppercase text-white transition-colors disabled:opacity-50"
                     style={{ backgroundColor: "#33333c", letterSpacing: "0.04em" }}
                   >
                     Place on document
@@ -424,9 +818,29 @@ export default function SignPdf() {
                 {stampMode === active && (
                   <p className="mt-2 text-center text-[11.5px]" style={{ color: "#5a5a66" }}>
                     <MousePointerClick className="mr-1 inline h-3 w-3" />
-                    Tap where you want the signature. Press Esc to finish.
+                    Tap where you want it. Press Esc to finish.
                   </p>
                 )}
+              </div>
+            )}
+
+            {/* Selected placement actions */}
+            {selectedId && (
+              <div className="rounded-lg p-3" style={{ border: "1px solid #ececef", backgroundColor: "#fafafb" }}>
+                <p className="mb-2 text-[12px] font-bold uppercase" style={{ color: "#5a5a66", letterSpacing: "0.06em" }}>
+                  Selected placement
+                </p>
+                <button
+                  type="button"
+                  onClick={applySelectedToAllPages}
+                  className="flex w-full items-center justify-center gap-1.5 rounded-md py-2 text-[12.5px] font-semibold text-[#33333c] hover:bg-white"
+                  style={{ border: "1px solid #ececef", backgroundColor: "#ffffff" }}
+                >
+                  <Copy className="h-3.5 w-3.5" /> Apply to all pages
+                </button>
+                <p className="mt-1.5 text-center text-[11px]" style={{ color: "#5a5a66" }}>
+                  Same relative position on every page. Skips pages that already have it.
+                </p>
               </div>
             )}
 
@@ -459,8 +873,8 @@ export default function SignPdf() {
 
             <InfoTip>
               {placements.length
-                ? `${placements.length} placement${placements.length === 1 ? "" : "s"} on document. Tap to select, drag to move, corners to resize, top pill to rotate. Arrow keys nudge, Delete removes.`
-                : "Create a signature, then tap \"Place on document\". Tap other pages to drop more copies."}
+                ? `${placements.length} placement${placements.length === 1 ? "" : "s"} on document. Tap to select, drag to move, corners to resize. Arrow keys nudge, Delete removes.`
+                : "Create a signature, date, text or check, then tap \"Place on document\". Select any placement and use \"Apply to all pages\"."}
             </InfoTip>
 
             {hasRotatedPages && (
@@ -478,7 +892,7 @@ export default function SignPdf() {
           >
             <span className="flex items-center gap-2">
               <MousePointerClick className="h-4 w-4" />
-              Tap where you want the signature
+              Tap where you want it
             </span>
             <button
               type="button"
@@ -506,8 +920,8 @@ export default function SignPdf() {
               onRemove={(id) => { setPlacements((prev) => prev.filter((p) => p.id !== id)); if (selectedId === id) setSelectedId(null); }}
               signature={signature}
               initials={initials}
-              stampSig={stampMode ? (stampMode === "signature" ? signature : initials) : null}
-              onStamp={(pageIndex, cxPts, cyPts) => stampMode && addPlacement(stampMode, pageIndex, cxPts, cyPts)}
+              stampKind={stampMode}
+              onStamp={stampAt}
               registerEl={registerPageEl}
               selectedId={selectedId}
               onSelect={setSelectedId}
@@ -538,18 +952,18 @@ export default function SignPdf() {
             >
               {loading ? "Signing…" : "Sign PDF"}
             </button>
-          ) : current ? (
+          ) : canPlace ? (
             <button
               type="button"
               onClick={placeOnDocument}
               className="w-full rounded-lg py-3 text-[14px] font-bold uppercase text-white"
               style={{ backgroundColor: "#33333c", letterSpacing: "0.04em" }}
             >
-              Place signature
+              Place on document
             </button>
           ) : (
             <p className="text-center text-[13px] font-semibold text-[#5a5a66]">
-              Create a signature above to get started
+              Create a signature or pick a stamp above
             </p>
           )}
         </div>
@@ -572,7 +986,7 @@ export default function SignPdf() {
 /* ============================== Step strip ============================== */
 
 function StepStrip({ step }: { step: 0 | 1 | 2 }) {
-  const steps = ["Create signature", "Place on document", "Download signed PDF"];
+  const steps = ["Create a stamp", "Place on document", "Download signed PDF"];
   return (
     <ol className="flex items-center gap-1.5">
       {steps.map((label, i) => {
@@ -607,21 +1021,62 @@ function StepStrip({ step }: { step: 0 | 1 | 2 }) {
   );
 }
 
+/* ============================== Preview chip ============================== */
+
+function PreviewChip({
+  active, current, dateValue, dateColor, textValue, textColor, checkKind, checkColor,
+}: {
+  active: Kind;
+  current: Signature | null;
+  dateValue: string;
+  dateColor: string;
+  textValue: string;
+  textColor: string;
+  checkKind: CheckKind;
+  checkColor: string;
+}) {
+  if (active === "signature" || active === "initials") {
+    return current
+      ? <img src={current.dataUrl} alt="Signature preview" className="mx-auto max-h-16" />
+      : <p className="text-center text-[12px] text-[#a1a1ab]">Create a signature first</p>;
+  }
+  if (active === "date") {
+    return <p className="text-center" style={{ fontFamily: "'ArimoSignPdf', Arial, sans-serif", color: dateColor, fontSize: 18 }}>{dateValue}</p>;
+  }
+  if (active === "text") {
+    return textValue.trim()
+      ? <p className="text-center" style={{ fontFamily: "'ArimoSignPdf', Arial, sans-serif", color: textColor, fontSize: 18 }}>{textValue}</p>
+      : <p className="text-center text-[12px] text-[#a1a1ab]">Type a line above</p>;
+  }
+  // check
+  return (
+    <div className="mx-auto grid h-10 w-10 place-items-center">
+      <CheckGlyph kind={checkKind} color={checkColor} />
+    </div>
+  );
+}
+
+function CheckGlyph({ kind, color, size = 36 }: { kind: CheckKind; color: string; size?: number }) {
+  if (kind === "cross") {
+    return (
+      <svg width={size} height={size} viewBox="0 0 100 100">
+        <line x1="15" y1="15" x2="85" y2="85" stroke={color} strokeWidth="14" strokeLinecap="round" />
+        <line x1="15" y1="85" x2="85" y2="15" stroke={color} strokeWidth="14" strokeLinecap="round" />
+      </svg>
+    );
+  }
+  return (
+    <svg width={size} height={size} viewBox="0 0 100 100">
+      <polyline points="10,55 40,85 90,15" fill="none" stroke={color} strokeWidth="14" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 /* ============================== Page overlay ============================== */
 
 function PageOverlay({
-  index,
-  page,
-  placements,
-  onChange,
-  onRemove,
-  signature,
-  initials,
-  stampSig,
-  onStamp,
-  registerEl,
-  selectedId,
-  onSelect,
+  index, page, placements, onChange, onRemove,
+  signature, initials, stampKind, onStamp, registerEl, selectedId, onSelect,
 }: {
   index: number;
   page: PageInfo;
@@ -630,7 +1085,7 @@ function PageOverlay({
   onRemove: (id: string) => void;
   signature: Signature | null;
   initials: Signature | null;
-  stampSig: Signature | null;
+  stampKind: Kind | null;
   onStamp: (pageIndex: number, cxPts: number, cyPts: number) => void;
   registerEl: (idx: number, el: HTMLElement | null) => void;
   selectedId: string | null;
@@ -657,9 +1112,6 @@ function PageOverlay({
   const scale = displayW ? displayW / page.width : 0;
   const displayH = page.height * scale;
 
-  const ghostW = stampSig ? (Math.min(page.width * 0.35, 220)) : 0;
-  const ghostH = stampSig ? ghostW * (stampSig.h / stampSig.w) : 0;
-
   return (
     <div ref={cardRef} data-page-index={index} className="rounded-2xl bg-white p-3" style={{ border: "1px solid #ececef" }}>
       <div className="mb-2 flex items-center justify-between">
@@ -676,17 +1128,16 @@ function PageOverlay({
         style={{
           height: displayH || undefined,
           touchAction: "none",
-          cursor: stampSig ? "crosshair" : "default",
+          cursor: stampKind ? "crosshair" : "default",
         }}
         onPointerMove={(e) => {
-          if (!stampSig || !scale) return;
+          if (!stampKind || !scale) return;
           const r = e.currentTarget.getBoundingClientRect();
           setGhost({ x: (e.clientX - r.left) / scale, y: (e.clientY - r.top) / scale });
         }}
         onPointerLeave={() => setGhost(null)}
         onClick={(e) => {
-          if (!stampSig || !scale) {
-            // clicking blank page area deselects
+          if (!stampKind || !scale) {
             if (selectedId) onSelect(null);
             return;
           }
@@ -698,38 +1149,34 @@ function PageOverlay({
       >
         <img src={page.url} alt={`Page ${index + 1}`} className="pointer-events-none absolute inset-0 h-full w-full" draggable={false} />
         {scale > 0 &&
-          placements.map((p) => {
-            const sig = p.kind === "signature" ? signature : initials;
-            if (!sig) return null;
-            return (
-              <PlacementBox
-                key={p.id}
-                placement={p}
-                sig={sig}
-                scale={scale}
-                pageW={page.width}
-                pageH={page.height}
-                onChange={onChange}
-                onRemove={onRemove}
-                selected={selectedId === p.id}
-                onSelect={onSelect}
-              />
-            );
-          })}
-        {stampSig && ghost && scale > 0 && (
-          <img
-            src={stampSig.dataUrl}
-            alt=""
+          placements.map((p) => (
+            <PlacementBox
+              key={p.id}
+              placement={p}
+              scale={scale}
+              pageW={page.width}
+              pageH={page.height}
+              signature={signature}
+              initials={initials}
+              onChange={onChange}
+              onRemove={onRemove}
+              selected={selectedId === p.id}
+              onSelect={onSelect}
+            />
+          ))}
+        {stampKind && ghost && scale > 0 && (
+          <div
             aria-hidden
-            draggable={false}
             className="pointer-events-none absolute opacity-60"
             style={{
-              left: (ghost.x - ghostW / 2) * scale,
-              top: (ghost.y - ghostH / 2) * scale,
-              width: ghostW * scale,
-              height: ghostH * scale,
+              left: (ghost.x - 12) * scale,
+              top: (ghost.y - 12) * scale,
+              width: 24 * scale,
+              height: 24 * scale,
             }}
-          />
+          >
+            <div className="h-full w-full rounded-full" style={{ border: "1.5px dashed #e5322d" }} />
+          </div>
         )}
       </div>
     </div>
@@ -744,21 +1191,16 @@ type DragMode =
   | { kind: "rotate" };
 
 function PlacementBox({
-  placement,
-  sig,
-  scale,
-  pageW,
-  pageH,
-  onChange,
-  onRemove,
-  selected,
-  onSelect,
+  placement, scale, pageW, pageH,
+  signature, initials,
+  onChange, onRemove, selected, onSelect,
 }: {
   placement: Placement;
-  sig: Signature;
   scale: number;
   pageW: number;
   pageH: number;
+  signature: Signature | null;
+  initials: Signature | null;
   onChange: (p: Placement) => void;
   onRemove: (id: string) => void;
   selected: boolean;
@@ -774,6 +1216,8 @@ function PlacementBox({
   } | null>(null);
 
   const boxRef = useRef<HTMLDivElement>(null);
+  const isText = placement.kind === "date" || placement.kind === "text" || placement.kind === "check";
+  const canRotate = !isText;
 
   const startDrag = (mode: DragMode) => (e: React.PointerEvent) => {
     e.stopPropagation();
@@ -806,12 +1250,9 @@ function PlacementBox({
 
     if (d.mode.kind === "rotate") {
       const ang = Math.atan2(e.clientY - d.boxCenterClientY, e.clientX - d.boxCenterClientX);
-      // 0 deg = up. atan2 gives 0 at +x, so subtract 90.
       let deg = ang * 180 / Math.PI + 90;
-      // Normalize to [-180, 180]
       while (deg > 180) deg -= 360;
       while (deg < -180) deg += 360;
-      // Snap at 0/90/180/-90 within 5 deg
       for (const t of [0, 90, 180, -180, -90]) {
         if (Math.abs(deg - t) < 5) { deg = t === -180 ? 180 : t; break; }
       }
@@ -819,10 +1260,8 @@ function PlacementBox({
       return;
     }
 
-    // Resize (proportional, aspect-locked from any corner around center of opposite corner)
     const aspect = d.start.h / d.start.w;
     const corner = d.mode.corner;
-    // Anchor corner is the opposite corner (kept fixed)
     const anchor = {
       x: corner === "nw" ? d.start.x + d.start.w : corner === "ne" ? d.start.x : corner === "sw" ? d.start.x + d.start.w : d.start.x,
       y: corner === "nw" ? d.start.y + d.start.h : corner === "ne" ? d.start.y + d.start.h : corner === "sw" ? d.start.y : d.start.y,
@@ -833,20 +1272,21 @@ function PlacementBox({
     };
     let w = Math.abs(dragged.x - anchor.x);
     let h = Math.abs(dragged.y - anchor.y);
-    // Lock aspect ratio: use the larger dimension driver
     if (h / w > aspect) w = h / aspect; else h = w * aspect;
     w = Math.max(24, w);
     h = Math.max(24 * aspect, w * aspect);
-    // Recompute new top-left with anchor fixed
     const newX = corner === "ne" || corner === "se" ? anchor.x : anchor.x - w;
     const newY = corner === "sw" || corner === "se" ? anchor.y : anchor.y - h;
-    // Clamp to page
     let x = Math.max(0, Math.min(pageW - w, newX));
     let y = Math.max(0, Math.min(pageH - h, newY));
-    // If clamped, tighten w/h so we don't drift off-page
     if (x + w > pageW) w = pageW - x;
     if (y + h > pageH) { h = pageH - y; w = h / aspect; }
-    onChange({ ...d.start, x, y, w, h });
+    // Keep font size proportional for text placements
+    const nextText = d.start.text ? {
+      ...d.start.text,
+      fontPx: Math.max(8, (d.start.text.fontPx * h) / d.start.h),
+    } : undefined;
+    onChange({ ...d.start, x, y, w, h, text: nextText });
   };
 
   const endDrag = (e: React.PointerEvent) => {
@@ -857,6 +1297,47 @@ function PlacementBox({
   const HANDLE = "grid place-items-center rounded-full bg-[#e5322d] text-white touch-none";
   const cornerBase: React.CSSProperties = {
     width: 24, height: 24, border: "2px solid #ffffff", boxShadow: "0 1px 3px rgba(0,0,0,0.25)",
+  };
+
+  const sig = placement.kind === "signature" ? signature : placement.kind === "initials" ? initials : null;
+
+  const renderInner = () => {
+    if (placement.kind === "signature" || placement.kind === "initials") {
+      if (!sig) return null;
+      return (
+        <img
+          src={sig.dataUrl}
+          alt="Signature"
+          className="pointer-events-none h-full w-full object-contain p-1"
+          draggable={false}
+        />
+      );
+    }
+    const t = placement.text;
+    if (!t) return null;
+    if (t.variant === "check") {
+      return (
+        <div className="pointer-events-none grid h-full w-full place-items-center">
+          <CheckGlyph kind={t.checkKind ?? "check"} color={t.color} size={Math.max(12, Math.min(placement.w, placement.h) * scale)} />
+        </div>
+      );
+    }
+    return (
+      <div
+        className="pointer-events-none grid h-full w-full items-center"
+        style={{
+          fontFamily: "'ArimoSignPdf', Arial, sans-serif",
+          color: t.color,
+          fontSize: Math.max(6, t.fontPx * scale),
+          lineHeight: 1.2,
+          paddingLeft: 3 * scale,
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+        }}
+      >
+        {t.value}
+      </div>
+    );
   };
 
   return (
@@ -890,29 +1371,24 @@ function PlacementBox({
             backgroundColor: selected ? "rgba(229,50,45,0.06)" : "rgba(229,50,45,0.04)",
           }}
         >
-          <img
-            src={sig.dataUrl}
-            alt="Signature"
-            className="pointer-events-none h-full w-full object-contain p-1"
-            draggable={false}
-          />
+          {renderInner()}
         </div>
 
         {selected && (
           <>
-            {/* Rotate handle top-center */}
-            <div
-              onPointerDown={startDrag({ kind: "rotate" })}
-              onPointerMove={onPointerMove}
-              onPointerUp={endDrag}
-              onPointerCancel={endDrag}
-              className={cn(HANDLE, "absolute cursor-grab")}
-              style={{ ...cornerBase, left: "50%", top: -34, transform: "translateX(-50%)" }}
-              aria-label="Rotate"
-            >
-              <RotateCw className="h-3 w-3" />
-            </div>
-            {/* 4 corner handles */}
+            {canRotate && (
+              <div
+                onPointerDown={startDrag({ kind: "rotate" })}
+                onPointerMove={onPointerMove}
+                onPointerUp={endDrag}
+                onPointerCancel={endDrag}
+                className={cn(HANDLE, "absolute cursor-grab")}
+                style={{ ...cornerBase, left: "50%", top: -34, transform: "translateX(-50%)" }}
+                aria-label="Rotate"
+              >
+                <RotateCw className="h-3 w-3" />
+              </div>
+            )}
             {(["nw", "ne", "sw", "se"] as const).map((c) => {
               const pos: React.CSSProperties =
                 c === "nw" ? { left: -12, top: -12, cursor: "nwse-resize" } :
@@ -936,13 +1412,12 @@ function PlacementBox({
         )}
       </div>
 
-      {/* Remove button outside the rotation transform so it stays upright */}
       <button
         type="button"
         onClick={() => onRemove(placement.id)}
         className="absolute -right-2 -top-2 z-10 grid h-6 w-6 place-items-center rounded-full bg-white text-[#e5322d] shadow"
         style={{ border: "1px solid #ececef" }}
-        aria-label="Remove signature"
+        aria-label="Remove placement"
       >
         <X className="h-3 w-3" />
       </button>
@@ -952,18 +1427,26 @@ function PlacementBox({
 
 /* ============================== Draw tab (inline + fullscreen sheet) ============================== */
 
-function DrawTab({ onCommit, isMobile }: { onCommit: (sig: Signature | null) => void; isMobile: boolean }) {
+function DrawTab({
+  onCommit, isMobile, onSave,
+}: {
+  onCommit: (sig: Signature | null) => void;
+  isMobile: boolean;
+  onSave: (sig: Signature) => void;
+}) {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [preview, setPreview] = useState<Signature | null>(null);
+  const [saveOptIn, setSaveOptIn] = useState(false);
 
   const commit = (sig: Signature | null) => {
     setPreview(sig);
     onCommit(sig);
+    if (sig && saveOptIn) onSave(sig);
   };
 
-  if (isMobile) {
-    return (
-      <>
+  return (
+    <>
+      {isMobile ? (
         <button
           type="button"
           onClick={() => setSheetOpen(true)}
@@ -973,20 +1456,10 @@ function DrawTab({ onCommit, isMobile }: { onCommit: (sig: Signature | null) => 
           <Maximize2 className="h-4 w-4" />
           {preview ? "Redraw signature" : "Open drawing pad"}
         </button>
-        {sheetOpen && (
-          <FullscreenDrawSheet
-            initial={null}
-            onClose={() => setSheetOpen(false)}
-            onDone={(sig) => { commit(sig); setSheetOpen(false); }}
-          />
-        )}
-      </>
-    );
-  }
-
-  return (
-    <>
-      <DrawPad heightPx={220} onCommit={commit} onOpenFullscreen={() => setSheetOpen(true)} />
+      ) : (
+        <DrawPad heightPx={220} onCommit={commit} onOpenFullscreen={() => setSheetOpen(true)} />
+      )}
+      <SaveOptIn checked={saveOptIn} onChange={setSaveOptIn} />
       {sheetOpen && (
         <FullscreenDrawSheet
           initial={null}
@@ -1014,7 +1487,6 @@ function FullscreenDrawSheet({
     const onResize = () => setPortrait(window.innerHeight >= window.innerWidth);
     window.addEventListener("resize", onResize);
     window.addEventListener("orientationchange", onResize);
-    // Lock body scroll while open
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
@@ -1027,11 +1499,7 @@ function FullscreenDrawSheet({
   return (
     <div className="fixed inset-0 z-50 flex flex-col bg-white" style={{ touchAction: "none" }}>
       <div className="flex items-center justify-between border-b border-[#ececef] px-4 py-3">
-        <button
-          type="button"
-          onClick={onClose}
-          className="text-[14px] font-semibold text-[#5a5a66]"
-        >
+        <button type="button" onClick={onClose} className="text-[14px] font-semibold text-[#5a5a66]">
           Cancel
         </button>
         <p className="text-[14px] font-bold text-[#33333c]">Draw signature</p>
@@ -1051,20 +1519,14 @@ function FullscreenDrawSheet({
         </p>
       )}
       <div className="flex-1 p-3">
-        <DrawPad
-          fill
-          onCommit={(sig) => { localCommitRef.current = sig; }}
-        />
+        <DrawPad fill onCommit={(sig) => { localCommitRef.current = sig; }} />
       </div>
     </div>
   );
 }
 
 function DrawPad({
-  heightPx,
-  fill,
-  onCommit,
-  onOpenFullscreen,
+  heightPx, fill, onCommit, onOpenFullscreen,
 }: {
   heightPx?: number;
   fill?: boolean;
@@ -1075,13 +1537,10 @@ function DrawPad({
   const wrapRef = useRef<HTMLDivElement>(null);
   const [color, setColor] = useState(COLORS[0].value);
   const [size, setSize] = useState(THICKNESS[1].size);
-  // stroke stack committed
   const strokesRef = useRef<StrokeRec[]>([]);
-  // current in-progress stroke
   const currentRef = useRef<StrokeRec | null>(null);
-  const [strokeCount, setStrokeCount] = useState(0); // for undo button enabled state
+  const [strokeCount, setStrokeCount] = useState(0);
 
-  // Setup canvas size
   const setup = useCallback(() => {
     const c = canvasRef.current, w = wrapRef.current;
     if (!c || !w) return;
@@ -1213,9 +1672,7 @@ function DrawPad({
         )}
       </div>
 
-      {/* Controls */}
       <div className={cn("mt-2 flex flex-wrap items-center gap-3", fill && "px-1")}>
-        {/* Colors */}
         <div className="flex items-center gap-1.5">
           {COLORS.map((c) => (
             <button
@@ -1233,7 +1690,6 @@ function DrawPad({
           ))}
         </div>
 
-        {/* Thickness */}
         <div className="flex items-center gap-1 rounded-lg p-0.5" style={{ backgroundColor: "#f4f4f6" }}>
           {THICKNESS.map((t) => (
             <button
@@ -1286,17 +1742,30 @@ function DrawPad({
 
 /* ============================== Type + Upload pads ============================== */
 
-function TypePad({ onCommit }: { onCommit: (sig: Signature | null) => void }) {
+function TypePad({
+  onCommit, onSave,
+}: {
+  onCommit: (sig: Signature | null) => void;
+  onSave: (sig: Signature) => void;
+}) {
   const [text, setText] = useState("");
   const [font, setFont] = useState(TYPE_FONTS[0].family);
   const [color, setColor] = useState(COLORS[0].value);
+  const [saveOptIn, setSaveOptIn] = useState(false);
+  const lastCommittedRef = useRef<string | null>(null);
 
   useEffect(() => {
-    if (!text.trim()) { onCommit(null); return; }
+    if (!text.trim()) { onCommit(null); lastCommittedRef.current = null; return; }
     const rendered = renderTextToPng(text, font, color);
-    if (rendered) onCommit(rendered);
+    if (rendered) {
+      onCommit(rendered);
+      if (saveOptIn && lastCommittedRef.current !== rendered.dataUrl) {
+        lastCommittedRef.current = rendered.dataUrl;
+        onSave(rendered);
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [text, font, color]);
+  }, [text, font, color, saveOptIn]);
 
   return (
     <div className="space-y-3">
@@ -1339,39 +1808,92 @@ function TypePad({ onCommit }: { onCommit: (sig: Signature | null) => void }) {
           />
         ))}
       </div>
+      <SaveOptIn checked={saveOptIn} onChange={setSaveOptIn} />
     </div>
   );
 }
 
-function UploadPad({ onCommit }: { onCommit: (sig: Signature | null) => void }) {
+function UploadPad({
+  onCommit, onSave,
+}: {
+  onCommit: (sig: Signature | null) => void;
+  onSave: (sig: Signature) => void;
+}) {
   const [removeBg, setRemoveBg] = useState(true);
+  const [threshold, setThreshold] = useState(230);
+  const [saveOptIn, setSaveOptIn] = useState(false);
+  const [beforeUrl, setBeforeUrl] = useState<string | null>(null);
+  const [afterUrl, setAfterUrl] = useState<string | null>(null);
+  const rawRef = useRef<HTMLImageElement | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const process = useCallback(() => {
+    const img = rawRef.current; if (!img) return;
+    const canvas = document.createElement("canvas");
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    const ctx = canvas.getContext("2d")!;
+    ctx.drawImage(img, 0, 0);
+
+    let outCanvas: HTMLCanvasElement = canvas;
+
+    if (removeBg) {
+      const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const px = data.data;
+      const t = threshold;
+      const feather = 22; // soft edge zone
+      let removed = 0;
+      const total = px.length / 4;
+      for (let i = 0; i < px.length; i += 4) {
+        const r = px[i], g = px[i + 1], b = px[i + 2];
+        const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+        if (lum >= t) {
+          px[i + 3] = 0; removed++;
+        } else if (lum >= t - feather) {
+          // Soft fade in the feather band for a 1px edge cleanup
+          const fade = (lum - (t - feather)) / feather;
+          px[i + 3] = Math.round(px[i + 3] * (1 - fade));
+        }
+      }
+      // If almost everything got removed, fall back to original
+      if (removed / total > 0.97) {
+        toast.warning("Background removal looked empty. Kept the original image.");
+      } else {
+        ctx.putImageData(data, 0, 0);
+      }
+    }
+
+    const trimmed = trimTransparent(outCanvas);
+    const sig: Signature = trimmed
+      ? { dataUrl: trimmed.dataUrl, w: trimmed.w, h: trimmed.h }
+      : { dataUrl: outCanvas.toDataURL("image/png"), w: outCanvas.width, h: outCanvas.height };
+    setAfterUrl(sig.dataUrl);
+    onCommit(sig);
+    if (saveOptIn) onSave(sig);
+  }, [removeBg, threshold, saveOptIn, onCommit, onSave]);
 
   const handleFile = async (file: File) => {
     try {
       const url = URL.createObjectURL(file);
       const img = await loadImg(url);
       URL.revokeObjectURL(url);
-      const canvas = document.createElement("canvas");
-      canvas.width = img.naturalWidth;
-      canvas.height = img.naturalHeight;
-      const ctx = canvas.getContext("2d")!;
-      ctx.drawImage(img, 0, 0);
-      if (removeBg) {
-        const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const px = data.data;
-        for (let i = 0; i < px.length; i += 4) {
-          const r = px[i], g = px[i + 1], b = px[i + 2];
-          if (r > 235 && g > 235 && b > 235) px[i + 3] = 0;
-        }
-        ctx.putImageData(data, 0, 0);
-      }
-      const trimmed = trimTransparent(canvas);
-      if (trimmed) onCommit({ dataUrl: trimmed.dataUrl, w: trimmed.w, h: trimmed.h });
+      rawRef.current = img;
+      // Show original as before preview
+      const beforeCanvas = document.createElement("canvas");
+      beforeCanvas.width = img.naturalWidth; beforeCanvas.height = img.naturalHeight;
+      beforeCanvas.getContext("2d")!.drawImage(img, 0, 0);
+      setBeforeUrl(beforeCanvas.toDataURL("image/png"));
+      // process below via effect on state changes
+      queueMicrotask(process);
     } catch (e) {
       toast.error(`Upload failed: ${(e as Error).message}`);
     }
   };
+
+  // Re-process when knobs change (if we have a raw image)
+  useEffect(() => {
+    if (rawRef.current) process();
+  }, [removeBg, threshold, process]);
 
   return (
     <div className="space-y-3">
@@ -1394,10 +1916,273 @@ function UploadPad({ onCommit }: { onCommit: (sig: Signature | null) => void }) 
           e.target.value = "";
         }}
       />
+
       <label className="flex items-center gap-2 text-[13px]" style={{ color: "#33333c" }}>
         <Checkbox checked={removeBg} onCheckedChange={(v) => setRemoveBg(v === true)} />
         <span>Remove white background</span>
       </label>
+
+      {removeBg && (
+        <div>
+          <div className="mb-1 flex items-center justify-between">
+            <Label className="text-[11.5px] font-semibold text-[#5a5a66]">Sensitivity</Label>
+            <span className="text-[11.5px] text-[#5a5a66]">{threshold}</span>
+          </div>
+          <input
+            type="range"
+            min={180}
+            max={250}
+            step={1}
+            value={threshold}
+            onChange={(e) => setThreshold(Number(e.target.value))}
+            className="w-full"
+          />
+          <p className="mt-1 text-[11px] text-[#5a5a66]">
+            Lower removes more (pale strokes may fade). Higher keeps more paper texture.
+          </p>
+        </div>
+      )}
+
+      {(beforeUrl || afterUrl) && (
+        <div className="grid grid-cols-2 gap-2">
+          <div>
+            <p className="mb-1 text-[11px] font-semibold text-[#5a5a66]">Before</p>
+            <div className="grid h-16 place-items-center rounded-md bg-white" style={{ border: "1px solid #ececef" }}>
+              {beforeUrl && <img src={beforeUrl} alt="Before" className="max-h-14 object-contain" />}
+            </div>
+          </div>
+          <div>
+            <p className="mb-1 text-[11px] font-semibold text-[#5a5a66]">After</p>
+            <div
+              className="grid h-16 place-items-center rounded-md"
+              style={{
+                border: "1px solid #ececef",
+                backgroundImage:
+                  "linear-gradient(45deg,#eee 25%,transparent 25%),linear-gradient(-45deg,#eee 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#eee 75%),linear-gradient(-45deg,transparent 75%,#eee 75%)",
+                backgroundSize: "10px 10px",
+                backgroundPosition: "0 0,0 5px,5px -5px,-5px 0",
+              }}
+            >
+              {afterUrl && <img src={afterUrl} alt="After" className="max-h-14 object-contain" />}
+            </div>
+          </div>
+        </div>
+      )}
+
+      <SaveOptIn checked={saveOptIn} onChange={setSaveOptIn} />
+    </div>
+  );
+}
+
+function SavedTab({
+  list, onUse, onDelete, onClear,
+}: {
+  list: SavedSig[];
+  onUse: (s: SavedSig) => void;
+  onDelete: (id: string) => void;
+  onClear: () => void;
+}) {
+  if (!list.length) {
+    return (
+      <div className="rounded-lg p-4 text-center" style={{ border: "1px dashed #cfcfd6", backgroundColor: "#fafafb" }}>
+        <p className="text-[12.5px] font-semibold text-[#33333c]">No saved signatures yet</p>
+        <p className="mt-1 text-[11.5px] text-[#5a5a66]">
+          Create a signature and tick "Save on this device" to keep it for next time.
+        </p>
+      </div>
+    );
+  }
+  return (
+    <div className="space-y-2">
+      {list.map((s) => (
+        <div
+          key={s.id}
+          className="flex items-center gap-2 rounded-lg p-2"
+          style={{ border: "1px solid #ececef", backgroundColor: "#ffffff" }}
+        >
+          <button
+            type="button"
+            onClick={() => onUse(s)}
+            className="flex flex-1 items-center justify-center rounded-md bg-white p-1 hover:bg-[#fafafb]"
+            style={{ border: "1px solid #f0f0f2" }}
+          >
+            <img src={s.dataUrl} alt="Saved" className="max-h-10 object-contain" />
+          </button>
+          <button
+            type="button"
+            onClick={() => onDelete(s.id)}
+            className="grid h-7 w-7 place-items-center rounded-full text-[#5a5a66] hover:bg-[#f4f4f6] hover:text-[#e5322d]"
+            aria-label="Delete saved signature"
+          >
+            <X className="h-3.5 w-3.5" />
+          </button>
+        </div>
+      ))}
+      <button
+        type="button"
+        onClick={onClear}
+        className="w-full text-[11.5px] font-semibold text-[#5a5a66] hover:text-[#e5322d]"
+      >
+        Remove all
+      </button>
+      <p className="text-[11px]" style={{ color: "#5a5a66" }}>
+        Saved only in your browser on this device. Never uploaded. Clearing browser data removes them.
+      </p>
+    </div>
+  );
+}
+
+function SaveOptIn({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) {
+  return (
+    <label className="flex items-start gap-2 text-[12px]" style={{ color: "#33333c" }}>
+      <Checkbox
+        className="mt-0.5"
+        checked={checked}
+        onCheckedChange={(v) => onChange(v === true)}
+      />
+      <span>
+        Save on this device for next time.
+        <span className="block text-[11px] text-[#5a5a66]">
+          Stored only in your browser. Never uploaded.
+        </span>
+      </span>
+    </label>
+  );
+}
+
+/* ============================== Date / Text / Check pads ============================== */
+
+function DatePad({
+  format, setFormat, color, setColor,
+}: {
+  format: DateFormat;
+  setFormat: (f: DateFormat) => void;
+  color: string;
+  setColor: (c: string) => void;
+}) {
+  const today = formatDate(new Date(), format);
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center gap-2 rounded-lg p-3" style={{ border: "1px solid #ececef", backgroundColor: "#fafafb" }}>
+        <CalendarIcon className="h-4 w-4 text-[#5a5a66]" />
+        <span style={{ fontFamily: "'ArimoSignPdf', Arial, sans-serif", fontSize: 16, color }}>{today}</span>
+      </div>
+      <div>
+        <Label className="text-[11.5px] font-semibold text-[#5a5a66]">Format</Label>
+        <div className="mt-1 grid grid-cols-3 gap-1">
+          {DATE_FORMATS.map((d) => (
+            <button
+              key={d.id}
+              type="button"
+              onClick={() => setFormat(d.id)}
+              className="rounded-md py-1.5 text-[11.5px] font-semibold"
+              style={{
+                border: format === d.id ? "2px solid #e5322d" : "1px solid #ececef",
+                backgroundColor: format === d.id ? "#fff6f5" : "#ffffff",
+                color: "#33333c",
+              }}
+            >
+              {d.label}
+            </button>
+          ))}
+        </div>
+      </div>
+      <ColorRow colors={TEXT_COLORS} value={color} onChange={setColor} />
+      <p className="text-[11px]" style={{ color: "#5a5a66" }}>
+        Exports as crisp vector text using an embedded Arimo font. Editable after placing.
+      </p>
+    </div>
+  );
+}
+
+function TextStampPad({
+  value, setValue, color, setColor,
+}: {
+  value: string;
+  setValue: (v: string) => void;
+  color: string;
+  setColor: (c: string) => void;
+}) {
+  const complex = hasComplexScript(value);
+  return (
+    <div className="space-y-3">
+      <div>
+        <Label htmlFor="stamp-text" className="text-xs">Text</Label>
+        <Input
+          id="stamp-text"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          placeholder='e.g. Approved, John Smith, Mumbai'
+          className="mt-1"
+        />
+      </div>
+      <ColorRow colors={TEXT_COLORS} value={color} onChange={setColor} />
+      {complex && (
+        <p className="rounded-md p-2 text-[11.5px] font-semibold" style={{ backgroundColor: "#fff6f5", color: "#a15c1a" }}>
+          This script isn't supported yet. Please use Latin characters.
+        </p>
+      )}
+    </div>
+  );
+}
+
+function CheckPad({
+  kind, setKind, color, setColor,
+}: {
+  kind: CheckKind;
+  setKind: (k: CheckKind) => void;
+  color: string;
+  setColor: (c: string) => void;
+}) {
+  return (
+    <div className="space-y-3">
+      <div className="grid grid-cols-2 gap-2">
+        {(["check", "cross"] as CheckKind[]).map((k) => (
+          <button
+            key={k}
+            type="button"
+            onClick={() => setKind(k)}
+            className="grid place-items-center rounded-lg py-3"
+            style={{
+              border: kind === k ? "2px solid #e5322d" : "1px solid #ececef",
+              backgroundColor: kind === k ? "#fff6f5" : "#ffffff",
+            }}
+          >
+            {k === "check" ? <CheckSquare className="h-6 w-6" color={color} /> : <XSquare className="h-6 w-6" color={color} />}
+            <span className="mt-1 text-[11.5px] font-semibold text-[#33333c]">
+              {k === "check" ? "Check" : "Cross"}
+            </span>
+          </button>
+        ))}
+      </div>
+      <ColorRow colors={TEXT_COLORS} value={color} onChange={setColor} />
+    </div>
+  );
+}
+
+function ColorRow({
+  colors, value, onChange,
+}: {
+  colors: { name: string; value: string }[];
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  return (
+    <div className="flex items-center gap-1.5">
+      {colors.map((c) => (
+        <button
+          key={c.value}
+          type="button"
+          onClick={() => onChange(c.value)}
+          aria-label={c.name}
+          className="h-6 w-6 rounded-full"
+          style={{
+            backgroundColor: c.value,
+            outline: value === c.value ? "2px solid #33333c" : "none",
+            outlineOffset: 2,
+          }}
+        />
+      ))}
     </div>
   );
 }
@@ -1463,4 +2248,11 @@ function trimTransparent(canvas: HTMLCanvasElement): { dataUrl: string; w: numbe
   const octx = out.getContext("2d")!;
   octx.drawImage(canvas, x0, y0, w, h, 0, 0, w, h);
   return { dataUrl: out.toDataURL("image/png"), w, h };
+}
+
+function hexToPdfRgb(hex: string) {
+  const c = hex.replace("#", "");
+  const s = c.length === 3 ? c.split("").map((x) => x + x).join("") : c;
+  const n = parseInt(s, 16);
+  return rgb(((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255);
 }
