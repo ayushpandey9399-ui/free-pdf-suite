@@ -134,6 +134,20 @@ export function ImageToolIcon({
           <rect x="25" y="29.5" width="16" height="2" rx="1" fill="#FFFFFF" />
           <rect x="25" y="34" width="12" height="2" rx="1" fill="#FFFFFF" />
         </g>
+      ) : isMeme ? (
+        // Flat meme motif: a rounded speech bubble with a smile inside,
+        // sitting on top of the photo card.
+        <g>
+          <path
+            d="M18 24 h22 a4 4 0 0 1 4 4 v10 a4 4 0 0 1 -4 4 h-14 l-5 4 v-4 h-3 a4 4 0 0 1 -4 -4 v-10 a4 4 0 0 1 4 -4 z"
+            fill={accent}
+          />
+          {/* eyes */}
+          <circle cx="24" cy="31" r="1.6" fill="#FFFFFF" />
+          <circle cx="34" cy="31" r="1.6" fill="#FFFFFF" />
+          {/* smile */}
+          <path d="M23 35 Q29 40 35 35" fill="none" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" />
+        </g>
       ) : (
         // Flat target-format tag at bottom-right.
         <g>
