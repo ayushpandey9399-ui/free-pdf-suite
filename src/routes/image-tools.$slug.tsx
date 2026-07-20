@@ -44,6 +44,14 @@ import {
   webpToPngSoftwareJsonLd,
   webpToPngHowToJsonLd,
 } from "@/components/WebpToPngSeo";
+import { CompressImageTool } from "@/tools/compress-image";
+import {
+  CompressImageSeo,
+  compressImageFaqJsonLd,
+  compressImageSoftwareJsonLd,
+  compressImageHowToJsonLd,
+} from "@/components/CompressImageSeo";
+
 
 const HEIC_TITLE = "HEIC to JPG Converter Free, No Upload | FreePDFHub";
 const HEIC_DESC =
