@@ -19,6 +19,7 @@ const TARGET_LABEL: Record<string, string | null> = {
   "crop-image": null,
   "rotate-image": null,
   "watermark-image": null,
+  "meme-generator": null,
 };
 
 export interface ImageToolIconProps {
