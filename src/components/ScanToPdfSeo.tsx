@@ -201,6 +201,19 @@ export function ScanToPdfSeo() {
       </section>
 
       <section>
+        <h2 className="text-2xl font-bold">Make the PDF searchable (OCR, beta)</h2>
+        <p className="mt-3">
+          Turn on the Searchable PDF toggle before you press Create PDF and each
+          page is read by an in-browser text engine. The output looks identical,
+          the pages are still your photos, but an invisible text layer sits
+          underneath so you can select, copy, and Ctrl+F search the words. The
+          engine downloads to your browser the first time you enable it and
+          reads every page on your device. Nothing is uploaded. Best on clear
+          printed text; handwriting is not supported in this beta.
+        </p>
+      </section>
+
+      <section>
         <h2 className="text-2xl font-bold">Frequently asked questions</h2>
         <div className="mt-4 space-y-4">
           {scanToPdfFaq.map((f) => (
@@ -260,7 +273,15 @@ const scanToPdfFaq = [
   },
   {
     q: "Is there OCR? Can it read the text on the scan?",
-    a: "Not yet. Right now the tool captures pages as images and embeds them in a PDF, so the scan looks perfect but you cannot select or search the text inside it. If OCR matters for your use case, run the file through a dedicated OCR tool after downloading.",
+    a: "Yes, in beta. Enable Make PDF searchable (OCR) in the sidebar before you press Create PDF. The pages still look like your photos, but an invisible text layer sits underneath so text is selectable and searchable. English only for now; handwriting is not supported.",
+  },
+  {
+    q: "Can it make the PDF searchable?",
+    a: "Yes, in beta. Turn on Make PDF searchable (OCR) in the sidebar before you press Create PDF. Each page is read by an in-browser text engine and an invisible text layer is placed under the image, so the file looks identical and you can select, copy, and Ctrl+F search the text. Best on clear printed text; handwriting is not supported yet.",
+  },
+  {
+    q: "Does OCR upload my document?",
+    a: "No. When you enable OCR the first time, the text engine downloads to your browser once (about 11 MB) and then reads every page on your device. Your files never leave the tab. Turn the toggle off any time and the PDF is exported without a text layer.",
   },
   {
     q: "My photo is crooked or has a shadow across it. Can the tool fix that?",

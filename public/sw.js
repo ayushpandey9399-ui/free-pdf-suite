@@ -132,6 +132,11 @@ self.addEventListener("fetch", (event) => {
   // Bypass ALL cross-origin (AdSense, analytics, Google Fonts, etc.).
   if (url.origin !== self.location.origin) return;
 
+  // Bypass the OCR runtime assets (tesseract worker + WASM + traineddata).
+  // These are large, downloaded only on opt-in, and served from our own
+  // origin | rely on normal HTTP caching, never touch SW-owned caches.
+  if (url.pathname.startsWith("/ocr/")) return;
+
   // Per-visitor kill switch via ?sw=kill on any navigation.
   if (req.mode === "navigate" && url.searchParams.get("sw") === "kill") {
     event.respondWith(
