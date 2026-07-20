@@ -60,6 +60,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
     const isHeicJpg = slug === "heic-to-jpg";
     const isHeicPng = slug === "heic-to-png";
     const isJpgPng = slug === "jpg-to-png";
+    const isPngJpg = slug === "png-to-jpg";
 
     const breadcrumbJsonLd = {
       "@context": "https://schema.org",
@@ -76,24 +77,42 @@ export const Route = createFileRoute("/image-tools/$slug")({
       ],
     };
 
-    if (isHeicJpg || isHeicPng || isJpgPng) {
-      const title = isHeicJpg ? HEIC_TITLE : isHeicPng ? HEIC_PNG_TITLE : JPG_PNG_TITLE;
-      const desc = isHeicJpg ? HEIC_DESC : isHeicPng ? HEIC_PNG_DESC : JPG_PNG_DESC;
+    if (isHeicJpg || isHeicPng || isJpgPng || isPngJpg) {
+      const title = isHeicJpg
+        ? HEIC_TITLE
+        : isHeicPng
+          ? HEIC_PNG_TITLE
+          : isJpgPng
+            ? JPG_PNG_TITLE
+            : PNG_JPG_TITLE;
+      const desc = isHeicJpg
+        ? HEIC_DESC
+        : isHeicPng
+          ? HEIC_PNG_DESC
+          : isJpgPng
+            ? JPG_PNG_DESC
+            : PNG_JPG_DESC;
       const softwareLd = isHeicJpg
         ? heicToJpgSoftwareJsonLd
         : isHeicPng
           ? heicToPngSoftwareJsonLd
-          : jpgToPngSoftwareJsonLd;
+          : isJpgPng
+            ? jpgToPngSoftwareJsonLd
+            : pngToJpgSoftwareJsonLd;
       const howToLd = isHeicJpg
         ? heicToJpgHowToJsonLd
         : isHeicPng
           ? heicToPngHowToJsonLd
-          : jpgToPngHowToJsonLd;
+          : isJpgPng
+            ? jpgToPngHowToJsonLd
+            : pngToJpgHowToJsonLd;
       const faqLd = isHeicJpg
         ? heicToJpgFaqJsonLd
         : isHeicPng
           ? heicToPngFaqJsonLd
-          : jpgToPngFaqJsonLd;
+          : isJpgPng
+            ? jpgToPngFaqJsonLd
+            : pngToJpgFaqJsonLd;
       return {
         meta: [
           { title },
