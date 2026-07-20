@@ -122,6 +122,15 @@ export function Navbar() {
             >
               Sign PDF
             </Link>
+            <Link
+              to="/image-tools"
+              className={NAV_LINK_CLASS}
+              style={NAV_STYLE}
+            >
+              Image Tools
+            </Link>
+
+
 
             {/* Convert PDF dropdown */}
             <div
