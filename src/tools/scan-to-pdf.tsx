@@ -511,6 +511,21 @@ export default function ScanToPdf() {
   const [result, setResult] = useState<{ blob: Blob; filename: string; count: number } | null>(null);
   const [editorId, setEditorId] = useState<string | null>(null);
 
+  // OCR (Pack 4): opt-in, self-hosted, cancellable.
+  const [ocrEnabled, setOcrEnabled] = useState(false);
+  const [ocrConsented, setOcrConsented] = useState(false);
+  const [ocrProgress, setOcrProgress] = useState<{ page: number; total: number } | null>(null);
+  const cancelRef = useRef(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      if (window.localStorage.getItem(OCR_CONSENT_KEY) === "1") setOcrConsented(true);
+    } catch {
+      /* ignore | localStorage may be blocked */
+    }
+  }, []);
+
   const [thumbs, setThumbs] = useState<Record<string, { key: string; url: string }>>({});
   const thumbsRef = useRef(thumbs);
   thumbsRef.current = thumbs;
