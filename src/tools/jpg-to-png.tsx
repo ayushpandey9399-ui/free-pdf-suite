@@ -24,9 +24,13 @@ function isJpg(f: File): boolean {
 async function decodeToBitmap(file: File): Promise<ImageBitmap | HTMLImageElement> {
   if (typeof createImageBitmap === "function") {
     try {
-      return await createImageBitmap(file);
+      return await createImageBitmap(file, { imageOrientation: "from-image" });
     } catch {
-      // fall through to HTMLImageElement
+      try {
+        return await createImageBitmap(file);
+      } catch {
+        // fall through to HTMLImageElement
+      }
     }
   }
   return await new Promise<HTMLImageElement>((resolve, reject) => {
