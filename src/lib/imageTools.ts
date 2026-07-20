@@ -53,8 +53,10 @@ export const imageTools: readonly ImageTool[] = [
     id: "webp-to-jpg",
     slug: "webp-to-jpg",
     name: "WebP to JPG",
-    description: "Convert WebP images to JPG in your browser.",
-    status: "coming-soon",
+    description:
+      "Convert WebP images to universal JPG files in your browser. Adjustable quality, batch and ZIP download.",
+    status: "live",
+    aliases: ["webp to jpeg", "save webp as jpg", "webp converter"],
   },
   {
     id: "webp-to-png",

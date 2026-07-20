@@ -62,3 +62,4 @@ FreePDFHub is an independent, ad-supported suite of 28 PDF utilities. Every tool
 - [HEIC to PNG](/image-tools/heic-to-png): Convert iPhone HEIC/HEIF photos to lossless PNG in the browser. Batch + ZIP download.
 - [JPG to PNG](/image-tools/jpg-to-png): Convert JPG/JPEG images to lossless PNG in the browser. Batch + ZIP download.
 - [PNG to JPG](/image-tools/png-to-jpg): Convert PNG images to smaller JPG files in the browser. Adjustable quality, batch + ZIP download.
+- [WebP to JPG](/image-tools/webp-to-jpg): Convert WebP images to universal JPG files in the browser. Adjustable quality, batch + ZIP download.
