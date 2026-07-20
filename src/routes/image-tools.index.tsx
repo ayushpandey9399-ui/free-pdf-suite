@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { imageTools, imageToolTintBg, type ImageTool } from "@/lib/imageTools";
+import { imageTools, type ImageTool } from "@/lib/imageTools";
+import { ImageToolIcon } from "@/components/image-tools/ImageToolIcon";
 import { SITE_URL } from "@/lib/site";
+
 
 const TITLE = "Free Image Tools, Convert HEIC, JPG, PNG | FreePDFHub";
 const DESC =
