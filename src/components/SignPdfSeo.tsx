@@ -32,7 +32,7 @@ const benefits = [
   },
   {
     h: "Sign on your phone",
-    p: "The draw pad works with touch, so you can sign with your finger straight on the screen, handy when a signature is needed urgently and there is no desk or printer nearby. Works in any modern mobile browser on Android and iPhone.",
+    p: "Tap Draw and the signature pad opens fullscreen with velocity-aware smoothing so a finger stroke reads like real ink, not a shaky line. Rotate the phone for even more room. Works in any modern mobile browser on Android and iPhone.",
   },
   {
     h: "Free and unlimited",
