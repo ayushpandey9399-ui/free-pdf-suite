@@ -20,6 +20,7 @@ const TARGET_LABEL: Record<string, string | null> = {
   "rotate-image": null,
   "watermark-image": null,
   "meme-generator": null,
+  "photo-editor": null,
 };
 
 export interface ImageToolIconProps {
