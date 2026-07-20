@@ -45,7 +45,7 @@ export const photoEditorFaqJsonLd = {
     { "@type": "Question", name: "What file formats are supported?", acceptedAnswer: { "@type": "Answer", text: "You can open JPG, JPEG, PNG, and WebP images. You can export as JPG, PNG, or WebP. PNG keeps transparency where the source has it." } },
     { "@type": "Question", name: "Does the photo editor work on my phone?", acceptedAnswer: { "@type": "Answer", text: "Yes. It works on iPhone, iPad, Android, Windows, macOS, and Linux in any modern browser, Chrome, Safari, Edge, and Firefox included." } },
     { "@type": "Question", name: "Is there a watermark on the output?", acceptedAnswer: { "@type": "Answer", text: "Never. What you see in the preview is exactly what downloads. No logo, no URL, no footer bar, no export cap." } },
-    { "@type": "Question", name: "Can I crop or rotate the photo here?", acceptedAnswer: { "@type": "Answer", text: "This editor is focused on adjustments and filters. For crop or rotate, use the dedicated tools, they are also free and 100 percent in your browser." } },
+    { "@type": "Question", name: "Can I crop or rotate the photo here?", acceptedAnswer: { "@type": "Answer", text: "Yes, built in now. Switch to the Crop and Rotate tab to rotate 90 degrees left or right, mirror or flip vertically, straighten between minus 15 and plus 15 degrees with auto-zoom (no blank corners), and drag a crop box with Free, 1:1, 4:3, or 16:9 aspect presets. Every geometry change is on the same undo history as the color sliders, so you can walk your whole edit back step by step." } },
   ],
 };
 
