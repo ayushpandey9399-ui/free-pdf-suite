@@ -48,6 +48,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
     const url = `${SITE_URL}/image-tools/${slug}`;
     const isHeicJpg = slug === "heic-to-jpg";
     const isHeicPng = slug === "heic-to-png";
+    const isJpgPng = slug === "jpg-to-png";
 
     const breadcrumbJsonLd = {
       "@context": "https://schema.org",
