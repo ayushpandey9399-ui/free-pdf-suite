@@ -72,3 +72,4 @@ FreePDFHub is an independent, ad-supported suite of 28 PDF utilities. Every tool
 - [Crop Image](/image-tools/crop-image): Crop JPG, PNG, and WebP to any size in the browser. Interactive crop box with drag+resize handles, aspect presets (1:1, 4:3, 3:4, 16:9, 9:16, Passport 35x45), and exact pixel inputs. Batch + ZIP.
 - [Rotate and Flip Image](/image-tools/rotate-image): Rotate JPG, PNG, and WebP by 90/180/270 degrees, or mirror/flip vertically in the browser. Cumulative actions, Apply to all, batch + ZIP.
 - [Add Watermark to Image](/image-tools/watermark-image): Add a text or logo watermark to JPG, PNG, and WebP in the browser. 9-cell position grid, tile mode, opacity, rotation, batch + ZIP.
+- [Meme Generator](/image-tools/meme-generator): Make memes online free with no watermark. Classic top/bottom text (Anton, open-license Impact lookalike), extra draggable captions, caption bar mode. Use your own photo, 100% in-browser, JPG or PNG export.
