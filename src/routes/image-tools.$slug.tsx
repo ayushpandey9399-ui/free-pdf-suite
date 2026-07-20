@@ -112,6 +112,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
     const isWebpJpg = slug === "webp-to-jpg";
     const isWebpPng = slug === "webp-to-png";
     const isCompress = slug === "compress-image";
+    const isResize = slug === "image-resize";
 
     const breadcrumbJsonLd = {
       "@context": "https://schema.org",
