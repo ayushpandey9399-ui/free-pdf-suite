@@ -71,7 +71,7 @@ export function PhotoEditorSeo() {
 
       <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">Adjust brightness, contrast, and color</h2>
       <p>
-        The seven sliders cover the adjustments that fix the vast majority of
+        The adjustment sliders cover the edits that fix the vast majority of
         everyday photos. Brightness lifts or dims the overall exposure.
         Contrast pushes shadows down and highlights up so a flat photo has more
         depth. Saturation controls how vivid the colors are, useful for both
@@ -79,14 +79,33 @@ export function PhotoEditorSeo() {
         cartoonish. Warmth shifts the hue toward orange or blue, the fastest
         way to correct a photo that came out too cold under fluorescent light
         or too warm indoors. Grayscale and Sepia are one-slider film looks.
-        Blur adds a small soft-focus effect, great for social avatars.
+        Blur adds a small soft-focus effect. Sharpen (unsharp mask) recovers
+        crispness on slightly soft shots. Vignette darkens the corners for a
+        classic focused look, and Grain adds a fine film texture that helps a
+        clean digital photo feel less sterile.
       </p>
       <p className="mt-3">
         Every slider shows its current numeric value and has a tiny reset link
         next to it, so you can undo a single adjustment without wiping the
         others. The Reset all button zeroes everything and returns the preview
-        to the original photo.
+        to the original photo. Every committed change is added to the undo
+        history: use the Undo and Redo buttons, or Ctrl/Cmd+Z and
+        Ctrl/Cmd+Shift+Z (or Ctrl/Cmd+Y), to step through your edit trail.
+        Hold Space to peek at the original at any time.
       </p>
+
+      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">Duotone color grading</h2>
+      <p>
+        The duotone chips remap your photo between two chosen colors, a shadow
+        tone and a highlight tone. Pick Navy | Cream for a magazine cover feel,
+        Purple | Peach for a sunset mood, Teal | Gold for a moody cinematic
+        grade, or Plum | Mint for a soft editorial look. The amount slider lets
+        you dial the effect from a whisper of tint to a full graphic-poster
+        mapping, and all the regular sliders keep working on top so you can
+        combine a duotone with a bit of contrast and grain for a finished
+        stylised export.
+      </p>
+
 
       <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">One-tap filters, B&W, sepia, vintage, and more</h2>
       <p>
