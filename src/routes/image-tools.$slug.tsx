@@ -95,6 +95,13 @@ import {
   watermarkImageSoftwareJsonLd,
   watermarkImageHowToJsonLd,
 } from "@/components/WatermarkImageSeo";
+import { MemeGeneratorTool } from "@/tools/meme-generator";
+import {
+  MemeGeneratorSeo,
+  memeGeneratorFaqJsonLd,
+  memeGeneratorSoftwareJsonLd,
+  memeGeneratorHowToJsonLd,
+} from "@/components/MemeGeneratorSeo";
 
 
 const HEIC_TITLE = "HEIC to JPG Converter Free, No Upload | FreePDFHub";
