@@ -89,6 +89,15 @@ export function ImageToolIcon({
           {/* bottom arrow into card */}
           <path d="M29 56 L29 50 M26 53 L29 50 L32 53" />
         </g>
+      ) : isResize ? (
+        // Flat resize motif: diagonal arrows at the top-left and bottom-right
+        // corners of the photo card, pointing outward.
+        <g fill="none" stroke={accent} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          {/* top-left outward */}
+          <path d="M18 22 L10 14 M10 14 L10 19 M10 14 L15 14" />
+          {/* bottom-right outward */}
+          <path d="M40 38 L48 46 M48 46 L48 41 M48 46 L43 46" />
+        </g>
       ) : (
         // Flat target-format tag at bottom-right.
         <g>
