@@ -1419,6 +1419,75 @@ export default function ScanToPdf() {
                 Estimated file size: <strong>{sizeLabel ?? "calculating…"}</strong>
               </p>
             </div>
+            <div className="rounded-lg border p-3" style={{ borderColor: "#e6e6ec", backgroundColor: "#fafafb" }}>
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <ScanText className="h-4 w-4" style={{ color: "#33333c" }} />
+                    <span className="text-[13px] font-semibold" style={{ color: "#33333c" }}>
+                      Make PDF searchable (OCR)
+                    </span>
+                    <span
+                      className="rounded px-1.5 py-[1px] text-[10px] font-bold uppercase tracking-wide"
+                      style={{ backgroundColor: "#fde68a", color: "#78350f" }}
+                    >
+                      Beta
+                    </span>
+                  </div>
+                  <p className="mt-1 text-[11px]" style={{ color: "#5a5a66" }}>
+                    Best on clear printed text. Handwriting is not supported.
+                  </p>
+                </div>
+                <Switch
+                  checked={ocrEnabled}
+                  disabled={loading}
+                  onCheckedChange={async (v) => {
+                    if (!v) {
+                      setOcrEnabled(false);
+                      return;
+                    }
+                    if (!ocrConsented) {
+                      const ok = window.confirm(
+                        "Turn on OCR?\n\nThis downloads the text engine (~11 MB) once and runs it in your browser. Your files never leave your device.",
+                      );
+                      if (!ok) return;
+                      try {
+                        const reachable = await checkOcrAssets();
+                        if (!reachable) {
+                          toast.error("Could not reach the text engine, try again later");
+                          return;
+                        }
+                      } catch {
+                        toast.error("Could not reach the text engine, try again later");
+                        return;
+                      }
+                      try {
+                        window.localStorage.setItem(OCR_CONSENT_KEY, "1");
+                      } catch {
+                        /* ignore */
+                      }
+                      setOcrConsented(true);
+                    }
+                    setOcrEnabled(true);
+                  }}
+                />
+              </div>
+              {ocrEnabled && (
+                <p className="mt-2 text-[11px]" style={{ color: "#5a5a66" }}>
+                  English only in this beta. OCR runs on your device, nothing uploads.
+                </p>
+              )}
+            </div>
+            {loading && ocrProgress && (
+              <button
+                type="button"
+                onClick={cancelBuild}
+                className="w-full rounded-lg border px-3 py-2 text-[13px] font-semibold transition-colors hover:bg-neutral-50"
+                style={{ borderColor: "#e6e6ec", color: "#33333c" }}
+              >
+                Cancel OCR and download without text layer
+              </button>
+            )}
             <div className="rounded-lg p-3 text-[13px]" style={{ backgroundColor: "#f5f5f7", color: "#33333c" }}>
               <strong>{pages.length}</strong> page{pages.length === 1 ? "" : "s"} scanned
             </div>
