@@ -68,13 +68,16 @@ export const imageTools: readonly ImageTool[] = [
     aliases: ["webp to png transparent", "save webp as png", "webp converter"],
   },
   {
-    id: "image-compress",
-    slug: "image-compress",
+    id: "compress-image",
+    slug: "compress-image",
     name: "Compress Image",
-    description: "Reduce image file size while keeping quality.",
-    status: "coming-soon",
+    description:
+      "Reduce JPG, PNG, and WebP file size in your browser. Quality slider or target a size in KB. Batch and ZIP download.",
+    status: "live",
+    aliases: ["image compressor", "reduce image size", "compress jpg", "compress png"],
   },
 ];
+
 
 export function getImageTool(slug: string): ImageTool | undefined {
   return imageTools.find((t) => t.slug === slug);
