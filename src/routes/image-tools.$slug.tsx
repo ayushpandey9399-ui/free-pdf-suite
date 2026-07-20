@@ -198,6 +198,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
       "rotate-image": ROTATE_TITLE,
       "watermark-image": WATERMARK_TITLE,
       "meme-generator": MEME_TITLE,
+      "photo-editor": PHOTO_EDITOR_TITLE,
     };
     const DESCS: Record<string, string> = {
       "heic-to-jpg": HEIC_DESC,
