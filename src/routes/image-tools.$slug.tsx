@@ -7,11 +7,12 @@ import {
   HeicToJpgSeo,
   heicToJpgFaqJsonLd,
   heicToJpgSoftwareJsonLd,
+  heicToJpgHowToJsonLd,
 } from "@/components/HeicToJpgSeo";
 
 const HEIC_TITLE = "HEIC to JPG Converter Free, No Upload | FreePDFHub";
 const HEIC_DESC =
-  "Convert HEIC photos to JPG online free. 100% in your browser, no signup, no upload, batch convert iPhone HEIC files and download as ZIP.";
+  "Convert HEIC to JPG online free. Batch convert iPhone photos in your browser with no upload, no signup, and no quality loss. Fast and 100% private.";
 
 export const Route = createFileRoute("/image-tools/$slug")({
   loader: ({ params }) => {
