@@ -53,6 +53,13 @@ import {
   compressImageSoftwareJsonLd,
   compressImageHowToJsonLd,
 } from "@/components/CompressImageSeo";
+import { ImageResizeTool } from "@/tools/image-resize";
+import {
+  ImageResizeSeo,
+  imageResizeFaqJsonLd,
+  imageResizeSoftwareJsonLd,
+  imageResizeHowToJsonLd,
+} from "@/components/ImageResizeSeo";
 
 
 const HEIC_TITLE = "HEIC to JPG Converter Free, No Upload | FreePDFHub";
@@ -83,6 +90,10 @@ const COMPRESS_TITLE = "Compress Image Free, No Upload | FreePDFHub";
 const COMPRESS_DESC =
   "Compress image online free. Reduce JPG, PNG, and WebP file size in your browser, target 100KB, 200KB, or 50KB. Batch and ZIP, 100% private.";
 
+const RESIZE_TITLE = "Resize Image in Pixels or KB Free, No Upload | FreePDFHub";
+const RESIZE_DESC =
+  "Resize image online free. Change JPG, PNG, and WebP dimensions by pixels or percent in your browser. Presets for passport, signature, HD. No upload.";
+
 
 export const Route = createFileRoute("/image-tools/$slug")({
   loader: ({ params }) => {
@@ -101,6 +112,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
     const isWebpJpg = slug === "webp-to-jpg";
     const isWebpPng = slug === "webp-to-png";
     const isCompress = slug === "compress-image";
+    const isResize = slug === "image-resize";
 
     const breadcrumbJsonLd = {
       "@context": "https://schema.org",
@@ -117,7 +129,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
       ],
     };
 
-    if (isHeicJpg || isHeicPng || isJpgPng || isPngJpg || isWebpJpg || isWebpPng || isCompress) {
+    if (isHeicJpg || isHeicPng || isJpgPng || isPngJpg || isWebpJpg || isWebpPng || isCompress || isResize) {
       const title = isHeicJpg
         ? HEIC_TITLE
         : isHeicPng
@@ -130,7 +142,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
                 ? WEBP_JPG_TITLE
                 : isWebpPng
                   ? WEBP_PNG_TITLE
-                  : COMPRESS_TITLE;
+                  : isCompress
+                    ? COMPRESS_TITLE
+                    : RESIZE_TITLE;
       const desc = isHeicJpg
         ? HEIC_DESC
         : isHeicPng
@@ -143,7 +157,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
                 ? WEBP_JPG_DESC
                 : isWebpPng
                   ? WEBP_PNG_DESC
-                  : COMPRESS_DESC;
+                  : isCompress
+                    ? COMPRESS_DESC
+                    : RESIZE_DESC;
       const softwareLd = isHeicJpg
         ? heicToJpgSoftwareJsonLd
         : isHeicPng
@@ -156,7 +172,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
                 ? webpToJpgSoftwareJsonLd
                 : isWebpPng
                   ? webpToPngSoftwareJsonLd
-                  : compressImageSoftwareJsonLd;
+                  : isCompress
+                    ? compressImageSoftwareJsonLd
+                    : imageResizeSoftwareJsonLd;
       const howToLd = isHeicJpg
         ? heicToJpgHowToJsonLd
         : isHeicPng
@@ -169,7 +187,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
                 ? webpToJpgHowToJsonLd
                 : isWebpPng
                   ? webpToPngHowToJsonLd
-                  : compressImageHowToJsonLd;
+                  : isCompress
+                    ? compressImageHowToJsonLd
+                    : imageResizeHowToJsonLd;
       const faqLd = isHeicJpg
         ? heicToJpgFaqJsonLd
         : isHeicPng
@@ -182,7 +202,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
                 ? webpToJpgFaqJsonLd
                 : isWebpPng
                   ? webpToPngFaqJsonLd
-                  : compressImageFaqJsonLd;
+                  : isCompress
+                    ? compressImageFaqJsonLd
+                    : imageResizeFaqJsonLd;
       return {
         meta: [
           { title },
@@ -418,6 +440,33 @@ function ImageToolPage() {
           </div>
         </section>
         <CompressImageSeo />
+      </div>
+    );
+  }
+
+  if (tool.slug === "image-resize") {
+    return (
+      <div className="mx-auto max-w-4xl px-4 pb-16">
+        <Breadcrumb name={tool.name} />
+        <section className="flex flex-col pt-6 pb-10 text-center">
+          <ToolHeaderIcon tool={tool} />
+          <h1
+            className="mx-auto text-[28px] sm:text-[42px]"
+            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
+          >
+            Resize images online, free
+          </h1>
+          <p className="mx-auto mt-4 max-w-[620px] text-[15px] sm:text-[18px] text-[#6B7280]">
+            Change JPG, PNG, and WebP dimensions right in your browser. Enter exact pixels, use a percent slider, or pick a preset for passport photo, signature, HD, or Full HD. Also compress to a target KB in the same pass.
+          </p>
+          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
+            Your files never leave your device
+          </p>
+          <div className="mt-10">
+            <ImageResizeTool />
+          </div>
+        </section>
+        <ImageResizeSeo />
       </div>
     );
   }

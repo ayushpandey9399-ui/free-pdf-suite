@@ -9,6 +9,7 @@ import {
   Globe,
   Layers,
   Shrink,
+  Maximize2,
   type LucideIcon,
 } from "lucide-react";
 
@@ -103,6 +104,17 @@ export const imageTools: readonly ImageTool[] = [
     aliases: ["image compressor", "reduce image size", "compress jpg", "compress png"],
     icon: Shrink,
     tint: "#DB2777",
+  },
+  {
+    id: "image-resize",
+    slug: "image-resize",
+    name: "Resize Image",
+    description:
+      "Resize JPG, PNG, and WebP by pixels or percent in your browser. Presets for passport, signature, and HD sizes. Batch and ZIP.",
+    status: "live",
+    aliases: ["image resizer", "resize image online free", "resize image to exact pixels", "resize image in KB"],
+    icon: Maximize2,
+    tint: "#4F46E5",
   },
 ];
 
