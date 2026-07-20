@@ -26,7 +26,7 @@ export const photoEditorHowToJsonLd = {
   step: [
     { "@type": "HowToStep", position: 1, name: "Open the photo editor", text: "Open Photo Editor on FreePDFHub. No signup, no account, and nothing to install.", url: `${url}#step-1` },
     { "@type": "HowToStep", position: 2, name: "Add your image", text: "Drag and drop a JPG, PNG, or WebP image, or click to select. Your photo stays on your device and never uploads.", url: `${url}#step-2` },
-    { "@type": "HowToStep", position: 3, name: "Tap a filter or adjust sliders", text: "Try B&W, Sepia, Vintage, Cool, Punchy, or Soft as a starting point, then fine-tune brightness, contrast, saturation, warmth, and blur.", url: `${url}#step-3` },
+    { "@type": "HowToStep", position: 3, name: "Tap a filter or adjust sliders", text: "Try B&W, Sepia, Vintage, Cool, Punchy, or Soft as a starting point, then fine-tune brightness, contrast, saturation, warmth, sharpen, vignette, grain, and duotone.", url: `${url}#step-3` },
     { "@type": "HowToStep", position: 4, name: "Compare before and after", text: "Press and hold Hold to compare to see the original image at any time, so you can judge if your edit really improved things.", url: `${url}#step-4` },
     { "@type": "HowToStep", position: 5, name: "Export as JPG, PNG, or WebP", text: "Pick a format, set the quality slider for JPG or WebP, then click Download. The exported photo keeps the full original resolution.", url: `${url}#step-5` },
   ],
