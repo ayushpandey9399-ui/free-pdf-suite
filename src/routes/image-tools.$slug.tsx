@@ -53,6 +53,13 @@ import {
   compressImageSoftwareJsonLd,
   compressImageHowToJsonLd,
 } from "@/components/CompressImageSeo";
+import { ImageResizeTool } from "@/tools/image-resize";
+import {
+  ImageResizeSeo,
+  imageResizeFaqJsonLd,
+  imageResizeSoftwareJsonLd,
+  imageResizeHowToJsonLd,
+} from "@/components/ImageResizeSeo";
 
 
 const HEIC_TITLE = "HEIC to JPG Converter Free, No Upload | FreePDFHub";
