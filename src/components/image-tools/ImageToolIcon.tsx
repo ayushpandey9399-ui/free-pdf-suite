@@ -124,6 +124,14 @@ export function ImageToolIcon({
           {/* arrowhead */}
           <path d="M25 8 L29 10 L27 14" />
         </g>
+      ) : isWatermark ? (
+        // Flat watermark motif: a small stamp/label with two text bars
+        // sitting on top of the photo card.
+        <g>
+          <rect x="22" y="26" width="26" height="14" rx="2.5" ry="2.5" fill={accent} opacity="0.92" />
+          <rect x="25" y="29.5" width="16" height="2" rx="1" fill="#FFFFFF" />
+          <rect x="25" y="34" width="12" height="2" rx="1" fill="#FFFFFF" />
+        </g>
       ) : (
         // Flat target-format tag at bottom-right.
         <g>
