@@ -35,6 +35,15 @@ import { downloadBlob } from "@/lib/download";
 import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 import { cn } from "@/lib/utils";
 import { straightenCropDims } from "@/lib/imageMath";
+import {
+  detectDocumentQuad,
+  outputSizeForQuad,
+  warpQuadToRect,
+  clampCornerMove,
+  isConvexQuad,
+  type Quad,
+  type Point as ScanPoint,
+} from "@/lib/scanGeometry";
 
 type FilterKind = "original" | "document" | "grayscale" | "bw";
 type PageSize = "a4" | "letter" | "fit";
