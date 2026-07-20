@@ -33,7 +33,10 @@ export const Route = createFileRoute("/sitemap.xml")({
             changefreq: "monthly" as const,
             priority: "0.8",
           })),
+          { path: "/image-tools", lastmod: LASTMOD, changefreq: "monthly", priority: "0.7" },
+          { path: "/image-tools/heic-to-jpg", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
           { path: "/about", lastmod: LASTMOD, changefreq: "yearly", priority: "0.5" },
+
           { path: "/contact", lastmod: LASTMOD, changefreq: "yearly", priority: "0.5" },
           { path: "/privacy-policy", lastmod: LASTMOD, changefreq: "yearly", priority: "0.3" },
           { path: "/terms", lastmod: LASTMOD, changefreq: "yearly", priority: "0.3" },

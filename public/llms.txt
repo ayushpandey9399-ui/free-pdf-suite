@@ -54,3 +54,8 @@ FreePDFHub is an independent, ad-supported suite of 28 PDF utilities. Every tool
 - [Protect PDF](/tools/protect-pdf): Add a password and encrypt a PDF.
 - [Redact PDF](/tools/redact-pdf): Permanently remove sensitive text and images.
 - [Unlock PDF](/tools/unlock-pdf): Remove a known password from a PDF.
+
+## Image Tools
+
+- [Image Tools Hub](/image-tools): Browser-based image converters and utilities.
+- [HEIC to JPG](/image-tools/heic-to-jpg): Convert iPhone HEIC/HEIF photos to JPG in the browser. Batch + ZIP download.

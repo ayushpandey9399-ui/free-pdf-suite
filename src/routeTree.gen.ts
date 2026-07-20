@@ -16,7 +16,9 @@ import { Route as OfflineRouteImport } from './routes/offline'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ImageToolsIndexRouteImport } from './routes/image-tools.index'
 import { Route as ToolsSlugRouteImport } from './routes/tools.$slug'
+import { Route as ImageToolsSlugRouteImport } from './routes/image-tools.$slug'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -53,9 +55,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ImageToolsIndexRoute = ImageToolsIndexRouteImport.update({
+  id: '/image-tools/',
+  path: '/image-tools/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ToolsSlugRoute = ToolsSlugRouteImport.update({
   id: '/tools/$slug',
   path: '/tools/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImageToolsSlugRoute = ImageToolsSlugRouteImport.update({
+  id: '/image-tools/$slug',
+  path: '/image-tools/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -67,7 +79,9 @@ export interface FileRoutesByFullPath {
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/image-tools/$slug': typeof ImageToolsSlugRoute
   '/tools/$slug': typeof ToolsSlugRoute
+  '/image-tools/': typeof ImageToolsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -77,7 +91,9 @@ export interface FileRoutesByTo {
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/image-tools/$slug': typeof ImageToolsSlugRoute
   '/tools/$slug': typeof ToolsSlugRoute
+  '/image-tools': typeof ImageToolsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -88,7 +104,9 @@ export interface FileRoutesById {
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/image-tools/$slug': typeof ImageToolsSlugRoute
   '/tools/$slug': typeof ToolsSlugRoute
+  '/image-tools/': typeof ImageToolsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -100,7 +118,9 @@ export interface FileRouteTypes {
     | '/privacy-policy'
     | '/sitemap.xml'
     | '/terms'
+    | '/image-tools/$slug'
     | '/tools/$slug'
+    | '/image-tools/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -110,7 +130,9 @@ export interface FileRouteTypes {
     | '/privacy-policy'
     | '/sitemap.xml'
     | '/terms'
+    | '/image-tools/$slug'
     | '/tools/$slug'
+    | '/image-tools'
   id:
     | '__root__'
     | '/'
@@ -120,7 +142,9 @@ export interface FileRouteTypes {
     | '/privacy-policy'
     | '/sitemap.xml'
     | '/terms'
+    | '/image-tools/$slug'
     | '/tools/$slug'
+    | '/image-tools/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -131,7 +155,9 @@ export interface RootRouteChildren {
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
+  ImageToolsSlugRoute: typeof ImageToolsSlugRoute
   ToolsSlugRoute: typeof ToolsSlugRoute
+  ImageToolsIndexRoute: typeof ImageToolsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -185,11 +211,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/image-tools/': {
+      id: '/image-tools/'
+      path: '/image-tools'
+      fullPath: '/image-tools/'
+      preLoaderRoute: typeof ImageToolsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tools/$slug': {
       id: '/tools/$slug'
       path: '/tools/$slug'
       fullPath: '/tools/$slug'
       preLoaderRoute: typeof ToolsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/image-tools/$slug': {
+      id: '/image-tools/$slug'
+      path: '/image-tools/$slug'
+      fullPath: '/image-tools/$slug'
+      preLoaderRoute: typeof ImageToolsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -203,7 +243,9 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
+  ImageToolsSlugRoute: ImageToolsSlugRoute,
   ToolsSlugRoute: ToolsSlugRoute,
+  ImageToolsIndexRoute: ImageToolsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
