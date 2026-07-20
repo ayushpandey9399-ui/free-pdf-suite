@@ -13,7 +13,7 @@ export const memeGeneratorSoftwareJsonLd = {
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   publisher: { "@type": "Organization", name: "FreePDFHub", url: SITE_URL },
   description:
-    "Free online meme generator with no watermark and no upload. Add classic top and bottom text or extra draggable captions to your own photo, entirely in your browser.",
+    "Free online meme generator with no watermark and no upload. Add classic top and bottom text, extra draggable captions, emoji stickers, image overlays, and multi-panel collages, entirely in your browser.",
 };
 
 export const memeGeneratorHowToJsonLd = {
