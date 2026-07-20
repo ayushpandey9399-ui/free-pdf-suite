@@ -1481,11 +1481,15 @@ export default function ScanToPdf() {
             {loading && ocrProgress && (
               <button
                 type="button"
-                onClick={cancelBuild}
+                onClick={() => {
+                  setOcrEnabled(false);
+                  cancelBuild();
+                  toast.message("Cancelled | press Create PDF again to export without OCR");
+                }}
                 className="w-full rounded-lg border px-3 py-2 text-[13px] font-semibold transition-colors hover:bg-neutral-50"
                 style={{ borderColor: "#e6e6ec", color: "#33333c" }}
               >
-                Cancel OCR and download without text layer
+                Cancel OCR
               </button>
             )}
             <div className="rounded-lg p-3 text-[13px]" style={{ backgroundColor: "#f5f5f7", color: "#33333c" }}>
