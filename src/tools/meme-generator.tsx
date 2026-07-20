@@ -400,6 +400,8 @@ export function MemeGeneratorTool() {
       setPanels((prev) => {
         const next = [...prev];
         while (next.length <= idx) next.push(null);
+        const old = next[idx];
+        if (old) old.close?.();
         next[idx] = bmp;
         return next;
       });
@@ -451,7 +453,11 @@ export function MemeGeneratorTool() {
     setSelectedId(id);
   };
   const removeLayer = (id: string) => {
-    setLayers((prev) => prev.filter((l) => l.id !== id));
+    setLayers((prev) => {
+      const gone = prev.find((l) => l.id === id);
+      if (gone && gone.kind === "image") gone.bitmap.close?.();
+      return prev.filter((l) => l.id !== id);
+    });
     if (selectedId === id) setSelectedId("__top");
   };
   const bringForward = (id: string) => {
@@ -575,10 +581,12 @@ export function MemeGeneratorTool() {
   };
 
   const reset = () => {
-    setPanels([null]); setLayout("single"); setPanelName("");
+    setPanels((prev) => { prev.forEach((b) => b?.close?.()); return [null]; });
+    setLayout("single"); setPanelName("");
+    setLayers((prev) => { prev.forEach((l) => { if (l.kind === "image") l.bitmap.close?.(); }); return []; });
     setTopBox({ id: "__top", kind: "text", text: "Top text", xPct: 0.5, yPct: 0, align: "center", role: "top", rotation: 0, ...defaultTextStyle() });
     setBottomBox({ id: "__bottom", kind: "text", text: "Bottom text", xPct: 0.5, yPct: 1, align: "center", role: "bottom", rotation: 0, ...defaultTextStyle() });
-    setLayers([]); setCaptionText(""); setCaptionBar(false); setSelectedId("__top");
+    setCaptionText(""); setCaptionBar(false); setSelectedId("__top");
   };
 
   /* -------- layout change: resize panels array -------- */
@@ -586,6 +594,8 @@ export function MemeGeneratorTool() {
   const changeLayout = (k: CollageLayout) => {
     const n = collagePanelCount(k);
     setPanels((prev) => {
+      // Close bitmaps in panels being dropped when shrinking layouts.
+      for (let i = n; i < prev.length; i++) prev[i]?.close?.();
       const next = prev.slice(0, n);
       while (next.length < n) next.push(null);
       return next;
