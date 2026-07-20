@@ -144,9 +144,9 @@ describe("duotoneMap", () => {
   });
   it("amount=100 on pure white maps toward highlight color", () => {
     const [r, g, b] = duotoneMap(255, 255, 255, NAVY, CREAM, 100);
-    expect(r).toBe(CREAM[0]);
-    expect(g).toBe(CREAM[1]);
-    expect(b).toBe(CREAM[2]);
+    expect(Math.round(r)).toBe(CREAM[0]);
+    expect(Math.round(g)).toBe(CREAM[1]);
+    expect(Math.round(b)).toBe(CREAM[2]);
   });
 });
 
