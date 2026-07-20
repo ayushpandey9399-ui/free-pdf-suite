@@ -61,6 +61,9 @@ const INGEST_MAX_EDGE = 3600;
 /** Cap heavy per-pixel work (Sauvola, shadow, BC) during preview to keep the UI snappy. */
 const PREVIEW_WORK_MAX_EDGE = 1600;
 
+/** 4 corners in normalized 0..1 source coords, ordered tl/tr/br/bl. */
+type NormQuad = [ScanPoint, ScanPoint, ScanPoint, ScanPoint];
+
 interface ScanPage {
   id: string;
   /** Source photo, downscaled + re-encoded, as a Blob (object URL for preview). */
@@ -75,6 +78,10 @@ interface ScanPage {
   brightness: number; // -50..+50
   contrast: number; // -50..+50
   shadow: boolean;
+  /** Auto or user-set document quad, normalized 0..1 in source coords. null = full photo. */
+  quad: NormQuad | null;
+  /** True when the quad came from automatic detection (badge = "Edges detected"). */
+  quadAuto: boolean;
 }
 
 const uid = () => Math.random().toString(36).slice(2, 10);
@@ -86,7 +93,8 @@ const isEdited = (p: ScanPage) =>
   p.angleDeg !== 0 ||
   p.brightness !== 0 ||
   p.contrast !== 0 ||
-  p.shadow;
+  p.shadow ||
+  (p.quad !== null && !p.quadAuto);
 
 /* ============================================================
  *  Decode + downscale pipeline
