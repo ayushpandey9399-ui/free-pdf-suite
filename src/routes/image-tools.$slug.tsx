@@ -249,6 +249,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
       "rotate-image": rotateImageHowToJsonLd,
       "watermark-image": watermarkImageHowToJsonLd,
       "meme-generator": memeGeneratorHowToJsonLd,
+      "photo-editor": photoEditorHowToJsonLd,
     };
     const FAQ_LDS: Record<string, unknown> = {
       "heic-to-jpg": heicToJpgFaqJsonLd,
