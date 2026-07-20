@@ -98,6 +98,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
     const isPngJpg = slug === "png-to-jpg";
     const isWebpJpg = slug === "webp-to-jpg";
     const isWebpPng = slug === "webp-to-png";
+    const isCompress = slug === "compress-image";
 
     const breadcrumbJsonLd = {
       "@context": "https://schema.org",
@@ -114,7 +115,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
       ],
     };
 
-    if (isHeicJpg || isHeicPng || isJpgPng || isPngJpg || isWebpJpg || isWebpPng) {
+    if (isHeicJpg || isHeicPng || isJpgPng || isPngJpg || isWebpJpg || isWebpPng || isCompress) {
       const title = isHeicJpg
         ? HEIC_TITLE
         : isHeicPng
@@ -125,7 +126,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
               ? PNG_JPG_TITLE
               : isWebpJpg
                 ? WEBP_JPG_TITLE
-                : WEBP_PNG_TITLE;
+                : isWebpPng
+                  ? WEBP_PNG_TITLE
+                  : COMPRESS_TITLE;
       const desc = isHeicJpg
         ? HEIC_DESC
         : isHeicPng
@@ -136,7 +139,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
               ? PNG_JPG_DESC
               : isWebpJpg
                 ? WEBP_JPG_DESC
-                : WEBP_PNG_DESC;
+                : isWebpPng
+                  ? WEBP_PNG_DESC
+                  : COMPRESS_DESC;
       const softwareLd = isHeicJpg
         ? heicToJpgSoftwareJsonLd
         : isHeicPng
@@ -147,7 +152,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
               ? pngToJpgSoftwareJsonLd
               : isWebpJpg
                 ? webpToJpgSoftwareJsonLd
-                : webpToPngSoftwareJsonLd;
+                : isWebpPng
+                  ? webpToPngSoftwareJsonLd
+                  : compressImageSoftwareJsonLd;
       const howToLd = isHeicJpg
         ? heicToJpgHowToJsonLd
         : isHeicPng
@@ -158,7 +165,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
               ? pngToJpgHowToJsonLd
               : isWebpJpg
                 ? webpToJpgHowToJsonLd
-                : webpToPngHowToJsonLd;
+                : isWebpPng
+                  ? webpToPngHowToJsonLd
+                  : compressImageHowToJsonLd;
       const faqLd = isHeicJpg
         ? heicToJpgFaqJsonLd
         : isHeicPng
@@ -169,7 +178,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
               ? pngToJpgFaqJsonLd
               : isWebpJpg
                 ? webpToJpgFaqJsonLd
-                : webpToPngFaqJsonLd;
+                : isWebpPng
+                  ? webpToPngFaqJsonLd
+                  : compressImageFaqJsonLd;
       return {
         meta: [
           { title },
@@ -193,6 +204,8 @@ export const Route = createFileRoute("/image-tools/$slug")({
         ],
       };
     }
+
+
 
     // Coming-soon: noindex.
     const title = tool ? `${tool.name} (coming soon) | FreePDFHub` : "Coming soon | FreePDFHub";
