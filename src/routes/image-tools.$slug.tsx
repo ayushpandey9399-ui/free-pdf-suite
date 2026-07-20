@@ -81,6 +81,13 @@ import {
   cropImageSoftwareJsonLd,
   cropImageHowToJsonLd,
 } from "@/components/CropImageSeo";
+import { RotateImageTool } from "@/tools/rotate-image";
+import {
+  RotateImageSeo,
+  rotateImageFaqJsonLd,
+  rotateImageSoftwareJsonLd,
+  rotateImageHowToJsonLd,
+} from "@/components/RotateImageSeo";
 
 
 const HEIC_TITLE = "HEIC to JPG Converter Free, No Upload | FreePDFHub";
