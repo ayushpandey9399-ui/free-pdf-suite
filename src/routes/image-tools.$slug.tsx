@@ -88,6 +88,13 @@ import {
   rotateImageSoftwareJsonLd,
   rotateImageHowToJsonLd,
 } from "@/components/RotateImageSeo";
+import { WatermarkImageTool } from "@/tools/watermark-image";
+import {
+  WatermarkImageSeo,
+  watermarkImageFaqJsonLd,
+  watermarkImageSoftwareJsonLd,
+  watermarkImageHowToJsonLd,
+} from "@/components/WatermarkImageSeo";
 
 
 const HEIC_TITLE = "HEIC to JPG Converter Free, No Upload | FreePDFHub";
@@ -137,6 +144,10 @@ const CROP_DESC =
 const ROTATE_TITLE = "Rotate and Flip Image Free, No Upload | FreePDFHub";
 const ROTATE_DESC =
   "Rotate image online free. Rotate 90, 180, or 270 degrees, mirror horizontally, or flip vertically. Batch fix sideways JPG, PNG, WebP in your browser.";
+
+const WATERMARK_TITLE = "Add Watermark to Image Free, No Upload | FreePDFHub";
+const WATERMARK_DESC =
+  "Add watermark to image online free. Text or logo, tile pattern, 9-cell position grid, opacity, rotation. Batch JPG, PNG, WebP in your browser, no upload.";
 
 
 export const Route = createFileRoute("/image-tools/$slug")({
