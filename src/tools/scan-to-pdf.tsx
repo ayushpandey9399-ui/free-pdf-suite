@@ -185,6 +185,8 @@ async function ingestSource(file: Blob): Promise<ScanPage> {
     brightness: 0,
     contrast: 0,
     shadow: false,
+    quad: null,
+    quadAuto: false,
   };
 }
 
