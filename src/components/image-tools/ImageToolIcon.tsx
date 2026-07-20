@@ -16,6 +16,7 @@ const TARGET_LABEL: Record<string, string | null> = {
   "png-to-webp": "WEBP",
   "compress-image": null,
   "image-resize": null,
+  "crop-image": null,
 };
 
 export interface ImageToolIconProps {
