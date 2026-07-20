@@ -402,31 +402,20 @@ function FinalCta() {
   return (
     <section
       className="relative overflow-hidden py-16 sm:py-24"
-      style={{
-        background:
-          "linear-gradient(180deg, #FAFAF9 0%, #FFF7F6 55%, #FDECEB 100%)",
-      }}
+      style={{ backgroundColor: "#FAFAF9" }}
     >
-      {/* subtle brand-tinted glow */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(60% 80% at 50% 100%, rgba(229,50,45,0.10), transparent 70%)",
-        }}
-      />
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 text-center">
         <Reveal>
           <h2
             className="text-[26px] sm:text-[36px] font-bold tracking-tight"
             style={{ color: INK, letterSpacing: "-0.02em" }}
           >
-            All 28 tools. All free. All private.
+            43 tools. All free. All private.
           </h2>
           <p className="mt-3 text-[16px]" style={{ color: MUTED }}>
-            Every tool processes your file in your browser, start with any one.
+            Every tool processes your files in your browser, PDF and images alike. Start with any one.
           </p>
+
           <button
             type="button"
             onClick={scrollToTools}
