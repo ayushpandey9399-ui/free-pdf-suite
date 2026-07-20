@@ -4,6 +4,7 @@ import { getImageTool } from "@/lib/imageTools";
 import { SITE_URL } from "@/lib/site";
 import { HeicToJpgTool } from "@/tools/heic-to-jpg";
 import { HeicToPngTool } from "@/tools/heic-to-png";
+import { JpgToPngTool } from "@/tools/jpg-to-png";
 import {
   HeicToJpgSeo,
   heicToJpgFaqJsonLd,
@@ -16,6 +17,12 @@ import {
   heicToPngSoftwareJsonLd,
   heicToPngHowToJsonLd,
 } from "@/components/HeicToPngSeo";
+import {
+  JpgToPngSeo,
+  jpgToPngFaqJsonLd,
+  jpgToPngSoftwareJsonLd,
+  jpgToPngHowToJsonLd,
+} from "@/components/JpgToPngSeo";
 
 const HEIC_TITLE = "HEIC to JPG Converter Free, No Upload | FreePDFHub";
 const HEIC_DESC =
@@ -24,6 +31,10 @@ const HEIC_DESC =
 const HEIC_PNG_TITLE = "HEIC to PNG Converter Free, No Upload | FreePDFHub";
 const HEIC_PNG_DESC =
   "Convert HEIC to PNG online free. Batch convert iPhone HEIC photos to lossless PNG in your browser, no upload, no signup, 100% private.";
+
+const JPG_PNG_TITLE = "JPG to PNG Converter Free, No Upload | FreePDFHub";
+const JPG_PNG_DESC =
+  "Convert JPG to PNG online free. Batch convert JPG and JPEG images to lossless PNG in your browser, no upload, no signup, 100% private.";
 
 export const Route = createFileRoute("/image-tools/$slug")({
   loader: ({ params }) => {
@@ -37,6 +48,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
     const url = `${SITE_URL}/image-tools/${slug}`;
     const isHeicJpg = slug === "heic-to-jpg";
     const isHeicPng = slug === "heic-to-png";
+    const isJpgPng = slug === "jpg-to-png";
 
     const breadcrumbJsonLd = {
       "@context": "https://schema.org",
@@ -53,12 +65,24 @@ export const Route = createFileRoute("/image-tools/$slug")({
       ],
     };
 
-    if (isHeicJpg || isHeicPng) {
-      const title = isHeicJpg ? HEIC_TITLE : HEIC_PNG_TITLE;
-      const desc = isHeicJpg ? HEIC_DESC : HEIC_PNG_DESC;
-      const softwareLd = isHeicJpg ? heicToJpgSoftwareJsonLd : heicToPngSoftwareJsonLd;
-      const howToLd = isHeicJpg ? heicToJpgHowToJsonLd : heicToPngHowToJsonLd;
-      const faqLd = isHeicJpg ? heicToJpgFaqJsonLd : heicToPngFaqJsonLd;
+    if (isHeicJpg || isHeicPng || isJpgPng) {
+      const title = isHeicJpg ? HEIC_TITLE : isHeicPng ? HEIC_PNG_TITLE : JPG_PNG_TITLE;
+      const desc = isHeicJpg ? HEIC_DESC : isHeicPng ? HEIC_PNG_DESC : JPG_PNG_DESC;
+      const softwareLd = isHeicJpg
+        ? heicToJpgSoftwareJsonLd
+        : isHeicPng
+          ? heicToPngSoftwareJsonLd
+          : jpgToPngSoftwareJsonLd;
+      const howToLd = isHeicJpg
+        ? heicToJpgHowToJsonLd
+        : isHeicPng
+          ? heicToPngHowToJsonLd
+          : jpgToPngHowToJsonLd;
+      const faqLd = isHeicJpg
+        ? heicToJpgFaqJsonLd
+        : isHeicPng
+          ? heicToPngFaqJsonLd
+          : jpgToPngFaqJsonLd;
       return {
         meta: [
           { title },
@@ -158,6 +182,34 @@ function ImageToolPage() {
       </div>
     );
   }
+
+  if (tool.slug === "jpg-to-png") {
+    return (
+      <div className="mx-auto max-w-4xl px-4 pb-16">
+        <Breadcrumb name={tool.name} />
+        <section className="flex flex-col pt-6 pb-10 text-center">
+          <h1
+            className="mx-auto text-[28px] sm:text-[42px]"
+            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
+          >
+            Convert JPG to PNG online, free
+          </h1>
+          <p className="mx-auto mt-4 max-w-[620px] text-[15px] sm:text-[18px] text-[#6B7280]">
+            Turn JPG and JPEG images into lossless PNGs in your browser. Batch convert and download individually or as a ZIP.
+          </p>
+          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
+            Your files never leave your device
+          </p>
+          <div className="mt-10">
+            <JpgToPngTool />
+          </div>
+        </section>
+        <JpgToPngSeo />
+      </div>
+    );
+  }
+
+
 
   return null;
 }
