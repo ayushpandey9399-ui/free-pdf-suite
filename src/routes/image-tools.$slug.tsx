@@ -37,6 +37,13 @@ import {
   webpToJpgSoftwareJsonLd,
   webpToJpgHowToJsonLd,
 } from "@/components/WebpToJpgSeo";
+import { WebpToPngTool } from "@/tools/webp-to-png";
+import {
+  WebpToPngSeo,
+  webpToPngFaqJsonLd,
+  webpToPngSoftwareJsonLd,
+  webpToPngHowToJsonLd,
+} from "@/components/WebpToPngSeo";
 
 const HEIC_TITLE = "HEIC to JPG Converter Free, No Upload | FreePDFHub";
 const HEIC_DESC =
@@ -58,6 +65,10 @@ const WEBP_JPG_TITLE = "WebP to JPG Converter Free, No Upload | FreePDFHub";
 const WEBP_JPG_DESC =
   "Convert WebP to JPG online free. Batch convert .webp images to universal JPG in your browser, adjustable quality, no upload, no signup.";
 
+const WEBP_PNG_TITLE = "WebP to PNG Converter Free, No Upload | FreePDFHub";
+const WEBP_PNG_DESC =
+  "Convert WebP to PNG online free. Batch convert .webp images to lossless PNG in your browser with transparency preserved, no upload, no signup.";
+
 export const Route = createFileRoute("/image-tools/$slug")({
   loader: ({ params }) => {
     const tool = getImageTool(params.slug);
@@ -73,6 +84,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
     const isJpgPng = slug === "jpg-to-png";
     const isPngJpg = slug === "png-to-jpg";
     const isWebpJpg = slug === "webp-to-jpg";
+    const isWebpPng = slug === "webp-to-png";
 
     const breadcrumbJsonLd = {
       "@context": "https://schema.org",
@@ -89,7 +101,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
       ],
     };
 
-    if (isHeicJpg || isHeicPng || isJpgPng || isPngJpg || isWebpJpg) {
+    if (isHeicJpg || isHeicPng || isJpgPng || isPngJpg || isWebpJpg || isWebpPng) {
       const title = isHeicJpg
         ? HEIC_TITLE
         : isHeicPng
@@ -98,7 +110,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
             ? JPG_PNG_TITLE
             : isPngJpg
               ? PNG_JPG_TITLE
-              : WEBP_JPG_TITLE;
+              : isWebpJpg
+                ? WEBP_JPG_TITLE
+                : WEBP_PNG_TITLE;
       const desc = isHeicJpg
         ? HEIC_DESC
         : isHeicPng
@@ -107,7 +121,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
             ? JPG_PNG_DESC
             : isPngJpg
               ? PNG_JPG_DESC
-              : WEBP_JPG_DESC;
+              : isWebpJpg
+                ? WEBP_JPG_DESC
+                : WEBP_PNG_DESC;
       const softwareLd = isHeicJpg
         ? heicToJpgSoftwareJsonLd
         : isHeicPng
@@ -116,7 +132,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
             ? jpgToPngSoftwareJsonLd
             : isPngJpg
               ? pngToJpgSoftwareJsonLd
-              : webpToJpgSoftwareJsonLd;
+              : isWebpJpg
+                ? webpToJpgSoftwareJsonLd
+                : webpToPngSoftwareJsonLd;
       const howToLd = isHeicJpg
         ? heicToJpgHowToJsonLd
         : isHeicPng
@@ -125,7 +143,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
             ? jpgToPngHowToJsonLd
             : isPngJpg
               ? pngToJpgHowToJsonLd
-              : webpToJpgHowToJsonLd;
+              : isWebpJpg
+                ? webpToJpgHowToJsonLd
+                : webpToPngHowToJsonLd;
       const faqLd = isHeicJpg
         ? heicToJpgFaqJsonLd
         : isHeicPng
@@ -134,7 +154,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
             ? jpgToPngFaqJsonLd
             : isPngJpg
               ? pngToJpgFaqJsonLd
-              : webpToJpgFaqJsonLd;
+              : isWebpJpg
+                ? webpToJpgFaqJsonLd
+                : webpToPngFaqJsonLd;
       return {
         meta: [
           { title },
@@ -309,6 +331,32 @@ function ImageToolPage() {
           </div>
         </section>
         <WebpToJpgSeo />
+      </div>
+    );
+  }
+
+  if (tool.slug === "webp-to-png") {
+    return (
+      <div className="mx-auto max-w-4xl px-4 pb-16">
+        <Breadcrumb name={tool.name} />
+        <section className="flex flex-col pt-6 pb-10 text-center">
+          <h1
+            className="mx-auto text-[28px] sm:text-[42px]"
+            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
+          >
+            Convert WebP to PNG online, free
+          </h1>
+          <p className="mx-auto mt-4 max-w-[620px] text-[15px] sm:text-[18px] text-[#6B7280]">
+            Turn .webp images (including transparent ones) into lossless PNGs in your browser. Transparency preserved, batch convert, and download individually or as a ZIP.
+          </p>
+          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
+            Your files never leave your device
+          </p>
+          <div className="mt-10">
+            <WebpToPngTool />
+          </div>
+        </section>
+        <WebpToPngSeo />
       </div>
     );
   }
