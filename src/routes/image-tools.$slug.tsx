@@ -1,6 +1,6 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { getImageTool } from "@/lib/imageTools";
+import { getImageTool, imageToolTintBg, type ImageTool } from "@/lib/imageTools";
 import { SITE_URL } from "@/lib/site";
 import { HeicToJpgTool } from "@/tools/heic-to-jpg";
 import { HeicToPngTool } from "@/tools/heic-to-png";
@@ -236,6 +236,7 @@ function ImageToolPage() {
       <div className="mx-auto max-w-4xl px-4 pb-16">
         <Breadcrumb name={tool.name} />
         <section className="flex flex-col pt-6 pb-10 text-center">
+          <ToolHeaderIcon tool={tool} />
           <h1
             className="mx-auto text-[28px] sm:text-[42px]"
             style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
@@ -262,6 +263,7 @@ function ImageToolPage() {
       <div className="mx-auto max-w-4xl px-4 pb-16">
         <Breadcrumb name={tool.name} />
         <section className="flex flex-col pt-6 pb-10 text-center">
+          <ToolHeaderIcon tool={tool} />
           <h1
             className="mx-auto text-[28px] sm:text-[42px]"
             style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
@@ -288,6 +290,7 @@ function ImageToolPage() {
       <div className="mx-auto max-w-4xl px-4 pb-16">
         <Breadcrumb name={tool.name} />
         <section className="flex flex-col pt-6 pb-10 text-center">
+          <ToolHeaderIcon tool={tool} />
           <h1
             className="mx-auto text-[28px] sm:text-[42px]"
             style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
@@ -314,6 +317,7 @@ function ImageToolPage() {
       <div className="mx-auto max-w-4xl px-4 pb-16">
         <Breadcrumb name={tool.name} />
         <section className="flex flex-col pt-6 pb-10 text-center">
+          <ToolHeaderIcon tool={tool} />
           <h1
             className="mx-auto text-[28px] sm:text-[42px]"
             style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
@@ -340,6 +344,7 @@ function ImageToolPage() {
       <div className="mx-auto max-w-4xl px-4 pb-16">
         <Breadcrumb name={tool.name} />
         <section className="flex flex-col pt-6 pb-10 text-center">
+          <ToolHeaderIcon tool={tool} />
           <h1
             className="mx-auto text-[28px] sm:text-[42px]"
             style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
@@ -366,6 +371,7 @@ function ImageToolPage() {
       <div className="mx-auto max-w-4xl px-4 pb-16">
         <Breadcrumb name={tool.name} />
         <section className="flex flex-col pt-6 pb-10 text-center">
+          <ToolHeaderIcon tool={tool} />
           <h1
             className="mx-auto text-[28px] sm:text-[42px]"
             style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
@@ -392,6 +398,7 @@ function ImageToolPage() {
       <div className="mx-auto max-w-4xl px-4 pb-16">
         <Breadcrumb name={tool.name} />
         <section className="flex flex-col pt-6 pb-10 text-center">
+          <ToolHeaderIcon tool={tool} />
           <h1
             className="mx-auto text-[28px] sm:text-[42px]"
             style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
@@ -415,6 +422,19 @@ function ImageToolPage() {
 
   return null;
 
+}
+
+function ToolHeaderIcon({ tool }: { tool: ImageTool }) {
+  const Icon = tool.icon;
+  return (
+    <div
+      className="mx-auto mb-4 grid h-[64px] w-[64px] place-items-center rounded-[14px]"
+      style={{ backgroundColor: imageToolTintBg(tool.tint), color: tool.tint }}
+      aria-hidden
+    >
+      <Icon size={34} strokeWidth={2} />
+    </div>
+  );
 }
 
 function Breadcrumb({ name }: { name: string }) {
