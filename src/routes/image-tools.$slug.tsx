@@ -1,9 +1,9 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
+import type { ReactNode } from "react";
 import { useEffect } from "react";
-import { getImageTool, imageToolTintBg, type ImageTool } from "@/lib/imageTools";
-import { ImageToolIcon } from "@/components/image-tools/ImageToolIcon";
+import { getImageTool } from "@/lib/imageTools";
 
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL, CONTACT_EMAIL } from "@/lib/site";
 import { HeicToJpgTool } from "@/tools/heic-to-jpg";
 import { HeicToPngTool } from "@/tools/heic-to-png";
 import { JpgToPngTool } from "@/tools/jpg-to-png";
@@ -335,433 +335,170 @@ export const Route = createFileRoute("/image-tools/$slug")({
   component: ImageToolPage,
 });
 
+type Silo = {
+  h1: string;
+  subtitle: string;
+  Component: () => ReactNode;
+  Seo: () => ReactNode;
+  maxWidth?: string;
+};
+
+const SILOS: Record<string, Silo> = {
+  "heic-to-jpg": {
+    h1: "Convert HEIC to JPG online, free",
+    subtitle: "Turn iPhone HEIC photos into universal JPGs, right in your browser.",
+    Component: HeicToJpgTool,
+    Seo: HeicToJpgSeo,
+  },
+  "heic-to-png": {
+    h1: "Convert HEIC to PNG online, free",
+    subtitle: "Turn iPhone HEIC photos into lossless PNGs, right in your browser.",
+    Component: HeicToPngTool,
+    Seo: HeicToPngSeo,
+  },
+  "jpg-to-png": {
+    h1: "Convert JPG to PNG online, free",
+    subtitle: "Turn JPG and JPEG images into lossless PNGs, right in your browser.",
+    Component: JpgToPngTool,
+    Seo: JpgToPngSeo,
+  },
+  "png-to-jpg": {
+    h1: "Convert PNG to JPG online, free",
+    subtitle: "Turn PNG images into smaller JPGs with adjustable quality, in your browser.",
+    Component: PngToJpgTool,
+    Seo: PngToJpgSeo,
+  },
+  "webp-to-jpg": {
+    h1: "Convert WebP to JPG online, free",
+    subtitle: "Turn .webp images into universal JPGs, right in your browser.",
+    Component: WebpToJpgTool,
+    Seo: WebpToJpgSeo,
+  },
+  "webp-to-png": {
+    h1: "Convert WebP to PNG online, free",
+    subtitle: "Turn .webp images into lossless PNGs with transparency preserved, in your browser.",
+    Component: WebpToPngTool,
+    Seo: WebpToPngSeo,
+  },
+  "compress-image": {
+    h1: "Compress images online, free",
+    subtitle: "Reduce JPG, PNG, and WebP file size right in your browser, no upload.",
+    Component: CompressImageTool,
+    Seo: CompressImageSeo,
+  },
+  "image-resize": {
+    h1: "Resize images online, free",
+    subtitle: "Change JPG, PNG, and WebP dimensions by pixels or percent, in your browser.",
+    Component: ImageResizeTool,
+    Seo: ImageResizeSeo,
+  },
+  "jpg-to-webp": {
+    h1: "Convert JPG to WebP online, free",
+    subtitle: "Turn JPG and JPEG images into modern WebP for faster websites, in your browser.",
+    Component: JpgToWebpTool,
+    Seo: JpgToWebpSeo,
+  },
+  "png-to-webp": {
+    h1: "Convert PNG to WebP online, free",
+    subtitle: "Turn PNG images into modern WebP with transparency preserved, in your browser.",
+    Component: PngToWebpTool,
+    Seo: PngToWebpSeo,
+  },
+  "crop-image": {
+    h1: "Crop images online, free",
+    subtitle: "Crop JPG, PNG, and WebP to any size or preset ratio, in your browser.",
+    Component: CropImageTool,
+    Seo: CropImageSeo,
+  },
+  "rotate-image": {
+    h1: "Rotate and flip images online, free",
+    subtitle: "Rotate JPG, PNG, and WebP by 90, 180, or 270 degrees, or mirror them, in your browser.",
+    Component: RotateImageTool,
+    Seo: RotateImageSeo,
+  },
+  "watermark-image": {
+    h1: "Add a watermark to images online, free",
+    subtitle: "Stamp a text line or your own logo across JPG, PNG, and WebP photos, in your browser.",
+    Component: WatermarkImageTool,
+    Seo: WatermarkImageSeo,
+    maxWidth: "max-w-5xl",
+  },
+  "meme-generator": {
+    h1: "Make memes online, free, no watermark",
+    subtitle: "Drop in a photo, add captions, and download a clean meme, right in your browser.",
+    Component: MemeGeneratorTool,
+    Seo: MemeGeneratorSeo,
+    maxWidth: "max-w-6xl",
+  },
+  "photo-editor": {
+    h1: "Edit photos online, free",
+    subtitle: "Adjust brightness, contrast, saturation, and warmth, or apply filters, in your browser.",
+    Component: PhotoEditorTool,
+    Seo: PhotoEditorSeo,
+    maxWidth: "max-w-6xl",
+  },
+};
+
 function ImageToolPage() {
   const { tool } = Route.useLoaderData();
 
   if (tool.status === "coming-soon") return <ComingSoonView name={tool.name} description={tool.description} />;
 
-  if (tool.slug === "heic-to-jpg") {
-    return (
-      <div className="mx-auto max-w-4xl px-4 pb-16">
-        <Breadcrumb name={tool.name} />
-        <section className="flex flex-col pt-6 pb-10 text-center">
-          <ToolHeaderIcon tool={tool} />
-          <h1
-            className="mx-auto text-[28px] sm:text-[42px]"
-            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
-          >
-            Convert HEIC to JPG online, free
-          </h1>
-          <p className="mx-auto mt-4 max-w-[620px] text-[15px] sm:text-[18px] text-[#6B7280]">
-            Turn iPhone HEIC photos into universal JPGs in your browser. Batch convert, choose quality, download individually or as a ZIP.
-          </p>
-          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
-            Your files never leave your device
-          </p>
-          <div className="mt-10">
-            <HeicToJpgTool />
-          </div>
-        </section>
-        <HeicToJpgSeo />
-      </div>
-    );
-  }
+  const silo = SILOS[tool.slug];
+  if (!silo) return null;
 
-  if (tool.slug === "heic-to-png") {
-    return (
-      <div className="mx-auto max-w-4xl px-4 pb-16">
-        <Breadcrumb name={tool.name} />
-        <section className="flex flex-col pt-6 pb-10 text-center">
-          <ToolHeaderIcon tool={tool} />
-          <h1
-            className="mx-auto text-[28px] sm:text-[42px]"
-            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
-          >
-            Convert HEIC to PNG online, free
-          </h1>
-          <p className="mx-auto mt-4 max-w-[620px] text-[15px] sm:text-[18px] text-[#6B7280]">
-            Turn iPhone HEIC photos into lossless PNGs in your browser. Batch convert and download individually or as a ZIP.
-          </p>
-          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
-            Your files never leave your device
-          </p>
-          <div className="mt-10">
-            <HeicToPngTool />
-          </div>
-        </section>
-        <HeicToPngSeo />
-      </div>
-    );
-  }
+  const Tool = silo.Component;
+  const Seo = silo.Seo;
+  const maxWidth = silo.maxWidth ?? "max-w-4xl";
 
-  if (tool.slug === "jpg-to-png") {
-    return (
-      <div className="mx-auto max-w-4xl px-4 pb-16">
-        <Breadcrumb name={tool.name} />
-        <section className="flex flex-col pt-6 pb-10 text-center">
-          <ToolHeaderIcon tool={tool} />
-          <h1
-            className="mx-auto text-[28px] sm:text-[42px]"
-            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
-          >
-            Convert JPG to PNG online, free
-          </h1>
-          <p className="mx-auto mt-4 max-w-[620px] text-[15px] sm:text-[18px] text-[#6B7280]">
-            Turn JPG and JPEG images into lossless PNGs in your browser. Batch convert and download individually or as a ZIP.
-          </p>
-          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
-            Your files never leave your device
-          </p>
-          <div className="mt-10">
-            <JpgToPngTool />
-          </div>
-        </section>
-        <JpgToPngSeo />
-      </div>
-    );
-  }
-
-  if (tool.slug === "png-to-jpg") {
-    return (
-      <div className="mx-auto max-w-4xl px-4 pb-16">
-        <Breadcrumb name={tool.name} />
-        <section className="flex flex-col pt-6 pb-10 text-center">
-          <ToolHeaderIcon tool={tool} />
-          <h1
-            className="mx-auto text-[28px] sm:text-[42px]"
-            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
-          >
-            Convert PNG to JPG online, free
-          </h1>
-          <p className="mx-auto mt-4 max-w-[620px] text-[15px] sm:text-[18px] text-[#6B7280]">
-            Turn PNG images into smaller JPGs in your browser. Adjustable quality, batch convert, and download individually or as a ZIP.
-          </p>
-          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
-            Your files never leave your device
-          </p>
-          <div className="mt-10">
-            <PngToJpgTool />
-          </div>
-        </section>
-        <PngToJpgSeo />
-      </div>
-    );
-  }
-
-  if (tool.slug === "webp-to-jpg") {
-    return (
-      <div className="mx-auto max-w-4xl px-4 pb-16">
-        <Breadcrumb name={tool.name} />
-        <section className="flex flex-col pt-6 pb-10 text-center">
-          <ToolHeaderIcon tool={tool} />
-          <h1
-            className="mx-auto text-[28px] sm:text-[42px]"
-            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
-          >
-            Convert WebP to JPG online, free
-          </h1>
-          <p className="mx-auto mt-4 max-w-[620px] text-[15px] sm:text-[18px] text-[#6B7280]">
-            Turn .webp images (including ones saved from the web) into universal JPGs in your browser. Adjustable quality, batch convert, and download individually or as a ZIP.
-          </p>
-          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
-            Your files never leave your device
-          </p>
-          <div className="mt-10">
-            <WebpToJpgTool />
-          </div>
-        </section>
-        <WebpToJpgSeo />
-      </div>
-    );
-  }
-
-  if (tool.slug === "webp-to-png") {
-    return (
-      <div className="mx-auto max-w-4xl px-4 pb-16">
-        <Breadcrumb name={tool.name} />
-        <section className="flex flex-col pt-6 pb-10 text-center">
-          <ToolHeaderIcon tool={tool} />
-          <h1
-            className="mx-auto text-[28px] sm:text-[42px]"
-            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
-          >
-            Convert WebP to PNG online, free
-          </h1>
-          <p className="mx-auto mt-4 max-w-[620px] text-[15px] sm:text-[18px] text-[#6B7280]">
-            Turn .webp images (including transparent ones) into lossless PNGs in your browser. Transparency preserved, batch convert, and download individually or as a ZIP.
-          </p>
-          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
-            Your files never leave your device
-          </p>
-          <div className="mt-10">
-            <WebpToPngTool />
-          </div>
-        </section>
-        <WebpToPngSeo />
-      </div>
-    );
-  }
-
-  if (tool.slug === "compress-image") {
-    return (
-      <div className="mx-auto max-w-4xl px-4 pb-16">
-        <Breadcrumb name={tool.name} />
-        <section className="flex flex-col pt-6 pb-10 text-center">
-          <ToolHeaderIcon tool={tool} />
-          <h1
-            className="mx-auto text-[28px] sm:text-[42px]"
-            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
-          >
-            Compress images online, free
-          </h1>
-          <p className="mx-auto mt-4 max-w-[620px] text-[15px] sm:text-[18px] text-[#6B7280]">
-            Reduce JPG, PNG, and WebP file size right in your browser. Use a quality slider or target an exact size like 100KB, 200KB, or 50KB. Batch and download as a ZIP.
-          </p>
-          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
-            Your files never leave your device
-          </p>
-          <div className="mt-10">
-            <CompressImageTool />
-          </div>
-        </section>
-        <CompressImageSeo />
-      </div>
-    );
-  }
-
-  if (tool.slug === "image-resize") {
-    return (
-      <div className="mx-auto max-w-4xl px-4 pb-16">
-        <Breadcrumb name={tool.name} />
-        <section className="flex flex-col pt-6 pb-10 text-center">
-          <ToolHeaderIcon tool={tool} />
-          <h1
-            className="mx-auto text-[28px] sm:text-[42px]"
-            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
-          >
-            Resize images online, free
-          </h1>
-          <p className="mx-auto mt-4 max-w-[620px] text-[15px] sm:text-[18px] text-[#6B7280]">
-            Change JPG, PNG, and WebP dimensions right in your browser. Enter exact pixels, use a percent slider, or pick a preset for passport photo, signature, HD, or Full HD. Also compress to a target KB in the same pass.
-          </p>
-          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
-            Your files never leave your device
-          </p>
-          <div className="mt-10">
-            <ImageResizeTool />
-          </div>
-        </section>
-        <ImageResizeSeo />
-      </div>
-    );
-  }
-
-  if (tool.slug === "jpg-to-webp") {
-    return (
-      <div className="mx-auto max-w-4xl px-4 pb-16">
-        <Breadcrumb name={tool.name} />
-        <section className="flex flex-col pt-6 pb-10 text-center">
-          <ToolHeaderIcon tool={tool} />
-          <h1
-            className="mx-auto text-[28px] sm:text-[42px]"
-            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
-          >
-            Convert JPG to WebP online, free
-          </h1>
-          <p className="mx-auto mt-4 max-w-[620px] text-[15px] sm:text-[18px] text-[#6B7280]">
-            Turn JPG and JPEG images into modern WebP for faster websites and smaller files. Adjustable quality, batch convert, and download individually or as a ZIP.
-          </p>
-          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
-            Your files never leave your device
-          </p>
-          <div className="mt-10">
-            <JpgToWebpTool />
-          </div>
-        </section>
-        <JpgToWebpSeo />
-      </div>
-    );
-  }
-
-  if (tool.slug === "png-to-webp") {
-    return (
-      <div className="mx-auto max-w-4xl px-4 pb-16">
-        <Breadcrumb name={tool.name} />
-        <section className="flex flex-col pt-6 pb-10 text-center">
-          <ToolHeaderIcon tool={tool} />
-          <h1
-            className="mx-auto text-[28px] sm:text-[42px]"
-            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
-          >
-            Convert PNG to WebP online, free
-          </h1>
-          <p className="mx-auto mt-4 max-w-[620px] text-[15px] sm:text-[18px] text-[#6B7280]">
-            Turn PNG images into modern WebP with transparency preserved. Ideal for logos, icons, and graphics on your website. Adjustable quality, batch convert, and download individually or as a ZIP.
-          </p>
-          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
-            Your files never leave your device
-          </p>
-          <div className="mt-10">
-            <PngToWebpTool />
-          </div>
-        </section>
-        <PngToWebpSeo />
-      </div>
-    );
-  }
-
-  if (tool.slug === "crop-image") {
-    return (
-      <div className="mx-auto max-w-4xl px-4 pb-16">
-        <Breadcrumb name={tool.name} />
-        <section className="flex flex-col pt-6 pb-10 text-center">
-          <ToolHeaderIcon tool={tool} />
-          <h1
-            className="mx-auto text-[28px] sm:text-[42px]"
-            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
-          >
-            Crop images online, free
-          </h1>
-          <p className="mx-auto mt-4 max-w-[620px] text-[15px] sm:text-[18px] text-[#6B7280]">
-            Crop JPG, PNG, and WebP to any size right in your browser. Drag the crop box, lock a preset like 1:1, 16:9, 9:16, or passport 35x45, or enter exact pixels. Batch and ZIP.
-          </p>
-          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
-            Your files never leave your device
-          </p>
-          <div className="mt-10">
-            <CropImageTool />
-          </div>
-        </section>
-        <CropImageSeo />
-      </div>
-    );
-  }
-
-  if (tool.slug === "rotate-image") {
-    return (
-      <div className="mx-auto max-w-4xl px-4 pb-16">
-        <Breadcrumb name={tool.name} />
-        <section className="flex flex-col pt-6 pb-10 text-center">
-          <ToolHeaderIcon tool={tool} />
-          <h1
-            className="mx-auto text-[28px] sm:text-[42px]"
-            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
-          >
-            Rotate and flip images online, free
-          </h1>
-          <p className="mx-auto mt-4 max-w-[620px] text-[15px] sm:text-[18px] text-[#6B7280]">
-            Rotate JPG, PNG, and WebP by 90, 180, or 270 degrees, or mirror horizontally and vertically. Fix sideways phone photos in bulk with Apply to all, right in your browser.
-          </p>
-          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
-            Your files never leave your device
-          </p>
-          <div className="mt-10">
-            <RotateImageTool />
-          </div>
-        </section>
-        <RotateImageSeo />
-      </div>
-    );
-  }
-
-  if (tool.slug === "watermark-image") {
-    return (
-      <div className="mx-auto max-w-5xl px-4 pb-16">
-        <Breadcrumb name={tool.name} />
-        <section className="flex flex-col pt-6 pb-10 text-center">
-          <ToolHeaderIcon tool={tool} />
-          <h1
-            className="mx-auto text-[28px] sm:text-[42px]"
-            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
-          >
-            Add a watermark to images online, free
-          </h1>
-          <p className="mx-auto mt-4 max-w-[620px] text-[15px] sm:text-[18px] text-[#6B7280]">
-            Stamp a text line or your own logo across JPG, PNG, and WebP photos. 9-cell position grid, tile pattern, opacity, and rotation, all in your browser.
-          </p>
-          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
-            Your files never leave your device
-          </p>
-          <div className="mt-10">
-            <WatermarkImageTool />
-          </div>
-        </section>
-        <WatermarkImageSeo />
-      </div>
-    );
-  }
-
-  if (tool.slug === "meme-generator") {
-    return (
-      <div className="mx-auto max-w-6xl px-4 pb-16">
-        <Breadcrumb name={tool.name} />
-        <section className="flex flex-col pt-6 pb-10 text-center">
-          <ToolHeaderIcon tool={tool} />
-          <h1
-            className="mx-auto text-[28px] sm:text-[42px]"
-            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
-          >
-            Make memes online, free, no watermark
-          </h1>
-          <p className="mx-auto mt-4 max-w-[640px] text-[15px] sm:text-[18px] text-[#6B7280]">
-            Drop in a photo, add top and bottom text or draggable captions, and download a clean meme. No signup, no watermark, no upload.
-          </p>
-          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
-            Your image never leaves your device
-          </p>
-          <div className="mt-10">
-            <MemeGeneratorTool />
-          </div>
-        </section>
-        <MemeGeneratorSeo />
-      </div>
-    );
-  }
-
-  if (tool.slug === "photo-editor") {
-    return (
-      <div className="mx-auto max-w-6xl px-4 pb-16">
-        <Breadcrumb name={tool.name} />
-        <section className="flex flex-col pt-6 pb-10 text-center">
-          <ToolHeaderIcon tool={tool} />
-          <h1
-            className="mx-auto text-[28px] sm:text-[42px]"
-            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
-          >
-            Edit photos online, free
-          </h1>
-          <p className="mx-auto mt-4 max-w-[640px] text-[15px] sm:text-[18px] text-[#6B7280]">
-            Adjust brightness, contrast, saturation, and warmth, or tap a filter like B&W, sepia, or vintage. Compare before and after, export as JPG, PNG, or WebP.
-          </p>
-          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
-            Your photo never leaves your device
-          </p>
-          <div className="mt-10">
-            <PhotoEditorTool />
-          </div>
-        </section>
-        <PhotoEditorSeo />
-      </div>
-    );
-  }
-
-  return null;
-
-
-
-}
-
-function ToolHeaderIcon({ tool }: { tool: ImageTool }) {
   return (
-    <div
-      className="mx-auto mb-4"
-      style={{ width: 64, height: 64 }}
-      aria-hidden
-    >
-      <ImageToolIcon slug={tool.slug} size={64} radius={14} />
+    <div className={`mx-auto ${maxWidth} px-4 pb-16`}>
+      <section className="relative flex flex-col pt-6 pb-14">
+        <Breadcrumb name={tool.name} />
+        <div className="flex flex-1 flex-col justify-center text-center mt-8 md:mt-0">
+          <h1
+            className="mx-auto text-[28px] sm:text-[42px]"
+            style={{
+              color: "#383E45",
+              fontWeight: 700,
+              letterSpacing: "-0.02em",
+              lineHeight: 1.15,
+            }}
+          >
+            {silo.h1}
+          </h1>
+          <p
+            className="mx-auto mt-4 max-w-[640px] text-[15px] sm:text-[18px]"
+            style={{ color: "#6B7280", lineHeight: 1.65 }}
+          >
+            {silo.subtitle}
+          </p>
+          <div className="mt-10">
+            <Tool />
+          </div>
+          <p className="mt-8 text-center text-[13px]" style={{ color: "#6B7280" }}>
+            Your files never leave your device.
+          </p>
+        </div>
+        <p
+          className="mt-6 text-center text-[13px]"
+          style={{ color: "#6B7280" }}
+        >
+          Found a bug or need help? Email{" "}
+          <a
+            href={`mailto:${CONTACT_EMAIL}`}
+            className="underline underline-offset-2 hover:text-[#e5322d]"
+          >
+            {CONTACT_EMAIL}
+          </a>
+        </p>
+      </section>
+      <Seo />
     </div>
   );
 }
+
+
 
 
 function Breadcrumb({ name }: { name: string }) {
