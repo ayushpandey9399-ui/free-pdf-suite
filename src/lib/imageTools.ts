@@ -10,6 +10,7 @@ import {
   Layers,
   Shrink,
   Maximize2,
+  Crop,
   type LucideIcon,
 } from "lucide-react";
 
@@ -137,6 +138,17 @@ export const imageTools: readonly ImageTool[] = [
     aliases: ["png to webp keep transparency", "convert png to webp", "compress png for website"],
     icon: Layers,
     tint: "#C026D3",
+  },
+  {
+    id: "crop-image",
+    slug: "crop-image",
+    name: "Crop Image",
+    description:
+      "Crop JPG, PNG, and WebP to any size in your browser. Drag the crop box, lock 1:1, 16:9, or passport ratios, or enter exact pixels. Batch and ZIP.",
+    status: "live",
+    aliases: ["crop image online", "crop photo online free", "crop image to square", "crop image to exact pixels"],
+    icon: Crop,
+    tint: "#0EA5E9",
   },
 ];
 

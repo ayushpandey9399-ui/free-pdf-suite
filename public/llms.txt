@@ -69,3 +69,4 @@ FreePDFHub is an independent, ad-supported suite of 28 PDF utilities. Every tool
 - [JPG to WebP](/image-tools/jpg-to-webp): Convert JPG/JPEG to modern WebP in the browser. Adjustable quality, WASM fallback on Safari so output is always a real .webp. Batch + ZIP download.
 - [PNG to WebP](/image-tools/png-to-webp): Convert PNG to modern WebP in the browser with transparency preserved (alpha carries over). Adjustable quality, WASM fallback on Safari. Batch + ZIP download.
 
+- [Crop Image](/image-tools/crop-image): Crop JPG, PNG, and WebP to any size in the browser. Interactive crop box with drag+resize handles, aspect presets (1:1, 4:3, 3:4, 16:9, 9:16, Passport 35x45), and exact pixel inputs. Batch + ZIP.

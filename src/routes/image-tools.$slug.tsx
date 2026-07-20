@@ -74,6 +74,13 @@ import {
   pngToWebpSoftwareJsonLd,
   pngToWebpHowToJsonLd,
 } from "@/components/PngToWebpSeo";
+import { CropImageTool } from "@/tools/crop-image";
+import {
+  CropImageSeo,
+  cropImageFaqJsonLd,
+  cropImageSoftwareJsonLd,
+  cropImageHowToJsonLd,
+} from "@/components/CropImageSeo";
 
 
 const HEIC_TITLE = "HEIC to JPG Converter Free, No Upload | FreePDFHub";
@@ -116,6 +123,10 @@ const PNG_WEBP_TITLE = "PNG to WebP Converter Free, No Upload | FreePDFHub";
 const PNG_WEBP_DESC =
   "Convert PNG to WebP online free. Batch convert with transparency preserved, entirely in your browser. Smaller files for faster websites, no upload.";
 
+const CROP_TITLE = "Crop Image to Any Size Free, No Upload | FreePDFHub";
+const CROP_DESC =
+  "Crop image online free. Drag the crop box, lock 1:1, 16:9, 9:16, or passport ratios, or enter exact pixels. Batch JPG, PNG, WebP in your browser.";
+
 
 export const Route = createFileRoute("/image-tools/$slug")({
   loader: ({ params }) => {
@@ -137,6 +148,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
     const isResize = slug === "image-resize";
     const isJpgWebp = slug === "jpg-to-webp";
     const isPngWebp = slug === "png-to-webp";
+    const isCrop = slug === "crop-image";
 
     const breadcrumbJsonLd = {
       "@context": "https://schema.org",
@@ -153,7 +165,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
       ],
     };
 
-    if (isHeicJpg || isHeicPng || isJpgPng || isPngJpg || isWebpJpg || isWebpPng || isCompress || isResize || isJpgWebp || isPngWebp) {
+    if (isHeicJpg || isHeicPng || isJpgPng || isPngJpg || isWebpJpg || isWebpPng || isCompress || isResize || isJpgWebp || isPngWebp || isCrop) {
       const title = isHeicJpg
         ? HEIC_TITLE
         : isHeicPng
@@ -172,7 +184,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
                       ? RESIZE_TITLE
                       : isJpgWebp
                         ? JPG_WEBP_TITLE
-                        : PNG_WEBP_TITLE;
+                        : isPngWebp
+                          ? PNG_WEBP_TITLE
+                          : CROP_TITLE;
       const desc = isHeicJpg
         ? HEIC_DESC
         : isHeicPng
@@ -191,7 +205,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
                       ? RESIZE_DESC
                       : isJpgWebp
                         ? JPG_WEBP_DESC
-                        : PNG_WEBP_DESC;
+                        : isPngWebp
+                          ? PNG_WEBP_DESC
+                          : CROP_DESC;
       const softwareLd = isHeicJpg
         ? heicToJpgSoftwareJsonLd
         : isHeicPng
@@ -210,7 +226,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
                       ? imageResizeSoftwareJsonLd
                       : isJpgWebp
                         ? jpgToWebpSoftwareJsonLd
-                        : pngToWebpSoftwareJsonLd;
+                        : isPngWebp
+                          ? pngToWebpSoftwareJsonLd
+                          : cropImageSoftwareJsonLd;
       const howToLd = isHeicJpg
         ? heicToJpgHowToJsonLd
         : isHeicPng
@@ -229,7 +247,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
                       ? imageResizeHowToJsonLd
                       : isJpgWebp
                         ? jpgToWebpHowToJsonLd
-                        : pngToWebpHowToJsonLd;
+                        : isPngWebp
+                          ? pngToWebpHowToJsonLd
+                          : cropImageHowToJsonLd;
       const faqLd = isHeicJpg
         ? heicToJpgFaqJsonLd
         : isHeicPng
@@ -248,7 +268,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
                       ? imageResizeFaqJsonLd
                       : isJpgWebp
                         ? jpgToWebpFaqJsonLd
-                        : pngToWebpFaqJsonLd;
+                        : isPngWebp
+                          ? pngToWebpFaqJsonLd
+                          : cropImageFaqJsonLd;
       return {
         meta: [
           { title },
@@ -565,6 +587,33 @@ function ImageToolPage() {
           </div>
         </section>
         <PngToWebpSeo />
+      </div>
+    );
+  }
+
+  if (tool.slug === "crop-image") {
+    return (
+      <div className="mx-auto max-w-4xl px-4 pb-16">
+        <Breadcrumb name={tool.name} />
+        <section className="flex flex-col pt-6 pb-10 text-center">
+          <ToolHeaderIcon tool={tool} />
+          <h1
+            className="mx-auto text-[28px] sm:text-[42px]"
+            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
+          >
+            Crop images online, free
+          </h1>
+          <p className="mx-auto mt-4 max-w-[620px] text-[15px] sm:text-[18px] text-[#6B7280]">
+            Crop JPG, PNG, and WebP to any size right in your browser. Drag the crop box, lock a preset like 1:1, 16:9, 9:16, or passport 35x45, or enter exact pixels. Batch and ZIP.
+          </p>
+          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
+            Your files never leave your device
+          </p>
+          <div className="mt-10">
+            <CropImageTool />
+          </div>
+        </section>
+        <CropImageSeo />
       </div>
     );
   }
