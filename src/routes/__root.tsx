@@ -19,6 +19,22 @@ import { PwaRegister } from "../components/pwa/PwaRegister";
 import { InstallPrompt } from "../components/pwa/InstallPrompt";
 
 function NotFoundComponent() {
+  useEffect(() => {
+    const prevStatus = document.querySelector<HTMLMetaElement>('meta[name="prerender-status-code"]');
+    const meta = document.createElement("meta");
+    meta.name = "robots";
+    meta.content = "noindex, nofollow";
+    meta.setAttribute("data-notfound", "true");
+    document.head.appendChild(meta);
+    const status = document.createElement("meta");
+    status.name = "prerender-status-code";
+    status.content = "404";
+    status.setAttribute("data-notfound", "true");
+    if (!prevStatus) document.head.appendChild(status);
+    return () => {
+      document.querySelectorAll('meta[data-notfound="true"]').forEach((el) => el.remove());
+    };
+  }, []);
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
