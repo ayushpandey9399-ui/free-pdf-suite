@@ -276,6 +276,14 @@ const scanToPdfFaq = [
     a: "Not yet. Right now the tool captures pages as images and embeds them in a PDF, so the scan looks perfect but you cannot select or search the text inside it. If OCR matters for your use case, run the file through a dedicated OCR tool after downloading.",
   },
   {
+    q: "Can it make the PDF searchable?",
+    a: "Yes, in beta. Turn on Make PDF searchable (OCR) in the sidebar before you press Create PDF. Each page is read by an in-browser text engine and an invisible text layer is placed under the image, so the file looks identical and you can select, copy, and Ctrl+F search the text. Best on clear printed text; handwriting is not supported yet.",
+  },
+  {
+    q: "Does OCR upload my document?",
+    a: "No. When you enable OCR the first time, the text engine downloads to your browser once (about 11 MB) and then reads every page on your device. Your files never leave the tab. Turn the toggle off any time and the PDF is exported without a text layer.",
+  },
+  {
     q: "My photo is crooked or has a shadow across it. Can the tool fix that?",
     a: "Yes. Open the page in the editor (crop icon on the thumbnail) and use the straighten slider to level a tilted capture, the Remove shadow toggle to flatten uneven lighting, and the Black & White filter for a clean scanned look on receipts and forms. Brightness and contrast sliders let you fine-tune before you commit.",
   },
