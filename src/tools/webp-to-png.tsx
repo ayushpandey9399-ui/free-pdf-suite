@@ -56,7 +56,7 @@ async function webpToPng(file: File): Promise<Blob> {
   const src = await decodeToBitmap(file);
   const w = (src as ImageBitmap).width;
   const h = (src as ImageBitmap).height;
-  if (!w || !h) throw new Error("Empty image");
+  guardDecodedSize(w, h);
   const canvas = document.createElement("canvas");
   canvas.width = w;
   canvas.height = h;
@@ -87,6 +87,10 @@ export function WebpToPngTool() {
 
   const addFiles = useCallback((incoming: FileList | File[]) => {
     const list = Array.from(incoming).filter((f) => {
+      if (isSvgFile(f)) {
+        toast.error(`"${f.name}" is an SVG, not supported`);
+        return false;
+      }
       if (!isWebp(f)) {
         toast.error(`"${f.name}" is not a WebP file`);
         return false;
@@ -166,9 +170,10 @@ export function WebpToPngTool() {
       return;
     }
     const zip = new JSZip();
+    const used = new Set<string>();
     for (const r of done) {
       const base = r.file.name.replace(/\.webp$/i, "");
-      zip.file(`${base}.png`, r.outBlob!);
+      zip.file(uniqueZipName(used, `${base}.png`), r.outBlob!);
     }
     const blob = await zip.generateAsync({ type: "blob" });
     saveAs(blob, "webp-to-png.zip");
