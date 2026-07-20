@@ -36,6 +36,7 @@ export const Route = createFileRoute("/sitemap.xml")({
           { path: "/image-tools", lastmod: LASTMOD, changefreq: "monthly", priority: "0.7" },
           { path: "/image-tools/heic-to-jpg", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
           { path: "/image-tools/heic-to-png", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
+          { path: "/image-tools/jpg-to-png", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
           { path: "/about", lastmod: LASTMOD, changefreq: "yearly", priority: "0.5" },
 
           { path: "/contact", lastmod: LASTMOD, changefreq: "yearly", priority: "0.5" },
