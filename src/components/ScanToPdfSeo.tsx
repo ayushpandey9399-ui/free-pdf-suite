@@ -201,6 +201,19 @@ export function ScanToPdfSeo() {
       </section>
 
       <section>
+        <h2 className="text-2xl font-bold">Make the PDF searchable (OCR, beta)</h2>
+        <p className="mt-3">
+          Turn on the Searchable PDF toggle before you press Create PDF and each
+          page is read by an in-browser text engine. The output looks identical,
+          the pages are still your photos, but an invisible text layer sits
+          underneath so you can select, copy, and Ctrl+F search the words. The
+          engine downloads to your browser the first time you enable it and
+          reads every page on your device. Nothing is uploaded. Best on clear
+          printed text; handwriting is not supported in this beta.
+        </p>
+      </section>
+
+      <section>
         <h2 className="text-2xl font-bold">Frequently asked questions</h2>
         <div className="mt-4 space-y-4">
           {scanToPdfFaq.map((f) => (
