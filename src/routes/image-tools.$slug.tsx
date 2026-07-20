@@ -90,6 +90,10 @@ const COMPRESS_TITLE = "Compress Image Free, No Upload | FreePDFHub";
 const COMPRESS_DESC =
   "Compress image online free. Reduce JPG, PNG, and WebP file size in your browser, target 100KB, 200KB, or 50KB. Batch and ZIP, 100% private.";
 
+const RESIZE_TITLE = "Resize Image in Pixels or KB Free, No Upload | FreePDFHub";
+const RESIZE_DESC =
+  "Resize image online free. Change JPG, PNG, and WebP dimensions by pixels or percent in your browser. Presets for passport, signature, HD. No upload.";
+
 
 export const Route = createFileRoute("/image-tools/$slug")({
   loader: ({ params }) => {
