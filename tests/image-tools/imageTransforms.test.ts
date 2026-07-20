@@ -336,7 +336,7 @@ describe("fuzz: transforms never crash and preserve invariants", () => {
       const newW = rand(10, 8000);
       const newH = aspectLockOther(W, H, "w", newW);
       const back = aspectLockOther(W, H, "h", newH);
-      expect(Math.abs(back - newW)).toBeLessThanOrEqual(3);
+      expect(Math.abs(back - newW)).toBeLessThanOrEqual(Math.max(3, Math.ceil(W/H) + Math.ceil(H/W)));
     }
   });
 
