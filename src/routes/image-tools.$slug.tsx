@@ -23,6 +23,13 @@ import {
   jpgToPngSoftwareJsonLd,
   jpgToPngHowToJsonLd,
 } from "@/components/JpgToPngSeo";
+import { PngToJpgTool } from "@/tools/png-to-jpg";
+import {
+  PngToJpgSeo,
+  pngToJpgFaqJsonLd,
+  pngToJpgSoftwareJsonLd,
+  pngToJpgHowToJsonLd,
+} from "@/components/PngToJpgSeo";
 
 const HEIC_TITLE = "HEIC to JPG Converter Free, No Upload | FreePDFHub";
 const HEIC_DESC =
@@ -35,6 +42,10 @@ const HEIC_PNG_DESC =
 const JPG_PNG_TITLE = "JPG to PNG Converter Free, No Upload | FreePDFHub";
 const JPG_PNG_DESC =
   "Convert JPG to PNG online free. Batch convert JPG and JPEG images to lossless PNG in your browser, no upload, no signup, 100% private.";
+
+const PNG_JPG_TITLE = "PNG to JPG Converter Free, No Upload | FreePDFHub";
+const PNG_JPG_DESC =
+  "Convert PNG to JPG online free. Batch convert PNG images to smaller JPG files in your browser, adjustable quality, no upload, 100% private.";
 
 export const Route = createFileRoute("/image-tools/$slug")({
   loader: ({ params }) => {
