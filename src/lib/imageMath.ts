@@ -436,3 +436,39 @@ export function coverSourceRect(
   return { sx: 0, sy: (bh - sh) / 2, sw, sh };
 }
 
+/* ================================================================
+ * STRAIGHTEN AUTO-ZOOM (largest same-aspect axis-aligned rect
+ * that fits inside a rotated WxH rectangle)
+ * ================================================================ */
+
+/**
+ * Scale factor s in (0, 1] such that a rectangle of dimensions (s*W, s*H)
+ * fits fully inside the same-size rectangle rotated by `angleRad`. Used to
+ * auto-crop the straighten result so no blank corners remain.
+ *
+ * Derivation: an axis-aligned rect (w, h) inscribed in a rect of size (W, H)
+ * rotated by angle a satisfies w*|cos a| + h*|sin a| <= W and
+ * w*|sin a| + h*|cos a| <= H. For w = s*W, h = s*H this simplifies to
+ * s <= W / (W*|cos a| + H*|sin a|) and s <= H / (W*|sin a| + H*|cos a|).
+ */
+export function insideRectScale(W: number, H: number, angleRad: number): number {
+  if (!Number.isFinite(W) || !Number.isFinite(H) || W <= 0 || H <= 0) return 1;
+  const a = Math.abs(Number.isFinite(angleRad) ? angleRad : 0);
+  const c = Math.abs(Math.cos(a));
+  const s = Math.abs(Math.sin(a));
+  const denom1 = W * c + H * s;
+  const denom2 = W * s + H * c;
+  if (denom1 <= 0 || denom2 <= 0) return 1;
+  return Math.min(1, Math.min(W / denom1, H / denom2));
+}
+
+/** Integer dims of the straighten auto-crop rectangle. */
+export function straightenCropDims(W: number, H: number, angleDeg: number): { w: number; h: number } {
+  const s = insideRectScale(W, H, (angleDeg * Math.PI) / 180);
+  return {
+    w: Math.max(1, Math.round(W * s)),
+    h: Math.max(1, Math.round(H * s)),
+  };
+}
+
+
