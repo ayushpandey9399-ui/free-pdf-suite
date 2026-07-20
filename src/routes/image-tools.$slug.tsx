@@ -250,6 +250,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
       "crop-image": cropImageFaqJsonLd,
       "rotate-image": rotateImageFaqJsonLd,
       "watermark-image": watermarkImageFaqJsonLd,
+      "meme-generator": memeGeneratorFaqJsonLd,
     };
 
     const breadcrumbJsonLd = {
