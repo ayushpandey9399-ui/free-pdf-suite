@@ -42,16 +42,6 @@ function ImageToolsHub() {
 
   return (
     <div style={{ backgroundColor: "#ffffff", color: "#33333c" }}>
-      {/* Base blush wash */}
-      <div
-        aria-hidden
-        className="pointer-events-none fixed inset-0 -z-10"
-        style={{
-          background:
-            "radial-gradient(120% 90% at 50% 0%, #ffffff 55%, rgba(229,50,45,0.035) 100%)",
-        }}
-      />
-
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6 pt-6">
         <nav aria-label="Breadcrumb" className="text-[13px] text-[#6B7280]">
           <ol className="flex items-center gap-[6px]">
@@ -64,27 +54,7 @@ function ImageToolsHub() {
 
       {/* Hero, replicates PDF homepage hero */}
       <section className="relative overflow-hidden">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 1px 1px, rgba(31,41,55,0.06) 1px, transparent 0)",
-            backgroundSize: "22px 22px",
-            maskImage:
-              "radial-gradient(60% 70% at 50% 30%, #000 40%, transparent 100%)",
-            WebkitMaskImage:
-              "radial-gradient(60% 70% at 50% 30%, #000 40%, transparent 100%)",
-          }}
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(40% 50% at 50% 10%, rgba(229,50,45,0.05), transparent 70%)",
-          }}
-        />
+
 
         <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 pt-8 pb-0 text-center">
           <h1
