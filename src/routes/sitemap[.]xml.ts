@@ -42,6 +42,7 @@ export const Route = createFileRoute("/sitemap.xml")({
           { path: "/image-tools/webp-to-png", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
           { path: "/image-tools/compress-image", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
           { path: "/image-tools/image-resize", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
+          { path: "/image-tools/jpg-to-webp", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
 
           { path: "/about", lastmod: LASTMOD, changefreq: "yearly", priority: "0.5" },
 
