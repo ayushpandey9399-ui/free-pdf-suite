@@ -123,6 +123,10 @@ const PNG_WEBP_TITLE = "PNG to WebP Converter Free, No Upload | FreePDFHub";
 const PNG_WEBP_DESC =
   "Convert PNG to WebP online free. Batch convert with transparency preserved, entirely in your browser. Smaller files for faster websites, no upload.";
 
+const CROP_TITLE = "Crop Image to Any Size Free, No Upload | FreePDFHub";
+const CROP_DESC =
+  "Crop image online free. Drag the crop box, lock 1:1, 16:9, 9:16, or passport ratios, or enter exact pixels. Batch JPG, PNG, WebP in your browser.";
+
 
 export const Route = createFileRoute("/image-tools/$slug")({
   loader: ({ params }) => {
