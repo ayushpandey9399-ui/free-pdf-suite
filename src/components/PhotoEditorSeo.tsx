@@ -69,6 +69,19 @@ export function PhotoEditorSeo() {
         exactly zero requests going out with your image.
       </p>
 
+      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">Crop, rotate, and straighten in one place</h2>
+      <p>
+        The Crop and Rotate tab lets you finish a photo without hopping between
+        tools. Rotate 90 degrees left or right, mirror or flip vertically, and
+        drag a straighten slider between minus 15 and plus 15 degrees to fix a
+        tilted horizon. The result auto-zooms so the frame stays full, no blank
+        corners at any angle. A draggable crop box with rule-of-thirds guides
+        and Free, 1:1, 4:3, and 16:9 aspect presets lets you tighten the
+        composition, and everything runs on the same undo history as the color
+        sliders so you can step back through geometry and adjustment changes
+        together.
+      </p>
+
       <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">Adjust brightness, contrast, and color</h2>
       <p>
         The adjustment sliders cover the edits that fix the vast majority of
@@ -84,6 +97,7 @@ export function PhotoEditorSeo() {
         classic focused look, and Grain adds a fine film texture that helps a
         clean digital photo feel less sterile.
       </p>
+
       <p className="mt-3">
         Every slider shows its current numeric value and has a tiny reset link
         next to it, so you can undo a single adjustment without wiping the
