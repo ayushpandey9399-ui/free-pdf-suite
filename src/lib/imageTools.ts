@@ -10,6 +10,7 @@ import {
   Layers,
   Shrink,
   Maximize2,
+  Crop,
   type LucideIcon,
 } from "lucide-react";
 
