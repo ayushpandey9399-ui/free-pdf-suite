@@ -150,6 +150,19 @@ export function ImageToolIcon({
           {/* smile */}
           <path d="M23 35 Q29 40 35 35" fill="none" stroke="#FFFFFF" strokeWidth="1.8" strokeLinecap="round" />
         </g>
+      ) : isPhotoEditor ? (
+        // Flat photo editor motif: two slider tracks with knobs across the
+        // photo card, evoking adjustment controls.
+        <g>
+          {/* Track 1 */}
+          <rect x="16" y="28" width="26" height="2.4" rx="1.2" fill={accent} opacity="0.35" />
+          <circle cx="30" cy="29.2" r="3.2" fill={accent} />
+          <circle cx="30" cy="29.2" r="1.2" fill="#FFFFFF" />
+          {/* Track 2 */}
+          <rect x="16" y="36" width="26" height="2.4" rx="1.2" rx="1.2" fill={accent} opacity="0.35" />
+          <circle cx="22" cy="37.2" r="3.2" fill={accent} />
+          <circle cx="22" cy="37.2" r="1.2" fill="#FFFFFF" />
+        </g>
       ) : (
         // Flat target-format tag at bottom-right.
         <g>
