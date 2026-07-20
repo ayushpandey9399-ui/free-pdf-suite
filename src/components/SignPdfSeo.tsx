@@ -100,6 +100,14 @@ const faqs = [
     q: "Do I need an account?",
     a: "No. There is no signup, no email required and no watermark added to the signed file. Every tool on FreePDFHub is free to use as often as you like.",
   },
+  {
+    q: "Can I add the date to a signed PDF?",
+    a: "Yes. The Date stamp drops today's date onto the page in your choice of format (DD/MM/YYYY, MM/DD/YYYY or DD Mon YYYY), in black or blue, and exports as crisp vector text using an embedded font so it stays sharp at any zoom. You can also use the Text stamp for a name or a word like Approved, and the Check stamp for tick or cross marks on form boxes.",
+  },
+  {
+    q: "Does this remember my signature for next time?",
+    a: "Only if you choose to. After creating a signature or initials, tick Save on this device and it is stored in your browser's local storage on this device only (up to 3 signatures and 3 initials, oldest replaced). Nothing is ever uploaded and clearing your browser data removes them. Leave the box unticked and nothing is saved.",
+  },
 ];
 
 const related = [
