@@ -17,6 +17,7 @@ const TARGET_LABEL: Record<string, string | null> = {
   "compress-image": null,
   "image-resize": null,
   "crop-image": null,
+  "rotate-image": null,
 };
 
 export interface ImageToolIconProps {
@@ -50,6 +51,7 @@ export function ImageToolIcon({
   const isCompress = slug === "compress-image";
   const isResize = slug === "image-resize";
   const isCrop = slug === "crop-image";
+  const isRotate = slug === "rotate-image";
 
   return (
     <svg
@@ -110,6 +112,15 @@ export function ImageToolIcon({
           <path d="M20 22 L20 30 M20 22 L28 22" />
           {/* bottom-right bracket */}
           <path d="M42 40 L42 32 M42 40 L34 40" />
+        </g>
+      ) : isRotate ? (
+        // Flat rotate motif: three-quarter circular arrow curling clockwise
+        // around the photo card, with an arrowhead at the end.
+        <g fill="none" stroke={accent} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+          {/* 3/4 arc from top-center clockwise back to left-center */}
+          <path d="M29 10 A 20 20 0 1 1 9 30" />
+          {/* arrowhead */}
+          <path d="M25 8 L29 10 L27 14" />
         </g>
       ) : (
         // Flat target-format tag at bottom-right.
