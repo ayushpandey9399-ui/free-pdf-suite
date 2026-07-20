@@ -60,6 +60,23 @@ export function ScanToPdfSeo() {
       </section>
 
       <section>
+        <h2 className="text-2xl font-bold">Clean, flat, readable, even from a phone photo</h2>
+        <p className="mt-3">
+          Real receipts are crooked, real prescriptions have a shadow across the middle,
+          real ID copies were taken under a warm overhead bulb. The per-page editor
+          handles all of it in the browser: a straighten slider (with auto-zoom, so no
+          white corners ever creep in) fixes a tilted capture, a one-click shadow removal
+          flattens uneven lighting by estimating the background and dividing it back out,
+          and the Black &amp; White filter uses adaptive Sauvola thresholding so text
+          stays readable even in the shadowed half of a page. Brightness and contrast
+          sliders sit right there for the last mile, and press-hold Compare to see the
+          original photo before you commit.
+        </p>
+      </section>
+
+
+
+      <section>
         <h2 className="text-2xl font-bold">The private scanner in your pocket</h2>
         <p className="mt-3">
           Look at what people actually reach for a scanner to capture: Aadhaar cards, PAN
