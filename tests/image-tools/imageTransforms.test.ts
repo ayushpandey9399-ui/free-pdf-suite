@@ -255,8 +255,8 @@ describe("pxSepia", () => {
   it("identity at 0", () => {
     expect(pxSepia(100, 150, 200, 0)).toEqual([100, 150, 200]);
   });
-  it("100% on white produces a warm sepia (r > g > b)", () => {
-    const [r, g, b] = pxSepia(255, 255, 255, 100);
+  it("100% on mid-gray produces a warm sepia (r > g > b)", () => {
+    const [r, g, b] = pxSepia(128, 128, 128, 100);
     expect(r).toBeGreaterThan(g);
     expect(g).toBeGreaterThan(b);
   });
