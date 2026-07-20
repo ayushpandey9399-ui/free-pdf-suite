@@ -159,7 +159,7 @@ export function ImageToolIcon({
           <circle cx="30" cy="29.2" r="3.2" fill={accent} />
           <circle cx="30" cy="29.2" r="1.2" fill="#FFFFFF" />
           {/* Track 2 */}
-          <rect x="16" y="36" width="26" height="2.4" rx="1.2" rx="1.2" fill={accent} opacity="0.35" />
+          <rect x="16" y="36" width="26" height="2.4" rx="1.2" fill={accent} opacity="0.35" />
           <circle cx="22" cy="37.2" r="3.2" fill={accent} />
           <circle cx="22" cy="37.2" r="1.2" fill="#FFFFFF" />
         </g>
