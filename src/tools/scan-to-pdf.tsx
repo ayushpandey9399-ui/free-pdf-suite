@@ -1399,6 +1399,15 @@ function SortablePageCard({
           Edited
         </span>
       )}
+      {!edited && page.quad && page.quadAuto && (
+        <span
+          className="absolute top-1.5 left-9 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white"
+          style={{ backgroundColor: "#33333c" }}
+          title="Document edges detected automatically"
+        >
+          Edges
+        </span>
+      )}
       <div className="absolute bottom-1.5 left-1.5 right-1.5 flex justify-between gap-1">
         <button
           type="button"
