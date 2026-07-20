@@ -44,8 +44,10 @@ export const imageTools: readonly ImageTool[] = [
     id: "png-to-jpg",
     slug: "png-to-jpg",
     name: "PNG to JPG",
-    description: "Convert PNG images to JPG with adjustable quality.",
-    status: "coming-soon",
+    description:
+      "Convert PNG images to smaller JPG files in your browser. Adjustable quality, batch and ZIP download.",
+    status: "live",
+    aliases: ["png to jpeg", "reduce png size", "png converter"],
   },
   {
     id: "webp-to-jpg",
