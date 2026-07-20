@@ -718,6 +718,33 @@ function ImageToolPage() {
     );
   }
 
+  if (tool.slug === "photo-editor") {
+    return (
+      <div className="mx-auto max-w-6xl px-4 pb-16">
+        <Breadcrumb name={tool.name} />
+        <section className="flex flex-col pt-6 pb-10 text-center">
+          <ToolHeaderIcon tool={tool} />
+          <h1
+            className="mx-auto text-[28px] sm:text-[42px]"
+            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
+          >
+            Edit photos online, free
+          </h1>
+          <p className="mx-auto mt-4 max-w-[640px] text-[15px] sm:text-[18px] text-[#6B7280]">
+            Adjust brightness, contrast, saturation, and warmth, or tap a filter like B&W, sepia, or vintage. Compare before and after, export as JPG, PNG, or WebP.
+          </p>
+          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
+            Your photo never leaves your device
+          </p>
+          <div className="mt-10">
+            <PhotoEditorTool />
+          </div>
+        </section>
+        <PhotoEditorSeo />
+      </div>
+    );
+  }
+
   return null;
 
 
