@@ -65,12 +65,24 @@ export const Route = createFileRoute("/image-tools/$slug")({
       ],
     };
 
-    if (isHeicJpg || isHeicPng) {
-      const title = isHeicJpg ? HEIC_TITLE : HEIC_PNG_TITLE;
-      const desc = isHeicJpg ? HEIC_DESC : HEIC_PNG_DESC;
-      const softwareLd = isHeicJpg ? heicToJpgSoftwareJsonLd : heicToPngSoftwareJsonLd;
-      const howToLd = isHeicJpg ? heicToJpgHowToJsonLd : heicToPngHowToJsonLd;
-      const faqLd = isHeicJpg ? heicToJpgFaqJsonLd : heicToPngFaqJsonLd;
+    if (isHeicJpg || isHeicPng || isJpgPng) {
+      const title = isHeicJpg ? HEIC_TITLE : isHeicPng ? HEIC_PNG_TITLE : JPG_PNG_TITLE;
+      const desc = isHeicJpg ? HEIC_DESC : isHeicPng ? HEIC_PNG_DESC : JPG_PNG_DESC;
+      const softwareLd = isHeicJpg
+        ? heicToJpgSoftwareJsonLd
+        : isHeicPng
+          ? heicToPngSoftwareJsonLd
+          : jpgToPngSoftwareJsonLd;
+      const howToLd = isHeicJpg
+        ? heicToJpgHowToJsonLd
+        : isHeicPng
+          ? heicToPngHowToJsonLd
+          : jpgToPngHowToJsonLd;
+      const faqLd = isHeicJpg
+        ? heicToJpgFaqJsonLd
+        : isHeicPng
+          ? heicToPngFaqJsonLd
+          : jpgToPngFaqJsonLd;
       return {
         meta: [
           { title },
