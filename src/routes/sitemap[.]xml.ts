@@ -47,6 +47,7 @@ export const Route = createFileRoute("/sitemap.xml")({
           { path: "/image-tools/crop-image", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
           { path: "/image-tools/rotate-image", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
           { path: "/image-tools/watermark-image", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
+          { path: "/image-tools/meme-generator", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
 
           { path: "/about", lastmod: LASTMOD, changefreq: "yearly", priority: "0.5" },
 
