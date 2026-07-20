@@ -67,6 +67,13 @@ import {
   jpgToWebpSoftwareJsonLd,
   jpgToWebpHowToJsonLd,
 } from "@/components/JpgToWebpSeo";
+import { PngToWebpTool } from "@/tools/png-to-webp";
+import {
+  PngToWebpSeo,
+  pngToWebpFaqJsonLd,
+  pngToWebpSoftwareJsonLd,
+  pngToWebpHowToJsonLd,
+} from "@/components/PngToWebpSeo";
 
 
 const HEIC_TITLE = "HEIC to JPG Converter Free, No Upload | FreePDFHub";
