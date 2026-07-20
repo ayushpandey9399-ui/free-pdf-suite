@@ -300,7 +300,11 @@ export function MemeGeneratorSeo() {
         bring a layer forward, send it backward, or delete it.
       </p>
 
-      <p className="mt-3">
+      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">
+        Works on Windows, Mac, Android, and iPhone
+      </h2>
+      <p>
+
 
         The meme generator is a plain web page. It works in Chrome, Safari,
         Edge, and Firefox on Windows, macOS, and Linux, and it works in mobile
