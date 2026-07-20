@@ -59,6 +59,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
         links: [{ rel: "canonical", href: url }],
         scripts: [
           { type: "application/ld+json", children: JSON.stringify(heicToJpgSoftwareJsonLd) },
+          { type: "application/ld+json", children: JSON.stringify(heicToJpgHowToJsonLd) },
           { type: "application/ld+json", children: JSON.stringify(heicToJpgFaqJsonLd) },
           { type: "application/ld+json", children: JSON.stringify(breadcrumbJsonLd) },
         ],
