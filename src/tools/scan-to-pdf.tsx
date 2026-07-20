@@ -1337,7 +1337,11 @@ export default function ScanToPdf() {
       <ToolWorkspace
         title="Scan to PDF"
         actionLabel={actionLabel}
-        loadingLabel="Creating PDF…"
+        loadingLabel={
+          ocrProgress
+            ? `Reading text on page ${ocrProgress.page} of ${ocrProgress.total}…`
+            : "Creating PDF…"
+        }
         onAction={buildPdf}
         loading={loading}
         actionDisabled={pages.length === 0}
