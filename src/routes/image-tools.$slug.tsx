@@ -84,6 +84,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
     const isJpgPng = slug === "jpg-to-png";
     const isPngJpg = slug === "png-to-jpg";
     const isWebpJpg = slug === "webp-to-jpg";
+    const isWebpPng = slug === "webp-to-png";
 
     const breadcrumbJsonLd = {
       "@context": "https://schema.org",
@@ -100,7 +101,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
       ],
     };
 
-    if (isHeicJpg || isHeicPng || isJpgPng || isPngJpg || isWebpJpg) {
+    if (isHeicJpg || isHeicPng || isJpgPng || isPngJpg || isWebpJpg || isWebpPng) {
       const title = isHeicJpg
         ? HEIC_TITLE
         : isHeicPng
@@ -109,7 +110,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
             ? JPG_PNG_TITLE
             : isPngJpg
               ? PNG_JPG_TITLE
-              : WEBP_JPG_TITLE;
+              : isWebpJpg
+                ? WEBP_JPG_TITLE
+                : WEBP_PNG_TITLE;
       const desc = isHeicJpg
         ? HEIC_DESC
         : isHeicPng
@@ -118,7 +121,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
             ? JPG_PNG_DESC
             : isPngJpg
               ? PNG_JPG_DESC
-              : WEBP_JPG_DESC;
+              : isWebpJpg
+                ? WEBP_JPG_DESC
+                : WEBP_PNG_DESC;
       const softwareLd = isHeicJpg
         ? heicToJpgSoftwareJsonLd
         : isHeicPng
@@ -127,7 +132,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
             ? jpgToPngSoftwareJsonLd
             : isPngJpg
               ? pngToJpgSoftwareJsonLd
-              : webpToJpgSoftwareJsonLd;
+              : isWebpJpg
+                ? webpToJpgSoftwareJsonLd
+                : webpToPngSoftwareJsonLd;
       const howToLd = isHeicJpg
         ? heicToJpgHowToJsonLd
         : isHeicPng
@@ -136,7 +143,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
             ? jpgToPngHowToJsonLd
             : isPngJpg
               ? pngToJpgHowToJsonLd
-              : webpToJpgHowToJsonLd;
+              : isWebpJpg
+                ? webpToJpgHowToJsonLd
+                : webpToPngHowToJsonLd;
       const faqLd = isHeicJpg
         ? heicToJpgFaqJsonLd
         : isHeicPng
@@ -145,7 +154,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
             ? jpgToPngFaqJsonLd
             : isPngJpg
               ? pngToJpgFaqJsonLd
-              : webpToJpgFaqJsonLd;
+              : isWebpJpg
+                ? webpToJpgFaqJsonLd
+                : webpToPngFaqJsonLd;
       return {
         meta: [
           { title },
