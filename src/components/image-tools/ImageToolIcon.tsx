@@ -55,6 +55,7 @@ export function ImageToolIcon({
   const isCrop = slug === "crop-image";
   const isRotate = slug === "rotate-image";
   const isWatermark = slug === "watermark-image";
+  const isMeme = slug === "meme-generator";
 
   return (
     <svg
