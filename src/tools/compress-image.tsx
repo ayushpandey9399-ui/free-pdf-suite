@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import { Loader2, Download, X, Upload } from "lucide-react";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
+import { isSvgFile, uniqueZipName } from "@/lib/imageSafety";
 
 type Mode = "quality" | "target";
 
@@ -54,6 +55,10 @@ export function CompressImageTool() {
 
   const addFiles = useCallback((incoming: FileList | File[]) => {
     const list = Array.from(incoming).filter((f) => {
+      if (isSvgFile(f)) {
+        toast.error(`"${f.name}" is an SVG, not supported`);
+        return false;
+      }
       if (!isSupported(f)) {
         toast.error(`"${f.name}" is not a JPG, PNG, or WebP`);
         return false;
