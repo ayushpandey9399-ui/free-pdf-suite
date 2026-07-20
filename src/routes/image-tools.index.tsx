@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { imageTools, imageToolTintBg, type ImageTool } from "@/lib/imageTools";
+import { imageTools, type ImageTool } from "@/lib/imageTools";
+import { ImageToolIcon } from "@/components/image-tools/ImageToolIcon";
 import { SITE_URL } from "@/lib/site";
+
 
 const TITLE = "Free Image Tools, Convert HEIC, JPG, PNG | FreePDFHub";
 const DESC =
@@ -73,9 +75,7 @@ function ImageToolsHub() {
 /** Matches PDF tool card style: rounded tinted icon tile, hover lift, tinted border. */
 function ImageToolCard({ tool }: { tool: ImageTool }) {
   const [hover, setHover] = useState(false);
-  const Icon = tool.icon;
   const tint = tool.tint;
-  const bg = imageToolTintBg(tint);
   return (
     <Link
       to="/image-tools/$slug"
@@ -94,16 +94,18 @@ function ImageToolCard({ tool }: { tool: ImageTool }) {
       onBlur={() => setHover(false)}
     >
       <div
-        className="grid h-[46px] w-[46px] place-items-center rounded-[10px] transition-transform duration-200 ease-out"
+        className="transition-transform duration-200 ease-out"
         style={{
-          backgroundColor: bg,
-          color: tint,
           transform: hover ? "scale(1.06)" : "scale(1)",
           transformOrigin: "left center",
+          filter: hover
+            ? "drop-shadow(0 8px 14px rgba(20,20,43,0.18))"
+            : "drop-shadow(0 2px 4px rgba(20,20,43,0.08))",
         }}
       >
-        <Icon size={26} strokeWidth={2} />
+        <ImageToolIcon slug={tool.slug} size={46} radius={10} />
       </div>
+
       <h3
         className="mt-3.5 sm:mt-4 font-semibold text-[16px] sm:text-[18px] leading-snug"
         style={{ color: "#1F2937", letterSpacing: "-0.005em" }}
