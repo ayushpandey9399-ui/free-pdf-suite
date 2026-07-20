@@ -30,6 +30,13 @@ import {
   pngToJpgSoftwareJsonLd,
   pngToJpgHowToJsonLd,
 } from "@/components/PngToJpgSeo";
+import { WebpToJpgTool } from "@/tools/webp-to-jpg";
+import {
+  WebpToJpgSeo,
+  webpToJpgFaqJsonLd,
+  webpToJpgSoftwareJsonLd,
+  webpToJpgHowToJsonLd,
+} from "@/components/WebpToJpgSeo";
 
 const HEIC_TITLE = "HEIC to JPG Converter Free, No Upload | FreePDFHub";
 const HEIC_DESC =
@@ -46,6 +53,10 @@ const JPG_PNG_DESC =
 const PNG_JPG_TITLE = "PNG to JPG Converter Free, No Upload | FreePDFHub";
 const PNG_JPG_DESC =
   "Convert PNG to JPG online free. Batch convert PNG images to smaller JPG files in your browser, adjustable quality, no upload, 100% private.";
+
+const WEBP_JPG_TITLE = "WebP to JPG Converter Free, No Upload | FreePDFHub";
+const WEBP_JPG_DESC =
+  "Convert WebP to JPG online free. Batch convert .webp images to universal JPG in your browser, adjustable quality, no upload, no signup.";
 
 export const Route = createFileRoute("/image-tools/$slug")({
   loader: ({ params }) => {
