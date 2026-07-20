@@ -12,6 +12,7 @@ const TARGET_LABEL: Record<string, string | null> = {
   "png-to-jpg": "JPG",
   "webp-to-jpg": "JPG",
   "webp-to-png": "PNG",
+  "jpg-to-webp": "WEBP",
   "compress-image": null,
   "image-resize": null,
 };
