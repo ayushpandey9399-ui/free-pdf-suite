@@ -400,6 +400,8 @@ export function MemeGeneratorTool() {
       setPanels((prev) => {
         const next = [...prev];
         while (next.length <= idx) next.push(null);
+        const old = next[idx];
+        if (old) old.close?.();
         next[idx] = bmp;
         return next;
       });
