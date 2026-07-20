@@ -273,7 +273,7 @@ const scanToPdfFaq = [
   },
   {
     q: "Is there OCR? Can it read the text on the scan?",
-    a: "Not yet. Right now the tool captures pages as images and embeds them in a PDF, so the scan looks perfect but you cannot select or search the text inside it. If OCR matters for your use case, run the file through a dedicated OCR tool after downloading.",
+    a: "Yes, in beta. Enable Make PDF searchable (OCR) in the sidebar before you press Create PDF. The pages still look like your photos, but an invisible text layer sits underneath so text is selectable and searchable. English only for now; handwriting is not supported.",
   },
   {
     q: "Can it make the PDF searchable?",
