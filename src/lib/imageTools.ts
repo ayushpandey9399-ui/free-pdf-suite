@@ -62,8 +62,10 @@ export const imageTools: readonly ImageTool[] = [
     id: "webp-to-png",
     slug: "webp-to-png",
     name: "WebP to PNG",
-    description: "Convert WebP images to lossless PNG in your browser.",
-    status: "coming-soon",
+    description:
+      "Convert WebP images to lossless PNG in your browser with transparency preserved. Batch and ZIP download.",
+    status: "live",
+    aliases: ["webp to png transparent", "save webp as png", "webp converter"],
   },
   {
     id: "image-compress",
