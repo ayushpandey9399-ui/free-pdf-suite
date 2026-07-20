@@ -160,18 +160,81 @@ export const Route = createFileRoute("/image-tools/$slug")({
     const slug = loaderData?.tool.slug ?? params.slug;
     const tool = loaderData?.tool;
     const url = `${SITE_URL}/image-tools/${slug}`;
-    const isHeicJpg = slug === "heic-to-jpg";
-    const isHeicPng = slug === "heic-to-png";
-    const isJpgPng = slug === "jpg-to-png";
-    const isPngJpg = slug === "png-to-jpg";
-    const isWebpJpg = slug === "webp-to-jpg";
-    const isWebpPng = slug === "webp-to-png";
-    const isCompress = slug === "compress-image";
-    const isResize = slug === "image-resize";
-    const isJpgWebp = slug === "jpg-to-webp";
-    const isPngWebp = slug === "png-to-webp";
-    const isCrop = slug === "crop-image";
-    const isRotate = slug === "rotate-image";
+    const TITLES: Record<string, string> = {
+      "heic-to-jpg": HEIC_TITLE,
+      "heic-to-png": HEIC_PNG_TITLE,
+      "jpg-to-png": JPG_PNG_TITLE,
+      "png-to-jpg": PNG_JPG_TITLE,
+      "webp-to-jpg": WEBP_JPG_TITLE,
+      "webp-to-png": WEBP_PNG_TITLE,
+      "compress-image": COMPRESS_TITLE,
+      "image-resize": RESIZE_TITLE,
+      "jpg-to-webp": JPG_WEBP_TITLE,
+      "png-to-webp": PNG_WEBP_TITLE,
+      "crop-image": CROP_TITLE,
+      "rotate-image": ROTATE_TITLE,
+      "watermark-image": WATERMARK_TITLE,
+    };
+    const DESCS: Record<string, string> = {
+      "heic-to-jpg": HEIC_DESC,
+      "heic-to-png": HEIC_PNG_DESC,
+      "jpg-to-png": JPG_PNG_DESC,
+      "png-to-jpg": PNG_JPG_DESC,
+      "webp-to-jpg": WEBP_JPG_DESC,
+      "webp-to-png": WEBP_PNG_DESC,
+      "compress-image": COMPRESS_DESC,
+      "image-resize": RESIZE_DESC,
+      "jpg-to-webp": JPG_WEBP_DESC,
+      "png-to-webp": PNG_WEBP_DESC,
+      "crop-image": CROP_DESC,
+      "rotate-image": ROTATE_DESC,
+      "watermark-image": WATERMARK_DESC,
+    };
+    const SOFTWARE_LDS: Record<string, unknown> = {
+      "heic-to-jpg": heicToJpgSoftwareJsonLd,
+      "heic-to-png": heicToPngSoftwareJsonLd,
+      "jpg-to-png": jpgToPngSoftwareJsonLd,
+      "png-to-jpg": pngToJpgSoftwareJsonLd,
+      "webp-to-jpg": webpToJpgSoftwareJsonLd,
+      "webp-to-png": webpToPngSoftwareJsonLd,
+      "compress-image": compressImageSoftwareJsonLd,
+      "image-resize": imageResizeSoftwareJsonLd,
+      "jpg-to-webp": jpgToWebpSoftwareJsonLd,
+      "png-to-webp": pngToWebpSoftwareJsonLd,
+      "crop-image": cropImageSoftwareJsonLd,
+      "rotate-image": rotateImageSoftwareJsonLd,
+      "watermark-image": watermarkImageSoftwareJsonLd,
+    };
+    const HOWTO_LDS: Record<string, unknown> = {
+      "heic-to-jpg": heicToJpgHowToJsonLd,
+      "heic-to-png": heicToPngHowToJsonLd,
+      "jpg-to-png": jpgToPngHowToJsonLd,
+      "png-to-jpg": pngToJpgHowToJsonLd,
+      "webp-to-jpg": webpToJpgHowToJsonLd,
+      "webp-to-png": webpToPngHowToJsonLd,
+      "compress-image": compressImageHowToJsonLd,
+      "image-resize": imageResizeHowToJsonLd,
+      "jpg-to-webp": jpgToWebpHowToJsonLd,
+      "png-to-webp": pngToWebpHowToJsonLd,
+      "crop-image": cropImageHowToJsonLd,
+      "rotate-image": rotateImageHowToJsonLd,
+      "watermark-image": watermarkImageHowToJsonLd,
+    };
+    const FAQ_LDS: Record<string, unknown> = {
+      "heic-to-jpg": heicToJpgFaqJsonLd,
+      "heic-to-png": heicToPngFaqJsonLd,
+      "jpg-to-png": jpgToPngFaqJsonLd,
+      "png-to-jpg": pngToJpgFaqJsonLd,
+      "webp-to-jpg": webpToJpgFaqJsonLd,
+      "webp-to-png": webpToPngFaqJsonLd,
+      "compress-image": compressImageFaqJsonLd,
+      "image-resize": imageResizeFaqJsonLd,
+      "jpg-to-webp": jpgToWebpFaqJsonLd,
+      "png-to-webp": pngToWebpFaqJsonLd,
+      "crop-image": cropImageFaqJsonLd,
+      "rotate-image": rotateImageFaqJsonLd,
+      "watermark-image": watermarkImageFaqJsonLd,
+    };
 
     const breadcrumbJsonLd = {
       "@context": "https://schema.org",
@@ -188,122 +251,12 @@ export const Route = createFileRoute("/image-tools/$slug")({
       ],
     };
 
-    if (isHeicJpg || isHeicPng || isJpgPng || isPngJpg || isWebpJpg || isWebpPng || isCompress || isResize || isJpgWebp || isPngWebp || isCrop || isRotate) {
-      const title = isHeicJpg
-        ? HEIC_TITLE
-        : isHeicPng
-          ? HEIC_PNG_TITLE
-          : isJpgPng
-            ? JPG_PNG_TITLE
-            : isPngJpg
-              ? PNG_JPG_TITLE
-              : isWebpJpg
-                ? WEBP_JPG_TITLE
-                : isWebpPng
-                  ? WEBP_PNG_TITLE
-                  : isCompress
-                    ? COMPRESS_TITLE
-                    : isResize
-                      ? RESIZE_TITLE
-                      : isJpgWebp
-                        ? JPG_WEBP_TITLE
-                        : isPngWebp
-                          ? PNG_WEBP_TITLE
-                          : isCrop
-                            ? CROP_TITLE
-                            : ROTATE_TITLE;
-      const desc = isHeicJpg
-        ? HEIC_DESC
-        : isHeicPng
-          ? HEIC_PNG_DESC
-          : isJpgPng
-            ? JPG_PNG_DESC
-            : isPngJpg
-              ? PNG_JPG_DESC
-              : isWebpJpg
-                ? WEBP_JPG_DESC
-                : isWebpPng
-                  ? WEBP_PNG_DESC
-                  : isCompress
-                    ? COMPRESS_DESC
-                    : isResize
-                      ? RESIZE_DESC
-                      : isJpgWebp
-                        ? JPG_WEBP_DESC
-                        : isPngWebp
-                          ? PNG_WEBP_DESC
-                          : isCrop
-                            ? CROP_DESC
-                            : ROTATE_DESC;
-      const softwareLd = isHeicJpg
-        ? heicToJpgSoftwareJsonLd
-        : isHeicPng
-          ? heicToPngSoftwareJsonLd
-          : isJpgPng
-            ? jpgToPngSoftwareJsonLd
-            : isPngJpg
-              ? pngToJpgSoftwareJsonLd
-              : isWebpJpg
-                ? webpToJpgSoftwareJsonLd
-                : isWebpPng
-                  ? webpToPngSoftwareJsonLd
-                  : isCompress
-                    ? compressImageSoftwareJsonLd
-                    : isResize
-                      ? imageResizeSoftwareJsonLd
-                      : isJpgWebp
-                        ? jpgToWebpSoftwareJsonLd
-                        : isPngWebp
-                          ? pngToWebpSoftwareJsonLd
-                          : isCrop
-                            ? cropImageSoftwareJsonLd
-                            : rotateImageSoftwareJsonLd;
-      const howToLd = isHeicJpg
-        ? heicToJpgHowToJsonLd
-        : isHeicPng
-          ? heicToPngHowToJsonLd
-          : isJpgPng
-            ? jpgToPngHowToJsonLd
-            : isPngJpg
-              ? pngToJpgHowToJsonLd
-              : isWebpJpg
-                ? webpToJpgHowToJsonLd
-                : isWebpPng
-                  ? webpToPngHowToJsonLd
-                  : isCompress
-                    ? compressImageHowToJsonLd
-                    : isResize
-                      ? imageResizeHowToJsonLd
-                      : isJpgWebp
-                        ? jpgToWebpHowToJsonLd
-                        : isPngWebp
-                          ? pngToWebpHowToJsonLd
-                          : isCrop
-                            ? cropImageHowToJsonLd
-                            : rotateImageHowToJsonLd;
-      const faqLd = isHeicJpg
-        ? heicToJpgFaqJsonLd
-        : isHeicPng
-          ? heicToPngFaqJsonLd
-          : isJpgPng
-            ? jpgToPngFaqJsonLd
-            : isPngJpg
-              ? pngToJpgFaqJsonLd
-              : isWebpJpg
-                ? webpToJpgFaqJsonLd
-                : isWebpPng
-                  ? webpToPngFaqJsonLd
-                  : isCompress
-                    ? compressImageFaqJsonLd
-                    : isResize
-                      ? imageResizeFaqJsonLd
-                      : isJpgWebp
-                        ? jpgToWebpFaqJsonLd
-                        : isPngWebp
-                          ? pngToWebpFaqJsonLd
-                          : isCrop
-                            ? cropImageFaqJsonLd
-                            : rotateImageFaqJsonLd;
+    if (TITLES[slug]) {
+      const title = TITLES[slug];
+      const desc = DESCS[slug];
+      const softwareLd = SOFTWARE_LDS[slug];
+      const howToLd = HOWTO_LDS[slug];
+      const faqLd = FAQ_LDS[slug];
       return {
         meta: [
           { title },
