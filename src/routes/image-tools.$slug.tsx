@@ -424,6 +424,19 @@ function ImageToolPage() {
 
 }
 
+function ToolHeaderIcon({ tool }: { tool: ImageTool }) {
+  const Icon = tool.icon;
+  return (
+    <div
+      className="mx-auto mb-4 grid h-[64px] w-[64px] place-items-center rounded-[14px]"
+      style={{ backgroundColor: imageToolTintBg(tool.tint), color: tool.tint }}
+      aria-hidden
+    >
+      <Icon size={34} strokeWidth={2} />
+    </div>
+  );
+}
+
 function Breadcrumb({ name }: { name: string }) {
   return (
     <nav aria-label="Breadcrumb" className="pt-6 text-[13px] text-[#6B7280]">
