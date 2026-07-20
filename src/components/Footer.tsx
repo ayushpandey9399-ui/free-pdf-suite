@@ -44,6 +44,18 @@ const secure: ToolLink[] = [
   { slug: "pdf-metadata", name: "PDF Metadata" },
 ];
 
+type ImageLink = { to: string; name: string };
+const imageTools: ImageLink[] = [
+  { to: "/image-tools", name: "Image Tools" },
+  { to: "/image-tools/heic-to-jpg", name: "HEIC to JPG" },
+  { to: "/image-tools/compress-image", name: "Compress Image" },
+  { to: "/image-tools/image-resize", name: "Resize Image" },
+  { to: "/image-tools/crop-image", name: "Crop Image" },
+  { to: "/image-tools/photo-editor", name: "Photo Editor" },
+  { to: "/image-tools/meme-generator", name: "Meme Generator" },
+];
+
+
 const HEAD_STYLE = {
   color: "#6B7280",
   letterSpacing: "0.05em",
