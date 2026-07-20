@@ -26,7 +26,7 @@ export const photoEditorHowToJsonLd = {
   step: [
     { "@type": "HowToStep", position: 1, name: "Open the photo editor", text: "Open Photo Editor on FreePDFHub. No signup, no account, and nothing to install.", url: `${url}#step-1` },
     { "@type": "HowToStep", position: 2, name: "Add your image", text: "Drag and drop a JPG, PNG, or WebP image, or click to select. Your photo stays on your device and never uploads.", url: `${url}#step-2` },
-    { "@type": "HowToStep", position: 3, name: "Tap a filter or adjust sliders", text: "Try B&W, Sepia, Vintage, Cool, Punchy, or Soft as a starting point, then fine-tune brightness, contrast, saturation, warmth, and blur.", url: `${url}#step-3` },
+    { "@type": "HowToStep", position: 3, name: "Tap a filter or adjust sliders", text: "Try B&W, Sepia, Vintage, Cool, Punchy, or Soft as a starting point, then fine-tune brightness, contrast, saturation, warmth, sharpen, vignette, grain, and duotone.", url: `${url}#step-3` },
     { "@type": "HowToStep", position: 4, name: "Compare before and after", text: "Press and hold Hold to compare to see the original image at any time, so you can judge if your edit really improved things.", url: `${url}#step-4` },
     { "@type": "HowToStep", position: 5, name: "Export as JPG, PNG, or WebP", text: "Pick a format, set the quality slider for JPG or WebP, then click Download. The exported photo keeps the full original resolution.", url: `${url}#step-5` },
   ],
@@ -40,7 +40,8 @@ export const photoEditorFaqJsonLd = {
     { "@type": "Question", name: "Do my photos get uploaded to a server?", acceptedAnswer: { "@type": "Answer", text: "No. The whole editor runs inside your browser using HTML5 Canvas. Your photo is decoded, adjusted, and re-encoded locally on your own device. Nothing is sent to us." } },
     { "@type": "Question", name: "Does editing reduce image quality?", acceptedAnswer: { "@type": "Answer", text: "Honest answer: the edited file exports at full original resolution, so pixel dimensions are preserved. If you export as JPG or WebP, the format applies its own compression, controlled by the Quality slider. Pick PNG to keep every pixel exact and lossless." } },
     { "@type": "Question", name: "How do I make a photo black and white?", acceptedAnswer: { "@type": "Answer", text: "Tap the B&W filter chip. That sets Grayscale to 100 and gives contrast a small bump. Fine-tune brightness and contrast if you want more punch, then download." } },
-    { "@type": "Question", name: "Can I compare before and after or undo?", acceptedAnswer: { "@type": "Answer", text: "Yes. Press and hold Hold to compare on the preview to see the original at any moment. The Reset all button snaps every slider back to zero so you can start fresh." } },
+    { "@type": "Question", name: "Can I undo edits?", acceptedAnswer: { "@type": "Answer", text: "Yes. Every slider release, filter tap, and reset is pushed onto a full undo/redo history (capped at 50 steps). Use the Undo and Redo buttons, or the keyboard shortcuts Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z (or Ctrl/Cmd+Y). Hold Space to peek at the original, tap R to reset all sliders at once." } },
+    { "@type": "Question", name: "Can I compare before and after?", acceptedAnswer: { "@type": "Answer", text: "Yes. Press and hold Hold to compare on the preview, or hold the Space bar on desktop, to see the original at any moment. The Reset all button snaps every slider back to zero so you can start fresh." } },
     { "@type": "Question", name: "What file formats are supported?", acceptedAnswer: { "@type": "Answer", text: "You can open JPG, JPEG, PNG, and WebP images. You can export as JPG, PNG, or WebP. PNG keeps transparency where the source has it." } },
     { "@type": "Question", name: "Does the photo editor work on my phone?", acceptedAnswer: { "@type": "Answer", text: "Yes. It works on iPhone, iPad, Android, Windows, macOS, and Linux in any modern browser, Chrome, Safari, Edge, and Firefox included." } },
     { "@type": "Question", name: "Is there a watermark on the output?", acceptedAnswer: { "@type": "Answer", text: "Never. What you see in the preview is exactly what downloads. No logo, no URL, no footer bar, no export cap." } },
@@ -70,7 +71,7 @@ export function PhotoEditorSeo() {
 
       <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">Adjust brightness, contrast, and color</h2>
       <p>
-        The seven sliders cover the adjustments that fix the vast majority of
+        The adjustment sliders cover the edits that fix the vast majority of
         everyday photos. Brightness lifts or dims the overall exposure.
         Contrast pushes shadows down and highlights up so a flat photo has more
         depth. Saturation controls how vivid the colors are, useful for both
@@ -78,14 +79,33 @@ export function PhotoEditorSeo() {
         cartoonish. Warmth shifts the hue toward orange or blue, the fastest
         way to correct a photo that came out too cold under fluorescent light
         or too warm indoors. Grayscale and Sepia are one-slider film looks.
-        Blur adds a small soft-focus effect, great for social avatars.
+        Blur adds a small soft-focus effect. Sharpen (unsharp mask) recovers
+        crispness on slightly soft shots. Vignette darkens the corners for a
+        classic focused look, and Grain adds a fine film texture that helps a
+        clean digital photo feel less sterile.
       </p>
       <p className="mt-3">
         Every slider shows its current numeric value and has a tiny reset link
         next to it, so you can undo a single adjustment without wiping the
         others. The Reset all button zeroes everything and returns the preview
-        to the original photo.
+        to the original photo. Every committed change is added to the undo
+        history: use the Undo and Redo buttons, or Ctrl/Cmd+Z and
+        Ctrl/Cmd+Shift+Z (or Ctrl/Cmd+Y), to step through your edit trail.
+        Hold Space to peek at the original at any time.
       </p>
+
+      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">Duotone color grading</h2>
+      <p>
+        The duotone chips remap your photo between two chosen colors, a shadow
+        tone and a highlight tone. Pick Navy | Cream for a magazine cover feel,
+        Purple | Peach for a sunset mood, Teal | Gold for a moody cinematic
+        grade, or Plum | Mint for a soft editorial look. The amount slider lets
+        you dial the effect from a whisper of tint to a full graphic-poster
+        mapping, and all the regular sliders keep working on top so you can
+        combine a duotone with a bit of contrast and grain for a finished
+        stylised export.
+      </p>
+
 
       <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">One-tap filters, B&W, sepia, vintage, and more</h2>
       <p>
@@ -135,11 +155,14 @@ export function PhotoEditorSeo() {
         Safari, where the native canvas encoder can be unreliable.
       </p>
       <p className="mt-3">
-        Whichever format you pick, the exported file uses the full original
-        pixel dimensions of your source image. The live preview may be
-        downscaled for speed on very large photos, but the download is
-        always full resolution.
+        Whichever format you pick, the exported file defaults to the full
+        original pixel dimensions of your source image. If you need a smaller
+        (or larger) copy, type a width or height into the Export size fields,
+        the other dimension locks to the source aspect ratio automatically.
+        Downscaling is quality-safe; upscaling shows an honest reminder that
+        we cannot invent detail the source does not have.
       </p>
+
 
       <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">Your photo never leaves your device</h2>
       <p>

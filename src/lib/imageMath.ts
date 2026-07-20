@@ -243,3 +243,107 @@ export function pxSaturate(r: number, g: number, b: number, amount: number): [nu
   const L = 0.2126 * r + 0.7152 * g + 0.0722 * b;
   return [clamp8(L + (r - L) * k), clamp8(L + (g - L) * k), clamp8(L + (b - L) * k)];
 }
+
+/* ================================================================
+ * PHOTO EDITOR: NEW EFFECT FORMULAS
+ * ================================================================ */
+
+/**
+ * Unsharp mask on a single channel value. `blurred` is the same channel
+ * from a blurred copy of the image. `amount` 0..100. amount=0 is identity.
+ */
+export function pxSharpen(c: number, blurred: number, amount: number): number {
+  if (!Number.isFinite(amount) || amount <= 0) return clamp8(c);
+  const a = Math.max(0, Math.min(200, amount)) / 100;
+  return clamp8(c + (c - blurred) * a);
+}
+
+/**
+ * Vignette multiplicative factor for a pixel at normalized radial distance
+ * `d` (0 at image center, 1 at the farthest corner). `strength` 0..100.
+ * strength=0 always returns 1 (identity). Uses a smoothstep falloff
+ * starting at d=0.4 so the center is untouched.
+ */
+export function vignetteFactor(d: number, strength: number): number {
+  if (!Number.isFinite(strength) || strength <= 0) return 1;
+  const s = Math.max(0, Math.min(100, strength)) / 100;
+  const dd = Math.max(0, Math.min(1, Number.isFinite(d) ? d : 0));
+  const t = Math.max(0, Math.min(1, (dd - 0.4) / 0.6));
+  const fall = t * t * (3 - 2 * t);
+  return 1 - s * fall;
+}
+
+/**
+ * Film-grain contribution: add `noise` in [-1,1] scaled by `strength` 0..100.
+ * strength=0 is identity. The 48 constant caps peak swing at ~48 levels.
+ */
+export function pxGrain(c: number, noise: number, strength: number): number {
+  if (!Number.isFinite(strength) || strength <= 0) return clamp8(c);
+  const s = Math.max(0, Math.min(100, strength)) / 100;
+  const n = Number.isFinite(noise) ? Math.max(-1, Math.min(1, noise)) : 0;
+  return clamp8(c + n * s * 48);
+}
+
+/**
+ * Deterministic hash-based noise in [-1,1] for a pixel index and seed.
+ * Used so the same recipe reproduces the same grain pattern in preview and export.
+ */
+export function grainNoise(i: number, seed: number): number {
+  let x = (i | 0) ^ (seed | 0);
+  x = Math.imul(x ^ (x >>> 16), 0x7feb352d);
+  x = Math.imul(x ^ (x >>> 15), 0x846ca68b);
+  x = x ^ (x >>> 16);
+  // map to [-1, 1]
+  return ((x >>> 0) / 0xffffffff) * 2 - 1;
+}
+
+/**
+ * Duotone luminance mapping. Maps each pixel's luminance to a color between
+ * `shadow` and `highlight`, then mixes with the original by `amount` 0..100.
+ * amount=0 is identity.
+ */
+export function duotoneMap(
+  r: number,
+  g: number,
+  b: number,
+  shadow: [number, number, number],
+  highlight: [number, number, number],
+  amount: number,
+): [number, number, number] {
+  if (!Number.isFinite(amount) || amount <= 0) return [clamp8(r), clamp8(g), clamp8(b)];
+  const p = Math.max(0, Math.min(100, amount)) / 100;
+  const t = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+  const tt = Math.max(0, Math.min(1, t));
+  const dr = shadow[0] + (highlight[0] - shadow[0]) * tt;
+  const dg = shadow[1] + (highlight[1] - shadow[1]) * tt;
+  const db = shadow[2] + (highlight[2] - shadow[2]) * tt;
+  return [clamp8(r * (1 - p) + dr * p), clamp8(g * (1 - p) + dg * p), clamp8(b * (1 - p) + db * p)];
+}
+
+/**
+ * Normalized radial distance for pixel (x,y) inside a WxH image.
+ * 0 at exact center, 1 at farthest corner.
+ */
+export function radialDistance(x: number, y: number, w: number, h: number): number {
+  if (w <= 0 || h <= 0) return 0;
+  const cx = w / 2;
+  const cy = h / 2;
+  const dx = x - cx;
+  const dy = y - cy;
+  const maxD = Math.sqrt(cx * cx + cy * cy);
+  return maxD > 0 ? Math.sqrt(dx * dx + dy * dy) / maxD : 0;
+}
+
+/**
+ * Aspect-locked resize target. Given original WxH and one changed dimension,
+ * compute the other so the aspect ratio is preserved. Rounded to integer >=1.
+ */
+export function aspectResizeOther(
+  origW: number,
+  origH: number,
+  changed: "w" | "h",
+  value: number,
+): number {
+  return aspectLockOther(origW, origH, changed, value);
+}
+
