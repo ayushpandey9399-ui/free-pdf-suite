@@ -12,6 +12,7 @@ import {
   Crop as CropIcon,
   GripVertical,
   Info,
+  Eye,
 } from "lucide-react";
 import {
   DndContext,
@@ -28,14 +29,18 @@ import { ToolWorkspace } from "@/components/ToolWorkspace";
 import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
+import { Checkbox } from "@/components/ui/checkbox";
 import { downloadBlob } from "@/lib/download";
 import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 import { cn } from "@/lib/utils";
+import { straightenCropDims } from "@/lib/imageMath";
 
 type FilterKind = "original" | "document" | "grayscale" | "bw";
 type PageSize = "a4" | "letter" | "fit";
 type Orientation = "auto" | "portrait" | "landscape";
 type QualityPreset = "small" | "medium" | "high";
+type FillMode = "fit" | "fill";
 
 const QUALITY: Record<QualityPreset, { q: number; maxEdge: number; approxKB: number }> = {
   small: { q: 0.6, maxEdge: 2000, approxKB: 180 },
@@ -44,6 +49,8 @@ const QUALITY: Record<QualityPreset, { q: number; maxEdge: number; approxKB: num
 };
 
 const INGEST_MAX_EDGE = 3600;
+/** Cap heavy per-pixel work (Sauvola, shadow, BC) during preview to keep the UI snappy. */
+const PREVIEW_WORK_MAX_EDGE = 1600;
 
 interface ScanPage {
   id: string;
@@ -55,11 +62,22 @@ interface ScanPage {
   rotation: 0 | 90 | 180 | 270;
   filter: FilterKind | null; // null => use default
   crop: { x: number; y: number; w: number; h: number } | null; // 0..1 normalized
+  angleDeg: number; // -15..+15
+  brightness: number; // -50..+50
+  contrast: number; // -50..+50
+  shadow: boolean;
 }
 
 const uid = () => Math.random().toString(36).slice(2, 10);
 
-const isEdited = (p: ScanPage) => p.rotation !== 0 || p.filter !== null || p.crop !== null;
+const isEdited = (p: ScanPage) =>
+  p.rotation !== 0 ||
+  p.filter !== null ||
+  p.crop !== null ||
+  p.angleDeg !== 0 ||
+  p.brightness !== 0 ||
+  p.contrast !== 0 ||
+  p.shadow;
 
 /* ============================================================
  *  Decode + downscale pipeline
@@ -72,7 +90,6 @@ async function decodeBitmap(file: Blob): Promise<{ bmp: ImageBitmap | null; img:
     try {
       return { bmp: await createImageBitmap(file as File), img: null };
     } catch {
-      // Last-ditch <img> fallback (no EXIF fixup, but at least renders).
       const url = URL.createObjectURL(file);
       try {
         const img = new Image();
@@ -96,13 +113,12 @@ function canvasToBlob(canvas: HTMLCanvasElement, mime: string, quality?: number)
   });
 }
 
-/** High-quality stepped downscale to a max long edge. Returns a fresh canvas. */
+/** High-quality stepped downscale to a max long edge. */
 function drawStepped(source: CanvasImageSource, srcW: number, srcH: number, maxEdge: number): HTMLCanvasElement {
   const scale = Math.min(1, maxEdge / Math.max(srcW, srcH));
   let curW = srcW;
   let curH = srcH;
   let curSrc: CanvasImageSource = source;
-  // Halve iteratively for quality, then final step to target.
   while (curW * 0.5 > srcW * scale && curH * 0.5 > srcH * scale) {
     const halfW = Math.max(1, Math.floor(curW * 0.5));
     const halfH = Math.max(1, Math.floor(curH * 0.5));
@@ -148,17 +164,179 @@ async function ingestSource(file: Blob): Promise<ScanPage> {
     rotation: 0,
     filter: null,
     crop: null,
+    angleDeg: 0,
+    brightness: 0,
+    contrast: 0,
+    shadow: false,
   };
 }
 
 /* ============================================================
- *  Filter + render pipeline (single source of truth)
+ *  Pixel-level cleanup helpers (all pure ImageData math, no ctx.filter)
  * ============================================================ */
+
+/** Rotate 0/90/180/270 into a fresh canvas. */
+function rotate90Canvas(src: HTMLCanvasElement, rot: 0 | 90 | 180 | 270): HTMLCanvasElement {
+  if (rot === 0) return src;
+  const swapped = rot === 90 || rot === 270;
+  const W = src.width;
+  const H = src.height;
+  const out = document.createElement("canvas");
+  out.width = swapped ? H : W;
+  out.height = swapped ? W : H;
+  const ctx = out.getContext("2d")!;
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+  ctx.translate(out.width / 2, out.height / 2);
+  ctx.rotate((rot * Math.PI) / 180);
+  ctx.drawImage(src, -W / 2, -H / 2);
+  return out;
+}
+
+/** Straighten by angleDeg with auto-zoom to the inscribed rect (no white corners). */
+function straightenCanvas(src: HTMLCanvasElement, angleDeg: number): HTMLCanvasElement {
+  if (!angleDeg) return src;
+  const W = src.width;
+  const H = src.height;
+  const { w: cw, h: ch } = straightenCropDims(W, H, angleDeg);
+  const out = document.createElement("canvas");
+  out.width = cw;
+  out.height = ch;
+  const ctx = out.getContext("2d")!;
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+  ctx.translate(cw / 2, ch / 2);
+  ctx.rotate((-angleDeg * Math.PI) / 180);
+  ctx.drawImage(src, -W / 2, -H / 2);
+  return out;
+}
+
+/** Estimate illumination via aggressive downscale + upscale, then divide-and-renormalize. */
+function shadowRemove(canvas: HTMLCanvasElement) {
+  const W = canvas.width;
+  const H = canvas.height;
+  const ctx = canvas.getContext("2d")!;
+  const bgEdge = 64;
+  const scale = Math.min(1, bgEdge / Math.max(W, H));
+  const bw = Math.max(1, Math.round(W * scale));
+  const bh = Math.max(1, Math.round(H * scale));
+  const small = document.createElement("canvas");
+  small.width = bw;
+  small.height = bh;
+  const sctx = small.getContext("2d")!;
+  sctx.imageSmoothingEnabled = true;
+  sctx.imageSmoothingQuality = "high";
+  sctx.drawImage(canvas, 0, 0, bw, bh);
+  const bg = document.createElement("canvas");
+  bg.width = W;
+  bg.height = H;
+  const bgctx = bg.getContext("2d")!;
+  bgctx.imageSmoothingEnabled = true;
+  bgctx.imageSmoothingQuality = "high";
+  bgctx.drawImage(small, 0, 0, W, H);
+  const bgData = bgctx.getImageData(0, 0, W, H).data;
+  const img = ctx.getImageData(0, 0, W, H);
+  const d = img.data;
+  let meanBg = 0;
+  const pixels = bgData.length / 4;
+  for (let i = 0; i < bgData.length; i += 4) {
+    meanBg += 0.299 * bgData[i] + 0.587 * bgData[i + 1] + 0.114 * bgData[i + 2];
+  }
+  meanBg = Math.max(1, meanBg / pixels);
+  for (let i = 0; i < d.length; i += 4) {
+    for (let k = 0; k < 3; k++) {
+      const b = Math.max(1, bgData[i + k]);
+      const v = (d[i + k] / b) * meanBg;
+      d[i + k] = v < 0 ? 0 : v > 255 ? 255 : v;
+    }
+  }
+  ctx.putImageData(img, 0, 0);
+}
+
+/** Sauvola adaptive threshold via summed-area tables. */
+function sauvolaBW(canvas: HTMLCanvasElement) {
+  const W = canvas.width;
+  const H = canvas.height;
+  const ctx = canvas.getContext("2d")!;
+  const img = ctx.getImageData(0, 0, W, H);
+  const d = img.data;
+  const n = W * H;
+  const gray = new Float64Array(n);
+  for (let i = 0, p = 0; i < d.length; i += 4, p++) {
+    gray[p] = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+  }
+  const iw = W + 1;
+  const I = new Float64Array(iw * (H + 1));
+  const I2 = new Float64Array(iw * (H + 1));
+  for (let y = 0; y < H; y++) {
+    let rowSum = 0;
+    let rowSum2 = 0;
+    for (let x = 0; x < W; x++) {
+      const g = gray[y * W + x];
+      rowSum += g;
+      rowSum2 += g * g;
+      const idx = (y + 1) * iw + (x + 1);
+      I[idx] = I[y * iw + (x + 1)] + rowSum;
+      I2[idx] = I2[y * iw + (x + 1)] + rowSum2;
+    }
+  }
+  const long = Math.max(W, H);
+  let win = Math.max(15, Math.round(long / 16));
+  if ((win & 1) === 0) win += 1; // odd
+  const r = (win - 1) >> 1;
+  const k = 0.2;
+  const R = 128;
+  for (let y = 0; y < H; y++) {
+    const y0 = Math.max(0, y - r);
+    const y1 = Math.min(H - 1, y + r);
+    for (let x = 0; x < W; x++) {
+      const x0 = Math.max(0, x - r);
+      const x1 = Math.min(W - 1, x + r);
+      const area = (y1 - y0 + 1) * (x1 - x0 + 1);
+      const s =
+        I[(y1 + 1) * iw + (x1 + 1)] - I[y0 * iw + (x1 + 1)] - I[(y1 + 1) * iw + x0] + I[y0 * iw + x0];
+      const s2 =
+        I2[(y1 + 1) * iw + (x1 + 1)] - I2[y0 * iw + (x1 + 1)] - I2[(y1 + 1) * iw + x0] + I2[y0 * iw + x0];
+      const mean = s / area;
+      const varv = Math.max(0, s2 / area - mean * mean);
+      const std = Math.sqrt(varv);
+      const t = mean * (1 + k * (std / R - 1));
+      const g = gray[y * W + x];
+      const v = g > t ? 255 : 0;
+      const p = (y * W + x) * 4;
+      d[p] = d[p + 1] = d[p + 2] = v;
+    }
+  }
+  ctx.putImageData(img, 0, 0);
+}
+
+/** Post-filter brightness (-50..+50) and contrast (-50..+50). Pure ImageData. */
+function applyBrightnessContrast(canvas: HTMLCanvasElement, brightness: number, contrast: number) {
+  if (brightness === 0 && contrast === 0) return;
+  const ctx = canvas.getContext("2d")!;
+  const img = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const d = img.data;
+  const b = brightness * 2.55; // -127.5..127.5
+  const factor = 1 + contrast / 50; // 0..2
+  for (let i = 0; i < d.length; i += 4) {
+    for (let k = 0; k < 3; k++) {
+      const v = (d[i + k] - 128) * factor + 128 + b;
+      d[i + k] = v < 0 ? 0 : v > 255 ? 255 : v;
+    }
+  }
+  ctx.putImageData(img, 0, 0);
+}
 
 function applyFilterToCanvas(canvas: HTMLCanvasElement, filter: FilterKind) {
   if (filter === "original") return;
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
+
+  if (filter === "bw") {
+    sauvolaBW(canvas);
+    return;
+  }
+
   const img = ctx.getImageData(0, 0, canvas.width, canvas.height);
   const d = img.data;
 
@@ -166,12 +344,6 @@ function applyFilterToCanvas(canvas: HTMLCanvasElement, filter: FilterKind) {
     for (let i = 0; i < d.length; i += 4) {
       const y = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
       d[i] = d[i + 1] = d[i + 2] = y;
-    }
-  } else if (filter === "bw") {
-    for (let i = 0; i < d.length; i += 4) {
-      const y = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
-      const v = y > 160 ? 255 : 0;
-      d[i] = d[i + 1] = d[i + 2] = v;
     }
   } else if (filter === "document") {
     let min = 255;
@@ -193,47 +365,65 @@ function applyFilterToCanvas(canvas: HTMLCanvasElement, filter: FilterKind) {
   ctx.putImageData(img, 0, 0);
 }
 
+/* ============================================================
+ *  Full render pipeline: crop -> rotate90 -> straighten -> shadow -> filter -> BC
+ *  Same code drives thumbnails, editor preview, and export.
+ * ============================================================ */
+
+interface RenderOverrides {
+  rawCompare?: boolean; // skip cleanup + filter + BC (for press-hold compare)
+  workMaxEdge?: number; // cap for heavy per-pixel work (preview vs export)
+}
+
 async function renderPageToCanvas(
   page: ScanPage,
   effectiveFilter: FilterKind,
   maxEdge: number,
+  overrides: RenderOverrides = {},
 ): Promise<HTMLCanvasElement> {
   const { bmp, img } = await decodeBitmap(page.blob);
   const src: CanvasImageSource = bmp ?? img!;
   const iw = bmp ? bmp.width : img!.naturalWidth;
   const ih = bmp ? bmp.height : img!.naturalHeight;
 
+  // 1. Crop from source
   const crop = page.crop ?? { x: 0, y: 0, w: 1, h: 1 };
   const sx = crop.x * iw;
   const sy = crop.y * ih;
-  const sw = crop.w * iw;
-  const sh = crop.h * ih;
-
-  const rot = page.rotation;
-  const rotated = rot === 90 || rot === 270;
-  const rawW = rotated ? sh : sw;
-  const rawH = rotated ? sw : sh;
-
-  const scale = Math.min(1, maxEdge / Math.max(rawW, rawH));
-  const outW = Math.max(1, Math.round(rawW * scale));
-  const outH = Math.max(1, Math.round(rawH * scale));
-
-  const canvas = document.createElement("canvas");
-  canvas.width = outW;
-  canvas.height = outH;
-  const ctx = canvas.getContext("2d")!;
-  ctx.imageSmoothingEnabled = true;
-  ctx.imageSmoothingQuality = "high";
-  ctx.save();
-  ctx.translate(outW / 2, outH / 2);
-  ctx.rotate((rot * Math.PI) / 180);
-  const drawW = sw * scale;
-  const drawH = sh * scale;
-  ctx.drawImage(src, sx, sy, sw, sh, -drawW / 2, -drawH / 2, drawW, drawH);
-  ctx.restore();
+  const sw = Math.max(1, crop.w * iw);
+  const sh = Math.max(1, crop.h * ih);
+  let working = document.createElement("canvas");
+  working.width = Math.max(1, Math.round(sw));
+  working.height = Math.max(1, Math.round(sh));
+  const wctx = working.getContext("2d")!;
+  wctx.imageSmoothingEnabled = true;
+  wctx.imageSmoothingQuality = "high";
+  wctx.drawImage(src, sx, sy, sw, sh, 0, 0, working.width, working.height);
   if (bmp) bmp.close();
-  applyFilterToCanvas(canvas, effectiveFilter);
-  return canvas;
+
+  // 2. Rotate 90 increments
+  if (page.rotation !== 0) working = rotate90Canvas(working, page.rotation);
+
+  // 3. Straighten (inscribed-rect auto-zoom)
+  if (page.angleDeg) working = straightenCanvas(working, page.angleDeg);
+
+  // Downscale to output cap before heavy per-pixel work
+  const workCap = Math.min(maxEdge, overrides.workMaxEdge ?? Infinity);
+  const long = Math.max(working.width, working.height);
+  if (long > workCap) working = drawStepped(working, working.width, working.height, workCap);
+
+  if (overrides.rawCompare) return working;
+
+  // 4. Shadow removal (BEFORE filter, so B&W thresholds a flat image)
+  if (page.shadow) shadowRemove(working);
+
+  // 5. Filter (grayscale / document / Sauvola BW / original)
+  applyFilterToCanvas(working, effectiveFilter);
+
+  // 6. Brightness + contrast (after filter, per spec)
+  applyBrightnessContrast(working, page.brightness, page.contrast);
+
+  return working;
 }
 
 /* ============================================================
@@ -247,16 +437,15 @@ export default function ScanToPdf() {
   const [pageSize, setPageSize] = useState<PageSize>("a4");
   const [orientation, setOrientation] = useState<Orientation>("auto");
   const [quality, setQuality] = useState<QualityPreset>("medium");
+  const [fillMode, setFillMode] = useState<FillMode>("fit");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ blob: Blob; filename: string; count: number } | null>(null);
   const [editorId, setEditorId] = useState<string | null>(null);
 
-  // Thumbnail cache: id -> { key, url }
   const [thumbs, setThumbs] = useState<Record<string, { key: string; url: string }>>({});
   const thumbsRef = useRef(thumbs);
   thumbsRef.current = thumbs;
 
-  // Camera state
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const [cameraError, setCameraError] = useState<string | null>(null);
@@ -351,7 +540,7 @@ export default function ScanToPdf() {
 
   useEffect(() => () => stopCamera(), [stopCamera]);
 
-  /* ---------- Ingest + revoke lifecycle ---------- */
+  /* ---------- Ingest ---------- */
   const importPhotos = useCallback(async (files: FileList | null) => {
     if (!files || files.length === 0) return;
     const list = Array.from(files);
@@ -368,7 +557,6 @@ export default function ScanToPdf() {
   const openNativeCamera = useCallback(() => nativeCaptureInputRef.current?.click(), []);
 
   const addMore = useCallback(() => {
-    // Prefer camera, fall back to native capture input, then gallery picker.
     if (cameraError && /getUserMedia|not available/i.test(cameraError)) openNativeCamera();
     else if (cameraError) openPhotoPicker();
     else void enterCapture();
@@ -428,12 +616,20 @@ export default function ScanToPdf() {
     });
   };
 
-  /* ---------- Thumbnail regeneration (real pipeline, 300px) ---------- */
+  /* ---------- Thumbnail regeneration (real pipeline) ---------- */
   const thumbKeyOf = useCallback(
     (p: ScanPage) => {
       const c = p.crop;
       const cs = c ? `${c.x.toFixed(3)},${c.y.toFixed(3)},${c.w.toFixed(3)},${c.h.toFixed(3)}` : "-";
-      return `${p.rotation}|${p.filter ?? `d:${defaultFilter}`}|${cs}`;
+      return [
+        p.rotation,
+        p.filter ?? `d:${defaultFilter}`,
+        cs,
+        `a${p.angleDeg}`,
+        `b${p.brightness}`,
+        `k${p.contrast}`,
+        p.shadow ? "s1" : "s0",
+      ].join("|");
     },
     [defaultFilter],
   );
@@ -447,7 +643,9 @@ export default function ScanToPdf() {
         const existing = thumbsRef.current[p.id];
         if (existing && existing.key === key) continue;
         try {
-          const canvas = await renderPageToCanvas(p, p.filter ?? defaultFilter, 300);
+          const canvas = await renderPageToCanvas(p, p.filter ?? defaultFilter, 300, {
+            workMaxEdge: PREVIEW_WORK_MAX_EDGE,
+          });
           const blob = await canvasToBlob(canvas, "image/jpeg", 0.82);
           if (cancelled) return;
           const url = URL.createObjectURL(blob);
@@ -457,10 +655,11 @@ export default function ScanToPdf() {
             return { ...prev, [p.id]: { key, url } };
           });
         } catch {
-          /* skip; will retry next tick */
+          /* retry next tick */
         }
+        // yield to keep UI responsive
+        await new Promise((r) => setTimeout(r, 0));
       }
-      // Sweep: revoke thumbs whose page is gone.
       const ids = new Set(pages.map((p) => p.id));
       setThumbs((prev) => {
         const next: typeof prev = {};
@@ -497,25 +696,37 @@ export default function ScanToPdf() {
       let total = 0;
       for (const p of pages) {
         if (token !== estimateTokenRef.current) return;
-        const key = `${quality}|${thumbKeyOf(p)}|${p.id}`;
+        const key = `${quality}|${fillMode}|${pageSize}|${thumbKeyOf(p)}|${p.id}`;
         const cached = cache.get(key);
         if (cached !== undefined) {
           total += cached;
           continue;
         }
         try {
-          const canvas = await renderPageToCanvas(p, p.filter ?? defaultFilter, preset.maxEdge);
+          const canvas = await renderPageToCanvas(p, p.filter ?? defaultFilter, preset.maxEdge, {
+            workMaxEdge: PREVIEW_WORK_MAX_EDGE,
+          });
           const blob = await canvasToBlob(canvas, "image/jpeg", preset.q);
-          cache.set(key, blob.size);
-          total += blob.size;
+          // Fill mode drops the letterboxed area — reduce estimated bytes proportionally.
+          let bytes = blob.size;
+          if (fillMode === "fill" && pageSize !== "fit") {
+            const base = pageSize === "a4" ? PageSizes.A4 : PageSizes.Letter;
+            const pageAspect = base[0] / base[1];
+            const imgAspect = canvas.width / canvas.height;
+            const ratio = imgAspect > pageAspect ? pageAspect / imgAspect : imgAspect / pageAspect;
+            bytes = Math.round(bytes * ratio);
+          }
+          cache.set(key, bytes);
+          total += bytes;
         } catch {
           total += preset.approxKB * 1024;
         }
+        await new Promise((r) => setTimeout(r, 0));
       }
       if (token === estimateTokenRef.current) setEstimatedBytes(total + 1500 * pages.length + 3000);
     }, 350);
     return () => window.clearTimeout(handle);
-  }, [pages, quality, defaultFilter, thumbKeyOf]);
+  }, [pages, quality, fillMode, pageSize, defaultFilter, thumbKeyOf]);
 
   /* ---------- Reset ---------- */
   const resetAll = () => {
@@ -531,7 +742,6 @@ export default function ScanToPdf() {
     setEstimatedBytes(null);
   };
 
-  // Full-teardown on unmount.
   useEffect(() => {
     return () => {
       pages.forEach((p) => URL.revokeObjectURL(p.url));
@@ -548,27 +758,63 @@ export default function ScanToPdf() {
       const preset = QUALITY[quality];
       const pdf = await PDFDocument.create();
       for (const p of pages) {
-        const canvas = await renderPageToCanvas(p, p.filter ?? defaultFilter, preset.maxEdge);
-        const jpegBlob = await canvasToBlob(canvas, "image/jpeg", preset.q);
-        const jpegBytes = new Uint8Array(await jpegBlob.arrayBuffer());
-        const img = await pdf.embedJpg(jpegBytes);
+        let canvas = await renderPageToCanvas(p, p.filter ?? defaultFilter, preset.maxEdge);
 
         let pageW: number;
         let pageH: number;
         if (pageSize === "fit") {
-          pageW = img.width;
-          pageH = img.height;
+          pageW = canvas.width;
+          pageH = canvas.height;
         } else {
           const base = pageSize === "a4" ? PageSizes.A4 : PageSizes.Letter;
           const wantLandscape =
-            orientation === "landscape" || (orientation === "auto" && img.width > img.height);
+            orientation === "landscape" || (orientation === "auto" && canvas.width > canvas.height);
           [pageW, pageH] = wantLandscape ? [base[1], base[0]] : base;
         }
+
+        // Fill mode: pre-crop the canvas to the page aspect so the image fully covers the page.
+        if (fillMode === "fill" && pageSize !== "fit") {
+          const pageAspect = pageW / pageH;
+          const imgAspect = canvas.width / canvas.height;
+          if (Math.abs(imgAspect - pageAspect) > 0.001) {
+            let cw = canvas.width;
+            let ch = canvas.height;
+            let sx = 0;
+            let sy = 0;
+            if (imgAspect > pageAspect) {
+              cw = Math.round(canvas.height * pageAspect);
+              sx = Math.round((canvas.width - cw) / 2);
+            } else {
+              ch = Math.round(canvas.width / pageAspect);
+              sy = Math.round((canvas.height - ch) / 2);
+            }
+            const c2 = document.createElement("canvas");
+            c2.width = cw;
+            c2.height = ch;
+            const cctx = c2.getContext("2d")!;
+            cctx.imageSmoothingEnabled = true;
+            cctx.imageSmoothingQuality = "high";
+            cctx.drawImage(canvas, sx, sy, cw, ch, 0, 0, cw, ch);
+            canvas = c2;
+          }
+        }
+
+        const jpegBlob = await canvasToBlob(canvas, "image/jpeg", preset.q);
+        const jpegBytes = new Uint8Array(await jpegBlob.arrayBuffer());
+        const img = await pdf.embedJpg(jpegBytes);
         const page = pdf.addPage([pageW, pageH]);
-        const scale = Math.min(pageW / img.width, pageH / img.height);
-        const w = img.width * scale;
-        const h = img.height * scale;
-        page.drawImage(img, { x: (pageW - w) / 2, y: (pageH - h) / 2, width: w, height: h });
+
+        if (fillMode === "fill" && pageSize !== "fit") {
+          page.drawImage(img, { x: 0, y: 0, width: pageW, height: pageH });
+        } else {
+          const scale = Math.min(pageW / img.width, pageH / img.height);
+          const w = img.width * scale;
+          const h = img.height * scale;
+          page.drawImage(img, { x: (pageW - w) / 2, y: (pageH - h) / 2, width: w, height: h });
+        }
+
+        // yield between pages so the UI doesn't freeze on a 12-page doc
+        await new Promise((r) => setTimeout(r, 0));
       }
       const bytes = await pdf.save();
       const blob = new Blob([bytes as BlobPart], { type: "application/pdf" });
@@ -702,7 +948,6 @@ export default function ScanToPdf() {
               className="block h-auto w-full"
               style={{ maxHeight: "70vh" }}
             />
-            {/* Corner guides */}
             {!cameraError && (
               <div className="pointer-events-none absolute inset-0">
                 {(["tl", "tr", "bl", "br"] as const).map((k) => (
@@ -871,11 +1116,11 @@ export default function ScanToPdf() {
                   <SelectItem value="original">Original</SelectItem>
                   <SelectItem value="document">Document (recommended)</SelectItem>
                   <SelectItem value="grayscale">Grayscale</SelectItem>
-                  <SelectItem value="bw">Black &amp; White</SelectItem>
+                  <SelectItem value="bw">Black &amp; White (adaptive)</SelectItem>
                 </SelectContent>
               </Select>
               <p className="mt-1 text-[11px]" style={{ color: "#5a5a66" }}>
-                Pages with the "edited" badge keep their own filter.
+                Pages with the "edited" badge keep their own settings.
               </p>
             </div>
             <div>
@@ -906,6 +1151,21 @@ export default function ScanToPdf() {
                 </p>
               )}
             </div>
+            {pageSize !== "fit" && (
+              <div>
+                <Label>Page fill</Label>
+                <Select value={fillMode} onValueChange={(v) => setFillMode(v as FillMode)}>
+                  <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="fit">Fit with margins (recommended)</SelectItem>
+                    <SelectItem value="fill">Fill page (crop edges)</SelectItem>
+                  </SelectContent>
+                </Select>
+                <p className="mt-1 text-[11px]" style={{ color: "#5a5a66" }}>
+                  Fill crops the sides or top/bottom so the image covers the full page.
+                </p>
+              </div>
+            )}
             <div>
               <Label>Quality</Label>
               <Select value={quality} onValueChange={(v) => setQuality(v as QualityPreset)}>
@@ -1001,7 +1261,6 @@ function SortablePageCard({
         "group relative overflow-hidden rounded-xl border bg-white touch-none cursor-grab active:cursor-grabbing",
         isDragging && "opacity-60 shadow-xl z-10 ring-2 ring-[#e5322d]",
       )}
-      // ensure the whole card is a drag surface
     >
       <div
         aria-hidden
@@ -1061,7 +1320,10 @@ function SortablePageCard({
 }
 
 /* ============================================================
- *  Per-page editor modal (rotate + simple crop + filter)
+ *  Per-page editor modal
+ *  Preview canvas uses the REAL pipeline (crop -> rot -> straighten
+ *  -> shadow -> filter -> BC). Press-hold the "before" button to see
+ *  the raw photo.
  * ============================================================ */
 
 function PageEditor({
@@ -1082,32 +1344,38 @@ function PageEditor({
     startY: number;
     base: typeof crop;
   }>(null);
+  const [compareRaw, setCompareRaw] = useState(false);
   const boxRef = useRef<HTMLDivElement>(null);
 
   const filter = page.filter ?? defaultFilter;
 
-  // Preview canvas mirrors the real pipeline so preview == PDF output.
+  // Preview canvas mirrors the real pipeline. Debounce heavy re-renders.
   const previewRef = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
     let cancelled = false;
-    (async () => {
-      const canvas = await renderPageToCanvas(
-        { ...page, crop: null }, // preview the whole photo; crop overlay is user-driven
-        filter,
-        900,
-      );
-      if (cancelled || !previewRef.current) return;
-      const dst = previewRef.current;
-      dst.width = canvas.width;
-      dst.height = canvas.height;
-      dst.getContext("2d")!.drawImage(canvas, 0, 0);
-    })();
+    const handle = window.setTimeout(async () => {
+      try {
+        const canvas = await renderPageToCanvas(
+          { ...page, crop: null }, // preview the whole photo; crop overlay is user-driven
+          filter,
+          900,
+          { rawCompare: compareRaw, workMaxEdge: PREVIEW_WORK_MAX_EDGE },
+        );
+        if (cancelled || !previewRef.current) return;
+        const dst = previewRef.current;
+        dst.width = canvas.width;
+        dst.height = canvas.height;
+        dst.getContext("2d")!.drawImage(canvas, 0, 0);
+      } catch {
+        /* skip */
+      }
+    }, 60);
     return () => {
       cancelled = true;
+      window.clearTimeout(handle);
     };
-  }, [page, filter]);
+  }, [page, filter, compareRaw]);
 
-  // Lock body scroll while dragging (already locked while editor open at parent level).
   useEffect(() => {
     if (!drag) return;
     const prev = document.body.style.overscrollBehavior;
@@ -1161,14 +1429,37 @@ function PageEditor({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={onClose}>
       <div
-        className="relative w-full max-w-2xl rounded-2xl bg-white p-6"
+        className="relative max-h-[95vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-6"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-bold" style={{ color: "#33333c" }}>Edit page</h3>
-          <button type="button" onClick={onClose} className="text-[#5a5a66] hover:text-[#33333c]" aria-label="Close">
-            <X className="h-5 w-5" />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onPointerDown={() => setCompareRaw(true)}
+              onPointerUp={() => setCompareRaw(false)}
+              onPointerLeave={() => setCompareRaw(false)}
+              onPointerCancel={() => setCompareRaw(false)}
+              className={cn(
+                "inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-semibold",
+                compareRaw ? "text-white" : "",
+              )}
+              style={{
+                borderColor: compareRaw ? "#e5322d" : "#ececef",
+                color: compareRaw ? "#ffffff" : "#33333c",
+                backgroundColor: compareRaw ? "#e5322d" : "transparent",
+                touchAction: "none",
+              }}
+              title="Press and hold to see the original photo"
+            >
+              <Eye className="h-3.5 w-3.5" />
+              {compareRaw ? "Original" : "Compare"}
+            </button>
+            <button type="button" onClick={onClose} className="text-[#5a5a66] hover:text-[#33333c]" aria-label="Close">
+              <X className="h-5 w-5" />
+            </button>
+          </div>
         </div>
 
         <div
@@ -1223,7 +1514,7 @@ function PageEditor({
                 <SelectItem value="original">Original</SelectItem>
                 <SelectItem value="document">Document</SelectItem>
                 <SelectItem value="grayscale">Grayscale</SelectItem>
-                <SelectItem value="bw">Black &amp; White</SelectItem>
+                <SelectItem value="bw">Black &amp; White (adaptive)</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -1247,25 +1538,121 @@ function PageEditor({
           </div>
         </div>
 
-        <div className="mt-6 flex justify-end gap-2">
+        <div className="mt-5 space-y-4">
+          <SliderRow
+            label="Straighten"
+            unit="°"
+            min={-15}
+            max={15}
+            step={0.5}
+            value={page.angleDeg}
+            onChange={(v) => onChange({ angleDeg: v })}
+            onReset={() => onChange({ angleDeg: 0 })}
+          />
+          <SliderRow
+            label="Brightness"
+            min={-50}
+            max={50}
+            step={1}
+            value={page.brightness}
+            onChange={(v) => onChange({ brightness: v })}
+            onReset={() => onChange({ brightness: 0 })}
+          />
+          <SliderRow
+            label="Contrast"
+            min={-50}
+            max={50}
+            step={1}
+            value={page.contrast}
+            onChange={(v) => onChange({ contrast: v })}
+            onReset={() => onChange({ contrast: 0 })}
+          />
+          <label className="flex items-center gap-2 text-sm font-semibold" style={{ color: "#33333c" }}>
+            <Checkbox
+              checked={page.shadow}
+              onCheckedChange={(v) => onChange({ shadow: v === true })}
+            />
+            Remove shadow (flatten uneven lighting)
+          </label>
+        </div>
+
+        <div className="mt-6 flex flex-wrap justify-between gap-2">
           <button
             type="button"
-            onClick={onClose}
-            className="rounded-xl px-4 py-2 text-sm font-semibold"
+            onClick={() =>
+              onChange({ angleDeg: 0, brightness: 0, contrast: 0, shadow: false, filter: null })
+            }
+            className="rounded-xl px-3 py-2 text-xs font-semibold"
             style={{ color: "#5a5a66" }}
           >
-            Cancel
+            Reset all adjustments
           </button>
-          <button
-            type="button"
-            onClick={save}
-            className="rounded-xl px-4 py-2 text-sm font-bold text-white"
-            style={{ backgroundColor: "#e5322d" }}
-          >
-            Apply
-          </button>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={onClose}
+              className="rounded-xl px-4 py-2 text-sm font-semibold"
+              style={{ color: "#5a5a66" }}
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={save}
+              className="rounded-xl px-4 py-2 text-sm font-bold text-white"
+              style={{ backgroundColor: "#e5322d" }}
+            >
+              Apply
+            </button>
+          </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+function SliderRow({
+  label,
+  unit,
+  min,
+  max,
+  step,
+  value,
+  onChange,
+  onReset,
+}: {
+  label: string;
+  unit?: string;
+  min: number;
+  max: number;
+  step: number;
+  value: number;
+  onChange: (v: number) => void;
+  onReset: () => void;
+}) {
+  return (
+    <div>
+      <div className="flex items-center justify-between">
+        <Label
+          className="cursor-pointer select-none"
+          onDoubleClick={onReset}
+          title="Double-click to reset"
+        >
+          {label}
+        </Label>
+        <span className="text-xs tabular-nums" style={{ color: "#5a5a66" }}>
+          {value > 0 ? `+${value}` : value}
+          {unit ?? ""}
+        </span>
+      </div>
+      <Slider
+        className="mt-1"
+        min={min}
+        max={max}
+        step={step}
+        value={[value]}
+        onValueChange={(v) => onChange(v[0])}
+      />
     </div>
   );
 }
