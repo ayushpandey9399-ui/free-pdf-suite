@@ -67,6 +67,13 @@ import {
   jpgToWebpSoftwareJsonLd,
   jpgToWebpHowToJsonLd,
 } from "@/components/JpgToWebpSeo";
+import { PngToWebpTool } from "@/tools/png-to-webp";
+import {
+  PngToWebpSeo,
+  pngToWebpFaqJsonLd,
+  pngToWebpSoftwareJsonLd,
+  pngToWebpHowToJsonLd,
+} from "@/components/PngToWebpSeo";
 
 
 const HEIC_TITLE = "HEIC to JPG Converter Free, No Upload | FreePDFHub";
@@ -105,6 +112,10 @@ const JPG_WEBP_TITLE = "JPG to WebP Converter Free, No Upload | FreePDFHub";
 const JPG_WEBP_DESC =
   "Convert JPG to WebP online free. Batch convert to modern WebP for faster websites, entirely in your browser. No upload, no signup, real .webp output.";
 
+const PNG_WEBP_TITLE = "PNG to WebP Converter Free, No Upload | FreePDFHub";
+const PNG_WEBP_DESC =
+  "Convert PNG to WebP online free. Batch convert with transparency preserved, entirely in your browser. Smaller files for faster websites, no upload.";
+
 
 export const Route = createFileRoute("/image-tools/$slug")({
   loader: ({ params }) => {
@@ -125,6 +136,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
     const isCompress = slug === "compress-image";
     const isResize = slug === "image-resize";
     const isJpgWebp = slug === "jpg-to-webp";
+    const isPngWebp = slug === "png-to-webp";
 
     const breadcrumbJsonLd = {
       "@context": "https://schema.org",
@@ -141,7 +153,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
       ],
     };
 
-    if (isHeicJpg || isHeicPng || isJpgPng || isPngJpg || isWebpJpg || isWebpPng || isCompress || isResize || isJpgWebp) {
+    if (isHeicJpg || isHeicPng || isJpgPng || isPngJpg || isWebpJpg || isWebpPng || isCompress || isResize || isJpgWebp || isPngWebp) {
       const title = isHeicJpg
         ? HEIC_TITLE
         : isHeicPng
@@ -158,7 +170,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
                     ? COMPRESS_TITLE
                     : isResize
                       ? RESIZE_TITLE
-                      : JPG_WEBP_TITLE;
+                      : isJpgWebp
+                        ? JPG_WEBP_TITLE
+                        : PNG_WEBP_TITLE;
       const desc = isHeicJpg
         ? HEIC_DESC
         : isHeicPng
@@ -175,7 +189,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
                     ? COMPRESS_DESC
                     : isResize
                       ? RESIZE_DESC
-                      : JPG_WEBP_DESC;
+                      : isJpgWebp
+                        ? JPG_WEBP_DESC
+                        : PNG_WEBP_DESC;
       const softwareLd = isHeicJpg
         ? heicToJpgSoftwareJsonLd
         : isHeicPng
@@ -192,7 +208,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
                     ? compressImageSoftwareJsonLd
                     : isResize
                       ? imageResizeSoftwareJsonLd
-                      : jpgToWebpSoftwareJsonLd;
+                      : isJpgWebp
+                        ? jpgToWebpSoftwareJsonLd
+                        : pngToWebpSoftwareJsonLd;
       const howToLd = isHeicJpg
         ? heicToJpgHowToJsonLd
         : isHeicPng
@@ -209,7 +227,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
                     ? compressImageHowToJsonLd
                     : isResize
                       ? imageResizeHowToJsonLd
-                      : jpgToWebpHowToJsonLd;
+                      : isJpgWebp
+                        ? jpgToWebpHowToJsonLd
+                        : pngToWebpHowToJsonLd;
       const faqLd = isHeicJpg
         ? heicToJpgFaqJsonLd
         : isHeicPng
@@ -226,7 +246,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
                     ? compressImageFaqJsonLd
                     : isResize
                       ? imageResizeFaqJsonLd
-                      : jpgToWebpFaqJsonLd;
+                      : isJpgWebp
+                        ? jpgToWebpFaqJsonLd
+                        : pngToWebpFaqJsonLd;
       return {
         meta: [
           { title },
@@ -520,7 +542,35 @@ function ImageToolPage() {
     );
   }
 
+  if (tool.slug === "png-to-webp") {
+    return (
+      <div className="mx-auto max-w-4xl px-4 pb-16">
+        <Breadcrumb name={tool.name} />
+        <section className="flex flex-col pt-6 pb-10 text-center">
+          <ToolHeaderIcon tool={tool} />
+          <h1
+            className="mx-auto text-[28px] sm:text-[42px]"
+            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
+          >
+            Convert PNG to WebP online, free
+          </h1>
+          <p className="mx-auto mt-4 max-w-[620px] text-[15px] sm:text-[18px] text-[#6B7280]">
+            Turn PNG images into modern WebP with transparency preserved. Ideal for logos, icons, and graphics on your website. Adjustable quality, batch convert, and download individually or as a ZIP.
+          </p>
+          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
+            Your files never leave your device
+          </p>
+          <div className="mt-10">
+            <PngToWebpTool />
+          </div>
+        </section>
+        <PngToWebpSeo />
+      </div>
+    );
+  }
+
   return null;
+
 
 
 }
