@@ -44,6 +44,14 @@ import {
   webpToPngSoftwareJsonLd,
   webpToPngHowToJsonLd,
 } from "@/components/WebpToPngSeo";
+import { CompressImageTool } from "@/tools/compress-image";
+import {
+  CompressImageSeo,
+  compressImageFaqJsonLd,
+  compressImageSoftwareJsonLd,
+  compressImageHowToJsonLd,
+} from "@/components/CompressImageSeo";
+
 
 const HEIC_TITLE = "HEIC to JPG Converter Free, No Upload | FreePDFHub";
 const HEIC_DESC =
@@ -69,6 +77,11 @@ const WEBP_PNG_TITLE = "WebP to PNG Converter Free, No Upload | FreePDFHub";
 const WEBP_PNG_DESC =
   "Convert WebP to PNG online free. Batch convert .webp images to lossless PNG in your browser with transparency preserved, no upload, no signup.";
 
+const COMPRESS_TITLE = "Compress Image Free, No Upload | FreePDFHub";
+const COMPRESS_DESC =
+  "Compress image online free. Reduce JPG, PNG, and WebP file size in your browser, target 100KB, 200KB, or 50KB. Batch and ZIP, 100% private.";
+
+
 export const Route = createFileRoute("/image-tools/$slug")({
   loader: ({ params }) => {
     const tool = getImageTool(params.slug);
@@ -85,6 +98,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
     const isPngJpg = slug === "png-to-jpg";
     const isWebpJpg = slug === "webp-to-jpg";
     const isWebpPng = slug === "webp-to-png";
+    const isCompress = slug === "compress-image";
 
     const breadcrumbJsonLd = {
       "@context": "https://schema.org",
@@ -101,7 +115,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
       ],
     };
 
-    if (isHeicJpg || isHeicPng || isJpgPng || isPngJpg || isWebpJpg || isWebpPng) {
+    if (isHeicJpg || isHeicPng || isJpgPng || isPngJpg || isWebpJpg || isWebpPng || isCompress) {
       const title = isHeicJpg
         ? HEIC_TITLE
         : isHeicPng
@@ -112,7 +126,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
               ? PNG_JPG_TITLE
               : isWebpJpg
                 ? WEBP_JPG_TITLE
-                : WEBP_PNG_TITLE;
+                : isWebpPng
+                  ? WEBP_PNG_TITLE
+                  : COMPRESS_TITLE;
       const desc = isHeicJpg
         ? HEIC_DESC
         : isHeicPng
@@ -123,7 +139,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
               ? PNG_JPG_DESC
               : isWebpJpg
                 ? WEBP_JPG_DESC
-                : WEBP_PNG_DESC;
+                : isWebpPng
+                  ? WEBP_PNG_DESC
+                  : COMPRESS_DESC;
       const softwareLd = isHeicJpg
         ? heicToJpgSoftwareJsonLd
         : isHeicPng
@@ -134,7 +152,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
               ? pngToJpgSoftwareJsonLd
               : isWebpJpg
                 ? webpToJpgSoftwareJsonLd
-                : webpToPngSoftwareJsonLd;
+                : isWebpPng
+                  ? webpToPngSoftwareJsonLd
+                  : compressImageSoftwareJsonLd;
       const howToLd = isHeicJpg
         ? heicToJpgHowToJsonLd
         : isHeicPng
@@ -145,7 +165,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
               ? pngToJpgHowToJsonLd
               : isWebpJpg
                 ? webpToJpgHowToJsonLd
-                : webpToPngHowToJsonLd;
+                : isWebpPng
+                  ? webpToPngHowToJsonLd
+                  : compressImageHowToJsonLd;
       const faqLd = isHeicJpg
         ? heicToJpgFaqJsonLd
         : isHeicPng
@@ -156,7 +178,9 @@ export const Route = createFileRoute("/image-tools/$slug")({
               ? pngToJpgFaqJsonLd
               : isWebpJpg
                 ? webpToJpgFaqJsonLd
-                : webpToPngFaqJsonLd;
+                : isWebpPng
+                  ? webpToPngFaqJsonLd
+                  : compressImageFaqJsonLd;
       return {
         meta: [
           { title },
@@ -180,6 +204,8 @@ export const Route = createFileRoute("/image-tools/$slug")({
         ],
       };
     }
+
+
 
     // Coming-soon: noindex.
     const title = tool ? `${tool.name} (coming soon) | FreePDFHub` : "Coming soon | FreePDFHub";
@@ -361,7 +387,34 @@ function ImageToolPage() {
     );
   }
 
+  if (tool.slug === "compress-image") {
+    return (
+      <div className="mx-auto max-w-4xl px-4 pb-16">
+        <Breadcrumb name={tool.name} />
+        <section className="flex flex-col pt-6 pb-10 text-center">
+          <h1
+            className="mx-auto text-[28px] sm:text-[42px]"
+            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
+          >
+            Compress images online, free
+          </h1>
+          <p className="mx-auto mt-4 max-w-[620px] text-[15px] sm:text-[18px] text-[#6B7280]">
+            Reduce JPG, PNG, and WebP file size right in your browser. Use a quality slider or target an exact size like 100KB, 200KB, or 50KB. Batch and download as a ZIP.
+          </p>
+          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
+            Your files never leave your device
+          </p>
+          <div className="mt-10">
+            <CompressImageTool />
+          </div>
+        </section>
+        <CompressImageSeo />
+      </div>
+    );
+  }
+
   return null;
+
 }
 
 function Breadcrumb({ name }: { name: string }) {

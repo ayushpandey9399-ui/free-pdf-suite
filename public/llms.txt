@@ -64,3 +64,5 @@ FreePDFHub is an independent, ad-supported suite of 28 PDF utilities. Every tool
 - [PNG to JPG](/image-tools/png-to-jpg): Convert PNG images to smaller JPG files in the browser. Adjustable quality, batch + ZIP download.
 - [WebP to JPG](/image-tools/webp-to-jpg): Convert WebP images to universal JPG files in the browser. Adjustable quality, batch + ZIP download.
 - [WebP to PNG](/image-tools/webp-to-png): Convert WebP images to lossless PNG in the browser with transparency preserved. Batch + ZIP download.
+- [Compress Image](/image-tools/compress-image): Reduce JPG, PNG, and WebP file size in the browser. Quality slider or target size in KB (100KB, 200KB, 50KB). Batch + ZIP download.
+
