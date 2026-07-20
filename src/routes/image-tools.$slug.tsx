@@ -1,9 +1,9 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
+import type { ReactNode } from "react";
 import { useEffect } from "react";
-import { getImageTool, imageToolTintBg, type ImageTool } from "@/lib/imageTools";
-import { ImageToolIcon } from "@/components/image-tools/ImageToolIcon";
+import { getImageTool } from "@/lib/imageTools";
 
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL, CONTACT_EMAIL } from "@/lib/site";
 import { HeicToJpgTool } from "@/tools/heic-to-jpg";
 import { HeicToPngTool } from "@/tools/heic-to-png";
 import { JpgToPngTool } from "@/tools/jpg-to-png";
