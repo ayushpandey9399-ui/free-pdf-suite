@@ -102,6 +102,13 @@ import {
   memeGeneratorSoftwareJsonLd,
   memeGeneratorHowToJsonLd,
 } from "@/components/MemeGeneratorSeo";
+import { PhotoEditorTool } from "@/tools/photo-editor";
+import {
+  PhotoEditorSeo,
+  photoEditorFaqJsonLd,
+  photoEditorSoftwareJsonLd,
+  photoEditorHowToJsonLd,
+} from "@/components/PhotoEditorSeo";
 
 
 const HEIC_TITLE = "HEIC to JPG Converter Free, No Upload | FreePDFHub";
@@ -160,6 +167,10 @@ const MEME_TITLE = "Free Meme Generator, No Watermark, No Upload | FreePDFHub";
 const MEME_DESC =
   "Make memes online free with no watermark. Classic top and bottom text, extra draggable captions, caption bar mode. Use your own photo, 100% private, no upload.";
 
+const PHOTO_EDITOR_TITLE = "Free Photo Editor Online, No Signup, No Upload | FreePDFHub";
+const PHOTO_EDITOR_DESC =
+  "Free online photo editor. Adjust brightness, contrast, saturation, warmth, apply one-tap filters like B&W, sepia, vintage. Export JPG, PNG, WebP. No upload.";
+
 
 
 export const Route = createFileRoute("/image-tools/$slug")({
@@ -187,6 +198,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
       "rotate-image": ROTATE_TITLE,
       "watermark-image": WATERMARK_TITLE,
       "meme-generator": MEME_TITLE,
+      "photo-editor": PHOTO_EDITOR_TITLE,
     };
     const DESCS: Record<string, string> = {
       "heic-to-jpg": HEIC_DESC,
@@ -203,6 +215,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
       "rotate-image": ROTATE_DESC,
       "watermark-image": WATERMARK_DESC,
       "meme-generator": MEME_DESC,
+      "photo-editor": PHOTO_EDITOR_DESC,
     };
     const SOFTWARE_LDS: Record<string, unknown> = {
       "heic-to-jpg": heicToJpgSoftwareJsonLd,
@@ -219,6 +232,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
       "rotate-image": rotateImageSoftwareJsonLd,
       "watermark-image": watermarkImageSoftwareJsonLd,
       "meme-generator": memeGeneratorSoftwareJsonLd,
+      "photo-editor": photoEditorSoftwareJsonLd,
     };
     const HOWTO_LDS: Record<string, unknown> = {
       "heic-to-jpg": heicToJpgHowToJsonLd,
@@ -235,6 +249,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
       "rotate-image": rotateImageHowToJsonLd,
       "watermark-image": watermarkImageHowToJsonLd,
       "meme-generator": memeGeneratorHowToJsonLd,
+      "photo-editor": photoEditorHowToJsonLd,
     };
     const FAQ_LDS: Record<string, unknown> = {
       "heic-to-jpg": heicToJpgFaqJsonLd,
@@ -251,6 +266,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
       "rotate-image": rotateImageFaqJsonLd,
       "watermark-image": watermarkImageFaqJsonLd,
       "meme-generator": memeGeneratorFaqJsonLd,
+      "photo-editor": photoEditorFaqJsonLd,
     };
 
     const breadcrumbJsonLd = {
@@ -698,6 +714,33 @@ function ImageToolPage() {
           </div>
         </section>
         <MemeGeneratorSeo />
+      </div>
+    );
+  }
+
+  if (tool.slug === "photo-editor") {
+    return (
+      <div className="mx-auto max-w-6xl px-4 pb-16">
+        <Breadcrumb name={tool.name} />
+        <section className="flex flex-col pt-6 pb-10 text-center">
+          <ToolHeaderIcon tool={tool} />
+          <h1
+            className="mx-auto text-[28px] sm:text-[42px]"
+            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
+          >
+            Edit photos online, free
+          </h1>
+          <p className="mx-auto mt-4 max-w-[640px] text-[15px] sm:text-[18px] text-[#6B7280]">
+            Adjust brightness, contrast, saturation, and warmth, or tap a filter like B&W, sepia, or vintage. Compare before and after, export as JPG, PNG, or WebP.
+          </p>
+          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
+            Your photo never leaves your device
+          </p>
+          <div className="mt-10">
+            <PhotoEditorTool />
+          </div>
+        </section>
+        <PhotoEditorSeo />
       </div>
     );
   }
