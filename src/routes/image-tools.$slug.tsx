@@ -77,6 +77,11 @@ const WEBP_PNG_TITLE = "WebP to PNG Converter Free, No Upload | FreePDFHub";
 const WEBP_PNG_DESC =
   "Convert WebP to PNG online free. Batch convert .webp images to lossless PNG in your browser with transparency preserved, no upload, no signup.";
 
+const COMPRESS_TITLE = "Compress Image Free, No Upload | FreePDFHub";
+const COMPRESS_DESC =
+  "Compress image online free. Reduce JPG, PNG, and WebP file size in your browser, target 100KB, 200KB, or 50KB. Batch and ZIP, 100% private.";
+
+
 export const Route = createFileRoute("/image-tools/$slug")({
   loader: ({ params }) => {
     const tool = getImageTool(params.slug);
