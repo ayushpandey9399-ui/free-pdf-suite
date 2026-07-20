@@ -157,7 +157,6 @@ export function Footer() {
         >
           <p>© 2026 FreePDFHub. All rights reserved.</p>
           <div className="flex flex-col items-center gap-2 sm:flex-row sm:gap-6">
-            <p>Made with <span style={{ color: "#ff6b67" }}>❤</span> in India · 100% free tools</p>
             <button
               type="button"
               onClick={backToTop}
