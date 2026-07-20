@@ -163,6 +163,17 @@ export const imageTools: readonly ImageTool[] = [
     icon: RotateCw,
     tint: "#14B8A6",
   },
+  {
+    id: "watermark-image",
+    slug: "watermark-image",
+    name: "Add Watermark to Image",
+    description:
+      "Add a text or logo watermark to JPG, PNG, and WebP images in your browser. Batch, tile, position grid, opacity, rotation. No upload.",
+    status: "live",
+    aliases: ["add watermark to image", "watermark image online", "add logo to photo", "add text to photo", "watermark multiple photos at once"],
+    icon: Stamp,
+    tint: "#F97316",
+  },
 ];
 
 
