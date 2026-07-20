@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { imageTools, type ImageTool } from "@/lib/imageTools";
+import { useMemo, useState } from "react";
+import { imageTools, imageCategories, type ImageTool, type ImageToolCategory } from "@/lib/imageTools";
 import { ImageToolIcon } from "@/components/image-tools/ImageToolIcon";
 import { SITE_URL } from "@/lib/site";
 
@@ -29,45 +29,158 @@ export const Route = createFileRoute("/image-tools/")({
   component: ImageToolsHub,
 });
 
+type Filter = "All" | ImageToolCategory;
+const filters: Filter[] = ["All", ...imageCategories];
+
 function ImageToolsHub() {
-  const liveCount = imageTools.filter((t) => t.status === "live").length;
+  const [active, setActive] = useState<Filter>("All");
+
+  const visible = useMemo(
+    () => (active === "All" ? imageTools : imageTools.filter((t) => t.category === active)),
+    [active],
+  );
 
   return (
-    <div className="mx-auto max-w-[1200px] px-4 sm:px-6 pb-16 pt-10">
-      <nav aria-label="Breadcrumb" className="text-[13px] text-[#6B7280]">
-        <ol className="flex items-center gap-[6px]">
-          <li><Link to="/" className="hover:text-[#e5322d]">Home</Link></li>
-          <li aria-hidden>›</li>
-          <li aria-current="page" style={{ color: "#4B5563" }}>Image Tools</li>
-        </ol>
-      </nav>
+    <div style={{ backgroundColor: "#ffffff", color: "#33333c" }}>
+      {/* Base blush wash */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 -z-10"
+        style={{
+          background:
+            "radial-gradient(120% 90% at 50% 0%, #ffffff 55%, rgba(229,50,45,0.035) 100%)",
+        }}
+      />
 
-      <header className="mt-6 text-center">
-        <h1
-          className="mx-auto max-w-[820px] font-extrabold text-[32px] sm:text-[44px] leading-[1.1]"
-          style={{ color: "#1c1c26", letterSpacing: "-0.025em" }}
-        >
-          Free image tools, in your browser
-        </h1>
-        <p className="mx-auto mt-4 max-w-[640px] text-[15px] sm:text-[17px] text-[#6B7280]">
-          Convert HEIC iPhone photos to JPG or PNG, swap JPG, PNG and WebP, and compress images, without signup and without uploading a single byte. Everything runs client-side on your device.
-        </p>
-        <p className="mt-3 text-[13px] font-semibold text-[#6B7280]">
-          {liveCount} free image tools, no signup, no upload
-        </p>
-      </header>
+      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 pt-6">
+        <nav aria-label="Breadcrumb" className="text-[13px] text-[#6B7280]">
+          <ol className="flex items-center gap-[6px]">
+            <li><Link to="/" className="hover:text-[#e5322d]">Home</Link></li>
+            <li aria-hidden>›</li>
+            <li aria-current="page" style={{ color: "#4B5563" }}>Image Tools</li>
+          </ol>
+        </nav>
+      </div>
 
-      <ul className="mt-10 grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-stretch">
-        {imageTools.map((t) => (
-          <li key={t.slug}>
-            {t.status === "live" ? (
-              <ImageToolCard tool={t} />
-            ) : (
-              <ComingSoonCard tool={t} />
-            )}
-          </li>
-        ))}
-      </ul>
+      {/* Hero, replicates PDF homepage hero */}
+      <section className="relative overflow-hidden">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 1px 1px, rgba(31,41,55,0.06) 1px, transparent 0)",
+            backgroundSize: "22px 22px",
+            maskImage:
+              "radial-gradient(60% 70% at 50% 30%, #000 40%, transparent 100%)",
+            WebkitMaskImage:
+              "radial-gradient(60% 70% at 50% 30%, #000 40%, transparent 100%)",
+          }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(40% 50% at 50% 10%, rgba(229,50,45,0.05), transparent 70%)",
+          }}
+        />
+
+        <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 pt-8 pb-0 text-center">
+          <h1
+            className="mx-auto max-w-[900px] font-extrabold text-[32px] sm:text-[42px] lg:text-[48px] leading-[1.08]"
+            style={{ color: "#1c1c26", letterSpacing: "-0.025em" }}
+          >
+            Every tool you need to work with{" "}
+            <span className="relative inline-block">
+              <span style={{ color: "#E5322D" }}>Images</span>
+              <svg
+                aria-hidden
+                viewBox="0 0 120 12"
+                preserveAspectRatio="none"
+                className="hero-underline absolute left-0 -bottom-1.5 h-[10px] w-full"
+                fill="none"
+              >
+                <path
+                  d="M2 8 Q 30 2, 60 6 T 118 5"
+                  stroke="#E5322D"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  opacity="0.85"
+                />
+              </svg>
+            </span>{" "}
+            in one place
+          </h1>
+          <p
+            className="mx-auto mt-4 max-w-[720px] text-[16px] sm:text-[17px] leading-relaxed"
+            style={{ color: "#6b6b78" }}
+          >
+            15 free tools to convert, compress, resize, edit and meme images, right in your browser. Fast, private and free.
+          </p>
+
+          {/* Filter pills */}
+          <div
+            className="mx-auto mt-7 flex flex-nowrap sm:flex-wrap items-center justify-start sm:justify-center gap-3 overflow-x-auto sm:overflow-visible px-1 -mx-1 sm:mx-auto"
+            role="tablist"
+            aria-label="Filter image tools by category"
+            style={{ scrollbarWidth: "none" }}
+          >
+            {filters.map((f) => {
+              const isActive = f === active;
+              return (
+                <button
+                  key={f}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => setActive(f)}
+                  className="shrink-0 rounded-full text-[15px] font-semibold transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1f2937]/30"
+                  style={{
+                    padding: "10px 20px",
+                    backgroundColor: isActive ? "#1f2937" : "#ffffff",
+                    color: isActive ? "#ffffff" : "#1c1c26",
+                    border: `1px solid ${isActive ? "#1f2937" : "#e5e7eb"}`,
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.backgroundColor = "#f9fafb";
+                      e.currentTarget.style.borderColor = "#9ca3af";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.backgroundColor = "#ffffff";
+                      e.currentTarget.style.borderColor = "#e5e7eb";
+                    }
+                  }}
+                >
+                  {f}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-[1200px] px-4 sm:px-6 pt-6 pb-8">
+        <ul className="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-stretch">
+          {visible.map((t) => (
+            <li key={t.slug}>
+              {t.status === "live" ? (
+                <ImageToolCard tool={t} />
+              ) : (
+                <ComingSoonCard tool={t} />
+              )}
+            </li>
+          ))}
+        </ul>
+
+        {/* Below-the-fold SEO copy, carries HEIC iPhone / no signup / no upload / client-side keywords */}
+        <p className="mx-auto mt-10 max-w-[820px] text-center text-[14px] leading-[1.7] text-[#6B7280]">
+          Convert HEIC iPhone photos to JPG or PNG, swap JPG, PNG and WebP, compress, resize, crop, rotate and watermark, all with no signup and no upload. Every image tool runs 100% client-side in your browser, so your files stay on your device.
+        </p>
+      </section>
     </div>
   );
 }
