@@ -13,6 +13,7 @@ import {
   Crop,
   RotateCw,
   Stamp,
+  Smile,
   type LucideIcon,
 } from "lucide-react";
 
