@@ -155,11 +155,14 @@ export function PhotoEditorSeo() {
         Safari, where the native canvas encoder can be unreliable.
       </p>
       <p className="mt-3">
-        Whichever format you pick, the exported file uses the full original
-        pixel dimensions of your source image. The live preview may be
-        downscaled for speed on very large photos, but the download is
-        always full resolution.
+        Whichever format you pick, the exported file defaults to the full
+        original pixel dimensions of your source image. If you need a smaller
+        (or larger) copy, type a width or height into the Export size fields,
+        the other dimension locks to the source aspect ratio automatically.
+        Downscaling is quality-safe; upscaling shows an honest reminder that
+        we cannot invent detail the source does not have.
       </p>
+
 
       <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">Your photo never leaves your device</h2>
       <p>
