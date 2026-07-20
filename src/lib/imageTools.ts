@@ -14,6 +14,7 @@ import {
   RotateCw,
   Stamp,
   Smile,
+  SlidersHorizontal,
   type LucideIcon,
 } from "lucide-react";
 
