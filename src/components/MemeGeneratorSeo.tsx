@@ -92,10 +92,10 @@ export const memeGeneratorFaqJsonLd = {
     },
     {
       "@type": "Question",
-      name: "What font do memes use?",
+      name: "Can I change the meme font and color?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "The classic meme look uses Impact, a proprietary font. We use Anton, an open-license font from Google Fonts that looks nearly identical, so the output has the same iconic feel without a licensing issue.",
+        text: "Yes. Pick from 4 open-license fonts, Anton (the classic Impact lookalike), Oswald, Bebas Neue, and Comic Neue, and set any text color and outline color per box using the swatches or the custom color picker.",
       },
     },
     {
