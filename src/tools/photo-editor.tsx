@@ -1,45 +1,67 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
-import { Download, X, Upload, Loader2, RotateCcw } from "lucide-react";
+import { Download, X, Upload, Loader2, RotateCcw, Undo2, Redo2 } from "lucide-react";
 import { saveAs } from "file-saver";
 import { guardDecodedSize, isSvgFile } from "@/lib/imageSafety";
+import {
+  pxSharpen,
+  vignetteFactor,
+  pxGrain,
+  grainNoise,
+  duotoneMap,
+  radialDistance,
+  aspectResizeOther,
+} from "@/lib/imageMath";
 
 type Fmt = "jpg" | "png" | "webp";
+type DuoKey = "none" | "navy-cream" | "purple-peach" | "teal-gold" | "plum-mint";
+
+const DUOTONES: Record<DuoKey, { label: string; shadow: [number, number, number]; highlight: [number, number, number] }> = {
+  "none":         { label: "Off",           shadow: [0, 0, 0],     highlight: [255, 255, 255] },
+  "navy-cream":   { label: "Navy | Cream",  shadow: [12, 26, 64],  highlight: [255, 240, 210] },
+  "purple-peach": { label: "Purple | Peach",shadow: [56, 20, 80],  highlight: [255, 200, 170] },
+  "teal-gold":    { label: "Teal | Gold",   shadow: [10, 50, 70],  highlight: [255, 215, 110] },
+  "plum-mint":    { label: "Plum | Mint",   shadow: [70, 20, 60],  highlight: [190, 255, 220] },
+};
 
 type Adjustments = {
-  brightness: number; // -100..100
-  contrast: number;   // -100..100
-  saturation: number; // -100..100
-  warmth: number;     // -180..180 (hue rotate degrees, small range recommended)
-  grayscale: number;  // 0..100
-  sepia: number;      // 0..100
-  blur: number;       // 0..8 px
+  brightness: number;
+  contrast: number;
+  saturation: number;
+  warmth: number;
+  grayscale: number;
+  sepia: number;
+  blur: number;
+  sharpen: number;   // 0..100
+  vignette: number;  // 0..100
+  grain: number;     // 0..100
+  duotone: DuoKey;
+  duotoneAmount: number; // 0..100
 };
 
 type PresetKey = "original" | "bw" | "sepia" | "vintage" | "cool" | "punchy" | "soft";
 
 const DEFAULTS: Adjustments = {
-  brightness: 0,
-  contrast: 0,
-  saturation: 0,
-  warmth: 0,
-  grayscale: 0,
-  sepia: 0,
-  blur: 0,
+  brightness: 0, contrast: 0, saturation: 0, warmth: 0,
+  grayscale: 0, sepia: 0, blur: 0,
+  sharpen: 0, vignette: 0, grain: 0,
+  duotone: "none", duotoneAmount: 60,
 };
 
 const PRESETS: Record<PresetKey, { label: string; a: Adjustments }> = {
   original: { label: "Original", a: { ...DEFAULTS } },
   bw:       { label: "B&W",      a: { ...DEFAULTS, grayscale: 100, contrast: 5 } },
   sepia:    { label: "Sepia",    a: { ...DEFAULTS, sepia: 90, contrast: 5, brightness: 3 } },
-  vintage:  { label: "Vintage",  a: { ...DEFAULTS, sepia: 45, warmth: 15, contrast: -8, saturation: -10, brightness: 5 } },
+  vintage:  { label: "Vintage",  a: { ...DEFAULTS, sepia: 45, warmth: 15, contrast: -8, saturation: -10, brightness: 5, vignette: 25, grain: 12 } },
   cool:     { label: "Cool",     a: { ...DEFAULTS, warmth: -25, saturation: 10, brightness: 3 } },
-  punchy:   { label: "Punchy",   a: { ...DEFAULTS, contrast: 25, saturation: 25 } },
+  punchy:   { label: "Punchy",   a: { ...DEFAULTS, contrast: 25, saturation: 25, sharpen: 30 } },
   soft:     { label: "Soft",     a: { ...DEFAULTS, contrast: -10, brightness: 5, blur: 0.8, saturation: -5 } },
 };
 
 const ACCEPT = ".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp";
 const MAX_PREVIEW_DIM = 1200;
+const HISTORY_CAP = 50;
+const GRAIN_SEED = 0x9e3779b1;
 
 function isSupported(f: File): boolean {
   const t = f.type;
@@ -88,7 +110,6 @@ function applyPixelAdjustments(data: Uint8ClampedArray, a: Adjustments): void {
   const hue = (a.warmth * Math.PI) / 180;
   const cH = Math.cos(hue);
   const sH = Math.sin(hue);
-  // Hue-rotate matrix per W3C filter spec.
   const m00 = 0.213 + cH * 0.787 - sH * 0.213;
   const m01 = 0.715 - cH * 0.715 - sH * 0.715;
   const m02 = 0.072 - cH * 0.072 + sH * 0.928;
@@ -107,35 +128,26 @@ function applyPixelAdjustments(data: Uint8ClampedArray, a: Adjustments): void {
     let r = data[i];
     let g = data[i + 1];
     let b = data[i + 2];
-
-    // brightness
-    r = r * bK;
-    g = g * bK;
-    b = b * bK;
-    // contrast (around 128)
+    r = r * bK; g = g * bK; b = b * bK;
     r = (r - 128) * cK + 128;
     g = (g - 128) * cK + 128;
     b = (b - 128) * cK + 128;
-    // saturation via luminance mix
     const L1 = 0.2126 * r + 0.7152 * g + 0.0722 * b;
     r = L1 + (r - L1) * sK;
     g = L1 + (g - L1) * sK;
     b = L1 + (b - L1) * sK;
-    // hue-rotate
     if (doHue) {
       const nr = r * m00 + g * m01 + b * m02;
       const ng = r * m10 + g * m11 + b * m12;
       const nb = r * m20 + g * m21 + b * m22;
       r = nr; g = ng; b = nb;
     }
-    // grayscale (mix toward luminance)
     if (doGray) {
       const L2 = 0.2126 * r + 0.7152 * g + 0.0722 * b;
       r = r * (1 - gP) + L2 * gP;
       g = g * (1 - gP) + L2 * gP;
       b = b * (1 - gP) + L2 * gP;
     }
-    // sepia (mix identity toward sepia matrix)
     if (doSepia) {
       const sr = 0.393 * r + 0.769 * g + 0.189 * b;
       const sg = 0.349 * r + 0.686 * g + 0.168 * b;
@@ -144,20 +156,17 @@ function applyPixelAdjustments(data: Uint8ClampedArray, a: Adjustments): void {
       g = g * (1 - sepP) + sg * sepP;
       b = b * (1 - sepP) + sb * sepP;
     }
-
     data[i]     = r < 0 ? 0 : r > 255 ? 255 : r;
     data[i + 1] = g < 0 ? 0 : g > 255 ? 255 : g;
     data[i + 2] = b < 0 ? 0 : b > 255 ? 255 : b;
-    // alpha untouched
   }
 }
 
-// Simple separable box blur, 3 passes ~= gaussian.
 function boxBlur(src: Uint8ClampedArray, w: number, h: number, r: number): Uint8ClampedArray {
   if (r <= 0) return src;
   const radius = Math.max(1, Math.round(r));
-  let a = src;
-  let b = new Uint8ClampedArray(src.length);
+  const a = new Uint8ClampedArray(src);
+  const b = new Uint8ClampedArray(src.length);
   for (let p = 0; p < 3; p++) {
     boxBlurH(a, b, w, h, radius);
     boxBlurV(b, a, w, h, radius);
@@ -218,7 +227,52 @@ function boxBlurV(src: Uint8ClampedArray, dst: Uint8ClampedArray, w: number, h: 
   }
 }
 
-// Lazy WebP WASM encoder for Safari.
+/**
+ * Apply the "new-effect" stack (duotone, sharpen, vignette, grain) in place.
+ * Runs after color/tone/blur have already been baked into `data`.
+ */
+function applyNewEffectsStack(data: Uint8ClampedArray, w: number, h: number, a: Adjustments): void {
+  // Duotone
+  if (a.duotone !== "none" && a.duotoneAmount > 0) {
+    const { shadow, highlight } = DUOTONES[a.duotone];
+    for (let i = 0; i < data.length; i += 4) {
+      const [r, g, b] = duotoneMap(data[i], data[i + 1], data[i + 2], shadow, highlight, a.duotoneAmount);
+      data[i] = r; data[i + 1] = g; data[i + 2] = b;
+    }
+  }
+  // Sharpen (unsharp mask): needs a blurred copy of the current state
+  if (a.sharpen > 0) {
+    const blurred = boxBlur(data, w, h, 1);
+    for (let i = 0; i < data.length; i += 4) {
+      data[i]     = pxSharpen(data[i],     blurred[i],     a.sharpen);
+      data[i + 1] = pxSharpen(data[i + 1], blurred[i + 1], a.sharpen);
+      data[i + 2] = pxSharpen(data[i + 2], blurred[i + 2], a.sharpen);
+    }
+  }
+  // Vignette
+  if (a.vignette > 0) {
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        const d = radialDistance(x, y, w, h);
+        const f = vignetteFactor(d, a.vignette);
+        const o = (y * w + x) * 4;
+        data[o]     = data[o]     * f;
+        data[o + 1] = data[o + 1] * f;
+        data[o + 2] = data[o + 2] * f;
+      }
+    }
+  }
+  // Grain (deterministic per pixel index, so preview and export match)
+  if (a.grain > 0) {
+    for (let i = 0, px = 0; i < data.length; i += 4, px++) {
+      const n = grainNoise(px, GRAIN_SEED);
+      data[i]     = pxGrain(data[i],     n, a.grain);
+      data[i + 1] = pxGrain(data[i + 1], n, a.grain);
+      data[i + 2] = pxGrain(data[i + 2], n, a.grain);
+    }
+  }
+}
+
 let webpEncoder: ((data: ImageData, opts?: { quality: number }) => Promise<ArrayBuffer>) | null = null;
 async function getWebpEncoder() {
   if (webpEncoder) return webpEncoder;
@@ -241,7 +295,6 @@ async function encodeCanvas(canvas: HTMLCanvasElement, ctx: CanvasRenderingConte
     if (!b) throw new Error("JPG encode failed");
     return b;
   }
-  // webp: try native, fallback to WASM.
   const native = await canvasToBlob(canvas, "image/webp", quality);
   if (native && native.type === "image/webp") return native;
   const encode = await getWebpEncoder();
@@ -251,6 +304,15 @@ async function encodeCanvas(canvas: HTMLCanvasElement, ctx: CanvasRenderingConte
 }
 
 /* --------------------------------- Component --------------------------------- */
+
+function eqAdj(a: Adjustments, b: Adjustments): boolean {
+  return (
+    a.brightness === b.brightness && a.contrast === b.contrast && a.saturation === b.saturation &&
+    a.warmth === b.warmth && a.grayscale === b.grayscale && a.sepia === b.sepia && a.blur === b.blur &&
+    a.sharpen === b.sharpen && a.vignette === b.vignette && a.grain === b.grain &&
+    a.duotone === b.duotone && a.duotoneAmount === b.duotoneAmount
+  );
+}
 
 export function PhotoEditorTool() {
   const [file, setFile] = useState<File | null>(null);
@@ -262,8 +324,46 @@ export function PhotoEditorTool() {
   const [dragging, setDragging] = useState(false);
   const [outFmt, setOutFmt] = useState<Fmt>("jpg");
   const [outQuality, setOutQuality] = useState(0.92);
+  const [outWidth, setOutWidth] = useState<number | "">("");
+  const [outHeight, setOutHeight] = useState<number | "">("");
+  const [history, setHistory] = useState<Adjustments[]>([{ ...DEFAULTS }]);
+  const [hIndex, setHIndex] = useState(0);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Commit current adjustments onto the undo stack.
+  const commit = useCallback((next: Adjustments) => {
+    setHistory((prev) => {
+      const cur = prev[hIndex];
+      if (cur && eqAdj(cur, next)) return prev;
+      const trimmed = prev.slice(0, hIndex + 1);
+      trimmed.push({ ...next });
+      const overflow = Math.max(0, trimmed.length - HISTORY_CAP);
+      const capped = overflow ? trimmed.slice(overflow) : trimmed;
+      setHIndex(capped.length - 1);
+      return capped;
+    });
+  }, [hIndex]);
+
+  const undo = useCallback(() => {
+    setHIndex((i) => {
+      if (i <= 0) return i;
+      const ni = i - 1;
+      setAdj({ ...history[ni] });
+      setPreset("original");
+      return ni;
+    });
+  }, [history]);
+
+  const redo = useCallback(() => {
+    setHIndex((i) => {
+      if (i >= history.length - 1) return i;
+      const ni = i + 1;
+      setAdj({ ...history[ni] });
+      setPreset("original");
+      return ni;
+    });
+  }, [history]);
 
   const loadFile = useCallback(async (f: File) => {
     if (!isSupported(f) || isSvgFile(f)) {
@@ -278,8 +378,11 @@ export function PhotoEditorTool() {
       setBitmap(bm);
       setAdj({ ...DEFAULTS });
       setPreset("original");
-      const guessed = fmtOf(f);
-      setOutFmt(guessed);
+      setHistory([{ ...DEFAULTS }]);
+      setHIndex(0);
+      setOutWidth("");
+      setOutHeight("");
+      setOutFmt(fmtOf(f));
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Could not decode image");
     }
@@ -290,7 +393,7 @@ export function PhotoEditorTool() {
     void loadFile(files[0]);
   };
 
-  // Draw preview canvas whenever image or adjustments change.
+  // Redraw preview whenever bitmap/adjustments/compare change.
   useEffect(() => {
     const canvas = previewCanvasRef.current;
     if (!canvas || !bitmap) return;
@@ -302,40 +405,99 @@ export function PhotoEditorTool() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
     ctx.clearRect(0, 0, w, h);
-    ctx.filter = comparing ? "none" : cssFilterString(adj);
+    if (comparing) {
+      ctx.filter = "none";
+      ctx.drawImage(bitmap, 0, 0, w, h);
+      ctx.filter = "none";
+      return;
+    }
+    ctx.filter = cssFilterString(adj);
     ctx.drawImage(bitmap, 0, 0, w, h);
     ctx.filter = "none";
+    const needsPixel =
+      (adj.duotone !== "none" && adj.duotoneAmount > 0) ||
+      adj.sharpen > 0 || adj.vignette > 0 || adj.grain > 0;
+    if (needsPixel) {
+      const img = ctx.getImageData(0, 0, w, h);
+      applyNewEffectsStack(img.data, w, h, adj);
+      ctx.putImageData(img, 0, 0);
+    }
   }, [bitmap, adj, comparing]);
 
   const applyPreset = (key: PresetKey) => {
     setPreset(key);
-    setAdj({ ...PRESETS[key].a });
+    const next = { ...PRESETS[key].a };
+    setAdj(next);
+    commit(next);
   };
 
   const resetAll = () => {
     setAdj({ ...DEFAULTS });
     setPreset("original");
+    commit({ ...DEFAULTS });
   };
+
+  // Keyboard shortcuts: skip when focus is inside an editable input.
+  useEffect(() => {
+    const isEditable = () => {
+      const el = document.activeElement as HTMLElement | null;
+      if (!el) return false;
+      const tag = el.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return true;
+      if (el.isContentEditable) return true;
+      return false;
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (isEditable()) return;
+      const meta = e.ctrlKey || e.metaKey;
+      if (meta && !e.shiftKey && (e.key === "z" || e.key === "Z")) { e.preventDefault(); undo(); return; }
+      if (meta && ((e.shiftKey && (e.key === "z" || e.key === "Z")) || e.key === "y" || e.key === "Y")) { e.preventDefault(); redo(); return; }
+      if (!meta && (e.key === " " || e.code === "Space")) { e.preventDefault(); setComparing(true); return; }
+      if (!meta && (e.key === "r" || e.key === "R")) { e.preventDefault(); resetAll(); return; }
+    };
+    const onKeyUp = (e: KeyboardEvent) => {
+      if (e.key === " " || e.code === "Space") setComparing(false);
+    };
+    window.addEventListener("keydown", onKey);
+    window.addEventListener("keyup", onKeyUp);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("keyup", onKeyUp);
+    };
+    // resetAll and undo/redo capture latest via closure recreation on state changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [undo, redo, hIndex, adj]);
 
   const doExport = useCallback(async () => {
     if (!bitmap || !file) return;
     setExporting(true);
     try {
-      const w = bitmap.width;
-      const h = bitmap.height;
+      const srcW = bitmap.width;
+      const srcH = bitmap.height;
+      let targetW = srcW;
+      let targetH = srcH;
+      if (typeof outWidth === "number" && outWidth > 0) {
+        targetW = Math.max(1, Math.floor(outWidth));
+        targetH = aspectResizeOther(srcW, srcH, "w", targetW);
+      } else if (typeof outHeight === "number" && outHeight > 0) {
+        targetH = Math.max(1, Math.floor(outHeight));
+        targetW = aspectResizeOther(srcW, srcH, "h", targetH);
+      }
       const canvas = document.createElement("canvas");
-      canvas.width = w;
-      canvas.height = h;
+      canvas.width = targetW;
+      canvas.height = targetH;
       const ctx = canvas.getContext("2d");
       if (!ctx) throw new Error("Canvas not supported");
-      // Draw source at full resolution (no ctx.filter for export).
-      ctx.drawImage(bitmap, 0, 0);
-      const img = ctx.getImageData(0, 0, w, h);
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
+      ctx.drawImage(bitmap, 0, 0, targetW, targetH);
+      const img = ctx.getImageData(0, 0, targetW, targetH);
       applyPixelAdjustments(img.data, adj);
       if (adj.blur > 0) {
-        const blurred = boxBlur(img.data, w, h, adj.blur);
+        const blurred = boxBlur(img.data, targetW, targetH, adj.blur);
         img.data.set(blurred);
       }
+      applyNewEffectsStack(img.data, targetW, targetH, adj);
       ctx.putImageData(img, 0, 0);
       const blob = await encodeCanvas(canvas, ctx, outFmt, outQuality);
       const base = stripExt(file.name) || "photo";
@@ -347,7 +509,7 @@ export function PhotoEditorTool() {
     } finally {
       setExporting(false);
     }
-  }, [bitmap, file, adj, outFmt, outQuality, preset]);
+  }, [bitmap, file, adj, outFmt, outQuality, preset, outWidth, outHeight]);
 
   const startOver = () => {
     if (bitmap) bitmap.close?.();
@@ -355,10 +517,21 @@ export function PhotoEditorTool() {
     setFile(null);
     setAdj({ ...DEFAULTS });
     setPreset("original");
+    setHistory([{ ...DEFAULTS }]);
+    setHIndex(0);
+    setOutWidth("");
+    setOutHeight("");
   };
 
-  const previewFilter = useMemo(() => (comparing ? "none" : cssFilterString(adj)), [comparing, adj]);
-  void previewFilter;
+  const canUndo = hIndex > 0;
+  const canRedo = hIndex < history.length - 1;
+
+  const upscaling = useMemo(() => {
+    if (!bitmap) return false;
+    if (typeof outWidth === "number" && outWidth > bitmap.width) return true;
+    if (typeof outHeight === "number" && outHeight > bitmap.height) return true;
+    return false;
+  }, [bitmap, outWidth, outHeight]);
 
   if (!file || !bitmap) {
     return (
@@ -391,7 +564,7 @@ export function PhotoEditorTool() {
   }
 
   return (
-    <div className="mx-auto grid max-w-[1100px] gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
+    <div className="mx-auto grid max-w-[1100px] gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
       {/* Preview */}
       <div className="rounded-xl bg-[#0f0f14] p-4">
         <div className="relative flex items-center justify-center overflow-hidden rounded-lg" style={{ minHeight: 280 }}>
@@ -409,6 +582,24 @@ export function PhotoEditorTool() {
           <div className="flex items-center gap-2">
             <button
               type="button"
+              onClick={undo}
+              disabled={!canUndo}
+              title="Undo (Ctrl/Cmd+Z)"
+              className="inline-flex items-center gap-1 rounded-md bg-white/10 px-2.5 py-1.5 text-[12px] font-semibold text-white hover:bg-white/20 disabled:opacity-40"
+            >
+              <Undo2 size={14} /> Undo
+            </button>
+            <button
+              type="button"
+              onClick={redo}
+              disabled={!canRedo}
+              title="Redo (Ctrl/Cmd+Shift+Z)"
+              className="inline-flex items-center gap-1 rounded-md bg-white/10 px-2.5 py-1.5 text-[12px] font-semibold text-white hover:bg-white/20 disabled:opacity-40"
+            >
+              <Redo2 size={14} /> Redo
+            </button>
+            <button
+              type="button"
               onMouseDown={() => setComparing(true)}
               onMouseUp={() => setComparing(false)}
               onMouseLeave={() => setComparing(false)}
@@ -423,7 +614,7 @@ export function PhotoEditorTool() {
               onClick={resetAll}
               className="inline-flex items-center gap-1 rounded-md bg-white/10 px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-white/20"
             >
-              <RotateCcw size={14} /> Reset all
+              <RotateCcw size={14} /> Reset
             </button>
             <button
               type="button"
@@ -434,6 +625,9 @@ export function PhotoEditorTool() {
             </button>
           </div>
         </div>
+        <p className="mt-2 text-[11px] text-white/50">
+          Shortcuts: Ctrl/Cmd+Z undo, Ctrl/Cmd+Shift+Z or Ctrl/Cmd+Y redo, hold Space to compare, R to reset.
+        </p>
       </div>
 
       {/* Controls */}
@@ -458,28 +652,92 @@ export function PhotoEditorTool() {
           </div>
         </div>
 
+        <div>
+          <h3 className="mb-2 text-[13px] font-semibold uppercase tracking-wide text-[#6B7280]">Duotone</h3>
+          <div className="flex flex-wrap gap-2">
+            {(Object.keys(DUOTONES) as DuoKey[]).map((k) => {
+              const d = DUOTONES[k];
+              const active = adj.duotone === k;
+              return (
+                <button
+                  key={k}
+                  type="button"
+                  onClick={() => {
+                    const next = { ...adj, duotone: k };
+                    setAdj(next);
+                    setPreset("original");
+                    commit(next);
+                  }}
+                  className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[12px] font-semibold transition ${
+                    active ? "border-[#8B5CF6] bg-[#8B5CF6] text-white" : "border-[#e5e7eb] bg-white text-[#4B5563] hover:border-[#8B5CF6]/50"
+                  }`}
+                >
+                  {k !== "none" && (
+                    <span className="flex overflow-hidden rounded-sm border border-black/10">
+                      <span className="block h-3 w-3" style={{ background: `rgb(${d.shadow.join(",")})` }} />
+                      <span className="block h-3 w-3" style={{ background: `rgb(${d.highlight.join(",")})` }} />
+                    </span>
+                  )}
+                  {d.label}
+                </button>
+              );
+            })}
+          </div>
+          {adj.duotone !== "none" && (
+            <div className="mt-3">
+              <Slider
+                label="Duotone amount"
+                value={adj.duotoneAmount}
+                min={0} max={100} step={1} unit="%"
+                onChange={(v) => { setAdj((a) => ({ ...a, duotoneAmount: v })); setPreset("original"); }}
+                onCommit={(v) => commit({ ...adj, duotoneAmount: v })}
+                onReset={() => { const n = { ...adj, duotoneAmount: 60 }; setAdj(n); commit(n); }}
+              />
+            </div>
+          )}
+        </div>
+
         <div className="space-y-4 rounded-xl border border-[#ececef] bg-white p-4">
           <Slider label="Brightness" value={adj.brightness} min={-100} max={100} step={1}
             onChange={(v) => { setAdj((a) => ({ ...a, brightness: v })); setPreset("original"); }}
-            onReset={() => setAdj((a) => ({ ...a, brightness: 0 }))} />
+            onCommit={(v) => commit({ ...adj, brightness: v })}
+            onReset={() => { const n = { ...adj, brightness: 0 }; setAdj(n); commit(n); }} />
           <Slider label="Contrast" value={adj.contrast} min={-100} max={100} step={1}
             onChange={(v) => { setAdj((a) => ({ ...a, contrast: v })); setPreset("original"); }}
-            onReset={() => setAdj((a) => ({ ...a, contrast: 0 }))} />
+            onCommit={(v) => commit({ ...adj, contrast: v })}
+            onReset={() => { const n = { ...adj, contrast: 0 }; setAdj(n); commit(n); }} />
           <Slider label="Saturation" value={adj.saturation} min={-100} max={100} step={1}
             onChange={(v) => { setAdj((a) => ({ ...a, saturation: v })); setPreset("original"); }}
-            onReset={() => setAdj((a) => ({ ...a, saturation: 0 }))} />
+            onCommit={(v) => commit({ ...adj, saturation: v })}
+            onReset={() => { const n = { ...adj, saturation: 0 }; setAdj(n); commit(n); }} />
           <Slider label="Warmth" value={adj.warmth} min={-60} max={60} step={1} unit="°"
             onChange={(v) => { setAdj((a) => ({ ...a, warmth: v })); setPreset("original"); }}
-            onReset={() => setAdj((a) => ({ ...a, warmth: 0 }))} />
+            onCommit={(v) => commit({ ...adj, warmth: v })}
+            onReset={() => { const n = { ...adj, warmth: 0 }; setAdj(n); commit(n); }} />
           <Slider label="Grayscale" value={adj.grayscale} min={0} max={100} step={1} unit="%"
             onChange={(v) => { setAdj((a) => ({ ...a, grayscale: v })); setPreset("original"); }}
-            onReset={() => setAdj((a) => ({ ...a, grayscale: 0 }))} />
+            onCommit={(v) => commit({ ...adj, grayscale: v })}
+            onReset={() => { const n = { ...adj, grayscale: 0 }; setAdj(n); commit(n); }} />
           <Slider label="Sepia" value={adj.sepia} min={0} max={100} step={1} unit="%"
             onChange={(v) => { setAdj((a) => ({ ...a, sepia: v })); setPreset("original"); }}
-            onReset={() => setAdj((a) => ({ ...a, sepia: 0 }))} />
+            onCommit={(v) => commit({ ...adj, sepia: v })}
+            onReset={() => { const n = { ...adj, sepia: 0 }; setAdj(n); commit(n); }} />
           <Slider label="Blur" value={adj.blur} min={0} max={8} step={0.1} unit="px"
             onChange={(v) => { setAdj((a) => ({ ...a, blur: v })); setPreset("original"); }}
-            onReset={() => setAdj((a) => ({ ...a, blur: 0 }))} />
+            onCommit={(v) => commit({ ...adj, blur: v })}
+            onReset={() => { const n = { ...adj, blur: 0 }; setAdj(n); commit(n); }} />
+          <Slider label="Sharpen" value={adj.sharpen} min={0} max={100} step={1} unit="%"
+            onChange={(v) => { setAdj((a) => ({ ...a, sharpen: v })); setPreset("original"); }}
+            onCommit={(v) => commit({ ...adj, sharpen: v })}
+            onReset={() => { const n = { ...adj, sharpen: 0 }; setAdj(n); commit(n); }} />
+          <Slider label="Vignette" value={adj.vignette} min={0} max={100} step={1} unit="%"
+            onChange={(v) => { setAdj((a) => ({ ...a, vignette: v })); setPreset("original"); }}
+            onCommit={(v) => commit({ ...adj, vignette: v })}
+            onReset={() => { const n = { ...adj, vignette: 0 }; setAdj(n); commit(n); }} />
+          <Slider label="Grain" value={adj.grain} min={0} max={100} step={1} unit="%"
+            onChange={(v) => { setAdj((a) => ({ ...a, grain: v })); setPreset("original"); }}
+            onCommit={(v) => commit({ ...adj, grain: v })}
+            onReset={() => { const n = { ...adj, grain: 0 }; setAdj(n); commit(n); }} />
         </div>
 
         <div className="space-y-3 rounded-xl border border-[#ececef] bg-white p-4">
@@ -504,14 +762,55 @@ export function PhotoEditorTool() {
             <Slider
               label="Quality"
               value={Math.round(outQuality * 100)}
-              min={40}
-              max={100}
-              step={1}
-              unit="%"
+              min={40} max={100} step={1} unit="%"
               onChange={(v) => setOutQuality(v / 100)}
+              onCommit={() => { /* not part of undo/redo */ }}
               onReset={() => setOutQuality(0.92)}
             />
           )}
+          <div>
+            <div className="mb-1 text-[13px] font-semibold text-[#1F2937]">Export size</div>
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                min={1}
+                placeholder={String(bitmap.width)}
+                value={outWidth}
+                onChange={(e) => {
+                  const v = e.target.value === "" ? "" : Math.max(1, Math.floor(Number(e.target.value)));
+                  setOutWidth(v);
+                  if (typeof v === "number") setOutHeight(aspectResizeOther(bitmap.width, bitmap.height, "w", v));
+                  else setOutHeight("");
+                }}
+                className="w-full rounded-md border border-[#e5e7eb] px-2 py-1.5 text-[13px]"
+              />
+              <span className="text-[12px] text-[#6B7280]">x</span>
+              <input
+                type="number"
+                min={1}
+                placeholder={String(bitmap.height)}
+                value={outHeight}
+                onChange={(e) => {
+                  const v = e.target.value === "" ? "" : Math.max(1, Math.floor(Number(e.target.value)));
+                  setOutHeight(v);
+                  if (typeof v === "number") setOutWidth(aspectResizeOther(bitmap.width, bitmap.height, "h", v));
+                  else setOutWidth("");
+                }}
+                className="w-full rounded-md border border-[#e5e7eb] px-2 py-1.5 text-[13px]"
+              />
+              <button
+                type="button"
+                onClick={() => { setOutWidth(""); setOutHeight(""); }}
+                className="text-[11px] font-semibold text-[#8B5CF6] hover:underline"
+              >
+                reset
+              </button>
+            </div>
+            <p className="mt-1 text-[11px] text-[#6B7280]">Aspect ratio locked. Leave blank to keep original size.</p>
+            {upscaling && (
+              <p className="mt-1 text-[11px] text-[#b45309]">Heads up: upscaling cannot add detail the source does not have.</p>
+            )}
+          </div>
           <button
             type="button"
             onClick={() => void doExport()}
@@ -521,7 +820,7 @@ export function PhotoEditorTool() {
             {exporting ? <Loader2 size={16} className="animate-spin" /> : <Download size={16} />}
             {exporting ? "Exporting" : `Download ${outFmt.toUpperCase()}`}
           </button>
-          <p className="text-[12px] text-[#6B7280]">Exports at full original resolution. Your photo never leaves your device.</p>
+          <p className="text-[12px] text-[#6B7280]">Exports at full original resolution unless you set an export size. Your photo never leaves your device.</p>
         </div>
       </div>
     </div>
@@ -536,6 +835,7 @@ function Slider({
   step,
   unit,
   onChange,
+  onCommit,
   onReset,
 }: {
   label: string;
@@ -545,6 +845,7 @@ function Slider({
   step: number;
   unit?: string;
   onChange: (v: number) => void;
+  onCommit: (v: number) => void;
   onReset: () => void;
 }) {
   return (
@@ -571,6 +872,8 @@ function Slider({
         step={step}
         value={value}
         onChange={(e) => onChange(parseFloat(e.target.value))}
+        onPointerUp={(e) => onCommit(parseFloat((e.target as HTMLInputElement).value))}
+        onKeyUp={(e) => onCommit(parseFloat((e.target as HTMLInputElement).value))}
         className="w-full accent-[#8B5CF6]"
       />
     </div>
