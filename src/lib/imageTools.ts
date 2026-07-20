@@ -39,6 +39,7 @@ export interface ImageTool {
 export const imageTools: readonly ImageTool[] = [
   {
     id: "heic-to-jpg",
+    category: "Convert",
     slug: "heic-to-jpg",
     name: "HEIC to JPG",
     description:
@@ -50,6 +51,7 @@ export const imageTools: readonly ImageTool[] = [
   },
   {
     id: "heic-to-png",
+    category: "Convert",
     slug: "heic-to-png",
     name: "HEIC to PNG",
     description:
@@ -61,6 +63,7 @@ export const imageTools: readonly ImageTool[] = [
   },
   {
     id: "jpg-to-png",
+    category: "Convert",
     slug: "jpg-to-png",
     name: "JPG to PNG",
     description:
@@ -72,6 +75,7 @@ export const imageTools: readonly ImageTool[] = [
   },
   {
     id: "png-to-jpg",
+    category: "Convert",
     slug: "png-to-jpg",
     name: "PNG to JPG",
     description:
@@ -83,6 +87,7 @@ export const imageTools: readonly ImageTool[] = [
   },
   {
     id: "webp-to-jpg",
+    category: "Convert",
     slug: "webp-to-jpg",
     name: "WebP to JPG",
     description:
@@ -94,6 +99,7 @@ export const imageTools: readonly ImageTool[] = [
   },
   {
     id: "webp-to-png",
+    category: "Convert",
     slug: "webp-to-png",
     name: "WebP to PNG",
     description:
@@ -105,6 +111,7 @@ export const imageTools: readonly ImageTool[] = [
   },
   {
     id: "compress-image",
+    category: "Optimize",
     slug: "compress-image",
     name: "Compress Image",
     description:
@@ -116,6 +123,7 @@ export const imageTools: readonly ImageTool[] = [
   },
   {
     id: "image-resize",
+    category: "Optimize",
     slug: "image-resize",
     name: "Resize Image",
     description:
@@ -127,6 +135,7 @@ export const imageTools: readonly ImageTool[] = [
   },
   {
     id: "jpg-to-webp",
+    category: "Convert",
     slug: "jpg-to-webp",
     name: "JPG to WebP",
     description:
@@ -138,6 +147,7 @@ export const imageTools: readonly ImageTool[] = [
   },
   {
     id: "png-to-webp",
+    category: "Convert",
     slug: "png-to-webp",
     name: "PNG to WebP",
     description:
@@ -149,6 +159,7 @@ export const imageTools: readonly ImageTool[] = [
   },
   {
     id: "crop-image",
+    category: "Edit",
     slug: "crop-image",
     name: "Crop Image",
     description:
@@ -160,6 +171,7 @@ export const imageTools: readonly ImageTool[] = [
   },
   {
     id: "rotate-image",
+    category: "Edit",
     slug: "rotate-image",
     name: "Rotate and Flip Image",
     description:
@@ -171,6 +183,7 @@ export const imageTools: readonly ImageTool[] = [
   },
   {
     id: "watermark-image",
+    category: "Edit",
     slug: "watermark-image",
     name: "Add Watermark to Image",
     description:
@@ -182,6 +195,7 @@ export const imageTools: readonly ImageTool[] = [
   },
   {
     id: "meme-generator",
+    category: "Edit",
     slug: "meme-generator",
     name: "Meme Generator",
     description:
@@ -193,6 +207,7 @@ export const imageTools: readonly ImageTool[] = [
   },
   {
     id: "photo-editor",
+    category: "Edit",
     slug: "photo-editor",
     name: "Photo Editor",
     description:
