@@ -885,13 +885,54 @@ export default function ScanToPdf() {
   }, []);
 
   /* ---------- Build PDF ---------- */
+  const cancelBuild = useCallback(() => {
+    cancelRef.current = true;
+  }, []);
+
   const buildPdf = async () => {
     if (pages.length === 0) return;
+    cancelRef.current = false;
     setLoading(true);
+    setOcrProgress(ocrEnabled ? { page: 0, total: pages.length } : null);
+
+    let pdfFont: PDFFont | null = null;
+    let ocrReady = false;
+    let ocrFailed = false;
+
     try {
       const preset = QUALITY[quality];
       const pdf = await PDFDocument.create();
-      for (const p of pages) {
+
+      // Prepare OCR + font once for the whole export.
+      if (ocrEnabled) {
+        try {
+          pdf.registerFontkit(fontkit);
+          const res = await fetch("/fonts/Arimo-Regular.ttf");
+          if (!res.ok) throw new Error("font");
+          const bytes = new Uint8Array(await res.arrayBuffer());
+          pdfFont = await pdf.embedFont(bytes, { subset: true });
+        } catch {
+          try {
+            pdfFont = await pdf.embedFont(StandardFonts.Helvetica);
+          } catch {
+            pdfFont = null;
+          }
+        }
+        try {
+          await getOcrWorker();
+          ocrReady = true;
+        } catch (err) {
+          ocrFailed = true;
+          console.warn("OCR engine failed to load", err);
+          toast.error("Could not load the text engine, exporting without OCR");
+        }
+      }
+
+      for (let i = 0; i < pages.length; i++) {
+        if (cancelRef.current) throw new Error("cancelled");
+        const p = pages[i];
+        setOcrProgress(ocrEnabled ? { page: i + 1, total: pages.length } : null);
+
         let canvas = await renderPageToCanvas(p, p.filter ?? defaultFilter, preset.maxEdge);
 
         let pageW: number;
@@ -933,18 +974,66 @@ export default function ScanToPdf() {
           }
         }
 
+        // Compute placement using the SAME math the image uses, so the OCR
+        // text layer sits exactly on top of the printed words.
+        let imgX: number;
+        let imgY: number;
+        let imgW: number;
+        let imgH: number;
+        if (fillMode === "fill" && pageSize !== "fit") {
+          imgX = 0;
+          imgY = 0;
+          imgW = pageW;
+          imgH = pageH;
+        } else {
+          const scale = Math.min(pageW / canvas.width, pageH / canvas.height);
+          imgW = canvas.width * scale;
+          imgH = canvas.height * scale;
+          imgX = (pageW - imgW) / 2;
+          imgY = (pageH - imgH) / 2;
+        }
+
         const jpegBlob = await canvasToBlob(canvas, "image/jpeg", preset.q);
         const jpegBytes = new Uint8Array(await jpegBlob.arrayBuffer());
         const img = await pdf.embedJpg(jpegBytes);
         const page = pdf.addPage([pageW, pageH]);
+        page.drawImage(img, { x: imgX, y: imgY, width: imgW, height: imgH });
 
-        if (fillMode === "fill" && pageSize !== "fit") {
-          page.drawImage(img, { x: 0, y: 0, width: pageW, height: pageH });
-        } else {
-          const scale = Math.min(pageW / img.width, pageH / img.height);
-          const w = img.width * scale;
-          const h = img.height * scale;
-          page.drawImage(img, { x: (pageW - w) / 2, y: (pageH - h) / 2, width: w, height: h });
+        // Invisible OCR text layer.
+        if (ocrEnabled && ocrReady && !ocrFailed && pdfFont) {
+          if (cancelRef.current) throw new Error("cancelled");
+          try {
+            const words = await ocrCanvas(canvas);
+            if (cancelRef.current) throw new Error("cancelled");
+            const sx = imgW / canvas.width;
+            const sy = imgH / canvas.height;
+            for (const w of words) {
+              const { x0, y0, x1, y1 } = w.bbox;
+              const wPts = (x1 - x0) * sx;
+              const hPts = (y1 - y0) * sy;
+              if (wPts <= 0 || hPts <= 0) continue;
+              const xPts = imgX + x0 * sx;
+              // canvas y grows down; PDF y grows up. Word baseline sits at
+              // the bottom of the bbox.
+              const yPts = imgY + imgH - y1 * sy;
+              const fontSize = Math.max(4, Math.min(72, hPts));
+              try {
+                page.drawText(w.text, {
+                  x: xPts,
+                  y: yPts,
+                  size: fontSize,
+                  font: pdfFont,
+                  color: rgb(0, 0, 0),
+                  opacity: 0,
+                });
+              } catch {
+                // Skip words whose glyphs the font can't encode.
+              }
+            }
+          } catch (err) {
+            if ((err as Error).message === "cancelled") throw err;
+            console.warn("OCR failed on page", i + 1, err);
+          }
         }
 
         // yield between pages so the UI doesn't freeze on a 12-page doc
@@ -954,13 +1043,25 @@ export default function ScanToPdf() {
       const blob = new Blob([bytes as BlobPart], { type: "application/pdf" });
       const today = new Date().toISOString().slice(0, 10);
       setResult({ blob, filename: `scan-${today}.pdf`, count: pages.length });
-      toast.success("PDF created");
+      toast.success(ocrEnabled && ocrReady && !ocrFailed ? "Searchable PDF created" : "PDF created");
     } catch (e) {
-      toast.error(`Failed: ${(e as Error).message}`);
+      if ((e as Error).message === "cancelled") {
+        toast.message("Cancelled");
+      } else {
+        toast.error(`Failed: ${(e as Error).message}`);
+      }
     } finally {
+      cancelRef.current = false;
+      setOcrProgress(null);
       setLoading(false);
+      // Always terminate the shared worker after an export finishes,
+      // cancels, or errors so nothing leaks between exports.
+      if (ocrEnabled) {
+        void terminateOcrWorker();
+      }
     }
   };
+
 
   const sizeLabel = useMemo(() => {
     if (estimatedBytes === null) return null;
