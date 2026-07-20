@@ -151,6 +151,17 @@ export const imageTools: readonly ImageTool[] = [
     icon: Crop,
     tint: "#0EA5E9",
   },
+  {
+    id: "rotate-image",
+    slug: "rotate-image",
+    name: "Rotate and Flip Image",
+    description:
+      "Rotate JPG, PNG, and WebP by 90, 180, or 270 degrees, or flip horizontally or vertically. Batch fix sideways photos in your browser.",
+    status: "live",
+    aliases: ["rotate image", "flip image", "mirror image", "rotate photo 90 degrees", "rotate multiple photos at once"],
+    icon: RotateCw,
+    tint: "#14B8A6",
+  },
 ];
 
 
