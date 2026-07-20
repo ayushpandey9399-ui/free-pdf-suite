@@ -167,6 +167,10 @@ const MEME_TITLE = "Free Meme Generator, No Watermark, No Upload | FreePDFHub";
 const MEME_DESC =
   "Make memes online free with no watermark. Classic top and bottom text, extra draggable captions, caption bar mode. Use your own photo, 100% private, no upload.";
 
+const PHOTO_EDITOR_TITLE = "Free Photo Editor Online, No Signup, No Upload | FreePDFHub";
+const PHOTO_EDITOR_DESC =
+  "Free online photo editor. Adjust brightness, contrast, saturation, warmth, apply one-tap filters like B&W, sepia, vintage. Export JPG, PNG, WebP. No upload.";
+
 
 
 export const Route = createFileRoute("/image-tools/$slug")({
