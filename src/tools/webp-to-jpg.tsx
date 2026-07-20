@@ -24,9 +24,13 @@ function isWebp(f: File): boolean {
 async function decodeToBitmap(file: File): Promise<ImageBitmap | HTMLImageElement> {
   if (typeof createImageBitmap === "function") {
     try {
-      return await createImageBitmap(file);
+      return await createImageBitmap(file, { imageOrientation: "from-image" });
     } catch {
-      // fall through to <img> path
+      try {
+        return await createImageBitmap(file);
+      } catch {
+        // fall through to <img> path
+      }
     }
   }
   return await new Promise<HTMLImageElement>((resolve, reject) => {
