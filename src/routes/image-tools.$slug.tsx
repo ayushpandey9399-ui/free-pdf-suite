@@ -112,6 +112,10 @@ const JPG_WEBP_TITLE = "JPG to WebP Converter Free, No Upload | FreePDFHub";
 const JPG_WEBP_DESC =
   "Convert JPG to WebP online free. Batch convert to modern WebP for faster websites, entirely in your browser. No upload, no signup, real .webp output.";
 
+const PNG_WEBP_TITLE = "PNG to WebP Converter Free, No Upload | FreePDFHub";
+const PNG_WEBP_DESC =
+  "Convert PNG to WebP online free. Batch convert with transparency preserved, entirely in your browser. Smaller files for faster websites, no upload.";
+
 
 export const Route = createFileRoute("/image-tools/$slug")({
   loader: ({ params }) => {
