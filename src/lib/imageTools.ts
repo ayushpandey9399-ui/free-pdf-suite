@@ -11,6 +11,7 @@ import {
   Shrink,
   Maximize2,
   Crop,
+  RotateCw,
   type LucideIcon,
 } from "lucide-react";
 
