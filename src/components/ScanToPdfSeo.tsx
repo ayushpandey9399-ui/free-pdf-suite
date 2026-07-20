@@ -262,7 +262,12 @@ const scanToPdfFaq = [
     q: "Is there OCR? Can it read the text on the scan?",
     a: "Not yet. Right now the tool captures pages as images and embeds them in a PDF, so the scan looks perfect but you cannot select or search the text inside it. If OCR matters for your use case, run the file through a dedicated OCR tool after downloading.",
   },
+  {
+    q: "My photo is crooked or has a shadow across it. Can the tool fix that?",
+    a: "Yes. Open the page in the editor (crop icon on the thumbnail) and use the straighten slider to level a tilted capture, the Remove shadow toggle to flatten uneven lighting, and the Black & White filter for a clean scanned look on receipts and forms. Brightness and contrast sliders let you fine-tune before you commit.",
+  },
 ];
+
 
 export const scanToPdfFaqJsonLd = {
   "@context": "https://schema.org",
