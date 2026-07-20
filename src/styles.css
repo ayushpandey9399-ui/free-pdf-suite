@@ -12,6 +12,7 @@
 @import "@fontsource/noto-sans/700.css";
 @import "@fontsource/noto-sans-devanagari/400.css";
 @import "@fontsource/noto-sans-devanagari/700.css";
+@import "@fontsource/anton/400.css";
 @source "../src";
 @import "tw-animate-css";
 
