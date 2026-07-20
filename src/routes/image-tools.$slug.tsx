@@ -95,6 +95,13 @@ import {
   watermarkImageSoftwareJsonLd,
   watermarkImageHowToJsonLd,
 } from "@/components/WatermarkImageSeo";
+import { MemeGeneratorTool } from "@/tools/meme-generator";
+import {
+  MemeGeneratorSeo,
+  memeGeneratorFaqJsonLd,
+  memeGeneratorSoftwareJsonLd,
+  memeGeneratorHowToJsonLd,
+} from "@/components/MemeGeneratorSeo";
 
 
 const HEIC_TITLE = "HEIC to JPG Converter Free, No Upload | FreePDFHub";
@@ -149,6 +156,11 @@ const WATERMARK_TITLE = "Add Watermark to Image Free, No Upload | FreePDFHub";
 const WATERMARK_DESC =
   "Add watermark to image online free. Text or logo, tile pattern, 9-cell position grid, opacity, rotation. Batch JPG, PNG, WebP in your browser, no upload.";
 
+const MEME_TITLE = "Free Meme Generator, No Watermark, No Upload | FreePDFHub";
+const MEME_DESC =
+  "Make memes online free with no watermark. Classic top and bottom text, extra draggable captions, caption bar mode. Use your own photo, 100% private, no upload.";
+
+
 
 export const Route = createFileRoute("/image-tools/$slug")({
   loader: ({ params }) => {
@@ -174,6 +186,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
       "crop-image": CROP_TITLE,
       "rotate-image": ROTATE_TITLE,
       "watermark-image": WATERMARK_TITLE,
+      "meme-generator": MEME_TITLE,
     };
     const DESCS: Record<string, string> = {
       "heic-to-jpg": HEIC_DESC,
@@ -189,6 +202,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
       "crop-image": CROP_DESC,
       "rotate-image": ROTATE_DESC,
       "watermark-image": WATERMARK_DESC,
+      "meme-generator": MEME_DESC,
     };
     const SOFTWARE_LDS: Record<string, unknown> = {
       "heic-to-jpg": heicToJpgSoftwareJsonLd,
@@ -204,6 +218,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
       "crop-image": cropImageSoftwareJsonLd,
       "rotate-image": rotateImageSoftwareJsonLd,
       "watermark-image": watermarkImageSoftwareJsonLd,
+      "meme-generator": memeGeneratorSoftwareJsonLd,
     };
     const HOWTO_LDS: Record<string, unknown> = {
       "heic-to-jpg": heicToJpgHowToJsonLd,
@@ -219,6 +234,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
       "crop-image": cropImageHowToJsonLd,
       "rotate-image": rotateImageHowToJsonLd,
       "watermark-image": watermarkImageHowToJsonLd,
+      "meme-generator": memeGeneratorHowToJsonLd,
     };
     const FAQ_LDS: Record<string, unknown> = {
       "heic-to-jpg": heicToJpgFaqJsonLd,
@@ -234,6 +250,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
       "crop-image": cropImageFaqJsonLd,
       "rotate-image": rotateImageFaqJsonLd,
       "watermark-image": watermarkImageFaqJsonLd,
+      "meme-generator": memeGeneratorFaqJsonLd,
     };
 
     const breadcrumbJsonLd = {
@@ -654,6 +671,33 @@ function ImageToolPage() {
           </div>
         </section>
         <WatermarkImageSeo />
+      </div>
+    );
+  }
+
+  if (tool.slug === "meme-generator") {
+    return (
+      <div className="mx-auto max-w-6xl px-4 pb-16">
+        <Breadcrumb name={tool.name} />
+        <section className="flex flex-col pt-6 pb-10 text-center">
+          <ToolHeaderIcon tool={tool} />
+          <h1
+            className="mx-auto text-[28px] sm:text-[42px]"
+            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
+          >
+            Make memes online, free, no watermark
+          </h1>
+          <p className="mx-auto mt-4 max-w-[640px] text-[15px] sm:text-[18px] text-[#6B7280]">
+            Drop in a photo, add top and bottom text or draggable captions, and download a clean meme. No signup, no watermark, no upload.
+          </p>
+          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
+            Your image never leaves your device
+          </p>
+          <div className="mt-10">
+            <MemeGeneratorTool />
+          </div>
+        </section>
+        <MemeGeneratorSeo />
       </div>
     );
   }

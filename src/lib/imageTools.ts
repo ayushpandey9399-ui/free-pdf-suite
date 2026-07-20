@@ -13,6 +13,7 @@ import {
   Crop,
   RotateCw,
   Stamp,
+  Smile,
   type LucideIcon,
 } from "lucide-react";
 
@@ -173,6 +174,17 @@ export const imageTools: readonly ImageTool[] = [
     aliases: ["add watermark to image", "watermark image online", "add logo to photo", "add text to photo", "watermark multiple photos at once"],
     icon: Stamp,
     tint: "#F97316",
+  },
+  {
+    id: "meme-generator",
+    slug: "meme-generator",
+    name: "Meme Generator",
+    description:
+      "Make memes online free with no watermark. Classic top and bottom text, draggable extra captions, use your own photo. 100% private, no upload.",
+    status: "live",
+    aliases: ["meme maker", "make a meme online free", "meme generator no watermark", "add text to meme", "custom meme with my own photo"],
+    icon: Smile,
+    tint: "#EAB308",
   },
 ];
 
