@@ -542,7 +542,35 @@ function ImageToolPage() {
     );
   }
 
+  if (tool.slug === "png-to-webp") {
+    return (
+      <div className="mx-auto max-w-4xl px-4 pb-16">
+        <Breadcrumb name={tool.name} />
+        <section className="flex flex-col pt-6 pb-10 text-center">
+          <ToolHeaderIcon tool={tool} />
+          <h1
+            className="mx-auto text-[28px] sm:text-[42px]"
+            style={{ color: "#383E45", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.2 }}
+          >
+            Convert PNG to WebP online, free
+          </h1>
+          <p className="mx-auto mt-4 max-w-[620px] text-[15px] sm:text-[18px] text-[#6B7280]">
+            Turn PNG images into modern WebP with transparency preserved. Ideal for logos, icons, and graphics on your website. Adjustable quality, batch convert, and download individually or as a ZIP.
+          </p>
+          <p className="mx-auto mt-3 inline-flex items-center gap-2 rounded-full bg-[#ecfdf5] px-3 py-1 text-[12px] font-semibold text-[#047857]">
+            Your files never leave your device
+          </p>
+          <div className="mt-10">
+            <PngToWebpTool />
+          </div>
+        </section>
+        <PngToWebpSeo />
+      </div>
+    );
+  }
+
   return null;
+
 
 
 }
