@@ -119,11 +119,11 @@ const HEIC_PNG_TITLE = "HEIC to PNG Converter Free, No Upload | FreePDFHub";
 const HEIC_PNG_DESC =
   "Convert HEIC to PNG online free. Batch convert iPhone HEIC photos to lossless PNG in your browser, no upload, no signup, 100% private.";
 
-const JPG_PNG_TITLE = "JPG to PNG Converter Free, No Upload | FreePDFHub";
+const JPG_PNG_TITLE = "JPG to PNG Converter Online Free, No Upload | FreePDFHub";
 const JPG_PNG_DESC =
   "Convert JPG to PNG online free. Batch convert JPG and JPEG images to lossless PNG in your browser, no upload, no signup, 100% private.";
 
-const PNG_JPG_TITLE = "PNG to JPG Converter Free, No Upload | FreePDFHub";
+const PNG_JPG_TITLE = "PNG to JPG Converter Online Free, No Upload | FreePDFHub";
 const PNG_JPG_DESC =
   "Convert PNG to JPG online free. Batch convert PNG images to smaller JPG files in your browser, adjustable quality, no upload, 100% private.";
 
@@ -135,7 +135,7 @@ const WEBP_PNG_TITLE = "WebP to PNG Converter Free, No Upload | FreePDFHub";
 const WEBP_PNG_DESC =
   "Convert WebP to PNG online free. Batch convert .webp images to lossless PNG in your browser with transparency preserved, no upload, no signup.";
 
-const COMPRESS_TITLE = "Compress Image Free, No Upload | FreePDFHub";
+const COMPRESS_TITLE = "Compress Image Online Free, JPG PNG WebP | FreePDFHub";
 const COMPRESS_DESC =
   "Compress image online free. Reduce JPG, PNG, and WebP file size in your browser, target 100KB, 200KB, or 50KB. Batch and ZIP, 100% private.";
 
