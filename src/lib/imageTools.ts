@@ -127,6 +127,17 @@ export const imageTools: readonly ImageTool[] = [
     icon: Globe,
     tint: "#65A30D",
   },
+  {
+    id: "png-to-webp",
+    slug: "png-to-webp",
+    name: "PNG to WebP",
+    description:
+      "Convert PNG to modern WebP with transparency preserved. Batch convert in your browser and download as a ZIP.",
+    status: "live",
+    aliases: ["png to webp keep transparency", "convert png to webp", "compress png for website"],
+    icon: Layers,
+    tint: "#C026D3",
+  },
 ];
 
 
