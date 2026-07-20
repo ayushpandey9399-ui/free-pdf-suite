@@ -46,7 +46,7 @@ describe("isSvgFile", () => {
     ["photo.png", "image/png", false],
     ["photo.webp", "image/webp", false],
     ["photo.heic", "image/heic", false],
-    ["../evil.svg\x00.jpg", "", true], // extension-based catch
+    ["polyglot.jpg", "image/svg+xml", true], // mime-based catch defeats extension spoof
   ];
   it.each(cases)("classifies %s (type=%s) -> %s", (name, type, expected) => {
     expect(isSvgFile(mkFile(name, type))).toBe(expected);
