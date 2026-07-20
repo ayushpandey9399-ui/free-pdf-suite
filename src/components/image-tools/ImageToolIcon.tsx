@@ -51,6 +51,7 @@ export function ImageToolIcon({
   const isCompress = slug === "compress-image";
   const isResize = slug === "image-resize";
   const isCrop = slug === "crop-image";
+  const isRotate = slug === "rotate-image";
 
   return (
     <svg
