@@ -4,6 +4,7 @@ import { getImageTool } from "@/lib/imageTools";
 import { SITE_URL } from "@/lib/site";
 import { HeicToJpgTool } from "@/tools/heic-to-jpg";
 import { HeicToPngTool } from "@/tools/heic-to-png";
+import { JpgToPngTool } from "@/tools/jpg-to-png";
 import {
   HeicToJpgSeo,
   heicToJpgFaqJsonLd,
@@ -16,6 +17,12 @@ import {
   heicToPngSoftwareJsonLd,
   heicToPngHowToJsonLd,
 } from "@/components/HeicToPngSeo";
+import {
+  JpgToPngSeo,
+  jpgToPngFaqJsonLd,
+  jpgToPngSoftwareJsonLd,
+  jpgToPngHowToJsonLd,
+} from "@/components/JpgToPngSeo";
 
 const HEIC_TITLE = "HEIC to JPG Converter Free, No Upload | FreePDFHub";
 const HEIC_DESC =
@@ -24,6 +31,10 @@ const HEIC_DESC =
 const HEIC_PNG_TITLE = "HEIC to PNG Converter Free, No Upload | FreePDFHub";
 const HEIC_PNG_DESC =
   "Convert HEIC to PNG online free. Batch convert iPhone HEIC photos to lossless PNG in your browser, no upload, no signup, 100% private.";
+
+const JPG_PNG_TITLE = "JPG to PNG Converter Free, No Upload | FreePDFHub";
+const JPG_PNG_DESC =
+  "Convert JPG to PNG online free. Batch convert JPG and JPEG images to lossless PNG in your browser, no upload, no signup, 100% private.";
 
 export const Route = createFileRoute("/image-tools/$slug")({
   loader: ({ params }) => {
