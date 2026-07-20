@@ -19,6 +19,9 @@ import {
 } from "lucide-react";
 
 export type ImageToolStatus = "live" | "coming-soon";
+export type ImageToolCategory = "Convert" | "Optimize" | "Edit";
+
+export const imageCategories: readonly ImageToolCategory[] = ["Convert", "Optimize", "Edit"];
 
 export interface ImageTool {
   id: string;
@@ -26,6 +29,7 @@ export interface ImageTool {
   name: string;
   description: string;
   status: ImageToolStatus;
+  category: ImageToolCategory;
   aliases?: readonly string[];
   icon: LucideIcon;
   /** Solid brand color for icon + tinted tile background (bg = color @ ~12%). */
