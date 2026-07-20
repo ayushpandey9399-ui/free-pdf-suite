@@ -156,6 +156,11 @@ const WATERMARK_TITLE = "Add Watermark to Image Free, No Upload | FreePDFHub";
 const WATERMARK_DESC =
   "Add watermark to image online free. Text or logo, tile pattern, 9-cell position grid, opacity, rotation. Batch JPG, PNG, WebP in your browser, no upload.";
 
+const MEME_TITLE = "Free Meme Generator, No Watermark, No Upload | FreePDFHub";
+const MEME_DESC =
+  "Make memes online free with no watermark. Classic top and bottom text, extra draggable captions, caption bar mode. Use your own photo, 100% private, no upload.";
+
+
 
 export const Route = createFileRoute("/image-tools/$slug")({
   loader: ({ params }) => {
