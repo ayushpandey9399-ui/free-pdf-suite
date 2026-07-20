@@ -18,6 +18,7 @@ const TARGET_LABEL: Record<string, string | null> = {
   "image-resize": null,
   "crop-image": null,
   "rotate-image": null,
+  "watermark-image": null,
 };
 
 export interface ImageToolIconProps {
