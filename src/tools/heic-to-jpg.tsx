@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import { Loader2, Download, X, Upload } from "lucide-react";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
+import { isSvgFile, uniqueZipName } from "@/lib/imageSafety";
 
 type Row = {
   id: string;
@@ -38,6 +39,10 @@ export function HeicToJpgTool() {
 
   const addFiles = useCallback((incoming: FileList | File[]) => {
     const list = Array.from(incoming).filter((f) => {
+      if (isSvgFile(f)) {
+        toast.error(`"${f.name}" is an SVG, not supported`);
+        return false;
+      }
       if (!isHeic(f)) {
         toast.error(`"${f.name}" is not a HEIC/HEIF file`);
         return false;
@@ -126,11 +131,12 @@ export function HeicToJpgTool() {
       return;
     }
     const zip = new JSZip();
+    const used = new Set<string>();
     for (const r of done) {
       const base = r.file.name.replace(/\.(heic|heif)$/i, "");
       r.outBlobs!.forEach((b, i) => {
-        const name = r.outBlobs!.length === 1 ? `${base}.jpg` : `${base}-${i + 1}.jpg`;
-        zip.file(name, b);
+        const rawName = r.outBlobs!.length === 1 ? `${base}.jpg` : `${base}-${i + 1}.jpg`;
+        zip.file(uniqueZipName(used, rawName), b);
       });
     }
     const blob = await zip.generateAsync({ type: "blob" });

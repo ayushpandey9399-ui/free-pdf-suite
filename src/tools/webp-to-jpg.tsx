@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import { Loader2, Download, X, Upload } from "lucide-react";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
+import { guardDecodedSize, isSvgFile, uniqueZipName } from "@/lib/imageSafety";
 
 type Row = {
   id: string;
@@ -52,7 +53,7 @@ async function webpToJpg(file: File, quality: number): Promise<Blob> {
   const src = await decodeToBitmap(file);
   const w = (src as ImageBitmap).width;
   const h = (src as ImageBitmap).height;
-  if (!w || !h) throw new Error("Empty image");
+  guardDecodedSize(w, h);
   const canvas = document.createElement("canvas");
   canvas.width = w;
   canvas.height = h;
@@ -86,6 +87,10 @@ export function WebpToJpgTool() {
 
   const addFiles = useCallback((incoming: FileList | File[]) => {
     const list = Array.from(incoming).filter((f) => {
+      if (isSvgFile(f)) {
+        toast.error(`"${f.name}" is an SVG, not supported`);
+        return false;
+      }
       if (!isWebp(f)) {
         toast.error(`"${f.name}" is not a WebP file`);
         return false;
@@ -165,9 +170,10 @@ export function WebpToJpgTool() {
       return;
     }
     const zip = new JSZip();
+    const used = new Set<string>();
     for (const r of done) {
       const base = r.file.name.replace(/\.webp$/i, "");
-      zip.file(`${base}.jpg`, r.outBlob!);
+      zip.file(uniqueZipName(used, `${base}.jpg`), r.outBlob!);
     }
     const blob = await zip.generateAsync({ type: "blob" });
     saveAs(blob, "webp-to-jpg.zip");
