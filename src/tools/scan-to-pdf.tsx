@@ -405,20 +405,65 @@ async function renderPageToCanvas(
   const iw = bmp ? bmp.width : img!.naturalWidth;
   const ih = bmp ? bmp.height : img!.naturalHeight;
 
-  // 1. Crop from source
-  const crop = page.crop ?? { x: 0, y: 0, w: 1, h: 1 };
-  const sx = crop.x * iw;
-  const sy = crop.y * ih;
-  const sw = Math.max(1, crop.w * iw);
-  const sh = Math.max(1, crop.h * ih);
-  let working = document.createElement("canvas");
-  working.width = Math.max(1, Math.round(sw));
-  working.height = Math.max(1, Math.round(sh));
-  const wctx = working.getContext("2d")!;
-  wctx.imageSmoothingEnabled = true;
-  wctx.imageSmoothingQuality = "high";
-  wctx.drawImage(src, sx, sy, sw, sh, 0, 0, working.width, working.height);
-  if (bmp) bmp.close();
+  const workCap = Math.min(maxEdge, overrides.workMaxEdge ?? Infinity);
+
+  let working: HTMLCanvasElement;
+
+  if (page.quad) {
+    // 1a. Un-warp the quad in source coords onto a rectangle. Cap output
+    //     size to workCap for preview; full res only at export.
+    const pxQuad: Quad = page.quad.map((p) => ({
+      x: Math.max(0, Math.min(iw, p.x * iw)),
+      y: Math.max(0, Math.min(ih, p.y * ih)),
+    })) as Quad;
+    const natural = outputSizeForQuad(pxQuad);
+    const scale = Math.min(1, workCap / Math.max(natural.w, natural.h));
+    const outW = Math.max(1, Math.round(natural.w * scale));
+    const outH = Math.max(1, Math.round(natural.h * scale));
+
+    // Full-source canvas -> ImageData -> warp
+    const srcCanvas = document.createElement("canvas");
+    srcCanvas.width = iw;
+    srcCanvas.height = ih;
+    const sctx = srcCanvas.getContext("2d")!;
+    sctx.drawImage(src, 0, 0);
+    if (bmp) bmp.close();
+    const srcData = sctx.getImageData(0, 0, iw, ih);
+    const warped = warpQuadToRect(srcData, pxQuad, outW, outH);
+    working = document.createElement("canvas");
+    working.width = outW;
+    working.height = outH;
+    working.getContext("2d")!.putImageData(warped, 0, 0);
+
+    // 1b. Optional rect crop applied AFTER un-warp on the flattened result.
+    if (page.crop) {
+      const c = page.crop;
+      const cx = Math.max(0, Math.min(working.width - 1, Math.round(c.x * working.width)));
+      const cy = Math.max(0, Math.min(working.height - 1, Math.round(c.y * working.height)));
+      const cw = Math.max(1, Math.min(working.width - cx, Math.round(c.w * working.width)));
+      const ch = Math.max(1, Math.min(working.height - cy, Math.round(c.h * working.height)));
+      const cCanvas = document.createElement("canvas");
+      cCanvas.width = cw;
+      cCanvas.height = ch;
+      cCanvas.getContext("2d")!.drawImage(working, cx, cy, cw, ch, 0, 0, cw, ch);
+      working = cCanvas;
+    }
+  } else {
+    // 1. Crop from source (original path, no quad)
+    const crop = page.crop ?? { x: 0, y: 0, w: 1, h: 1 };
+    const sx = crop.x * iw;
+    const sy = crop.y * ih;
+    const sw = Math.max(1, crop.w * iw);
+    const sh = Math.max(1, crop.h * ih);
+    working = document.createElement("canvas");
+    working.width = Math.max(1, Math.round(sw));
+    working.height = Math.max(1, Math.round(sh));
+    const wctx = working.getContext("2d")!;
+    wctx.imageSmoothingEnabled = true;
+    wctx.imageSmoothingQuality = "high";
+    wctx.drawImage(src, sx, sy, sw, sh, 0, 0, working.width, working.height);
+    if (bmp) bmp.close();
+  }
 
   // 2. Rotate 90 increments
   if (page.rotation !== 0) working = rotate90Canvas(working, page.rotation);
@@ -427,7 +472,6 @@ async function renderPageToCanvas(
   if (page.angleDeg) working = straightenCanvas(working, page.angleDeg);
 
   // Downscale to output cap before heavy per-pixel work
-  const workCap = Math.min(maxEdge, overrides.workMaxEdge ?? Infinity);
   const long = Math.max(working.width, working.height);
   if (long > workCap) working = drawStepped(working, working.width, working.height, workCap);
 
