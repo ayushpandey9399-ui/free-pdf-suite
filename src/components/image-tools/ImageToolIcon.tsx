@@ -49,6 +49,7 @@ export function ImageToolIcon({
   const label = TARGET_LABEL[slug];
   const isCompress = slug === "compress-image";
   const isResize = slug === "image-resize";
+  const isCrop = slug === "crop-image";
 
   return (
     <svg
@@ -100,6 +101,15 @@ export function ImageToolIcon({
           <path d="M18 22 L10 14 M10 14 L10 19 M10 14 L15 14" />
           {/* bottom-right outward */}
           <path d="M40 38 L48 46 M48 46 L48 41 M48 46 L43 46" />
+        </g>
+      ) : isCrop ? (
+        // Flat crop motif: two L-shaped corner brackets framing a sub-area of
+        // the photo card, evoking the classic crop-tool cursor.
+        <g fill="none" stroke={accent} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+          {/* top-left bracket */}
+          <path d="M20 22 L20 30 M20 22 L28 22" />
+          {/* bottom-right bracket */}
+          <path d="M42 40 L42 32 M42 40 L34 40" />
         </g>
       ) : (
         // Flat target-format tag at bottom-right.
