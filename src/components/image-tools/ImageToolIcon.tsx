@@ -45,6 +45,7 @@ export function ImageToolIcon({
   const soft = softAccent(accent);
   const label = TARGET_LABEL[slug];
   const isCompress = slug === "compress-image";
+  const isResize = slug === "image-resize";
 
   return (
     <svg
