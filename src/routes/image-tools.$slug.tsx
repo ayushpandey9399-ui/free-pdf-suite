@@ -425,17 +425,17 @@ function ImageToolPage() {
 }
 
 function ToolHeaderIcon({ tool }: { tool: ImageTool }) {
-  const Icon = tool.icon;
   return (
     <div
-      className="mx-auto mb-4 grid h-[64px] w-[64px] place-items-center rounded-[14px]"
-      style={{ backgroundColor: imageToolTintBg(tool.tint), color: tool.tint }}
+      className="mx-auto mb-4"
+      style={{ width: 64, height: 64 }}
       aria-hidden
     >
-      <Icon size={34} strokeWidth={2} />
+      <ImageToolIcon slug={tool.slug} size={64} radius={14} />
     </div>
   );
 }
+
 
 function Breadcrumb({ name }: { name: string }) {
   return (
