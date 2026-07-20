@@ -35,8 +35,10 @@ export const imageTools: readonly ImageTool[] = [
     id: "jpg-to-png",
     slug: "jpg-to-png",
     name: "JPG to PNG",
-    description: "Convert JPG images to PNG in your browser.",
-    status: "coming-soon",
+    description:
+      "Convert JPG and JPEG images to lossless PNG in your browser. Batch convert and download as a ZIP.",
+    status: "live",
+    aliases: ["jpeg to png", "jpg converter", "png converter"],
   },
   {
     id: "png-to-jpg",
