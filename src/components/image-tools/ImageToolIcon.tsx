@@ -53,6 +53,7 @@ export function ImageToolIcon({
   const isResize = slug === "image-resize";
   const isCrop = slug === "crop-image";
   const isRotate = slug === "rotate-image";
+  const isWatermark = slug === "watermark-image";
 
   return (
     <svg
