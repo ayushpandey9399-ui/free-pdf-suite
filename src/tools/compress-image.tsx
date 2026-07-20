@@ -117,14 +117,21 @@ export function CompressImageTool() {
         }
 
         const outFile = await imageCompression(row.file, opts as never);
-        const outBlob: Blob = outFile;
+        // Never inflate. If the compressor produced a file bigger than the
+        // original, fall back to the original bytes so the user always wins.
+        const finalBlob: Blob =
+          outFile.size < row.originalSize ? outFile : row.file;
+        const inflated = outFile.size >= row.originalSize;
         const ext = outExtension(row.file);
         const base = row.file.name.replace(/\.(jpe?g|png|webp)$/i, "");
         const outName = `${base}-compressed.${ext}`;
-        const previewUrl = URL.createObjectURL(outBlob);
+        const previewUrl = URL.createObjectURL(finalBlob);
         const savedPct = row.originalSize
-          ? Math.round(((row.originalSize - outBlob.size) / row.originalSize) * 100)
+          ? Math.round(((row.originalSize - finalBlob.size) / row.originalSize) * 100)
           : 0;
+        if (inflated) {
+          toast.message(`"${row.file.name}" was already smaller, kept the original.`);
+        }
         setRows((prev) =>
           prev.map((r) => {
             if (r.id !== row.id) return r;
@@ -132,9 +139,9 @@ export function CompressImageTool() {
             return {
               ...r,
               status: "done",
-              outBlob,
+              outBlob: finalBlob,
               outName,
-              outSize: outBlob.size,
+              outSize: finalBlob.size,
               savedPct,
               previewUrl,
             };
@@ -166,8 +173,9 @@ export function CompressImageTool() {
       return;
     }
     const zip = new JSZip();
+    const used = new Set<string>();
     for (const r of done) {
-      zip.file(r.outName!, r.outBlob!);
+      zip.file(uniqueZipName(used, r.outName!), r.outBlob!);
     }
     const blob = await zip.generateAsync({ type: "blob" });
     saveAs(blob, "compressed-images.zip");
