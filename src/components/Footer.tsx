@@ -86,7 +86,7 @@ export function Footer() {
   return (
     <footer style={{ backgroundColor: "#0F172A", color: "#9CA3AF" }}>
       <nav aria-label="Footer" className="mx-auto max-w-[1200px] px-4 sm:px-6 pt-14 pb-10 sm:pt-16 sm:pb-10">
-        <div className="grid gap-10 sm:gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 items-start">
+        <div className="grid gap-10 sm:gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-8 items-start">
           {/* Brand, 2 col wide on desktop */}
           <div className="lg:col-span-2">
             <Link
@@ -120,10 +120,10 @@ export function Footer() {
           <FooterColumn title="Convert" links={convert} />
           <FooterColumn title="Edit" links={edit} />
 
-          {/* Image Tools column */}
-          <div>
+          {/* Image Tools column, spans 2 on desktop */}
+          <div className="sm:col-span-2 lg:col-span-2">
             <FooterHeading>Image Tools</FooterHeading>
-            <ul className="mt-4">
+            <ul className="mt-4 grid grid-cols-2 gap-x-6">
               {imageTools.map((l) => (
                 <li key={l.to}>
                   <Link to={l.to} className={LINK_CLASS} style={LINK_STYLE}>
