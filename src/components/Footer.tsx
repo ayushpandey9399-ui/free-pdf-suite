@@ -48,11 +48,20 @@ type ImageLink = { to: string; name: string };
 const imageTools: ImageLink[] = [
   { to: "/image-tools", name: "Image Tools" },
   { to: "/image-tools/heic-to-jpg", name: "HEIC to JPG" },
+  { to: "/image-tools/heic-to-png", name: "HEIC to PNG" },
+  { to: "/image-tools/jpg-to-png", name: "JPG to PNG" },
+  { to: "/image-tools/png-to-jpg", name: "PNG to JPG" },
+  { to: "/image-tools/webp-to-jpg", name: "WebP to JPG" },
+  { to: "/image-tools/webp-to-png", name: "WebP to PNG" },
+  { to: "/image-tools/jpg-to-webp", name: "JPG to WebP" },
+  { to: "/image-tools/png-to-webp", name: "PNG to WebP" },
   { to: "/image-tools/compress-image", name: "Compress Image" },
   { to: "/image-tools/image-resize", name: "Resize Image" },
   { to: "/image-tools/crop-image", name: "Crop Image" },
-  { to: "/image-tools/photo-editor", name: "Photo Editor" },
+  { to: "/image-tools/rotate-image", name: "Rotate & Flip" },
+  { to: "/image-tools/watermark-image", name: "Watermark Image" },
   { to: "/image-tools/meme-generator", name: "Meme Generator" },
+  { to: "/image-tools/photo-editor", name: "Photo Editor" },
 ];
 
 
