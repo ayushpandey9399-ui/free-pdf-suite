@@ -4,7 +4,7 @@ import { CONTACT_EMAIL, LAST_UPDATED, SITE_URL } from "@/lib/site";
 
 export const Route = createFileRoute("/privacy-policy")({
   head: () => {
-    const title = "Privacy Policy | FreePDFHub";
+    const title = "Privacy Policy, Your Files Stay on Your Device | FreePDFHub";
     const description =
       "FreePDFHub processes every PDF entirely inside your browser. Read our privacy policy: no uploads, no accounts, and full disclosure on cookies and ads.";
     const url = `${SITE_URL}/privacy-policy`;

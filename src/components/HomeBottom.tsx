@@ -172,7 +172,7 @@ const REASONS = [
     icon: Gift,
     title: "Completely free",
     body:
-      "All 28 tools with no signup, no watermarks, no daily limits and no premium wall.",
+      "All 43 tools with no signup, no watermarks, no daily limits and no premium wall.",
   },
   {
     icon: Zap,
@@ -265,7 +265,7 @@ const STEPS = [
     n: 1,
     title: "Pick a tool",
     body:
-      "Choose any of the 28 tools above, from merging and compressing to signing and redacting.",
+      "Choose any of the 43 tools above, from merging and compressing to signing and redacting.",
   },
   {
     n: 2,

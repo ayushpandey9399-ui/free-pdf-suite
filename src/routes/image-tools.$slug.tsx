@@ -117,19 +117,19 @@ const HEIC_DESC =
 
 const HEIC_PNG_TITLE = "HEIC to PNG Converter Free, No Upload | FreePDFHub";
 const HEIC_PNG_DESC =
-  "Convert HEIC to PNG online free. Batch convert iPhone HEIC photos to lossless PNG in your browser, no upload, no signup, 100% private.";
+  "Convert HEIC to PNG online free. Batch convert iPhone HEIC photos to lossless PNG in your browser, no upload, no signup, 100% private. Works on any device.";
 
 const JPG_PNG_TITLE = "JPG to PNG Converter Online Free, No Upload | FreePDFHub";
 const JPG_PNG_DESC =
-  "Convert JPG to PNG online free. Batch convert JPG and JPEG images to lossless PNG in your browser, no upload, no signup, 100% private.";
+  "Convert JPG to PNG online free. Batch convert JPG and JPEG images to lossless PNG in your browser, no upload, no signup, 100% private. Works on any device.";
 
 const PNG_JPG_TITLE = "PNG to JPG Converter Online Free, No Upload | FreePDFHub";
 const PNG_JPG_DESC =
-  "Convert PNG to JPG online free. Batch convert PNG images to smaller JPG files in your browser, adjustable quality, no upload, 100% private.";
+  "Convert PNG to JPG online free. Batch convert PNG images to smaller JPG files in your browser, adjustable quality, no upload, 100% private. No install needed.";
 
 const WEBP_JPG_TITLE = "WebP to JPG Converter Free, No Upload | FreePDFHub";
 const WEBP_JPG_DESC =
-  "Convert WebP to JPG online free. Batch convert .webp images to universal JPG in your browser, adjustable quality, no upload, no signup.";
+  "Convert WebP to JPG online free. Batch convert .webp images to universal JPG in your browser, adjustable quality, no upload, no signup. Works on any device.";
 
 const WEBP_PNG_TITLE = "WebP to PNG Converter Free, No Upload | FreePDFHub";
 const WEBP_PNG_DESC =
@@ -137,7 +137,7 @@ const WEBP_PNG_DESC =
 
 const COMPRESS_TITLE = "Compress Image Online Free, JPG PNG WebP | FreePDFHub";
 const COMPRESS_DESC =
-  "Compress image online free. Reduce JPG, PNG, and WebP file size in your browser, target 100KB, 200KB, or 50KB. Batch and ZIP, 100% private.";
+  "Compress image online free. Reduce JPG, PNG, and WebP file size in your browser, target 100KB, 200KB, or 50KB. Batch and ZIP, 100% private. Nothing to install.";
 
 const RESIZE_TITLE = "Resize Image in Pixels or KB Free, No Upload | FreePDFHub";
 const RESIZE_DESC =
@@ -534,7 +534,7 @@ function ComingSoonView({ name, description }: { name: string; description: stri
         <span className="inline-flex rounded-full bg-[#f6f4f9] px-3 py-1 text-[12px] font-semibold text-[#5a5a66]">
           Coming soon
         </span>
-        <h1 className="mt-4 text-[32px] font-bold text-[#1F2937]">{name}</h1>
+        <h2 className="mt-4 text-[32px] font-bold text-[#1F2937]">{name}</h2>
         <p className="mx-auto mt-3 max-w-[520px] text-[15px] text-[#6B7280]">{description}</p>
         <Link
           to="/image-tools"
