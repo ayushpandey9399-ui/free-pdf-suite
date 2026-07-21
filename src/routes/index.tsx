@@ -25,7 +25,7 @@ const homeJsonLd = {
       email: CONTACT_EMAIL,
       logo: {
         "@type": "ImageObject",
-        url: `${SITE_URL}/favicon-192.png`,
+        url: `${SITE_URL}/logo-512.png`,
       },
       contactPoint: {
         "@type": "ContactPoint",
