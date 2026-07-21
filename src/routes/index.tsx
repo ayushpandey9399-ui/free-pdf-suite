@@ -115,7 +115,7 @@ function Home() {
             className="mx-auto mt-4 max-w-[720px] text-[16px] sm:text-[17px] leading-relaxed"
             style={{ color: "#6b6b78" }}
           >
-            28 free tools to merge, split, convert, edit and sign PDFs, right in your browser. Fast, private and free.
+            43 free tools to merge, split, convert, edit, sign PDFs and images, right in your browser. Fast, private and free.
           </p>
 
           {/* Filter pills */}
