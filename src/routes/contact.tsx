@@ -6,7 +6,7 @@ import { CONTACT_EMAIL, SITE_URL } from "@/lib/site";
 
 export const Route = createFileRoute("/contact")({
   head: () => {
-    const title = "Contact FreePDFHub | Bug Reports & Feedback";
+    const title = "Contact FreePDFHub, Bug Reports and Feedback | FreePDFHub";
     const description =
       "Get in touch with FreePDFHub. We read every bug report, feature request, and piece of feedback, and usually respond within a few days by email.";
     const url = `${SITE_URL}/contact`;

@@ -265,7 +265,7 @@ const STEPS = [
     n: 1,
     title: "Pick a tool",
     body:
-      "Choose any of the 28 tools above, from merging and compressing to signing and redacting.",
+      "Choose any of the 43 tools above, from merging and compressing to signing and redacting.",
   },
   {
     n: 2,

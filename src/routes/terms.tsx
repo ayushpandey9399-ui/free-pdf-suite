@@ -4,7 +4,7 @@ import { CONTACT_EMAIL, LAST_UPDATED, SITE_URL } from "@/lib/site";
 
 export const Route = createFileRoute("/terms")({
   head: () => {
-    const title = "Terms of Use | FreePDFHub";
+    const title = "Terms of Use for Free PDF and Image Tools | FreePDFHub";
     const description =
       "The terms that govern your use of FreePDFHub: free, browser-based PDF tools with no accounts, no uploads, and clear rules for acceptable use.";
     const url = `${SITE_URL}/terms`;
