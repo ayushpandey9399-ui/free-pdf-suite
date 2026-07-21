@@ -172,7 +172,7 @@ const REASONS = [
     icon: Gift,
     title: "Completely free",
     body:
-      "All 28 tools with no signup, no watermarks, no daily limits and no premium wall.",
+      "All 43 tools with no signup, no watermarks, no daily limits and no premium wall.",
   },
   {
     icon: Zap,
