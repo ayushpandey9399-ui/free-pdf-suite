@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { tools } from "@/tools/registry";
+import { imageTools } from "@/lib/imageTools";
 import { SITE_URL, LAST_UPDATED } from "@/lib/site";
 
 const BASE_URL = SITE_URL;
@@ -25,39 +26,42 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
+        // Build the sitemap from the SAME registries the site renders from,
+        // so a newly added tool is picked up automatically and can never be
+        // forgotten here. No hardcoded per-tool duplicate lists.
         const entries: SitemapEntry[] = [
           { path: "/", lastmod: LASTMOD, changefreq: "weekly", priority: "1.0" },
+
           ...tools.map((t) => ({
             path: `/tools/${t.slug}`,
             lastmod: LASTMOD,
             changefreq: "monthly" as const,
             priority: "0.8",
           })),
+
           { path: "/image-tools", lastmod: LASTMOD, changefreq: "monthly", priority: "0.7" },
-          { path: "/image-tools/heic-to-jpg", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
-          { path: "/image-tools/heic-to-png", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
-          { path: "/image-tools/jpg-to-png", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
-          { path: "/image-tools/png-to-jpg", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
-          { path: "/image-tools/webp-to-jpg", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
-          { path: "/image-tools/webp-to-png", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
-          { path: "/image-tools/compress-image", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
-          { path: "/image-tools/image-resize", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
-          { path: "/image-tools/jpg-to-webp", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
-          { path: "/image-tools/png-to-webp", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
-          { path: "/image-tools/crop-image", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
-          { path: "/image-tools/rotate-image", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
-          { path: "/image-tools/watermark-image", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
-          { path: "/image-tools/meme-generator", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
-          { path: "/image-tools/photo-editor", lastmod: LASTMOD, changefreq: "monthly", priority: "0.8" },
+          ...imageTools.map((t) => ({
+            path: `/image-tools/${t.slug}`,
+            lastmod: LASTMOD,
+            changefreq: "monthly" as const,
+            priority: "0.8",
+          })),
 
           { path: "/about", lastmod: LASTMOD, changefreq: "yearly", priority: "0.5" },
-
           { path: "/contact", lastmod: LASTMOD, changefreq: "yearly", priority: "0.5" },
           { path: "/privacy-policy", lastmod: LASTMOD, changefreq: "yearly", priority: "0.3" },
           { path: "/terms", lastmod: LASTMOD, changefreq: "yearly", priority: "0.3" },
         ];
 
-        const urls = entries.map((e) =>
+        // De-dupe defensively in case a slug ever appears in two registries.
+        const seen = new Set<string>();
+        const unique = entries.filter((e) => {
+          if (seen.has(e.path)) return false;
+          seen.add(e.path);
+          return true;
+        });
+
+        const urls = unique.map((e) =>
           [
             `  <url>`,
             `    <loc>${BASE_URL}${e.path}</loc>`,
@@ -79,12 +83,13 @@ export const Route = createFileRoute("/sitemap.xml")({
 
         return new Response(xml, {
           headers: {
-            "Content-Type": "application/xml",
-            "Cache-Control": "public, max-age=3600",
+            "Content-Type": "application/xml; charset=utf-8",
+            // Short edge cache so newly added tools appear within an hour,
+            // with SWR so crawlers never see a stale-blocking response.
+            "Cache-Control": "public, max-age=300, s-maxage=600, stale-while-revalidate=3600",
           },
         });
       },
     },
   },
 });
-
