@@ -77,12 +77,13 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
         and draws your replacement in a font, size and colour that match
         the source as closely as possible. It works best on normal digital
         PDFs (contracts, invoices, letters); scanned PDFs have no
-        underlying text layer, so use{" "}
-        <Link to="/tools/ocr-pdf" className="text-[#e5322d] underline">
-          OCR PDF
+        underlying text layer, so run them through the OCR option inside{" "}
+        <Link to="/tools/scan-to-pdf" className="text-[#e5322d] underline">
+          Scan to PDF
         </Link>{" "}
-        first to make the text selectable. To permanently remove sensitive
-        content so it can't be recovered, use{" "}
+        first to build a searchable PDF with selectable text. To
+        permanently remove sensitive content so it can't be recovered,
+        use{" "}
         <Link to="/tools/redact-pdf" className="text-[#e5322d] underline">
           Redact PDF
         </Link>
@@ -90,7 +91,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
       </>
     ),
     plain:
-      "Yes. Switch to Edit text mode, click a line and retype it, the tool covers the original with a background-matched rectangle and draws your new text in a matching font, size and colour. Works on native PDFs; run OCR PDF (/tools/ocr-pdf) first for scans. For permanent removal, use Redact PDF (/tools/redact-pdf).",
+      "Yes. Switch to Edit text mode, click a line and retype it, the tool covers the original with a background-matched rectangle and draws your new text in a matching font, size and colour. Works on native PDFs; for scans, run the OCR option inside Scan to PDF (/tools/scan-to-pdf) first to get a searchable PDF with selectable text. For permanent removal, use Redact PDF (/tools/redact-pdf).",
   },
   {
     q: "Can I type on a scanned PDF?",
