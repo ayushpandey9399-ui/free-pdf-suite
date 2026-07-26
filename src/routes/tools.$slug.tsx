@@ -195,15 +195,11 @@ export const Route = createFileRoute("/tools/$slug")({
     const slug = loaderData?.slug ?? params.slug;
     const url = `${SITE_URL}/tools/${slug}`;
     const crumbName = loaderData?.name ?? "Tool";
-    const breadcrumbJsonLd = {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-        { "@type": "ListItem", position: 2, name: "All tools", item: `${SITE_URL}/` },
-        { "@type": "ListItem", position: 3, name: crumbName, item: url },
-      ],
-    };
+    const crumbs = breadcrumbJsonLd([
+      { name: "Home", url: `${SITE_URL}/` },
+      { name: crumbName, url },
+    ]);
+
     const meta = TOOL_META[slug];
     if (meta) {
       return {
