@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { PDFDocument } from "pdf-lib";
+import { loadPdfLib } from "@/lib/lazyLibs";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ToolWorkspace, InfoTip } from "@/components/ToolWorkspace";
 import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
@@ -143,6 +143,7 @@ export default function GrayscalePdf() {
       const { scale, jpeg } = QUALITY[quality];
       const doc = await loadPdfJsDoc(buf.slice(0));
       const total = doc.numPages;
+      const { PDFDocument } = await loadPdfLib();
       const out = await PDFDocument.create();
 
       for (let i = 1; i <= total; i++) {

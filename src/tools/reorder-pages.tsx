@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { PDFDocument } from "pdf-lib";
+import { loadPdfLib } from "@/lib/lazyLibs";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { FileDropzone } from "@/components/FileDropzone";
@@ -48,6 +48,7 @@ export default function ReorderPages() {
     try {
       const src = await loadPdfLibDoc(await file.arrayBuffer());
       const order = items.map((it) => parseInt(it.id.replace("p-", ""), 10) - 1);
+      const { PDFDocument } = await loadPdfLib();
       const out = await PDFDocument.create();
       const pages = await out.copyPages(src, order);
       for (const p of pages) out.addPage(p);

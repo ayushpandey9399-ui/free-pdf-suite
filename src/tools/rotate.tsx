@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { degrees } from "pdf-lib";
+import { loadPdfLib } from "@/lib/lazyLibs";
 import { toast } from "sonner";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ToolWorkspace, InfoTip } from "@/components/ToolWorkspace";
@@ -41,6 +41,7 @@ export default function Rotate() {
     if (!file) return;
     setLoading(true);
     try {
+      const { degrees } = await loadPdfLib();
       const src = await loadPdfLibDoc(await file.arrayBuffer());
       const pages = src.getPages();
       pages.forEach((page, i) => {

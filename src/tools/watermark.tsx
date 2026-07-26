@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { StandardFonts, degrees, rgb } from "pdf-lib";
+import { loadPdfLib } from "@/lib/lazyLibs";
 import { toast } from "sonner";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ToolWorkspace } from "@/components/ToolWorkspace";
@@ -39,6 +39,7 @@ export default function Watermark() {
     const file = files[0]; if (!file) return;
     setLoading(true);
     try {
+      const { StandardFonts, degrees, rgb } = await loadPdfLib();
       const doc = await loadPdfLibDoc(await file.arrayBuffer());
       const pages = doc.getPages();
       if (mode === "text") {

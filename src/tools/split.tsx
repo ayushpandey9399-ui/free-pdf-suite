@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { PDFDocument } from "pdf-lib";
+import { loadPdfLib } from "@/lib/lazyLibs";
 import { toast } from "sonner";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ToolWorkspace } from "@/components/ToolWorkspace";
@@ -49,6 +49,7 @@ export default function Split() {
       if (mode === "every") {
         const outFiles: { name: string; data: Uint8Array }[] = [];
         for (let i = 0; i < total; i++) {
+          const { PDFDocument } = await loadPdfLib();
           const doc = await PDFDocument.create();
           const [p] = await doc.copyPages(src, [i]);
           doc.addPage(p);

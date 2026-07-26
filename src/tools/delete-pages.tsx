@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { PDFDocument } from "pdf-lib";
+import { loadPdfLib } from "@/lib/lazyLibs";
 import { toast } from "sonner";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ToolWorkspace, InfoTip } from "@/components/ToolWorkspace";
@@ -36,6 +36,7 @@ export default function DeletePages() {
       const src = await loadPdfLibDoc(await file.arrayBuffer());
       const keep = src.getPageIndices().filter((i) => !selected.has(i + 1));
       if (!keep.length) throw new Error("Cannot delete all pages");
+      const { PDFDocument } = await loadPdfLib();
       const out = await PDFDocument.create();
       const pages = await out.copyPages(src, keep);
       for (const p of pages) out.addPage(p);
