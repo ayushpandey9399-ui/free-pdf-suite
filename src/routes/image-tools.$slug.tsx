@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { getImageTool } from "@/lib/imageTools";
 
 import { SITE_URL } from "@/lib/site";
+import { normalizeToolJsonLd } from "@/lib/seoSchema";
 import { HeicToJpgTool } from "@/tools/heic-to-jpg";
 import { HeicToPngTool } from "@/tools/heic-to-png";
 import { JpgToPngTool } from "@/tools/jpg-to-png";
