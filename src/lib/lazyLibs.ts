@@ -9,8 +9,10 @@
  * is interactive, so real users almost never wait for them.
  */
 
+import type JSZipType from "jszip";
+
 type PdfLibModule = typeof import("pdf-lib");
-type JSZipCtor = (typeof import("jszip"))["default"];
+type JSZipCtor = typeof JSZipType;
 
 export function loadPdfLib(): Promise<PdfLibModule> {
   return import("pdf-lib");
