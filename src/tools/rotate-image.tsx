@@ -10,7 +10,7 @@ import {
   FlipVertical2,
   Loader2,
 } from "lucide-react";
-import JSZip from "jszip";
+import { loadJSZip } from "@/lib/lazyLibs";
 import { saveAs } from "@/lib/saveFile";
 import { guardDecodedSize, isSvgFile, uniqueZipName } from "@/lib/imageSafety";
 
@@ -276,6 +276,7 @@ export function RotateImageTool() {
       toast.error("Apply changes first");
       return;
     }
+    const JSZip = await loadJSZip();
     const zip = new JSZip();
     const used = new Set<string>();
     for (const r of done) zip.file(uniqueZipName(used, r.outName!), r.outBlob!);

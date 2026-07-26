@@ -14,7 +14,7 @@ import { LargeFileWarning } from "@/components/LargeFileWarning";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
 import { usePdfStats } from "@/hooks/usePdfStats";
 import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
-import JSZip from "jszip";
+import { loadJSZip } from "@/lib/lazyLibs";
 
 type Result =
   | { kind: "single"; blob: Blob; filename: string; mime: string; count: 1 }
@@ -59,6 +59,7 @@ export default function PdfToImages() {
       if (out.length === 1) {
         setResult({ kind: "single", blob: out[0].data, filename: out[0].name, mime, count: 1 });
       } else {
+        const JSZip = await loadJSZip();
         const zip = new JSZip();
         for (const f of out) zip.file(f.name, f.data);
         const zipBlob = await zip.generateAsync({ type: "blob" });

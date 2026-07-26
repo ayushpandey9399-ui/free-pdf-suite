@@ -2,7 +2,7 @@ import { UploadDropzone } from "@/components/UploadDropzone";
 import { useCallback, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Loader2, Download, X } from "lucide-react";
-import JSZip from "jszip";
+import { loadJSZip } from "@/lib/lazyLibs";
 import { saveAs } from "@/lib/saveFile";
 import { isSvgFile, uniqueZipName } from "@/lib/imageSafety";
 
@@ -171,6 +171,7 @@ export function CompressImageTool() {
       toast.error("Compress some files first");
       return;
     }
+    const JSZip = await loadJSZip();
     const zip = new JSZip();
     const used = new Set<string>();
     for (const r of done) {

@@ -15,7 +15,7 @@ import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
 import { usePdfStats } from "@/hooks/usePdfStats";
 import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
-import JSZip from "jszip";
+import { loadJSZip } from "@/lib/lazyLibs";
 
 type SplitResult =
   | { kind: "single"; blob: Blob; filename: string; count: number }
@@ -33,6 +33,7 @@ export default function Split() {
   const resetAll = () => { setFiles([]); setMode("ranges"); setRanges("1-1"); setResult(null); };
 
   const zipFiles = async (out: { name: string; data: Uint8Array }[]): Promise<Blob> => {
+    const JSZip = await loadJSZip();
     const zip = new JSZip();
     for (const f of out) zip.file(f.name, f.data);
     return zip.generateAsync({ type: "blob" });

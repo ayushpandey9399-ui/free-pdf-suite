@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Check, Loader2 } from "lucide-react";
-import JSZip from "jszip";
+import { loadJSZip } from "@/lib/lazyLibs";
 import {
   PDFArray,
   PDFDict,
@@ -400,6 +400,7 @@ export default function ExtractImages() {
           filename: `${base}-image-1.${img.ext}`,
         });
       } else {
+        const JSZip = await loadJSZip();
         const zip = new JSZip();
         const pad = (n: number) => n.toString().padStart(2, "0");
         chosen.forEach((img, i) => {
