@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { useEffect } from "react";
 import { getImageTool } from "@/lib/imageTools";
 
-import { SITE_URL, CONTACT_EMAIL } from "@/lib/site";
+import { SITE_URL } from "@/lib/site";
 import { HeicToJpgTool } from "@/tools/heic-to-jpg";
 import { HeicToPngTool } from "@/tools/heic-to-png";
 import { JpgToPngTool } from "@/tools/jpg-to-png";
@@ -177,7 +177,16 @@ export const Route = createFileRoute("/image-tools/$slug")({
   loader: ({ params }) => {
     const tool = getImageTool(params.slug);
     if (!tool) throw notFound();
-    return { tool };
+    // Return only serializable fields. The registry entry carries an icon
+    // component, and a function cannot be dehydrated for the client.
+    return {
+      tool: {
+        slug: tool.slug,
+        name: tool.name,
+        description: tool.description,
+        status: tool.status,
+      },
+    };
   },
   head: ({ loaderData, params }) => {
     const slug = loaderData?.tool.slug ?? params.slug;
@@ -476,22 +485,7 @@ function ImageToolPage() {
           <div className="mt-10">
             <Tool />
           </div>
-          <p className="mt-8 text-center text-[13px]" style={{ color: "#6B7280" }}>
-            Your files never leave your device.
-          </p>
         </div>
-        <p
-          className="mt-6 text-center text-[13px]"
-          style={{ color: "#6B7280" }}
-        >
-          Found a bug or need help? Email{" "}
-          <a
-            href={`mailto:${CONTACT_EMAIL}`}
-            className="underline underline-offset-2 hover:text-[#e5322d]"
-          >
-            {CONTACT_EMAIL}
-          </a>
-        </p>
       </section>
       <Seo />
     </div>

@@ -1,8 +1,9 @@
+import { UploadDropzone } from "@/components/UploadDropzone";
 import { useCallback, useRef, useState } from "react";
 import { toast } from "sonner";
-import { Loader2, Download, X, Upload } from "lucide-react";
+import { Loader2, Download, X } from "lucide-react";
 import JSZip from "jszip";
-import { saveAs } from "file-saver";
+import { saveAs } from "@/lib/saveFile";
 import { guardDecodedSize, isSvgFile, uniqueZipName } from "@/lib/imageSafety";
 
 type Row = {
@@ -81,8 +82,6 @@ async function webpToPng(file: File): Promise<Blob> {
 export function WebpToPngTool() {
   const [rows, setRows] = useState<Row[]>([]);
   const [running, setRunning] = useState(false);
-  const [dragging, setDragging] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
   const idRef = useRef(0);
 
   const addFiles = useCallback((incoming: FileList | File[]) => {
@@ -183,47 +182,14 @@ export function WebpToPngTool() {
 
   return (
     <div className="mx-auto w-full max-w-3xl">
-      <div
-        onDragOver={(e) => {
-          e.preventDefault();
-          setDragging(true);
-        }}
-        onDragLeave={() => setDragging(false)}
-        onDrop={(e) => {
-          e.preventDefault();
-          setDragging(false);
-          if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
-        }}
-        className={`flex flex-col items-center justify-center rounded-2xl border-2 border-dashed p-8 transition-colors ${
-          dragging ? "border-[#e5322d] bg-[#fff6f5]" : "border-[#ececef] bg-white"
-        }`}
-      >
-        <Upload className="mb-3 h-8 w-8 text-[#e5322d]" />
-        <button
-          type="button"
-          onClick={() => inputRef.current?.click()}
-          className="inline-flex h-[54px] items-center justify-center rounded-xl bg-[#e5322d] px-8 text-[16px] font-semibold text-white shadow-[0_10px_28px_rgba(229,50,45,0.28)] transition-transform hover:-translate-y-0.5"
-        >
-          Select WebP files
-        </button>
-        <p className="mt-3 text-[13px] text-[#5a5a66]">
-          or drop .webp images here
-        </p>
-        <p className="mt-1 text-[12px] text-[#5a5a66]">
-          Your files never leave your device.
-        </p>
-        <input
-          ref={inputRef}
-          type="file"
-          accept={ACCEPT}
-          multiple
-          className="hidden"
-          onChange={(e) => {
-            if (e.target.files?.length) addFiles(e.target.files);
-            e.target.value = "";
-          }}
-        />
-      </div>
+      <UploadDropzone
+        accept={ACCEPT}
+        multiple
+        buttonLabel="Select WebP files"
+        hint="or drop .webp images here"
+        onFiles={addFiles}
+        accent="#e5322d"
+      />
 
       {rows.length > 0 && (
         <>

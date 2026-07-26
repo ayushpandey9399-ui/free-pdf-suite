@@ -1,4 +1,4 @@
-import { saveAs } from "file-saver";
+import { saveAs } from "@/lib/saveFile";
 import JSZip from "jszip";
 
 export function downloadBlob(data: Blob | Uint8Array | ArrayBuffer, filename: string, mime = "application/octet-stream") {

@@ -1,3 +1,4 @@
+import { UploadDropzone } from "@/components/UploadDropzone";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import {
@@ -428,10 +429,6 @@ export function MemeGeneratorTool() {
     }
   }, []);
 
-  const onDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    if (e.dataTransfer?.files?.length) void loadPanelFile(e.dataTransfer.files[0], 0);
-  };
 
   /* -------- layer helpers -------- */
 
@@ -626,22 +623,16 @@ export function MemeGeneratorTool() {
   if (!panels[0]) {
     return (
       <div className="mx-auto max-w-3xl">
-        <label
-          onDragOver={(e) => e.preventDefault()}
-          onDrop={onDrop}
-          className="flex cursor-pointer flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-[#e5e7eb] bg-white p-10 text-center hover:border-[#eab308]"
-        >
-          <Upload className="h-8 w-8 text-[#eab308]" />
-          <div className="text-[16px] font-semibold text-[#1F2937]">Drop a JPG, PNG, or WebP image</div>
-          <div className="text-[13px] text-[#6B7280]">Your image never leaves your device</div>
-          <input
-            type="file" accept={ACCEPT} className="hidden"
-            onChange={(e) => e.target.files && loadPanelFile(e.target.files[0], 0)}
-          />
-          <span className="mt-2 inline-flex items-center gap-2 rounded-lg bg-[#eab308] px-4 py-2 text-[14px] font-semibold text-white">
-            Select image
-          </span>
-        </label>
+        <UploadDropzone
+          accept={ACCEPT}
+          buttonLabel="Select image"
+          hint="or drop a JPG, PNG, or WebP image here"
+          onFiles={(files) => {
+            const f = Array.from(files)[0];
+            if (f) loadPanelFile(f, 0);
+          }}
+          accent="#eab308"
+        />
       </div>
     );
   }

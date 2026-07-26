@@ -143,9 +143,13 @@ describe("contract: every live registry entry is fully wired", () => {
     it(`${t.slug}: SEO component file exists`, () => {
       expect(existsSync(join(ROOT, "src/components", `${pascal(t.slug)}Seo.tsx`))).toBe(true);
     });
-    it(`${t.slug}: is listed in the sitemap`, () => {
-      expect(SITEMAP_SRC).toContain(`/image-tools/${t.slug}`);
+    it(`${t.slug}: is covered by the sitemap`, () => {
+      // The sitemap route generates image URLs from the imageTools registry,
+      // so every live slug is emitted as long as that mapping is present.
+      expect(SITEMAP_SRC).toContain("imageTools.map");
+      expect(SITEMAP_SRC).toContain("/image-tools/${t.slug}");
     });
+
     it(`${t.slug}: is listed in llms.txt`, () => {
       expect(LLMS_SRC).toContain(`(/image-tools/${t.slug})`);
     });

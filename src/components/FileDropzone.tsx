@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from "react";
-import { X, FileText } from "lucide-react";
+import { X, FileText, Lock } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -73,43 +73,39 @@ export function FileDropzone({
             setDragging(false);
             if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
           }}
-          className={cn(
-            "flex flex-col items-center justify-center rounded-2xl transition-colors",
-            dragging ? "bg-[#fff6f5] py-6" : "bg-transparent",
-          )}
+          className="flex flex-col items-center justify-center px-5 py-10 transition-colors duration-150 sm:px-10 sm:py-14"
+          style={{
+            border: `2px dashed ${dragging ? "#e5322d" : "#e8e8ee"}`,
+            borderRadius: "16px",
+            backgroundColor: dragging ? "#fff6f5" : "#fff",
+          }}
         >
           <button
             type="button"
             onClick={openPicker}
-            className="inline-flex items-center justify-center text-white transition-all duration-150"
+            className="inline-flex w-full max-w-[320px] items-center justify-center text-white transition-all duration-150 hover:-translate-y-0.5 sm:w-auto"
             style={{
               backgroundColor: "#e5322d",
-              width: "280px",
-              maxWidth: "100%",
-              height: "62px",
-              padding: "0 36px",
-              fontSize: "18px",
-              fontWeight: 600,
+              padding: "20px 40px",
               borderRadius: "12px",
-              boxShadow: "0 10px 28px rgba(229,50,45,0.28)",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = "#c72620";
-              e.currentTarget.style.transform = "translateY(-2px)";
-              e.currentTarget.style.boxShadow = "0 16px 36px rgba(229,50,45,0.36)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "#e5322d";
-              e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.boxShadow = "0 10px 28px rgba(229,50,45,0.28)";
+              fontSize: "17px",
+              fontWeight: 700,
+              lineHeight: 1,
+              boxShadow: "0 10px 26px rgba(229,50,45,0.24)",
             }}
           >
             {defaultBtn}
           </button>
-          <p className="mt-3.5 text-[14px]" style={{ color: "#5a5a66" }}>
+          <p className="mt-4 text-center text-[14px]" style={{ color: "#6B7280" }}>
             {defaultHint}
           </p>
-
+          <p
+            className="mt-6 inline-flex items-center gap-1.5 text-[13px]"
+            style={{ color: "#8b8b96" }}
+          >
+            <Lock className="h-3.5 w-3.5" aria-hidden />
+            Your files never leave your device.
+          </p>
 
           <input
             ref={inputRef}
@@ -124,6 +120,7 @@ export function FileDropzone({
           />
         </div>
       )}
+
 
 
       {files.length > 0 && !hideList && (
