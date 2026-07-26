@@ -476,23 +476,7 @@ function ImageToolPage() {
           <div className="mt-10">
             <Tool />
           </div>
-          <p className="mt-8 text-center text-[13px]" style={{ color: "#6B7280" }}>
-            Your files never leave your device.
-          </p>
-        </div>
-        <p
-          className="mt-6 text-center text-[13px]"
-          style={{ color: "#6B7280" }}
-        >
-          Found a bug or need help? Email{" "}
-          <a
-            href={`mailto:${CONTACT_EMAIL}`}
-            className="underline underline-offset-2 hover:text-[#e5322d]"
-          >
-            {CONTACT_EMAIL}
-          </a>
-        </p>
-      </section>
+        </section>
       <Seo />
     </div>
   );
