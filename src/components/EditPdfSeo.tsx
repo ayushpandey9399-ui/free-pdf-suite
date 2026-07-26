@@ -164,19 +164,19 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
       <>
         Two common reasons. First, the page may be a <em>scan</em>, an
         image of paper with no underlying text layer for the tool to
-        detect. Run{" "}
-        <Link to="/tools/ocr-pdf" className="text-[#e5322d] underline">
-          OCR PDF
+        detect. Rebuild it as a searchable PDF with the OCR option inside{" "}
+        <Link to="/tools/scan-to-pdf" className="text-[#e5322d] underline">
+          Scan to PDF
         </Link>{" "}
-        first to add a real text layer, then come back and edit. Second,
-        Edit text mode only lights up horizontal lines of text; rotated,
-        skewed or vertical labels are skipped in this first version to
-        keep replacements aligned. For those cases, cover the label with a
-        Rectangle in Annotate mode and type a new one on top.
+        first, which adds a real text layer, then come back and edit.
+        Second, Edit text mode only lights up horizontal lines of text;
+        rotated, skewed or vertical labels are skipped in this first
+        version to keep replacements aligned. For those cases, cover the
+        label with a Rectangle in Annotate mode and type a new one on top.
       </>
     ),
     plain:
-      "Two reasons: the page is a scan with no text layer (run OCR PDF at /tools/ocr-pdf first), or the text is rotated / vertical (this version only edits horizontal lines, cover it with a Rectangle in Annotate mode and retype on top).",
+      "Two reasons: the page is a scan with no text layer, so rebuild it as a searchable PDF with the OCR option inside Scan to PDF (/tools/scan-to-pdf) first, or the text is rotated / vertical (this version only edits horizontal lines, cover it with a Rectangle in Annotate mode and retype on top).",
   },
 ];
 
