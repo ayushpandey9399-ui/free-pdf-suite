@@ -1,7 +1,7 @@
 import { UploadDropzone } from "@/components/UploadDropzone";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { Loader2, Download, X, Upload, AlertTriangle } from "lucide-react";
+import { Loader2, Download, X, AlertTriangle } from "lucide-react";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import { guardDecodedSize, isSvgFile, uniqueZipName } from "@/lib/imageSafety";

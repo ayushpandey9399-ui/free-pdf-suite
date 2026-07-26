@@ -4,7 +4,6 @@ import { toast } from "sonner";
 import {
   Download,
   X,
-  Upload,
   RotateCcw,
   RotateCw,
   FlipHorizontal2,
