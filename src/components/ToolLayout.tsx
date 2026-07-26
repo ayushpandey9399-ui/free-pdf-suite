@@ -72,18 +72,7 @@ export function ToolLayout({
           <div className="mt-10">{children}</div>
         </div>
 
-        <p
-          className="mt-12 text-center text-[13px]"
-          style={{ color: "#6B7280" }}
-        >
-          Found a bug or need help? Email{" "}
-          <a
-            href="mailto:hello@freepdfhub.in"
-            className="underline underline-offset-2 hover:text-[#e5322d]"
-          >
-            hello@freepdfhub.in
-          </a>
-        </p>
+
       </section>
     </div>
   );
