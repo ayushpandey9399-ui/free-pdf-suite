@@ -3,7 +3,7 @@ import { useCallback, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Loader2, Download, X } from "lucide-react";
 import JSZip from "jszip";
-import { saveAs } from "file-saver";
+import { saveAs } from "@/lib/saveFile";
 import { isSvgFile, uniqueZipName } from "@/lib/imageSafety";
 
 type Row = {

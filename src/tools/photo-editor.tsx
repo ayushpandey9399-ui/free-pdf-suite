@@ -5,7 +5,7 @@ import {
   Download, X, Upload, Loader2, RotateCcw, RotateCw,
   FlipHorizontal2, FlipVertical2, Undo2, Redo2, Crop as CropIcon, Sliders, Check,
 } from "lucide-react";
-import { saveAs } from "file-saver";
+import { saveAs } from "@/lib/saveFile";
 import { guardDecodedSize, isSvgFile } from "@/lib/imageSafety";
 import {
   pxSharpen, vignetteFactor, pxGrain, grainNoise, duotoneMap,

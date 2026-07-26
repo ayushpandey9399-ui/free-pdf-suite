@@ -11,7 +11,7 @@ import {
   Loader2,
 } from "lucide-react";
 import JSZip from "jszip";
-import { saveAs } from "file-saver";
+import { saveAs } from "@/lib/saveFile";
 import { guardDecodedSize, isSvgFile, uniqueZipName } from "@/lib/imageSafety";
 
 type Fmt = "jpg" | "png" | "webp";
