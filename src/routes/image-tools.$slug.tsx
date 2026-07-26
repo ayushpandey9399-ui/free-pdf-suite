@@ -177,7 +177,16 @@ export const Route = createFileRoute("/image-tools/$slug")({
   loader: ({ params }) => {
     const tool = getImageTool(params.slug);
     if (!tool) throw notFound();
-    return { tool };
+    // Return only serializable fields. The registry entry carries an icon
+    // component, and a function cannot be dehydrated for the client.
+    return {
+      tool: {
+        slug: tool.slug,
+        name: tool.name,
+        description: tool.description,
+        status: tool.status,
+      },
+    };
   },
   head: ({ loaderData, params }) => {
     const slug = loaderData?.tool.slug ?? params.slug;
