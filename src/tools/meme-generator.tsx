@@ -429,10 +429,6 @@ export function MemeGeneratorTool() {
     }
   }, []);
 
-  const onDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    if (e.dataTransfer?.files?.length) void loadPanelFile(e.dataTransfer.files[0], 0);
-  };
 
   /* -------- layer helpers -------- */
 

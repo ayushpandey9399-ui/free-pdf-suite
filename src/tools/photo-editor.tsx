@@ -387,7 +387,6 @@ export function PhotoEditorTool() {
   const [preset, setPreset] = useState<PresetKey>("original");
   const [comparing, setComparing] = useState(false);
   const [exporting, setExporting] = useState(false);
-  const [dragging, setDragging] = useState(false);
   const [outFmt, setOutFmt] = useState<Fmt>("jpg");
   const [outQuality, setOutQuality] = useState(0.92);
   const [outWidth, setOutWidth] = useState<number | "">("");
@@ -399,7 +398,6 @@ export function PhotoEditorTool() {
 
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
   const cropStageRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
   const stageStateRef = useRef<StageState | null>(null);
 
   // ---- History helpers ----
