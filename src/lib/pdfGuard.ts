@@ -1,4 +1,5 @@
-import { PDFDocument, EncryptedPDFError } from "pdf-lib";
+import type { PDFDocument } from "pdf-lib";
+import { loadPdfLib } from "./lazyLibs";
 import { ensurePdfWorker, type PDFDocumentProxy } from "./pdfWorker";
 
 export class PdfPasswordError extends Error {
@@ -24,8 +25,9 @@ export function isPdfPasswordError(e: unknown): boolean {
 export async function loadPdfLibDoc(
   data: ArrayBuffer | Uint8Array,
 ): Promise<PDFDocument> {
+  const { PDFDocument: Doc, EncryptedPDFError } = await loadPdfLib();
   try {
-    return await PDFDocument.load(data, { ignoreEncryption: false });
+    return await Doc.load(data, { ignoreEncryption: false });
   } catch (e) {
     if (e instanceof EncryptedPDFError || isPdfPasswordError(e)) {
       throw new PdfPasswordError();
@@ -36,7 +38,7 @@ export async function loadPdfLibDoc(
 
 /** Load a PDF with pdfjs-dist. Throws PdfPasswordError if encrypted. */
 export async function loadPdfJsDoc(data: ArrayBuffer | Uint8Array): Promise<PDFDocumentProxy> {
-  const pdfjs = ensurePdfWorker();
+  const pdfjs = await ensurePdfWorker();
   const task = pdfjs.getDocument({ data });
   // Refuse password prompts — surface as our error instead.
   task.onPassword = () => {
