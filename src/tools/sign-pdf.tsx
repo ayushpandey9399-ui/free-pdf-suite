@@ -1,3 +1,9 @@
+// Signature fonts load with this tool chunk only, so the other 48 pages do not
+// pay for them. Everything that rasterises typed text awaits ensureSignatureFonts().
+import "@fontsource/dancing-script/600.css";
+import "@fontsource/great-vibes/400.css";
+import "@fontsource/caveat/600.css";
+import "@fontsource/sacramento/400.css";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { PDFDocument, degrees, rgb, StandardFonts, type PDFFont } from "pdf-lib";
@@ -1756,6 +1762,7 @@ function TypePad({
 
   useEffect(() => {
     if (!text.trim()) { onCommit(null); lastCommittedRef.current = null; return; }
+    await ensureSignatureFonts();
     const rendered = renderTextToPng(text, font, color);
     if (rendered) {
       onCommit(rendered);
@@ -2185,6 +2192,26 @@ function ColorRow({
       ))}
     </div>
   );
+}
+
+
+const SIGNATURE_FAMILIES = ["Dancing Script", "Great Vibes", "Caveat", "Sacramento"];
+let signatureFontsPromise: Promise<unknown> | null = null;
+
+/** Wait until the cursive families are decoded. Canvas must never fall back. */
+function ensureSignatureFonts(): Promise<unknown> {
+  if (typeof document === "undefined" || !("fonts" in document)) return Promise.resolve();
+  if (!signatureFontsPromise) {
+    signatureFontsPromise = Promise.all([
+      ...SIGNATURE_FAMILIES.flatMap((f) => [
+        document.fonts.load(`96px "${f}"`),
+        document.fonts.load(`600 96px "${f}"`),
+      ]),
+    ])
+      .then(() => document.fonts.ready)
+      .catch(() => undefined);
+  }
+  return signatureFontsPromise;
 }
 
 /* ============================== helpers ============================== */

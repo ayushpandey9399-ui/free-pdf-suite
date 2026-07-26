@@ -1,3 +1,9 @@
+// Devanagari + Noto Sans ship with this tool chunk only. ensureFontsReady()
+// below explicitly loads them before any canvas rasterisation.
+import "@fontsource/noto-sans/400.css";
+import "@fontsource/noto-sans/700.css";
+import "@fontsource/noto-sans-devanagari/400.css";
+import "@fontsource/noto-sans-devanagari/700.css";
 import { useEffect, useMemo, useState } from "react";
 import { loadPdfLib } from "@/lib/lazyLibs";
 import { toast } from "sonner";
