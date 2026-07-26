@@ -1,7 +1,8 @@
 import { useCallback, useRef, useState } from "react";
 import { X, FileText, Lock } from "lucide-react";
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
+import { DropOverlay, useWindowFileDrop } from "@/components/DropOverlay";
+
 
 export interface FileDropzoneProps {
   accept?: string;
