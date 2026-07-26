@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { useEffect } from "react";
 import { getImageTool } from "@/lib/imageTools";
 
-import { SITE_URL, CONTACT_EMAIL } from "@/lib/site";
+import { SITE_URL } from "@/lib/site";
 import { HeicToJpgTool } from "@/tools/heic-to-jpg";
 import { HeicToPngTool } from "@/tools/heic-to-png";
 import { JpgToPngTool } from "@/tools/jpg-to-png";
@@ -476,7 +476,8 @@ function ImageToolPage() {
           <div className="mt-10">
             <Tool />
           </div>
-        </section>
+        </div>
+      </section>
       <Seo />
     </div>
   );
