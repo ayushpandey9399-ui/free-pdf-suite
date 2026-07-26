@@ -1,115 +1,10 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
-import type { ReactNode } from "react";
 import { useEffect } from "react";
 import { getImageTool } from "@/lib/imageTools";
 
 import { SITE_URL } from "@/lib/site";
 import { normalizeToolJsonLd } from "@/lib/seoSchema";
-import { HeicToJpgTool } from "@/tools/heic-to-jpg";
-import { HeicToPngTool } from "@/tools/heic-to-png";
-import { JpgToPngTool } from "@/tools/jpg-to-png";
-import {
-  HeicToJpgSeo,
-  heicToJpgFaqJsonLd,
-  heicToJpgSoftwareJsonLd,
-  heicToJpgHowToJsonLd,
-} from "@/components/HeicToJpgSeo";
-import {
-  HeicToPngSeo,
-  heicToPngFaqJsonLd,
-  heicToPngSoftwareJsonLd,
-  heicToPngHowToJsonLd,
-} from "@/components/HeicToPngSeo";
-import {
-  JpgToPngSeo,
-  jpgToPngFaqJsonLd,
-  jpgToPngSoftwareJsonLd,
-  jpgToPngHowToJsonLd,
-} from "@/components/JpgToPngSeo";
-import { PngToJpgTool } from "@/tools/png-to-jpg";
-import {
-  PngToJpgSeo,
-  pngToJpgFaqJsonLd,
-  pngToJpgSoftwareJsonLd,
-  pngToJpgHowToJsonLd,
-} from "@/components/PngToJpgSeo";
-import { WebpToJpgTool } from "@/tools/webp-to-jpg";
-import {
-  WebpToJpgSeo,
-  webpToJpgFaqJsonLd,
-  webpToJpgSoftwareJsonLd,
-  webpToJpgHowToJsonLd,
-} from "@/components/WebpToJpgSeo";
-import { WebpToPngTool } from "@/tools/webp-to-png";
-import {
-  WebpToPngSeo,
-  webpToPngFaqJsonLd,
-  webpToPngSoftwareJsonLd,
-  webpToPngHowToJsonLd,
-} from "@/components/WebpToPngSeo";
-import { CompressImageTool } from "@/tools/compress-image";
-import {
-  CompressImageSeo,
-  compressImageFaqJsonLd,
-  compressImageSoftwareJsonLd,
-  compressImageHowToJsonLd,
-} from "@/components/CompressImageSeo";
-import { ImageResizeTool } from "@/tools/image-resize";
-import {
-  ImageResizeSeo,
-  imageResizeFaqJsonLd,
-  imageResizeSoftwareJsonLd,
-  imageResizeHowToJsonLd,
-} from "@/components/ImageResizeSeo";
-import { JpgToWebpTool } from "@/tools/jpg-to-webp";
-import {
-  JpgToWebpSeo,
-  jpgToWebpFaqJsonLd,
-  jpgToWebpSoftwareJsonLd,
-  jpgToWebpHowToJsonLd,
-} from "@/components/JpgToWebpSeo";
-import { PngToWebpTool } from "@/tools/png-to-webp";
-import {
-  PngToWebpSeo,
-  pngToWebpFaqJsonLd,
-  pngToWebpSoftwareJsonLd,
-  pngToWebpHowToJsonLd,
-} from "@/components/PngToWebpSeo";
-import { CropImageTool } from "@/tools/crop-image";
-import {
-  CropImageSeo,
-  cropImageFaqJsonLd,
-  cropImageSoftwareJsonLd,
-  cropImageHowToJsonLd,
-} from "@/components/CropImageSeo";
-import { RotateImageTool } from "@/tools/rotate-image";
-import {
-  RotateImageSeo,
-  rotateImageFaqJsonLd,
-  rotateImageSoftwareJsonLd,
-  rotateImageHowToJsonLd,
-} from "@/components/RotateImageSeo";
-import { WatermarkImageTool } from "@/tools/watermark-image";
-import {
-  WatermarkImageSeo,
-  watermarkImageFaqJsonLd,
-  watermarkImageSoftwareJsonLd,
-  watermarkImageHowToJsonLd,
-} from "@/components/WatermarkImageSeo";
-import { MemeGeneratorTool } from "@/tools/meme-generator";
-import {
-  MemeGeneratorSeo,
-  memeGeneratorFaqJsonLd,
-  memeGeneratorSoftwareJsonLd,
-  memeGeneratorHowToJsonLd,
-} from "@/components/MemeGeneratorSeo";
-import { PhotoEditorTool } from "@/tools/photo-editor";
-import {
-  PhotoEditorSeo,
-  photoEditorFaqJsonLd,
-  photoEditorSoftwareJsonLd,
-  photoEditorHowToJsonLd,
-} from "@/components/PhotoEditorSeo";
+import { IMAGE_SILOS } from "@/components/imageSeoBundle";
 
 
 const HEIC_TITLE = "HEIC to JPG Converter Free, No Upload | FreePDFHub";
@@ -227,57 +122,6 @@ export const Route = createFileRoute("/image-tools/$slug")({
       "meme-generator": MEME_DESC,
       "photo-editor": PHOTO_EDITOR_DESC,
     };
-    const SOFTWARE_LDS: Record<string, unknown> = {
-      "heic-to-jpg": heicToJpgSoftwareJsonLd,
-      "heic-to-png": heicToPngSoftwareJsonLd,
-      "jpg-to-png": jpgToPngSoftwareJsonLd,
-      "png-to-jpg": pngToJpgSoftwareJsonLd,
-      "webp-to-jpg": webpToJpgSoftwareJsonLd,
-      "webp-to-png": webpToPngSoftwareJsonLd,
-      "compress-image": compressImageSoftwareJsonLd,
-      "image-resize": imageResizeSoftwareJsonLd,
-      "jpg-to-webp": jpgToWebpSoftwareJsonLd,
-      "png-to-webp": pngToWebpSoftwareJsonLd,
-      "crop-image": cropImageSoftwareJsonLd,
-      "rotate-image": rotateImageSoftwareJsonLd,
-      "watermark-image": watermarkImageSoftwareJsonLd,
-      "meme-generator": memeGeneratorSoftwareJsonLd,
-      "photo-editor": photoEditorSoftwareJsonLd,
-    };
-    const HOWTO_LDS: Record<string, unknown> = {
-      "heic-to-jpg": heicToJpgHowToJsonLd,
-      "heic-to-png": heicToPngHowToJsonLd,
-      "jpg-to-png": jpgToPngHowToJsonLd,
-      "png-to-jpg": pngToJpgHowToJsonLd,
-      "webp-to-jpg": webpToJpgHowToJsonLd,
-      "webp-to-png": webpToPngHowToJsonLd,
-      "compress-image": compressImageHowToJsonLd,
-      "image-resize": imageResizeHowToJsonLd,
-      "jpg-to-webp": jpgToWebpHowToJsonLd,
-      "png-to-webp": pngToWebpHowToJsonLd,
-      "crop-image": cropImageHowToJsonLd,
-      "rotate-image": rotateImageHowToJsonLd,
-      "watermark-image": watermarkImageHowToJsonLd,
-      "meme-generator": memeGeneratorHowToJsonLd,
-      "photo-editor": photoEditorHowToJsonLd,
-    };
-    const FAQ_LDS: Record<string, unknown> = {
-      "heic-to-jpg": heicToJpgFaqJsonLd,
-      "heic-to-png": heicToPngFaqJsonLd,
-      "jpg-to-png": jpgToPngFaqJsonLd,
-      "png-to-jpg": pngToJpgFaqJsonLd,
-      "webp-to-jpg": webpToJpgFaqJsonLd,
-      "webp-to-png": webpToPngFaqJsonLd,
-      "compress-image": compressImageFaqJsonLd,
-      "image-resize": imageResizeFaqJsonLd,
-      "jpg-to-webp": jpgToWebpFaqJsonLd,
-      "png-to-webp": pngToWebpFaqJsonLd,
-      "crop-image": cropImageFaqJsonLd,
-      "rotate-image": rotateImageFaqJsonLd,
-      "watermark-image": watermarkImageFaqJsonLd,
-      "meme-generator": memeGeneratorFaqJsonLd,
-      "photo-editor": photoEditorFaqJsonLd,
-    };
 
     const breadcrumbJsonLd = {
       "@context": "https://schema.org",
@@ -297,9 +141,6 @@ export const Route = createFileRoute("/image-tools/$slug")({
     if (TITLES[slug]) {
       const title = TITLES[slug];
       const desc = DESCS[slug];
-      const softwareLd = SOFTWARE_LDS[slug];
-      const howToLd = HOWTO_LDS[slug];
-      const faqLd = FAQ_LDS[slug];
       return {
         meta: [
           { title },
@@ -316,9 +157,6 @@ export const Route = createFileRoute("/image-tools/$slug")({
         ],
         links: [{ rel: "canonical", href: url }],
         scripts: [
-          { type: "application/ld+json", children: JSON.stringify(normalizeToolJsonLd(softwareLd, url)) },
-          { type: "application/ld+json", children: JSON.stringify(normalizeToolJsonLd(howToLd, url)) },
-          { type: "application/ld+json", children: JSON.stringify(normalizeToolJsonLd(faqLd, url)) },
           { type: "application/ld+json", children: JSON.stringify(breadcrumbJsonLd) },
         ],
       };
@@ -346,116 +184,12 @@ export const Route = createFileRoute("/image-tools/$slug")({
   component: ImageToolPage,
 });
 
-type Silo = {
-  h1: string;
-  subtitle: string;
-  Component: () => ReactNode;
-  Seo: () => ReactNode;
-  maxWidth?: string;
-};
-
-const SILOS: Record<string, Silo> = {
-  "heic-to-jpg": {
-    h1: "Convert HEIC to JPG online, free",
-    subtitle: "Turn iPhone HEIC photos into universal JPGs, right in your browser.",
-    Component: HeicToJpgTool,
-    Seo: HeicToJpgSeo,
-  },
-  "heic-to-png": {
-    h1: "Convert HEIC to PNG online, free",
-    subtitle: "Turn iPhone HEIC photos into lossless PNGs, right in your browser.",
-    Component: HeicToPngTool,
-    Seo: HeicToPngSeo,
-  },
-  "jpg-to-png": {
-    h1: "Convert JPG to PNG online, free",
-    subtitle: "Turn JPG and JPEG images into lossless PNGs, right in your browser.",
-    Component: JpgToPngTool,
-    Seo: JpgToPngSeo,
-  },
-  "png-to-jpg": {
-    h1: "Convert PNG to JPG online, free",
-    subtitle: "Turn PNG images into smaller JPGs with adjustable quality, in your browser.",
-    Component: PngToJpgTool,
-    Seo: PngToJpgSeo,
-  },
-  "webp-to-jpg": {
-    h1: "Convert WebP to JPG online, free",
-    subtitle: "Turn .webp images into universal JPGs, right in your browser.",
-    Component: WebpToJpgTool,
-    Seo: WebpToJpgSeo,
-  },
-  "webp-to-png": {
-    h1: "Convert WebP to PNG online, free",
-    subtitle: "Turn .webp images into lossless PNGs with transparency preserved, in your browser.",
-    Component: WebpToPngTool,
-    Seo: WebpToPngSeo,
-  },
-  "compress-image": {
-    h1: "Compress images online, free",
-    subtitle: "Reduce JPG, PNG, and WebP file size right in your browser, no upload.",
-    Component: CompressImageTool,
-    Seo: CompressImageSeo,
-  },
-  "image-resize": {
-    h1: "Resize images online, free",
-    subtitle: "Change JPG, PNG, and WebP dimensions by pixels or percent, in your browser.",
-    Component: ImageResizeTool,
-    Seo: ImageResizeSeo,
-  },
-  "jpg-to-webp": {
-    h1: "Convert JPG to WebP online, free",
-    subtitle: "Turn JPG and JPEG images into modern WebP for faster websites, in your browser.",
-    Component: JpgToWebpTool,
-    Seo: JpgToWebpSeo,
-  },
-  "png-to-webp": {
-    h1: "Convert PNG to WebP online, free",
-    subtitle: "Turn PNG images into modern WebP with transparency preserved, in your browser.",
-    Component: PngToWebpTool,
-    Seo: PngToWebpSeo,
-  },
-  "crop-image": {
-    h1: "Crop images online, free",
-    subtitle: "Crop JPG, PNG, and WebP to any size or preset ratio, in your browser.",
-    Component: CropImageTool,
-    Seo: CropImageSeo,
-  },
-  "rotate-image": {
-    h1: "Rotate and flip images online, free",
-    subtitle: "Rotate JPG, PNG, and WebP by 90, 180, or 270 degrees, or mirror them, in your browser.",
-    Component: RotateImageTool,
-    Seo: RotateImageSeo,
-  },
-  "watermark-image": {
-    h1: "Add a watermark to images online, free",
-    subtitle: "Stamp a text line or your own logo across JPG, PNG, and WebP photos, in your browser.",
-    Component: WatermarkImageTool,
-    Seo: WatermarkImageSeo,
-    maxWidth: "max-w-5xl",
-  },
-  "meme-generator": {
-    h1: "Make memes online, free, no watermark",
-    subtitle: "Drop in a photo, add captions, and download a clean meme, right in your browser.",
-    Component: MemeGeneratorTool,
-    Seo: MemeGeneratorSeo,
-    maxWidth: "max-w-6xl",
-  },
-  "photo-editor": {
-    h1: "Edit photos online, free",
-    subtitle: "Adjust brightness, contrast, saturation, and warmth, or apply filters, in your browser.",
-    Component: PhotoEditorTool,
-    Seo: PhotoEditorSeo,
-    maxWidth: "max-w-6xl",
-  },
-};
-
 function ImageToolPage() {
   const { tool } = Route.useLoaderData();
 
   if (tool.status === "coming-soon") return <ComingSoonView name={tool.name} description={tool.description} />;
 
-  const silo = SILOS[tool.slug];
+  const silo = IMAGE_SILOS[tool.slug];
   if (!silo) return null;
 
   const Tool = silo.Component;
@@ -490,6 +224,15 @@ function ImageToolPage() {
         </div>
       </section>
       <Seo />
+      {silo.jsonLd.map((v, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(normalizeToolJsonLd(v, `${SITE_URL}/image-tools/${tool.slug}`)),
+          }}
+        />
+      ))}
     </div>
   );
 }

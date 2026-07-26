@@ -1,5 +1,7 @@
 import type { ReactNode, ComponentType, CSSProperties } from "react";
+import { useEffect } from "react";
 import { Link } from "@tanstack/react-router";
+import { prefetchPdfLibs } from "@/lib/lazyLibs";
 import type { ToolIconProps } from "@/components/icons/ToolIcons";
 
 export function ToolLayout({
@@ -15,6 +17,12 @@ export function ToolLayout({
   tint?: { bg: string; fg: string };
   children: ReactNode;
 }) {
+  // Warm the heavy PDF chunks once the page is interactive, so the first real
+  // action feels instant without blocking first paint.
+  useEffect(() => {
+    prefetchPdfLibs();
+  }, []);
+
   return (
     <div className="mx-auto max-w-4xl px-4 pb-16">
       <section className="relative flex flex-col md:min-h-[50vh] pt-6 pb-14">

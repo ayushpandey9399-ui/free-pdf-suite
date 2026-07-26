@@ -1,3 +1,9 @@
+// Meme display fonts ship with this tool chunk only. Export awaits
+// ensureMemeFonts() so canvas text is never drawn with a fallback face.
+import "@fontsource/anton/400.css";
+import "@fontsource/oswald/700.css";
+import "@fontsource/bebas-neue/400.css";
+import "@fontsource/comic-neue/700.css";
 import { UploadDropzone } from "@/components/UploadDropzone";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -105,6 +111,24 @@ function canvasToBlob(canvas: HTMLCanvasElement, mime: string, quality?: number)
   return new Promise((resolve, reject) => {
     canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("Encode failed"))), mime, quality);
   });
+}
+
+let memeFontsPromise: Promise<unknown> | null = null;
+
+/** Wait until the meme display faces are decoded before drawing to canvas. */
+function ensureMemeFonts(): Promise<unknown> {
+  if (typeof document === "undefined" || !("fonts" in document)) return Promise.resolve();
+  if (!memeFontsPromise) {
+    memeFontsPromise = Promise.all([
+      document.fonts.load('400 64px "Anton"'),
+      document.fonts.load('700 64px "Oswald"'),
+      document.fonts.load('400 64px "Bebas Neue"'),
+      document.fonts.load('700 64px "Comic Neue"'),
+    ])
+      .then(() => document.fonts.ready)
+      .catch(() => undefined);
+  }
+  return memeFontsPromise;
 }
 
 function fontSpec(fontKey: FontKey, px: number): string {
@@ -555,8 +579,7 @@ export function MemeGeneratorTool() {
     if (!panels[0]) return;
     setBusy(true);
     try {
-      const anyDoc = document as unknown as { fonts?: { ready?: Promise<unknown> } };
-      if (anyDoc.fonts?.ready) await anyDoc.fonts.ready;
+      await ensureMemeFonts();
       const cv = document.createElement("canvas");
       const ctx = cv.getContext("2d");
       if (!ctx) throw new Error("Canvas not supported");

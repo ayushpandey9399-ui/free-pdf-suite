@@ -76,7 +76,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
         actual page number and total on each page when it saves the file. If page
         numbering is the only thing you want and you'd rather use a dedicated
         control for six preset positions, the{" "}
-        <Link to="/tools/page-numbers" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "page-numbers" }} className="text-[#e5322d] underline">
           Page Numbers
         </Link>{" "}
         tool is the more focused option.

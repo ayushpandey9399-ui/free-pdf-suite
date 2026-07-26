@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { PDFDocument, PageSizes } from "pdf-lib";
+import { loadPdfLib } from "@/lib/lazyLibs";
 import { toast } from "sonner";
 import { Plus } from "lucide-react";
 import { FileDropzone } from "@/components/FileDropzone";
@@ -91,6 +91,7 @@ export default function ImagesToPdf() {
     if (!entries.length) return;
     setLoading(true);
     try {
+      const { PDFDocument, PageSizes } = await loadPdfLib();
       const pdf = await PDFDocument.create();
       const safeMargin = Math.max(0, Math.floor(margin) || 0);
       for (const e of entries) {

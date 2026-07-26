@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { StandardFonts, degrees, rgb } from "pdf-lib";
+import { loadPdfLib } from "@/lib/lazyLibs";
 import { toast } from "sonner";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ToolWorkspace } from "@/components/ToolWorkspace";
@@ -184,6 +184,7 @@ export default function HeaderFooter() {
     const file = files[0]; if (!file) return;
     setLoading(true);
     try {
+      const { StandardFonts, degrees, rgb } = await loadPdfLib();
       const doc = await loadPdfLibDoc(await file.arrayBuffer());
       const font = await doc.embedFont(StandardFonts.Helvetica);
       const pages = doc.getPages();

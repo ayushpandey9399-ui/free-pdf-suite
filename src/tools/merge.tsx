@@ -22,7 +22,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { PDFDocument } from "pdf-lib";
+import { loadPdfLib } from "@/lib/lazyLibs";
 import { loadPdfLibDoc, loadPdfJsDoc, isPdfPasswordError } from "@/lib/pdfGuard";
 import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
@@ -129,6 +129,7 @@ export default function Merge() {
     }
     setLoading(true);
     try {
+      const { PDFDocument } = await loadPdfLib();
       const out = await PDFDocument.create();
       for (const f of files) {
         const src = await loadPdfLibDoc(await f.arrayBuffer());

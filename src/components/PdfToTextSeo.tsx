@@ -40,7 +40,7 @@ const benefits = [
     p: (
       <>
         After blacking out sensitive text with{" "}
-        <Link to="/tools/redact-pdf" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "redact-pdf" }} className="text-[#e5322d] underline">
           Redact PDF
         </Link>
         , run the redacted file through this tool. If the redaction was real, the covered words will be absent from the extracted text; if they still show up, the black box was only a visual cover-up and the underlying text is still readable to any machine.
@@ -104,7 +104,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
     a: (
       <>
         Not directly, a locked PDF blocks even reading its text layer, and this tool will show a Password-protected notice instead of running. Remove the password first with{" "}
-        <Link to="/tools/unlock-pdf" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "unlock-pdf" }} className="text-[#e5322d] underline">
           Unlock PDF
         </Link>{" "}
         (you'll need to know the password), then bring the unlocked copy back here and extract the text as normal.

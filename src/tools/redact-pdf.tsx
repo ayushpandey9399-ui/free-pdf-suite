@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { PDFDocument } from "pdf-lib";
+import { loadPdfLib } from "@/lib/lazyLibs";
 import { toast } from "sonner";
 import { X, Search, AlertTriangle, Loader2 } from "lucide-react";
 import { FileDropzone } from "@/components/FileDropzone";
@@ -197,6 +197,7 @@ export default function RedactPdf() {
     try {
       const original = bytesRef.current.slice(0);
       const src = await loadPdfLibDoc(original);
+      const { PDFDocument } = await loadPdfLib();
       const out = await PDFDocument.create();
       const pdfjs = await loadPdfJsDoc(bytesRef.current.slice(0));
 

@@ -1,5 +1,11 @@
+// Devanagari + Noto Sans ship with this tool chunk only. ensureFontsReady()
+// below explicitly loads them before any canvas rasterisation.
+import "@fontsource/noto-sans/400.css";
+import "@fontsource/noto-sans/700.css";
+import "@fontsource/noto-sans-devanagari/400.css";
+import "@fontsource/noto-sans-devanagari/700.css";
 import { useEffect, useMemo, useState } from "react";
-import { PDFDocument, PageSizes, StandardFonts } from "pdf-lib";
+import { loadPdfLib } from "@/lib/lazyLibs";
 import { toast } from "sonner";
 import { FileText, X } from "lucide-react";
 import { FileDropzone } from "@/components/FileDropzone";
@@ -20,7 +26,8 @@ type LineSpacing = "1.0" | "1.15" | "1.5";
 const FONT_PT: Record<FontSizeOpt, number> = { small: 10, medium: 12, large: 14 };
 const MARGIN_PT: Record<MarginOpt, number> = { small: 36, normal: 54, big: 90 };
 const LINE_MULT: Record<LineSpacing, number> = { "1.0": 1.0, "1.15": 1.15, "1.5": 1.5 };
-const PAGE_DIMS: Record<PageSize, [number, number]> = { a4: PageSizes.A4, letter: PageSizes.Letter };
+// pdf-lib PageSizes.A4 / PageSizes.Letter, inlined so the library stays lazy.
+const PAGE_DIMS: Record<PageSize, [number, number]> = { a4: [595.28, 841.89], letter: [612, 792] };
 
 // Standard PDF Helvetica supports WinAnsi (Latin-1) only.
 // Anything beyond U+00FF requires the raster pipeline (Devanagari, CJK, Arabic, etc.).
@@ -116,6 +123,7 @@ async function buildRasterPdfFromText(
   for (const l of rawLines) wrapped.push(...wrapByPixels(l));
   if (!wrapped.length) wrapped.push("");
 
+  const { PDFDocument } = await loadPdfLib();
   const doc = await PDFDocument.create();
   for (let i = 0; i < wrapped.length; i += linesPerPage) {
     const slice = wrapped.slice(i, i + linesPerPage);
@@ -195,6 +203,7 @@ async function buildPdfFromText(
   text: string,
   opts: { pageSize: PageSize; fontSize: FontSizeOpt; margin: MarginOpt; lineSpacing: LineSpacing },
 ): Promise<Uint8Array> {
+  const { PDFDocument, StandardFonts } = await loadPdfLib();
   const doc = await PDFDocument.create();
   const font = await doc.embedFont(StandardFonts.Helvetica);
   const [pw, ph] = PAGE_DIMS[opts.pageSize];

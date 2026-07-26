@@ -104,12 +104,12 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
         annotations" option is intentionally disabled and only form
         fields are baked in. If you added notes or highlights, the
         cleanest workflow is to open the file in{" "}
-        <Link to="/tools/edit-pdf" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "edit-pdf" }} className="text-[#e5322d] underline">
           Edit PDF
         </Link>
         , which draws annotations permanently into the page content
         stream on save. If you added a handwritten or typed signature,{" "}
-        <Link to="/tools/sign-pdf" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "sign-pdf" }} className="text-[#e5322d] underline">
           Sign PDF
         </Link>{" "}
         stamps it into the page directly rather than as a separate
@@ -128,7 +128,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
         changed, but the document itself is still openable by anyone
         who has the file. Password protection encrypts the whole PDF
         so only someone with the password can open it at all, use{" "}
-        <Link to="/tools/protect-pdf" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "protect-pdf" }} className="text-[#e5322d] underline">
           Protect PDF
         </Link>{" "}
         for that, and flatten first if you want both.
@@ -226,7 +226,7 @@ export function FlattenPdfSeo() {
         Flattening removes that possibility at the source. What you
         submitted stays what you submitted, byte-for-byte, page-for-page.
         The safe workflow is a two-step:{" "}
-        <Link to="/tools/fill-forms" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "fill-forms" }} className="text-[#e5322d] underline">
           Fill PDF Forms
         </Link>{" "}
         first, then flatten here, fill, flatten, send.

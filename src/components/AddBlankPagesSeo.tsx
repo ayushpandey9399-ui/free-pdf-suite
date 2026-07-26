@@ -101,7 +101,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
       <>
         Yes, the inserted page is a real, editable PDF page. Open the
         finished document in{" "}
-        <Link to="/tools/edit-pdf" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "edit-pdf" }} className="text-[#e5322d] underline">
           Edit PDF
         </Link>{" "}
         to add text, highlights, shapes or a signature directly onto the
@@ -116,7 +116,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
     a: (
       <>
         Use{" "}
-        <Link to="/tools/delete-pages" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "delete-pages" }} className="text-[#e5322d] underline">
           Delete Pages
         </Link>{" "}
        , pick the page numbers you want removed and export a copy
@@ -152,7 +152,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
         Inserting a blank at that point forces the next section to
         open on a fresh right-hand page, the same effect print books
         use. After inserting, you may want to run the file through{" "}
-        <Link to="/tools/page-numbers" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "page-numbers" }} className="text-[#e5322d] underline">
           Page Numbers
         </Link>{" "}
         to renumber cleanly.

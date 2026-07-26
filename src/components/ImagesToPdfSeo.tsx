@@ -100,7 +100,7 @@ const faqs = [
     q: "How do I do the reverse, PDF to images?",
     a: (
       <>
-        Use the reverse tool: <Link to="/tools/pdf-to-images" className="text-[#e5322d] underline">PDF to Image</Link>. It renders each page of a PDF as a JPG or PNG file at a resolution you choose. Everything happens in the browser there too, so the PDF you're extracting from never leaves your device.
+        Use the reverse tool: <Link to="/tools/$slug" params={{ slug: "pdf-to-images" }} className="text-[#e5322d] underline">PDF to Image</Link>. It renders each page of a PDF as a JPG or PNG file at a resolution you choose. Everything happens in the browser there too, so the PDF you're extracting from never leaves your device.
       </>
     ),
   },
@@ -167,7 +167,7 @@ export function ImagesToPdfSeo() {
         and truer colors, and the exported PDF looks like a scan rather than a
         snapshot. If you want an even cleaner result with automatic edge
         detection and perspective correction,{" "}
-        <Link to="/tools/scan-to-pdf" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "scan-to-pdf" }} className="text-[#e5322d] underline">
           Scan to PDF
         </Link>{" "}
         walks your camera through a guided capture flow built for flat

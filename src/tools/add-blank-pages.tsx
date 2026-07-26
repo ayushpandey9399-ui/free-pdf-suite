@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { PageSizes } from "pdf-lib";
+import { loadPdfLib } from "@/lib/lazyLibs";
 import { toast } from "sonner";
 import { Loader2, Plus, X } from "lucide-react";
 import { FileDropzone } from "@/components/FileDropzone";
@@ -82,6 +82,7 @@ export default function AddBlankPages() {
     const file = files[0]; if (!file || !blankCount) return;
     setLoading(true);
     try {
+      const { PageSizes } = await loadPdfLib();
       const doc = await loadPdfLibDoc(await file.arrayBuffer());
       const totalOriginal = doc.getPageCount();
 

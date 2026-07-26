@@ -89,7 +89,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
         the file and can be revealed by anyone who resets the crop in a PDF
         editor. If your goal is to hide sensitive information (an ID number,
         an address, a signature in a margin), use{" "}
-        <Link to="/tools/redact-pdf" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "redact-pdf" }} className="text-[#e5322d] underline">
           Redact PDF
         </Link>{" "}
         instead, it actually deletes the underlying content, whereas cropping

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { StandardFonts, rgb } from "pdf-lib";
+import { loadPdfLib } from "@/lib/lazyLibs";
 import { toast } from "sonner";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ToolWorkspace } from "@/components/ToolWorkspace";
@@ -68,6 +68,7 @@ export default function PageNumbers() {
     const file = files[0]; if (!file) return;
     setLoading(true);
     try {
+      const { StandardFonts, rgb } = await loadPdfLib();
       const doc = await loadPdfLibDoc(await file.arrayBuffer());
       const font = await doc.embedFont(StandardFonts.Helvetica);
       const pages = doc.getPages();

@@ -163,7 +163,7 @@ export function RotatePdfSeo() {
         Uncheck Rotate all pages, look at the thumbnails, and click only the pages that are
         wrong, one pass in 90° for the sideways ones, a second pass in 180° for the
         upside-down one, and the file finally reads naturally. If you are starting from paper
-        rather than an existing PDF, our <Link to="/tools/scan-to-pdf" className="text-[#e5322d] underline">Scan to PDF</Link>{" "}
+        rather than an existing PDF, our <Link to="/tools/$slug" params={{ slug: "scan-to-pdf" }} className="text-[#e5322d] underline">Scan to PDF</Link>{" "}
         tool makes clean phone scans in the first place.
       </p>
 

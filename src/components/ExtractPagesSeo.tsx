@@ -219,13 +219,13 @@ export function ExtractPagesSeo() {
             </tr>
             <tr>
               <td className="px-4 py-3 font-semibold text-[#33333c]">
-                <Link to="/tools/split" className="text-[#e5322d] underline">Split PDF</Link>
+                <Link to="/tools/$slug" params={{ slug: "split" }} className="text-[#e5322d] underline">Split PDF</Link>
               </td>
               <td className="px-4 py-3">Divide the whole document into parts or ranges, every page ends up in some output.</td>
             </tr>
             <tr>
               <td className="px-4 py-3 font-semibold text-[#33333c]">
-                <Link to="/tools/delete-pages" className="text-[#e5322d] underline">Delete Pages</Link>
+                <Link to="/tools/$slug" params={{ slug: "delete-pages" }} className="text-[#e5322d] underline">Delete Pages</Link>
               </td>
               <td className="px-4 py-3">Remove the pages you DON'T want and keep the rest inside one cleaned PDF.</td>
             </tr>

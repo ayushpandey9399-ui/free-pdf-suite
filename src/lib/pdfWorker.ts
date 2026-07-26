@@ -1,8 +1,9 @@
 // Use the "legacy" build so pdfjs-dist includes core-js polyfills for
 // Map.prototype.getOrInsertComputed and other ES2025 features that are
 // missing in older Chromium, Firefox, and Safari.
-import * as pdfjs from "pdfjs-dist/legacy/build/pdf.mjs";
 import workerSrc from "pdfjs-dist/legacy/build/pdf.worker.min.mjs?url";
+
+type PdfJsModule = typeof import("pdfjs-dist/legacy/build/pdf.mjs");
 
 // Polyfill: pdfjs-dist 6.x uses Map.prototype.getOrInsertComputed (ES2025 stage-3),
 // which is missing in Chromium <143, Safari, and older Firefox.
@@ -30,11 +31,17 @@ if (typeof Map !== "undefined" && typeof (Map.prototype as unknown as { getOrIns
   });
 }
 
-let configured = false;
-export function ensurePdfWorker() {
-  if (configured) return pdfjs;
+let cached: PdfJsModule | null = null;
+
+/**
+ * Load pdfjs on demand. The library is ~1.4 MB of JS, so it must never be part
+ * of a page's first paint: call this from an action handler or an effect.
+ */
+export async function ensurePdfWorker(): Promise<PdfJsModule> {
+  if (cached) return cached;
+  const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
   pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
-  configured = true;
+  cached = pdfjs;
   return pdfjs;
 }
 

@@ -78,13 +78,13 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
         the source as closely as possible. It works best on normal digital
         PDFs (contracts, invoices, letters); scanned PDFs have no
         underlying text layer, so run them through the OCR option inside{" "}
-        <Link to="/tools/scan-to-pdf" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "scan-to-pdf" }} className="text-[#e5322d] underline">
           Scan to PDF
         </Link>{" "}
         first to build a searchable PDF with selectable text. To
         permanently remove sensitive content so it can't be recovered,
         use{" "}
-        <Link to="/tools/redact-pdf" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "redact-pdf" }} className="text-[#e5322d] underline">
           Redact PDF
         </Link>
         .
@@ -140,7 +140,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
     a: (
       <>
         Use{" "}
-        <Link to="/tools/fill-forms" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "fill-forms" }} className="text-[#e5322d] underline">
           Fill PDF Forms
         </Link>{" "}
         instead. That tool detects the document's AcroForm fields (the
@@ -165,7 +165,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
         Two common reasons. First, the page may be a <em>scan</em>, an
         image of paper with no underlying text layer for the tool to
         detect. Rebuild it as a searchable PDF with the OCR option inside{" "}
-        <Link to="/tools/scan-to-pdf" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "scan-to-pdf" }} className="text-[#e5322d] underline">
           Scan to PDF
         </Link>{" "}
         first, which adds a real text layer, then come back and edit.
@@ -253,12 +253,12 @@ export function EditPdfSeo() {
         up a review, correcting a typo, annotating study material, the
         add-on-top approach is exactly right. If you need to genuinely
         hide sensitive content so nobody can recover it, use{" "}
-        <Link to="/tools/redact-pdf" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "redact-pdf" }} className="text-[#e5322d] underline">
           Redact PDF
         </Link>
         . If the PDF has real interactive form fields you want to fill
         properly, use{" "}
-        <Link to="/tools/fill-forms" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "fill-forms" }} className="text-[#e5322d] underline">
           Fill PDF Forms
         </Link>
         .
