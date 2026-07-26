@@ -1762,15 +1762,22 @@ function TypePad({
 
   useEffect(() => {
     if (!text.trim()) { onCommit(null); lastCommittedRef.current = null; return; }
-    await ensureSignatureFonts();
-    const rendered = renderTextToPng(text, font, color);
-    if (rendered) {
-      onCommit(rendered);
-      if (saveOptIn && lastCommittedRef.current !== rendered.dataUrl) {
-        lastCommittedRef.current = rendered.dataUrl;
-        onSave(rendered);
+    let cancelled = false;
+    void (async () => {
+      // The cursive faces now arrive with this tool chunk, so wait for them
+      // before measuring or drawing, otherwise canvas would use a fallback.
+      await ensureSignatureFonts();
+      if (cancelled) return;
+      const rendered = renderTextToPng(text, font, color);
+      if (rendered) {
+        onCommit(rendered);
+        if (saveOptIn && lastCommittedRef.current !== rendered.dataUrl) {
+          lastCommittedRef.current = rendered.dataUrl;
+          onSave(rendered);
+        }
       }
-    }
+    })();
+    return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [text, font, color, saveOptIn]);
 
