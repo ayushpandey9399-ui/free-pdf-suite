@@ -12,6 +12,29 @@ const DESC =
 export const Route = createFileRoute("/image-tools/")({
   head: () => {
     const url = `${SITE_URL}/image-tools`;
+    const collectionLd = {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: "Free Image Tools",
+      description: DESC,
+      url,
+      isPartOf: { "@type": "WebSite", name: "FreePDFHub", url: `${SITE_URL}/` },
+      mainEntity: {
+        "@type": "ItemList",
+        name: "Free browser-based image tools",
+        numberOfItems: imageTools.length,
+        itemListElement: imageTools.map((t, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: t.name,
+          url: `${SITE_URL}/image-tools/${t.slug}`,
+        })),
+      },
+    };
+    const crumbs = breadcrumbJsonLd([
+      { name: "Home", url: `${SITE_URL}/` },
+      { name: "Image Tools", url },
+    ]);
     return {
       meta: [
         { title: TITLE },
@@ -24,10 +47,15 @@ export const Route = createFileRoute("/image-tools/")({
         { name: "twitter:card", content: "summary_large_image" },
       ],
       links: [{ rel: "canonical", href: url }],
+      scripts: [
+        { type: "application/ld+json", children: JSON.stringify(collectionLd) },
+        { type: "application/ld+json", children: JSON.stringify(crumbs) },
+      ],
     };
   },
   component: ImageToolsHub,
 });
+
 
 type Filter = "All" | ImageToolCategory;
 const filters: Filter[] = ["All", ...imageCategories];
