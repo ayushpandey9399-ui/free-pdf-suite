@@ -170,7 +170,7 @@ export function DeletePagesSeo() {
         note: deleting a page removes it from the new file completely, but if the
         information you want to hide is on a page you actually need to keep, deletion
         isn't the right tool, use{" "}
-        <Link to="/tools/redact-pdf" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "redact-pdf" }} className="text-[#e5322d] underline">
           Redact PDF
         </Link>{" "}
         to permanently black out the specific text or area on that page instead.

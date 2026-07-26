@@ -76,7 +76,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
         inside. This tool relies on those fields being present, so if
         the workspace says <em>No fillable form fields found in this
         PDF</em>, that is the reason. Open the same file in{" "}
-        <Link to="/tools/edit-pdf" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "edit-pdf" }} className="text-[#e5322d] underline">
           Edit PDF
         </Link>{" "}
         instead: its Text tool drops a text box wherever you click, on
@@ -116,7 +116,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
     a: (
       <>
         Yes, run the completed file through{" "}
-        <Link to="/tools/flatten-pdf" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "flatten-pdf" }} className="text-[#e5322d] underline">
           Flatten PDF
         </Link>
         . Flattening merges the form-field values into the page as fixed
@@ -133,7 +133,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
     a: (
       <>
         Yes, save the filled form here, then open it in{" "}
-        <Link to="/tools/sign-pdf" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "sign-pdf" }} className="text-[#e5322d] underline">
           Sign PDF
         </Link>{" "}
         to draw or type a signature and stamp it into the signature
@@ -250,7 +250,7 @@ export function FillFormsSeo() {
       </p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
         The fix is one click away. Open the same file in{" "}
-        <Link to="/tools/edit-pdf" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "edit-pdf" }} className="text-[#e5322d] underline">
           Edit PDF
         </Link>{" "}
         and use its Text tool to type answers straight onto the printed

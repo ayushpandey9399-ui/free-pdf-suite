@@ -116,7 +116,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
     a: (
       <>
         Use the reverse tool:{" "}
-        <Link to="/tools/pdf-to-text" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "pdf-to-text" }} className="text-[#e5322d] underline">
           PDF to Text
         </Link>
         . It reads the text layer of a PDF and lets you copy the whole document to the clipboard or download it as a .txt file. Everything happens in the browser there too, so the PDF you're extracting from never leaves your device.

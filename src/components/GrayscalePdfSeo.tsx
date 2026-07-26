@@ -170,7 +170,7 @@ export function GrayscalePdfSeo() {
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
         Colorful scans and photo-heavy PDFs also get significantly lighter as grayscale because
         each pixel drops from three color channels to one, and pairing this pass with{" "}
-        <Link to="/tools/compress" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "compress" }} className="text-[#e5322d] underline">
           Compress PDF
         </Link>{" "}
         squeezes out the last bit of size for mailbox and portal limits. On top of that, documents

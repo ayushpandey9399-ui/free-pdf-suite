@@ -62,7 +62,7 @@ const scenarios = [
         tips, clearing the metadata author and producer is a required
         first step, but it's only the metadata half of the job. Pair
         this with{" "}
-        <Link to="/tools/redact-pdf" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "redact-pdf" }} className="text-[#e5322d] underline">
           Redact PDF
         </Link>{" "}
         to blank names, signatures and letterheads on the visible
@@ -124,7 +124,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
         letterheads at the top, watermarks, embedded photos with
         their own EXIF. For truly anonymous distribution, clean the
         metadata here, then use{" "}
-        <Link to="/tools/redact-pdf" className="text-[#e5322d] underline">
+        <Link to="/tools/$slug" params={{ slug: "redact-pdf" }} className="text-[#e5322d] underline">
           Redact PDF
         </Link>{" "}
         to permanently blank the identifying content on the pages.
@@ -272,7 +272,7 @@ export function PdfMetadataSeo() {
         materials), clearing metadata is a required first step but not a sufficient one, page
         content, signatures and embedded photo EXIF still identify the source. Pair the wipe
         here with{" "}
-        <Link to="/tools/redact-pdf" className="text-[#e5322d] underline">Redact PDF</Link>{" "}
+        <Link to="/tools/$slug" params={{ slug: "redact-pdf" }} className="text-[#e5322d] underline">Redact PDF</Link>{" "}
         to blank the identifying content on the pages themselves.
       </p>
 

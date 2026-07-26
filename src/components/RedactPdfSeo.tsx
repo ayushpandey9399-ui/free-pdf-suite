@@ -155,7 +155,7 @@ export function RedactPdfSeo() {
       </p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
         Do not take our word for it. Run the redacted file through our{" "}
-        <Link to="/tools/pdf-to-text" className="font-semibold text-[#e5322d] underline underline-offset-2">
+        <Link to="/tools/$slug" params={{ slug: "pdf-to-text" }} className="font-semibold text-[#e5322d] underline underline-offset-2">
           PDF to Text
         </Link>{" "}
         tool and search for the words you blacked out, they will not appear. That is what permanently remove
