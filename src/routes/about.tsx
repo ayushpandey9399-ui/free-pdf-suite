@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { LegalPage } from "@/components/LegalPage";
 import { SITE_URL } from "@/lib/site";
+import { breadcrumbJsonLd } from "@/lib/seoSchema";
 
 export const Route = createFileRoute("/about")({
   head: () => {
@@ -23,6 +24,17 @@ export const Route = createFileRoute("/about")({
         { name: "twitter:image", content: ogImage },
       ],
       links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(
+            breadcrumbJsonLd([
+              { name: "Home", url: `${SITE_URL}/` },
+              { name: "About", url },
+            ]),
+          ),
+        },
+      ],
     };
   },
   component: AboutPage,

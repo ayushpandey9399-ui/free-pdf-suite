@@ -25,6 +25,17 @@ export const Route = createFileRoute("/contact")({
         { name: "twitter:image", content: ogImage },
       ],
       links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(
+            breadcrumbJsonLd([
+              { name: "Home", url: `${SITE_URL}/` },
+              { name: "Contact", url },
+            ]),
+          ),
+        },
+      ],
     };
   },
   component: ContactPage,
