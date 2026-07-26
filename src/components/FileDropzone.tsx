@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 import { X, FileText, Lock } from "lucide-react";
 import { toast } from "sonner";
 import { DropOverlay, useWindowFileDrop } from "@/components/DropOverlay";
