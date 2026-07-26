@@ -315,12 +315,13 @@ export const Route = createFileRoute("/image-tools/$slug")({
         ],
         links: [{ rel: "canonical", href: url }],
         scripts: [
-          { type: "application/ld+json", children: JSON.stringify(softwareLd) },
-          { type: "application/ld+json", children: JSON.stringify(howToLd) },
-          { type: "application/ld+json", children: JSON.stringify(faqLd) },
+          { type: "application/ld+json", children: JSON.stringify(normalizeToolJsonLd(softwareLd, url)) },
+          { type: "application/ld+json", children: JSON.stringify(normalizeToolJsonLd(howToLd, url)) },
+          { type: "application/ld+json", children: JSON.stringify(normalizeToolJsonLd(faqLd, url)) },
           { type: "application/ld+json", children: JSON.stringify(breadcrumbJsonLd) },
         ],
       };
+
     }
 
 
