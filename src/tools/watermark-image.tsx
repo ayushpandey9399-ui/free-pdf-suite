@@ -1,3 +1,4 @@
+import { UploadDropzone } from "@/components/UploadDropzone";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Download, X, Upload, Loader2, Type as TypeIcon, Image as ImageIcon2 } from "lucide-react";
@@ -256,8 +257,6 @@ export function WatermarkImageTool() {
   const [cfg, setCfg] = useState<Config>(DEFAULT_CFG);
   const [quality, setQuality] = useState<number>(0.9);
   const [running, setRunning] = useState(false);
-  const [dragging, setDragging] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
   const logoInputRef = useRef<HTMLInputElement>(null);
   const idRef = useRef(0);
 
@@ -410,40 +409,14 @@ export function WatermarkImageTool() {
   return (
     <div className="mx-auto w-full max-w-5xl">
       {/* Dropzone */}
-      <div
-        onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
-        onDragLeave={() => setDragging(false)}
-        onDrop={(e) => {
-          e.preventDefault();
-          setDragging(false);
-          if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
-        }}
-        className={`flex flex-col items-center justify-center rounded-2xl border-2 border-dashed p-8 transition-colors ${
-          dragging ? "border-[#F97316] bg-[#fff7ed]" : "border-[#ececef] bg-white"
-        }`}
-      >
-        <Upload className="mb-3 h-8 w-8 text-[#F97316]" />
-        <button
-          type="button"
-          onClick={() => inputRef.current?.click()}
-          className="inline-flex h-[54px] items-center justify-center rounded-xl bg-[#F97316] px-8 text-[16px] font-semibold text-white shadow-[0_10px_28px_rgba(249,115,22,0.28)] transition-transform hover:-translate-y-0.5"
-        >
-          Select images
-        </button>
-        <p className="mt-3 text-[13px] text-[#5a5a66]">or drop JPG, PNG, or WebP images here</p>
-        <p className="mt-1 text-[12px] text-[#5a5a66]">Your files never leave your device.</p>
-        <input
-          ref={inputRef}
-          type="file"
-          accept={ACCEPT}
-          multiple
-          className="hidden"
-          onChange={(e) => {
-            if (e.target.files?.length) addFiles(e.target.files);
-            e.target.value = "";
-          }}
-        />
-      </div>
+      <UploadDropzone
+        accept={ACCEPT}
+        multiple
+        buttonLabel="Select images"
+        hint="or drop JPG, PNG, or WebP images here"
+        onFiles={addFiles}
+        accent="#F97316"
+      />
 
       {rows.length > 0 && active && (
         <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_360px]">
