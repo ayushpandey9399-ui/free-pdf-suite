@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Check, Copy } from "lucide-react";
 import { LegalPage } from "@/components/LegalPage";
+import { breadcrumbJsonLd } from "@/lib/seoSchema";
 import { CONTACT_EMAIL, SITE_URL } from "@/lib/site";
 
 export const Route = createFileRoute("/contact")({

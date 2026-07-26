@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LegalPage } from "@/components/LegalPage";
+import { breadcrumbJsonLd } from "@/lib/seoSchema";
 import { CONTACT_EMAIL, LAST_UPDATED, SITE_URL } from "@/lib/site";
 
 export const Route = createFileRoute("/privacy-policy")({
