@@ -1,3 +1,4 @@
+import { UploadDropzone } from "@/components/UploadDropzone";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import {
@@ -799,23 +800,13 @@ export function PhotoEditorTool() {
   if (!file || !bitmap) {
     return (
       <div className="mx-auto max-w-2xl">
-        <label
-          onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
-          onDragLeave={() => setDragging(false)}
-          onDrop={(e) => {
-            e.preventDefault();
-            setDragging(false);
-            onSelect(e.dataTransfer.files);
-          }}
-          className={`flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed p-10 text-center transition ${
-            dragging ? "border-[#8B5CF6] bg-[#f5f3ff]" : "border-[#e5e7eb] bg-white hover:border-[#8B5CF6]/50"
-          }`}
-        >
-          <input ref={inputRef} type="file" accept={ACCEPT} className="hidden" onChange={(e) => onSelect(e.target.files)} />
-          <Upload size={36} className="text-[#8B5CF6]" />
-          <p className="mt-3 text-[16px] font-semibold text-[#1F2937]">Drop a photo here or click to select</p>
-          <p className="mt-1 text-[13px] text-[#6B7280]">JPG, PNG, or WebP, one image at a time</p>
-        </label>
+        <UploadDropzone
+          accept={ACCEPT}
+          buttonLabel="Select photo"
+          hint="or drop a JPG, PNG, or WebP photo here"
+          onFiles={(files) => onSelect(files as FileList)}
+          accent="#8B5CF6"
+        />
       </div>
     );
   }
