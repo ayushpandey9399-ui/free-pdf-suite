@@ -1,7 +1,8 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 import { X, FileText, Lock } from "lucide-react";
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
+import { DropOverlay, useWindowFileDrop } from "@/components/DropOverlay";
+
 
 export interface FileDropzoneProps {
   accept?: string;
@@ -30,7 +31,6 @@ export function FileDropzone({
   hideList,
   label,
 }: FileDropzoneProps) {
-  const [dragging, setDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const addFiles = useCallback(
@@ -53,6 +53,8 @@ export function FileDropzone({
     [accept, files, maxSizeMB, multiple, onFilesChange],
   );
 
+  const dragging = useWindowFileDrop(addFiles, files.length === 0);
+
   const openPicker = () => inputRef.current?.click();
 
   const isPdf = accept.includes("pdf");
@@ -62,31 +64,15 @@ export function FileDropzone({
   return (
     <div className="w-full">
       {files.length === 0 && (
-        <div
-          onDragOver={(e) => {
-            e.preventDefault();
-            setDragging(true);
-          }}
-          onDragLeave={() => setDragging(false)}
-          onDrop={(e) => {
-            e.preventDefault();
-            setDragging(false);
-            if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
-          }}
-          className="flex flex-col items-center justify-center px-5 py-10 transition-colors duration-150 sm:px-10 sm:py-14"
-          style={{
-            border: `2px dashed ${dragging ? "#e5322d" : "#e8e8ee"}`,
-            borderRadius: "16px",
-            backgroundColor: dragging ? "#fff6f5" : "#fff",
-          }}
-        >
+        <div className="flex flex-col items-center justify-center px-4 py-16 sm:py-20">
           <button
             type="button"
             onClick={openPicker}
-            className="inline-flex w-full max-w-[320px] items-center justify-center text-white transition-all duration-150 hover:-translate-y-0.5 sm:w-auto"
+            className="inline-flex w-full max-w-[340px] items-center justify-center text-white transition-all duration-150 hover:-translate-y-0.5 sm:w-auto"
             style={{
               backgroundColor: "#e5322d",
-              padding: "20px 40px",
+              minHeight: "56px",
+              padding: "18px 40px",
               borderRadius: "12px",
               fontSize: "17px",
               fontWeight: 700,
@@ -100,7 +86,7 @@ export function FileDropzone({
             {defaultHint}
           </p>
           <p
-            className="mt-6 inline-flex items-center gap-1.5 text-[13px]"
+            className="mt-5 inline-flex items-center gap-1.5 text-[13px]"
             style={{ color: "#8b8b96" }}
           >
             <Lock className="h-3.5 w-3.5" aria-hidden />
@@ -118,8 +104,11 @@ export function FileDropzone({
               e.target.value = "";
             }}
           />
+
+          <DropOverlay visible={dragging} />
         </div>
       )}
+
 
 
 
