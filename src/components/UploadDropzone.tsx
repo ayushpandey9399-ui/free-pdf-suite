@@ -1,5 +1,6 @@
-import { useCallback, useRef, useState } from "react";
+import { useRef } from "react";
 import { Lock } from "lucide-react";
+import { DropOverlay, useWindowFileDrop } from "@/components/DropOverlay";
 
 export interface UploadDropzoneProps {
   /** File input accept string. */
@@ -17,8 +18,8 @@ export interface UploadDropzoneProps {
 }
 
 /**
- * Clean, confident empty state for every upload area: one big button,
- * one helper line, one trust line. Nothing else.
+ * Frameless empty state: one big button, one helper line, one trust line.
+ * The drop target is the whole page, shown through a full area overlay.
  */
 export function UploadDropzone({
   accept,
@@ -28,42 +29,19 @@ export function UploadDropzone({
   onFiles,
   accent = "#e5322d",
 }: UploadDropzoneProps) {
-  const [dragging, setDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const tint = `${accent}0f`;
-
-  const handleDrop = useCallback(
-    (e: React.DragEvent) => {
-      e.preventDefault();
-      setDragging(false);
-      if (e.dataTransfer.files.length) onFiles(e.dataTransfer.files);
-    },
-    [onFiles],
-  );
+  const dragging = useWindowFileDrop(onFiles);
 
   return (
-    <div
-      onDragOver={(e) => {
-        e.preventDefault();
-        setDragging(true);
-      }}
-      onDragLeave={() => setDragging(false)}
-      onDrop={handleDrop}
-      className="flex flex-col items-center justify-center px-5 py-10 sm:px-10 sm:py-14 transition-colors duration-150"
-      style={{
-        border: `2px dashed ${dragging ? accent : "#e8e8ee"}`,
-        borderRadius: "16px",
-        backgroundColor: dragging ? tint : "#fff",
-      }}
-    >
+    <div className="flex flex-col items-center justify-center px-4 py-16 sm:py-20">
       <button
         type="button"
         onClick={() => inputRef.current?.click()}
-        className="inline-flex w-full max-w-[320px] items-center justify-center text-white transition-all duration-150 hover:-translate-y-0.5 sm:w-auto"
+        className="inline-flex w-full max-w-[340px] items-center justify-center text-white transition-all duration-150 hover:-translate-y-0.5 sm:w-auto"
         style={{
           backgroundColor: accent,
-          padding: "20px 40px",
+          minHeight: "56px",
+          padding: "18px 40px",
           borderRadius: "12px",
           fontSize: "17px",
           fontWeight: 700,
@@ -79,7 +57,7 @@ export function UploadDropzone({
       </p>
 
       <p
-        className="mt-6 inline-flex items-center gap-1.5 text-center text-[13px]"
+        className="mt-5 inline-flex items-center gap-1.5 text-center text-[13px]"
         style={{ color: "#8b8b96" }}
       >
         <Lock className="h-3.5 w-3.5" aria-hidden />
@@ -97,6 +75,8 @@ export function UploadDropzone({
           e.target.value = "";
         }}
       />
+
+      <DropOverlay visible={dragging} accent={accent} />
     </div>
   );
 }
