@@ -46,7 +46,9 @@ function Reveal({ children, className = "" }: { children: React.ReactNode; class
     const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
-          if (e.isIntersecting) {
+          // Also reveal anything already scrolled past, so a fast scroll never
+          // leaves a section stuck at zero opacity.
+          if (e.isIntersecting || e.boundingClientRect.bottom < 0) {
             show();
             io.disconnect();
             break;
@@ -55,6 +57,7 @@ function Reveal({ children, className = "" }: { children: React.ReactNode; class
       },
       { rootMargin: "0px 0px -8% 0px", threshold: 0.05 },
     );
+
     io.observe(el);
     return () => io.disconnect();
   }, []);
