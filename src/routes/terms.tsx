@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LegalPage } from "@/components/LegalPage";
+import { breadcrumbJsonLd } from "@/lib/seoSchema";
 import { CONTACT_EMAIL, LAST_UPDATED, SITE_URL } from "@/lib/site";
 
 export const Route = createFileRoute("/terms")({
@@ -23,6 +24,17 @@ export const Route = createFileRoute("/terms")({
         { name: "twitter:image", content: ogImage },
       ],
       links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(
+            breadcrumbJsonLd([
+              { name: "Home", url: `${SITE_URL}/` },
+              { name: "Terms of Service", url },
+            ]),
+          ),
+        },
+      ],
     };
   },
   component: TermsPage,

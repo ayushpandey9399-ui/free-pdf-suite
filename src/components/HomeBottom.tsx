@@ -1,5 +1,9 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
 import {
   ShieldCheck,
   Gift,
@@ -16,29 +20,68 @@ const MUTED = "#6B7280";
 const BORDER = "#E5E7EB";
 const BAND = "#FAFAF9";
 
-/* Scroll reveal, reserves space, respects prefers-reduced-motion via CSS. */
+/*
+ * Scroll reveal, opt-in from the client only.
+ * The server renders the section fully visible with no reveal class, so raw HTML
+ * (and JS-disabled browsers) always show the content at full opacity. Once JS runs
+ * we arm the pre-animation state in a layout effect (before the browser paints, so
+ * there is no flash) and let the observer animate it in. prefers-reduced-motion
+ * skips the whole thing.
+ */
 function Reveal({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement | null>(null);
-  const [seen, setSeen] = useState(false);
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (typeof IntersectionObserver === "undefined") { setSeen(true); return; }
+    if (typeof IntersectionObserver === "undefined") return;
+    const reduced =
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return;
+
+    el.classList.add("reveal-on-scroll");
+    let done = false;
+    const cleanups: Array<() => void> = [];
+    const show = () => {
+      if (done) return;
+      done = true;
+      el.classList.add("is-visible");
+      for (const fn of cleanups) fn();
+    };
     const io = new IntersectionObserver(
       (entries) => {
-        for (const e of entries) if (e.isIntersecting) { setSeen(true); io.disconnect(); break; }
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            show();
+            break;
+          }
+        }
       },
       { rootMargin: "0px 0px -8% 0px", threshold: 0.05 },
     );
     io.observe(el);
-    return () => io.disconnect();
+    cleanups.push(() => io.disconnect());
+
+    // Safety net: a fast scroll can skip past a section without the observer
+    // ever reporting it as intersecting. Reveal anything at or above the fold.
+    const onScroll = () => {
+      if (el.getBoundingClientRect().top < window.innerHeight) show();
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    cleanups.push(() => window.removeEventListener("scroll", onScroll));
+
+    return () => {
+      for (const fn of cleanups) fn();
+    };
   }, []);
+
   return (
-    <div ref={ref} className={`reveal-on-scroll ${seen ? "is-visible" : ""} ${className}`}>
+    <div ref={ref} className={className}>
       {children}
     </div>
   );
 }
+
 
 export function HomeBottom() {
   return (

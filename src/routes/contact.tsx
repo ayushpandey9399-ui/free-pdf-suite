@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Check, Copy } from "lucide-react";
 import { LegalPage } from "@/components/LegalPage";
+import { breadcrumbJsonLd } from "@/lib/seoSchema";
 import { CONTACT_EMAIL, SITE_URL } from "@/lib/site";
 
 export const Route = createFileRoute("/contact")({
@@ -25,6 +26,17 @@ export const Route = createFileRoute("/contact")({
         { name: "twitter:image", content: ogImage },
       ],
       links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(
+            breadcrumbJsonLd([
+              { name: "Home", url: `${SITE_URL}/` },
+              { name: "Contact", url },
+            ]),
+          ),
+        },
+      ],
     };
   },
   component: ContactPage,

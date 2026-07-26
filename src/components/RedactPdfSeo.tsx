@@ -123,7 +123,7 @@ export function RedactPdfSeo() {
       </h2>
       <ol className="mt-5 space-y-4">
         {steps.map((s, i) => (
-          <li key={i} className="flex gap-4">
+          <li key={i} id={`step-${i + 1}`} className="flex gap-4">
             <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e5322d] text-white font-bold text-sm">
               {i + 1}
             </span>

@@ -5,6 +5,7 @@ import { ToolLayout } from "@/components/ToolLayout";
 import { ClientOnly } from "@/components/ClientOnly";
 import { getTool, categoryTint } from "@/tools/registry";
 import { SITE_URL } from "@/lib/site";
+import { breadcrumbJsonLd, normalizeToolJsonLd } from "@/lib/seoSchema";
 import { MergePdfSeo, mergeFaqJsonLd, mergeHowToJsonLd, mergeSoftwareJsonLd } from "@/components/MergePdfSeo";
 import { CompressPdfSeo, compressFaqJsonLd, compressHowToJsonLd, compressSoftwareJsonLd } from "@/components/CompressPdfSeo";
 import { SplitPdfSeo, splitFaqJsonLd, splitHowToJsonLd, splitSoftwareJsonLd } from "@/components/SplitPdfSeo";
@@ -195,15 +196,11 @@ export const Route = createFileRoute("/tools/$slug")({
     const slug = loaderData?.slug ?? params.slug;
     const url = `${SITE_URL}/tools/${slug}`;
     const crumbName = loaderData?.name ?? "Tool";
-    const breadcrumbJsonLd = {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-        { "@type": "ListItem", position: 2, name: "All tools", item: `${SITE_URL}/` },
-        { "@type": "ListItem", position: 3, name: crumbName, item: url },
-      ],
-    };
+    const crumbs = breadcrumbJsonLd([
+      { name: "Home", url: `${SITE_URL}/` },
+      { name: crumbName, url },
+    ]);
+
     const meta = TOOL_META[slug];
     if (meta) {
       return {
@@ -226,11 +223,11 @@ export const Route = createFileRoute("/tools/$slug")({
         scripts: [
           ...meta.jsonLd.map((v) => ({
             type: "application/ld+json",
-            children: JSON.stringify(v),
+            children: JSON.stringify(normalizeToolJsonLd(v, url)),
           })),
           {
             type: "application/ld+json",
-            children: JSON.stringify(breadcrumbJsonLd),
+            children: JSON.stringify(crumbs),
           },
         ],
       };
@@ -252,7 +249,7 @@ export const Route = createFileRoute("/tools/$slug")({
         : [{ title: "Tool | FreePDFHub" }],
       links: loaderData ? [{ rel: "canonical", href: url }] : [],
       scripts: loaderData
-        ? [{ type: "application/ld+json", children: JSON.stringify(breadcrumbJsonLd) }]
+        ? [{ type: "application/ld+json", children: JSON.stringify(crumbs) }]
         : [],
     };
   },

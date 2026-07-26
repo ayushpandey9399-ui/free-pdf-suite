@@ -30,16 +30,8 @@ export function ToolLayout({
               </Link>
             </li>
             <li aria-hidden="true" className="shrink-0">›</li>
-            <li className="shrink-0">
-              <Link
-                to="/"
-                hash="tools"
-                className="transition-colors hover:text-[#e5322d]"
-              >
-                All tools
-              </Link>
-            </li>
             <li aria-hidden="true" className="shrink-0">›</li>
+
             <li
               aria-current="page"
               className="min-w-0 overflow-x-hidden text-ellipsis"
