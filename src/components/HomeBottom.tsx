@@ -40,27 +40,41 @@ function Reveal({ children, className = "" }: { children: React.ReactNode; class
     if (reduced) return;
 
     el.classList.add("reveal-on-scroll");
+    let done = false;
+    const cleanups: Array<() => void> = [];
     const show = () => {
+      if (done) return;
+      done = true;
       el.classList.add("is-visible");
+      for (const fn of cleanups) fn();
     };
     const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
-          // Also reveal anything already scrolled past, so a fast scroll never
-          // leaves a section stuck at zero opacity.
-          if (e.isIntersecting || e.boundingClientRect.bottom < 0) {
+          if (e.isIntersecting) {
             show();
-            io.disconnect();
             break;
           }
         }
       },
       { rootMargin: "0px 0px -8% 0px", threshold: 0.05 },
     );
-
     io.observe(el);
-    return () => io.disconnect();
+    cleanups.push(() => io.disconnect());
+
+    // Safety net: a fast scroll can skip past a section without the observer
+    // ever reporting it as intersecting. Reveal anything at or above the fold.
+    const onScroll = () => {
+      if (el.getBoundingClientRect().top < window.innerHeight) show();
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    cleanups.push(() => window.removeEventListener("scroll", onScroll));
+
+    return () => {
+      for (const fn of cleanups) fn();
+    };
   }, []);
+
   return (
     <div ref={ref} className={className}>
       {children}
