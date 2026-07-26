@@ -44,12 +44,12 @@ export default function Split() {
     if (!file) return;
     setLoading(true);
     try {
+      const { PDFDocument } = await loadPdfLib();
       const src = await loadPdfLibDoc(await file.arrayBuffer());
       const total = src.getPageCount();
       if (mode === "every") {
         const outFiles: { name: string; data: Uint8Array }[] = [];
         for (let i = 0; i < total; i++) {
-          const { PDFDocument } = await loadPdfLib();
           const doc = await PDFDocument.create();
           const [p] = await doc.copyPages(src, [i]);
           doc.addPage(p);
