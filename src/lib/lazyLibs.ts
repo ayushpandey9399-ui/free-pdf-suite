@@ -12,7 +12,7 @@
 import type JSZipType from "jszip";
 
 type PdfLibModule = typeof import("pdf-lib");
-type JSZipCtor = typeof JSZipType;
+type JSZipCtor = JSZipType;
 
 export function loadPdfLib(): Promise<PdfLibModule> {
   return import("pdf-lib");
