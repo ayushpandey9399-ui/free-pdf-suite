@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { imageTools, imageCategories, type ImageTool, type ImageToolCategory } from "@/lib/imageTools";
 import { ImageToolIcon } from "@/components/image-tools/ImageToolIcon";
 import { SITE_URL } from "@/lib/site";
+import { breadcrumbJsonLd } from "@/lib/seoSchema";
 
 
 const TITLE = "Free Image Tools, Convert HEIC, JPG, PNG | FreePDFHub";
