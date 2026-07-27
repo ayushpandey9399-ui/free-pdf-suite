@@ -129,11 +129,22 @@ export default function PdfToWord() {
         onDownload={() => saveAs(result.blob, result.name)}
         onReset={resetAll}
         resetLabel="Convert another file"
+        suggestedSlugs={TOOL_SUGGESTIONS["pdf-to-word"] ?? []}
+        trustBadge={
+          <div
+            className="flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-center text-[13px] font-semibold"
+            style={{ backgroundColor: "#f6f4f9", color: "#5a5a66" }}
+          >
+            <ServerCog className="h-4 w-4" aria-hidden />
+            Your PDF was converted on our server and deleted right after this download was sent.
+          </div>
+        }
       >
-        <p className="text-center text-xs text-muted-foreground">
+        <p className="text-center text-[13px]" style={{ color: "#8b8b96" }}>
           Works best on text based PDFs. Scanned pages come through as images, not editable text.
         </p>
       </ToolSuccessScreen>
+
     );
   }
 
