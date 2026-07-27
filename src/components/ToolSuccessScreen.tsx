@@ -16,6 +16,8 @@ export interface ToolSuccessScreenProps {
   suggestedSlugs: string[];
   /** Extra content rendered between the download row and the trust badge (e.g. text preview). */
   children?: ReactNode;
+  /** Replaces the default local processing badge, used by the one server side tool. */
+  trustBadge?: ReactNode;
 }
 
 export function ToolSuccessScreen({
@@ -28,7 +30,9 @@ export function ToolSuccessScreen({
   resetLabel = "Start Over",
   suggestedSlugs,
   children,
+  trustBadge,
 }: ToolSuccessScreenProps) {
+
   const suggestions = suggestedSlugs
     .map((slug) => getTool(slug))
     .filter((t): t is NonNullable<ReturnType<typeof getTool>> => !!t);
