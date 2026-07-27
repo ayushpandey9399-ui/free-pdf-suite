@@ -50,17 +50,54 @@ function PrivacyPolicyPage() {
       >
         <p style={{ margin: 0 }}>
           <strong>
-            The tools currently on this site process your files locally in your
-            browser; files are not transmitted to our servers, not stored by us, and
-            not seen by us.
+            Every tool on this site except PDF to Word processes your files
+            locally in your browser; those files are not transmitted to our
+            servers, not stored by us, and not seen by us.
           </strong>{" "}
-          When you merge, compress, sign, or edit a PDF with today's tools, the file
+          When you merge, compress, sign, or edit a PDF with those tools, the file
           stays on your device from start to finish. You can even disconnect from the
-          internet after the page loads and these tools keep working. If a future tool
-          requires server-side processing, it will be clearly labeled on that tool's
-          page, and this policy will be updated before that tool launches.
+          internet after the page loads and these tools keep working. The one
+          exception is PDF to Word, which needs server-side conversion. It is
+          labeled on its own page and described in the section below.
         </p>
       </div>
+
+      <h2>Server based tools</h2>
+      <p>
+        One tool on FreePDFHub, PDF to Word, cannot run in the browser, because a
+        faithful Word conversion needs a document engine that is far too large to
+        download into a browser tab. Here is exactly how that tool handles your data:
+      </p>
+      <ul>
+        <li>
+          All tools except PDF to Word run entirely in your browser and never upload
+          your files.
+        </li>
+        <li>
+          PDF to Word uploads your PDF to our own server in order to convert it into
+          a Word document.
+        </li>
+        <li>
+          The uploaded file and the converted file are deleted immediately after the
+          download is sent, and any leftover file is deleted within 10 minutes.
+        </li>
+        <li>
+          We keep only technical request logs with the status, the file size, and the
+          duration of the conversion. We do not log file names or file contents.
+        </li>
+        <li>
+          The conversion server runs our own open source code, which you can read at{" "}
+          <a
+            href="https://github.com/ayushpandey9399-ui/freepdfhub-api"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            github.com/ayushpandey9399-ui/freepdfhub-api
+          </a>
+          .
+        </li>
+      </ul>
+
 
       <h2>Information we do NOT collect</h2>
       <p>
