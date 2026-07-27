@@ -270,6 +270,21 @@ const glyphT = (
   </g>
 );
 
+// PDF to Word, letter "W"
+const glyphW = (
+  <g
+    fill="none"
+    stroke={S.fill}
+    strokeWidth={3}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M33 34 L36.5 48 L41 39 L45.5 48 L49 34" />
+  </g>
+);
+
+
+
 // TXT to PDF, three text lines
 const glyphLines = (
   <g fill={S.fill}>
