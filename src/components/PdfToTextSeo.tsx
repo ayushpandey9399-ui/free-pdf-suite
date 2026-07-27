@@ -148,7 +148,6 @@ const related = [
   { to: "/tools/split", name: "Split PDF", blurb: "Break one PDF into multiple files or page ranges." },
   { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Pull specific pages out as a brand-new PDF." },
   { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink file size while keeping the best possible quality." },
-  { to: "/tools/redact-pdf", name: "Redact PDF", blurb: "Permanently black out sensitive text and images." },
 ] as const;
 
 export function PdfToTextSeo() {

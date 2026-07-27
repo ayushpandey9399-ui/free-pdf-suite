@@ -2,7 +2,7 @@
 
 > Free browser-based PDF tools: merge, split, compress, convert, edit, sign, protect and more. All processing runs client-side in the browser, so files never leave the user's device. No signup, no watermarks, no limits.
 
-FreePDFHub is an independent, ad-supported suite of 44 tools, 29 for PDF and 15 for images. Every tool except PDF to Word uses WebAssembly and JavaScript (pdf-lib, mupdf, pdfjs-dist) to process documents locally in the browser. There are no accounts, no server-side file storage, and the site works offline as an installable PWA.
+FreePDFHub is an independent, ad-supported suite of 44 tools, 29 for PDF and 15 for images. Every tool except PDF to Word uses WebAssembly and JavaScript (pdf-lib, mupdf, pdfjs-dist) to process documents locally in the browser. There are no accounts and the site works offline as an installable PWA. The single exception is PDF to Word, which uploads the file to our own server, converts it and deletes it immediately after the download.
 
 ## Pages
 
