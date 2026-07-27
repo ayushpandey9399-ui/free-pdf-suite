@@ -432,6 +432,7 @@ const specs: Record<string, Spec> = {
   "pdf-to-images": { color: "#2563EB", label: "PDF to Image", glyph: glyphPhoto, connector: true, connectorReverse: true },
   "extract-images": { color: "#7C3AED", label: "Extract Images", glyph: glyphExtractImages },
   "pdf-to-text": { color: "#475569", label: "PDF to Text", glyph: glyphT },
+  "pdf-to-word": { color: "#1E5FBF", label: "PDF to Word", glyph: glyphW, connector: true },
   "txt-to-pdf": { color: "#0891B2", label: "TXT to PDF", glyph: glyphLines, connector: true },
   "scan-to-pdf": { color: "#C2410C", label: "Scan to PDF", glyph: glyphCamera },
 
