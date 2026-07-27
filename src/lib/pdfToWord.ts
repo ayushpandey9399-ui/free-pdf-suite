@@ -14,8 +14,9 @@ export const PDF_TO_WORD_MAX_BYTES = 25 * 1024 * 1024;
 export const DOCX_MIME =
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
-/** Conversion mode always sent to the API. Not user selectable. */
-export const PDF_TO_WORD_MODE = "layout";
+/** Shown when the client side timeout fires. */
+export const PDF_TO_WORD_TIMEOUT_MESSAGE =
+  "This file is taking too long. Please try a smaller PDF.";
 
 /** Client side request timeout, 150 seconds. */
 export const PDF_TO_WORD_TIMEOUT_MS = 150_000;
@@ -24,7 +25,6 @@ export const PDF_TO_WORD_TIMEOUT_MS = 150_000;
 export function buildPdfToWordForm(file: File): FormData {
   const form = new FormData();
   form.append("file", file);
-  form.append("mode", PDF_TO_WORD_MODE);
   return form;
 }
 
@@ -68,27 +68,17 @@ export function validatePdfSelection(input: {
  * Raw JSON and stack traces are never shown to the user.
  */
 export function messageForStatus(status: number | "network"): string {
-  if (status === "network") {
-    return "We could not reach our conversion server. Please try again in a moment.";
-  }
   switch (status) {
-    case 400:
-      return "That file was not accepted as a PDF. Please pick a different file.";
     case 413:
-      return "That file is over our 25 MB limit for this tool.";
+      return "This file is larger than 25 MB.";
     case 422:
-      return "This PDF is password protected. Unlock it first with our Unlock PDF tool.";
+      return "We could not convert this PDF. It may be scanned, protected or damaged.";
     case 429:
-      return "You have converted a lot of files recently. Please try again in a few minutes.";
+      return "Too many requests. Please wait a minute and try again.";
     case 503:
-      return "Our server is busy right now. Please try again in a few seconds.";
-    case 504:
-      return "This PDF took too long to convert. Try a smaller or simpler file.";
+      return "Our server is busy right now. Please try again in a minute.";
     default:
-      if (status >= 500) {
-        return "We could not reach our conversion server. Please try again in a moment.";
-      }
-      return "Something went wrong while converting that file. Please try again.";
+      return "Something went wrong. Please try again.";
   }
 }
 

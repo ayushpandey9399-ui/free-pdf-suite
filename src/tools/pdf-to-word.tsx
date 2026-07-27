@@ -9,6 +9,7 @@ import { saveAs } from "@/lib/saveFile";
 import {
   PDF_TO_WORD_ENDPOINT,
   PDF_TO_WORD_TIMEOUT_MS,
+  PDF_TO_WORD_TIMEOUT_MESSAGE,
   DOCX_MIME,
   buildPdfToWordForm,
   docxNameFor,
@@ -66,7 +67,7 @@ export default function PdfToWord() {
     };
     xhr.ontimeout = () => {
       xhrRef.current = null;
-      setError({ message: messageForStatus(504), unlock: false });
+      setError({ message: PDF_TO_WORD_TIMEOUT_MESSAGE, unlock: false });
       setPhase("error");
     };
     xhr.onload = () => {
@@ -213,13 +214,14 @@ export default function PdfToWord() {
         trustNote={TRUST_NOTE}
       />
 
-      <p
-        className="mx-auto -mt-2 max-w-[520px] px-4 text-center text-[13px]"
-        style={{ color: "#8b8b96" }}
-      >
-        Works best on PDFs made from text. Scanned pages and some Hindi fonts may not convert
-        cleanly, this is a limit of the PDF itself, not of the tool.
-      </p>
+      <div className="mx-auto -mt-2 max-w-[520px] px-4 text-center text-[13px]" style={{ color: "#8b8b96" }}>
+        <p>
+          Best results on text based PDFs like invoices, bills, statements, resumes and reports.
+        </p>
+        <p className="mt-1">
+          Scanned pages and documents in Indian languages may lose some text or formatting.
+        </p>
+      </div>
 
       <div aria-live="polite" className="mt-6 px-4">
         {error ? (
