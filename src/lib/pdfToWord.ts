@@ -14,6 +14,20 @@ export const PDF_TO_WORD_MAX_BYTES = 25 * 1024 * 1024;
 export const DOCX_MIME =
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
+/** Conversion mode always sent to the API. Not user selectable. */
+export const PDF_TO_WORD_MODE = "layout";
+
+/** Client side request timeout, 150 seconds. */
+export const PDF_TO_WORD_TIMEOUT_MS = 150_000;
+
+/** Builds the multipart body for the conversion request. */
+export function buildPdfToWordForm(file: File): FormData {
+  const form = new FormData();
+  form.append("file", file);
+  form.append("mode", PDF_TO_WORD_MODE);
+  return form;
+}
+
 export type ValidationResult = { ok: true } | { ok: false; message: string };
 
 /** The first five bytes of every valid PDF spell "%PDF-". */
