@@ -140,6 +140,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
 ];
 
 const related = [
+  { to: "/tools/pdf-to-word", name: "PDF to Word", blurb: "Get an editable .docx instead of plain text." },
   { to: "/tools/extract-images", name: "Extract Images", blurb: "Pull embedded photos out of a PDF in original quality." },
   { to: "/tools/pdf-to-images", name: "PDF to Image", blurb: "Export each page as a high-quality JPG or PNG." },
   { to: "/tools/txt-to-pdf", name: "TXT to PDF", blurb: "Turn a plain-text file into a clean, readable PDF." },

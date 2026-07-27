@@ -215,7 +215,7 @@ const REASONS = [
     icon: Gift,
     title: "Completely free",
     body:
-      "All 43 tools with no signup, no watermarks, no daily limits and no premium wall.",
+      "All 44 tools with no signup, no watermarks, no daily limits and no premium wall.",
   },
   {
     icon: Zap,
@@ -308,7 +308,7 @@ const STEPS = [
     n: 1,
     title: "Pick a tool",
     body:
-      "Choose any of the 43 tools above, from merging and compressing to signing and redacting.",
+      "Choose any of the 44 tools above, from merging and compressing to signing and redacting.",
   },
   {
     n: 2,
@@ -453,7 +453,7 @@ function FinalCta() {
             className="text-[26px] sm:text-[36px] font-bold tracking-tight"
             style={{ color: INK, letterSpacing: "-0.02em" }}
           >
-            43 tools. All free. All private.
+            44 tools. All free. All private.
           </h2>
           <p className="mt-3 text-[16px]" style={{ color: MUTED }}>
             Every tool processes your files in your browser, PDF and images alike. Start with any one.
