@@ -8,7 +8,9 @@ import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 import { saveAs } from "@/lib/saveFile";
 import {
   PDF_TO_WORD_ENDPOINT,
+  PDF_TO_WORD_TIMEOUT_MS,
   DOCX_MIME,
+  buildPdfToWordForm,
   docxNameFor,
   messageForStatus,
   shouldOfferUnlockLink,
