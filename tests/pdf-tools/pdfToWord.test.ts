@@ -75,41 +75,26 @@ describe("validatePdfSelection", () => {
 });
 
 describe("messageForStatus", () => {
-  it("maps 400", () => {
-    expect(messageForStatus(400)).toContain("not accepted as a PDF");
-  });
   it("maps 413", () => {
-    expect(messageForStatus(413)).toBe("That file is over our 25 MB limit for this tool.");
+    expect(messageForStatus(413)).toBe("This file is larger than 25 MB.");
   });
   it("maps 422", () => {
     expect(messageForStatus(422)).toBe(
-      "This PDF is password protected. Unlock it first with our Unlock PDF tool.",
+      "We could not convert this PDF. It may be scanned, protected or damaged.",
     );
   });
   it("maps 429", () => {
-    expect(messageForStatus(429)).toBe(
-      "You have converted a lot of files recently. Please try again in a few minutes.",
-    );
+    expect(messageForStatus(429)).toBe("Too many requests. Please wait a minute and try again.");
   });
   it("maps 503", () => {
     expect(messageForStatus(503)).toBe(
-      "Our server is busy right now. Please try again in a few seconds.",
+      "Our server is busy right now. Please try again in a minute.",
     );
   });
-  it("maps 504", () => {
-    expect(messageForStatus(504)).toBe(
-      "This PDF took too long to convert. Try a smaller or simpler file.",
-    );
-  });
-  it("maps other 5xx to the reachability message", () => {
-    expect(messageForStatus(500)).toContain("could not reach our conversion server");
-    expect(messageForStatus(502)).toContain("could not reach our conversion server");
-  });
-  it("maps a network failure", () => {
-    expect(messageForStatus("network")).toContain("could not reach our conversion server");
-  });
-  it("falls back for unexpected 4xx", () => {
-    expect(messageForStatus(418)).toContain("Something went wrong");
+  it("falls back for every other failure", () => {
+    for (const s of [400, 418, 500, 502, 504, "network"] as const) {
+      expect(messageForStatus(s)).toBe("Something went wrong. Please try again.");
+    }
   });
   it("never exposes raw JSON", () => {
     for (const s of [400, 413, 422, 429, 500, 503, 504, 418] as const) {
