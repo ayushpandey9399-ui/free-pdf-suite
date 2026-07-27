@@ -213,7 +213,15 @@ export default function PdfToWord() {
         trustNote={TRUST_NOTE}
       />
 
-      <div aria-live="polite" className="px-4">
+      <p
+        className="mx-auto -mt-2 max-w-[520px] px-4 text-center text-[13px]"
+        style={{ color: "#8b8b96" }}
+      >
+        Works best on PDFs made from text. Scanned pages and some Hindi fonts may not convert
+        cleanly, this is a limit of the PDF itself, not of the tool.
+      </p>
+
+      <div aria-live="polite" className="mt-6 px-4">
         {error ? (
           <div
             className="mx-auto max-w-[520px] rounded-xl p-4 text-[14px]"
@@ -235,9 +243,6 @@ export default function PdfToWord() {
         ) : null}
       </div>
 
-      <p className="mx-auto mt-8 max-w-[520px] px-4 text-center text-[13px]" style={{ color: "#8b8b96" }}>
-        Works best on text based PDFs. Scanned pages come through as images, not editable text.
-      </p>
     </div>
   );
 }
