@@ -3,6 +3,8 @@ import { Link } from "@tanstack/react-router";
 import { Loader2, ServerCog, X } from "lucide-react";
 import { UploadDropzone } from "@/components/UploadDropzone";
 import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
+import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
+
 import { saveAs } from "@/lib/saveFile";
 import {
   PDF_TO_WORD_ENDPOINT,
