@@ -215,7 +215,11 @@ function ToolPage() {
     <>
       <ToolLayout
         title={seo?.layoutTitle ?? tool.name}
-        description={tool.description}
+        description={
+          slug === "pdf-to-word"
+            ? "Converts your PDF into an editable Word file while keeping images, tables and page layout."
+            : tool.description
+        }
         crumbName={tool.name}
         icon={tool.icon}
         tint={categoryTint[tool.category]}
