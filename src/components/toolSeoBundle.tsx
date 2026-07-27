@@ -22,6 +22,12 @@ import { ExtractPagesSeo, extractPagesFaqJsonLd, extractPagesHowToJsonLd, extrac
 import { ReorderPagesSeo, reorderPagesFaqJsonLd, reorderPagesHowToJsonLd, reorderPagesSoftwareJsonLd } from "@/components/ReorderPagesSeo";
 import { ImagesToPdfSeo, imagesToPdfFaqJsonLd, imagesToPdfHowToJsonLd, imagesToPdfSoftwareJsonLd } from "@/components/ImagesToPdfSeo";
 import { PdfToTextSeo, pdfToTextFaqJsonLd, pdfToTextHowToJsonLd, pdfToTextSoftwareJsonLd } from "@/components/PdfToTextSeo";
+import {
+  PdfToWordSeo,
+  pdfToWordFaqJsonLd,
+  pdfToWordHowToJsonLd,
+  pdfToWordSoftwareJsonLd,
+} from "@/components/PdfToWordSeo";
 import { TxtToPdfSeo, txtToPdfFaqJsonLd, txtToPdfHowToJsonLd, txtToPdfSoftwareJsonLd } from "@/components/TxtToPdfSeo";
 import { PageNumbersSeo, pageNumbersFaqJsonLd, pageNumbersHowToJsonLd, pageNumbersSoftwareJsonLd } from "@/components/PageNumbersSeo";
 import { HeaderFooterSeo, headerFooterFaqJsonLd, headerFooterHowToJsonLd, headerFooterSoftwareJsonLd } from "@/components/HeaderFooterSeo";
@@ -112,6 +118,11 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
     layoutTitle: "Convert JPG to PDF",
     jsonLd: [imagesToPdfFaqJsonLd, imagesToPdfHowToJsonLd, imagesToPdfSoftwareJsonLd],
     content: <ImagesToPdfSeo />,
+  },
+  "pdf-to-word": {
+    layoutTitle: "Convert PDF to Word",
+    jsonLd: [pdfToWordFaqJsonLd, pdfToWordHowToJsonLd, pdfToWordSoftwareJsonLd],
+    content: <PdfToWordSeo />,
   },
   "pdf-to-text": {
     layoutTitle: "Convert PDF to text",

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, type ReactNode } from "react";
 import { Lock } from "lucide-react";
 import { DropOverlay, useWindowFileDrop } from "@/components/DropOverlay";
 
@@ -15,7 +15,13 @@ export interface UploadDropzoneProps {
   onFiles: (files: FileList | File[]) => void;
   /** Brand accent for the button and drag state, defaults to brand red. */
   accent?: string;
+  /**
+   * Replaces the default "Your files never leave your device" trust line.
+   * Used by the one server side tool, which must not make that promise.
+   */
+  trustNote?: ReactNode;
 }
+
 
 /**
  * Frameless empty state: one big button, one helper line, one trust line.
@@ -28,6 +34,7 @@ export function UploadDropzone({
   hint,
   onFiles,
   accent = "#e5322d",
+  trustNote,
 }: UploadDropzoneProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const dragging = useWindowFileDrop(onFiles);
@@ -57,12 +64,17 @@ export function UploadDropzone({
       </p>
 
       <p
-        className="mt-5 inline-flex items-center gap-1.5 text-center text-[13px]"
+        className="mt-5 inline-flex max-w-[420px] items-center justify-center gap-1.5 text-center text-[13px]"
         style={{ color: "#8b8b96" }}
       >
-        <Lock className="h-3.5 w-3.5" aria-hidden />
-        Your files never leave your device.
+        {trustNote ?? (
+          <>
+            <Lock className="h-3.5 w-3.5" aria-hidden />
+            Your files never leave your device.
+          </>
+        )}
       </p>
+
 
       <input
         ref={inputRef}

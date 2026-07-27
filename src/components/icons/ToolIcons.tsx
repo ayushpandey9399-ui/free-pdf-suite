@@ -270,6 +270,21 @@ const glyphT = (
   </g>
 );
 
+// PDF to Word, letter "W"
+const glyphW = (
+  <g
+    fill="none"
+    stroke={S.fill}
+    strokeWidth={3}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M33 34 L36.5 48 L41 39 L45.5 48 L49 34" />
+  </g>
+);
+
+
+
 // TXT to PDF, three text lines
 const glyphLines = (
   <g fill={S.fill}>
@@ -417,6 +432,7 @@ const specs: Record<string, Spec> = {
   "pdf-to-images": { color: "#2563EB", label: "PDF to Image", glyph: glyphPhoto, connector: true, connectorReverse: true },
   "extract-images": { color: "#7C3AED", label: "Extract Images", glyph: glyphExtractImages },
   "pdf-to-text": { color: "#475569", label: "PDF to Text", glyph: glyphT },
+  "pdf-to-word": { color: "#1E5FBF", label: "PDF to Word", glyph: glyphW, connector: true },
   "txt-to-pdf": { color: "#0891B2", label: "TXT to PDF", glyph: glyphLines, connector: true },
   "scan-to-pdf": { color: "#C2410C", label: "Scan to PDF", glyph: glyphCamera },
 

@@ -16,6 +16,8 @@ export interface ToolSuccessScreenProps {
   suggestedSlugs: string[];
   /** Extra content rendered between the download row and the trust badge (e.g. text preview). */
   children?: ReactNode;
+  /** Replaces the default local processing badge, used by the one server side tool. */
+  trustBadge?: ReactNode;
 }
 
 export function ToolSuccessScreen({
@@ -28,7 +30,9 @@ export function ToolSuccessScreen({
   resetLabel = "Start Over",
   suggestedSlugs,
   children,
+  trustBadge,
 }: ToolSuccessScreenProps) {
+
   const suggestions = suggestedSlugs
     .map((slug) => getTool(slug))
     .filter((t): t is NonNullable<ReturnType<typeof getTool>> => !!t);
@@ -128,13 +132,16 @@ export function ToolSuccessScreen({
       )}
 
       {/* Trust badge */}
-      <div
-        className="flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-[13px] font-semibold"
-        style={{ backgroundColor: "#eafaf0", color: "#1f9d55" }}
-      >
-        <Lock className="h-4 w-4" />
-        Your files were processed 100% locally on your device, never uploaded anywhere.
-      </div>
+      {trustBadge ?? (
+        <div
+          className="flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-[13px] font-semibold"
+          style={{ backgroundColor: "#eafaf0", color: "#1f9d55" }}
+        >
+          <Lock className="h-4 w-4" />
+          Your files were processed 100% locally on your device, never uploaded anywhere.
+        </div>
+      )}
+
     </div>
   );
 }

@@ -74,6 +74,10 @@ const TOOL_META: Record<string, ToolMeta> = {
     title: "JPG to PDF Converter Free, No Watermark | FreePDFHub",
     desc: "Convert JPG or PNG images to PDF online free. Combine phone photos, screenshots, and scans into one tidy document with A4, Letter, or auto page sizes.",
   },
+  "pdf-to-word": {
+    title: "PDF to Word Converter Free, No Signup | FreePDFHub",
+    desc: "Convert PDF to Word online free and get a fully editable DOCX file. Headings, tables, and images are preserved, and your upload is deleted right after.",
+  },
   "pdf-to-text": {
     title: "PDF to Text Free, Copy or Download TXT | FreePDFHub",
     desc: "Extract text from PDF online free. Copy the full contents to your clipboard or download a clean .txt file, all processed locally in your browser.",
