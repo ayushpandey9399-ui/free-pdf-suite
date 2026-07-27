@@ -128,13 +128,16 @@ export function ToolSuccessScreen({
       )}
 
       {/* Trust badge */}
-      <div
-        className="flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-[13px] font-semibold"
-        style={{ backgroundColor: "#eafaf0", color: "#1f9d55" }}
-      >
-        <Lock className="h-4 w-4" />
-        Your files were processed 100% locally on your device, never uploaded anywhere.
-      </div>
+      {trustBadge ?? (
+        <div
+          className="flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-[13px] font-semibold"
+          style={{ backgroundColor: "#eafaf0", color: "#1f9d55" }}
+        >
+          <Lock className="h-4 w-4" />
+          Your files were processed 100% locally on your device, never uploaded anywhere.
+        </div>
+      )}
+
     </div>
   );
 }
