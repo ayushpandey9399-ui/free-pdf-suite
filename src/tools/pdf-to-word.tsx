@@ -8,7 +8,9 @@ import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 import { saveAs } from "@/lib/saveFile";
 import {
   PDF_TO_WORD_ENDPOINT,
+  PDF_TO_WORD_TIMEOUT_MS,
   DOCX_MIME,
+  buildPdfToWordForm,
   docxNameFor,
   messageForStatus,
   shouldOfferUnlockLink,
@@ -39,11 +41,12 @@ export default function PdfToWord() {
   const upload = useCallback((file: File) => {
     const xhr = new XMLHttpRequest();
     xhrRef.current = xhr;
-    const form = new FormData();
-    form.append("file", file);
+    const form = buildPdfToWordForm(file);
 
     xhr.open("POST", PDF_TO_WORD_ENDPOINT, true);
     xhr.responseType = "blob";
+    xhr.timeout = PDF_TO_WORD_TIMEOUT_MS;
+
 
     xhr.upload.onprogress = (e) => {
       if (e.lengthComputable) {
@@ -210,7 +213,15 @@ export default function PdfToWord() {
         trustNote={TRUST_NOTE}
       />
 
-      <div aria-live="polite" className="px-4">
+      <p
+        className="mx-auto -mt-2 max-w-[520px] px-4 text-center text-[13px]"
+        style={{ color: "#8b8b96" }}
+      >
+        Works best on PDFs made from text. Scanned pages and some Hindi fonts may not convert
+        cleanly, this is a limit of the PDF itself, not of the tool.
+      </p>
+
+      <div aria-live="polite" className="mt-6 px-4">
         {error ? (
           <div
             className="mx-auto max-w-[520px] rounded-xl p-4 text-[14px]"
@@ -232,9 +243,6 @@ export default function PdfToWord() {
         ) : null}
       </div>
 
-      <p className="mx-auto mt-8 max-w-[520px] px-4 text-center text-[13px]" style={{ color: "#8b8b96" }}>
-        Works best on text based PDFs. Scanned pages come through as images, not editable text.
-      </p>
     </div>
   );
 }
