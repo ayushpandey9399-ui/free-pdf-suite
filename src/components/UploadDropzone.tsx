@@ -34,6 +34,7 @@ export function UploadDropzone({
   hint,
   onFiles,
   accent = "#e5322d",
+  trustNote,
 }: UploadDropzoneProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const dragging = useWindowFileDrop(onFiles);
@@ -63,12 +64,17 @@ export function UploadDropzone({
       </p>
 
       <p
-        className="mt-5 inline-flex items-center gap-1.5 text-center text-[13px]"
+        className="mt-5 inline-flex max-w-[420px] items-center justify-center gap-1.5 text-center text-[13px]"
         style={{ color: "#8b8b96" }}
       >
-        <Lock className="h-3.5 w-3.5" aria-hidden />
-        Your files never leave your device.
+        {trustNote ?? (
+          <>
+            <Lock className="h-3.5 w-3.5" aria-hidden />
+            Your files never leave your device.
+          </>
+        )}
       </p>
+
 
       <input
         ref={inputRef}
