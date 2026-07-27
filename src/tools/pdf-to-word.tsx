@@ -41,11 +41,12 @@ export default function PdfToWord() {
   const upload = useCallback((file: File) => {
     const xhr = new XMLHttpRequest();
     xhrRef.current = xhr;
-    const form = new FormData();
-    form.append("file", file);
+    const form = buildPdfToWordForm(file);
 
     xhr.open("POST", PDF_TO_WORD_ENDPOINT, true);
     xhr.responseType = "blob";
+    xhr.timeout = PDF_TO_WORD_TIMEOUT_MS;
+
 
     xhr.upload.onprogress = (e) => {
       if (e.lengthComputable) {
