@@ -1,0 +1,75 @@
+# FreePDFHub Enterprise API | Phase 0 composition.
+# Two services only: the API and Redis. Redis is provisioned for later phases
+# (queue, shared rate limiting); the Phase 0 API opens no connection to it.
+
+services:
+  api:
+    build:
+      context: .
+      target: runtime
+    image: freepdfhub/api:0.1.0
+    container_name: freepdfhub-api
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: 8080
+      LOG_LEVEL: info
+      LOG_PRETTY: "false"
+      CORS_ORIGINS: "*"
+      RATE_LIMIT_MAX: "120"
+      RATE_LIMIT_WINDOW_MS: "60000"
+      MAX_UPLOAD_BYTES: "26214400"
+      BODY_LIMIT_BYTES: "27262976"
+      WORKSPACE_ROOT: /var/lib/freepdfhub
+      REDIS_URL: redis://redis:6379
+      SWAGGER_ENABLED: "true"
+      SHUTDOWN_TIMEOUT_MS: "10000"
+    volumes:
+      - workspace:/var/lib/freepdfhub
+    depends_on:
+      redis:
+        condition: service_healthy
+    # Container hardening: no new privileges, writable paths limited to the workspace.
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /tmp:size=64m
+    stop_grace_period: 20s
+    healthcheck:
+      test: ["CMD", "node", "scripts/healthcheck.mjs"]
+      interval: 30s
+      timeout: 5s
+      start_period: 15s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+
+  redis:
+    image: redis:7-alpine
+    container_name: freepdfhub-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "no", "--maxmemory", "128mb", "--maxmemory-policy", "allkeys-lru"]
+    expose:
+      - "6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 160M
+
+volumes:
+  workspace:
+    driver: local
