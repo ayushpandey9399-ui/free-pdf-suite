@@ -193,7 +193,8 @@ export async function createStoredZip(
         throw new ZipWriteError('An archive entry changed size while it was packed');
       }
 
-      central.push(centralHeader(name, crc, info.size, offset));
+      // The central record and its name travel together, exactly as they do locally.
+      central.push(Buffer.concat([centralHeader(name, crc, info.size, offset), name]));
       offset += header.length + name.length + info.size;
       names.push(entry.name);
     }
@@ -204,6 +205,7 @@ export async function createStoredZip(
       await write(sink, record);
       directorySize += record.length;
     }
+
     await write(sink, endRecord(central.length, directorySize, directoryOffset));
 
     await new Promise<void>((resolve, reject) => {
