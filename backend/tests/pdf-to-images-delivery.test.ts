@@ -136,8 +136,16 @@ async function workspaceCount(): Promise<number> {
   return entries.filter((entry) => entry.isDirectory()).length;
 }
 
-/** The suite shares one workspace root, so each case starts from a clean slate. */
+/**
+ * The suite shares one workspace root, so each case starts from a clean slate.
+ * Cleanup is attached to the response lifecycle rather than awaited by the handler, so this
+ * polls briefly instead of asserting on the same tick.
+ */
 async function assertNoWorkspacesLeft(): Promise<void> {
+  for (let attempt = 0; attempt < 100; attempt += 1) {
+    if ((await workspaceCount()) === 0) return;
+    await new Promise((resolve) => setTimeout(resolve, 20));
+  }
   assert.equal(await workspaceCount(), 0, 'every workspace must be cleaned up');
 }
 
