@@ -188,8 +188,8 @@ function toUint8Array(chunk: Uint8Array): Uint8Array {
   return chunk instanceof Uint8Array ? chunk : new Uint8Array(chunk);
 }
 
-function concat(left: Uint8Array, right: Uint8Array): Uint8Array {
-  const merged = new Uint8Array(left.length + right.length);
+function concat(left: Uint8Array, right: Uint8Array): Uint8Array<ArrayBuffer> {
+  const merged = new Uint8Array(new ArrayBuffer(left.length + right.length));
   merged.set(left, 0);
   merged.set(right, left.length);
   return merged;
