@@ -83,7 +83,7 @@ export async function buildApp(options: BuildAppOptions): Promise<BuiltApp> {
     logger: app.log,
   });
 
-  const runner = createProcessRunner({ logger: app.log });
+  const runner = createProcessRunner();
   const engines = createEngineRegistry(runner);
 
   const pdfToImagesDispatcher = new PdfToImagesDispatcher({
