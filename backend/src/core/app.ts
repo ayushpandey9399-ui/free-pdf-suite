@@ -9,10 +9,16 @@ import type { AppConfig } from '../config/index.js';
 import { HealthService } from '../modules/health/health.service.js';
 import { buildPdfToImagesManifest } from '../modules/pdf-to-images/pdf-to-images.schema.js';
 import { PdfToImagesService } from '../modules/pdf-to-images/pdf-to-images.service.js';
+import { PdfToImagesDispatcher } from '../modules/pdf-to-images/pdf-to-images.dispatcher.js';
+import { PdfToImagesDelivery } from '../modules/pdf-to-images/pdf-to-images.delivery.js';
+import { DownloadService } from '../modules/download/download.service.js';
+import { DownloadTokenSigner } from '../modules/download/download.tokens.js';
 import { toolRegistry } from '../modules/registry/registry.service.js';
 import { WorkspaceManager } from '../modules/workspace/workspace.manager.js';
 import { LocalWorkspaceStorage } from '../modules/workspace/workspace.storage.js';
 import { createRedisPlaceholderProbe, type DependencyProbe } from '../platform/dependency.js';
+import { createEngineRegistry } from '../platform/engines/index.js';
+import { createProcessRunner } from '../platform/process/process.factory.js';
 import { registerMiddlewares } from '../middlewares/index.js';
 import { registerPlugins } from '../plugins/index.js';
 import { registerRoutes } from '../routes/index.js';
@@ -25,6 +31,7 @@ export interface BuiltApp {
   app: FastifyInstance;
   healthService: HealthService;
   workspaces: WorkspaceManager;
+  downloads: DownloadService;
 }
 
 export interface BuildAppOptions {
@@ -76,14 +83,46 @@ export async function buildApp(options: BuildAppOptions): Promise<BuiltApp> {
     logger: app.log,
   });
 
+  const runner = createProcessRunner({ logger: app.log });
+  const engines = createEngineRegistry(runner);
+
+  const pdfToImagesDispatcher = new PdfToImagesDispatcher({
+    registry: toolRegistry,
+    engines,
+    workspaces,
+    runner,
+    logger: app.log,
+  });
+
+  const downloadService = new DownloadService({
+    workspaces,
+    signer: new DownloadTokenSigner({ secret: config.download.tokenSecret }),
+    ttlMs: config.download.ttlMs,
+    logger: app.log,
+  });
+
+  const pdfToImagesDelivery = new PdfToImagesDelivery({
+    workspaces,
+    downloads: downloadService,
+    ttlMs: config.download.ttlMs,
+    logger: app.log,
+  });
+
   await registerPlugins(app, config, SERVICE_VERSION);
   registerMiddlewares(app, {
     apiVersion: SERVICE_VERSION,
     isProduction: config.isProduction,
   });
-  await registerRoutes(app, { healthService, pdfToImagesService });
+  await registerRoutes(app, {
+    healthService,
+    pdfToImagesService,
+    pdfToImagesDispatcher,
+    pdfToImagesDelivery,
+    downloadService,
+    workspaces,
+  });
 
   await app.ready();
-  return { app, healthService, workspaces };
+  return { app, healthService, workspaces, downloads: downloadService };
 }
 
