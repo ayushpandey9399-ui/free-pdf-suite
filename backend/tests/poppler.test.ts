@@ -126,8 +126,8 @@ test('locator ignores a non executable file and a directory', async () => {
 });
 
 test('locator ignores relative PATH entries', async () => {
-  const locator = new PopplerBinaryLocator('./bin:relative/dir');
-  assert.equal(typeof (await locator.find('pdftoppm')), 'string' as const satisfies string extends string ? string : never === undefined ? 'string' : 'string' ? 'string' : 'string');
+  const locator = new PopplerBinaryLocator('./bin:relative/dir:/nonexistent-poppler-abs');
+  assert.equal(await locator.find('pdftocairo'), undefined);
 });
 
 test('locator require throws ENGINE_NOT_INSTALLED when missing', async () => {
