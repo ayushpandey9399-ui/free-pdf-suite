@@ -15,7 +15,7 @@ import test from 'node:test';
 import { isAppError } from '../src/core/errors.js';
 import { EngineRegistry } from '../src/platform/engines/engine.registry.js';
 import { createEngineRegistry } from '../src/platform/engines/index.js';
-import { NotImplementedEngineAdapter } from '../src/platform/engines/engine.base.js';
+import type { AnyEngineAdapter } from '../src/platform/engines/engine.types.js';
 import { createProcessRunner } from '../src/platform/process/process.factory.js';
 import type {
   ProcessRunRequest,
@@ -492,11 +492,29 @@ test('reports the engine as unavailable when no adapter provides the capability'
 
 test('reports the engine as unavailable when the provider is not installed', async () => {
   const target = await harness(multiPagePdf(1));
-  const unavailable = new (class extends NotImplementedEngineAdapter {
-    constructor() {
-      super('ghostscript', ['pdf.raster']);
-    }
-  })();
+  const unavailable: AnyEngineAdapter = {
+    id: 'ghostscript',
+    capabilities: ['pdf.raster'],
+    health: async () => ({
+      engineId: 'ghostscript',
+      installed: false,
+      version: '',
+      binaries: {},
+      capabilities: [],
+      lastCheckedMs: Date.now(),
+      detail: 'not installed in this test',
+    }),
+    validate: () => undefined,
+    plan: async () => {
+      throw new Error('must never be planned');
+    },
+    parse: async () => {
+      throw new Error('must never be parsed');
+    },
+    execute: async () => {
+      throw new Error('must never be executed');
+    },
+  };
   try {
     const reason = await reasonOf(
       dispatcher(target, {
