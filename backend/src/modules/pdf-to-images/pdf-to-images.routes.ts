@@ -55,7 +55,7 @@ export async function pdfToImagesRoutes(
 
       const job = await options.service.accept({
         requestId: request.id,
-        parts: adaptParts(request.parts()),
+        parts: adaptMultipartParts(request.parts()),
       });
 
       return reply.code(HttpStatus.ACCEPTED).send({
@@ -69,8 +69,11 @@ export async function pdfToImagesRoutes(
   );
 }
 
-/** Normalise Fastify multipart parts onto the transport free shape the service consumes. */
-async function* adaptParts(
+/**
+ * Normalise Fastify multipart parts onto the transport free shape the service consumes.
+ * Exported so every route of this tool adapts a multipart body in exactly one way.
+ */
+export async function* adaptMultipartParts(
   parts: AsyncIterableIterator<unknown>,
 ): AsyncGenerator<IncomingPart> {
   for await (const raw of parts) {
