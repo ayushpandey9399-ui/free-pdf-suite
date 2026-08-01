@@ -361,12 +361,12 @@ test('rejects a corrupted document', async () => {
         options: options(),
       }),
     );
-    assert.ok(
-      [ConversionError.INVALID_PDF, ConversionError.OUTPUT_EMPTY].includes(
-        reason as (typeof ConversionError)[keyof typeof ConversionError],
-      ),
-      `unexpected reason ${reason}`,
-    );
+    const acceptable: readonly string[] = [
+      ConversionError.INVALID_PDF,
+      ConversionError.OUTPUT_EMPTY,
+    ];
+    assert.ok(acceptable.includes(reason), `unexpected reason ${reason}`);
+
   } finally {
     await target.cleanup();
   }
