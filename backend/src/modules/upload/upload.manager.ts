@@ -56,7 +56,6 @@ export class UploadManager {
     for await (const source of sources) {
       accepted.push(await this.accept(source));
     }
-    this.validator.assertNotEmptyRequest?.(accepted.length);
     return accepted;
   }
 
