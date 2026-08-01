@@ -42,6 +42,10 @@ const envSchema = z.object({
   WORKSPACE_UPLOAD_TTL_MS: positiveInt.default(configDefaults.WORKSPACE_UPLOAD_TTL_MS),
   WORKSPACE_OUTPUT_TTL_MS: positiveInt.default(configDefaults.WORKSPACE_OUTPUT_TTL_MS),
 
+  /** HMAC key for signed download links. Empty means generate one per process. */
+  DOWNLOAD_TOKEN_SECRET: z.string().default(configDefaults.DOWNLOAD_TOKEN_SECRET),
+  DOWNLOAD_TTL_MS: positiveInt.default(configDefaults.DOWNLOAD_TTL_MS),
+
   /** Redis is provisioned in Phase 0 for later phases, nothing connects to it yet. */
   REDIS_URL: z.string().min(1).default(configDefaults.REDIS_URL),
 

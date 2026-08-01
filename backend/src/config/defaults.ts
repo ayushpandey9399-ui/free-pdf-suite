@@ -28,6 +28,10 @@ export const configDefaults = {
   WORKSPACE_UPLOAD_TTL_MS: 15 * 60_000,
   WORKSPACE_OUTPUT_TTL_MS: 60 * 60_000,
 
+  /** Empty means a random per process key, which invalidates old links on restart. */
+  DOWNLOAD_TOKEN_SECRET: '',
+  DOWNLOAD_TTL_MS: 15 * 60_000,
+
   REDIS_URL: 'redis://127.0.0.1:6379',
 
   SWAGGER_ENABLED: true,

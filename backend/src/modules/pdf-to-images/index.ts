@@ -9,3 +9,5 @@ export * from './pdf-to-images.service.js';
 export * from './pdf-to-images.routes.js';
 export * from './pdf-to-images.conversion.js';
 export * from './pdf-to-images.dispatcher.js';
+export * from './pdf-to-images.delivery.js';
+export * from './pdf-to-images.job.routes.js';

@@ -45,6 +45,12 @@ export interface AppConfig {
     readonly outputTtlMs: number;
   };
 
+  readonly download: {
+    /** Empty means the signer generates a per process key. */
+    readonly tokenSecret: string;
+    readonly ttlMs: number;
+  };
+
   /** Provisioned for later phases (queue, cache). Phase 0 opens no connection. */
   readonly redis: {
     readonly url: string;
@@ -109,6 +115,11 @@ export function buildConfig(source: NodeJS.ProcessEnv = process.env): AppConfig 
       root: env.WORKSPACE_ROOT,
       uploadTtlMs: env.WORKSPACE_UPLOAD_TTL_MS,
       outputTtlMs: env.WORKSPACE_OUTPUT_TTL_MS,
+    }),
+
+    download: Object.freeze({
+      tokenSecret: env.DOWNLOAD_TOKEN_SECRET,
+      ttlMs: env.DOWNLOAD_TTL_MS,
     }),
 
     redis: Object.freeze({ url: env.REDIS_URL }),
