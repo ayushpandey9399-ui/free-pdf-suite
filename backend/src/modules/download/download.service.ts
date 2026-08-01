@@ -94,10 +94,16 @@ export class DownloadService {
 
     let filePath: string;
     try {
-      filePath = this.workspaces.artifactPath(claims.workspaceId, claims.scope, claims.key);
-    } catch (error) {
+      // The Workspace Manager owns scope directories, so the only thing composed here is the
+      // already validated object name, and the result is proven to stay inside that directory.
+      const scopeDir = this.workspaces.scopePathOf(claims.workspaceId, claims.scope);
+      const candidate = path.join(scopeDir, claims.key);
+      if (!candidate.startsWith(scopeDir + path.sep)) throw downloadErrors.artifactGone();
+      filePath = candidate;
+    } catch {
       throw downloadErrors.artifactGone();
     }
+
 
     let sizeBytes: number;
     try {
