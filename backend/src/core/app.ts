@@ -7,6 +7,11 @@
 import Fastify, { type FastifyInstance } from 'fastify';
 import type { AppConfig } from '../config/index.js';
 import { HealthService } from '../modules/health/health.service.js';
+import { buildPdfToImagesManifest } from '../modules/pdf-to-images/pdf-to-images.schema.js';
+import { PdfToImagesService } from '../modules/pdf-to-images/pdf-to-images.service.js';
+import { toolRegistry } from '../modules/registry/registry.service.js';
+import { WorkspaceManager } from '../modules/workspace/workspace.manager.js';
+import { LocalWorkspaceStorage } from '../modules/workspace/workspace.storage.js';
 import { createRedisPlaceholderProbe, type DependencyProbe } from '../platform/dependency.js';
 import { registerMiddlewares } from '../middlewares/index.js';
 import { registerPlugins } from '../plugins/index.js';
@@ -19,12 +24,15 @@ import { SERVICE_PHASE, SERVICE_VERSION } from './version.js';
 export interface BuiltApp {
   app: FastifyInstance;
   healthService: HealthService;
+  workspaces: WorkspaceManager;
 }
 
 export interface BuildAppOptions {
   config: AppConfig;
   /** Extra dependency probes, used by tests and by later phases. */
   probes?: readonly DependencyProbe[];
+  /** Overrides the configured workspace root, used by tests. */
+  workspaceRoot?: string;
 }
 
 export async function buildApp(options: BuildAppOptions): Promise<BuiltApp> {
@@ -53,13 +61,29 @@ export async function buildApp(options: BuildAppOptions): Promise<BuiltApp> {
     probes: options.probes ?? [createRedisPlaceholderProbe()],
   });
 
+  const storage = new LocalWorkspaceStorage(options.workspaceRoot ?? config.workspace.root);
+  await storage.ensureRoot();
+  const workspaces = new WorkspaceManager({ storage });
+
+  // Manifests are registered once per process, so rebuilding the app in tests is safe.
+  const manifest = buildPdfToImagesManifest(config.upload.maxFileBytes);
+  if (!toolRegistry.has(manifest.slug)) toolRegistry.register(manifest);
+
+  const pdfToImagesService = new PdfToImagesService({
+    registry: toolRegistry,
+    workspaces,
+    ttlMs: config.workspace.uploadTtlMs,
+    logger: app.log,
+  });
+
   await registerPlugins(app, config, SERVICE_VERSION);
   registerMiddlewares(app, {
     apiVersion: SERVICE_VERSION,
     isProduction: config.isProduction,
   });
-  await registerRoutes(app, { healthService });
+  await registerRoutes(app, { healthService, pdfToImagesService });
 
   await app.ready();
-  return { app, healthService };
+  return { app, healthService, workspaces };
 }
+
