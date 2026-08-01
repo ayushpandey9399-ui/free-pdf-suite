@@ -16,6 +16,7 @@
  */
 import { createReadStream } from 'node:fs';
 import { stat } from 'node:fs/promises';
+import path from 'node:path';
 import { API_V1_PREFIX } from '../../shared/constants.js';
 import type { WorkspaceManager } from '../workspace/workspace.manager.js';
 import { downloadErrors } from './download.errors.js';
@@ -110,7 +111,7 @@ export class DownloadService {
       const info = await stat(filePath);
       if (!info.isFile() || info.size === 0) throw downloadErrors.artifactGone();
       sizeBytes = info.size;
-    } catch (error) {
+    } catch {
       throw downloadErrors.artifactGone();
     }
     if (sizeBytes !== claims.sizeBytes) throw downloadErrors.artifactGone();
