@@ -7,3 +7,5 @@ export * from './pdf-to-images.errors.js';
 export * from './pdf-to-images.schema.js';
 export * from './pdf-to-images.service.js';
 export * from './pdf-to-images.routes.js';
+export * from './pdf-to-images.conversion.js';
+export * from './pdf-to-images.dispatcher.js';
