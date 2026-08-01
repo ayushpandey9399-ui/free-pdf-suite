@@ -315,14 +315,20 @@ test('POST with an encrypted PDF and a password is accepted', async () => {
 
 test('POST with two files is rejected', async () => {
   const before = await workspaceCount();
+  const filePart = (name: string) =>
+    Buffer.concat([
+      Buffer.from(
+        `--${BOUNDARY}\r\nContent-Disposition: form-data; name="file"; filename="${name}"\r\n` +
+          'Content-Type: application/pdf\r\n\r\n',
+        'ascii',
+      ),
+      pdfBytes(),
+      Buffer.from('\r\n', 'ascii'),
+    ]);
   const body = Buffer.concat([
-    multipartBody(pdfFile()).subarray(0, multipartBody(pdfFile()).length - (BOUNDARY.length + 8)),
-    Buffer.from(
-      `--${BOUNDARY}\r\nContent-Disposition: form-data; name="file"; filename="second.pdf"\r\nContent-Type: application/pdf\r\n\r\n`,
-      'ascii',
-    ),
-    pdfBytes(),
-    Buffer.from(`\r\n--${BOUNDARY}--\r\n`, 'ascii'),
+    filePart('first.pdf'),
+    filePart('second.pdf'),
+    Buffer.from(`--${BOUNDARY}--\r\n`, 'ascii'),
   ]);
   const response = await app.inject({
     method: 'POST',
