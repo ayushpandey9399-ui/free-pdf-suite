@@ -4,6 +4,9 @@
  * readiness fails while draining, and that unknown routes return the error envelope.
  */
 import assert from 'node:assert/strict';
+import { mkdtemp } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
 import { after, before, test } from 'node:test';
 import type { FastifyInstance } from 'fastify';
 import { buildConfig } from '../src/config/index.js';
@@ -15,7 +18,12 @@ let healthService: HealthService;
 
 before(async () => {
   const built = await buildApp({
-    config: buildConfig({ NODE_ENV: 'test', LOG_LEVEL: 'silent', SWAGGER_ENABLED: 'false' }),
+    config: buildConfig({
+      NODE_ENV: 'test',
+      LOG_LEVEL: 'silent',
+      SWAGGER_ENABLED: 'false',
+      WORKSPACE_ROOT: await mkdtemp(path.join(tmpdir(), 'fph-health-')),
+    }),
   });
   app = built.app;
   healthService = built.healthService;

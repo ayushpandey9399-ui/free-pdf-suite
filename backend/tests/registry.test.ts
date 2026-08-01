@@ -4,6 +4,9 @@
  * and answers 404 for an unknown slug.
  */
 import assert from 'node:assert/strict';
+import { mkdtemp } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
 import { after, before, test } from 'node:test';
 import type { FastifyInstance } from 'fastify';
 import { buildConfig } from '../src/config/index.js';
@@ -15,7 +18,12 @@ let app: FastifyInstance;
 
 before(async () => {
   const built = await buildApp({
-    config: buildConfig({ NODE_ENV: 'test', LOG_LEVEL: 'silent', SWAGGER_ENABLED: 'false' }),
+    config: buildConfig({
+      NODE_ENV: 'test',
+      LOG_LEVEL: 'silent',
+      SWAGGER_ENABLED: 'false',
+      WORKSPACE_ROOT: await mkdtemp(path.join(tmpdir(), 'fph-registry-')),
+    }),
   });
   app = built.app;
 });
@@ -24,14 +32,17 @@ after(async () => {
   await app.close();
 });
 
-test('GET /v1/tools returns an empty catalogue in Phase 0', async () => {
+test('GET /v1/tools lists the registered production tools', async () => {
   const response = await app.inject({ method: 'GET', url: '/v1/tools' });
   assert.equal(response.statusCode, 200);
-  assert.deepEqual(response.json(), { count: 0, tools: [] });
+  const body = response.json();
+  assert.ok(body.count >= 1);
+  const slugs = body.tools.map((tool: { slug: string }) => tool.slug);
+  assert.ok(slugs.includes('pdf-to-images'));
 });
 
 test('GET /v1/tools/:slug returns 404 for an unknown tool', async () => {
-  const response = await app.inject({ method: 'GET', url: '/v1/tools/merge' });
+  const response = await app.inject({ method: 'GET', url: '/v1/tools/not-a-real-tool' });
   assert.equal(response.statusCode, 404);
   assert.equal(response.json().error.code, 'E_NOT_FOUND');
 });
