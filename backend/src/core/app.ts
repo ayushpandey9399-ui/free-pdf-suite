@@ -58,6 +58,10 @@ export async function buildApp(options: BuildAppOptions): Promise<BuiltApp> {
     requestTimeout: config.server.requestTimeoutMs,
     trustProxy: true,
     ignoreTrailingSlash: true,
+    // Signed download grants travel as a path parameter and are far longer than a name or id,
+    // so the router must be allowed to match them instead of answering 414.
+    maxParamLength: 1024,
+
   });
 
   const healthService = new HealthService({
