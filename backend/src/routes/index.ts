@@ -8,10 +8,13 @@ import type { FastifyInstance } from 'fastify';
 import { healthRoutes } from '../modules/health/health.routes.js';
 import type { HealthService } from '../modules/health/health.service.js';
 import { registryRoutes } from '../modules/registry/registry.routes.js';
+import { pdfToImagesRoutes } from '../modules/pdf-to-images/pdf-to-images.routes.js';
+import type { PdfToImagesService } from '../modules/pdf-to-images/pdf-to-images.service.js';
 import { API_V1_PREFIX } from '../shared/constants.js';
 
 export interface RouteOptions {
   healthService: HealthService;
+  pdfToImagesService: PdfToImagesService;
 }
 
 export async function registerRoutes(
@@ -23,10 +26,11 @@ export async function registerRoutes(
     await healthRoutes(instance, { healthService: options.healthService });
   });
 
-  // Versioned application surface. Phase 0 exposes registry discovery only.
+  // Versioned application surface: registry discovery plus the tool routes.
   await app.register(
     async (instance) => {
       await registryRoutes(instance);
+      await pdfToImagesRoutes(instance, { service: options.pdfToImagesService });
     },
     { prefix: API_V1_PREFIX },
   );
