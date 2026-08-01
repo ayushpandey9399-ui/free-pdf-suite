@@ -135,8 +135,8 @@ export function parseDocumentInfo(stdout: string): PopplerDocumentInfo {
   return {
     pages: Number.parseInt(fields.get('pages') ?? '0', 10) || 0,
     encrypted: !encrypted.startsWith('no'),
-    pageWidthPt: sizeMatch === undefined ? 0 : Number.parseFloat(sizeMatch[1] ?? '0'),
-    pageHeightPt: sizeMatch === undefined ? 0 : Number.parseFloat(sizeMatch[2] ?? '0'),
+    pageWidthPt: sizeMatch === null ? 0 : Number.parseFloat(sizeMatch[1] ?? '0'),
+    pageHeightPt: sizeMatch === null ? 0 : Number.parseFloat(sizeMatch[2] ?? '0'),
     pdfVersion: fields.get('pdf version') ?? '',
   };
 }
