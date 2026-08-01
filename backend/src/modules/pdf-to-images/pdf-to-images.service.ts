@@ -16,7 +16,6 @@
 import { PassThrough } from 'node:stream';
 import { open } from 'node:fs/promises';
 import { AppError, isAppError } from '../../core/errors.js';
-import type { Logger } from '../../core/logger.js';
 import { UploadManager } from '../upload/upload.manager.js';
 import { UploadValidator } from '../upload/upload.validator.js';
 import type { AcceptedUpload, UploadDestination } from '../upload/upload.types.js';
@@ -30,19 +29,28 @@ import type { AcceptRequestInput, AcceptedJob, IncomingPart } from './pdf-to-ima
 /** Bytes of the trailer window scanned for an encryption dictionary. */
 const ENCRYPTION_PROBE_BYTES = 64 * 1024;
 
+/**
+ * Minimal logging surface.
+ * Structural on purpose so both the Fastify request logger and a test spy satisfy it.
+ */
+export interface PdfToImagesLogger {
+  info(obj: object, msg?: string): void;
+  warn(obj: object, msg?: string): void;
+}
+
 export interface PdfToImagesServiceOptions {
   readonly registry: ToolRegistry;
   readonly workspaces: WorkspaceManager;
   /** Workspace TTL applied to the upload of this tool. */
   readonly ttlMs: number;
-  readonly logger?: Logger;
+  readonly logger?: PdfToImagesLogger;
 }
 
 export class PdfToImagesService {
   private readonly registry: ToolRegistry;
   private readonly workspaces: WorkspaceManager;
   private readonly ttlMs: number;
-  private readonly logger?: Logger;
+  private readonly logger?: PdfToImagesLogger;
 
   constructor(options: PdfToImagesServiceOptions) {
     this.registry = options.registry;
