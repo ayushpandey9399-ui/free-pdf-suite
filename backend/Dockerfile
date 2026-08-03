@@ -37,7 +37,7 @@ ENV NODE_ENV=production \
 
 # dumb-init gives us correct signal forwarding so graceful shutdown actually runs.
 RUN apt-get update \
- && apt-get install -y --no-install-recommends dumb-init \
+ && apt-get install -y --no-install-recommends dumb-init poppler-utils file \
  && rm -rf /var/lib/apt/lists/*
 
 COPY --from=prod-deps /opt/freepdfhub/api/node_modules ./node_modules
