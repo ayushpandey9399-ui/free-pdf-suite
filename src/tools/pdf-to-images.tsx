@@ -172,9 +172,17 @@ export default function PdfToImages() {
       { label: "Processing time", value: `${seconds.toFixed(1)}s` },
       {
         label: result.ready.kind === "archive" ? "ZIP size" : "File size",
-        value: formatBytes(result.ready.sizeBytes || result.blob.size),
+        value: formatBytes(result.ready.sizeBytes || result.blob?.size || 0),
       },
     ];
+
+    const saveResult = (): void => {
+      if (result.blob) {
+        downloadBlob(result.blob, result.filename, result.mime);
+        return;
+      }
+      window.location.assign(absoluteDownloadUrl(result.ready.url));
+    };
 
     return (
       <ToolSuccessScreen
@@ -185,7 +193,8 @@ export default function PdfToImages() {
             : "Your image is ready to download."
         }
         downloadLabel={result.ready.kind === "archive" ? "Download ZIP" : `Download ${result.format.toUpperCase()}`}
-        onDownload={() => downloadBlob(result.blob, result.filename, result.mime)}
+        onDownload={saveResult}
+
         onReset={resetAll}
         suggestedSlugs={TOOL_SUGGESTIONS["pdf-to-images"]}
         trustBadge={
