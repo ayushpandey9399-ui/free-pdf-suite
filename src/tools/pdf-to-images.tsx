@@ -14,6 +14,7 @@ import { downloadBlob } from "@/lib/download";
 import { formatBytes } from "@/lib/imageMath";
 import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 import {
+  absoluteDownloadUrl,
   fetchPdfToImagesResult,
   outputNameFor,
   PDF_TO_IMAGES_MAX_BYTES,
