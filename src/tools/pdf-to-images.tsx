@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from "react";
-import { ArrowRight, Loader2, Server } from "lucide-react";
+import { ArrowRight, Server } from "lucide-react";
 import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 import { PdfDropzone } from "@/components/pdf-to-images/PdfDropzone";
 import { PdfFileCard } from "@/components/pdf-to-images/PdfFileCard";
@@ -263,7 +263,6 @@ export default function PdfToImages() {
       </button>
 
       <p className="text-center text-[13px] text-neutral-500 dark:text-neutral-400">
-        <Loader2 className="mr-1 inline h-3.5 w-3.5 opacity-0" aria-hidden />
         Files are processed on our server and removed as soon as your download finishes.
       </p>
 
