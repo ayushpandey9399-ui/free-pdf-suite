@@ -93,12 +93,15 @@ export async function pdfToImagesJobRoutes(
       if (!request.isMultipart()) throw pdfToImagesErrors.missingFile();
 
       // A client disconnect must reach the process tree, not just this handler.
+      // Only a real disconnect counts: the request stream also emits 'close' once the upload has
+      // been fully consumed, which happens on every healthy request, so it is never a signal.
       const controller = new AbortController();
       const abort = (): void => controller.abort();
       request.raw.once('aborted', abort);
-      request.raw.once('close', () => {
-        if (!reply.sent) abort();
+      reply.raw.once('close', () => {
+        if (!reply.raw.writableEnded) abort();
       });
+
 
       const job = await options.service.accept({
         requestId: request.id,
