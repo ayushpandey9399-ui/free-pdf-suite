@@ -142,9 +142,53 @@ export function messageForStatus(status: number | "network"): string {
   }
 }
 
+/**
+ * Friendly copy for every stable reason the API can report in its error envelope.
+ * The API messages themselves are never shown: they describe fields and engines, not people.
+ */
+const REASON_MESSAGES: Record<string, string> = {
+  INVALID_FILE: "This file is not a valid PDF.",
+  INVALID_PDF: "This file is not a valid PDF.",
+  INVALID_DPI: "That resolution is not supported. Please pick 72, 150, 300 or 600 DPI.",
+  INVALID_FORMAT: "That image format is not supported.",
+  INVALID_QUALITY: "That quality setting is not supported.",
+  INVALID_OPTIONS: "One of the conversion settings is not valid.",
+  INVALID_PAGE_RANGE: "The page range is invalid.",
+  PASSWORD_REQUIRED: "This PDF is password protected.",
+  PASSWORD_INCORRECT: "This PDF is password protected.",
+  CONVERSION_TIMEOUT: "The conversion took too long.",
+  CONVERSION_CANCELLED: "The conversion was cancelled.",
+  CONVERSION_FAILED: "Something went wrong during conversion.",
+  OUTPUT_EMPTY: "No pages matched your page range.",
+  OUTPUT_INVALID: "Something went wrong during conversion.",
+  RESOURCE_EXHAUSTED: "Server is temporarily busy.",
+  ENGINE_UNAVAILABLE: "Server is temporarily busy.",
+  UPLOAD_FAILED: "The upload did not finish. Please try again.",
+  WORKSPACE_FAILED: "Something went wrong during conversion.",
+  TOOL_DISABLED: "This tool is temporarily unavailable.",
+  TOOL_NOT_REGISTERED: "This tool is temporarily unavailable.",
+};
+
+/** Friendly copy for a reason, or undefined when the reason is unknown to this build. */
+export function messageForReason(reason: string | undefined): string | undefined {
+  if (reason === undefined) return undefined;
+  return REASON_MESSAGES[reason];
+}
+
+/** Pulls the stable reason out of the API error envelope, ignoring anything unexpected. */
+export function readErrorReason(payload: unknown): string | undefined {
+  if (typeof payload !== "object" || payload === null) return undefined;
+  const error = (payload as Record<string, unknown>)["error"];
+  if (typeof error !== "object" || error === null) return undefined;
+  const details = (error as Record<string, unknown>)["details"];
+  if (typeof details !== "object" || details === null) return undefined;
+  const reason = (details as Record<string, unknown>)["reason"];
+  return typeof reason === "string" ? reason : undefined;
+}
+
 /** True when the error state should offer a link to the Unlock PDF tool. */
-export function shouldOfferUnlockLink(status: number | "network"): boolean {
-  return status === 422;
+export function shouldOfferUnlockLink(status: number | "network", reason?: string): boolean {
+  return status === 422 || reason === "PASSWORD_REQUIRED" || reason === "PASSWORD_INCORRECT";
 }
 
 /** Absolute URL for a download path the API returned. */
@@ -161,12 +205,16 @@ export function outputNameFor(pdfName: string, ready: PdfToImagesReady): string 
 /** Thrown so the UI can map a failure onto its own copy without parsing a message. */
 export class PdfToImagesError extends Error {
   public readonly status: number | "network";
-  constructor(status: number | "network", message?: string) {
-    super(message ?? messageForStatus(status));
+  /** Stable machine readable reason from the API, when one was returned. */
+  public readonly reason?: string;
+  constructor(status: number | "network", message?: string, reason?: string) {
+    super(message ?? messageForReason(reason) ?? messageForStatus(status));
     this.name = "PdfToImagesError";
     this.status = status;
+    if (reason !== undefined) this.reason = reason;
   }
 }
+
 
 function buildForm(request: PdfToImagesRequest): FormData {
   const form = new FormData();
