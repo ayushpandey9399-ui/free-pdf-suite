@@ -40,6 +40,15 @@ export interface PdfToImagesRequest {
   readonly pages?: string;
 }
 
+/** Conversion facts the API reports, used by the success screen. */
+export interface PdfToImagesMetrics {
+  readonly durationMs: number;
+  readonly pagesConverted: number;
+  readonly dpi: number;
+  readonly format: string;
+  readonly outputBytes: number;
+}
+
 /** What the API hands back once the images exist and a download link has been minted. */
 export interface PdfToImagesReady {
   readonly imageCount: number;
@@ -48,6 +57,7 @@ export interface PdfToImagesReady {
   readonly contentType: string;
   readonly sizeBytes: number;
   readonly kind: "file" | "archive";
+  readonly metrics?: PdfToImagesMetrics;
 }
 
 /** Progress of the two transfers, each between 0 and 100. */
@@ -55,6 +65,7 @@ export interface PdfToImagesProgress {
   readonly phase: "uploading" | "converting" | "downloading";
   readonly percent: number | null;
 }
+
 
 export type ValidationResult = { ok: true } | { ok: false; message: string };
 
