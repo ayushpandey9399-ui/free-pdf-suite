@@ -364,13 +364,19 @@ export async function fetchPdfToImagesResult(
   ready: PdfToImagesReady,
   handlers: { readonly onProgress?: (percent: number | null) => void; readonly signal?: AbortSignal } = {},
 ): Promise<Blob> {
-  const response = await fetch(absoluteDownloadUrl(ready.url), {
+  const href = absoluteDownloadUrl(ready.url);
+  const response = await fetch(href, {
     method: "GET",
     signal: handlers.signal,
-  }).catch(() => {
+  }).catch((error: unknown) => {
+    console.error("[pdf-to-images] could not fetch the finished artefact", href, error);
     throw new PdfToImagesError("network");
   });
-  if (!response.ok) throw new PdfToImagesError(response.status);
+  if (!response.ok) {
+    console.error("[pdf-to-images] artefact request failed", response.status, href);
+    throw new PdfToImagesError(response.status);
+  }
+
 
   const body = response.body;
   const total = ready.sizeBytes;
