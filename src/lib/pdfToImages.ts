@@ -317,7 +317,11 @@ function readMetrics(value: unknown): PdfToImagesMetrics | undefined {
   };
 }
 
-/** The response is only trusted once every field the UI depends on is present. */
+/**
+ * The response is trusted once the download link is present. Only `download.url` is essential:
+ * every other field has a safe fallback, so a field the API renames can never turn a finished
+ * conversion into an error screen.
+ */
 export function readReady(payload: unknown): PdfToImagesReady | undefined {
   if (typeof payload !== "object" || payload === null) return undefined;
   const body = payload as Record<string, unknown>;
@@ -325,25 +329,31 @@ export function readReady(payload: unknown): PdfToImagesReady | undefined {
   if (typeof download !== "object" || download === null) return undefined;
   const d = download as Record<string, unknown>;
   const url = d["url"];
-  const filename = d["filename"];
-  const contentType = d["contentType"];
-  const kind = d["kind"];
-  const sizeBytes = d["sizeBytes"];
-  const imageCount = body["imageCount"];
   if (typeof url !== "string" || url.length === 0) return undefined;
-  if (typeof filename !== "string" || typeof contentType !== "string") return undefined;
-  if (kind !== "file" && kind !== "archive") return undefined;
+  const filename = typeof d["filename"] === "string" ? (d["filename"] as string) : "download";
+  const contentType =
+    typeof d["contentType"] === "string" ? (d["contentType"] as string) : "application/octet-stream";
+  const sizeBytes = typeof d["sizeBytes"] === "number" ? (d["sizeBytes"] as number) : 0;
+  const imageCount = body["imageCount"];
+  const rawKind = d["kind"];
+  const kind: "file" | "archive" =
+    rawKind === "file" || rawKind === "archive"
+      ? rawKind
+      : /zip/i.test(contentType) || /\.zip$/i.test(filename)
+        ? "archive"
+        : "file";
   const metrics = readMetrics(body["metrics"]);
   return {
     imageCount: typeof imageCount === "number" ? imageCount : 1,
     url,
     filename,
     contentType,
-    sizeBytes: typeof sizeBytes === "number" ? sizeBytes : 0,
+    sizeBytes,
     kind,
     ...(metrics === undefined ? {} : { metrics }),
   };
 }
+
 
 
 /**
