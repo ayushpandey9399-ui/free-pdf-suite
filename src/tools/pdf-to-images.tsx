@@ -29,7 +29,8 @@ import {
 } from "@/lib/pdfToImages";
 
 interface Result {
-  readonly blob: Blob;
+  /** null when the artefact could not be streamed here, in which case the signed link is used. */
+  readonly blob: Blob | null;
   readonly filename: string;
   readonly mime: string;
   readonly ready: PdfToImagesReady;
@@ -37,6 +38,7 @@ interface Result {
   readonly format: PdfToImagesFormat;
   readonly elapsedMs: number;
 }
+
 
 interface Failure {
   readonly message: string;
