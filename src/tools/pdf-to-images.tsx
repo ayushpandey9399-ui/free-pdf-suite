@@ -122,7 +122,15 @@ export default function PdfToImages() {
 
       setStage("download");
       setPercent(0);
-      const blob = await fetchPdfToImagesResult(ready, { onProgress: setPercent });
+      // A blocked or expired artefact fetch must not hide a finished conversion: the signed link
+      // still works, so the success screen falls back to opening it directly.
+      let blob: Blob | null = null;
+      try {
+        blob = await fetchPdfToImagesResult(ready, { onProgress: setPercent });
+      } catch (downloadError) {
+        if (downloadError instanceof DOMException && downloadError.name === "AbortError") throw downloadError;
+        console.error("[pdf-to-images] falling back to the direct download link", downloadError);
+      }
 
       setStage("done");
       setResult({
@@ -140,6 +148,7 @@ export default function PdfToImages() {
       setStage(null);
       setPercent(null);
       if (error instanceof DOMException && error.name === "AbortError") return;
+      console.error("[pdf-to-images] conversion failed", error);
       if (error instanceof PdfToImagesError) {
         setFailure({
           message: error.message,
@@ -150,6 +159,7 @@ export default function PdfToImages() {
       setFailure({ message: "Something went wrong. Please try again.", offerUnlock: false });
     }
   };
+
 
   if (result) {
     const metrics = result.ready.metrics;
