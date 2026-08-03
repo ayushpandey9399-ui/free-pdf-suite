@@ -1,213 +1,286 @@
-import { useState } from "react";
-import { toast } from "sonner";
-import { FileDropzone } from "@/components/FileDropzone";
-import { ToolWorkspace } from "@/components/ToolWorkspace";
+import { useMemo, useRef, useState } from "react";
+import { ArrowRight, Server } from "lucide-react";
 import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
-import { SelectedFileCard } from "@/components/SelectedFileCard";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { downloadBlob } from "@/lib/download";
-import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
-import { LargeFileWarning } from "@/components/LargeFileWarning";
-import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
+import { PdfDropzone } from "@/components/pdf-to-images/PdfDropzone";
+import { PdfFileCard } from "@/components/pdf-to-images/PdfFileCard";
+import { ConversionSettingsPanel } from "@/components/pdf-to-images/ConversionSettingsPanel";
+import {
+  ConversionProgress,
+  type ConversionStageKey,
+} from "@/components/pdf-to-images/ConversionProgress";
+import { ToolErrorCard } from "@/components/pdf-to-images/ToolErrorCard";
 import { usePdfStats } from "@/hooks/usePdfStats";
+import { downloadBlob } from "@/lib/download";
+import { formatBytes } from "@/lib/imageMath";
 import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 import {
   fetchPdfToImagesResult,
   outputNameFor,
-  PDF_TO_IMAGES_DPI,
-  PDF_TO_IMAGES_QUALITY,
+  PDF_TO_IMAGES_MAX_BYTES,
   PdfToImagesError,
   requestPdfToImages,
+  shouldOfferUnlockLink,
   validatePageExpression,
   validatePdfSelection,
   type PdfToImagesDpi,
   type PdfToImagesFormat,
   type PdfToImagesQuality,
+  type PdfToImagesReady,
 } from "@/lib/pdfToImages";
 
 interface Result {
   readonly blob: Blob;
   readonly filename: string;
   readonly mime: string;
-  readonly count: number;
-  readonly isArchive: boolean;
+  readonly ready: PdfToImagesReady;
+  readonly dpi: PdfToImagesDpi;
+  readonly format: PdfToImagesFormat;
+  readonly elapsedMs: number;
 }
 
+interface Failure {
+  readonly message: string;
+  readonly offerUnlock: boolean;
+}
+
+/**
+ * PDF to Images.
+ * The rasterising happens on the API, so this page is a state machine over the real request:
+ * pick a file, choose settings, watch the two transfers that actually report progress, then save.
+ * Nothing here is simulated, and no backend wording is ever shown to a person.
+ */
 export default function PdfToImages() {
-  const [files, setFiles] = useState<File[]>([]);
+  const [file, setFile] = useState<File | null>(null);
+  const [dpi, setDpi] = useState<PdfToImagesDpi>(300);
   const [format, setFormat] = useState<PdfToImagesFormat>("png");
   const [quality, setQuality] = useState<PdfToImagesQuality>(90);
-  const [dpi, setDpi] = useState<PdfToImagesDpi>(150);
   const [pages, setPages] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [progress, setProgress] = useState<number | null>(null);
-  const [status, setStatus] = useState("Converting…");
+  const [stage, setStage] = useState<ConversionStageKey | null>(null);
+  const [percent, setPercent] = useState<number | null>(null);
   const [result, setResult] = useState<Result | null>(null);
-  const { protectedName, reset } = usePdfPasswordCheck(files, () => setFiles([]));
-  const { pageCount, fileSize } = usePdfStats(files[0]);
+  const [failure, setFailure] = useState<Failure | null>(null);
+  const replaceRef = useRef<HTMLInputElement>(null);
+  const { pageCount } = usePdfStats(file);
 
-  const resetAll = () => {
-    setFiles([]);
+  const pagesCheck = validatePageExpression(pages);
+  const pagesError = pagesCheck.ok ? undefined : pagesCheck.message;
+  const running = stage !== null;
+
+  const maxSizeLabel = useMemo(() => formatBytes(PDF_TO_IMAGES_MAX_BYTES), []);
+
+  const resetAll = (): void => {
+    setFile(null);
+    setDpi(300);
     setFormat("png");
     setQuality(90);
-    setDpi(150);
     setPages("");
     setResult(null);
-    setProgress(null);
+    setFailure(null);
+    setStage(null);
+    setPercent(null);
   };
 
-  const run = async () => {
-    const file = files[0];
-    if (!file) return;
+  const backToSettings = (): void => {
+    setFailure(null);
+    setStage(null);
+    setPercent(null);
+  };
 
-    const pageCheck = validatePageExpression(pages);
-    if (!pageCheck.ok) {
-      toast.error(pageCheck.message);
-      return;
-    }
+  const run = async (): Promise<void> => {
+    if (!file || pagesError) return;
 
     const header = new Uint8Array(await file.slice(0, 5).arrayBuffer());
     const check = validatePdfSelection({ name: file.name, size: file.size, header });
     if (!check.ok) {
-      toast.error(check.message);
+      setFailure({ message: check.message, offerUnlock: false });
       return;
     }
 
-    setLoading(true);
-    setProgress(0);
-    setStatus("Uploading…");
+    setFailure(null);
+    setStage("uploading");
+    setPercent(0);
+    const startedAt = Date.now();
+
     try {
       const ready = await requestPdfToImages(
         { file, format, dpi, quality, pages },
         {
           onProgress: (update) => {
-            setStatus(update.phase === "uploading" ? "Uploading…" : "Converting…");
-            setProgress(update.percent);
+            if (update.phase === "uploading") {
+              setStage("uploading");
+              setPercent(update.percent);
+              return;
+            }
+            // The upload is on the wire: the server now owns the job and reports no percentage.
+            setStage("converting");
+            setPercent(null);
           },
         },
       );
 
-      setStatus("Preparing your download…");
-      setProgress(0);
-      const blob = await fetchPdfToImagesResult(ready, { onProgress: setProgress });
+      setStage("download");
+      setPercent(0);
+      const blob = await fetchPdfToImagesResult(ready, { onProgress: setPercent });
 
+      setStage("done");
       setResult({
         blob,
         filename: outputNameFor(file.name, ready),
         mime: ready.contentType,
-        count: ready.imageCount,
-        isArchive: ready.kind === "archive",
+        ready,
+        dpi,
+        format,
+        elapsedMs: Date.now() - startedAt,
       });
-      toast.success(`Exported ${ready.imageCount} image${ready.imageCount > 1 ? "s" : ""}`);
+      setStage(null);
+      setPercent(null);
     } catch (error) {
+      setStage(null);
+      setPercent(null);
       if (error instanceof DOMException && error.name === "AbortError") return;
-      toast.error(error instanceof PdfToImagesError ? error.message : "Something went wrong. Please try again.");
-    } finally {
-      setLoading(false);
-      setProgress(null);
+      if (error instanceof PdfToImagesError) {
+        setFailure({
+          message: error.message,
+          offerUnlock: shouldOfferUnlockLink(error.status, error.reason),
+        });
+        return;
+      }
+      setFailure({ message: "Something went wrong. Please try again.", offerUnlock: false });
     }
   };
 
   if (result) {
+    const metrics = result.ready.metrics;
+    const seconds = Math.max(0.1, (metrics?.durationMs ?? result.elapsedMs) / 1000);
+    const stats: Array<{ label: string; value: string }> = [
+      { label: "Pages converted", value: String(metrics?.pagesConverted ?? result.ready.imageCount) },
+      { label: "Images created", value: String(result.ready.imageCount) },
+      { label: "Resolution", value: `${metrics?.dpi ?? result.dpi} DPI` },
+      { label: "Format", value: (metrics?.format ?? result.format).toUpperCase() },
+      { label: "Processing time", value: `${seconds.toFixed(1)}s` },
+      {
+        label: result.ready.kind === "archive" ? "ZIP size" : "File size",
+        value: formatBytes(result.ready.sizeBytes || result.blob.size),
+      },
+    ];
+
     return (
       <ToolSuccessScreen
-        heading="Images exported!"
+        heading="Conversion complete"
         subheading={
-          result.isArchive
-            ? `${result.count} images packaged into a ZIP archive.`
+          result.ready.kind === "archive"
+            ? `${result.ready.imageCount} images packaged into a single ZIP archive.`
             : "Your image is ready to download."
         }
-        downloadLabel={result.isArchive ? "Download ZIP" : `Download ${format.toUpperCase()}`}
+        downloadLabel={result.ready.kind === "archive" ? "Download ZIP" : `Download ${result.format.toUpperCase()}`}
         onDownload={() => downloadBlob(result.blob, result.filename, result.mime)}
         onReset={resetAll}
         suggestedSlugs={TOOL_SUGGESTIONS["pdf-to-images"]}
+        trustBadge={
+          <span className="inline-flex items-center gap-1.5">
+            <Server className="h-3.5 w-3.5" aria-hidden />
+            Converted on our server and deleted right after your download.
+          </span>
+        }
+      >
+        <div className="rounded-2xl border border-neutral-200 bg-white p-5 dark:border-neutral-700 dark:bg-neutral-900">
+          <dl className="grid grid-cols-2 gap-x-4 gap-y-4 sm:grid-cols-3">
+            {stats.map((stat) => (
+              <div key={stat.label}>
+                <dt className="text-[12px] font-semibold uppercase tracking-wide text-neutral-400">
+                  {stat.label}
+                </dt>
+                <dd className="mt-1 text-[17px] font-bold text-neutral-800 dark:text-neutral-100">
+                  {stat.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+          <p className="mt-5 truncate border-t border-neutral-100 pt-4 text-[13px] text-neutral-500 dark:border-neutral-800 dark:text-neutral-400">
+            Filename: <span className="font-semibold">{result.filename}</span>
+          </p>
+        </div>
+      </ToolSuccessScreen>
+    );
+  }
+
+  if (running && stage) {
+    return <ConversionProgress stage={stage} percent={percent} />;
+  }
+
+  if (failure) {
+    return (
+      <ToolErrorCard
+        message={failure.message}
+        hint={file ? "Your file was not changed. You can adjust the settings and convert again." : undefined}
+        onRetry={file ? backToSettings : resetAll}
+        retryLabel={file ? "Back to settings" : "Choose another PDF"}
+        offerUnlock={failure.offerUnlock}
       />
     );
   }
 
-  if (files.length === 0) {
-    return (
-      <FileDropzone accept="application/pdf" files={files} onFilesChange={setFiles} buttonLabel="Select PDF file" />
-    );
+  if (!file) {
+    return <PdfDropzone onFile={setFile} maxSizeLabel={maxSizeLabel} />;
   }
 
-  if (protectedName) return <PasswordProtectedNotice fileName={protectedName} onReset={reset} />;
-
-  const file = files[0];
+  const canRun = !pagesError;
 
   return (
-    <ToolWorkspace
-      title="PDF to Images"
-      actionLabel="Convert to Images"
-      loadingLabel={status}
-      onAction={run}
-      loading={loading}
-      progress={progress}
-      sidebar={
-        <>
-          <div>
-            <Label>Format</Label>
-            <Select value={format} onValueChange={(v) => setFormat(v as PdfToImagesFormat)}>
-              <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="png">PNG</SelectItem>
-                <SelectItem value="jpg">JPG</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div>
-            <Label>Resolution</Label>
-            <Select value={String(dpi)} onValueChange={(v) => setDpi(Number(v) as PdfToImagesDpi)}>
-              <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
-              <SelectContent>
-                {PDF_TO_IMAGES_DPI.map((value) => (
-                  <SelectItem key={value} value={String(value)}>
-                    {value} DPI
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          {format === "jpg" && (
-            <div>
-              <Label>Quality</Label>
-              <Select value={String(quality)} onValueChange={(v) => setQuality(Number(v) as PdfToImagesQuality)}>
-                <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  {PDF_TO_IMAGES_QUALITY.map((value) => (
-                    <SelectItem key={value} value={String(value)}>
-                      {value}%
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          )}
-          <div>
-            <Label htmlFor="pages">Pages</Label>
-            <Input
-              id="pages"
-              value={pages}
-              onChange={(e) => setPages(e.target.value)}
-              placeholder="All pages, or 1,4-6"
-              className="mt-1"
-            />
-          </div>
-          <LargeFileWarning
-            pageCount={pageCount}
-            fileSize={fileSize}
-            extraNote={pageCount > 30 ? `${pageCount} pages, this can take a little longer.` : undefined}
-          />
-          <p className="text-[12px] leading-relaxed text-[#5a5a66]">
-            Two or more images arrive as a single ZIP. Your file is deleted from our server as soon as the download
-            finishes.
-          </p>
-        </>
-      }
-    >
-      <SelectedFileCard file={file} pageCount={pageCount} onRemove={resetAll} />
-    </ToolWorkspace>
+    <div className="mx-auto w-full max-w-3xl space-y-5">
+      <PdfFileCard
+        file={file}
+        pageCount={pageCount}
+        onRemove={resetAll}
+        onReplace={() => replaceRef.current?.click()}
+      />
+
+      <ConversionSettingsPanel
+        value={{ dpi, format, quality, pages }}
+        pagesError={pagesError}
+        onChange={(next) => {
+          if (next.dpi !== undefined) setDpi(next.dpi);
+          if (next.format !== undefined) setFormat(next.format);
+          if (next.quality !== undefined) setQuality(next.quality);
+          if (next.pages !== undefined) setPages(next.pages);
+        }}
+      />
+
+      <button
+        type="button"
+        onClick={run}
+        disabled={!canRun}
+        className="inline-flex w-full items-center justify-center gap-2 rounded-2xl text-[17px] font-bold transition-all duration-150 enabled:hover:-translate-y-0.5 disabled:cursor-not-allowed"
+        style={{
+          minHeight: "62px",
+          background: canRun ? "linear-gradient(140deg, #f2564f, #e5322d)" : "#d7d7dc",
+          color: canRun ? "#ffffff" : "#8a8a93",
+          boxShadow: canRun ? "0 16px 34px -14px rgba(229,50,45,0.6)" : "none",
+        }}
+      >
+        Convert PDF to Images
+        <ArrowRight className="h-5 w-5" aria-hidden />
+      </button>
+
+      <p className="text-center text-[13px] text-neutral-500 dark:text-neutral-400">
+        Files are processed on our server and removed as soon as your download finishes.
+      </p>
+
+      <input
+        ref={replaceRef}
+        type="file"
+        accept="application/pdf"
+        className="hidden"
+        onChange={(e) => {
+          const next = e.target.files?.[0];
+          if (next) {
+            setFile(next);
+            setResult(null);
+            setFailure(null);
+          }
+          e.target.value = "";
+        }}
+      />
+    </div>
   );
 }
