@@ -14,6 +14,7 @@ import { downloadBlob } from "@/lib/download";
 import { formatBytes } from "@/lib/imageMath";
 import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 import {
+  absoluteDownloadUrl,
   fetchPdfToImagesResult,
   outputNameFor,
   PDF_TO_IMAGES_MAX_BYTES,
@@ -29,7 +30,8 @@ import {
 } from "@/lib/pdfToImages";
 
 interface Result {
-  readonly blob: Blob;
+  /** null when the artefact could not be streamed here, in which case the signed link is used. */
+  readonly blob: Blob | null;
   readonly filename: string;
   readonly mime: string;
   readonly ready: PdfToImagesReady;
@@ -37,6 +39,7 @@ interface Result {
   readonly format: PdfToImagesFormat;
   readonly elapsedMs: number;
 }
+
 
 interface Failure {
   readonly message: string;
@@ -120,7 +123,15 @@ export default function PdfToImages() {
 
       setStage("download");
       setPercent(0);
-      const blob = await fetchPdfToImagesResult(ready, { onProgress: setPercent });
+      // A blocked or expired artefact fetch must not hide a finished conversion: the signed link
+      // still works, so the success screen falls back to opening it directly.
+      let blob: Blob | null = null;
+      try {
+        blob = await fetchPdfToImagesResult(ready, { onProgress: setPercent });
+      } catch (downloadError) {
+        if (downloadError instanceof DOMException && downloadError.name === "AbortError") throw downloadError;
+        console.error("[pdf-to-images] falling back to the direct download link", downloadError);
+      }
 
       setStage("done");
       setResult({
@@ -138,6 +149,7 @@ export default function PdfToImages() {
       setStage(null);
       setPercent(null);
       if (error instanceof DOMException && error.name === "AbortError") return;
+      console.error("[pdf-to-images] conversion failed", error);
       if (error instanceof PdfToImagesError) {
         setFailure({
           message: error.message,
@@ -148,6 +160,7 @@ export default function PdfToImages() {
       setFailure({ message: "Something went wrong. Please try again.", offerUnlock: false });
     }
   };
+
 
   if (result) {
     const metrics = result.ready.metrics;
@@ -160,9 +173,17 @@ export default function PdfToImages() {
       { label: "Processing time", value: `${seconds.toFixed(1)}s` },
       {
         label: result.ready.kind === "archive" ? "ZIP size" : "File size",
-        value: formatBytes(result.ready.sizeBytes || result.blob.size),
+        value: formatBytes(result.ready.sizeBytes || result.blob?.size || 0),
       },
     ];
+
+    const saveResult = (): void => {
+      if (result.blob) {
+        downloadBlob(result.blob, result.filename, result.mime);
+        return;
+      }
+      window.location.assign(absoluteDownloadUrl(result.ready.url));
+    };
 
     return (
       <ToolSuccessScreen
@@ -173,7 +194,8 @@ export default function PdfToImages() {
             : "Your image is ready to download."
         }
         downloadLabel={result.ready.kind === "archive" ? "Download ZIP" : `Download ${result.format.toUpperCase()}`}
-        onDownload={() => downloadBlob(result.blob, result.filename, result.mime)}
+        onDownload={saveResult}
+
         onReset={resetAll}
         suggestedSlugs={TOOL_SUGGESTIONS["pdf-to-images"]}
         trustBadge={

@@ -243,7 +243,8 @@ export function requestPdfToImages(
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open("POST", PDF_TO_IMAGES_ENDPOINT, true);
-    xhr.responseType = "json";
+    // Text, not "json": a body the browser refuses to parse must still be readable and loggable.
+    xhr.responseType = "text";
     xhr.timeout = PDF_TO_IMAGES_TIMEOUT_MS;
 
     const abort = (): void => xhr.abort();
@@ -260,6 +261,7 @@ export function requestPdfToImages(
 
     xhr.onerror = () => {
       done();
+      console.error("[pdf-to-images] network error contacting", PDF_TO_IMAGES_ENDPOINT);
       reject(new PdfToImagesError("network"));
     };
     xhr.ontimeout = () => {
@@ -272,12 +274,16 @@ export function requestPdfToImages(
     };
     xhr.onload = () => {
       done();
+      const raw = typeof xhr.response === "string" ? xhr.response : "";
+      const payload = parseJson(raw);
       if (xhr.status < 200 || xhr.status >= 300) {
-        reject(new PdfToImagesError(xhr.status, undefined, readErrorReason(xhr.response)));
+        console.error("[pdf-to-images] API responded", xhr.status, payload ?? raw);
+        reject(new PdfToImagesError(xhr.status, undefined, readErrorReason(payload)));
         return;
       }
-      const ready = readReady(xhr.response);
+      const ready = readReady(payload);
       if (ready === undefined) {
+        console.error("[pdf-to-images] unexpected success payload", payload ?? raw);
         reject(new PdfToImagesError(500));
         return;
       }
@@ -287,6 +293,16 @@ export function requestPdfToImages(
     xhr.send(buildForm(request));
   });
 }
+
+/** Reads a JSON body without throwing, so an unexpected body can still be logged. */
+function parseJson(raw: string): unknown {
+  try {
+    return JSON.parse(raw) as unknown;
+  } catch {
+    return undefined;
+  }
+}
+
 
 function readMetrics(value: unknown): PdfToImagesMetrics | undefined {
   if (typeof value !== "object" || value === null) return undefined;
@@ -301,7 +317,11 @@ function readMetrics(value: unknown): PdfToImagesMetrics | undefined {
   };
 }
 
-/** The response is only trusted once every field the UI depends on is present. */
+/**
+ * The response is trusted once the download link is present. Only `download.url` is essential:
+ * every other field has a safe fallback, so a field the API renames can never turn a finished
+ * conversion into an error screen.
+ */
 export function readReady(payload: unknown): PdfToImagesReady | undefined {
   if (typeof payload !== "object" || payload === null) return undefined;
   const body = payload as Record<string, unknown>;
@@ -309,25 +329,31 @@ export function readReady(payload: unknown): PdfToImagesReady | undefined {
   if (typeof download !== "object" || download === null) return undefined;
   const d = download as Record<string, unknown>;
   const url = d["url"];
-  const filename = d["filename"];
-  const contentType = d["contentType"];
-  const kind = d["kind"];
-  const sizeBytes = d["sizeBytes"];
-  const imageCount = body["imageCount"];
   if (typeof url !== "string" || url.length === 0) return undefined;
-  if (typeof filename !== "string" || typeof contentType !== "string") return undefined;
-  if (kind !== "file" && kind !== "archive") return undefined;
+  const filename = typeof d["filename"] === "string" ? (d["filename"] as string) : "download";
+  const contentType =
+    typeof d["contentType"] === "string" ? (d["contentType"] as string) : "application/octet-stream";
+  const sizeBytes = typeof d["sizeBytes"] === "number" ? (d["sizeBytes"] as number) : 0;
+  const imageCount = body["imageCount"];
+  const rawKind = d["kind"];
+  const kind: "file" | "archive" =
+    rawKind === "file" || rawKind === "archive"
+      ? rawKind
+      : /zip/i.test(contentType) || /\.zip$/i.test(filename)
+        ? "archive"
+        : "file";
   const metrics = readMetrics(body["metrics"]);
   return {
     imageCount: typeof imageCount === "number" ? imageCount : 1,
     url,
     filename,
     contentType,
-    sizeBytes: typeof sizeBytes === "number" ? sizeBytes : 0,
+    sizeBytes,
     kind,
     ...(metrics === undefined ? {} : { metrics }),
   };
 }
+
 
 
 /**
@@ -338,13 +364,19 @@ export async function fetchPdfToImagesResult(
   ready: PdfToImagesReady,
   handlers: { readonly onProgress?: (percent: number | null) => void; readonly signal?: AbortSignal } = {},
 ): Promise<Blob> {
-  const response = await fetch(absoluteDownloadUrl(ready.url), {
+  const href = absoluteDownloadUrl(ready.url);
+  const response = await fetch(href, {
     method: "GET",
     signal: handlers.signal,
-  }).catch(() => {
+  }).catch((error: unknown) => {
+    console.error("[pdf-to-images] could not fetch the finished artefact", href, error);
     throw new PdfToImagesError("network");
   });
-  if (!response.ok) throw new PdfToImagesError(response.status);
+  if (!response.ok) {
+    console.error("[pdf-to-images] artefact request failed", response.status, href);
+    throw new PdfToImagesError(response.status);
+  }
+
 
   const body = response.body;
   const total = ready.sizeBytes;
