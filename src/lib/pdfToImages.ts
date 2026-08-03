@@ -243,7 +243,8 @@ export function requestPdfToImages(
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open("POST", PDF_TO_IMAGES_ENDPOINT, true);
-    xhr.responseType = "json";
+    // Text, not "json": a body the browser refuses to parse must still be readable and loggable.
+    xhr.responseType = "text";
     xhr.timeout = PDF_TO_IMAGES_TIMEOUT_MS;
 
     const abort = (): void => xhr.abort();
@@ -260,6 +261,7 @@ export function requestPdfToImages(
 
     xhr.onerror = () => {
       done();
+      console.error("[pdf-to-images] network error contacting", PDF_TO_IMAGES_ENDPOINT);
       reject(new PdfToImagesError("network"));
     };
     xhr.ontimeout = () => {
@@ -272,12 +274,16 @@ export function requestPdfToImages(
     };
     xhr.onload = () => {
       done();
+      const raw = typeof xhr.response === "string" ? xhr.response : "";
+      const payload = parseJson(raw);
       if (xhr.status < 200 || xhr.status >= 300) {
-        reject(new PdfToImagesError(xhr.status, undefined, readErrorReason(xhr.response)));
+        console.error("[pdf-to-images] API responded", xhr.status, payload ?? raw);
+        reject(new PdfToImagesError(xhr.status, undefined, readErrorReason(payload)));
         return;
       }
-      const ready = readReady(xhr.response);
+      const ready = readReady(payload);
       if (ready === undefined) {
+        console.error("[pdf-to-images] unexpected success payload", payload ?? raw);
         reject(new PdfToImagesError(500));
         return;
       }
@@ -287,6 +293,16 @@ export function requestPdfToImages(
     xhr.send(buildForm(request));
   });
 }
+
+/** Reads a JSON body without throwing, so an unexpected body can still be logged. */
+function parseJson(raw: string): unknown {
+  try {
+    return JSON.parse(raw) as unknown;
+  } catch {
+    return undefined;
+  }
+}
+
 
 function readMetrics(value: unknown): PdfToImagesMetrics | undefined {
   if (typeof value !== "object" || value === null) return undefined;
