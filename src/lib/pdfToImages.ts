@@ -273,7 +273,7 @@ export function requestPdfToImages(
     xhr.onload = () => {
       done();
       if (xhr.status < 200 || xhr.status >= 300) {
-        reject(new PdfToImagesError(xhr.status));
+        reject(new PdfToImagesError(xhr.status, undefined, readErrorReason(xhr.response)));
         return;
       }
       const ready = readReady(xhr.response);
@@ -286,6 +286,19 @@ export function requestPdfToImages(
 
     xhr.send(buildForm(request));
   });
+}
+
+function readMetrics(value: unknown): PdfToImagesMetrics | undefined {
+  if (typeof value !== "object" || value === null) return undefined;
+  const m = value as Record<string, unknown>;
+  const num = (key: string): number => (typeof m[key] === "number" ? (m[key] as number) : 0);
+  return {
+    durationMs: num("durationMs"),
+    pagesConverted: num("pagesConverted"),
+    dpi: num("dpi"),
+    format: typeof m["format"] === "string" ? (m["format"] as string) : "",
+    outputBytes: num("outputBytes"),
+  };
 }
 
 /** The response is only trusted once every field the UI depends on is present. */
@@ -304,6 +317,7 @@ export function readReady(payload: unknown): PdfToImagesReady | undefined {
   if (typeof url !== "string" || url.length === 0) return undefined;
   if (typeof filename !== "string" || typeof contentType !== "string") return undefined;
   if (kind !== "file" && kind !== "archive") return undefined;
+  const metrics = readMetrics(body["metrics"]);
   return {
     imageCount: typeof imageCount === "number" ? imageCount : 1,
     url,
@@ -311,8 +325,10 @@ export function readReady(payload: unknown): PdfToImagesReady | undefined {
     contentType,
     sizeBytes: typeof sizeBytes === "number" ? sizeBytes : 0,
     kind,
+    ...(metrics === undefined ? {} : { metrics }),
   };
 }
+
 
 /**
  * Fetch the finished artefact. The link is single use on the server, so this runs once, right
