@@ -89,8 +89,27 @@ export default function PdfToImages() {
     setPercent(null);
   };
 
+  /**
+   * Selection gate. The same rules the request path enforces run here too, so an obviously
+   * wrong file is refused the moment it is dropped rather than after a pointless upload.
+   */
+  const acceptFile = async (next: File): Promise<void> => {
+    const header = new Uint8Array(await next.slice(0, 5).arrayBuffer());
+    const check = validatePdfSelection({ name: next.name, size: next.size, header });
+    if (!check.ok) {
+      setFile(null);
+      setFailure({ message: check.message, offerUnlock: false });
+      return;
+    }
+    setFile(next);
+    setResult(null);
+    setFailure(null);
+  };
+
+
   const run = async (): Promise<void> => {
-    if (!file || pagesError) return;
+    // A second click while a conversion is in flight must never start a second upload.
+    if (running || !file || pagesError) return;
 
     const header = new Uint8Array(await file.slice(0, 5).arrayBuffer());
     const check = validatePdfSelection({ name: file.name, size: file.size, header });
@@ -243,10 +262,10 @@ export default function PdfToImages() {
   }
 
   if (!file) {
-    return <PdfDropzone onFile={setFile} maxSizeLabel={maxSizeLabel} />;
+    return <PdfDropzone onFile={acceptFile} maxSizeLabel={maxSizeLabel} />;
   }
 
-  const canRun = !pagesError;
+  const canRun = !pagesError && !running;
 
   return (
     <div className="mx-auto w-full max-w-3xl space-y-5">
