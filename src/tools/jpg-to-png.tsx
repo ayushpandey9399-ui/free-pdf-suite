@@ -52,13 +52,17 @@ async function decodeToBitmap(file: File): Promise<ImageBitmap | HTMLImageElemen
 
 async function jpgToPng(file: File): Promise<Blob> {
   const src = await decodeToBitmap(file);
-  const w = (src as ImageBitmap).width;
-  const h = (src as ImageBitmap).height;
+  const w = (src as any).naturalWidth || (src as ImageBitmap).width;
+  const h = (src as any).naturalHeight || (src as ImageBitmap).height;
   guardDecodedSize(w, h);
   const canvas = document.createElement("canvas");
   canvas.width = w;
   canvas.height = h;
-  const ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext("2d", {
+    alpha: true,
+    desynchronized: true,
+    willReadFrequently: false,
+  });
   if (!ctx) throw new Error("Canvas not supported");
   ctx.drawImage(src as CanvasImageSource, 0, 0);
   if ("close" in src && typeof (src as ImageBitmap).close === "function") {
