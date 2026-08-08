@@ -90,7 +90,8 @@ export default function PdfToImages() {
   };
 
   const run = async (): Promise<void> => {
-    if (!file || pagesError) return;
+    // A second click while a conversion is in flight must never start a second upload.
+    if (running || !file || pagesError) return;
 
     const header = new Uint8Array(await file.slice(0, 5).arrayBuffer());
     const check = validatePdfSelection({ name: file.name, size: file.size, header });
@@ -243,10 +244,10 @@ export default function PdfToImages() {
   }
 
   if (!file) {
-    return <PdfDropzone onFile={setFile} maxSizeLabel={maxSizeLabel} />;
+    return <PdfDropzone onFile={acceptFile} maxSizeLabel={maxSizeLabel} />;
   }
 
-  const canRun = !pagesError;
+  const canRun = !pagesError && !running;
 
   return (
     <div className="mx-auto w-full max-w-3xl space-y-5">
