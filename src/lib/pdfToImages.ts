@@ -29,7 +29,8 @@ export type PdfToImagesDpi = (typeof PDF_TO_IMAGES_DPI)[number];
 export const PDF_TO_IMAGES_QUALITY = [70, 80, 90, 95] as const;
 export type PdfToImagesQuality = (typeof PDF_TO_IMAGES_QUALITY)[number];
 
-export type PdfToImagesFormat = "png" | "jpg" | "webp";
+/** The API accepts png and jpeg only, and normalises "jpg" to "jpeg" on its side. */
+export type PdfToImagesFormat = "png" | "jpg";
 
 export interface PdfToImagesRequest {
   readonly file: File;
