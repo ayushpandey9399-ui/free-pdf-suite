@@ -82,7 +82,7 @@ export function ConversionSettingsPanel({
           Image format
         </Label>
         <div className="mt-2 inline-flex rounded-xl border border-neutral-200 p-1 dark:border-neutral-700">
-          {(["png", "jpg"] as const).map((format) => {
+          {(["png", "jpg", "webp"] as const).map((format) => {
             const selected = value.format === format;
             return (
               <button
