@@ -314,11 +314,7 @@ export default function PdfToImages() {
         className="hidden"
         onChange={(e) => {
           const next = e.target.files?.[0];
-          if (next) {
-            setFile(next);
-            setResult(null);
-            setFailure(null);
-          }
+          if (next) void acceptFile(next);
           e.target.value = "";
         }}
       />
