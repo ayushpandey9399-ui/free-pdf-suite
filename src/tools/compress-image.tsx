@@ -229,13 +229,117 @@ export function CompressImageTool() {
     );
   }
 
+  if (running) {
+    const total = rows.length;
+    const done = rows.filter(r => r.status === 'done').length;
+    const active = rows.find(r => ['uploading', 'converting', 'downloading'].includes(r.status));
+    const activeName = active?.file.name || '';
+    const activePhase = active?.status || 'Processing';
+    const activePercent = active?.percent || 0;
+
+    return (
+      <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white/95 backdrop-blur-sm">
+        <div className="text-center">
+          {/* Logo Placeholder - assuming there's a site logo or we use text */}
+          <div className="mb-8 text-2xl font-bold text-[#E5322D]">FreePDFHub</div>
+          
+          <h2 className="mb-8 text-3xl font-bold text-[#33333c]">Compressing images...</h2>
+          
+          <div className="relative mb-6 inline-flex items-center justify-center">
+            {/* Large circular progress */}
+            <svg className="h-40 w-40 -rotate-90 transform">
+              <circle
+                className="text-[#ececef]"
+                strokeWidth="8"
+                stroke="currentColor"
+                fill="transparent"
+                r="70"
+                cx="80"
+                cy="80"
+              />
+              <circle
+                className="text-[#2563EB] transition-all duration-500 ease-in-out"
+                strokeWidth="8"
+                strokeDasharray={440}
+                strokeDashoffset={440 - (440 * (done / total))}
+                strokeLinecap="round"
+                stroke="currentColor"
+                fill="transparent"
+                r="70"
+                cx="80"
+                cy="80"
+              />
+            </svg>
+            <div className="absolute flex flex-col items-center justify-center">
+              <span className="text-4xl font-bold text-[#33333c]">{Math.round((done / total) * 100)}%</span>
+            </div>
+          </div>
+          
+          <div className="max-w-xs space-y-2">
+            <p className="text-lg font-medium text-[#33333c]">
+              Compressing {done + (active ? 1 : 0)} of {total} images
+            </p>
+            {active && (
+              <p className="text-sm text-[#5a5a66] truncate">
+                {activePhase}: {activeName} ({Math.round(activePercent)}%)
+              </p>
+            )}
+          </div>
+
+          <button
+            onClick={() => abortControllerRef.current?.abort()}
+            className="mt-12 text-sm font-semibold text-[#5a5a66] hover:text-[#e5322d]"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const hasErrors = rows.some(r => r.status === 'error');
+  if (hasErrors && !running && !success) {
+     return (
+       <div className="mx-auto max-w-2xl text-center py-12">
+         <AlertCircle className="mx-auto h-16 w-16 text-red-500 mb-4" />
+         <h2 className="text-2xl font-bold text-[#33333c] mb-2">Compression Encountered Problems</h2>
+         <p className="text-[#5a5a66] mb-8">Some of your images couldn't be compressed. You can try again or check the files.</p>
+         
+         <div className="grid gap-3 mb-8">
+           {rows.filter(r => r.status === 'error').map(r => (
+             <div key={r.id} className="flex items-center justify-between p-3 rounded-lg border border-red-100 bg-red-50 text-left">
+               <span className="text-sm font-medium text-red-700 truncate mr-4">{r.file.name}</span>
+               <span className="text-xs text-red-500 whitespace-nowrap">{r.error || 'Unknown error'}</span>
+             </div>
+           ))}
+         </div>
+
+         <div className="flex justify-center gap-4">
+           <button
+             onClick={compressAll}
+             className="px-8 py-3 bg-[#e5322d] text-white font-bold rounded-xl shadow-lg hover:bg-[#c72620] transition-colors"
+           >
+             Try Again
+           </button>
+           <button
+             onClick={() => {
+               setRows(prev => prev.filter(r => r.status !== 'error'));
+             }}
+             className="px-8 py-3 border border-[#ececef] text-[#33333c] font-bold rounded-xl hover:bg-gray-50 transition-colors"
+           >
+             Back to Workspace
+           </button>
+         </div>
+       </div>
+     );
+  }
+
   return (
     <ToolWorkspace
       title="Compress images"
-      actionLabel={running ? "Compressing..." : "Compress IMAGES"}
+      actionLabel="Compress IMAGES"
       onAction={compressAll}
-      actionDisabled={running || rows.every(r => r.status === 'done')}
-      loading={running}
+      actionDisabled={rows.length === 0 || rows.every(r => r.status === 'done')}
       sidebar={
         <div className="space-y-6">
           <InfoTip>
@@ -282,16 +386,6 @@ export function CompressImageTool() {
                   </div>
                 )}
                 
-                {/* Status Overlay */}
-                {r.status !== "pending" && r.status !== "done" && r.status !== "error" && (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 text-white">
-                    <Loader2 className="mb-2 h-6 w-6 animate-spin" />
-                    <span className="text-[10px] font-medium uppercase tracking-wider">
-                      {r.status}... {r.percent ? `${Math.round(r.percent)}%` : ""}
-                    </span>
-                  </div>
-                )}
-
                 {r.status === "done" && (
                   <div className="absolute inset-0 flex items-center justify-center bg-green-500/20">
                     <div className="rounded-full bg-green-500 p-1.5 text-white shadow-lg">
@@ -310,14 +404,12 @@ export function CompressImageTool() {
                 )}
 
                 {/* Remove button */}
-                {!running && (
-                  <button
-                    onClick={() => removeRow(r.id)}
-                    className="absolute right-2 top-2 rounded-full bg-white/90 p-1.5 text-[#5a5a66] shadow-sm transition-colors hover:bg-red-50 hover:text-red-600 group-hover:opacity-100 lg:opacity-0"
-                  >
-                    <X className="h-3.5 w-3.5" />
-                  </button>
-                )}
+                <button
+                  onClick={() => removeRow(r.id)}
+                  className="absolute right-2 top-2 rounded-full bg-white/90 p-1.5 text-[#5a5a66] shadow-sm transition-colors hover:bg-red-50 hover:text-red-600 group-hover:opacity-100 lg:opacity-0"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
               </div>
               
               <div className="p-2.5">
@@ -343,21 +435,19 @@ export function CompressImageTool() {
           ))}
           
           {/* Add more button */}
-          {!running && (
-            <label className="flex aspect-square cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-[#d7d7dc] bg-[#f9fafb] transition-colors hover:border-[#e5322d] hover:bg-[#fff6f5]">
-              <input
-                type="file"
-                className="hidden"
-                multiple
-                accept={ACCEPT}
-                onChange={(e) => e.target.files && addFiles(e.target.files)}
-              />
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#2563EB] text-white shadow-md">
-                <Plus className="h-6 w-6" />
-              </div>
-              <span className="mt-2 text-[11px] font-bold text-[#5a5a66]">Add More</span>
-            </label>
-          )}
+          <label className="flex aspect-square cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-[#d7d7dc] bg-[#f9fafb] transition-colors hover:border-[#e5322d] hover:bg-[#fff6f5]">
+            <input
+              type="file"
+              className="hidden"
+              multiple
+              accept={ACCEPT}
+              onChange={(e) => e.target.files && addFiles(e.target.files)}
+            />
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#2563EB] text-white shadow-md">
+              <Plus className="h-6 w-6" />
+            </div>
+            <span className="mt-2 text-[11px] font-bold text-[#5a5a66]">Add More</span>
+          </label>
         </div>
       </div>
     </ToolWorkspace>
