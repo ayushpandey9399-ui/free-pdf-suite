@@ -85,25 +85,33 @@ function Home() {
       <section className="relative overflow-hidden">
         {/* Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.
                                             
-                                            Now perform a complete production-level audit of the Compress Image tool.
+                                            Now upgrade ONLY the final compression results screen to make it feel like a premium production image compressor.
 
-Do not redesign the UI or add unnecessary features. Test the complete real workflow from start to finish: upload one image, upload multiple images, add more images using "+", remove an image, start compression, monitor processing, cancel processing, handle successful compression, calculate savings, download the result, and use the “Continue to...” actions.
+Do not change the existing backend/API integration or compression logic. Keep all existing real functionality exactly as it is.
 
-Verify that every step uses real data from `api.freepdfhub.in` and that there are no mocked responses, fake progress timers, placeholder download URLs, hardcoded file sizes, fake compression percentages, or simulated success states.
+On the successful results screen, show a clear summary card with:
 
-Pay special attention to the backend response handling. Inspect the actual API response structure and make the frontend tolerant of valid response variations. Never reject an otherwise successful 200 response just because an optional field is missing or has a different value. The actual downloadable file/URL should be treated as the source of truth.
+- Total images compressed
 
-Verify that the downloaded compressed file is valid and actually opens correctly. For multiple images, verify that the final ZIP contains all successfully compressed images with correct filenames and extensions.
+- Original total size
 
-Test large files, multiple files, unsupported files, duplicate filenames, slow API responses, failed individual files, network errors, expired/invalid download URLs, and user cancellation. Make sure loading states cannot get stuck permanently.
+- Compressed total size
 
-If any issue is found, fix it directly in the project. Preserve the existing premium iLoveIMG-style design and workflow.
+- Total size saved
 
-Finally, verify that the following production flow works reliably:
+- Exact percentage saved
 
-Upload → Workspace → Compress IMAGES → Real API Processing → Real Progress → Success → Accurate Savings → Real Download → Continue to Other Tools.
+Below the summary, show the individual compressed images in clean cards. Each card should contain the image thumbnail, original filename, original size, compressed size, saved amount, and saved percentage. Add an individual “Download” button for each successfully compressed image.
 
-Only consider the feature complete when the entire flow works with real backend data and actual downloadable compressed files. */}
+Keep the large primary “Download compressed IMAGES” button for downloading the complete batch ZIP.
+
+If the batch contains only one image, still show the individual image result but make the main download action download that actual compressed image instead of unnecessarily forcing a ZIP.
+
+Add a subtle “Compress more images” action that takes the user back to the upload/workspace state without losing the professional flow.
+
+The result page should visually match a premium SaaS product: clean white cards, subtle borders, soft shadows, excellent spacing, clear typography, blue primary CTA, responsive desktop/mobile layout, and smooth entrance animations.
+
+Do not use fake data anywhere. Every filename, thumbnail, file size, percentage and download action must come from the actual compression result. */}
         <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 pt-10 pb-0 text-center">
           <h1
             className="mx-auto max-w-[900px] font-extrabold text-[32px] sm:text-[42px] lg:text-[48px] leading-[1.08]"
