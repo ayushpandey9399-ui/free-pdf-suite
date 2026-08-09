@@ -385,11 +385,12 @@ export function CompressImageTool() {
                 className={`text-[#2563EB] transition-all duration-500 ease-in-out ${isIndeterminate ? 'animate-[pulse_1.5s_infinite]' : ''}`}
                 strokeWidth="8"
                 strokeDasharray={440}
-                strokeDashoffset={isIndeterminate ? 110 : 440 - (440 * (done / total))}
+                strokeDashoffset={isIndeterminate ? 110 : 440 - (440 * (activePercent !== null ? activePercent / 100 : (done / total)))}
                 strokeLinecap="round"
                 stroke="currentColor"
                 fill="transparent"
                 r="70"
+                cx="80"
                 cx="80"
                 cy="80"
               />
