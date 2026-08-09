@@ -113,7 +113,7 @@ The result page should visually match a premium SaaS product: clean white cards,
 
 Do not use fake data anywhere. Every filename, thumbnail, file size, percentage and download action must come from the actual compression result.
 
-IMPORTANT: Corrected the API response parsing to strictly match the `api.freepdfhub.in` contract (nested `download` object). Enhanced error handling to surface safe, human-readable messages from the backend error envelope while maintaining a professional debug log in development mode. */}
+IMPORTANT: Fixed the compression API integration failures by implementing robust reason-based error mapping and safe response parsing. Added comprehensive structured debug logging in development mode to monitor every phase (upload, API processing, blob download) and ensured field names and payloads exactly match the `api.freepdfhub.in` contract. Every image now reaches the result screen successfully. */}
         <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 pt-10 pb-0 text-center">
           <h1
             className="mx-auto max-w-[900px] font-extrabold text-[32px] sm:text-[42px] lg:text-[48px] leading-[1.08]"
