@@ -132,18 +132,19 @@ export function requestCompressImage(
         return;
       }
       
-      const download = payload?.download;
-      const url = download?.url || payload?.url;
+      // The API returns { download: { url: "...", ... } } or { url: "..." }
+      const download = payload?.download || payload;
+      const url = download?.url;
 
       if (typeof url !== "string" || url.length === 0) {
-        if (isDev) console.error("Missing download URL in success payload");
+        if (isDev) console.error("Missing download URL in success payload", payload);
         reject(new CompressImageError(500, "Compression service returned an unexpected response. Please try again."));
         if (isDev) console.groupEnd();
         return;
       }
 
       if (isDev) {
-        console.log("Download URL:", url);
+        console.log("Download URL obtained:", url);
         console.groupEnd();
       }
       
