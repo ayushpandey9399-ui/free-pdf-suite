@@ -91,7 +91,6 @@ export function CompressImageTool() {
     
     try {
       // Process all files sequentially to ensure progress UI reflects each stage correctly
-      // Parallel processing can be confusing for a single progress circle
       const results: Row[] = [];
       
       for (const row of rows) {
@@ -100,7 +99,7 @@ export function CompressImageTool() {
           continue;
         }
 
-        setRows(prev => prev.map(r => r.id === row.id ? { ...r, status: "uploading", percent: 0 } : r));
+        setRows(prev => prev.map(r => r.id === row.id ? { ...r, status: "uploading" as const, percent: 0 } : r));
 
         try {
           const ready = await requestCompressImage(
@@ -113,7 +112,7 @@ export function CompressImageTool() {
             }
           );
 
-          setRows(prev => prev.map(r => r.id === row.id ? { ...r, status: "downloading", percent: 0 } : r));
+          setRows(prev => prev.map(r => r.id === row.id ? { ...r, status: "downloading" as const, percent: 0 } : r));
 
           const blob = await fetchCompressImageResult(ready, {
             signal: abortControllerRef.current.signal,
@@ -131,13 +130,14 @@ export function CompressImageTool() {
 
           const previewUrl = URL.createObjectURL(blob);
           
+          let updatedRow: Row | undefined;
           setRows(prev => {
             const updated = prev.map(r => {
               if (r.id !== row.id) return r;
               if (r.previewUrl) URL.revokeObjectURL(r.previewUrl);
               return {
                 ...r,
-                status: "done",
+                status: "done" as const,
                 percent: 100,
                 outBlob: blob,
                 outName,
@@ -146,19 +146,22 @@ export function CompressImageTool() {
                 previewUrl,
               };
             });
-            results.push(updated.find(x => x.id === row.id)!);
+            updatedRow = updated.find(x => x.id === row.id);
             return updated;
           });
+          if (updatedRow) results.push(updatedRow);
         } catch (err: any) {
           if (err.name === 'AbortError') throw err;
           
+          let erroredRow: Row | undefined;
           setRows(prev => {
             const updated = prev.map(r => 
-              r.id === row.id ? { ...r, status: "error", error: err.message || "Failed" } : r
+              r.id === row.id ? { ...r, status: "error" as const, error: err.message || "Failed" } : r
             );
-            results.push(updated.find(x => x.id === row.id)!);
+            erroredRow = updated.find(x => x.id === row.id);
             return updated;
           });
+          if (erroredRow) results.push(erroredRow);
         }
       }
 
