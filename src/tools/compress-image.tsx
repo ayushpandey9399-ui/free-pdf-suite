@@ -86,15 +86,19 @@ export function CompressImageTool() {
     
     setRunning(true);
     
-    // UI: Navigate/Transition to a dedicated processing overlay or state
-    // We keep the ToolWorkspace but override visual state for a dedicated "Processing" view
-    
+    // UI: Transition to a dedicated processing overlay
     abortControllerRef.current = new AbortController();
     
     try {
-      // Process all files in parallel with proper backend orchestration
-      await Promise.all(rows.map(async (row) => {
-        if (row.status === "done") return;
+      // Process all files sequentially to ensure progress UI reflects each stage correctly
+      // Parallel processing can be confusing for a single progress circle
+      const results: Row[] = [];
+      
+      for (const row of rows) {
+        if (row.status === "done") {
+          results.push(row);
+          continue;
+        }
 
         setRows(prev => prev.map(r => r.id === row.id ? { ...r, status: "uploading", percent: 0 } : r));
 
@@ -102,7 +106,7 @@ export function CompressImageTool() {
           const ready = await requestCompressImage(
             { file: row.file },
             {
-              signal: abortControllerRef.current!.signal,
+              signal: abortControllerRef.current.signal,
               onProgress: (p) => {
                 setRows(prev => prev.map(r => r.id === row.id ? { ...r, status: p.phase, percent: p.percent } : r));
               }
@@ -112,7 +116,7 @@ export function CompressImageTool() {
           setRows(prev => prev.map(r => r.id === row.id ? { ...r, status: "downloading", percent: 0 } : r));
 
           const blob = await fetchCompressImageResult(ready, {
-            signal: abortControllerRef.current!.signal,
+            signal: abortControllerRef.current.signal,
             onProgress: (pct) => {
               setRows(prev => prev.map(r => r.id === row.id ? { ...r, percent: pct } : r));
             }
@@ -127,30 +131,38 @@ export function CompressImageTool() {
 
           const previewUrl = URL.createObjectURL(blob);
           
-          setRows(prev => prev.map(r => {
-            if (r.id !== row.id) return r;
-            if (r.previewUrl) URL.revokeObjectURL(r.previewUrl);
-            return {
-              ...r,
-              status: "done",
-              percent: 100,
-              outBlob: blob,
-              outName,
-              outSize: blob.size,
-              savedPct,
-              previewUrl,
-            };
-          }));
+          setRows(prev => {
+            const updated = prev.map(r => {
+              if (r.id !== row.id) return r;
+              if (r.previewUrl) URL.revokeObjectURL(r.previewUrl);
+              return {
+                ...r,
+                status: "done",
+                percent: 100,
+                outBlob: blob,
+                outName,
+                outSize: blob.size,
+                savedPct,
+                previewUrl,
+              };
+            });
+            results.push(updated.find(x => x.id === row.id)!);
+            return updated;
+          });
         } catch (err: any) {
           if (err.name === 'AbortError') throw err;
           
-          setRows(prev => prev.map(r => 
-            r.id === row.id ? { ...r, status: "error", error: err.message || "Failed" } : r
-          ));
+          setRows(prev => {
+            const updated = prev.map(r => 
+              r.id === row.id ? { ...r, status: "error", error: err.message || "Failed" } : r
+            );
+            results.push(updated.find(x => x.id === row.id)!);
+            return updated;
+          });
         }
-      }));
+      }
 
-      if (rows.every(r => r.status === "done")) {
+      if (results.every(r => r.status === "done")) {
         setSuccess(true);
         toast.success("All images compressed successfully!");
       } else {
@@ -161,6 +173,7 @@ export function CompressImageTool() {
         toast.info("Compression cancelled");
       } else {
         console.error("Compression loop error:", err);
+        toast.error("An unexpected error occurred. Please try again.");
       }
     } finally {
       setRunning(false);
