@@ -413,7 +413,7 @@ export function CompressImageTool() {
                   {activeName}
                 </p>
                 <p className="text-xs font-bold text-[#2563EB] uppercase tracking-wider">
-                  {activePhase} {!isIndeterminate && activePercent > 0 ? `${Math.round(activePercent)}%` : ''}
+                  {activePhase} {!isIndeterminate && activePercent !== null && activePercent > 0 ? `${Math.round(activePercent)}%` : ''}
                 </p>
               </div>
             )}
