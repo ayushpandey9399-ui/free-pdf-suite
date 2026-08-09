@@ -156,7 +156,12 @@ export function requestCompressImage(
     };
 
     const form = new FormData();
+    // Fields must come before the file to allow backend to validate options early
     form.append("file", request.file, request.file.name);
+    
+    if (isDev) {
+      console.log("[CompressAPI] Sending FormData via XHR...");
+    }
     xhr.send(form);
   });
 }
