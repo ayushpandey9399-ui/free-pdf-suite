@@ -1,4 +1,5 @@
 import { UploadDropzone } from "@/components/UploadDropzone";
+import { Link } from "@tanstack/react-router";
 import { useCallback, useRef, useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Loader2, Download, X, Plus, Info, CheckCircle2, AlertCircle } from "lucide-react";
@@ -188,29 +189,133 @@ export function CompressImageTool() {
     const totalOriginal = rows.reduce((acc, r) => acc + r.originalSize, 0);
     const totalCompressed = rows.reduce((acc, r) => acc + (r.outSize || r.originalSize), 0);
     const savedPct = Math.round(((totalOriginal - totalCompressed) / totalOriginal) * 100);
+    const doneRows = rows.filter(r => r.status === 'done' && r.outBlob);
 
     return (
-      <ToolSuccessScreen
-        heading="Your images have been compressed!"
-        subheading={`We've shrunk your files from ${formatBytes(totalOriginal)} to ${formatBytes(totalCompressed)}, saving you ${formatBytes(totalOriginal - totalCompressed)} (${savedPct}% smaller).`}
-        onDownload={handleDownloadAll}
-        onReset={() => {
-          rows.forEach(r => r.previewUrl && URL.revokeObjectURL(r.previewUrl));
-          setRows([]);
-          setSuccess(false);
-        }}
-        downloadLabel={rows.length > 1 ? "Download compressed IMAGES" : "Download compressed IMAGE"}
-        suggestedSlugs={["resize-image", "crop-image", "rotate-image", "jpg-to-png", "watermark-image"]}
-        trustBadge={
-          <div
-            className="flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-[13px] font-semibold"
-            style={{ backgroundColor: "#eef4ff", color: "#254a9e" }}
-          >
-            <CheckCircle2 className="h-4 w-4" />
-            Professionally compressed using our high-performance cloud engine.
+      <div className="mx-auto w-full max-w-4xl px-4 py-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="mb-10 text-center">
+          <div className="mb-6 flex justify-center">
+            <div className="rounded-full bg-green-100 p-3 text-green-600 shadow-sm">
+              <CheckCircle2 className="h-10 w-10" />
+            </div>
           </div>
-        }
-      />
+          <h1 className="mb-3 text-3xl font-extrabold text-[#1c1c26] sm:text-4xl">
+            Your images have been compressed!
+          </h1>
+          <p className="text-lg text-[#5a5a66]">
+            Every kilobyte counts. We've optimized your images for the web.
+          </p>
+        </div>
+
+        {/* Summary Card */}
+        <div className="mb-8 overflow-hidden rounded-2xl border border-[#ececef] bg-white shadow-sm">
+          <div className="grid grid-cols-2 divide-x divide-y divide-[#ececef] sm:grid-cols-4 sm:divide-y-0">
+            <div className="p-6 text-center">
+              <span className="block text-xs font-bold uppercase tracking-wider text-[#8a8a93]">Files</span>
+              <span className="mt-1 block text-2xl font-extrabold text-[#1c1c26]">{doneRows.length}</span>
+            </div>
+            <div className="p-6 text-center">
+              <span className="block text-xs font-bold uppercase tracking-wider text-[#8a8a93]">Original</span>
+              <span className="mt-1 block text-2xl font-extrabold text-[#1c1c26]">{formatBytes(totalOriginal)}</span>
+            </div>
+            <div className="p-6 text-center">
+              <span className="block text-xs font-bold uppercase tracking-wider text-[#8a8a93]">Compressed</span>
+              <span className="mt-1 block text-2xl font-extrabold text-[#1c1c26]">{formatBytes(totalCompressed)}</span>
+            </div>
+            <div className="p-6 text-center bg-[#f0f9ff]">
+              <span className="block text-xs font-bold uppercase tracking-wider text-[#0369a1]">Saved</span>
+              <span className="mt-1 block text-2xl font-extrabold text-[#0369a1]">{savedPct}%</span>
+            </div>
+          </div>
+          <div className="border-t border-[#ececef] bg-[#f9fafb] px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-2 text-sm font-medium text-[#5a5a66]">
+              <Info className="h-4 w-4 text-[#2563EB]" />
+              Total savings: <span className="font-bold text-[#1c1c26]">{formatBytes(totalOriginal - totalCompressed)}</span>
+            </div>
+            <button
+              onClick={handleDownloadAll}
+              className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-[#2563EB] px-8 py-3.5 text-base font-bold text-white shadow-lg transition-all hover:bg-[#1d4ed8] hover:scale-[1.02] active:scale-[0.98]"
+            >
+              <Download className="h-5 w-5" />
+              {doneRows.length > 1 ? "Download compressed IMAGES (ZIP)" : "Download compressed IMAGE"}
+            </button>
+          </div>
+        </div>
+
+        {/* Individual Result Cards */}
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mb-12">
+          {doneRows.map((r) => (
+            <div key={r.id} className="group relative overflow-hidden rounded-xl border border-[#ececef] bg-white transition-all hover:shadow-md hover:border-[#2563EB]/30">
+              <div className="relative aspect-video overflow-hidden bg-[#f6f4f9]">
+                {r.previewUrl && (
+                  <img src={r.previewUrl} alt={r.file.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                )}
+                <div className="absolute top-2 right-2 rounded-lg bg-white/90 px-2 py-1 text-[10px] font-bold text-[#2563EB] shadow-sm backdrop-blur-sm">
+                  -{r.savedPct}%
+                </div>
+              </div>
+              
+              <div className="p-4">
+                <div className="mb-3">
+                  <p className="truncate text-sm font-bold text-[#1c1c26]" title={r.file.name}>{r.file.name}</p>
+                  <div className="mt-1 flex items-center justify-between text-[11px] text-[#8a8a93]">
+                    <span>{formatBytes(r.originalSize)}</span>
+                    <span className="flex items-center gap-1 font-bold text-[#059669]">
+                      <CheckCircle2 className="h-3 w-3" />
+                      {formatBytes(r.outSize || 0)}
+                    </span>
+                  </div>
+                </div>
+                
+                <button
+                  onClick={() => r.outBlob && r.outName && saveAs(r.outBlob, r.outName)}
+                  className="flex w-full items-center justify-center gap-2 rounded-lg border border-[#ececef] py-2 text-xs font-bold text-[#33333c] transition-colors hover:bg-gray-50 hover:border-[#2563EB] hover:text-[#2563EB]"
+                >
+                  <Download className="h-3.5 w-3.5" />
+                  Download
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Footer Actions */}
+        <div className="flex flex-col items-center justify-center gap-8 pt-6 border-t border-[#ececef]">
+          <button
+            onClick={() => {
+              rows.forEach(r => r.previewUrl && URL.revokeObjectURL(r.previewUrl));
+              setRows([]);
+              setSuccess(false);
+            }}
+            className="text-sm font-bold text-[#5a5a66] transition-colors hover:text-[#2563EB] flex items-center gap-2"
+          >
+            <Plus className="h-4 w-4" />
+            Compress more images
+          </button>
+
+          <div className="w-full">
+            <h3 className="mb-6 text-center text-sm font-bold uppercase tracking-widest text-[#8a8a93]">Continue to...</h3>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
+              {[
+                { label: 'Resize IMAGE', slug: 'resize-image' },
+                { label: 'Crop IMAGE', slug: 'crop-image' },
+                { label: 'Rotate IMAGE', slug: 'rotate-image' },
+                { label: 'Convert to JPG', slug: 'jpg-to-png' },
+                { label: 'Watermark IMAGE', slug: 'watermark-image' }
+              ].map(tool => (
+                <Link
+                  key={tool.slug}
+                  to="/tools/$slug"
+                  params={{ slug: tool.slug }}
+                  className="flex flex-col items-center justify-center rounded-xl border border-[#ececef] bg-white p-4 text-center transition-all hover:shadow-md hover:border-[#2563EB]/20 hover:-translate-y-1"
+                >
+                  <span className="text-[11px] font-bold text-[#33333c]">{tool.label}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 
