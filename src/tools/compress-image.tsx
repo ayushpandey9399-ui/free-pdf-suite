@@ -176,7 +176,7 @@ export function CompressImageTool() {
         toast.info("Compression cancelled");
       } else {
         console.error("Compression loop error:", err);
-        toast.error("An unexpected error occurred. Please try again.");
+        toast.error(err.message || "An unexpected error occurred. Please try again.");
       }
     } finally {
       setRunning(false);
@@ -385,7 +385,7 @@ export function CompressImageTool() {
                 className={`text-[#2563EB] transition-all duration-500 ease-in-out ${isIndeterminate ? 'animate-[pulse_1.5s_infinite]' : ''}`}
                 strokeWidth="8"
                 strokeDasharray={440}
-                strokeDashoffset={isIndeterminate ? 110 : 440 - (440 * (done / total))}
+                strokeDashoffset={isIndeterminate ? 110 : 440 - (440 * (activePercent !== null ? activePercent / 100 : (done / total)))}
                 strokeLinecap="round"
                 stroke="currentColor"
                 fill="transparent"

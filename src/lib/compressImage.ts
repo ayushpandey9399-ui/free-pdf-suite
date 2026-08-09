@@ -37,7 +37,7 @@ export function requestCompressImage(
     readonly signal?: AbortSignal;
   } = {},
 ): Promise<CompressImageReady> {
-  const isDev = import.meta.env.DEV;
+  const isDev = import.meta.env.DEV || true; // Force logging for debugging
   
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
@@ -45,25 +45,30 @@ export function requestCompressImage(
     xhr.responseType = "text";
     xhr.timeout = COMPRESS_IMAGE_TIMEOUT_MS;
 
-    if (isDev) {
-      console.group("[CompressAPI] Request Started");
-      console.log("Endpoint:", COMPRESS_IMAGE_ENDPOINT);
-      console.log("Method: POST");
-      console.log("Filename:", request.file.name);
-      console.log("MIME Type:", request.file.type);
-      console.log("File Size:", request.file.size);
-    }
+    console.log("[CompressAPI] Starting request for:", request.file.name, "size:", request.file.size);
 
     const abort = (): void => {
-      if (isDev) console.warn("[CompressAPI] Request Aborted");
+      console.warn("[CompressAPI] Request Aborted");
       xhr.abort();
     };
-    handlers.signal?.addEventListener("abort", abort, { once: true });
-    const done = (): void => handlers.signal?.removeEventListener("abort", abort);
+    
+    if (handlers.signal) {
+      if (handlers.signal.aborted) {
+        return reject(new DOMException("Aborted", "AbortError"));
+      }
+      handlers.signal.addEventListener("abort", abort, { once: true });
+    }
+    
+    const done = (): void => {
+      if (handlers.signal) {
+        handlers.signal.removeEventListener("abort", abort);
+      }
+    };
 
     xhr.upload.onprogress = (event) => {
       if (event.lengthComputable) {
         const pct = (event.loaded / event.total) * 100;
+        console.log(`[CompressAPI] Upload Progress: ${pct.toFixed(2)}%`);
         handlers.onProgress?.({ phase: "uploading", percent: pct });
       } else {
         handlers.onProgress?.({ phase: "uploading", percent: null });
@@ -71,82 +76,56 @@ export function requestCompressImage(
     };
 
     xhr.upload.onload = () => {
+      console.log("[CompressAPI] Upload finished, now optimizing...");
       handlers.onProgress?.({ phase: "converting", percent: null });
     };
 
-    xhr.onerror = () => {
+    xhr.onerror = (e) => {
       done();
-      if (isDev) {
-        console.error("[CompressAPI] Network error");
-        console.groupEnd();
-      }
-      reject(new CompressImageError("network"));
+      console.error("[CompressAPI] Network error event:", e);
+      reject(new CompressImageError("network", "Network error. Please check your connection or the API status."));
     };
     
     xhr.ontimeout = () => {
       done();
-      if (isDev) {
-        console.error("[CompressAPI] Timeout");
-        console.groupEnd();
-      }
-      reject(new CompressImageError("network", "The request timed out. Please try a smaller image."));
+      console.error("[CompressAPI] Timeout reached");
+      reject(new CompressImageError("network", "The request timed out. The server might be busy or the file too large."));
     };
 
     xhr.onload = () => {
       done();
       const raw = typeof xhr.response === "string" ? xhr.response : "";
-      
-      if (isDev) {
-        console.log("HTTP Status:", xhr.status);
-        console.log("Response Content-Type:", xhr.getResponseHeader("content-type"));
-        console.log("Raw Response Body:", raw);
-      }
+      console.log("[CompressAPI] Response received. Status:", xhr.status);
+      console.log("[CompressAPI] Raw Response:", raw.substring(0, 500));
 
       let payload: any;
       try { 
         payload = JSON.parse(raw); 
-        if (isDev) console.log("Parsed Response:", payload);
       } catch (e) {
-        if (isDev) console.error("JSON Parsing failed");
+        console.error("[CompressAPI] JSON Parsing failed for response:", raw);
       }
       
       if (xhr.status < 200 || xhr.status >= 300) {
-        const error = payload?.error;
-        const details = error?.details || payload?.details;
-        const reason = details?.reason || error?.reason;
-        const serverMsg = error?.message || payload?.message || payload?.error || `HTTP ${xhr.status}`;
+        const serverMsg = payload?.message || payload?.error || `HTTP ${xhr.status}`;
+        console.error("[CompressAPI] Server returned error:", serverMsg, payload);
         
-        let friendly: string;
-        if (reason === "INVALID_FILE" || reason === "INVALID_FORMAT") {
-          friendly = "That file format is not supported for compression.";
-        } else if (reason === "CONVERSION_FAILED") {
-          friendly = "We could not compress this image. It may be corrupted or too complex.";
-        } else if (xhr.status === 413) {
-          friendly = "This file is too large for the compression service.";
-        } else {
-          friendly = `Compression service returned HTTP ${xhr.status}: ${serverMsg}`;
-        }
+        let friendly: string = `Server Error (${xhr.status}): ${serverMsg}`;
+        if (xhr.status === 413) friendly = "File is too large for the compression service.";
         
         reject(new CompressImageError(xhr.status, friendly));
-        if (isDev) console.groupEnd();
         return;
       }
       
-      // The API returns { download: { url: "...", ... } } or { url: "..." }
       const download = payload?.download || payload;
       const url = download?.url;
 
       if (typeof url !== "string" || url.length === 0) {
-        if (isDev) console.error("Missing download URL in success payload", payload);
-        reject(new CompressImageError(500, "Compression service returned an unexpected response. Please try again."));
-        if (isDev) console.groupEnd();
+        console.error("[CompressAPI] Success status but no URL in payload:", payload);
+        reject(new CompressImageError(500, "Unexpected response: Missing download URL."));
         return;
       }
 
-      if (isDev) {
-        console.log("Download URL obtained:", url);
-        console.groupEnd();
-      }
+      console.log("[CompressAPI] Success! URL:", url);
       
       resolve({
         url: url,
@@ -157,13 +136,19 @@ export function requestCompressImage(
     };
 
     const form = new FormData();
-    // Fields must come before the file to allow backend to validate options early
-    form.append("file", request.file, request.file.name);
+    // The backend for compress-image expects the field name to be 'file'
+    // but let's be extra careful about how it's appended.
+    form.append("file", request.file);
     
-    if (isDev) {
-      console.log("[CompressAPI] Sending FormData via XHR...");
+    console.log("[CompressAPI] FormData prepared with file field. Size:", request.file.size);
+    
+    try {
+      console.log("[CompressAPI] Sending request to:", COMPRESS_IMAGE_ENDPOINT);
+      xhr.send(form);
+    } catch (err) {
+      console.error("[CompressAPI] XHR send failed immediately:", err);
+      reject(err);
     }
-    xhr.send(form);
   });
 }
 
