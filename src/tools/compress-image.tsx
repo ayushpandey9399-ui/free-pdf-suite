@@ -1,18 +1,20 @@
 import { UploadDropzone } from "@/components/UploadDropzone";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef, useState, useEffect } from "react";
 import { toast } from "sonner";
-import { Loader2, Download, X } from "lucide-react";
+import { Loader2, Download, X, Plus, Info, CheckCircle2, AlertCircle } from "lucide-react";
 import { loadJSZip } from "@/lib/lazyLibs";
 import { saveAs } from "@/lib/saveFile";
 import { isSvgFile, uniqueZipName } from "@/lib/imageSafety";
-
-type Mode = "quality" | "target";
+import { ToolWorkspace, InfoTip } from "@/components/ToolWorkspace";
+import { requestCompressImage, fetchCompressImageResult, type CompressImageProgress } from "@/lib/compressImage";
+import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 
 type Row = {
   id: string;
   file: File;
   originalSize: number;
-  status: "pending" | "converting" | "done" | "error";
+  status: "pending" | "uploading" | "converting" | "downloading" | "done" | "error";
+  percent: number | null;
   outBlob?: Blob;
   outName?: string;
   outSize?: number;
@@ -21,13 +23,14 @@ type Row = {
   error?: string;
 };
 
-const ACCEPT = ".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp";
+const ACCEPT = ".jpg,.jpeg,.png,.webp,.svg,.gif,image/jpeg,image/png,image/webp,image/svg+xml,image/gif";
 
 function isSupported(f: File): boolean {
   const t = f.type;
   const n = f.name.toLowerCase();
-  if (t === "image/jpeg" || t === "image/png" || t === "image/webp") return true;
-  return /\.(jpe?g|png|webp)$/i.test(n);
+  const supportedTypes = ["image/jpeg", "image/png", "image/webp", "image/svg+xml", "image/gif"];
+  if (supportedTypes.includes(t)) return true;
+  return /\.(jpe?g|png|webp|svg|gif)$/i.test(n);
 }
 
 function formatBytes(n: number): string {
@@ -36,44 +39,37 @@ function formatBytes(n: number): string {
   return `${(n / 1024 / 1024).toFixed(2)} MB`;
 }
 
-function outExtension(file: File): string {
-  const n = file.name.toLowerCase();
-  if (n.endsWith(".png")) return "png";
-  if (n.endsWith(".webp")) return "webp";
-  return "jpg";
-}
-
 export function CompressImageTool() {
   const [rows, setRows] = useState<Row[]>([]);
   const [running, setRunning] = useState(false);
-  const [mode, setMode] = useState<Mode>("quality");
-  const [quality, setQuality] = useState(0.8);
-  const [targetKb, setTargetKb] = useState(200);
-  const [maxDim, setMaxDim] = useState(0); // 0 = off
+  const [success, setSuccess] = useState(false);
   const idRef = useRef(0);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   const addFiles = useCallback((incoming: FileList | File[]) => {
     const list = Array.from(incoming).filter((f) => {
-      if (isSvgFile(f)) {
-        toast.error(`"${f.name}" is an SVG, not supported`);
-        return false;
-      }
       if (!isSupported(f)) {
-        toast.error(`"${f.name}" is not a JPG, PNG, or WebP`);
+        toast.error(`"${f.name}" is not a supported image format`);
         return false;
       }
       return true;
     });
     if (!list.length) return;
-    setRows((prev) => [
-      ...prev,
-      ...list.map((f) => ({
+    
+    const newRows = list.map((f) => {
+      const previewUrl = URL.createObjectURL(f);
+      return {
         id: `${++idRef.current}-${f.name}`,
         file: f,
         originalSize: f.size,
         status: "pending" as const,
-      })),
-    ]);
+        percent: null,
+        previewUrl,
+      };
+    });
+
+    setRows((prev) => [...prev, ...newRows]);
+    setSuccess(false);
   }, []);
 
   const removeRow = (id: string) => {
@@ -84,93 +80,102 @@ export function CompressImageTool() {
     });
   };
 
-  const clearAll = () => {
-    rows.forEach((r) => r.previewUrl && URL.revokeObjectURL(r.previewUrl));
-    setRows([]);
-  };
-
   const compressAll = async () => {
-    if (!rows.length) return;
+    if (!rows.length || running) return;
+    
     setRunning(true);
-    const { default: imageCompression } = await import("browser-image-compression");
+    abortControllerRef.current = new AbortController();
+    
+    let completedCount = 0;
+    const totalCount = rows.length;
 
-    for (const row of rows) {
-      setRows((prev) =>
-        prev.map((r) => (r.id === row.id ? { ...r, status: "converting" } : r)),
-      );
-      try {
-        const opts: Record<string, unknown> = {
-          useWebWorker: true,
-          fileType: row.file.type || undefined,
-        };
-        if (mode === "quality") {
-          opts.initialQuality = quality;
-          // Large ceiling so quality drives the result
-          opts.maxSizeMB = 50;
-        } else {
-          const kb = Math.max(5, Math.floor(targetKb));
-          opts.maxSizeMB = kb / 1024;
-        }
-        if (maxDim && maxDim >= 100) {
-          opts.maxWidthOrHeight = maxDim;
+    try {
+      for (const row of rows) {
+        if (row.status === "done") {
+          completedCount++;
+          continue;
         }
 
-        const outFile = await imageCompression(row.file, opts as never);
-        // Never inflate. If the compressor produced a file bigger than the
-        // original, fall back to the original bytes so the user always wins.
-        const finalBlob: Blob =
-          outFile.size < row.originalSize ? outFile : row.file;
-        const inflated = outFile.size >= row.originalSize;
-        const ext = outExtension(row.file);
-        const base = row.file.name.replace(/\.(jpe?g|png|webp)$/i, "");
-        const outName = `${base}-compressed.${ext}`;
-        const previewUrl = URL.createObjectURL(finalBlob);
-        const savedPct = row.originalSize
-          ? Math.round(((row.originalSize - finalBlob.size) / row.originalSize) * 100)
-          : 0;
-        if (inflated) {
-          toast.message(`"${row.file.name}" was already smaller, kept the original.`);
-        }
-        setRows((prev) =>
-          prev.map((r) => {
+        setRows(prev => prev.map(r => r.id === row.id ? { ...r, status: "uploading", percent: 0 } : r));
+
+        try {
+          const ready = await requestCompressImage(
+            { file: row.file },
+            {
+              signal: abortControllerRef.current.signal,
+              onProgress: (p) => {
+                setRows(prev => prev.map(r => r.id === row.id ? { ...r, status: p.phase, percent: p.percent } : r));
+              }
+            }
+          );
+
+          setRows(prev => prev.map(r => r.id === row.id ? { ...r, status: "downloading", percent: 0 } : r));
+
+          const blob = await fetchCompressImageResult(ready, {
+            signal: abortControllerRef.current.signal,
+            onProgress: (pct) => {
+              setRows(prev => prev.map(r => r.id === row.id ? { ...r, percent: pct } : r));
+            }
+          });
+
+          const savedPct = row.originalSize
+            ? Math.round(((row.originalSize - blob.size) / row.originalSize) * 100)
+            : 0;
+
+          const outName = row.file.name.replace(/\.[^.]+$/, "") + "-compressed" + 
+            (row.file.name.match(/\.[^.]+$/)?.[0] || "");
+
+          const previewUrl = URL.createObjectURL(blob);
+          
+          setRows(prev => prev.map(r => {
             if (r.id !== row.id) return r;
             if (r.previewUrl) URL.revokeObjectURL(r.previewUrl);
             return {
               ...r,
               status: "done",
-              outBlob: finalBlob,
+              percent: 100,
+              outBlob: blob,
               outName,
-              outSize: finalBlob.size,
+              outSize: blob.size,
               savedPct,
               previewUrl,
             };
-          }),
-        );
-      } catch (err) {
-        const msg = err instanceof Error ? err.message : "Compression failed";
-        setRows((prev) =>
-          prev.map((r) =>
-            r.id === row.id ? { ...r, status: "error", error: msg } : r,
-          ),
-        );
-        toast.error(`"${row.file.name}": ${msg}`);
+          }));
+          
+          completedCount++;
+        } catch (err: any) {
+          if (err.name === 'AbortError') throw err;
+          
+          setRows(prev => prev.map(r => 
+            r.id === row.id ? { ...r, status: "error", error: err.message || "Failed" } : r
+          ));
+          toast.error(`Failed to compress ${row.file.name}`);
+        }
       }
+
+      if (completedCount > 0) {
+        setSuccess(true);
+        toast.success("All images compressed successfully!");
+      }
+    } catch (err: any) {
+      if (err.name === 'AbortError') {
+        toast.info("Compression cancelled");
+      } else {
+        console.error("Compression loop error:", err);
+      }
+    } finally {
+      setRunning(false);
+      abortControllerRef.current = null;
     }
-    setRunning(false);
-    toast.success("Compression finished");
   };
 
-  const downloadOne = (row: Row) => {
-    if (!row.outBlob || !row.outName) return;
-    saveAs(row.outBlob, row.outName);
-  };
-
-  const downloadZip = async () => {
+  const handleDownloadAll = async () => {
     const done = rows.filter((r) => r.status === "done" && r.outBlob && r.outName);
-    if (!done.length) {
-      toast.error("Compress some files first");
+    if (done.length === 1) {
+      saveAs(done[0].outBlob!, done[0].outName!);
       return;
     }
+    
     const JSZip = await loadJSZip();
     const zip = new JSZip();
     const used = new Set<string>();
@@ -181,225 +186,173 @@ export function CompressImageTool() {
     saveAs(blob, "compressed-images.zip");
   };
 
-  const doneCount = rows.filter((r) => r.status === "done").length;
+  if (success) {
+    const totalOriginal = rows.reduce((acc, r) => acc + r.originalSize, 0);
+    const totalCompressed = rows.reduce((acc, r) => acc + (r.outSize || r.originalSize), 0);
+    const savedPct = Math.round(((totalOriginal - totalCompressed) / totalOriginal) * 100);
+
+    return (
+      <ToolSuccessScreen
+        title="Images Compressed!"
+        description={`You saved ${formatBytes(totalOriginal - totalCompressed)} (${savedPct}% smaller).`}
+        onDownload={handleDownloadAll}
+        onReset={() => {
+          rows.forEach(r => r.previewUrl && URL.revokeObjectURL(r.previewUrl));
+          setRows([]);
+          setSuccess(false);
+        }}
+        downloadLabel={rows.length > 1 ? "Download All (ZIP)" : "Download Image"}
+      />
+    );
+  }
+
+  if (rows.length === 0) {
+    return (
+      <div className="mx-auto w-full max-w-3xl">
+        <UploadDropzone
+          accept={ACCEPT}
+          multiple
+          buttonLabel="Select images"
+          hint="or drop JPG, PNG, WEBP, SVG or GIF images here"
+          onFiles={addFiles}
+          accent="#e5322d"
+        />
+      </div>
+    );
+  }
 
   return (
-    <div className="mx-auto w-full max-w-3xl">
-      <UploadDropzone
-        accept={ACCEPT}
-        multiple
-        buttonLabel="Select images"
-        hint="or drop JPG, PNG, or WebP images here"
-        onFiles={addFiles}
-        accent="#e5322d"
-      />
-
-      {rows.length > 0 && (
-        <>
-          <div className="mt-6 space-y-4 rounded-xl border border-[#ececef] bg-white p-4">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-[13px] font-semibold text-[#33333c]">Mode:</span>
-              <label className="inline-flex items-center gap-1.5 text-[13px] text-[#33333c]">
-                <input
-                  type="radio"
-                  name="mode"
-                  className="accent-[#e5322d]"
-                  checked={mode === "quality"}
-                  onChange={() => setMode("quality")}
-                />
-                Quality
-              </label>
-              <label className="inline-flex items-center gap-1.5 text-[13px] text-[#33333c]">
-                <input
-                  type="radio"
-                  name="mode"
-                  className="accent-[#e5322d]"
-                  checked={mode === "target"}
-                  onChange={() => setMode("target")}
-                />
-                Target size
-              </label>
-            </div>
-
-            {mode === "quality" ? (
-              <label className="flex items-center gap-3 text-[13px] text-[#5a5a66]">
-                <span className="whitespace-nowrap font-semibold text-[#33333c]">
-                  Quality: {Math.round(quality * 100)}
-                </span>
-                <input
-                  type="range"
-                  min={0.3}
-                  max={1}
-                  step={0.05}
-                  value={quality}
-                  onChange={(e) => setQuality(parseFloat(e.target.value))}
-                  className="w-full accent-[#e5322d]"
-                />
-              </label>
-            ) : (
-              <div className="flex flex-wrap items-center gap-3 text-[13px] text-[#5a5a66]">
-                <label className="inline-flex items-center gap-2">
-                  <span className="whitespace-nowrap font-semibold text-[#33333c]">
-                    Target size (KB):
-                  </span>
-                  <input
-                    type="number"
-                    min={5}
-                    step={10}
-                    value={targetKb}
-                    onChange={(e) => setTargetKb(Math.max(5, parseInt(e.target.value) || 0))}
-                    className="w-24 rounded-md border border-[#ececef] px-2 py-1 text-[13px]"
-                  />
-                </label>
-                <div className="flex flex-wrap gap-1">
-                  {[20, 50, 100, 200, 500].map((v) => (
-                    <button
-                      key={v}
-                      type="button"
-                      onClick={() => setTargetKb(v)}
-                      className={`rounded-full border px-2.5 py-0.5 text-[12px] ${
-                        targetKb === v
-                          ? "border-[#e5322d] bg-[#fff6f5] text-[#e5322d]"
-                          : "border-[#ececef] text-[#5a5a66] hover:bg-[#f9fafb]"
-                      }`}
-                    >
-                      {v} KB
-                    </button>
-                  ))}
-                </div>
-                <p className="basis-full text-[12px] text-[#5a5a66]">
-                  Result will be at or under the target when possible.
-                </p>
-              </div>
-            )}
-
-            <label className="flex items-center gap-2 text-[13px] text-[#5a5a66]">
-              <span className="whitespace-nowrap font-semibold text-[#33333c]">
-                Max width or height (px, optional):
-              </span>
-              <input
-                type="number"
-                min={0}
-                step={50}
-                value={maxDim || ""}
-                placeholder="off"
-                onChange={(e) => setMaxDim(Math.max(0, parseInt(e.target.value) || 0))}
-                className="w-24 rounded-md border border-[#ececef] px-2 py-1 text-[13px]"
-              />
-            </label>
-
-            <p className="text-[12px] text-[#5a5a66]">
-              PNG compression stays lossless-friendly and may shrink less than JPG or WebP. For PNG photos, converting to JPG can save more; try the{" "}
-              <a href="/image-tools/png-to-jpg" className="text-[#e5322d] underline">
-                PNG to JPG tool
-              </a>
-              .
-            </p>
-
-            <div className="flex flex-wrap justify-end gap-2">
-              <button
-                type="button"
-                onClick={compressAll}
-                disabled={running || !rows.length}
-                className="inline-flex items-center gap-2 rounded-lg bg-[#e5322d] px-5 py-2.5 text-[14px] font-semibold text-white disabled:opacity-50"
-              >
-                {running ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-                {running ? "Compressing…" : "Compress all"}
-              </button>
-              <button
-                type="button"
-                onClick={downloadZip}
-                disabled={!doneCount}
-                className="inline-flex items-center gap-2 rounded-lg border border-[#ececef] bg-white px-5 py-2.5 text-[14px] font-semibold text-[#33333c] disabled:opacity-50"
-              >
-                <Download className="h-4 w-4" /> Download all as ZIP
-              </button>
-              <button
-                type="button"
-                onClick={clearAll}
-                disabled={running}
-                className="inline-flex items-center rounded-lg px-3 py-2.5 text-[14px] text-[#5a5a66] hover:bg-[#f6f4f9] disabled:opacity-50"
-              >
-                Clear
-              </button>
-            </div>
-          </div>
-
-          <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
-            {rows.map((r) => (
-              <li
-                key={r.id}
-                className="relative overflow-hidden rounded-xl border border-[#ececef] bg-white"
-              >
-                <div className="grid aspect-square place-items-center bg-[#f6f4f9]">
-                  {r.previewUrl ? (
-                    <img
-                      src={r.previewUrl}
-                      alt={`Compressed preview of ${r.file.name}`}
-                      className="h-full w-full object-cover"
-                    />
-                  ) : r.status === "converting" ? (
-                    <Loader2 className="h-6 w-6 animate-spin text-[#e5322d]" />
-                  ) : r.status === "error" ? (
-                    <span className="px-2 text-center text-[12px] text-[#c72620]">
-                      {r.error ?? "Failed"}
-                    </span>
-                  ) : (
-                    <span className="text-[12px] text-[#5a5a66]">Ready</span>
-                  )}
-                </div>
-                <div className="px-2.5 py-2">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="truncate text-[12px] font-medium text-[#33333c]" title={r.file.name}>
-                      {r.file.name}
-                    </span>
-                    {r.status === "done" ? (
-                      <button
-                        type="button"
-                        onClick={() => downloadOne(r)}
-                        className="inline-flex h-7 w-7 items-center justify-center rounded-md text-[#e5322d] hover:bg-[#fdeceb]"
-                        aria-label={`Download ${r.outName}`}
-                      >
-                        <Download className="h-4 w-4" />
-                      </button>
-                    ) : null}
-                  </div>
-                  <div className="mt-1 text-[11px] text-[#5a5a66]">
-                    {formatBytes(r.originalSize)}
-                    {r.status === "done" && r.outSize != null ? (
-                      <>
-                        {" → "}
-                        <span className="font-semibold text-[#33333c]">
-                          {formatBytes(r.outSize)}
-                        </span>
-                        {r.savedPct != null ? (
-                          <span
-                            className={`ml-1 ${
-                              r.savedPct > 0 ? "text-[#047857]" : "text-[#c72620]"
-                            }`}
-                          >
-                            ({r.savedPct > 0 ? "-" : "+"}
-                            {Math.abs(r.savedPct)}%)
-                          </span>
-                        ) : null}
-                      </>
-                    ) : null}
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => removeRow(r.id)}
-                  className="absolute right-1.5 top-1.5 inline-flex h-6 w-6 items-center justify-center rounded-md bg-white/90 text-[#5a5a66] hover:text-[#e5322d]"
-                  aria-label={`Remove ${r.file.name}`}
-                >
-                  <X className="h-3.5 w-3.5" />
-                </button>
+    <ToolWorkspace
+      title="Compress images"
+      actionLabel={running ? "Compressing..." : "Compress IMAGES"}
+      onAction={compressAll}
+      actionDisabled={running || rows.every(r => r.status === 'done')}
+      loading={running}
+      sidebar={
+        <div className="space-y-6">
+          <InfoTip>
+            All images will be compressed while maintaining the best possible quality and file-size ratio.
+          </InfoTip>
+          
+          <div className="rounded-xl border border-[#ececef] bg-[#f9fafb] p-4">
+            <h3 className="text-sm font-semibold text-[#33333c] mb-2">Compression Info</h3>
+            <ul className="space-y-2 text-xs text-[#5a5a66]">
+              <li className="flex items-center gap-2">
+                <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />
+                <span>Smart lossy compression for JPG/WEBP</span>
               </li>
-            ))}
-          </ul>
-        </>
-      )}
-    </div>
+              <li className="flex items-center gap-2">
+                <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />
+                <span>Alpha transparency preserved for PNG</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />
+                <span>Optimized SVG path data</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      }
+    >
+      <div className="space-y-6">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+          {rows.map((r) => (
+            <div
+              key={r.id}
+              className="group relative flex flex-col rounded-xl border border-[#ececef] bg-white transition-all hover:shadow-md"
+            >
+              <div className="relative aspect-square overflow-hidden rounded-t-xl bg-[#f6f4f9]">
+                {r.previewUrl ? (
+                  <img
+                    src={r.previewUrl}
+                    alt={r.file.name}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center">
+                    <Loader2 className="h-6 w-6 animate-spin text-[#e5322d]" />
+                  </div>
+                )}
+                
+                {/* Status Overlay */}
+                {r.status !== "pending" && r.status !== "done" && r.status !== "error" && (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 text-white">
+                    <Loader2 className="mb-2 h-6 w-6 animate-spin" />
+                    <span className="text-[10px] font-medium uppercase tracking-wider">
+                      {r.status}... {r.percent ? `${Math.round(r.percent)}%` : ""}
+                    </span>
+                  </div>
+                )}
+
+                {r.status === "done" && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-green-500/20">
+                    <div className="rounded-full bg-green-500 p-1.5 text-white shadow-lg">
+                      <CheckCircle2 className="h-5 w-5" />
+                    </div>
+                  </div>
+                )}
+
+                {r.status === "error" && (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-red-500/10 p-2 text-center">
+                    <AlertCircle className="mb-1 h-6 w-6 text-red-500" />
+                    <span className="text-[10px] font-medium text-red-600 line-clamp-2">
+                      {r.error}
+                    </span>
+                  </div>
+                )}
+
+                {/* Remove button */}
+                {!running && (
+                  <button
+                    onClick={() => removeRow(r.id)}
+                    className="absolute right-2 top-2 rounded-full bg-white/90 p-1.5 text-[#5a5a66] shadow-sm transition-colors hover:bg-red-50 hover:text-red-600 group-hover:opacity-100 lg:opacity-0"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                )}
+              </div>
+              
+              <div className="p-2.5">
+                <p className="truncate text-[11px] font-semibold text-[#33333c]" title={r.file.name}>
+                  {r.file.name}
+                </p>
+                <div className="mt-1 flex items-center justify-between text-[10px] text-[#8a8a93]">
+                  <span>{formatBytes(r.originalSize)}</span>
+                  <span className="uppercase">{r.file.name.split('.').pop()}</span>
+                </div>
+                {r.status === "done" && r.outSize && (
+                  <div className="mt-1.5 flex items-center justify-between border-t border-[#ececef] pt-1.5">
+                    <span className="text-[10px] font-bold text-[#33333c]">
+                      {formatBytes(r.outSize)}
+                    </span>
+                    <span className="rounded bg-green-100 px-1 py-0.5 text-[9px] font-bold text-green-700">
+                      -{r.savedPct}%
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+          
+          {/* Add more button */}
+          {!running && (
+            <label className="flex aspect-square cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-[#d7d7dc] bg-[#f9fafb] transition-colors hover:border-[#e5322d] hover:bg-[#fff6f5]">
+              <input
+                type="file"
+                className="hidden"
+                multiple
+                accept={ACCEPT}
+                onChange={(e) => e.target.files && addFiles(e.target.files)}
+              />
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#2563EB] text-white shadow-md">
+                <Plus className="h-6 w-6" />
+              </div>
+              <span className="mt-2 text-[11px] font-bold text-[#5a5a66]">Add More</span>
+            </label>
+          )}
+        </div>
+      </div>
+    </ToolWorkspace>
   );
 }
 
