@@ -339,8 +339,11 @@ export function CompressImageTool() {
     const done = rows.filter(r => r.status === 'done').length;
     const active = rows.find(r => ['uploading', 'converting', 'downloading'].includes(r.status));
     const activeName = active?.file.name || '';
-    const activePhase = active?.status || 'Processing';
+    const activePhase = active?.status === 'uploading' ? 'Uploading' : 
+                       active?.status === 'converting' ? 'Optimizing' : 
+                       active?.status === 'downloading' ? 'Downloading' : 'Processing';
     const activePercent = active?.percent || 0;
+    const isIndeterminate = active?.status === 'converting' || (active?.status === 'uploading' && active.percent === null);
 
     return (
       <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white/95 backdrop-blur-sm">
@@ -363,10 +366,10 @@ export function CompressImageTool() {
                 cy="80"
               />
               <circle
-                className="text-[#2563EB] transition-all duration-500 ease-in-out"
+                className={`text-[#2563EB] transition-all duration-500 ease-in-out ${isIndeterminate ? 'animate-[pulse_1.5s_infinite]' : ''}`}
                 strokeWidth="8"
                 strokeDasharray={440}
-                strokeDashoffset={440 - (440 * (done / total))}
+                strokeDashoffset={isIndeterminate ? 110 : 440 - (440 * (done / total))}
                 strokeLinecap="round"
                 stroke="currentColor"
                 fill="transparent"
@@ -376,18 +379,27 @@ export function CompressImageTool() {
               />
             </svg>
             <div className="absolute flex flex-col items-center justify-center">
-              <span className="text-4xl font-bold text-[#33333c]">{Math.round((done / total) * 100)}%</span>
+              {isIndeterminate ? (
+                <Loader2 className="h-10 w-10 animate-spin text-[#2563EB]" />
+              ) : (
+                <span className="text-4xl font-bold text-[#33333c]">{Math.round((done / total) * 100)}%</span>
+              )}
             </div>
           </div>
           
-          <div className="max-w-xs space-y-2">
+          <div className="max-w-xs space-y-2 mx-auto">
             <p className="text-lg font-medium text-[#33333c]">
-              Compressing {done + (active ? 1 : 0)} of {total} images
+              {isIndeterminate ? `Processing...` : `Compressing ${done + (active ? 1 : 0)} of ${total} images`}
             </p>
             {active && (
-              <p className="text-sm text-[#5a5a66] truncate">
-                {activePhase}: {activeName} ({Math.round(activePercent)}%)
-              </p>
+              <div className="flex flex-col items-center gap-1">
+                <p className="text-sm text-[#5a5a66] truncate max-w-full px-4">
+                  {activeName}
+                </p>
+                <p className="text-xs font-bold text-[#2563EB] uppercase tracking-wider">
+                  {activePhase} {!isIndeterminate && activePercent > 0 ? `${Math.round(activePercent)}%` : ''}
+                </p>
+              </div>
             )}
           </div>
 
