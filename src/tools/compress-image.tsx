@@ -193,8 +193,8 @@ export function CompressImageTool() {
 
     return (
       <ToolSuccessScreen
-        message="Images Compressed!"
-        stats={`You saved ${formatBytes(totalOriginal - totalCompressed)} (${savedPct}% smaller).`}
+        heading="Images Compressed!"
+        subheading={`You saved ${formatBytes(totalOriginal - totalCompressed)} (${savedPct}% smaller).`}
         onDownload={handleDownloadAll}
         onReset={() => {
           rows.forEach(r => r.previewUrl && URL.revokeObjectURL(r.previewUrl));
@@ -202,6 +202,16 @@ export function CompressImageTool() {
           setSuccess(false);
         }}
         downloadLabel={rows.length > 1 ? "Download All (ZIP)" : "Download Image"}
+        suggestedSlugs={["resize-image", "crop-image", "webp-to-jpg"]}
+        trustBadge={
+          <div
+            className="flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-[13px] font-semibold"
+            style={{ backgroundColor: "#eef4ff", color: "#254a9e" }}
+          >
+            <CheckCircle2 className="h-4 w-4" />
+            Your images were professionally compressed using our high-performance cloud engine.
+          </div>
+        }
       />
     );
   }
