@@ -391,7 +391,6 @@ export function CompressImageTool() {
                 fill="transparent"
                 r="70"
                 cx="80"
-                cx="80"
                 cy="80"
               />
             </svg>
