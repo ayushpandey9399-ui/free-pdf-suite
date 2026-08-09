@@ -358,8 +358,8 @@ export function CompressImageTool() {
     const activePhase = active?.status === 'uploading' ? 'Uploading' : 
                        active?.status === 'converting' ? 'Optimizing' : 
                        active?.status === 'downloading' ? 'Downloading' : 'Processing';
-    const activePercent = active?.percent || 0;
-    const isIndeterminate = active?.status === 'converting' || (active?.status === 'uploading' && active.percent === null);
+    const activePercent = active?.percent ?? null;
+    const isIndeterminate = active?.status === 'converting' || (active?.status === 'uploading' && activePercent === null);
 
     return (
       <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white/95 backdrop-blur-sm">
