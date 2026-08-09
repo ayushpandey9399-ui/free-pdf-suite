@@ -96,11 +96,15 @@ export function JpgToPngTool() {
     if (!list.length) return;
     setRows((prev) => [
       ...prev,
-      ...list.map((f) => ({
-        id: `${++idRef.current}-${f.name}`,
-        file: f,
-        status: "pending" as const,
-      })),
+      ...list.map((f) => {
+        const previewUrl = URL.createObjectURL(f);
+        return {
+          id: `${++idRef.current}-${f.name}`,
+          file: f,
+          status: "pending" as const,
+          previewUrl,
+        };
+      }),
     ]);
   }, []);
 
@@ -123,18 +127,22 @@ export function JpgToPngTool() {
 
     for (const row of rows) {
       if (row.status === "done") continue;
+      
+      // Cleanup existing input preview if we're replacing it with a result preview
+      if (row.previewUrl) URL.revokeObjectURL(row.previewUrl);
+
       setRows((prev) =>
-        prev.map((r) => (r.id === row.id ? { ...r, status: "converting" } : r)),
+        prev.map((r) => (r.id === row.id ? { ...r, status: "converting", previewUrl: undefined } : r)),
       );
       try {
         const blob = await jpgToPng(row.file);
         const base = row.file.name.replace(/\.(jpg|jpeg)$/i, "");
         const outName = `${base}.png`;
-        const previewUrl = URL.createObjectURL(blob);
+        const outPreviewUrl = URL.createObjectURL(blob);
         setRows((prev) =>
           prev.map((r) =>
             r.id === row.id
-              ? { ...r, status: "done", outBlob: blob, previewUrl, outName }
+              ? { ...r, status: "done", outBlob: blob, previewUrl: outPreviewUrl, outName }
               : r,
           ),
         );

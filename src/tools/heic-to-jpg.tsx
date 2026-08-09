@@ -51,11 +51,16 @@ export function HeicToJpgTool() {
     if (!list.length) return;
     setRows((prev) => [
       ...prev,
-      ...list.map((f) => ({
-        id: `${++idRef.current}-${f.name}`,
-        file: f,
-        status: "pending" as const,
-      })),
+      ...list.map((f) => {
+        // We can't preview HEIC directly in most browsers, but we'll add the logic
+        // for when browsers do support it or for other tools.
+        // For HEIC, it will likely show the "HEIC" placeholder until converted.
+        return {
+          id: `${++idRef.current}-${f.name}`,
+          file: f,
+          status: "pending" as const,
+        };
+      }),
     ]);
   }, []);
 
@@ -79,8 +84,12 @@ export function HeicToJpgTool() {
 
     for (const row of rows) {
       if (row.status === "done") continue;
+      
+      // Cleanup existing preview if any
+      if (row.previewUrl) URL.revokeObjectURL(row.previewUrl);
+
       setRows((prev) =>
-        prev.map((r) => (r.id === row.id ? { ...r, status: "converting" } : r)),
+        prev.map((r) => (r.id === row.id ? { ...r, status: "converting", previewUrl: undefined } : r)),
       );
       try {
         const result = await heic2any({
