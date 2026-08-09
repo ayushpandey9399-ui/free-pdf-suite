@@ -85,7 +85,7 @@ function Home() {
       <section className="relative overflow-hidden">
         {/* Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.
                                             
-                                            jpg to png work kr rha hai ager ni kr rha hai to sab kuch sahi krke working conditon me lao and hard test kro ki har type ka jpg image png e convert ho jaye */}
+                                            Ye dikh ku ni rha hai photo upload ke baad */}
         <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 pt-10 pb-0 text-center">
           <h1
             className="mx-auto max-w-[900px] font-extrabold text-[32px] sm:text-[42px] lg:text-[48px] leading-[1.08]"
