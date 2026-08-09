@@ -85,15 +85,21 @@ function Home() {
       <section className="relative overflow-hidden">
         {/* Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.
                                             
-                                            Upgrade the Compress Image tool to follow the same professional workflow as iLoveIMG Compress Image.
+                                            Now complete the next stage of the Compress Image workflow and make it behave like a real production image compressor, following the iLoveIMG-style sequence.
 
-After the user selects or drops images, do NOT immediately compress them. First open a dedicated compression workspace screen. Show all uploaded images as clean thumbnail cards with filename, file type, original file size, and a remove/delete button. Add a circular blue “+” button to add more images. Keep the workspace clean with a large left/center canvas area and a right-side settings/action panel.
+When the user clicks “Compress IMAGES”, first navigate to a dedicated processing screen. Show the product logo/brand at the top, the heading “Compressing images...” and a large circular animated progress indicator in the center. Show the current processing status and progress percentage/count, for example “Compressing 1 of 5 images”. The screen must remain visible until the real backend compression request has completed. Do not use fake timers or simulated success.
 
-The right panel should have the heading “Compress images” and a short information box saying that all images will be compressed while maintaining the best possible quality and file-size ratio. At the bottom of the panel add a large primary button “Compress IMAGES” with an arrow/download-style icon.
+Connect this flow properly to the existing `api.freepdfhub.in` compression API. Send the selected images to the backend, process the complete batch, correctly handle API errors, timeouts, malformed responses, and partial failures, and only show the success screen after the backend has actually returned the compressed files. Preserve the original filenames where possible.
 
-Support JPG, JPEG, PNG, WEBP, SVG and GIF where technically possible. Allow multiple images in one batch, drag-and-drop upload, and adding more images after the first upload. Show proper loading states and validation for unsupported files or oversized files.
+After successful compression, navigate to a professional results screen matching the iLoveIMG-style experience. Show the heading “Your images have been compressed!” and a large primary button “Download compressed IMAGES”. Display the original total size, compressed total size, exact amount saved, and percentage saved. Calculate these values from the actual files returned by the backend — never hardcode them.
 
-Do not change the existing website branding unnecessarily. Make this screen feel like a polished $10,000 SaaS product: clean spacing, subtle borders/shadows, professional typography, responsive layout, and smooth transitions. Most importantly, the Compress IMAGES button must trigger the real backend compression process, not a frontend mock. */}
+Below the result, show a clean “Continue to...” section with actions such as “Resize IMAGE”, “Crop IMAGE”, “Rotate IMAGE”, “Convert to JPG”, and “Watermark IMAGE”, using the existing routes/tools in the project. Add a clear option to return to the compression workspace and add/process more images.
+
+The Download button must download the actual compressed output. If multiple files are returned, package them into a ZIP on the backend or use the existing backend download/ZIP mechanism. Do not create fake download links or placeholder files.
+
+Add robust error handling: if compression fails, show a professional error state with the actual reason when available and a “Try Again” action that does not require the user to re-upload everything. Keep the UI responsive and polished throughout the entire process.
+
+Match the visual hierarchy and interaction quality of the iLoveIMG workflow shown in the reference screenshots: minimal background, centered processing state, large blue primary actions, clean result statistics, generous spacing, subtle shadows, and professional responsive design. */}
         <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 pt-10 pb-0 text-center">
           <h1
             className="mx-auto max-w-[900px] font-extrabold text-[32px] sm:text-[42px] lg:text-[48px] leading-[1.08]"
