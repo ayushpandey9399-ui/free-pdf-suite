@@ -102,20 +102,29 @@ export function requestCompressImage(
       }
       
       if (xhr.status < 200 || xhr.status >= 300) {
-        const msg = payload?.message || payload?.error || `Server returned ${xhr.status}`;
-        reject(new CompressImageError(xhr.status, msg));
+        // Try to read the error reason from the API error envelope
+        const error = payload?.error;
+        const reason = error?.details?.reason;
+        const serverMsg = error?.message || payload?.message || payload?.error || `HTTP ${xhr.status}`;
+        
+        const friendlyMsg = reason === "INVALID_FILE" || reason === "INVALID_FORMAT" 
+          ? "That file format is not supported for compression." 
+          : reason === "CONVERSION_FAILED" 
+            ? "We could not compress this image. It may be corrupted or too complex."
+            : `Compression service returned HTTP ${xhr.status}: ${serverMsg}`;
+            
+        reject(new CompressImageError(xhr.status, friendlyMsg));
         if (isDev) console.groupEnd();
         return;
       }
       
-      // Handle the specific structure returned by api.freepdfhub.in
-      // If the backend returns { download: { url: ... } } or just { url: ... }
-      const download = payload?.download || payload;
-      const url = download?.url || payload?.url;
+      // The API returns { download: { url, filename, contentType, sizeBytes }, metrics: { ... } }
+      const download = payload?.download;
+      const url = download?.url;
 
       if (!url) {
         if (isDev) console.error("[CompressAPI] Missing URL in response", payload);
-        reject(new CompressImageError(500, "Invalid response from server (missing download URL)"));
+        reject(new CompressImageError(500, "Compression service returned an unexpected response. Please try again."));
         if (isDev) console.groupEnd();
         return;
       }
@@ -127,9 +136,9 @@ export function requestCompressImage(
       
       resolve({
         url: url,
-        filename: download.filename || payload.filename || "compressed-image",
-        contentType: download.contentType || payload.contentType || "application/octet-stream",
-        sizeBytes: download.sizeBytes || payload.sizeBytes || 0
+        filename: download.filename || "compressed-image",
+        contentType: download.contentType || "application/octet-stream",
+        sizeBytes: download.sizeBytes || 0
       });
     };
 
