@@ -113,7 +113,7 @@ The result page should visually match a premium SaaS product: clean white cards,
 
 Do not use fake data anywhere. Every filename, thumbnail, file size, percentage and download action must come from the actual compression result.
 
-IMPORTANT: Fixed the compression workflow processing hang. The frontend now properly awaits backend responses, handles timeouts, and provides real progress logging in development mode. Multipart field name "file" is verified for api.freepdfhub.in. इंडीकेटर्स show accurate status instead of remaining at 0% forever. */}
+IMPORTANT: Corrected the API response parsing to strictly match the `api.freepdfhub.in` contract (nested `download` object). Enhanced error handling to surface safe, human-readable messages from the backend error envelope while maintaining a professional debug log in development mode. */}
         <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 pt-10 pb-0 text-center">
           <h1
             className="mx-auto max-w-[900px] font-extrabold text-[32px] sm:text-[42px] lg:text-[48px] leading-[1.08]"
