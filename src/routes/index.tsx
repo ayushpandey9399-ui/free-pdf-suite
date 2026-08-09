@@ -85,7 +85,15 @@ function Home() {
       <section className="relative overflow-hidden">
         {/* Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.
                                             
-                                            Ye dikh ku ni rha hai photo upload ke baad */}
+                                            Upgrade the Compress Image tool to follow the same professional workflow as iLoveIMG Compress Image.
+
+After the user selects or drops images, do NOT immediately compress them. First open a dedicated compression workspace screen. Show all uploaded images as clean thumbnail cards with filename, file type, original file size, and a remove/delete button. Add a circular blue “+” button to add more images. Keep the workspace clean with a large left/center canvas area and a right-side settings/action panel.
+
+The right panel should have the heading “Compress images” and a short information box saying that all images will be compressed while maintaining the best possible quality and file-size ratio. At the bottom of the panel add a large primary button “Compress IMAGES” with an arrow/download-style icon.
+
+Support JPG, JPEG, PNG, WEBP, SVG and GIF where technically possible. Allow multiple images in one batch, drag-and-drop upload, and adding more images after the first upload. Show proper loading states and validation for unsupported files or oversized files.
+
+Do not change the existing website branding unnecessarily. Make this screen feel like a polished $10,000 SaaS product: clean spacing, subtle borders/shadows, professional typography, responsive layout, and smooth transitions. Most importantly, the Compress IMAGES button must trigger the real backend compression process, not a frontend mock. */}
         <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 pt-10 pb-0 text-center">
           <h1
             className="mx-auto max-w-[900px] font-extrabold text-[32px] sm:text-[42px] lg:text-[48px] leading-[1.08]"

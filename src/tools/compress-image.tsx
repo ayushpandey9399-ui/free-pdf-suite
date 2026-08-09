@@ -193,8 +193,8 @@ export function CompressImageTool() {
 
     return (
       <ToolSuccessScreen
-        title="Images Compressed!"
-        description={`You saved ${formatBytes(totalOriginal - totalCompressed)} (${savedPct}% smaller).`}
+        message="Images Compressed!"
+        stats={`You saved ${formatBytes(totalOriginal - totalCompressed)} (${savedPct}% smaller).`}
         onDownload={handleDownloadAll}
         onReset={() => {
           rows.forEach(r => r.previewUrl && URL.revokeObjectURL(r.previewUrl));
