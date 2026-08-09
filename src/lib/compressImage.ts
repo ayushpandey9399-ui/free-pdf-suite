@@ -76,13 +76,19 @@ export function requestCompressImage(
 
     xhr.onerror = () => {
       done();
-      if (isDev) console.error("[CompressAPI] Network error");
+      if (isDev) {
+        console.error("[CompressAPI] Network error");
+        console.groupEnd();
+      }
       reject(new CompressImageError("network"));
     };
     
     xhr.ontimeout = () => {
       done();
-      if (isDev) console.error("[CompressAPI] Timeout");
+      if (isDev) {
+        console.error("[CompressAPI] Timeout");
+        console.groupEnd();
+      }
       reject(new CompressImageError("network", "The request timed out. Please try a smaller image."));
     };
 
@@ -106,7 +112,8 @@ export function requestCompressImage(
       
       if (xhr.status < 200 || xhr.status >= 300) {
         const error = payload?.error;
-        const reason = error?.details?.reason;
+        const details = error?.details || payload?.details;
+        const reason = details?.reason || error?.reason;
         const serverMsg = error?.message || payload?.message || payload?.error || `HTTP ${xhr.status}`;
         
         let friendly: string;
@@ -126,7 +133,7 @@ export function requestCompressImage(
       }
       
       const download = payload?.download;
-      const url = download?.url;
+      const url = download?.url || payload?.url;
 
       if (typeof url !== "string" || url.length === 0) {
         if (isDev) console.error("Missing download URL in success payload");
@@ -142,9 +149,9 @@ export function requestCompressImage(
       
       resolve({
         url: url,
-        filename: download.filename || "compressed-image",
-        contentType: download.contentType || "application/octet-stream",
-        sizeBytes: download.sizeBytes || 0
+        filename: download?.filename || payload?.filename || "compressed-image",
+        contentType: download?.contentType || payload?.contentType || "application/octet-stream",
+        sizeBytes: download?.sizeBytes || payload?.sizeBytes || 0
       });
     };
 
