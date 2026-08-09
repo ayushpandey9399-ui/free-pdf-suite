@@ -176,7 +176,7 @@ export function CompressImageTool() {
         toast.info("Compression cancelled");
       } else {
         console.error("Compression loop error:", err);
-        toast.error("An unexpected error occurred. Please try again.");
+        toast.error(err.message || "An unexpected error occurred. Please try again.");
       }
     } finally {
       setRunning(false);
