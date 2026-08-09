@@ -86,33 +86,36 @@ export function CompressImageTool() {
     
     setRunning(true);
     
-    // UI: Navigate/Transition to a dedicated processing overlay or state
-    // We keep the ToolWorkspace but override visual state for a dedicated "Processing" view
-    
+    // UI: Transition to a dedicated processing overlay
     abortControllerRef.current = new AbortController();
     
     try {
-      // Process all files in parallel with proper backend orchestration
-      await Promise.all(rows.map(async (row) => {
-        if (row.status === "done") return;
+      // Process all files sequentially to ensure progress UI reflects each stage correctly
+      const results: Row[] = [];
+      
+      for (const row of rows) {
+        if (row.status === "done") {
+          results.push(row);
+          continue;
+        }
 
-        setRows(prev => prev.map(r => r.id === row.id ? { ...r, status: "uploading", percent: 0 } : r));
+        setRows(prev => prev.map(r => r.id === row.id ? { ...r, status: "uploading" as const, percent: 0 } : r));
 
         try {
           const ready = await requestCompressImage(
             { file: row.file },
             {
-              signal: abortControllerRef.current!.signal,
+              signal: abortControllerRef.current.signal,
               onProgress: (p) => {
                 setRows(prev => prev.map(r => r.id === row.id ? { ...r, status: p.phase, percent: p.percent } : r));
               }
             }
           );
 
-          setRows(prev => prev.map(r => r.id === row.id ? { ...r, status: "downloading", percent: 0 } : r));
+          setRows(prev => prev.map(r => r.id === row.id ? { ...r, status: "downloading" as const, percent: 0 } : r));
 
           const blob = await fetchCompressImageResult(ready, {
-            signal: abortControllerRef.current!.signal,
+            signal: abortControllerRef.current.signal,
             onProgress: (pct) => {
               setRows(prev => prev.map(r => r.id === row.id ? { ...r, percent: pct } : r));
             }
@@ -127,30 +130,42 @@ export function CompressImageTool() {
 
           const previewUrl = URL.createObjectURL(blob);
           
-          setRows(prev => prev.map(r => {
-            if (r.id !== row.id) return r;
-            if (r.previewUrl) URL.revokeObjectURL(r.previewUrl);
-            return {
-              ...r,
-              status: "done",
-              percent: 100,
-              outBlob: blob,
-              outName,
-              outSize: blob.size,
-              savedPct,
-              previewUrl,
-            };
-          }));
+          let updatedRow: Row | undefined;
+          setRows(prev => {
+            const updated = prev.map(r => {
+              if (r.id !== row.id) return r;
+              if (r.previewUrl) URL.revokeObjectURL(r.previewUrl);
+              return {
+                ...r,
+                status: "done" as const,
+                percent: 100,
+                outBlob: blob,
+                outName,
+                outSize: blob.size,
+                savedPct,
+                previewUrl,
+              };
+            });
+            updatedRow = updated.find(x => x.id === row.id);
+            return updated;
+          });
+          if (updatedRow) results.push(updatedRow);
         } catch (err: any) {
           if (err.name === 'AbortError') throw err;
           
-          setRows(prev => prev.map(r => 
-            r.id === row.id ? { ...r, status: "error", error: err.message || "Failed" } : r
-          ));
+          let erroredRow: Row | undefined;
+          setRows(prev => {
+            const updated = prev.map(r => 
+              r.id === row.id ? { ...r, status: "error" as const, error: err.message || "Failed" } : r
+            );
+            erroredRow = updated.find(x => x.id === row.id);
+            return updated;
+          });
+          if (erroredRow) results.push(erroredRow);
         }
-      }));
+      }
 
-      if (rows.every(r => r.status === "done")) {
+      if (results.every(r => r.status === "done")) {
         setSuccess(true);
         toast.success("All images compressed successfully!");
       } else {
@@ -161,6 +176,7 @@ export function CompressImageTool() {
         toast.info("Compression cancelled");
       } else {
         console.error("Compression loop error:", err);
+        toast.error("An unexpected error occurred. Please try again.");
       }
     } finally {
       setRunning(false);
