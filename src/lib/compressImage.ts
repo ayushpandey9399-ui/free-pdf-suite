@@ -171,7 +171,7 @@ export async function fetchCompressImageResult(
   }
 
   const reader = body.getReader();
-  const chunks: Uint8Array[] = [];
+  const chunks: any[] = [];
   let loaded = 0;
   
   for (;;) {
