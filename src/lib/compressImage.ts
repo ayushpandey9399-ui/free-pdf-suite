@@ -136,10 +136,14 @@ export function requestCompressImage(
     };
 
     const form = new FormData();
-    // Re-verify the field name used by the backend. Most use 'file'.
-    form.append("file", request.file, request.file.name);
+    // The backend for compress-image expects the field name to be 'file'
+    // but let's be extra careful about how it's appended.
+    form.append("file", request.file);
+    
+    console.log("[CompressAPI] FormData prepared with file field. Size:", request.file.size);
     
     try {
+      console.log("[CompressAPI] Sending request to:", COMPRESS_IMAGE_ENDPOINT);
       xhr.send(form);
     } catch (err) {
       console.error("[CompressAPI] XHR send failed immediately:", err);
