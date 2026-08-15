@@ -137,11 +137,13 @@ const related = [
 export function GrayscalePdfSeo() {
   return (
     <section className="mx-auto max-w-4xl px-4 pb-16 text-[#33333c]">
-
-      {/* How-to */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         How to convert a PDF to grayscale online for free
       </h2>
+      <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
+        Need to make a PDF black and white to save ink or meet submission requirements? 
+        Our online converter renders each page in true grayscale directly in your browser.
+      </p>
       <ol className="mt-5 space-y-4">
         {steps.map((s, i) => (
           <li key={i} id={`step-${i + 1}`} className="flex gap-4">
@@ -156,66 +158,22 @@ export function GrayscalePdfSeo() {
         ))}
       </ol>
 
-      {/* Save ink, shrink scans, print cleaner */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Save ink, shrink scans, print cleaner
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        Color pages drain the most expensive cartridges on any printer even when the color adds
-        nothing meaningful to the content, a stray header band, a company logo in the corner, a
-        chart no one reads on paper. Converting to grayscale before printing means the printer
-        treats every page as black and white, and the color cartridges stay untouched for the jobs
-        that actually need them.
+        Color pages drain expensive cartridges even when the color is just a tiny logo or header. 
+        Converting to grayscale ensures your printer treats every page as black and white, 
+        saving your color ink for documents that actually need it.
       </p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        Colorful scans and photo-heavy PDFs also get significantly lighter as grayscale because
-        each pixel drops from three color channels to one, and pairing this pass with{" "}
-        <Link to="/tools/$slug" params={{ slug: "compress" }} className="text-[#e5322d] underline">
-          Compress PDF
-        </Link>{" "}
-        squeezes out the last bit of size for mailbox and portal limits. On top of that, documents
-        simply look cleaner once the stray color casts from phone-camera scans, the yellows, the
-        greens, the blues, are gone and every page reads as neutral, professional black and white.
+        Phone-camera scans often have yellow or blue color casts. Grayscaling collapses those 
+        into neutral tones, making the document look like it came off a professional scanner.
       </p>
 
-      {/* Ink vs toner + readability */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Ink, toner and when grayscale actually helps readability
+        Why use FreePDFHub for grayscale conversion?
       </h2>
-      <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        The print-cost story differs by printer. On inkjet printers colour cartridges are the most
-        expensive consumable per page and are consumed even by tiny logos and header bands , 
-        grayscaling the PDF first stops the printer from touching cyan, magenta or yellow at all,
-        which is where most of the running cost sits. On laser printers the same page prints from
-        the black toner cartridge exclusively, so a heavy report finishes faster and colour toner
-        is reserved for the jobs that genuinely need it.
-      </p>
-      <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        Grayscale can also help readability in specific cases. Low-contrast coloured text on a
-        coloured background, pastel-on-pastel tables, red text on a green highlight, often reads
-        better once the hues collapse into neutral tones and the eye stops fighting the clash. For
-        readers with colour-vision differences, converting a colour-coded document to grayscale
-        turns colour distinctions into shade distinctions and quickly reveals any place where the
-        original design relied on hue alone to convey meaning.
-      </p>
-
-      {/* Privacy differentiator */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Private conversion, your documents stay with you
-      </h2>
-      <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        Grayscale conversion is often the last step before a personal document goes somewhere it
-        can't be taken back, a portal upload, a court submission, a scanned ID sent to a landlord.
-        This tool re-renders every page inside your browser tab using pdf.js and pdf-lib, so
-        nothing about the file is transmitted anywhere, and nothing about it is logged on our side.
-      </p>
-      <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        Once the page has loaded you can disconnect your network and the whole flow, preview,
-        conversion and download, keeps working. The document you convert is the document you
-        keep.
-      </p>
-
-      {/* Four benefits */}
       <div className="mt-10 grid gap-6 sm:grid-cols-2">
         {benefits.map((b) => (
           <div key={b.h}>
@@ -225,9 +183,8 @@ export function GrayscalePdfSeo() {
         ))}
       </div>
 
-      {/* Scenarios */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        When do you need a grayscale PDF?
+        Common scenarios for grayscale PDFs
       </h2>
       <div className="mt-6 space-y-5">
         {scenarios.map((s) => (
@@ -238,7 +195,6 @@ export function GrayscalePdfSeo() {
         ))}
       </div>
 
-      {/* FAQ */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Frequently asked questions
       </h2>
@@ -254,7 +210,6 @@ export function GrayscalePdfSeo() {
         ))}
       </div>
 
-      {/* Related */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Related PDF tools
       </h2>
