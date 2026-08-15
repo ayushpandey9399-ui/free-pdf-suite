@@ -43,11 +43,11 @@ const benefits = [
 const scenarios = [
   {
     h: "Reviewing a returned contract draft",
-    p: "You emailed a draft, the other side sent one back marked 'a few small edits', but which ones? Drop both PDFs into the tool, wait for the analysis and jump straight to the pages that changed instead of re-reading the whole contract clause by clause looking for a rewritten sentence.",
+    p: "You emailed a draft, the other side sent one back marked 'a few small edits', but which ones? Drop both PDFs into the tool, wait for the analysis and jump straight to the pages that changed instead of re-reading the whole contract clause by clause. It's the perfect PDF difference checker for legal professionals.",
   },
   {
     h: "Checking a revised quotation or invoice",
-    p: "A supplier sends a new quote after a call and says only the delivery date moved. Compare the two PDFs to confirm no line item, unit price, tax rate or payment term quietly changed at the same time, the flagged-page count tells you at a glance whether the note was accurate.",
+    p: "A supplier sends a new quote after a call and says only the delivery date moved. Compare the two PDFs to confirm no line item, unit price, tax rate or payment term quietly changed at the same time. This side-by-side comparison tells you at a glance whether the note was accurate.",
   },
   {
     h: "Verifying the final version before signing",
@@ -61,56 +61,36 @@ const scenarios = [
 
 const faqs = [
   {
-    q: "How do I compare two PDF files for free?",
+    q: "How do I compare two PDF files online for free?",
     a: "Open this page, upload the original PDF on the left and the revised PDF on the right, then wait a few seconds while the tool extracts the text of every page. When the header stops saying Comparing… it shows a summary like 4 of 32 pages differ, and the Visual Compare view marks every changed page with a red Differences detected banner. No account, no card, no watermark.",
   },
   {
-    q: "Are my files uploaded to a server?",
-    a: "No. Both PDFs are opened, rendered, text-extracted and compared entirely inside your browser tab using PDF.js and jsdiff. There is no upload endpoint, no queue and no server-side processing, so neither the original file, the revised file nor the extracted text ever leaves your device.",
+    q: "Is there a safe way to compare PDF documents online?",
+    a: "Yes, our tool is designed for privacy. Unlike other sites, we don't upload your files to a server. The side-by-side comparison and text diffing happen entirely in your browser, ensuring your sensitive contracts and documents stay 100% private.",
   },
   {
-    q: "What kinds of changes does it detect?",
-    a: "The comparison reads the actual text layer of each page and flags any page whose text no longer matches the other side. That covers edited sentences, changed numbers, swapped names and dates, inserted or removed paragraphs, and reordered content. Purely visual edits that do not touch the text, a repositioned logo, a colour change on a shape, will not flip a page as different on their own.",
+    q: "What kinds of changes does the PDF difference checker detect?",
+    a: "The comparison reads the actual text layer of each page and flags any page whose text no longer matches the other side. That covers edited sentences, changed numbers, swapped names and dates, inserted or removed paragraphs, and reordered content. Purely visual edits that do not touch the text (like a repositioned logo) are not flagged.",
   },
   {
-    q: "Does it show exactly which words changed?",
-    a: "Yes, in Text Diff mode. Visual Compare is the page-level view: it tells you which pages differ and shows them side by side so you can read the changes in context. Switch to the Text Diff tab and both PDFs are merged into a single word-level diff, added text highlighted green, removed text highlighted red, unchanged lines in grey, so you can see the exact edits without re-scanning each page.",
+    q: "Does it show exactly which words changed between the two PDFs?",
+    a: "Yes, in Text Diff mode. Visual Compare is the page-level view that shows them side by side. Switch to the Text Diff tab and both PDFs are merged into a single word-level diff, added text highlighted green, removed text highlighted red, and unchanged lines in grey.",
   },
   {
     q: "Can I compare PDFs with different page counts?",
-    a: "Yes. If the left PDF has 28 pages and the right has 32, the tool compares pages 1 to 28 as the overlapping range and lists pages 29 to 32 separately as existing only in the second document. The summary and the flagged-page count refer to the overlap, and the extra pages are still visible in the side-by-side view so you can review what was added.",
-  },
-  {
-    q: "Can I compare scanned PDFs?",
-    a: "Only if the scans contain a text layer (for example, they were run through OCR before saving). This tool compares extracted text, and a pure image-only scan has no text to compare, so every page will appear identical or empty on both sides. If you need to compare raw scans, first run each through an OCR step so a text layer exists.",
-  },
-  {
-    q: "Is there a page limit?",
-    a: "There is no artificial page cap. Pages are rendered lazily as you scroll and no more than two render at the same time, so a several-hundred-page PDF stays responsive rather than freezing the tab. The practical ceiling is your device's memory, very large or image-heavy PDFs on a low-RAM phone will feel slower than on a desktop.",
-  },
-  {
-    q: "Can I compare PDFs on my phone?",
-    a: "Yes. The comparison workspace runs in mobile browsers the same way it does on desktop, pick both files, watch the progress counter, then swipe through the side-by-side view. Wide PDFs will need horizontal scrolling on a narrow screen, but every feature including Text Diff is available.",
-  },
-  {
-    q: "Can I compare password-protected PDFs?",
-    a: "Not directly. The tool detects a password-protected file when you upload it and asks you to unlock the PDF first. Run each file through the free Unlock PDF tool (linked in Related tools below) to strip the password, then bring the unlocked copies back here to compare, the unlock step also runs in-browser, so nothing gets uploaded at any stage.",
-  },
-  {
-    q: "Do I need Adobe Acrobat to compare PDFs?",
-    a: "No. Acrobat's Compare Files feature sits behind Acrobat Pro, and most online PDF comparison services either require signup or upload your files to their servers to run the diff. This page needs neither, it is free, works entirely inside the browser, and produces both a page-level Visual Compare and a word-level Text Diff without either PDF ever being transmitted.",
+    a: "Yes. If the left PDF has 28 pages and the right has 32, the tool compares pages 1 to 28 as the overlapping range and lists pages 29 to 32 separately as existing only in the second document. The extra pages are still visible in the side-by-side view for review.",
   },
 ];
 
 const related = [
   { to: "/tools/pdf-to-text", name: "PDF to Text", blurb: "Extract selectable text and download it as .txt." },
   { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Draw or type a signature and place it on any page." },
-  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDF files into one." },
   { to: "/tools/unlock-pdf", name: "Unlock PDF", blurb: "Remove a known password so the PDF opens freely." },
-  { to: "/tools/redact-pdf", name: "Redact PDF", blurb: "Permanently black out sensitive text and images." },
-  { to: "/tools/pdf-metadata", name: "PDF Metadata", blurb: "View and edit title, author, subject and keywords." },
-  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Make form fields and annotations permanent." },
-  { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Pull specific pages out as a brand-new PDF." },
+  { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Add a password to a PDF to secure your documents." },
+  { to: "/tools/add-blank-pages", name: "Add Blank Page to PDF", blurb: "Insert a blank page to a PDF at any position." },
+  { to: "/tools/extract-images", name: "Extract Images from PDF", blurb: "Pull embedded photos out of a PDF in original quality." },
+  { to: "/tools/images-to-pdf", name: "Convert Images to PDF", blurb: "Turn JPG or PNG images into a single PDF document." },
 ] as const;
 
 export function ComparePdfSeo() {
