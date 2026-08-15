@@ -116,11 +116,13 @@ const related = [
 export function ProtectPdfSeo() {
   return (
     <section className="mx-auto max-w-4xl px-4 pb-16 text-[#33333c]">
-
-      {/* How-to */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         How to password protect a PDF online for free
       </h2>
+      <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
+        Secure your sensitive documents with industry-standard AES-256 encryption. 
+        Our browser-based tool allows you to add a password to any PDF without ever uploading it to a server.
+      </p>
       <ol className="mt-5 space-y-4">
         {steps.map((s, i) => (
           <li key={i} id={`step-${i + 1}`} className="flex gap-4">
@@ -135,50 +137,24 @@ export function ProtectPdfSeo() {
         ))}
       </ol>
 
-      {/* Trust section */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Think about it: would you email someone your password?
+        Why use FreePDFHub to protect your PDF?
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        Every other online tool that offers to password-protect a PDF for you needs two things from
-        you: the document itself, and the password you want to lock it with. In other words, you
-        are handing a stranger's server both the secret and the thing the secret is meant to
-        protect, often the same password you reuse on other accounts because most people do.
-      </p>
-      <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        This tool does not ask for that trust because it does not need it. The PDF is opened in
-        your browser, the password stays in your browser, and the AES-256 encryption is performed
-        by a WebAssembly module running inside the same tab. The finished file appears in your
-        Downloads folder without a single byte of the document or a single character of the
-        password ever crossing the network.
-      </p>
-      <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        There is nothing to trust here, because there is nothing we ever receive. Open the
-        Network tab in your browser's developer tools while you protect a file if you want to see
-        for yourself: not a single request is made to our servers during the encryption.
+        Most online tools require you to upload your document and its intended password to their servers. 
+        FreePDFHub is different. The encryption happens entirely within your browser tab using WebAssembly. 
+        This means your document and your password never leave your device, ensuring 100% privacy for your most sensitive data.
       </p>
 
-      {/* Real encryption */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Real encryption, not a fake lock
+        Real AES-256 encryption for maximum security
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        The output is a genuine encrypted PDF with AES-256 applied, the strongest algorithm the
-        PDF specification defines and the same one Adobe Acrobat writes when you use its
-        password-protect feature. It is not a viewer-only overlay, a watermark, or a metadata flag
-        that pretends the file is locked. Open the protected PDF in Adobe Reader, Chrome, Preview
-        on macOS or a phone viewer and every one of them will refuse to render the first page
-        until the password is entered.
-      </p>
-      <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        Honest caveat: PDF encryption is only as strong as the password you pick. AES-256 itself is
-        unbreakable in any realistic sense, but a four-character dictionary word is guessed in
-        milliseconds by an off-the-shelf cracker. Choose something long (at least 12 characters),
-        unique to this file, and mixed enough that the strength meter shows Strong before you
-        commit to it.
+        The output is a standard encrypted PDF compatible with all major readers like Adobe Acrobat, 
+        Chrome, and mobile viewers. We use AES-256, the strongest algorithm defined in the PDF specification. 
+        Simply set a strong password, and your file is protected against unauthorized access.
       </p>
 
-      {/* Four benefits */}
       <div className="mt-10 grid gap-6 sm:grid-cols-2">
         {benefits.map((b) => (
           <div key={b.h}>
@@ -188,7 +164,6 @@ export function ProtectPdfSeo() {
         ))}
       </div>
 
-      {/* Scenarios */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         When should you password protect a PDF?
       </h2>
@@ -201,7 +176,6 @@ export function ProtectPdfSeo() {
         ))}
       </div>
 
-      {/* FAQ */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Frequently asked questions
       </h2>
@@ -217,7 +191,6 @@ export function ProtectPdfSeo() {
         ))}
       </div>
 
-      {/* Related */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Related PDF tools
       </h2>
