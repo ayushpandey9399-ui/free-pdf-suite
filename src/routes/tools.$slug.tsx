@@ -19,120 +19,120 @@ type ToolMeta = {
 // in toolSeoBundle so they never enter the critical route chunk.
 const TOOL_META: Record<string, ToolMeta> = {
   "merge": {
-    title: "Merge PDF Free, No Signup or Watermark | FreePDFHub",
-    desc: "Merge PDF files online free and combine multiple documents into one clean file. Works right in your browser with no signup and no watermark added.",
+    title: "Merge PDF Free, Combine Multiple Files Online | FreePDFHub",
+    desc: "Merge PDF files online free. Combine multiple documents into one clean file. Works right in your browser with no signup, no upload, and no watermark.",
   },
   "compress": {
-    title: "Compress PDF Online Free, No Watermark | FreePDFHub",
-    desc: "Compress PDF file size online free without losing quality. Shrink large scans and reports in your browser so they fit email limits and load faster.",
+    title: "Compress PDF Online, Reduce PDF Size Free | FreePDFHub",
+    desc: "Compress PDF file size online free without losing quality. Shrink large scans and reports in your browser to fit email limits and load faster, 100% private.",
   },
   "split": {
-    title: "Split PDF Free, No Signup or Watermark | FreePDFHub",
-    desc: "Split PDF into separate files or extract page ranges online free. Runs offline in your browser, so you can break up long documents without an account.",
+    title: "Split PDF Free, Extract Page Ranges Online | FreePDFHub",
+    desc: "Split PDF into separate files or extract page ranges online free. Runs offline in your browser, break up long documents without an account or upload.",
   },
   "sign-pdf": {
-    title: "Sign PDF Free in Your Browser, No Signup | FreePDFHub",
+    title: "Sign PDF Online Free, Add Signature to PDF | FreePDFHub",
     desc: "Sign PDF documents online free by drawing, typing, or uploading your signature. Place it anywhere on any page and download a signed copy in seconds.",
   },
   "pdf-to-images": {
-    title: "PDF to JPG Converter Free, No Signup Needed | FreePDFHub",
-    desc: "Convert PDF to JPG or PNG online free at high resolution. Each page becomes a separate image, processed in your browser with no signup required.",
+    title: "PDF to JPG Converter Free, High Quality Export | FreePDFHub",
+    desc: "Convert PDF to JPG or PNG online free at high resolution. Each page becomes a separate image, processed in your browser with no signup or upload required.",
   },
   "redact-pdf": {
-    title: "Redact PDF Free, Truly Private in Browser | FreePDFHub",
-    desc: "Redact PDF online free and permanently black out names, Aadhaar numbers, or account details. Text is truly removed from the file, not just covered.",
+    title: "Redact PDF Free, Permanently Black Out Text | FreePDFHub",
+    desc: "Redact PDF online free and permanently black out names, sensitive info, or account details. Text is truly removed from the file, not just covered.",
   },
   "protect-pdf": {
-    title: "Password Protect PDF Free, AES 256 Secure | FreePDFHub",
-    desc: "Password protect PDF online free with real AES-256 encryption. Set a password directly in your browser, so your file and password stay on your device.",
+    title: "Protect PDF with Password, Free AES-256 | FreePDFHub",
+    desc: "Password protect PDF online free with real AES-256 encryption. Set a password directly in your browser, your file and password stay on your device.",
   },
   "unlock-pdf": {
-    title: "Unlock PDF Free in Your Browser, No Signup | FreePDFHub",
-    desc: "Unlock a password protected PDF online free using the password you already know. Decryption runs in your browser with no account or upload needed.",
+    title: "Unlock PDF Free, Remove PDF Password Online | FreePDFHub",
+    desc: "Unlock a password protected PDF online free if you have the password. Decryption runs in your browser with no account or upload needed.",
   },
   "watermark": {
-    title: "Add Watermark to PDF Free, No Signup Needed | FreePDFHub",
-    desc: "Add a watermark to PDF online free. Stamp text like CONFIDENTIAL, DRAFT, or your brand across every page, with adjustable size, angle, and opacity.",
+    title: "Add Watermark to PDF Free, Online Tool | FreePDFHub",
+    desc: "Add a watermark to PDF online free. Stamp text like DRAFT or your brand across every page with adjustable size, angle, and opacity.",
   },
   "rotate": {
-    title: "Rotate PDF Pages Free, Save Permanently | FreePDFHub",
+    title: "Rotate PDF Pages Free, Permanently Save | FreePDFHub",
     desc: "Rotate PDF pages online free and save the change permanently. Fix sideways or upside-down pages one at a time or in bulk, right from your browser.",
   },
   "delete-pages": {
-    title: "Delete PDF Pages Free, No Signup Needed | FreePDFHub",
-    desc: "Delete pages from a PDF online free. Pick unwanted pages in the thumbnail view and download a clean copy of the document without them in seconds.",
+    title: "Delete PDF Pages Free, Remove Unwanted Pages | FreePDFHub",
+    desc: "Delete pages from a PDF online free. Pick unwanted pages in the thumbnail view and download a clean copy of the document in seconds.",
   },
   "extract-pages": {
-    title: "Extract PDF Pages Free, No Watermark Added | FreePDFHub",
+    title: "Extract PDF Pages Free, Save as New PDF | FreePDFHub",
     desc: "Extract pages from PDF online free and save any selection as a new document. Great for pulling one chapter or invoice out of a longer report.",
   },
   "reorder-pages": {
-    title: "Reorder PDF Pages Free, Drag and Drop | FreePDFHub",
-    desc: "Reorder PDF pages online free with drag and drop. Rearrange chapters, invoices, or scan sheets into the right order and download the updated file.",
+    title: "Reorder PDF Pages Free, Visual Drag & Drop | FreePDFHub",
+    desc: "Reorder PDF pages online free with drag and drop. Rearrange chapters or invoices into the right order and download the updated file instantly.",
   },
   "images-to-pdf": {
-    title: "JPG to PDF Converter Free, No Watermark | FreePDFHub",
-    desc: "Convert JPG or PNG images to PDF online free. Combine phone photos, screenshots, and scans into one tidy document with A4, Letter, or auto page sizes.",
+    title: "Convert JPG to PDF Online Free, No Upload | FreePDFHub",
+    desc: "Convert JPG or PNG images to PDF online free. Combine phone photos, screenshots, and scans into one tidy document. No upload, no signup, 100% private.",
   },
   "pdf-to-word": {
-    title: "PDF to Word Converter Free, No Signup | FreePDFHub",
-    desc: "Convert PDF to Word online free and get a fully editable DOCX file. Headings, tables, and images are preserved, and your upload is deleted right after.",
+    title: "Convert PDF to Word Free, Editable DOCX | FreePDFHub",
+    desc: "Convert PDF to Word online free and get a fully editable DOCX file. Headings, tables, and images are preserved, processed 100% in your browser.",
   },
   "pdf-to-text": {
-    title: "PDF to Text Free, Copy or Download TXT | FreePDFHub",
+    title: "PDF to Text Free, Extract PDF Content | FreePDFHub",
     desc: "Extract text from PDF online free. Copy the full contents to your clipboard or download a clean .txt file, all processed locally in your browser.",
   },
   "txt-to-pdf": {
-    title: "TXT to PDF Free, Unicode and Hindi Ready | FreePDFHub",
-    desc: "Convert TXT to PDF online free with clean typography and proper page breaks. Supports Hindi, Tamil, Arabic, Chinese, and other non-Latin scripts.",
+    title: "Convert TXT to PDF Free, Unicode & Hindi | FreePDFHub",
+    desc: "Convert TXT to PDF online free with clean typography and proper page breaks. Supports Hindi, Tamil, Arabic, Chinese, and other scripts.",
   },
   "page-numbers": {
-    title: "Add Page Numbers to PDF Free, No Signup | FreePDFHub",
-    desc: "Add page numbers to PDF online free. Choose position, starting number, and format like 1 of 20 or Roman numerals, and preview before you download.",
+    title: "Add Page Numbers to PDF Free, Online Tool | FreePDFHub",
+    desc: "Add page numbers to PDF online free. Choose position, starting number, and format, and preview before you download.",
   },
   "header-footer": {
-    title: "Add Header and Footer to PDF Free, No Signup | FreePDFHub",
-    desc: "Add headers and footers to PDF online free. Print titles, dates, filenames, or page counts on every page with custom fonts and alignment options.",
+    title: "Add Header and Footer to PDF Free | FreePDFHub",
+    desc: "Add headers and footers to PDF online free. Print titles, dates, filenames, or page counts on every page with custom formatting.",
   },
   "crop": {
-    title: "Crop PDF Free with Live Preview in Browser | FreePDFHub",
-    desc: "Crop PDF online free to trim white margins or cut unwanted edges from scans. Live preview shows the exact crop box before you save the updated file.",
+    title: "Crop PDF Online Free, Live Browser Preview | FreePDFHub",
+    desc: "Crop PDF online free to trim white margins or cut unwanted edges from scans. Live preview shows the exact crop box before you save.",
   },
   "edit-pdf": {
-    title: "Edit PDF Text Free Right in Your Browser | FreePDFHub",
-    desc: "Edit existing PDF text in your browser. Click any line, retype it, and we match the original style. Also highlight, draw, and add images for free.",
+    title: "Edit PDF Text & Annotate Free Online | FreePDFHub",
+    desc: "Edit existing PDF text, highlight, draw, and add images free in your browser. Match original style. No upload required.",
   },
   "fill-forms": {
-    title: "Fill PDF Forms Free, No Signup or Upload | FreePDFHub",
-    desc: "Fill out PDF forms online free. Type into text fields, tick checkboxes, and pick options, then download the completed form ready to send or print.",
+    title: "Fill PDF Forms Online Free, No Signup | FreePDFHub",
+    desc: "Fill out PDF forms online free. Type into text fields, tick checkboxes, and pick options, then download the completed form.",
   },
   "flatten-pdf": {
-    title: "Flatten PDF Free, Lock Fields and Notes | FreePDFHub",
-    desc: "Flatten PDF online free to lock form fields and annotations into the page. Recipients can view but not change the answers, and printing stays sharp.",
+    title: "Flatten PDF Free, Lock Forms & Notes | FreePDFHub",
+    desc: "Flatten PDF online free to lock form fields and annotations into the page permanently.",
   },
   "pdf-metadata": {
     title: "Edit PDF Metadata Free, Clean Hidden Info | FreePDFHub",
-    desc: "View, edit, or remove PDF metadata online free including title, author, subject, and keywords. Clean hidden properties before sharing sensitive files.",
+    desc: "View, edit, or remove PDF metadata online free including title, author, and keywords. Clean hidden properties before sharing.",
   },
   "grayscale-pdf": {
-    title: "Grayscale PDF Free, Save Ink and File Size | FreePDFHub",
-    desc: "Convert PDF to grayscale online free. Turn color pages into clean black and white to save printer ink, shrink file size, and prep documents for print.",
+    title: "Convert PDF to Grayscale Free, Black and White | FreePDFHub",
+    desc: "Convert PDF to grayscale (black and white) online free. Save ink, reduce file size, and clean up scans with our browser-based PDF converter.",
   },
   "add-blank-pages": {
-    title: "Add Blank Pages to PDF Free, Any Position | FreePDFHub",
-    desc: "Insert blank pages into a PDF online free at any position. Add spacers between chapters, signature pages, or notes pages before you download.",
+    title: "Add Blank Page to PDF Online, Insert Spacers | FreePDFHub",
+    desc: "Insert blank pages into a PDF online free at any position. Add spacers between chapters or signature pages before you download.",
   },
   "scan-to-pdf": {
-    title: "Scan to PDF Free with Your Phone Camera | FreePDFHub",
-    desc: "Scan documents to PDF free with your phone camera, right in the browser. No app to install. Capture multiple pages and export them as a single PDF.",
+    title: "Scan to PDF Online Free, Use Phone Camera | FreePDFHub",
+    desc: "Scan documents to PDF free with your phone camera, right in the browser. Capture multiple pages and export as a single PDF.",
   },
   "extract-images": {
-    title: "Extract Images from PDF Free, Full Quality | FreePDFHub",
-    desc: "Extract images from PDF online free. Pull out the original embedded photos, logos, and figures at full quality, then download them individually.",
+    title: "Extract Images from PDF Online Free, Full Quality | FreePDFHub",
+    desc: "Extract images from PDF online free. Pull out original photos, logos, and figures at full quality. No upload, entirely in your browser.",
   },
   "compare": {
-    title: "Compare Two PDF Files Free, Side by Side | FreePDFHub",
-    desc: "Compare two PDF files online free and see every changed page side by side. Switch between visual diff and text diff to spot edits in contracts fast.",
+    title: "Compare Two PDF Files Online, Side-by-Side | FreePDFHub",
+    desc: "Compare two PDF files online free and see every changed page side by side. Use visual diff and text diff to spot edits in contracts fast.",
   },
 };
 
