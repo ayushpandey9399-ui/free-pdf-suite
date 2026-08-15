@@ -127,11 +127,13 @@ const related = [
 export function ImagesToPdfSeo() {
   return (
     <section className="mx-auto max-w-4xl px-4 pb-16 text-[#33333c]">
-
-      {/* How-to */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         How to convert images to PDF online for free
       </h2>
+      <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
+        Turn your JPG and PNG photos into a clean, professional PDF document in seconds. 
+        Our browser-based converter combines multiple images into one file without any uploads.
+      </p>
       <ol className="mt-5 space-y-4">
         {steps.map((s, i) => (
           <li key={i} id={`step-${i + 1}`} className="flex gap-4">
@@ -146,55 +148,20 @@ export function ImagesToPdfSeo() {
         ))}
       </ol>
 
-      {/* Photos of documents */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Turn photos of documents into one clean PDF
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        You photograph a form, a certificate or a page of handwritten notes with
-        your phone, and then the portal, the recruiter or your accountant asks
-        for ONE PDF, not seven separate photos. That's the exact gap this tool
-        closes. Drop every picture into the workspace, arrange them so page one
-        comes first, pick a page setup (Fit to image keeps each picture edge-to-edge;
-        A4 or Letter makes every page a standard sheet), and hit Create PDF , 
-        out comes a single, tidy document you can attach anywhere PDFs are
-        accepted.
-      </p>
-      <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        A couple of honest photo tips make a big difference: shoot the page
-        straight-on rather than at an angle, and take the picture in even light
-        without your shadow falling across the paper, you'll get sharper text
-        and truer colors, and the exported PDF looks like a scan rather than a
-        snapshot. If you want an even cleaner result with automatic edge
-        detection and perspective correction,{" "}
-        <Link to="/tools/$slug" params={{ slug: "scan-to-pdf" }} className="text-[#e5322d] underline">
-          Scan to PDF
-        </Link>{" "}
-        walks your camera through a guided capture flow built for flat
-        documents.
+        Whether it's a multi-page job application, a series of receipts for expenses, or 
+        handwritten notes for class, our tool makes it easy to bundle them. Simply drop 
+        your images, rearrange them by dragging the thumbnails, and pick a page setup. 
+        'Fit to image' keeps each page sized exactly to its photo, while 'A4' or 'Letter' 
+        standardizes the document for easy printing.
       </p>
 
-      {/* Privacy */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Private conversion, your photos stay on your device
+        Why use FreePDFHub to convert JPG to PDF?
       </h2>
-      <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        Photos are personal. Pages of your passport, a snap of a signed loan
-        form, handwritten notes with names and phone numbers on them, that's
-        the sort of thing people run through image-to-PDF converters every day.
-        Most converter sites take every picture you drop and upload the raw
-        files to their own servers before handing back a PDF, which quietly
-        moves the privacy problem instead of solving it.
-      </p>
-      <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        This tool doesn't do that. Each image is decoded, embedded and stitched
-        into the PDF entirely inside your browser tab, so none of the source
-        pictures, and none of the finished document, is ever transmitted to
-        us. Once the page has loaded, the conversion step even keeps running
-        offline if the network drops.
-      </p>
-
-      {/* Four benefits */}
       <div className="mt-10 grid gap-6 sm:grid-cols-2">
         {benefits.map((b) => (
           <div key={b.h}>
@@ -204,9 +171,8 @@ export function ImagesToPdfSeo() {
         ))}
       </div>
 
-      {/* Scenarios */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        When do you need to convert images to PDF?
+        Common uses for image-to-PDF conversion
       </h2>
       <div className="mt-6 space-y-5">
         {scenarios.map((s) => (
@@ -217,7 +183,6 @@ export function ImagesToPdfSeo() {
         ))}
       </div>
 
-      {/* FAQ */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Frequently asked questions
       </h2>
@@ -233,7 +198,6 @@ export function ImagesToPdfSeo() {
         ))}
       </div>
 
-      {/* Related */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Related PDF tools
       </h2>
