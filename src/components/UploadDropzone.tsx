@@ -23,35 +23,42 @@ export function UploadDropzone({
   accept,
   multiple = false,
   buttonLabel,
-  hint,
   onFiles,
   accent = "#e5322d",
-  trustNote,
 }: UploadDropzoneProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const dragging = useWindowFileDrop(onFiles);
 
   return (
     <div className="flex flex-col items-center justify-center px-4 py-20 sm:py-32">
-      <button
-        type="button"
-        onClick={() => inputRef.current?.click()}
-        className="inline-flex w-full max-w-[340px] items-center justify-center text-white transition-all duration-150 hover:-translate-y-0.5 active:scale-[0.98] sm:w-auto"
+      <div
+        className="flex flex-col items-center justify-center"
         style={{
-          backgroundColor: accent,
-          minHeight: "64px",
-          padding: "20px 52px",
-          borderRadius: "8px",
-          fontSize: "20px",
-          fontWeight: 700,
-          lineHeight: 1,
-          boxShadow: `0 12px 30px ${accent}33`,
+          border: "2px dashed #D1D5DB",
+          borderRadius: "16px",
+          padding: "60px 80px",
+          background: "white",
+          minWidth: "320px",
         }}
       >
-        {buttonLabel}
-      </button>
-
-
+        <button
+          type="button"
+          onClick={() => inputRef.current?.click()}
+          className="inline-flex items-center justify-center text-white transition-all duration-150 hover:-translate-y-0.5 active:scale-[0.98]"
+          style={{
+            backgroundColor: accent,
+            minWidth: "280px",
+            padding: "18px 60px",
+            borderRadius: "10px",
+            fontSize: "18px",
+            fontWeight: 600,
+            lineHeight: 1,
+            boxShadow: `0 12px 30px ${accent}33`,
+          }}
+        >
+          {buttonLabel}
+        </button>
+      </div>
 
       <input
         ref={inputRef}
