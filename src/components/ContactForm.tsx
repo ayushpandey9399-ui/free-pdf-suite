@@ -12,9 +12,11 @@ import { CONTACT_EMAIL } from "@/lib/site";
  * submission is relayed by Formspree, so no server route, database, or secret
  * handling is introduced for a low volume, low risk message form.
  *
- * The Formspree form id is read from a public build-time variable because the
- * id is not a secret, it is a public endpoint that only accepts posts and
- * forwards them to the site inbox.
+ * Delivery is optional-config: when VITE_FORMSPREE_FORM_ID is present the
+ * message is posted to that public Formspree endpoint (the id is not a secret).
+ * When it is absent, the validated message is handed to the visitor's mail
+ * client as a prefilled mail to the site inbox, so the form always works
+ * without any keys or backend.
  */
 
 const SUBJECTS = [
@@ -86,7 +88,25 @@ export function ContactForm() {
 
     setStatus("sending");
     try {
-      if (!FORMSPREE_ID) throw new Error("Contact form endpoint is not configured.");
+      if (!FORMSPREE_ID) {
+        // No relay service configured: hand the composed message to the
+        // visitor's mail client so the submission still reaches the inbox.
+        const body = [
+          `Name: ${parsed.data.name}`,
+          `Email: ${parsed.data.email}`,
+          `Subject: ${parsed.data.subject}`,
+          "",
+          parsed.data.message,
+        ].join("\n");
+        const href =
+          `mailto:${CONTACT_EMAIL}` +
+          `?subject=${encodeURIComponent(`[FreePDFHub] ${parsed.data.subject} from ${parsed.data.name}`)}` +
+          `&body=${encodeURIComponent(body)}`;
+        window.location.href = href;
+        setStatus("sent");
+        setValues({ name: "", email: "", subject: "", message: "" });
+        return;
+      }
       const response = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
