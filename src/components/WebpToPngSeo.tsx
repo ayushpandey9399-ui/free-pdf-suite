@@ -12,7 +12,7 @@ export const webpToPngSoftwareJsonLd = {
   operatingSystem: "Any (browser-based, Windows, macOS, Android, iOS, Linux)",
   url,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  publisher: { "@type": "Organization", name: "FreePDFHub", url: SITE_URL },
+  publisher: { "@type": "Organization", name: "pdftoolconverteronline.com", url: SITE_URL },
   description:
     "Free online WebP to PNG converter. Batch convert .webp images to lossless PNG in your browser with transparency preserved, no upload, no signup.",
 };
@@ -29,7 +29,7 @@ export const webpToPngHowToJsonLd = {
       "@type": "HowToStep",
       position: 1,
       name: "Open the WebP to PNG tool",
-      text: "Open the WebP to PNG tool on FreePDFHub. No signup, no account, and no software install is needed.",
+      text: "Open the WebP to PNG tool on pdftoolconverteronline.com. No signup, no account, and no software install is needed.",
       url: `${url}#step-1`,
     },
     {

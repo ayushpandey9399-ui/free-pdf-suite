@@ -241,7 +241,7 @@ export const watermarkHowToJsonLd = {
     "Stamp a text or image watermark on every page of a PDF entirely in your browser, control size, colour, angle and opacity. The document never leaves your device.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "The PDF you want to watermark" }],
-  tool: [{ "@type": "HowToTool", name: "FreePDFHub Add Watermark (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "pdftoolconverteronline.com Add Watermark (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -254,7 +254,7 @@ export const watermarkHowToJsonLd = {
 export const watermarkSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "FreePDFHub Add Watermark",
+  name: "pdftoolconverteronline.com Add Watermark",
   description:
     "Add text or image watermarks to every page of a PDF online free, stamp CONFIDENTIAL, DRAFT, purpose labels or your logo in your browser. No upload, no signup, no forced branding.",
   applicationCategory: "UtilitiesApplication",

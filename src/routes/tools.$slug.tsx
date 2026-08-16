@@ -19,119 +19,119 @@ type ToolMeta = {
 // in toolSeoBundle so they never enter the critical route chunk.
 const TOOL_META: Record<string, ToolMeta> = {
   "merge": {
-    title: "Merge PDF Free, Combine Multiple Files Online | FreePDFHub",
+    title: "Merge PDF Free, Combine Multiple Files Online | pdftoolconverteronline.com",
     desc: "Merge PDF files online free. Combine multiple documents into one clean file. Works right in your browser with no signup, no upload, and no watermark.",
   },
   "compress": {
-    title: "Compress PDF Online, Reduce PDF Size Free | FreePDFHub",
+    title: "Compress PDF Online, Reduce PDF Size Free | pdftoolconverteronline.com",
     desc: "Compress PDF file size online free without losing quality. Shrink large scans and reports in your browser to fit email limits and load faster, 100% private.",
   },
   "split": {
-    title: "Split PDF Free, Extract Page Ranges Online | FreePDFHub",
+    title: "Split PDF Free, Extract Page Ranges Online | pdftoolconverteronline.com",
     desc: "Split PDF into separate files or extract page ranges online free. Runs offline in your browser, break up long documents without an account or upload.",
   },
   "sign-pdf": {
-    title: "Sign PDF Online Free, Add Signature to PDF | FreePDFHub",
+    title: "Sign PDF Online Free, Add Signature to PDF | pdftoolconverteronline.com",
     desc: "Sign PDF documents online free by drawing, typing, or uploading your signature. Place it anywhere on any page and download a signed copy in seconds.",
   },
   "pdf-to-images": {
-    title: "PDF to JPG Converter Free, High Quality Export | FreePDFHub",
+    title: "PDF to JPG Converter Free, High Quality Export | pdftoolconverteronline.com",
     desc: "Convert PDF to JPG or PNG online free at high resolution. Each page becomes a separate image, processed in your browser with no signup or upload required.",
   },
   "redact-pdf": {
-    title: "Redact PDF Free, Permanently Black Out Text | FreePDFHub",
+    title: "Redact PDF Free, Permanently Black Out Text | pdftoolconverteronline.com",
     desc: "Redact PDF online free and permanently black out names, sensitive info, or account details. Text is truly removed from the file, not just covered.",
   },
   "protect-pdf": {
-    title: "Protect PDF with Password, Free AES-256 | FreePDFHub",
+    title: "Protect PDF with Password, Free AES-256 | pdftoolconverteronline.com",
     desc: "Password protect PDF online free with real AES-256 encryption. Set a password directly in your browser, your file and password stay on your device.",
   },
   "unlock-pdf": {
-    title: "Unlock PDF Free, Remove PDF Password Online | FreePDFHub",
+    title: "Unlock PDF Free, Remove PDF Password Online | pdftoolconverteronline.com",
     desc: "Unlock a password protected PDF online free if you have the password. Decryption runs in your browser with no account or upload needed.",
   },
   "watermark": {
-    title: "Add Watermark to PDF Free, Online Tool | FreePDFHub",
+    title: "Add Watermark to PDF Free, Online Tool | pdftoolconverteronline.com",
     desc: "Add a watermark to PDF online free. Stamp text like DRAFT or your brand across every page with adjustable size, angle, and opacity.",
   },
   "rotate": {
-    title: "Rotate PDF Pages Free, Permanently Save | FreePDFHub",
+    title: "Rotate PDF Pages Free, Permanently Save | pdftoolconverteronline.com",
     desc: "Rotate PDF pages online free and save the change permanently. Fix sideways or upside-down pages one at a time or in bulk, right from your browser.",
   },
   "delete-pages": {
-    title: "Delete PDF Pages Free, Remove Unwanted Pages | FreePDFHub",
+    title: "Delete PDF Pages Free, Remove Unwanted Pages | pdftoolconverteronline.com",
     desc: "Delete pages from a PDF online free. Pick unwanted pages in the thumbnail view and download a clean copy of the document in seconds.",
   },
   "extract-pages": {
-    title: "Extract PDF Pages Free, Save as New PDF | FreePDFHub",
+    title: "Extract PDF Pages Free, Save as New PDF | pdftoolconverteronline.com",
     desc: "Extract pages from PDF online free and save any selection as a new document. Great for pulling one chapter or invoice out of a longer report.",
   },
   "reorder-pages": {
-    title: "Reorder PDF Pages Free, Visual Drag & Drop | FreePDFHub",
+    title: "Reorder PDF Pages Free, Visual Drag & Drop | pdftoolconverteronline.com",
     desc: "Reorder PDF pages online free with drag and drop. Rearrange chapters or invoices into the right order and download the updated file instantly.",
   },
   "images-to-pdf": {
-    title: "Convert JPG to PDF Online Free, No Upload | FreePDFHub",
+    title: "Convert JPG to PDF Online Free, No Upload | pdftoolconverteronline.com",
     desc: "Convert JPG or PNG images to PDF online free. Combine phone photos, screenshots, and scans into one tidy document. No upload, no signup, 100% private.",
   },
   "pdf-to-word": {
-    title: "Convert PDF to Word Free, Editable DOCX | FreePDFHub",
+    title: "Convert PDF to Word Free, Editable DOCX | pdftoolconverteronline.com",
     desc: "Convert PDF to Word online free and get a fully editable DOCX file. Headings, tables, and images are preserved, processed 100% in your browser.",
   },
   "pdf-to-text": {
-    title: "PDF to Text Free, Extract PDF Content | FreePDFHub",
+    title: "PDF to Text Free, Extract PDF Content | pdftoolconverteronline.com",
     desc: "Extract text from PDF online free. Copy the full contents to your clipboard or download a clean .txt file, all processed locally in your browser.",
   },
   "txt-to-pdf": {
-    title: "Convert TXT to PDF Free, Unicode & Hindi | FreePDFHub",
+    title: "Convert TXT to PDF Free, Unicode & Hindi | pdftoolconverteronline.com",
     desc: "Convert TXT to PDF online free with clean typography and proper page breaks. Supports Hindi, Tamil, Arabic, Chinese, and other scripts.",
   },
   "page-numbers": {
-    title: "Add Page Numbers to PDF Free, Online Tool | FreePDFHub",
+    title: "Add Page Numbers to PDF Free, Online Tool | pdftoolconverteronline.com",
     desc: "Add page numbers to PDF online free. Choose position, starting number, and format, and preview before you download.",
   },
   "header-footer": {
-    title: "Add Header and Footer to PDF Free | FreePDFHub",
+    title: "Add Header and Footer to PDF Free | pdftoolconverteronline.com",
     desc: "Add headers and footers to PDF online free. Print titles, dates, filenames, or page counts on every page with custom formatting.",
   },
   "crop": {
-    title: "Crop PDF Online Free, Live Browser Preview | FreePDFHub",
+    title: "Crop PDF Online Free, Live Browser Preview | pdftoolconverteronline.com",
     desc: "Crop PDF online free to trim white margins or cut unwanted edges from scans. Live preview shows the exact crop box before you save.",
   },
   "edit-pdf": {
-    title: "Edit PDF Text & Annotate Free Online | FreePDFHub",
+    title: "Edit PDF Text & Annotate Free Online | pdftoolconverteronline.com",
     desc: "Edit existing PDF text, highlight, draw, and add images free in your browser. Match original style. No upload required.",
   },
   "fill-forms": {
-    title: "Fill PDF Forms Online Free, No Signup | FreePDFHub",
+    title: "Fill PDF Forms Online Free, No Signup | pdftoolconverteronline.com",
     desc: "Fill out PDF forms online free. Type into text fields, tick checkboxes, and pick options, then download the completed form.",
   },
   "flatten-pdf": {
-    title: "Flatten PDF Free, Lock Forms & Notes | FreePDFHub",
+    title: "Flatten PDF Free, Lock Forms & Notes | pdftoolconverteronline.com",
     desc: "Flatten PDF online free to lock form fields and annotations into the page permanently.",
   },
   "pdf-metadata": {
-    title: "Edit PDF Metadata Free, Clean Hidden Info | FreePDFHub",
+    title: "Edit PDF Metadata Free, Clean Hidden Info | pdftoolconverteronline.com",
     desc: "View, edit, or remove PDF metadata online free including title, author, and keywords. Clean hidden properties before sharing.",
   },
   "grayscale-pdf": {
-    title: "Convert PDF to Grayscale Free, Black and White | FreePDFHub",
+    title: "Convert PDF to Grayscale Free, Black and White | pdftoolconverteronline.com",
     desc: "Convert PDF to grayscale (black and white) online free. Save ink, reduce file size, and clean up scans with our browser-based PDF converter.",
   },
   "add-blank-pages": {
-    title: "Add Blank Page to PDF Online, Insert Spacers | FreePDFHub",
+    title: "Add Blank Page to PDF Online, Insert Spacers | pdftoolconverteronline.com",
     desc: "Insert blank pages into a PDF online free at any position. Add spacers between chapters or signature pages before you download.",
   },
   "scan-to-pdf": {
-    title: "Scan to PDF Online Free, Use Phone Camera | FreePDFHub",
+    title: "Scan to PDF Online Free, Use Phone Camera | pdftoolconverteronline.com",
     desc: "Scan documents to PDF free with your phone camera, right in the browser. Capture multiple pages and export as a single PDF.",
   },
   "extract-images": {
-    title: "Extract Images from PDF Online Free, Full Quality | FreePDFHub",
+    title: "Extract Images from PDF Online Free, Full Quality | pdftoolconverteronline.com",
     desc: "Extract images from PDF online free. Pull out original photos, logos, and figures at full quality. No upload, entirely in your browser.",
   },
   "compare": {
-    title: "Compare Two PDF Files Online, Side-by-Side | FreePDFHub",
+    title: "Compare Two PDF Files Online, Side-by-Side | pdftoolconverteronline.com",
     desc: "Compare two PDF files online free and see every changed page side by side. Use visual diff and text diff to spot edits in contracts fast.",
   },
 };
@@ -177,9 +177,9 @@ export const Route = createFileRoute("/tools/$slug")({
     return {
       meta: loaderData
         ? [
-            { title: `${loaderData.name} | FreePDFHub` },
+            { title: `${loaderData.name} | pdftoolconverteronline.com` },
             { name: "description", content: loaderData.description },
-            { property: "og:title", content: `${loaderData.name}, FreePDFHub` },
+            { property: "og:title", content: `${loaderData.name}, pdftoolconverteronline.com` },
             { property: "og:description", content: loaderData.description },
             { property: "og:url", content: url },
             { property: "og:image", content: OG_IMAGE },
@@ -188,7 +188,7 @@ export const Route = createFileRoute("/tools/$slug")({
             { name: "twitter:card", content: "summary_large_image" },
             { name: "twitter:image", content: OG_IMAGE },
           ]
-        : [{ title: "Tool | FreePDFHub" }],
+        : [{ title: "Tool | pdftoolconverteronline.com" }],
       links: loaderData ? [{ rel: "canonical", href: url }] : [],
       scripts: loaderData
         ? [{ type: "application/ld+json", children: JSON.stringify(crumbs) }]

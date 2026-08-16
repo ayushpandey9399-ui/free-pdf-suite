@@ -7,8 +7,8 @@ services:
     build:
       context: .
       target: runtime
-    image: freepdfhub/api:0.1.0
-    container_name: freepdfhub-api
+    image: pdftoolconverteronline/api:0.1.0
+    container_name: pdftoolconverteronline-api
     restart: unless-stopped
     ports:
       - "8080:8080"
@@ -23,12 +23,12 @@ services:
       RATE_LIMIT_WINDOW_MS: "60000"
       MAX_UPLOAD_BYTES: "26214400"
       BODY_LIMIT_BYTES: "27262976"
-      WORKSPACE_ROOT: /var/lib/freepdfhub
+      WORKSPACE_ROOT: /var/lib/pdftoolconverteronline
       REDIS_URL: redis://redis:6379
       SWAGGER_ENABLED: "true"
       SHUTDOWN_TIMEOUT_MS: "10000"
     volumes:
-      - workspace:/var/lib/freepdfhub
+      - workspace:/var/lib/pdftoolconverteronline
     depends_on:
       redis:
         condition: service_healthy
@@ -52,7 +52,7 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: freepdfhub-redis
+    container_name: pdftoolconverteronline-redis
     restart: unless-stopped
     command: ["redis-server", "--appendonly", "no", "--maxmemory", "128mb", "--maxmemory-policy", "allkeys-lru"]
     expose:

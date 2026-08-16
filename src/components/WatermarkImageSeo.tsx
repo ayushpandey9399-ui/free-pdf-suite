@@ -12,7 +12,7 @@ export const watermarkImageSoftwareJsonLd = {
   operatingSystem: "Any (browser-based, Windows, macOS, Android, iOS, Linux)",
   url,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  publisher: { "@type": "Organization", name: "FreePDFHub", url: SITE_URL },
+  publisher: { "@type": "Organization", name: "pdftoolconverteronline.com", url: SITE_URL },
   description:
     "Free online watermark tool. Add a text or logo watermark to JPG, PNG, and WebP images in your browser. Batch mode, tile pattern, 9-cell position grid, opacity, rotation, no upload, no signup.",
 };
@@ -29,7 +29,7 @@ export const watermarkImageHowToJsonLd = {
       "@type": "HowToStep",
       position: 1,
       name: "Open the watermark tool",
-      text: "Open Add Watermark to Image on FreePDFHub. No signup, no account, and nothing to install.",
+      text: "Open Add Watermark to Image on pdftoolconverteronline.com. No signup, no account, and nothing to install.",
       url: `${url}#step-1`,
     },
     {

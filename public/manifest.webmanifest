@@ -1,6 +1,6 @@
 {
-  "name": "FreePDFHub, Private PDF Tools",
-  "short_name": "FreePDFHub",
+  "name": "pdftoolconverteronline.com, Private PDF Tools",
+  "short_name": "pdftoolconverteronline.com",
   "description": "Free PDF tools that run in your browser. Merge, split, convert, compress, edit, and organize PDFs, no signup, no upload step.",
   "start_url": "/?source=pwa",
   "scope": "/",
