@@ -41,7 +41,7 @@ export function ToolLayout({
               ›
             </li>
             <li className="shrink-0">
-              <Link to="/" hash="tools" className="transition-colors hover:text-[#e5322d]">
+              <Link to="/tools" className="transition-colors hover:text-[#e5322d]">
                 PDF Tools
               </Link>
             </li>
