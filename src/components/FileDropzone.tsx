@@ -59,7 +59,6 @@ export function FileDropzone({
 
   const isPdf = accept.includes("pdf");
   const defaultBtn = buttonLabel ?? (isPdf ? (multiple ? "Select PDF files" : "Select PDF file") : label ?? "Select files");
-  const defaultHint = hint ?? (isPdf ? (multiple ? "or drop PDFs here" : "or drop a PDF here") : "or drop files here");
 
   return (
     <div className="w-full">
