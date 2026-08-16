@@ -1,4 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
-  <rect x="2" y="2" width="36" height="36" rx="8" fill="#E5322D"/>
-  <path d="M12 10 L22 10 L28 16 L28 30 L12 30 Z" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Brand-aligned "Two-Layer Badge" Favicon -->
+  
+  <!-- Layer 1: Back Paper (Tinted) -->
+  <path d="M10 6 H32 L38 12 V40 Q38 46 32 46 H10 Q4 46 4 40 V12 Q4 6 10 6 Z" fill="#FDF2F2" />
+  <path d="M32 6 V12 H38 Z" fill="#FEE2E2" />
+  
+  <!-- Text lines to suggest a document -->
+  <rect x="9" y="17" width="20" height="2" rx="1" fill="#FEE2E2" />
+  <rect x="9" y="22" width="22" height="2" rx="1" fill="#FEE2E2" />
+  <rect x="9" y="27" width="16" height="2" rx="1" fill="#FEE2E2" />
+  
+  <!-- Layer 2: Front Badge (Solid Brand Red) -->
+  <rect x="26" y="26" width="30" height="30" rx="8" fill="#E5322D" />
+  
+  <!-- Glyph: "PDF" simplified or Page/Badge glyph -->
+  <g fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+     <path d="M36 34 L40 38 L46 32" /> <!-- A clean check/badge mark or similar stylized element -->
+     <rect x="34" y="38" width="14" height="11" rx="1.5" />
+  </g>
 </svg>
