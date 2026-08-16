@@ -1,17 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useEffect } from "react";
-import { useRouter } from "@tanstack/react-router";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 
+// Layout route for /tools/*. It MUST only render an Outlet so child tool
+// routes (/tools/$slug) can mount. The /tools landing behaviour lives in
+// tools.index.tsx.
 export const Route = createFileRoute("/tools")({
-  component: ToolsRedirect,
+  component: () => <Outlet />,
 });
-
-function ToolsRedirect() {
-  const router = useRouter();
-  
-  useEffect(() => {
-    router.navigate({ to: "/", hash: "tools", replace: true });
-  }, [router]);
-
-  return null;
-}

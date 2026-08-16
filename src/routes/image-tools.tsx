@@ -1,17 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useEffect } from "react";
-import { useRouter } from "@tanstack/react-router";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 
+// Layout route for /image-tools/*. Must only render an Outlet so
+// /image-tools/$slug and /image-tools/ can mount.
 export const Route = createFileRoute("/image-tools")({
-  component: ImageToolsRedirect,
+  component: () => <Outlet />,
 });
-
-function ImageToolsRedirect() {
-  const router = useRouter();
-  
-  useEffect(() => {
-    router.navigate({ to: "/", hash: "tools", replace: true });
-  }, [router]);
-
-  return null;
-}
