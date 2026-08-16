@@ -9,10 +9,12 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ToolsRouteImport } from './routes/tools'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as OfflineRouteImport } from './routes/offline'
+import { Route as ImageToolsRouteImport } from './routes/image-tools'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -20,6 +22,11 @@ import { Route as ImageToolsIndexRouteImport } from './routes/image-tools.index'
 import { Route as ToolsSlugRouteImport } from './routes/tools.$slug'
 import { Route as ImageToolsSlugRouteImport } from './routes/image-tools.$slug'
 
+const ToolsRoute = ToolsRouteImport.update({
+  id: '/tools',
+  path: '/tools',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
@@ -40,6 +47,11 @@ const OfflineRoute = OfflineRouteImport.update({
   path: '/offline',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ImageToolsRoute = ImageToolsRouteImport.update({
+  id: '/image-tools',
+  path: '/image-tools',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -56,29 +68,31 @@ const IndexRoute = IndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const ImageToolsIndexRoute = ImageToolsIndexRouteImport.update({
-  id: '/image-tools/',
-  path: '/image-tools/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => ImageToolsRoute,
 } as any)
 const ToolsSlugRoute = ToolsSlugRouteImport.update({
-  id: '/tools/$slug',
-  path: '/tools/$slug',
-  getParentRoute: () => rootRouteImport,
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ToolsRoute,
 } as any)
 const ImageToolsSlugRoute = ImageToolsSlugRouteImport.update({
-  id: '/image-tools/$slug',
-  path: '/image-tools/$slug',
-  getParentRoute: () => rootRouteImport,
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ImageToolsRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/image-tools': typeof ImageToolsRouteWithChildren
   '/offline': typeof OfflineRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/tools': typeof ToolsRouteWithChildren
   '/image-tools/$slug': typeof ImageToolsSlugRoute
   '/tools/$slug': typeof ToolsSlugRoute
   '/image-tools/': typeof ImageToolsIndexRoute
@@ -91,6 +105,7 @@ export interface FileRoutesByTo {
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/tools': typeof ToolsRouteWithChildren
   '/image-tools/$slug': typeof ImageToolsSlugRoute
   '/tools/$slug': typeof ToolsSlugRoute
   '/image-tools': typeof ImageToolsIndexRoute
@@ -100,10 +115,12 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/image-tools': typeof ImageToolsRouteWithChildren
   '/offline': typeof OfflineRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/tools': typeof ToolsRouteWithChildren
   '/image-tools/$slug': typeof ImageToolsSlugRoute
   '/tools/$slug': typeof ToolsSlugRoute
   '/image-tools/': typeof ImageToolsIndexRoute
@@ -114,10 +131,12 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/image-tools'
     | '/offline'
     | '/privacy-policy'
     | '/sitemap.xml'
     | '/terms'
+    | '/tools'
     | '/image-tools/$slug'
     | '/tools/$slug'
     | '/image-tools/'
@@ -130,6 +149,7 @@ export interface FileRouteTypes {
     | '/privacy-policy'
     | '/sitemap.xml'
     | '/terms'
+    | '/tools'
     | '/image-tools/$slug'
     | '/tools/$slug'
     | '/image-tools'
@@ -138,10 +158,12 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/image-tools'
     | '/offline'
     | '/privacy-policy'
     | '/sitemap.xml'
     | '/terms'
+    | '/tools'
     | '/image-tools/$slug'
     | '/tools/$slug'
     | '/image-tools/'
@@ -151,17 +173,23 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
+  ImageToolsRoute: typeof ImageToolsRouteWithChildren
   OfflineRoute: typeof OfflineRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
-  ImageToolsSlugRoute: typeof ImageToolsSlugRoute
-  ToolsSlugRoute: typeof ToolsSlugRoute
-  ImageToolsIndexRoute: typeof ImageToolsIndexRoute
+  ToolsRoute: typeof ToolsRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/tools': {
+      id: '/tools'
+      path: '/tools'
+      fullPath: '/tools'
+      preLoaderRoute: typeof ToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms': {
       id: '/terms'
       path: '/terms'
@@ -190,6 +218,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OfflineRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/image-tools': {
+      id: '/image-tools'
+      path: '/image-tools'
+      fullPath: '/image-tools'
+      preLoaderRoute: typeof ImageToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -213,39 +248,62 @@ declare module '@tanstack/react-router' {
     }
     '/image-tools/': {
       id: '/image-tools/'
-      path: '/image-tools'
+      path: '/'
       fullPath: '/image-tools/'
       preLoaderRoute: typeof ImageToolsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ImageToolsRoute
     }
     '/tools/$slug': {
       id: '/tools/$slug'
-      path: '/tools/$slug'
+      path: '/$slug'
       fullPath: '/tools/$slug'
       preLoaderRoute: typeof ToolsSlugRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ToolsRoute
     }
     '/image-tools/$slug': {
       id: '/image-tools/$slug'
-      path: '/image-tools/$slug'
+      path: '/$slug'
       fullPath: '/image-tools/$slug'
       preLoaderRoute: typeof ImageToolsSlugRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ImageToolsRoute
     }
   }
 }
+
+interface ImageToolsRouteChildren {
+  ImageToolsSlugRoute: typeof ImageToolsSlugRoute
+  ImageToolsIndexRoute: typeof ImageToolsIndexRoute
+}
+
+const ImageToolsRouteChildren: ImageToolsRouteChildren = {
+  ImageToolsSlugRoute: ImageToolsSlugRoute,
+  ImageToolsIndexRoute: ImageToolsIndexRoute,
+}
+
+const ImageToolsRouteWithChildren = ImageToolsRoute._addFileChildren(
+  ImageToolsRouteChildren,
+)
+
+interface ToolsRouteChildren {
+  ToolsSlugRoute: typeof ToolsSlugRoute
+}
+
+const ToolsRouteChildren: ToolsRouteChildren = {
+  ToolsSlugRoute: ToolsSlugRoute,
+}
+
+const ToolsRouteWithChildren = ToolsRoute._addFileChildren(ToolsRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
+  ImageToolsRoute: ImageToolsRouteWithChildren,
   OfflineRoute: OfflineRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
-  ImageToolsSlugRoute: ImageToolsSlugRoute,
-  ToolsSlugRoute: ToolsSlugRoute,
-  ImageToolsIndexRoute: ImageToolsIndexRoute,
+  ToolsRoute: ToolsRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
