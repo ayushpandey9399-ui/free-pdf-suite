@@ -18,6 +18,7 @@ import { Route as ImageToolsRouteImport } from './routes/image-tools'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ToolsIndexRouteImport } from './routes/tools.index'
 import { Route as ImageToolsIndexRouteImport } from './routes/image-tools.index'
 import { Route as ToolsSlugRouteImport } from './routes/tools.$slug'
 import { Route as ImageToolsSlugRouteImport } from './routes/image-tools.$slug'
@@ -67,6 +68,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsIndexRoute = ToolsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ToolsRoute,
+} as any)
 const ImageToolsIndexRoute = ImageToolsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -96,6 +102,7 @@ export interface FileRoutesByFullPath {
   '/image-tools/$slug': typeof ImageToolsSlugRoute
   '/tools/$slug': typeof ToolsSlugRoute
   '/image-tools/': typeof ImageToolsIndexRoute
+  '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -105,10 +112,10 @@ export interface FileRoutesByTo {
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
-  '/tools': typeof ToolsRouteWithChildren
   '/image-tools/$slug': typeof ImageToolsSlugRoute
   '/tools/$slug': typeof ToolsSlugRoute
   '/image-tools': typeof ImageToolsIndexRoute
+  '/tools': typeof ToolsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -124,6 +131,7 @@ export interface FileRoutesById {
   '/image-tools/$slug': typeof ImageToolsSlugRoute
   '/tools/$slug': typeof ToolsSlugRoute
   '/image-tools/': typeof ImageToolsIndexRoute
+  '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -140,6 +148,7 @@ export interface FileRouteTypes {
     | '/image-tools/$slug'
     | '/tools/$slug'
     | '/image-tools/'
+    | '/tools/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -149,10 +158,10 @@ export interface FileRouteTypes {
     | '/privacy-policy'
     | '/sitemap.xml'
     | '/terms'
-    | '/tools'
     | '/image-tools/$slug'
     | '/tools/$slug'
     | '/image-tools'
+    | '/tools'
   id:
     | '__root__'
     | '/'
@@ -167,6 +176,7 @@ export interface FileRouteTypes {
     | '/image-tools/$slug'
     | '/tools/$slug'
     | '/image-tools/'
+    | '/tools/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -246,6 +256,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/': {
+      id: '/tools/'
+      path: '/'
+      fullPath: '/tools/'
+      preLoaderRoute: typeof ToolsIndexRouteImport
+      parentRoute: typeof ToolsRoute
+    }
     '/image-tools/': {
       id: '/image-tools/'
       path: '/'
@@ -286,10 +303,12 @@ const ImageToolsRouteWithChildren = ImageToolsRoute._addFileChildren(
 
 interface ToolsRouteChildren {
   ToolsSlugRoute: typeof ToolsSlugRoute
+  ToolsIndexRoute: typeof ToolsIndexRoute
 }
 
 const ToolsRouteChildren: ToolsRouteChildren = {
   ToolsSlugRoute: ToolsSlugRoute,
+  ToolsIndexRoute: ToolsIndexRoute,
 }
 
 const ToolsRouteWithChildren = ToolsRoute._addFileChildren(ToolsRouteChildren)
