@@ -349,7 +349,6 @@ export default function TxtToPdf() {
           files={files}
           onFilesChange={setFiles}
           buttonLabel="Select TXT files"
-          hint="or drop .txt files here"
         />
         <div className="text-center">
           <button

@@ -209,9 +209,7 @@ export default function PdfToWord() {
       <UploadDropzone
         accept=".pdf,application/pdf"
         buttonLabel="Select PDF file"
-        hint="or drop a PDF here"
         onFiles={onFiles}
-        trustNote={TRUST_NOTE}
       />
 
       <div className="mx-auto -mt-2 max-w-[520px] px-4 text-center text-[13px]" style={{ color: "#8b8b96" }}>

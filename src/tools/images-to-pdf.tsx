@@ -152,7 +152,6 @@ export default function ImagesToPdf() {
         files={[]}
         onFilesChange={(list) => addFiles(list)}
         buttonLabel="Select images"
-        hint="or drop JPG / PNG images here"
       />
     );
   }

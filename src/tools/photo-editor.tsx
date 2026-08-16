@@ -801,7 +801,6 @@ export function PhotoEditorTool() {
         <UploadDropzone
           accept={ACCEPT}
           buttonLabel="Select photo"
-          hint="or drop a JPG, PNG, or WebP photo here"
           onFiles={(files) => onSelect(files as FileList)}
           accent="#8B5CF6"
         />

@@ -215,7 +215,6 @@ export function JpgToWebpTool() {
         accept={ACCEPT}
         multiple
         buttonLabel="Select JPG files"
-        hint="or drop .jpg images here"
         onFiles={addFiles}
         accent="#e5322d"
       />

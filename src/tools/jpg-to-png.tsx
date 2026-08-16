@@ -191,7 +191,6 @@ export function JpgToPngTool() {
         accept={ACCEPT}
         multiple
         buttonLabel="Select JPG files"
-        hint="or drop .jpg / .jpeg images here"
         onFiles={addFiles}
         accent="#e5322d"
       />
