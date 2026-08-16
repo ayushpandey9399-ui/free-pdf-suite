@@ -16,7 +16,7 @@ export interface UploadDropzoneProps {
 
 
 /**
- * Frameless empty state: one big button, one helper line, one trust line.
+ * Premium empty state: a single prominent button inside a dashed dropzone box.
  * The drop target is the whole page, shown through a full area overlay.
  */
 export function UploadDropzone({
