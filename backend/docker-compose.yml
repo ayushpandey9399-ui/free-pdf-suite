@@ -1,4 +1,4 @@
-# FreePDFHub Enterprise API | Phase 0 composition.
+# pdftoolconverteronline.com Enterprise API | Phase 0 composition.
 # Two services only: the API and Redis. Redis is provisioned for later phases
 # (queue, shared rate limiting); the Phase 0 API opens no connection to it.
 

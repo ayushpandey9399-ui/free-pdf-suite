@@ -25,7 +25,7 @@ import {
 } from '../src/platform/archive/index.js';
 
 const JOBS_ROUTE = '/v1/tools/pdf-to-images/jobs';
-const BOUNDARY = '----freepdfhubdelivery';
+const BOUNDARY = '----pdftoolconverteronlinedelivery';
 const TOKEN_SECRET = 'delivery-test-secret-key';
 
 let app: FastifyInstance;

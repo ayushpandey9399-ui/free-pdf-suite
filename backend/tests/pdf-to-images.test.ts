@@ -20,7 +20,7 @@ import {
 } from '../src/modules/pdf-to-images/pdf-to-images.schema.js';
 
 const ROUTE = '/v1/tools/pdf-to-images';
-const BOUNDARY = '----freepdfhubtest';
+const BOUNDARY = '----pdftoolconverteronlinetest';
 
 let app: FastifyInstance;
 let workspaceRoot: string;

@@ -42,6 +42,6 @@ export async function startServer(): Promise<void> {
       docs: config.docs.enabled ? DOCS_PREFIX : 'disabled',
       maxUploadBytes: config.upload.maxFileBytes,
     },
-    'FreePDFHub API listening',
+    'pdftoolconverteronline.com API listening',
   );
 }

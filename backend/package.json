@@ -2,7 +2,7 @@
   "name": "pdftoolconverteronline-api",
   "version": "0.1.0",
   "private": true,
-  "description": "FreePDFHub Enterprise API | Phase 0 foundation (no tools, no engines, no queue)",
+  "description": "pdftoolconverteronline.com Enterprise API | Phase 0 foundation (no tools, no engines, no queue)",
   "type": "module",
   "engines": { "node": ">=22 <23" },
   "main": "dist/index.js",

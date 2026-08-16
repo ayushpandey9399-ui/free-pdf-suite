@@ -38,7 +38,7 @@ test('GET /health reports ok with runtime facts', async () => {
   assert.equal(response.statusCode, 200);
   const body = response.json();
   assert.equal(body.status, 'ok');
-  assert.equal(body.service, 'freepdfhub-api');
+  assert.equal(body.service, 'pdftoolconverteronline-api');
   assert.equal(body.phase, 'phase-0-foundation');
   assert.ok(body.system.node.startsWith('22'), 'runs on Node 22');
   assert.equal(body.dependencies[0].name, 'redis');
