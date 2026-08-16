@@ -148,7 +148,7 @@ export const Route = createFileRoute("/tools/$slug")({
     const crumbName = loaderData?.name ?? "Tool";
     const crumbs = breadcrumbJsonLd([
       { name: "Home", url: `${SITE_URL}/` },
-      { name: "PDF Tools", url: `${SITE_URL}/` },
+      { name: "PDF Tools", url: `${SITE_URL}/tools` },
       { name: crumbName, url },
     ]);
 
