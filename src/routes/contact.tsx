@@ -4,6 +4,7 @@ import { Check, Copy } from "lucide-react";
 import { LegalPage } from "@/components/LegalPage";
 import { breadcrumbJsonLd } from "@/lib/seoSchema";
 import { CONTACT_EMAIL, SITE_URL } from "@/lib/site";
+import { ContactForm } from "@/components/ContactForm";
 
 export const Route = createFileRoute("/contact")({
   head: () => {
@@ -55,6 +56,11 @@ function ContactPage() {
       </p>
       <ContactEmail />
 
+      <h2>Send us a message</h2>
+      <p>
+        Prefer a form? Fill this in and it lands in the same inbox.
+      </p>
+      <ContactForm />
 
       <h2>Reporting a bug</h2>
       <p>To help us reproduce and fix the issue quickly, please include:</p>
