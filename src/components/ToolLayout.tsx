@@ -37,8 +37,17 @@ export function ToolLayout({
                 Home
               </Link>
             </li>
-            <li aria-hidden="true" className="shrink-0">›</li>
-            <li aria-hidden="true" className="shrink-0">›</li>
+            <li aria-hidden="true" className="shrink-0">
+              ›
+            </li>
+            <li className="shrink-0">
+              <Link to="/" className="transition-colors hover:text-[#e5322d]">
+                PDF Tools
+              </Link>
+            </li>
+            <li aria-hidden="true" className="shrink-0">
+              ›
+            </li>
 
             <li
               aria-current="page"
