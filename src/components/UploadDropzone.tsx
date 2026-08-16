@@ -40,40 +40,25 @@ export function UploadDropzone({
   const dragging = useWindowFileDrop(onFiles);
 
   return (
-    <div className="flex flex-col items-center justify-center px-4 py-16 sm:py-20">
+    <div className="flex flex-col items-center justify-center px-4 py-20 sm:py-32">
       <button
         type="button"
         onClick={() => inputRef.current?.click()}
-        className="inline-flex w-full max-w-[340px] items-center justify-center text-white transition-all duration-150 hover:-translate-y-0.5 sm:w-auto"
+        className="inline-flex w-full max-w-[340px] items-center justify-center text-white transition-all duration-150 hover:-translate-y-0.5 active:scale-[0.98] sm:w-auto"
         style={{
           backgroundColor: accent,
-          minHeight: "56px",
-          padding: "18px 40px",
-          borderRadius: "12px",
-          fontSize: "17px",
+          minHeight: "64px",
+          padding: "20px 52px",
+          borderRadius: "8px",
+          fontSize: "20px",
           fontWeight: 700,
           lineHeight: 1,
-          boxShadow: `0 10px 26px ${accent}3d`,
+          boxShadow: `0 12px 30px ${accent}33`,
         }}
       >
         {buttonLabel}
       </button>
 
-      <p className="mt-4 text-center text-[14px]" style={{ color: "#6B7280" }}>
-        {hint}
-      </p>
-
-      <p
-        className="mt-5 inline-flex max-w-[420px] items-center justify-center gap-1.5 text-center text-[13px]"
-        style={{ color: "#8b8b96" }}
-      >
-        {trustNote ?? (
-          <>
-            <Lock className="h-3.5 w-3.5" aria-hidden />
-            Your files never leave your device.
-          </>
-        )}
-      </p>
 
 
       <input

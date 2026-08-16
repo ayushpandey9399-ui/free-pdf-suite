@@ -197,33 +197,38 @@ function ImageToolPage() {
   const maxWidth = silo.maxWidth ?? "max-w-4xl";
 
   return (
-    <div className={`mx-auto ${maxWidth} px-4 pb-16`}>
-      <section className="relative flex flex-col pt-6 pb-14">
-        <Breadcrumb name={tool.name} />
-        <div className="flex flex-1 flex-col justify-center text-center mt-8 md:mt-0">
-          <h1
-            className="mx-auto text-[28px] sm:text-[42px]"
-            style={{
-              color: "#383E45",
-              fontWeight: 700,
-              letterSpacing: "-0.02em",
-              lineHeight: 1.15,
-            }}
-          >
-            {silo.h1}
-          </h1>
-          <p
-            className="mx-auto mt-4 max-w-[640px] text-[15px] sm:text-[18px]"
-            style={{ color: "#6B7280", lineHeight: 1.65 }}
-          >
-            {silo.subtitle}
-          </p>
-          <div className="mt-10">
-            <Tool />
+    <div className="w-full">
+      <div className="bg-[#F7F7F8] border-b border-[#ececec]">
+        <section className={`mx-auto ${maxWidth} px-4 relative flex flex-col pt-6 pb-20 sm:pb-28`}>
+          <Breadcrumb name={tool.name} />
+          <div className="flex flex-1 flex-col justify-center text-center mt-8 md:mt-0">
+            <h1
+              className="mx-auto text-[28px] sm:text-[42px]"
+              style={{
+                color: "#383E45",
+                fontWeight: 700,
+                letterSpacing: "-0.02em",
+                lineHeight: 1.15,
+              }}
+            >
+              {silo.h1}
+            </h1>
+            <p
+              className="mx-auto mt-4 max-w-[640px] text-[15px] sm:text-[18px]"
+              style={{ color: "#6B7280", lineHeight: 1.65 }}
+            >
+              {silo.subtitle}
+            </p>
+            <div className="mt-10">
+              <Tool />
+            </div>
           </div>
-        </div>
-      </section>
-      <Seo />
+        </section>
+      </div>
+      <div className={`mx-auto ${maxWidth} px-4 pb-16`}>
+        <Seo />
+      </div>
+
       {silo.jsonLd.map((v, i) => (
         <script
           key={i}
@@ -242,7 +247,7 @@ function ImageToolPage() {
 
 function Breadcrumb({ name }: { name: string }) {
   return (
-    <nav aria-label="Breadcrumb" className="pt-6 text-[13px] text-[#6B7280]">
+    <nav aria-label="Breadcrumb" className="text-[13px] text-[#6B7280]">
       <ol className="flex items-center gap-[6px]">
         <li><Link to="/" className="hover:text-[#e5322d]">Home</Link></li>
         <li aria-hidden>›</li>
@@ -267,9 +272,12 @@ function ComingSoonView({ name, description }: { name: string; description: stri
     };
   }, []);
   return (
-    <div className="mx-auto max-w-3xl px-4 pb-16">
-      <Breadcrumb name={name} />
-      <section className="pt-10 text-center">
+    <div className="w-full">
+      <div className="bg-[#F7F7F8] border-b border-[#ececec]">
+        <section className="mx-auto max-w-3xl px-4 relative flex flex-col pt-6 pb-20 sm:pb-28">
+          <Breadcrumb name={name} />
+          <section className="pt-10 text-center">
+
         <span className="inline-flex rounded-full bg-[#f6f4f9] px-3 py-1 text-[12px] font-semibold text-[#5a5a66]">
           Coming soon
         </span>
@@ -281,7 +289,10 @@ function ComingSoonView({ name, description }: { name: string; description: stri
         >
           Back to Image Tools
         </Link>
-      </section>
+          </section>
+        </section>
+      </div>
     </div>
+
   );
 }
