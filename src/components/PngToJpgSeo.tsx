@@ -12,7 +12,7 @@ export const pngToJpgSoftwareJsonLd = {
   operatingSystem: "Any (browser-based, Windows, macOS, Android, iOS, Linux)",
   url,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  publisher: { "@type": "Organization", name: "FreePDFHub", url: SITE_URL },
+  publisher: { "@type": "Organization", name: "pdftoolconverteronline.com", url: SITE_URL },
   description:
     "Free online PNG to JPG converter. Batch convert PNG images to smaller JPG files in your browser, no upload and no signup. Adjustable quality.",
 };
@@ -29,7 +29,7 @@ export const pngToJpgHowToJsonLd = {
       "@type": "HowToStep",
       position: 1,
       name: "Open the PNG to JPG tool",
-      text: "Open the PNG to JPG tool on FreePDFHub. No signup, no account, and no software install is needed.",
+      text: "Open the PNG to JPG tool on pdftoolconverteronline.com. No signup, no account, and no software install is needed.",
       url: `${url}#step-1`,
     },
     {

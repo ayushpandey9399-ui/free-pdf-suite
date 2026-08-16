@@ -8,9 +8,9 @@ import { ContactForm } from "@/components/ContactForm";
 
 export const Route = createFileRoute("/contact")({
   head: () => {
-    const title = "Contact FreePDFHub, Bug Reports and Feedback | FreePDFHub";
+    const title = "Contact pdftoolconverteronline.com, Bug Reports and Feedback | pdftoolconverteronline.com";
     const description =
-      "Get in touch with FreePDFHub. We read every bug report, feature request, and piece of feedback, and usually respond within a few days by email.";
+      "Get in touch with pdftoolconverteronline.com. We read every bug report, feature request, and piece of feedback, and usually respond within a few days by email.";
     const url = `${SITE_URL}/contact`;
     const ogImage = `${SITE_URL}/og-cover.png`;
     return {
@@ -48,7 +48,7 @@ function ContactPage() {
     <LegalPage title="Contact Us">
       <p>
         We read everything, bug reports, feature requests, and general feedback all
-        land in the same inbox and help shape what FreePDFHub becomes next.
+        land in the same inbox and help shape what pdftoolconverteronline.com becomes next.
       </p>
 
       <p>

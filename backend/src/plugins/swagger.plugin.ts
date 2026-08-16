@@ -20,9 +20,9 @@ export async function registerSwagger(
     openapi: {
       openapi: '3.1.0',
       info: {
-        title: 'FreePDFHub Enterprise API',
+        title: 'pdftoolconverteronline.com Enterprise API',
         description:
-          'Platform API for FreePDFHub. Phase 0 exposes platform endpoints only: health, tool registry and workspace contracts.',
+          'Platform API for pdftoolconverteronline.com. Phase 0 exposes platform endpoints only: health, tool registry and workspace contracts.',
         version,
       },
       tags: [

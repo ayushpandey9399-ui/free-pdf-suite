@@ -49,7 +49,7 @@ import {
 } from "@/lib/scanGeometry";
 import { checkOcrAssets, getOcrWorker, ocrCanvas, terminateOcrWorker } from "@/lib/scanOcr";
 
-const OCR_CONSENT_KEY = "freepdfhub.scan.ocrConsented";
+const OCR_CONSENT_KEY = "pdftoolconverteronline.scan.ocrConsented";
 
 type FilterKind = "original" | "document" | "grayscale" | "bw";
 type PageSize = "a4" | "letter" | "fit";

@@ -216,7 +216,7 @@ export function PdfToWordSeo() {
         An honest note: this tool uses our server
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        Every other tool on FreePDFHub runs entirely inside your browser and
+        Every other tool on pdftoolconverteronline.com runs entirely inside your browser and
         never uploads anything. This one is the exception, and we would rather
         say so clearly than bury it. A high quality PDF to Word conversion needs
         a document engine that is far too large to load into a browser tab, so
@@ -298,7 +298,7 @@ export const pdfToWordHowToJsonLd = {
     "Convert a PDF into an editable Word .docx document for free. Pick your file, upload it to our conversion server, and download the Word version. The uploaded file is deleted right after the download.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "A PDF file under 25 MB" }],
-  tool: [{ "@type": "HowToTool", name: "FreePDFHub PDF to Word (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "pdftoolconverteronline.com PDF to Word (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -311,7 +311,7 @@ export const pdfToWordHowToJsonLd = {
 export const pdfToWordSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "FreePDFHub PDF to Word",
+  name: "pdftoolconverteronline.com PDF to Word",
   description:
     "Convert PDF to Word online free. Upload a PDF up to 25 MB and get an editable .docx with headings, paragraphs, tables and images preserved. No signup and no watermark, and the uploaded file is deleted right after conversion.",
   applicationCategory: "UtilitiesApplication",

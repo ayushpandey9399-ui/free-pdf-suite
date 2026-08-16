@@ -100,7 +100,7 @@ export function ContactForm() {
         ].join("\n");
         const href =
           `mailto:${CONTACT_EMAIL}` +
-          `?subject=${encodeURIComponent(`[FreePDFHub] ${parsed.data.subject} from ${parsed.data.name}`)}` +
+          `?subject=${encodeURIComponent(`[pdftoolconverteronline.com] ${parsed.data.subject} from ${parsed.data.name}`)}` +
           `&body=${encodeURIComponent(body)}`;
         window.location.href = href;
         setStatus("sent");
@@ -115,7 +115,7 @@ export function ContactForm() {
           email: parsed.data.email,
           subject: parsed.data.subject,
           message: parsed.data.message,
-          _subject: `[FreePDFHub] ${parsed.data.subject} from ${parsed.data.name}`,
+          _subject: `[pdftoolconverteronline.com] ${parsed.data.subject} from ${parsed.data.name}`,
         }),
       });
       if (!response.ok) throw new Error(`Request failed with status ${response.status}`);

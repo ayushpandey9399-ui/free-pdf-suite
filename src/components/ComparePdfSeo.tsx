@@ -237,7 +237,7 @@ export const compareHowToJsonLd = {
     { "@type": "HowToSupply", name: "The original PDF" },
     { "@type": "HowToSupply", name: "The revised PDF to compare against it" },
   ],
-  tool: [{ "@type": "HowToTool", name: "FreePDFHub Compare PDFs (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "pdftoolconverteronline.com Compare PDFs (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -250,7 +250,7 @@ export const compareHowToJsonLd = {
 export const compareSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "FreePDFHub Compare PDFs",
+  name: "pdftoolconverteronline.com Compare PDFs",
   description:
     "Compare two PDF files online free, spot every changed page side by side and get a word-level Text Diff, entirely in the browser. No upload, no signup, no page limits.",
   applicationCategory: "UtilitiesApplication",

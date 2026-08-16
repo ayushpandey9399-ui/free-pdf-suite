@@ -1,5 +1,5 @@
 /*
- * FreePDFHub — Service Worker
+ * pdftoolconverteronline.com — Service Worker
  * ---------------------------------------------------------------------------
  * EMERGENCY RECOVERY (3 documented paths to unstick a broken deployment)
  *

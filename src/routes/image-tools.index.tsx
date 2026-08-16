@@ -6,7 +6,7 @@ import { SITE_URL } from "@/lib/site";
 import { breadcrumbJsonLd } from "@/lib/seoSchema";
 
 
-const TITLE = "Free Image Tools, Convert HEIC, JPG, PNG | FreePDFHub";
+const TITLE = "Free Image Tools, Convert HEIC, JPG, PNG | pdftoolconverteronline.com";
 const DESC =
   "Free browser-based image tools. Convert HEIC to JPG, and more coming soon. 100% client-side, no signup, no upload, your files stay on your device.";
 
@@ -19,7 +19,7 @@ export const Route = createFileRoute("/image-tools/")({
       name: "Free Image Tools",
       description: DESC,
       url,
-      isPartOf: { "@type": "WebSite", name: "FreePDFHub", url: `${SITE_URL}/` },
+      isPartOf: { "@type": "WebSite", name: "pdftoolconverteronline.com", url: `${SITE_URL}/` },
       mainEntity: {
         "@type": "ItemList",
         name: "Free browser-based image tools",

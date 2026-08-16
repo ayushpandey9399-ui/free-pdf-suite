@@ -364,7 +364,7 @@ export function CompressImageTool() {
       <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-white/95 backdrop-blur-sm">
         <div className="text-center">
           {/* Logo Placeholder - assuming there's a site logo or we use text */}
-          <div className="mb-8 text-2xl font-bold text-[#E5322D]">FreePDFHub</div>
+          <div className="mb-8 text-2xl font-bold text-[#E5322D]">pdftoolconverteronline.com</div>
           
           <h2 className="mb-8 text-3xl font-bold text-[#33333c]">Compressing images...</h2>
           

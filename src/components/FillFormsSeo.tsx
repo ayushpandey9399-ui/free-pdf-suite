@@ -325,7 +325,7 @@ export const fillFormsHowToJsonLd = {
     "Fill interactive PDF forms entirely in the browser, text fields, checkboxes, dropdowns and radio groups, and download a proper filled AcroForm PDF. No upload, no signup, no watermark.",
   totalTime: "PT2M",
   supply: [{ "@type": "HowToSupply", name: "A PDF form with interactive fields" }],
-  tool: [{ "@type": "HowToTool", name: "FreePDFHub Fill PDF Forms (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "pdftoolconverteronline.com Fill PDF Forms (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -338,7 +338,7 @@ export const fillFormsHowToJsonLd = {
 export const fillFormsSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "FreePDFHub Fill PDF Forms",
+  name: "pdftoolconverteronline.com Fill PDF Forms",
   description:
     "Fill PDF forms online free, type into text fields, tick checkboxes and select dropdown or radio options. Entirely in the browser. No upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",

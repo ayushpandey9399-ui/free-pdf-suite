@@ -5,9 +5,9 @@ import { CONTACT_EMAIL, LAST_UPDATED, SITE_URL } from "@/lib/site";
 
 export const Route = createFileRoute("/privacy-policy")({
   head: () => {
-    const title = "Privacy Policy, Your Files Stay on Your Device | FreePDFHub";
+    const title = "Privacy Policy, Your Files Stay on Your Device | pdftoolconverteronline.com";
     const description =
-      "FreePDFHub processes every PDF entirely inside your browser. Read our privacy policy: no uploads, no accounts, and full disclosure on cookies and ads.";
+      "pdftoolconverteronline.com processes every PDF entirely inside your browser. Read our privacy policy: no uploads, no accounts, and full disclosure on cookies and ads.";
     const url = `${SITE_URL}/privacy-policy`;
     const ogImage = `${SITE_URL}/og-cover.png`;
     return {
@@ -64,7 +64,7 @@ function PrivacyPolicyPage() {
 
       <h2>Server based tools</h2>
       <p>
-        One tool on FreePDFHub, PDF to Word, cannot run in the browser, because a
+        One tool on pdftoolconverteronline.com, PDF to Word, cannot run in the browser, because a
         faithful Word conversion needs a document engine that is far too large to
         download into a browser tab. Here is exactly how that tool handles your data:
       </p>
@@ -88,11 +88,11 @@ function PrivacyPolicyPage() {
         <li>
           The conversion server runs our own open source code, which you can read at{" "}
           <a
-            href="https://github.com/ayushpandey9399-ui/freepdfhub-api"
+            href="https://github.com/ayushpandey9399-ui/pdftoolconverteronline-api"
             target="_blank"
             rel="noopener noreferrer"
           >
-            github.com/ayushpandey9399-ui/freepdfhub-api
+            github.com/ayushpandey9399-ui/pdftoolconverteronline-api
           </a>
           .
         </li>
@@ -101,7 +101,7 @@ function PrivacyPolicyPage() {
 
       <h2>Information we do NOT collect</h2>
       <p>
-        For the browser-based tools currently on FreePDFHub, we do not receive or store:
+        For the browser-based tools currently on pdftoolconverteronline.com, we do not receive or store:
       </p>
       <ul>
         <li>Your PDF, image, or text files, or any of their contents.</li>
@@ -120,7 +120,7 @@ function PrivacyPolicyPage() {
       <h2>Information collected automatically</h2>
       <p>
         Like most websites, basic technical data may be processed when you visit
-        FreePDFHub, such as browser type, device type, pages visited, approximate
+        pdftoolconverteronline.com, such as browser type, device type, pages visited, approximate
         location derived from your IP address, and referral source. This data relates
         only to the page visit itself and is handled by our analytics and hosting
         providers described below. For the current browser-based tools, this data is
@@ -131,7 +131,7 @@ function PrivacyPolicyPage() {
       <h2>Cookies and similar technologies</h2>
       <p>
         Cookies are small text files stored on your device that help websites remember
-        information about your visit. FreePDFHub may use:
+        information about your visit. pdftoolconverteronline.com may use:
       </p>
       <ul>
         <li>
@@ -152,7 +152,7 @@ function PrivacyPolicyPage() {
       <h2>Advertising (Google AdSense)</h2>
       <p>
         We use (or plan to use) Google AdSense to show advertisements that keep
-        FreePDFHub free for everyone.
+        pdftoolconverteronline.com free for everyone.
       </p>
       <ul>
         <li>
@@ -186,7 +186,7 @@ function PrivacyPolicyPage() {
       <p>
         <strong>
           Important: ads appear on the page around the tools. For the browser-based
-          tools currently on FreePDFHub, advertising partners do not receive access to
+          tools currently on pdftoolconverteronline.com, advertising partners do not receive access to
           the files you process, because those files stay in your browser.
         </strong>
       </p>
@@ -201,14 +201,14 @@ function PrivacyPolicyPage() {
 
       <h2>Third-party links</h2>
       <p>
-        Some pages on FreePDFHub link to external websites. Once you leave our site, we
+        Some pages on pdftoolconverteronline.com link to external websites. Once you leave our site, we
         are not responsible for the privacy practices of those third parties. Their
         content is governed by their own privacy policies.
       </p>
 
       <h2>Children's privacy</h2>
       <p>
-        FreePDFHub is a general-audience service. We do not knowingly collect personal
+        pdftoolconverteronline.com is a general-audience service. We do not knowingly collect personal
         information from children under 13. If you believe a child has provided
         personal information to us, please contact us and we will take appropriate
         action.

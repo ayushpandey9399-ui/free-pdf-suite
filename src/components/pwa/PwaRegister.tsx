@@ -12,7 +12,7 @@ export function PwaRegister() {
       if (cancelled) return;
       registerServiceWorker((activate) => {
         toast("A new version is available", {
-          description: "Refresh to load the latest FreePDFHub.",
+          description: "Refresh to load the latest pdftoolconverteronline.com.",
           duration: Infinity,
           action: {
             label: "Refresh",

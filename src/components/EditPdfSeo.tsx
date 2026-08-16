@@ -352,7 +352,7 @@ export const editPdfHowToJsonLd = {
     "Edit and annotate any PDF entirely in the browser, add text, highlights, shapes, lines, arrows, freehand drawings and images, then save a new PDF. No upload, no signup, no watermark.",
   totalTime: "PT2M",
   supply: [{ "@type": "HowToSupply", name: "A PDF file to edit" }],
-  tool: [{ "@type": "HowToTool", name: "FreePDFHub Edit PDF (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "pdftoolconverteronline.com Edit PDF (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -365,7 +365,7 @@ export const editPdfHowToJsonLd = {
 export const editPdfSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "FreePDFHub Edit PDF",
+  name: "pdftoolconverteronline.com Edit PDF",
   description:
     "Edit PDF online free, add text, highlights, rectangles, ellipses, lines, arrows, freehand drawings and images to any PDF. Entirely in the browser. No upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",

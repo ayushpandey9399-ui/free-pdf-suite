@@ -9,6 +9,6 @@ try {
   await startServer();
 } catch (error) {
   // The logger may not exist yet at this point, so stderr is the only safe channel.
-  console.error('[freepdfhub-api] fatal startup error:', error);
+  console.error('[pdftoolconverteronline-api] fatal startup error:', error);
   process.exit(1);
 }

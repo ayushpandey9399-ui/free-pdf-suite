@@ -5,7 +5,7 @@ import { tools, categories, type ToolCategory } from "@/tools/registry";
 import { HomeBottom } from "@/components/HomeBottom";
 import { SITE_URL, SITE_NAME, CONTACT_EMAIL } from "@/lib/site";
 
-const HOME_TITLE = "FreePDFHub | Every PDF tool, 100% free";
+const HOME_TITLE = "pdftoolconverteronline.com | Every PDF tool, 100% free";
 const HOME_DESC =
   "Free PDF tools that run in your browser. Merge, split, convert, compress, edit, and organize PDFs. No signup, no upload step, no limits, no watermarks.";
 const HOME_URL = `${SITE_URL}/`;
@@ -20,7 +20,7 @@ const homeJsonLd = {
       name: SITE_NAME,
       url: SITE_URL,
       description:
-        "FreePDFHub is a free suite of browser-based PDF tools, merge, split, compress, sign, convert and more, built by a small independent team in India.",
+        "pdftoolconverteronline.com is a free suite of browser-based PDF tools, merge, split, compress, sign, convert and more, built by a small independent team in India.",
       foundingDate: "2026",
       email: CONTACT_EMAIL,
       logo: {
