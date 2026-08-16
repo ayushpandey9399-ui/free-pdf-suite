@@ -32,13 +32,13 @@ export function UploadDropzone({
   return (
     <div className="flex flex-col items-center justify-center px-4 py-20 sm:py-32">
       <div
-        className="flex flex-col items-center justify-center"
+        className="flex flex-col items-center justify-center px-5 py-10 sm:px-20 sm:py-15"
         style={{
           border: "2px dashed #D1D5DB",
           borderRadius: "16px",
-          padding: "60px 80px",
           background: "white",
           minWidth: "320px",
+          maxWidth: "100%",
         }}
       >
         <button
