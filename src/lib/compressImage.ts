@@ -1,6 +1,6 @@
 
-export const COMPRESS_IMAGE_ENDPOINT = "https://api.freepdfhub.in/v1/tools/compress-image/jobs";
-export const COMPRESS_IMAGE_API_ORIGIN = "https://api.freepdfhub.in";
+export const COMPRESS_IMAGE_ENDPOINT = "https://api.pdftoolconverteronline.com/v1/tools/compress-image/jobs";
+export const COMPRESS_IMAGE_API_ORIGIN = "https://api.pdftoolconverteronline.com";
 export const COMPRESS_IMAGE_TIMEOUT_MS = 180_000;
 
 export type CompressImageFormat = "jpg" | "png" | "webp" | "svg" | "gif";

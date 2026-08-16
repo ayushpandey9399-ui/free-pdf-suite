@@ -10,7 +10,7 @@
  *    are still online.
  *
  * 2. Per-visitor URL kill switch:
- *      https://freepdfhub.in/?sw=kill
+ *      https://pdftoolconverteronline.com/?sw=kill
  *    Loading any page with ?sw=kill triggers the same cleanup as (1),
  *    scoped to that visitor. Also supports ?sw=off which only skips
  *    registration on that load (does not unregister). Share ?sw=kill

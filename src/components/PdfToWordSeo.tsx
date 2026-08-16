@@ -9,7 +9,7 @@ const steps = [
   },
   {
     title: "Watch the upload progress bar",
-    text: "Unlike the rest of our tools, this one needs a server, so the file is uploaded to our conversion service at api.freepdfhub.in. A determinate progress bar shows exactly how much has been sent, and a Cancel button stops the transfer at any point and returns you to the start.",
+    text: "Unlike the rest of our tools, this one needs a server, so the file is uploaded to our conversion service at api.pdftoolconverteronline.com. A determinate progress bar shows exactly how much has been sent, and a Cancel button stops the transfer at any point and returns you to the start.",
   },
   {
     title: "Let the server convert the PDF to DOCX",

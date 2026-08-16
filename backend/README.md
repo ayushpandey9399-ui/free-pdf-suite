@@ -1,6 +1,6 @@
-# FreePDFHub Enterprise API | Phase 0 (Foundation)
+# pdftoolconverteronline.com Enterprise API | Phase 0 (Foundation)
 
-Backend foundation for `api.freepdfhub.in`. This phase contains **no document engines and no tools**:
+Backend foundation for `api.pdftoolconverteronline.com`. This phase contains **no document engines and no tools**:
 no Ghostscript, no LibreOffice, no Poppler, no ImageMagick, no OCR, no BullMQ, no queue.
 It exists so every later phase can add tools without touching the platform.
 

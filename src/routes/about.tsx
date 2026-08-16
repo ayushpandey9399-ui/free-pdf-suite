@@ -56,7 +56,7 @@ function AboutPage() {
         2026. We started it because every basic PDF task online was gated behind
         signups, watermarks and upload limits, so instead we built tools that run
         right in the browser. It's a focused project, not a big company, and you can
-        reach us any time at <a href={`mailto:${"hello@freepdfhub.in"}`}>hello@freepdfhub.in</a>, we read every message.
+        reach us any time at <a href={`mailto:${"hello@pdftoolconverteronline.com"}`}>hello@pdftoolconverteronline.com</a>, we read every message.
       </p>
 
       <p>
