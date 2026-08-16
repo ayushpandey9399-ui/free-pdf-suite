@@ -264,7 +264,7 @@ export const pageNumbersHowToJsonLd = {
     "Add page numbers to any PDF entirely in the browser, pick a corner, set the font size and starting number, and download the numbered file. No upload, no signup, no watermark.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "A PDF file to number" }],
-  tool: [{ "@type": "HowToTool", name: "FreePDFHub Add Page Numbers (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "pdftoolconverteronline.com Add Page Numbers (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -277,7 +277,7 @@ export const pageNumbersHowToJsonLd = {
 export const pageNumbersSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "FreePDFHub Add Page Numbers",
+  name: "pdftoolconverteronline.com Add Page Numbers",
   description:
     "Add page numbers to PDF online free, choose one of six positions, set font size and starting number, and save the numbered file entirely inside the browser. No upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",

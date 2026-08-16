@@ -108,27 +108,27 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "FreePDFHub | Every PDF tool, 100% free" },
+      { title: "pdftoolconverteronline.com | Every PDF tool, 100% free" },
       {
         name: "description",
         content:
           "Free PDF tools that run in your browser. Merge, split, convert, compress, edit, and organize PDFs, no signup, no upload step, no limits.",
       },
-      { property: "og:title", content: "FreePDFHub | Every PDF tool, 100% free" },
+      { property: "og:title", content: "pdftoolconverteronline.com | Every PDF tool, 100% free" },
       {
         property: "og:description",
         content: "Free PDF tools that run in your browser. Merge, split, convert, compress, edit, and organize PDFs, no signup, no upload step, no limits.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:site_name", content: "FreePDFHub" },
+      { property: "og:site_name", content: "pdftoolconverteronline.com" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "FreePDFHub | Every PDF tool, 100% free" },
+      { name: "twitter:title", content: "pdftoolconverteronline.com | Every PDF tool, 100% free" },
       { name: "twitter:description", content: "Free PDF tools that run in your browser. Merge, split, convert, compress, edit, and organize PDFs, no signup, no upload step, no limits." },
       { name: "google-site-verification", content: "Hvu09ArzP_NwJvEh6EiU9tR2F6u9cHMtjMKCmNrQvoY" },
       { name: "theme-color", content: "#e5322d" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-status-bar-style", content: "default" },
-      { name: "apple-mobile-web-app-title", content: "FreePDFHub" },
+      { name: "apple-mobile-web-app-title", content: "pdftoolconverteronline.com" },
       { name: "mobile-web-app-capable", content: "yes" },
     ],
     links: [

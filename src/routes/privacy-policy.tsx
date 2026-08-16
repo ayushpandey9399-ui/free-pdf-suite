@@ -88,11 +88,11 @@ function PrivacyPolicyPage() {
         <li>
           The conversion server runs our own open source code, which you can read at{" "}
           <a
-            href="https://github.com/ayushpandey9399-ui/freepdfhub-api"
+            href="https://github.com/ayushpandey9399-ui/pdftoolconverteronline-api"
             target="_blank"
             rel="noopener noreferrer"
           >
-            github.com/ayushpandey9399-ui/freepdfhub-api
+            github.com/ayushpandey9399-ui/pdftoolconverteronline-api
           </a>
           .
         </li>

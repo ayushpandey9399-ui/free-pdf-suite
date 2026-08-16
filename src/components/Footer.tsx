@@ -91,7 +91,7 @@ export function Footer() {
           <div className="lg:col-span-2">
             <Link
               to="/"
-              aria-label="FreePDFHub, home"
+              aria-label="pdftoolconverteronline.com, home"
               className="inline-flex items-center gap-2.5 font-extrabold tracking-tight text-[26px] leading-none"
             >
               <LogoMark size={38} />
@@ -164,7 +164,7 @@ export function Footer() {
           className="mx-auto flex max-w-[1200px] flex-col items-center gap-2 px-4 sm:px-6 py-5 text-[13px] sm:flex-row sm:justify-between"
           style={{ color: "#9CA3AF" }}
         >
-          <p>© 2026 FreePDFHub. All rights reserved.</p>
+          <p>© 2026 pdftoolconverteronline.com. All rights reserved.</p>
           <div className="flex flex-col items-center gap-2 sm:flex-row sm:gap-6">
             <button
               type="button"

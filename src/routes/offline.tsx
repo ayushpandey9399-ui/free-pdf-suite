@@ -4,7 +4,7 @@ export const Route = createFileRoute("/offline")({
   component: OfflinePage,
   head: () => ({
     meta: [
-      { title: "Offline | FreePDFHub" },
+      { title: "Offline | pdftoolconverteronline.com" },
       { name: "robots", content: "noindex" },
       {
         name: "description",

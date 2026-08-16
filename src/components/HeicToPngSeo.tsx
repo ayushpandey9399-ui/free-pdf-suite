@@ -12,7 +12,7 @@ export const heicToPngSoftwareJsonLd = {
   operatingSystem: "Any (browser-based, Windows, macOS, Android, iOS, Linux)",
   url,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  publisher: { "@type": "Organization", name: "FreePDFHub", url: SITE_URL },
+  publisher: { "@type": "Organization", name: "pdftoolconverteronline.com", url: SITE_URL },
   description:
     "Free online HEIC to PNG converter. Batch convert iPhone HEIC and HEIF photos to lossless PNG in your browser, no upload and no signup.",
 };
@@ -29,7 +29,7 @@ export const heicToPngHowToJsonLd = {
       "@type": "HowToStep",
       position: 1,
       name: "Open the HEIC to PNG tool",
-      text: "Open the HEIC to PNG tool on FreePDFHub. No signup, no account, and no software install is needed.",
+      text: "Open the HEIC to PNG tool on pdftoolconverteronline.com. No signup, no account, and no software install is needed.",
       url: `${url}#step-1`,
     },
     {

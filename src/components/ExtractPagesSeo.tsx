@@ -276,7 +276,7 @@ export const extractPagesHowToJsonLd = {
     "Save specific pages from a PDF as a new PDF, entirely inside your browser, click thumbnails to pick any pages in any combination and download an extracted copy. The original file is not modified and never leaves your device.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "The PDF you want to extract pages from" }],
-  tool: [{ "@type": "HowToTool", name: "FreePDFHub Extract Pages (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "pdftoolconverteronline.com Extract Pages (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -289,7 +289,7 @@ export const extractPagesHowToJsonLd = {
 export const extractPagesSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "FreePDFHub Extract Pages",
+  name: "pdftoolconverteronline.com Extract Pages",
   description:
     "Extract pages from PDF online free, pick any pages in any combination from a thumbnail grid and save them as a new PDF. Runs entirely in the browser, no upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",

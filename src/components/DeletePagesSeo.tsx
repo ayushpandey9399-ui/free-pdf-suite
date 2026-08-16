@@ -288,7 +288,7 @@ export const deletePagesHowToJsonLd = {
     "Remove unwanted pages from a PDF entirely inside your browser, click thumbnails to select pages and download a cleaned copy. The original file is not modified and never leaves your device.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "The PDF you want to trim" }],
-  tool: [{ "@type": "HowToTool", name: "FreePDFHub Delete Pages (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "pdftoolconverteronline.com Delete Pages (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -301,7 +301,7 @@ export const deletePagesHowToJsonLd = {
 export const deletePagesSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "FreePDFHub Delete Pages",
+  name: "pdftoolconverteronline.com Delete Pages",
   description:
     "Delete pages from a PDF online free, select pages visually from a thumbnail grid and download a cleaned copy. Runs entirely in the browser, no upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",

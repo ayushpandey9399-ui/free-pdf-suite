@@ -24,7 +24,7 @@ export const configDefaults = {
   RATE_LIMIT_MAX: 120,
   RATE_LIMIT_WINDOW_MS: 60_000,
 
-  WORKSPACE_ROOT: '/var/lib/freepdfhub',
+  WORKSPACE_ROOT: '/var/lib/pdftoolconverteronline',
   WORKSPACE_UPLOAD_TTL_MS: 15 * 60_000,
   WORKSPACE_OUTPUT_TTL_MS: 60 * 60_000,
 

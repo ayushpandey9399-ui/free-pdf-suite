@@ -27,4 +27,4 @@ export const REDACTED_LOG_PATHS = [
 ] as const;
 
 /** Machine readable identity of this service, surfaced by health endpoints. */
-export const SERVICE_NAME = 'freepdfhub-api';
+export const SERVICE_NAME = 'pdftoolconverteronline-api';

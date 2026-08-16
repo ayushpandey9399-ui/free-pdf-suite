@@ -123,7 +123,7 @@ export function ExtractImagesSeo() {
       </p>
 
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Why use FreePDFHub to extract PDF images?
+        Why use pdftoolconverteronline.com to extract PDF images?
       </h2>
       <div className="mt-10 grid gap-6 sm:grid-cols-2">
         {benefits.map((b) => (
@@ -195,7 +195,7 @@ export const extractImagesHowToJsonLd = {
 export const extractImagesSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "FreePDFHub Extract Images",
+  name: "pdftoolconverteronline.com Extract Images",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Web",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

@@ -138,11 +138,11 @@ export function ProtectPdfSeo() {
       </ol>
 
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Why use FreePDFHub to protect your PDF?
+        Why use pdftoolconverteronline.com to protect your PDF?
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         Most online tools require you to upload your document and its intended password to their servers. 
-        FreePDFHub is different. The encryption happens entirely within your browser tab using WebAssembly. 
+        pdftoolconverteronline.com is different. The encryption happens entirely within your browser tab using WebAssembly. 
         This means your document and your password never leave your device, ensuring 100% privacy for your most sensitive data.
       </p>
 
@@ -217,7 +217,7 @@ export const protectHowToJsonLd = {
     "Add AES-256 password encryption to a PDF entirely in your browser, the file and password never leave your device.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "The PDF you want to encrypt" }],
-  tool: [{ "@type": "HowToTool", name: "FreePDFHub Protect PDF (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "pdftoolconverteronline.com Protect PDF (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -230,7 +230,7 @@ export const protectHowToJsonLd = {
 export const protectSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "FreePDFHub Protect PDF",
+  name: "pdftoolconverteronline.com Protect PDF",
   description:
     "Password protect PDF online free with AES-256 encryption in your browser. Your file and password never leave your device. No signup, no watermark.",
   applicationCategory: "SecurityApplication",

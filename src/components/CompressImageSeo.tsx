@@ -12,7 +12,7 @@ export const compressImageSoftwareJsonLd = {
   operatingSystem: "Any (browser-based, Windows, macOS, Android, iOS, Linux)",
   url,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  publisher: { "@type": "Organization", name: "FreePDFHub", url: SITE_URL },
+  publisher: { "@type": "Organization", name: "pdftoolconverteronline.com", url: SITE_URL },
   description:
     "Free online image compressor. Reduce JPG, PNG, and WebP file size in your browser with a quality slider or a target size in KB. No upload, no signup.",
 };
@@ -29,7 +29,7 @@ export const compressImageHowToJsonLd = {
       "@type": "HowToStep",
       position: 1,
       name: "Open the image compressor",
-      text: "Open the Compress Image tool on FreePDFHub. No signup, no account, and no software install is needed.",
+      text: "Open the Compress Image tool on pdftoolconverteronline.com. No signup, no account, and no software install is needed.",
       url: `${url}#step-1`,
     },
     {

@@ -160,7 +160,7 @@ export function ImagesToPdfSeo() {
       </p>
 
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Why use FreePDFHub to convert JPG to PDF?
+        Why use pdftoolconverteronline.com to convert JPG to PDF?
       </h2>
       <div className="mt-10 grid gap-6 sm:grid-cols-2">
         {benefits.map((b) => (
@@ -224,7 +224,7 @@ export const imagesToPdfHowToJsonLd = {
     "Combine JPG and PNG images into a single PDF entirely inside your browser, pick a page setup, choose a margin and download the finished file. No upload, no signup, no watermark.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "One or more JPG or PNG images" }],
-  tool: [{ "@type": "HowToTool", name: "FreePDFHub Images to PDF (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "pdftoolconverteronline.com Images to PDF (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -237,7 +237,7 @@ export const imagesToPdfHowToJsonLd = {
 export const imagesToPdfSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "FreePDFHub Images to PDF",
+  name: "pdftoolconverteronline.com Images to PDF",
   description:
     "Convert JPG and PNG images into one PDF online free, combine many pictures into a single document with your choice of Fit-to-image, A4 or Letter page size. Runs entirely in the browser, no upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",

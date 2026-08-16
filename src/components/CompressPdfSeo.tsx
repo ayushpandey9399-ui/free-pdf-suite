@@ -90,7 +90,7 @@ const faqs = [
   },
   {
     q: "Do I need an account or app?",
-    a: "No. No signup, no email address, no download, no watermark. Every tool on FreePDFHub is free to use.",
+    a: "No. No signup, no email address, no download, no watermark. Every tool on pdftoolconverteronline.com is free to use.",
   },
   {
     q: "Can I compress a password-protected PDF?",
@@ -162,7 +162,7 @@ export function CompressPdfSeo() {
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         Most online PDF compressors work by uploading your file to their servers, running the compression there and
         letting you download the result. That means someone else's infrastructure briefly holds your document, not
-        ideal for salary slips, bank statements, admit cards or ID scans. FreePDFHub takes a different route: the
+        ideal for salary slips, bank statements, admit cards or ID scans. pdftoolconverteronline.com takes a different route: the
         compression code runs inside your browser, so the PDF is opened, shrunk and saved without ever touching a
         remote server.
       </p>
@@ -237,7 +237,7 @@ export const compressHowToJsonLd = {
     "Reduce PDF file size for free in your browser, no upload, no signup, no watermark. Pick a compression level and download the smaller file.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "A PDF file you want to shrink" }],
-  tool: [{ "@type": "HowToTool", name: "FreePDFHub Compress PDF (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "pdftoolconverteronline.com Compress PDF (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -250,7 +250,7 @@ export const compressHowToJsonLd = {
 export const compressSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "FreePDFHub Compress PDF",
+  name: "pdftoolconverteronline.com Compress PDF",
   description:
     "Compress PDF online free, reduce PDF file size in your browser with no upload, no signup and no watermark.",
   applicationCategory: "UtilitiesApplication",

@@ -239,7 +239,7 @@ export const reorderPagesHowToJsonLd = {
     "Reorder PDF pages entirely inside your browser, drag thumbnails into a new sequence and download the rearranged copy. The original file is not modified and never leaves your device.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "The PDF whose page order you want to change" }],
-  tool: [{ "@type": "HowToTool", name: "FreePDFHub Reorder Pages (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "pdftoolconverteronline.com Reorder Pages (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -252,7 +252,7 @@ export const reorderPagesHowToJsonLd = {
 export const reorderPagesSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "FreePDFHub Reorder Pages",
+  name: "pdftoolconverteronline.com Reorder Pages",
   description:
     "Rearrange PDF pages online free, drag and drop page thumbnails into a new order and download the rebuilt PDF. Runs entirely in the browser with full touch support, no upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",
