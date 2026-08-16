@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://freepdfhub.in/sitemap.xml
+Sitemap: https://pdftoolconverteronline.com/sitemap.xml
