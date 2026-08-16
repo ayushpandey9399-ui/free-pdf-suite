@@ -1,90 +1,31 @@
-# PDFFree — Client-Side PDF Toolkit
+# Plan - Favicon Refresh
 
-A privacy-first PDF web app where all processing runs in the browser. No backend, no uploads, no auth. Built on the existing TanStack Start + Tailwind + shadcn stack.
+Design and implement a professional favicon for FreePDFHub that aligns with its "two-layer overlapping badge" visual identity.
 
-## Scope
+## User Review Required
 
-- Homepage with searchable tool grid grouped by category
-- 14 fully working tools, all client-side
-- Shared tool page layout, reusable dropzone, shared PDF hook
-- Responsive, accessible, friendly UI with blue-600 primary
-- Privacy badge on every tool
+> [!IMPORTANT]
+> I have analyzed the project's visual style and existing assets. I propose creating a custom favicon that uses the "Red" theme (matching the core brand color `#E5322D`) with a "Document with PDF badge" design, similar to the high-quality tool icons.
 
-## Tech & Libraries
+- **Option A**: Use the current `logo-512.png` and adapt it to a square favicon.
+- **Option B**: Design a new SVG favicon that matches the site's "two-layer" tool icon system (Recommended).
+- **Option C**: Describe a specific design you'd like me to create.
 
-Add: `pdf-lib`, `pdfjs-dist`, `jszip`, `file-saver`, `@dnd-kit/core` + `@dnd-kit/sortable` (drag reorder), `diff` (text diff).
+## Proposed Implementation
 
-pdfjs worker: import worker via `?url` and set `GlobalWorkerOptions.workerSrc`. All PDF logic gated to client (lazy-loaded components / `useEffect`) since TanStack Start SSRs by default.
+### 1. Design & Asset Creation
+- Create a new `public/favicon.svg` using the brand's primary red (`#E5322D`).
+- The design will feature a "Back Paper" (light red/pink) and a "Front Badge" (solid red) with a white "PDF" glyph or icon.
+- This ensures the favicon looks consistent with the 28+ tools on the site.
 
-## Routes (file-based)
+### 2. Metadata Integration
+- Update `src/routes/__root.tsx` to ensure all favicon links point to the new assets.
+- Verify that PWA manifest (`public/manifest.webmanifest`) and apple-touch-icons are aligned.
 
-```
-src/routes/
-  __root.tsx        (update meta: PDFFree, add Navbar/Footer wrapper)
-  index.tsx         (homepage: hero + searchable tool grid + footer)
-  tools.$slug.tsx   (dynamic tool page — dispatches to tool component by slug)
-```
-
-Each tool has metadata (slug, name, category, icon, description, component) in `src/tools/registry.ts`. The dynamic route looks up the tool and renders it inside `<ToolLayout>`.
-
-## Shared Components
-
-- `src/components/Navbar.tsx` — "PDFFree" logo + "All tools" link
-- `src/components/Footer.tsx` — privacy tagline
-- `src/components/FileDropzone.tsx` — drag/drop + click, accepts filter, multi/single, file list with remove
-- `src/components/ToolLayout.tsx` — title, description, privacy badge, dropzone slot, options slot, action button, progress, download button, toast errors
-- `src/components/PagePreview.tsx` — pdfjs thumbnail renderer
-- `src/components/SortableThumbGrid.tsx` — dnd-kit grid for reorder/select
-- `src/hooks/usePdf.ts` — load pdf-lib doc, render thumbnails via pdfjs, parse page ranges, progress helper, save/download helpers
-- `src/lib/pdfWorker.ts` — pdfjs worker init
-- `src/lib/download.ts` — file-saver + jszip helpers
-
-## Tools (one folder each under `src/tools/`)
-
-Convert: `images-to-pdf`, `pdf-to-images`, `pdf-to-text`
-Organize: `merge`, `split`, `delete-pages`, `extract-pages`, `reorder-pages`, `rotate`
-Edit: `page-numbers`, `watermark`, `crop`
-Forms: `fill-forms`
-Compare: `compare`
-
-Each exports `{ meta, Component }`. Priority build order per request: Homepage + ToolLayout → Merge → Split → Images→PDF → PDF→Images → then remaining tools.
-
-## UX Details
-
-- Privacy badge (lock icon) fixed in ToolLayout header
-- Loading spinner + percent progress for per-page loops
-- Success toast via sonner on download
-- Warning toast if file > 100MB
-- Empty states with icon + hint
-- Hover lift + shadow on tool cards
-- Keyboard focus rings, ARIA labels on dropzone/buttons
-- Mobile: single-column grid, sticky action button
-
-## SSR / TanStack Notes
-
-- All tool components use `React.lazy` + `<ClientOnly>` wrapper (or dynamic import inside `useEffect`) so pdfjs/pdf-lib never run during SSR
-- Update `__root.tsx` head: title "PDFFree — Every PDF tool, 100% free", matching description/og/twitter
-- `tools.$slug.tsx` sets per-tool head() with tool name + description
-- Homepage keeps root meta; add tool grid content
+### 3. Cleanup
+- Remove or overwrite stale favicon placeholders to ensure browser cache picks up the new high-resolution version.
 
 ## Technical Details
-
-- pdfjs worker: `import workerSrc from 'pdfjs-dist/build/pdf.worker.min.mjs?url'`
-- Page range parser: `"1-3,5,8-10"` → `number[]` with validation
-- Merge: `PDFDocument.create()` + `copyPages` loop
-- Split ranges: one output per range; "every page" mode → zip of N single-page PDFs
-- Images→PDF: `embedJpg`/`embedPng`, page size = image / A4, orientation + margin options
-- PDF→Images: pdfjs `page.render` to canvas → `toBlob(png|jpeg, quality)`, zip if >1
-- PDF→Text: pdfjs `getTextContent()` joined per page
-- Delete/Extract/Reorder: build new doc via `copyPages` with chosen indices/order
-- Rotate: `page.setRotation(degrees(n))` on selected pages
-- Page numbers: draw text with `StandardFonts.Helvetica` at position offsets
-- Watermark text: `drawText` with opacity/rotate/color across all pages; image variant uses `embedPng/Jpg` + `drawImage`
-- Crop: `page.setCropBox(x,y,w,h)` from margins
-- Fill forms: `getForm().getFields()` → render inputs matching field type (text/checkbox/dropdown/radio) → `field.setText` etc. → save
-- Compare: pdfjs text per doc, `diffLines` from `diff`, side-by-side with add/remove highlights
-
-## Out of Scope
-
-- No auth, backend, DB, uploads, analytics, ads
-- No OCR (would need heavy WASM); note as future enhancement if asked
+- **Primary Color**: `#E5322D` (Brand Red)
+- **SVG ViewBox**: `0 0 64 64` (Standardized with `ToolIcons.tsx`)
+- **Format Support**: SVG for modern browsers, PNG fallbacks for legacy/PWA.
