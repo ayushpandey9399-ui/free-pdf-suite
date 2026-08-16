@@ -8,17 +8,10 @@ export interface UploadDropzoneProps {
   multiple?: boolean;
   /** Tool specific primary label, e.g. "Select HEIC files". */
   buttonLabel: string;
-  /** Small helper line under the button, e.g. "or drop .heic / .heif photos here". */
-  hint: string;
   /** Called with the picked or dropped files. */
   onFiles: (files: FileList | File[]) => void;
   /** Brand accent for the button and drag state, defaults to brand red. */
   accent?: string;
-  /**
-   * Replaces the default "Your files never leave your device" trust line.
-   * Used by the one server side tool, which must not make that promise.
-   */
-  trustNote?: ReactNode;
 }
 
 
