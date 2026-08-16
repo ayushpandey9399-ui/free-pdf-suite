@@ -649,7 +649,6 @@ export function MemeGeneratorTool() {
         <UploadDropzone
           accept={ACCEPT}
           buttonLabel="Select image"
-          hint="or drop a JPG, PNG, or WebP image here"
           onFiles={(files) => {
             const f = Array.from(files)[0];
             if (f) loadPanelFile(f, 0);

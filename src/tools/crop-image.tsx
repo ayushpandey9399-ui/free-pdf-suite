@@ -412,7 +412,6 @@ export function CropImageTool() {
         accept={ACCEPT}
         multiple
         buttonLabel="Select images"
-        hint="or drop JPG, PNG, or WebP images here"
         onFiles={addFiles}
         accent="#0EA5E9"
       />

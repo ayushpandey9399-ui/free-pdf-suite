@@ -187,7 +187,6 @@ export function WebpToJpgTool() {
         accept={ACCEPT}
         multiple
         buttonLabel="Select WebP files"
-        hint="or drop .webp images here"
         onFiles={addFiles}
         accent="#e5322d"
       />

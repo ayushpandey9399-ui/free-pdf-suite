@@ -1,5 +1,4 @@
-import { useRef, type ReactNode } from "react";
-import { Lock } from "lucide-react";
+import { useRef } from "react";
 import { DropOverlay, useWindowFileDrop } from "@/components/DropOverlay";
 
 export interface UploadDropzoneProps {
@@ -9,57 +8,57 @@ export interface UploadDropzoneProps {
   multiple?: boolean;
   /** Tool specific primary label, e.g. "Select HEIC files". */
   buttonLabel: string;
-  /** Small helper line under the button, e.g. "or drop .heic / .heif photos here". */
-  hint: string;
   /** Called with the picked or dropped files. */
   onFiles: (files: FileList | File[]) => void;
   /** Brand accent for the button and drag state, defaults to brand red. */
   accent?: string;
-  /**
-   * Replaces the default "Your files never leave your device" trust line.
-   * Used by the one server side tool, which must not make that promise.
-   */
-  trustNote?: ReactNode;
 }
 
 
 /**
- * Frameless empty state: one big button, one helper line, one trust line.
+ * Premium empty state: a single prominent button inside a dashed dropzone box.
  * The drop target is the whole page, shown through a full area overlay.
  */
 export function UploadDropzone({
   accept,
   multiple = false,
   buttonLabel,
-  hint,
   onFiles,
   accent = "#e5322d",
-  trustNote,
 }: UploadDropzoneProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const dragging = useWindowFileDrop(onFiles);
 
   return (
     <div className="flex flex-col items-center justify-center px-4 py-20 sm:py-32">
-      <button
-        type="button"
-        onClick={() => inputRef.current?.click()}
-        className="inline-flex w-full max-w-[340px] items-center justify-center text-white transition-all duration-150 hover:-translate-y-0.5 active:scale-[0.98] sm:w-auto"
+      <div
+        className="flex flex-col items-center justify-center px-5 py-10 sm:px-20 sm:py-15"
         style={{
-          backgroundColor: accent,
-          minHeight: "64px",
-          padding: "20px 52px",
-          borderRadius: "8px",
-          fontSize: "20px",
-          fontWeight: 700,
-          lineHeight: 1,
-          boxShadow: `0 12px 30px ${accent}33`,
+          border: "2px dashed #D1D5DB",
+          borderRadius: "16px",
+          background: "white",
+          minWidth: "320px",
+          maxWidth: "100%",
         }}
       >
-        {buttonLabel}
-      </button>
-
-
+        <button
+          type="button"
+          onClick={() => inputRef.current?.click()}
+          className="inline-flex items-center justify-center text-white transition-all duration-150 hover:-translate-y-0.5 active:scale-[0.98]"
+          style={{
+            backgroundColor: accent,
+            minWidth: "280px",
+            padding: "18px 60px",
+            borderRadius: "10px",
+            fontSize: "18px",
+            fontWeight: 600,
+            lineHeight: 1,
+            boxShadow: `0 12px 30px ${accent}33`,
+          }}
+        >
+          {buttonLabel}
+        </button>
+      </div>
 
       <input
         ref={inputRef}

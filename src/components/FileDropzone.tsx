@@ -1,5 +1,5 @@
 import { useCallback, useRef } from "react";
-import { X, FileText, Lock } from "lucide-react";
+import { X, FileText } from "lucide-react";
 import { toast } from "sonner";
 import { DropOverlay, useWindowFileDrop } from "@/components/DropOverlay";
 
@@ -59,39 +59,39 @@ export function FileDropzone({
 
   const isPdf = accept.includes("pdf");
   const defaultBtn = buttonLabel ?? (isPdf ? (multiple ? "Select PDF files" : "Select PDF file") : label ?? "Select files");
-  const defaultHint = hint ?? (isPdf ? (multiple ? "or drop PDFs here" : "or drop a PDF here") : "or drop files here");
 
   return (
     <div className="w-full">
       {files.length === 0 && (
         <div className="flex flex-col items-center justify-center px-4 py-16 sm:py-20">
-          <button
-            type="button"
-            onClick={openPicker}
-            className="inline-flex w-full max-w-[340px] items-center justify-center text-white transition-all duration-150 hover:-translate-y-0.5 sm:w-auto"
+          <div
+            className="flex flex-col items-center justify-center px-5 py-10 sm:px-20 sm:py-15"
             style={{
-              backgroundColor: "#e5322d",
-              minHeight: "56px",
-              padding: "18px 40px",
-              borderRadius: "12px",
-              fontSize: "17px",
-              fontWeight: 700,
-              lineHeight: 1,
-              boxShadow: "0 10px 26px rgba(229,50,45,0.24)",
+              border: "2px dashed #D1D5DB",
+              borderRadius: "16px",
+              background: "white",
+              minWidth: "320px",
+              maxWidth: "100%",
             }}
           >
-            {defaultBtn}
-          </button>
-          <p className="mt-4 text-center text-[14px]" style={{ color: "#6B7280" }}>
-            {defaultHint}
-          </p>
-          <p
-            className="mt-5 inline-flex items-center gap-1.5 text-[13px]"
-            style={{ color: "#8b8b96" }}
-          >
-            <Lock className="h-3.5 w-3.5" aria-hidden />
-            Your files never leave your device.
-          </p>
+            <button
+              type="button"
+              onClick={openPicker}
+              className="inline-flex items-center justify-center text-white transition-all duration-150 hover:-translate-y-0.5 active:scale-[0.98]"
+              style={{
+                backgroundColor: "#e5322d",
+                minWidth: "280px",
+                padding: "18px 60px",
+                borderRadius: "10px",
+                fontSize: "18px",
+                fontWeight: 600,
+                lineHeight: 1,
+                boxShadow: "0 12px 30px rgba(229,50,45,0.20)",
+              }}
+            >
+              {defaultBtn}
+            </button>
+          </div>
 
           <input
             ref={inputRef}

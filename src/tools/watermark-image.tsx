@@ -414,7 +414,6 @@ export function WatermarkImageTool() {
         accept={ACCEPT}
         multiple
         buttonLabel="Select images"
-        hint="or drop JPG, PNG, or WebP images here"
         onFiles={addFiles}
         accent="#F97316"
       />

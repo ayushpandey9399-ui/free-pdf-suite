@@ -147,7 +147,6 @@ export function HeicToPngTool() {
         accept={ACCEPT}
         multiple
         buttonLabel="Select HEIC files"
-        hint="or drop .heic / .heif photos here"
         onFiles={addFiles}
         accent="#e5322d"
       />

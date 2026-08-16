@@ -292,7 +292,6 @@ export function RotateImageTool() {
         accept={ACCEPT}
         multiple
         buttonLabel="Select images"
-        hint="or drop JPG, PNG, or WebP images here"
         onFiles={addFiles}
         accent="#14B8A6"
       />

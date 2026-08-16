@@ -342,7 +342,6 @@ export function CompressImageTool() {
           accept={ACCEPT}
           multiple
           buttonLabel="Select images"
-          hint="or drop JPG, PNG, WEBP, SVG or GIF images here"
           onFiles={addFiles}
           accent="#e5322d"
         />

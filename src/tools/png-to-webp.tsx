@@ -222,7 +222,6 @@ export function PngToWebpTool() {
         accept={ACCEPT}
         multiple
         buttonLabel="Select PNG files"
-        hint="or drop .png images here"
         onFiles={addFiles}
         accent="#e5322d"
       />

@@ -341,7 +341,6 @@ export function ImageResizeTool() {
         accept={ACCEPT}
         multiple
         buttonLabel="Select images"
-        hint="or drop JPG, PNG, or WebP images here"
         onFiles={addFiles}
         accent="#e5322d"
       />
