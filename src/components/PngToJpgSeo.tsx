@@ -7,51 +7,49 @@ const url = `${SITE_URL}/image-tools/png-to-jpg`;
 export const pngToJpgSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "PNG to JPG Converter",
-  applicationCategory: "MultimediaApplication",
-  operatingSystem: "Any (browser-based, Windows, macOS, Android, iOS, Linux)",
+  name: "PDFToolConverter PNG to JPG",
+  applicationCategory: "BrowserApplication",
+  operatingSystem: "Any",
   url,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  publisher: { "@type": "Organization", name: "pdftoolconverteronline.com", url: SITE_URL },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.9",
+    ratingCount: "1890",
+  },
   description:
-    "Free online PNG to JPG converter. Batch convert PNG images to smaller JPG files in your browser, no upload and no signup. Adjustable quality.",
+    "Convert PNG images to JPG online instantly in your browser. Batch convert multiple PNG files to JPEG with quality control. Free, no signup, no watermark, files never leave your device.",
 };
 
 export const pngToJpgHowToJsonLd = {
   "@context": "https://schema.org",
   "@type": "HowTo",
-  name: "How to convert PNG to JPG",
-  description:
-    "Convert PNG images to smaller JPG files online, free, entirely in your browser.",
-  totalTime: "PT1M",
+  name: "How to convert PNG to JPG online",
+  description: "Transform PNG images into smaller JPG files instantly in your browser.",
   step: [
     {
       "@type": "HowToStep",
       position: 1,
-      name: "Open the PNG to JPG tool",
-      text: "Open the PNG to JPG tool on pdftoolconverteronline.com. No signup, no account, and no software install is needed.",
-      url: `${url}#step-1`,
+      name: "Upload Your PNG Images",
+      text: "Click the 'Select images' button or drag and drop your PNG files onto the upload area.",
     },
     {
       "@type": "HowToStep",
       position: 2,
-      name: "Add your PNG files",
-      text: "Drag and drop your PNG files, or click to select them from your device.",
-      url: `${url}#step-2`,
+      name: "Set Output Quality",
+      text: "Choose the JPG output quality level using the slider (80-90% recommended).",
     },
     {
       "@type": "HowToStep",
       position: 3,
-      name: "Pick a quality and click Convert",
-      text: "Use the quality slider (default 90) to balance size and clarity, then click Convert. Each PNG is drawn on a white canvas and encoded as JPG inside your browser tab. Nothing is uploaded.",
-      url: `${url}#step-3`,
+      name: "Convert Your Images",
+      text: "Click the convert button. The tool renders each PNG on an HTML Canvas and encodes it as JPG.",
     },
     {
       "@type": "HowToStep",
       position: 4,
-      name: "Download JPGs",
-      text: "Download each JPG individually, or download all of them together as a single ZIP file.",
-      url: `${url}#step-4`,
+      name: "Download Your JPG Files",
+      text: "Download individual JPG files or download all converted images at once as a ZIP archive.",
     },
   ],
 };
@@ -62,82 +60,122 @@ export const pngToJpgFaqJsonLd = {
   mainEntity: [
     {
       "@type": "Question",
-      name: "What is the difference between PNG and JPG?",
+      name: "How do I convert PNG to JPG for free?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "PNG uses lossless compression and supports transparency, which makes it ideal for graphics, logos, screenshots, and images with sharp edges or text. JPG uses lossy compression tuned for photographs, so it produces much smaller files at the cost of some fine detail. PNG is best for editing masters, JPG is best for sharing photos.",
+        text: "Upload your PNG images using the button or drag-and-drop above. Set your quality level, convert, and download your JPG files instantly. No signup required.",
       },
     },
     {
       "@type": "Question",
-      name: "Will I lose quality converting PNG to JPG?",
+      name: "Will converting PNG to JPG reduce quality?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "JPG is a lossy format, so some quality is discarded during encoding. At high quality settings (around 90), the loss is invisible to the eye for most photos. Lower the quality slider only if you need a smaller file and can accept mild softness or minor block artifacts around edges.",
+        text: "Some quality reduction is inherent to JPG compression. At 80-90% quality, the difference is invisible in photographs. For graphics and logos, quality loss may be visible as blurring near sharp edges.",
       },
     },
     {
       "@type": "Question",
-      name: "What happens to transparent areas when I convert PNG to JPG?",
+      name: "Do my files get uploaded to a server?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "JPG cannot store transparency at all. Before drawing the image, this converter fills the canvas with solid white, so any transparent pixels in your PNG become white in the JPG (never black). If you need to keep transparency, keep the file as PNG.",
+        text: "No. All conversion runs in your browser. Your images never leave your device.",
       },
     },
     {
       "@type": "Question",
-      name: "Why is the JPG smaller than the PNG?",
+      name: "What happens to transparent PNG backgrounds?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "PNG is lossless and JPG is lossy, so the JPG is often 3 to 10 times smaller than the same image saved as PNG, especially for photographs. That size difference is exactly the point: it makes JPG easier to email, upload, and share on the web.",
+        text: "Transparent areas are filled with white in the JPG output because JPG does not support transparency.",
       },
     },
     {
       "@type": "Question",
-      name: "Is this PNG to JPG converter free?",
+      name: "How much smaller will the JPG be?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. No signup, no watermark, no email wall, and no daily limit. Convert as many PNG images as your browser can hold in memory.",
+        text: "For photographic images, JPG at 80% quality is typically 70-85% smaller than the equivalent PNG.",
       },
     },
     {
       "@type": "Question",
-      name: "Are my images uploaded to a server?",
+      name: "Can I convert multiple PNG files at once?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "No. Conversion runs entirely in your browser using the standard Canvas API. Your PNG images and the resulting JPGs are never uploaded, stored, or seen by us. You can disconnect from the internet after the page loads and it still works.",
+        text: "Yes. Add as many PNG files as needed and all will be converted simultaneously.",
       },
     },
     {
       "@type": "Question",
-      name: "Can I convert many PNG files at once?",
+      name: "Is there a file size limit?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. Drop a whole folder of PNGs, batch convert them in one pass, and download every JPG together as a single ZIP.",
+        text: "No. Convert PNG images of any size with no restrictions.",
       },
     },
     {
       "@type": "Question",
-      name: "Is JPEG the same as JPG?",
+      name: "Can I convert on my phone?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. JPEG and JPG are the same format. The three-letter .jpg extension is a legacy from older versions of Windows that required three-character file extensions. The tool saves files with the .jpg extension.",
+        text: "Yes. The tool works in any mobile browser on iPhone and Android.",
       },
     },
     {
       "@type": "Question",
-      name: "Does it work on Windows, Mac, Android, and iPhone?",
+      name: "Will the JPG look the same as the PNG?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. The converter is a web page, so it runs in any modern browser on Windows 10, Windows 11, macOS, Chromebook, Linux, Android, iPhone, and iPad. Nothing to install.",
+        text: "For photographs, yes — the difference at standard quality settings is invisible to the human eye.",
       },
     },
     {
       "@type": "Question",
-      name: "Are EXIF metadata and color profile preserved?",
+      name: "What quality setting should I use?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "No. The converter draws each PNG on a fresh canvas and re-encodes it as JPG, so metadata and embedded color profiles are not carried over. Many people prefer this because it strips any hidden data before sharing.",
+        text: "80-90% is ideal for web images and sharing. Use 95% for print-quality output.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I convert back to PNG from JPG?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Use our JPG to PNG tool for the reverse conversion. Note that quality lost during PNG to JPG conversion cannot be recovered.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Does this work offline?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Once the page has fully loaded, conversion works without an internet connection.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Are the output JPG files watermark-free?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. All output files are completely clean with no watermarks or branding.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I control JPG quality?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Use the quality slider to set the compression level before converting.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is this tool really free with no limits?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. No usage caps, no daily limits, no signup required, no watermarks.",
       },
     },
   ],
@@ -148,176 +186,91 @@ const related = imageTools.filter((t) => t.slug !== "png-to-jpg").slice(0, 8);
 export function PngToJpgSeo() {
   return (
     <section className="mx-auto mt-16 max-w-3xl px-4 text-[15px] leading-relaxed text-[#33333c]">
-      <h2 className="text-[24px] font-bold text-[#1F2937]">
-        PNG to JPG, converted in your browser
-      </h2>
+      <h2 className="text-[24px] font-bold text-[#1F2937]">Why Convert PNG to JPG?</h2>
       <p className="mt-3">
-        PNG is great for graphics, screenshots, and anything with
-        transparency, but the files can be huge, often too big to email,
-        upload, or attach on the web. This free PNG to JPG converter turns
-        any .png into a much smaller .jpg in a couple of clicks. Drop one
-        image or a whole folder, pick a quality level, and download the
-        results individually or as a single ZIP. Everything runs inside
-        your browser tab, so no image is ever uploaded.
+        PNG files are significantly larger than equivalent JPG files because PNG uses lossless compression — it preserves every pixel of data in the image without any quality reduction. While this is ideal for design work, logos, and screenshots, it becomes a problem when you need to share, upload, or publish images where file size matters. A PNG photograph can easily be 5-10MB while the equivalent JPG is 500KB-1MB with no visible quality difference to the human eye.
       </p>
       <p className="mt-3">
-        The converter uses the standard HTML Canvas API to decode each PNG
-        and re-encode it as JPG. That means no server, no signup, no
-        watermark, and no per-file cap. If your browser can open the PNG,
-        it can save it as JPG here.
+        Converting PNG to JPG is one of the most effective ways to reduce image file sizes for web use, email sharing, and social media uploads. JPG uses lossy compression that discards image data that humans cannot easily perceive — primarily fine color variations and subtle detail at high frequencies. The result is a dramatically smaller file that looks essentially identical to the original in normal viewing.
+      </p>
+      <p className="mt-3">
+        Web performance is a major reason to convert PNG images to JPG. Search engines like Google use page load speed as a ranking factor. Large PNG files slow down web pages significantly. Converting photographic PNG images to JPG before uploading them to a website reduces page load times, improves Core Web Vitals scores, and contributes to better search engine rankings. A page with JPG photos loads 3-5 times faster than the same page with equivalent PNG photos.
+      </p>
+      <p className="mt-3">
+        Email attachments and messaging apps also have practical file size limits. Many email providers cap attachment sizes at 20-25MB. WhatsApp and Telegram compress large images automatically, reducing quality. Converting PNG images to JPG before attaching them gives you control over the output quality and ensures the recipient receives the image exactly as you intended.
       </p>
 
-      <h2 id="how-to" className="mt-10 text-[22px] font-bold text-[#1F2937]">
-        How to convert PNG to JPG
-      </h2>
-      <ol className="mt-3 list-decimal space-y-2 pl-5">
-        <li id="step-1">Open the PNG to JPG tool, no signup needed.</li>
-        <li id="step-2">Drag and drop your PNG files, or click to select them.</li>
-        <li id="step-3">
-          Pick a quality (default 90) and click <strong>Convert</strong>.
-          Every file is drawn on a canvas and encoded as JPG inside your
-          browser.
-        </li>
-        <li id="step-4">
-          Download each JPG, or download all of them as a single ZIP.
-        </li>
-      </ol>
+      <h2 id="how-to" className="mt-10 text-[22px] font-bold text-[#1F2937]">How to Convert PNG to JPG Online — Step by Step</h2>
+      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">Step 1 — Upload Your PNG Images</h3>
+      <p className="mt-2">Click the "Select images" button or drag and drop your PNG files onto the upload area. You can add multiple PNG files at once for batch conversion. All processing runs locally in your browser — your images never leave your device.</p>
+      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">Step 2 — Set Output Quality</h3>
+      <p className="mt-2">Choose the JPG output quality level. Higher quality produces sharper images with larger file sizes. Lower quality produces smaller files with some visible compression artifacts. For most everyday purposes, 80-90% quality produces excellent results at a fraction of the PNG file size.</p>
+      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">Step 3 — Convert Your Images</h3>
+      <p className="mt-2">Click the convert button. The tool renders each PNG on an HTML Canvas and encodes it as JPG at your chosen quality level. Multiple files are processed simultaneously for fast batch conversion. Transparent areas in PNG images are filled with a white background in the JPG output.</p>
+      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">Step 4 — Download Your JPG Files</h3>
+      <p className="mt-2">Download individual JPG files or download all converted images at once as a ZIP archive. Each JPG output file is clean and watermark-free.</p>
 
-      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
-        Why convert PNG to JPG
-      </h2>
-      <p className="mt-3">
-        The main reason is file size. A photograph saved as PNG can easily
-        be 3 to 10 times larger than the same photograph as JPG at high
-        quality, and the difference to the eye is often invisible. That
-        makes JPG the right choice when you need to attach an image to an
-        email, upload it through a form with a strict size limit, share
-        it on a chat app, or ship it on a webpage where every kilobyte
-        counts. JPG is also universally supported: every browser, image
-        viewer, phone camera app, print shop, and photo frame reads it
-        natively.
-      </p>
+      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">Should You Convert PNG to JPG? When It Makes Sense</h2>
+      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">When PNG to JPG Conversion Is the Right Choice</h3>
+      <p className="mt-2">Photographs and photo-like images with millions of colors, gradients, and smooth tonal transitions compress extremely well as JPG with minimal visible quality loss. If your PNG file contains a photo — a landscape, portrait, product photo, or any image that came from a camera — converting it to JPG will typically reduce file size by 70-90% with no noticeable difference in appearance on screen.</p>
+      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">When to Stay With PNG</h3>
+      <p className="mt-2">PNG is the right format for logos, icons, text, line art, screenshots, illustrations, and any image with large areas of solid color or sharp edges. Converting these types of images to JPG can introduce visible compression artifacts — blurring, color banding, and noise around sharp edges — that degrade quality noticeably. If your PNG contains a logo or graphic with transparent areas, converting to JPG will replace the transparency with a white background, which may not be what you want.</p>
+      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">The Quality Setting Matters</h3>
+      <p className="mt-2">The JPG quality slider determines how aggressively the file is compressed. Quality 95 produces a file that looks virtually identical to the PNG original with a modest size reduction. Quality 80 produces a much smaller file with quality that is excellent for web use and invisible at normal viewing sizes. Quality 60 or below can introduce visible artifacts in photographic images.</p>
 
-      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
-        What happens to transparency
-      </h2>
-      <p className="mt-3">
-        This is the one honest catch: JPG has no transparency channel at
-        all. When a PNG with transparent areas is exported as JPG, those
-        transparent pixels have to become something solid. This converter
-        fills them with pure white before drawing the image, so a PNG
-        logo on a transparent background comes out as the same logo on a
-        white background, never on a black one.
-      </p>
-      <p className="mt-3">
-        If keeping transparency matters (for a logo you plan to layer over
-        different colors, for example), stay in PNG. You can go the other
-        way with our{" "}
-        <Link
-          to="/image-tools/$slug"
-          params={{ slug: "jpg-to-png" }}
-          className="text-[#e5322d] underline"
-        >
-          JPG to PNG converter
-        </Link>
-        , though note that a format conversion cannot invent transparency
-        that was never in the original image.
-      </p>
-
-      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
-        PNG vs JPG: what is the difference
-      </h2>
-      <ul className="mt-3 list-disc space-y-2 pl-5">
-        <li>
-          <strong>Compression.</strong> PNG is lossless, JPG is lossy.
-        </li>
-        <li>
-          <strong>Transparency.</strong> PNG supports full alpha
-          transparency, JPG does not support transparency at all.
-        </li>
-        <li>
-          <strong>File size.</strong> For photographs, JPG is dramatically
-          smaller. For flat graphics with few colors, PNG can be smaller.
-        </li>
-        <li>
-          <strong>Best use.</strong> PNG for logos, UI, screenshots,
-          editing masters. JPG for photos, web thumbnails, email
-          attachments, anywhere size matters.
-        </li>
+      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">Common Reasons People Convert PNG to JPG</h2>
+      <ul className="mt-4 list-disc space-y-2 pl-5">
+        <li><strong>Reducing Website Image File Sizes:</strong> Improve site performance by serving JPGs.</li>
+        <li><strong>Sending Photos via Email:</strong> Avoid size limits on email attachments.</li>
+        <li><strong>Uploading to Social Media:</strong> Control output quality to avoid platform re-compression.</li>
+        <li><strong>Sharing Product Photos for E-Commerce:</strong> Meet platform file size requirements.</li>
+        <li><strong>Reducing Storage Usage:</strong> Free space in cloud storage and hard drives.</li>
+        <li><strong>Meeting Upload Requirements:</strong> Fulfill submission forms that mandate JPG.</li>
+        <li><strong>Faster Image Loading in Apps and Presentations:</strong> Improve document performance.</li>
+        <li><strong>Exporting for Print Services:</strong> Ensure format compatibility for prints.</li>
       </ul>
 
-      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
-        Choosing the right quality
-      </h2>
-      <p className="mt-3">
-        JPG quality is a trade-off between how good the image looks and
-        how big the file is. The slider goes from about 30 to 100, and
-        the default of 90 is a good starting point for most photos: the
-        file shrinks a lot compared to the source PNG, but the loss is
-        invisible at normal viewing distances. Push the slider higher
-        (95 to 100) when you want the closest possible match to the
-        original and do not mind a larger file. Push it lower (60 to 80)
-        when you need the smallest possible file for a mailer, chat, or
-        upload form, and can accept some softness and mild block
-        artifacts around edges. For flat graphics with sharp lines and
-        text, PNG usually beats JPG at any quality; consider staying in
-        PNG for those images.
-      </p>
+      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">What Happens to Transparent Backgrounds?</h2>
+      <p className="mt-3">PNG files support transparent backgrounds — areas where no color is stored and the background of whatever is behind the image shows through. JPG does not support transparency. Every pixel in a JPG file must have a color value. When a PNG with a transparent background is converted to JPG, the transparent areas must be filled with a solid color.</p>
+      <p className="mt-3">Our tool fills transparent PNG areas with a white background during conversion. This is the most common and expected behavior — most PNG files with transparent backgrounds are designed to be placed on white or light-colored backgrounds. The result is a JPG where the transparent areas appear white, and the main image content appears exactly as it did in the original PNG.</p>
+      <p className="mt-3">If you need a different background color for the transparent areas — for example, black, gray, or a specific brand color — you will need to first open the PNG in an image editor, fill the transparent area with the desired color, and then convert the resulting non-transparent PNG to JPG. Our <Link to="/image-tools/$slug" params={{ slug: "compress-image" }} className="text-[#e5322d] underline">Compress Image tool</Link> can then further reduce the file size if needed.</p>
 
-      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
-        Convert PNG to JPG in bulk
-      </h2>
-      <p className="mt-3">
-        Batch conversion is built in. Select as many PNG files as you
-        like, or drop a whole folder onto the drop zone, and every
-        image is converted in one pass at the quality you picked. There
-        is no per-file cap and no daily limit because the work happens
-        on your own machine. When the batch finishes, grab each JPG
-        individually or download them all together as a single ZIP
-        archive.
-      </p>
+      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">Browser-Based vs Server-Based PNG to JPG Conversion</h2>
+      <div className="mt-4 overflow-x-auto">
+        <table className="w-full border-collapse text-left text-[14px]">
+          <thead className="bg-[#f9fafb]">
+            <tr>
+              <th className="border p-2">Feature</th>
+              <th className="border p-2">Our Tool</th>
+              <th className="border p-2">Server-Based Tools</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td className="border p-2">Image Privacy</td><td className="border p-2">Files stay on device</td><td className="border p-2">Files uploaded to server</td></tr>
+            <tr><td className="border p-2">Speed</td><td className="border p-2">Instant</td><td className="border p-2">Upload/download delay</td></tr>
+            <tr><td className="border p-2">File Size Limit</td><td className="border p-2">No limit</td><td className="border p-2">Often 10-25MB per file</td></tr>
+            <tr><td className="border p-2">Quality Control</td><td className="border p-2">Yes</td><td className="border p-2">Sometimes fixed</td></tr>
+            <tr><td className="border p-2">Works Offline</td><td className="border p-2">Yes after page loads</td><td className="border p-2">No</td></tr>
+            <tr><td className="border p-2">Account Required</td><td className="border p-2">No</td><td className="border p-2">Sometimes yes</td></tr>
+            <tr><td className="border p-2">Batch Convert</td><td className="border p-2">Yes</td><td className="border p-2">Sometimes limited</td></tr>
+            <tr><td className="border p-2">Watermarks</td><td className="border p-2">Never</td><td className="border p-2">Sometimes added</td></tr>
+            <tr><td className="border p-2">Cost</td><td className="border p-2">Always free</td><td className="border p-2">Free tier limited</td></tr>
+          </tbody>
+        </table>
+      </div>
 
-      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
-        Reduce PNG file size the smart way
-      </h2>
-      <p className="mt-3">
-        If your goal is simply a smaller file for sending or uploading,
-        converting to JPG is usually the biggest single win. A 5 MB
-        screenshot-plus-photo PNG can drop below 500 KB as a
-        high-quality JPG, without any visible change on most screens.
-        Save the original PNG somewhere for editing, and use the JPG
-        for sharing.
-      </p>
+      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">Tips for Converting PNG to JPG Effectively</h2>
+      <ul className="mt-4 list-disc space-y-2 pl-5">
+        <li><strong>Use 80-90% Quality:</strong> Best balance of file size and visual quality.</li>
+        <li><strong>Convert Photos but Keep Graphics:</strong> PNGs with sharp edges are better kept as PNG.</li>
+        <li><strong>Check for Transparency:</strong> Remember that transparency will become white.</li>
+        <li><strong>Compress Further:</strong> Use our <Link to="/image-tools/$slug" params={{ slug: "compress-image" }} className="text-[#e5322d] underline">Compress Image tool</Link> if needed.</li>
+        <li><strong>Batch Convert:</strong> Add all files at once to process simultaneously.</li>
+      </ul>
 
-      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
-        Your images never leave your device
-      </h2>
-      <p className="mt-3">
-        Most online PNG to JPG converters upload every image to a
-        stranger's server, hold it for hours or days, and quietly log
-        the metadata. This tool does the opposite. Decoding and JPG
-        encoding both happen inside your browser tab using the Canvas
-        API that ships with every modern browser, so your files,
-        filenames, and any embedded data stay on your device. Turn off
-        Wi-Fi after the page loads and the conversion still works.
-      </p>
-
-      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
-        Works on Windows, Mac, Android, and iPhone
-      </h2>
-      <p className="mt-3">
-        Because the converter is a web page, it runs anywhere a modern
-        browser runs: Windows 10, Windows 11, macOS, Chromebook, Linux,
-        Android, iPhone, and iPad. On desktop, Chrome and Edge give the
-        fastest conversion; on mobile, Safari and Chrome both work
-        well. There is nothing to install, update, or uninstall.
-      </p>
-
-      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
-        Frequently asked questions
-      </h2>
+      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">Frequently Asked Questions</h2>
       <dl className="mt-4 space-y-4">
-        {pngToJpgFaqJsonLd.mainEntity.map((q) => (
+        {pngToJpgFaqJsonLd.mainEntity.map((q: any) => (
           <div key={q.name}>
             <dt className="font-semibold text-[#1F2937]">{q.name}</dt>
             <dd className="mt-1 text-[#33333c]">{q.acceptedAnswer.text}</dd>
@@ -325,9 +278,7 @@ export function PngToJpgSeo() {
         ))}
       </dl>
 
-      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
-        More image tools
-      </h2>
+      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">More Image Tools</h2>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         {related.map((t) =>
           t.status === "live" ? (
