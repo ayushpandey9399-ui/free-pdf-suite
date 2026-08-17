@@ -162,7 +162,7 @@ export const addBlankPagesHowToJsonLd = {
 export const addBlankPagesSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "FreePDFHub Add Blank Pages",
+  name: "pdftoolconverteronline.com Add Blank Pages",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Web",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
