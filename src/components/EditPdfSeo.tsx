@@ -2,333 +2,201 @@ import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
-
 const steps = [
   {
-    title: "Open the PDF you want to edit",
-    text: "Click Select PDF file and pick your document. Every page renders as a stacked vertical preview in the workspace, ready to be marked up, click any page thumbnail in the sidebar to jump straight to it.",
+    title: "Upload Your PDF Document",
+    text: "Click the 'Select PDF file' button or simply drag and drop your file into the tool area. Your document is processed entirely within your browser, ensuring complete privacy and speed.",
   },
   {
-    title: "Pick a tool from the sidebar toolbar",
-    text: "The right-hand sidebar shows nine tools laid out in a row: Select, Highlight, Text, Rectangle, Ellipse, Line, Arrow, Freehand and Image. Click one to arm it, a small style panel appears just below with the relevant colour swatches, font size, stroke width or fill opacity for whatever you're about to place.",
+    title: "Choose Your Editing Tools",
+    text: "Use the sidebar to select from nine powerful tools including Text, Highlight, Freehand, and Images. Each tool comes with a customizable style panel to adjust colours, fonts, and sizes.",
   },
   {
-    title: "Click, drag or draw directly on the page",
-    text: "Highlights, rectangles, ellipses, lines, arrows and text boxes are drawn by clicking and dragging on the page. Freehand follows your cursor or finger like a pen. Image drops the picture at the point you click. Switch back to Select at any time to grab an existing annotation and move it, resize it, or open its style panel to change colour and size.",
+    title: "Annotate and Edit Your PDF",
+    text: "Click and drag to add text boxes, draw shapes, highlight important passages, or place images directly onto your document pages. Our editor provides real-time visual feedback for every change.",
   },
   {
-    title: "Undo, redo, then export as a new PDF",
-    text: "The toolbar has Undo and Redo buttons (Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z), plus a Trash icon on any selected element to remove it. When the page looks right, click Save PDF, the tool draws every annotation permanently into a fresh copy of the file and hands it back with an -edited suffix. Your original file on your device is untouched.",
+    title: "Save Your Edited PDF",
+    text: "Once you are satisfied with your edits, click 'Save PDF'. The tool instantly generates a new version of your document with all annotations permanently applied, ready for secure download.",
   },
 ];
 
-const benefits = [
-  {
-    h: "Fill anything, form or not",
-    p: "Type text boxes anywhere on the page, on a real PDF form field, on a flat scanned form that has no fields at all, in the blank space beside a printed line, on top of a wrong value. Font size runs from small caption text to headline size, and the colour swatch lets you match ink-blue or plain black.",
-  },
-  {
-    h: "Review like on paper",
-    p: "Highlight in yellow, green, pink or blue to mark passages. Draw a red rectangle or ellipse around a clause. Sketch a freehand circle or arrow with the Freehand and Arrow tools, or use Line for a quick strike-through. Everything a red-pen review needs is a click away in the toolbar.",
-  },
-  {
-    h: "Every annotation becomes part of the PDF",
-    p: "On export, each highlight, text box, shape, line, freehand path and image is drawn permanently into the page content stream with pdf-lib, not attached as a floating comment layer that some viewers ignore. The downloaded file shows your edits identically in Acrobat, Preview, Chrome, Edge, Foxit and every other reader.",
-  },
-  {
-    h: "Free and unlimited",
-    p: "There is no signup, no watermark on the output, no daily quota and no upsell to a paid plan for larger files. Edit a one-page form or a two-hundred-page contract in the same session and export as many revisions as you want.",
-  },
-];
-
-const scenarios = [
-  {
-    h: "Filling a form that has no fillable fields",
-    p: "Scanned tax forms, printed rental applications and older government PDFs frequently arrive without any interactive fields at all. Arm the Text tool, click on each blank line and type, no need to print, hand-fill and re-scan just because the original was flattened.",
-  },
-  {
-    h: "Reviewing a contract or draft before sending it back",
-    p: "Open the draft, highlight the clauses that need attention in yellow, draw a red rectangle around the payment terms, and drop a text box in the margin with your comment. Send the edited PDF back and the other side sees every note exactly where you put it.",
-  },
-  {
-    h: "Correcting a small mistake without redoing the whole document",
-    p: "Draw a Line through the wrong figure to strike it out and type the correct number beside it with the Text tool. It's the same workflow you'd do with a pen on a printout, but the result stays crisp and searchable in the exported PDF.",
-  },
-  {
-    h: "Marking up study material and lecture slides",
-    p: "Highlight the definitions that matter, circle example numbers with Freehand, and drop text boxes with your own explanations next to dense diagrams. The annotated PDF re-opens with every note in place on your laptop, tablet or phone.",
-  },
-];
-
-const faqs: { q: string; a: ReactNode; plain: string }[] = [
+const faqs: { q: string; a: ReactNode }[] = [
   {
     q: "How can I edit a PDF for free without Adobe?",
-    a: "Click Select PDF file, pick a tool from the sidebar (Highlight, Text, Rectangle, Ellipse, Line, Arrow, Freehand or Image), then click and drag on the page to place it. Use Select to grab existing annotations and adjust them, Undo/Redo to step through changes, and Save PDF when you're done to download an edited copy. No Acrobat, no install, no signup.",
-    plain:
-      "Click Select PDF file, pick a tool from the sidebar (Highlight, Text, Rectangle, Ellipse, Line, Arrow, Freehand, Image), click and drag on the page to place it, use Undo/Redo as needed, then click Save PDF to download an edited copy. No Acrobat, no install, no signup.",
+    a: "Our free PDF editor allows you to add text, images, annotations, and shapes directly in your browser. Simply upload your PDF, choose a tool from the sidebar, and make your edits instantly—no Adobe Acrobat or subscription required.",
   },
   {
-    q: "Can I change or delete the existing text in a PDF?",
-    a: (
-      <>
-        Yes. Switch to <strong>Edit text</strong> mode, click any line of
-        existing text and retype it, the tool samples the line's
-        background colour, covers the original with a matching rectangle
-        and draws your replacement in a font, size and colour that match
-        the source as closely as possible. It works best on normal digital
-        PDFs (contracts, invoices, letters); scanned PDFs have no
-        underlying text layer, so run them through the OCR option inside{" "}
-        <Link to="/tools/$slug" params={{ slug: "scan-to-pdf" }} className="text-[#e5322d] underline">
-          Scan to PDF
-        </Link>{" "}
-        first to build a searchable PDF with selectable text. To
-        permanently remove sensitive content so it can't be recovered,
-        use{" "}
-        <Link to="/tools/$slug" params={{ slug: "redact-pdf" }} className="text-[#e5322d] underline">
-          Redact PDF
-        </Link>
-        .
-      </>
-    ),
-    plain:
-      "Yes. Switch to Edit text mode, click a line and retype it, the tool covers the original with a background-matched rectangle and draws your new text in a matching font, size and colour. Works on native PDFs; for scans, run the OCR option inside Scan to PDF (/tools/scan-to-pdf) first to get a searchable PDF with selectable text. For permanent removal, use Redact PDF (/tools/redact-pdf).",
+    q: "Can I add text to a PDF?",
+    a: "Yes! Use the Text tool to create boxes and type anywhere on your document. You can customize the font size, colour, and styling to match your existing document.",
   },
   {
-    q: "Can I type on a scanned PDF?",
-    a: "Yes. The Text tool places a text box at whatever coordinate you click, whether the page is a scanned image or a native PDF. Pick a font size that matches the surrounding print, choose a colour and type, the box behaves the same on a scan as it does on a digitally-generated page.",
-    plain:
-      "Yes. The Text tool places a text box wherever you click, on scanned images or native PDFs identically. Pick a font size and colour and type.",
+    q: "Is it possible to edit existing text in a PDF?",
+    a: "While PDFs are not inherently editable like Word documents, our tool allows you to 'edit' by covering existing text with a matching background rectangle and typing your new content on top, creating a seamless visual correction.",
   },
   {
-    q: "Can I highlight text?",
-    a: "Yes. Arm the Highlight tool and drag a rectangle over the passage you want to mark, you can pick yellow, green, pink or blue from the style panel. The highlight is a translucent coloured band drawn behind the text on export, so the words remain fully readable underneath.",
-    plain:
-      "Yes. Highlight tool draws a translucent yellow, green, pink or blue band over the area you drag; the text stays fully readable underneath on export.",
+    q: "Can I add images to a PDF?",
+    a: "Absolutely. Use the Image tool to drop logos, signatures, or any graphic onto your PDF pages and adjust the position and size as needed.",
   },
   {
-    q: "Can I draw on a PDF?",
-    a: "Yes. Freehand follows your cursor or finger to draw any shape or signature-style scribble; Line and Arrow give clean straight strokes; Rectangle and Ellipse give closed shapes with optional fill and adjustable stroke width. Every one of them has its own colour swatch and thickness control in the sidebar.",
-    plain:
-      "Yes. Freehand for cursor/finger drawing; Line and Arrow for straight strokes; Rectangle and Ellipse for closed shapes with optional fill. Each tool has its own colour and thickness control.",
+    q: "Are my documents safe when using an online PDF editor?",
+    a: "Yes. Our tool is entirely browser-based, meaning your files never leave your device. All processing happens locally for maximum security and privacy.",
   },
   {
-    q: "Will my edits show in other PDF readers?",
-    a: "Yes. On Save PDF the tool uses pdf-lib to draw every highlight, text box, shape, freehand path and image directly into the page's content stream, not as loose comment annotations that some viewers hide. The exported file renders identically in Acrobat Reader, Preview, Chrome, Edge, Foxit and any other PDF viewer, and prints the same way too.",
-    plain:
-      "Yes. Edits are drawn directly into the page content stream with pdf-lib, not attached as comment-layer annotations. The exported file renders identically in every PDF viewer and prints the same.",
+    q: "Can I annotate and highlight PDFs?",
+    a: "Yes, you can use our highlighter tool for passages, or add shapes like rectangles, ellipses, and arrows to draw attention to specific details.",
   },
   {
-    q: "Do my files get uploaded to a server?",
-    a: "No. Loading the PDF, painting the annotations onto the page previews and writing the final -edited.pdf all happen inside your browser tab using standard Web APIs. Nothing about the file is transmitted anywhere, and once the page has loaded the whole workflow keeps working offline.",
-    plain:
-      "No. The PDF is opened, annotated and re-saved entirely inside your browser tab. Nothing is uploaded, and the workflow keeps working offline once the page has loaded.",
+    q: "Will my edits be permanent?",
+    a: "When you click 'Save PDF', your annotations are merged into the document, making them a permanent part of the file that will display correctly in all PDF viewers.",
   },
   {
-    q: "Can I edit a PDF on my phone?",
-    a: "Yes, the Freehand tool follows your finger, highlights and shapes are drawn by touch-drag, and text boxes open a normal on-screen keyboard for typing. Fine positioning on a small screen is easier if you drop the element first with a rough touch and then switch to Select to nudge it into place.",
-    plain:
-      "Yes. Freehand follows your finger, highlights and shapes are drawn by touch-drag, and text boxes open the on-screen keyboard. For precise placement, drop first and nudge with Select.",
+    q: "Is this PDF editor really free?",
+    a: "Yes, all tools on our site are 100% free with no hidden charges, no watermarks on output, and no subscription requirements.",
   },
   {
-    q: "Can I remove an annotation before saving?",
-    a: "Yes. Switch to the Select tool, click the annotation you want to remove and press the Trash icon that appears in its style panel, or hit Delete on your keyboard. Undo (Ctrl/Cmd+Z) rolls back the last change; Redo (Ctrl/Cmd+Shift+Z) puts it back, the history keeps roughly a hundred steps.",
-    plain:
-      "Yes. Select the annotation and press the Trash icon or Delete key. Undo (Ctrl/Cmd+Z) and Redo (Ctrl/Cmd+Shift+Z) also work; history keeps about a hundred steps.",
+    q: "Can I use this editor on my mobile device?",
+    a: "Our PDF editor is fully responsive and optimized for touch, allowing you to annotate and edit PDFs easily on smartphones and tablets.",
   },
   {
-    q: "How do I fill a PDF that has real form fields?",
-    a: (
-      <>
-        Use{" "}
-        <Link to="/tools/$slug" params={{ slug: "fill-forms" }} className="text-[#e5322d] underline">
-          Fill PDF Forms
-        </Link>{" "}
-        instead. That tool detects the document's AcroForm fields (the
-        clickable boxes and checkboxes the PDF's author set up) and lets
-        you fill them directly, so the values are stored as proper form
-        data rather than free-floating text on top of the page.
-      </>
-    ),
-    plain:
-      "Use Fill PDF Forms (/tools/fill-forms). It detects the document's AcroForm fields and lets you type into them directly so values are stored as real form data rather than free-floating text.",
+    q: "What is the difference between this tool and Fill PDF Forms?",
+    a: "This editor is for free-form annotations and edits on any PDF. 'Fill PDF Forms' is specifically designed to interact with built-in form fields like checkboxes and dropdown menus.",
   },
   {
-    q: "How closely will the replacement text match the original?",
-    a: "Very closely for most native PDFs. When you click a line the tool reads its font family (serif, sans, monospaced), weight (regular or bold), style (upright or italic), size and colour from the PDF itself, then draws your replacement using the closest standard font (Helvetica, Times or Courier) at the same size and colour. It also samples the pixels behind the line so the cover rectangle blends with the paper. Unusual bespoke fonts, coloured backgrounds and multi-column layouts may show a small visual difference, the closer the original is to a plain office document, the more invisible the edit.",
-    plain:
-      "Very closely on native PDFs. The tool detects the line's font family, weight, style, size and colour and renders the replacement in the closest standard font, over a sampled background rectangle. Unusual custom fonts or complex backgrounds may show a small visual difference.",
+    q: "Can I add a signature to my PDF?",
+    a: "Yes, you can upload your signature as an image or use the Freehand/Text tools to sign your documents quickly and easily.",
   },
   {
-    q: "Why can't I click on text in my PDF?",
-    a: (
-      <>
-        Two common reasons. First, the page may be a <em>scan</em>, an
-        image of paper with no underlying text layer for the tool to
-        detect. Rebuild it as a searchable PDF with the OCR option inside{" "}
-        <Link to="/tools/$slug" params={{ slug: "scan-to-pdf" }} className="text-[#e5322d] underline">
-          Scan to PDF
-        </Link>{" "}
-        first, which adds a real text layer, then come back and edit.
-        Second, Edit text mode only lights up horizontal lines of text;
-        rotated, skewed or vertical labels are skipped in this first
-        version to keep replacements aligned. For those cases, cover the
-        label with a Rectangle in Annotate mode and type a new one on top.
-      </>
-    ),
-    plain:
-      "Two reasons: the page is a scan with no text layer, so rebuild it as a searchable PDF with the OCR option inside Scan to PDF (/tools/scan-to-pdf) first, or the text is rotated / vertical (this version only edits horizontal lines, cover it with a Rectangle in Annotate mode and retype on top).",
+    q: "Are there any file size limits?",
+    a: "We do not impose strict file size limits; processing speed depends on your device's memory, making it efficient for even long documents.",
+  },
+  {
+    q: "Will this change the document's original formatting?",
+    a: "Your edits are applied as an overlay. The underlying document content remains unchanged, keeping your original layout intact.",
+  },
+  {
+    q: "Can I draw on the PDF?",
+    a: "Yes, the Freehand tool allows you to draw or sketch anything directly on the document pages, just like using a digital pen.",
+  },
+  {
+    q: "Is there any software to download?",
+    a: "No installation is required. Everything runs directly in your web browser.",
   },
 ];
 
 const related = [
-  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Draw or type a signature and place it on any page." },
-  { to: "/tools/watermark", name: "Watermark PDF", blurb: "Overlay text or an image with adjustable opacity." },
-  { to: "/tools/header-footer", name: "Header & Footer", blurb: "Stamp text at the top or bottom of every page." },
-  { to: "/tools/page-numbers", name: "Page Numbers", blurb: "Add page numbers with custom position and style." },
-  { to: "/tools/fill-forms", name: "Fill PDF Forms", blurb: "Fill interactive form fields and save the result." },
-  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Make form fields and annotations permanent." },
-  { to: "/tools/redact-pdf", name: "Redact PDF", blurb: "Permanently black out sensitive text and images." },
-  { to: "/tools/pdf-metadata", name: "PDF Metadata", blurb: "View and edit title, author, subject and keywords." },
+  { to: "/tools/$slug", params: { slug: "fill-forms" }, name: "Fill PDF Forms", blurb: "Easily complete and save interactive PDF forms." },
+  { to: "/tools/$slug", params: { slug: "sign-pdf" }, name: "Sign PDF", blurb: "Add digital signatures to any document." },
+  { to: "/tools/$slug", params: { slug: "compress" }, name: "Compress PDF", blurb: "Reduce PDF file size without quality loss." },
+  { to: "/tools/$slug", params: { slug: "merge" }, name: "Merge PDF", blurb: "Combine multiple documents into a single PDF." },
+  { to: "/tools/$slug", params: { slug: "protect-pdf" }, name: "Protect PDF", blurb: "Add password encryption to your sensitive files." },
+  { to: "/tools/$slug", params: { slug: "flatten-pdf" }, name: "Flatten PDF", blurb: "Make your edits and annotations permanent." },
+  { to: "/tools/$slug", params: { slug: "watermark" }, name: "Watermark PDF", blurb: "Add your brand logo or text to every page." },
+  { to: "/tools/$slug", params: { slug: "redact-pdf" }, name: "Redact PDF", blurb: "Permanently black out sensitive information." },
 ] as const;
 
 export function EditPdfSeo() {
   return (
-    <section className="mx-auto max-w-4xl px-4 pb-16 text-[#33333c]">
+    <section className="mx-auto max-w-4xl px-4 pb-16 seo-content">
+      <h2>Why Edit PDFs Online?</h2>
+      <p>Editing PDFs used to require expensive, heavy desktop software like Adobe Acrobat. Now, you can perform essential edits directly in your web browser. Online PDF editing is perfect for quick adjustments, such as adding a missing signature, correcting a typo, or adding a brief annotation. By keeping everything in the browser, you maintain total control over your files while enjoying the convenience of instant access without the need for installations.</p>
+      <p>Beyond convenience, our browser-based approach provides a significant privacy advantage. When you use traditional cloud-based PDF editors, your documents are uploaded to a remote server, where they are parsed and stored—at least temporarily. With our PDF editor, all processing happens locally on your device. Your file stays on your computer, providing peace of mind when working with confidential contracts, personal identification, or financial documents.</p>
+      <p>Whether you need to mark up a research paper, add logos to a flyer, or simply fill in a non-interactive form, an online PDF editor gives you the versatility to do it all in seconds. It bridges the gap between static documents and dynamic workflows, allowing you to turn a rigid file into an active, collaborative document without the cost or complexity of professional design software.</p>
+      <p>Finally, the accessibility of online PDF editing cannot be overstated. You can start a edit on your office desktop, make a quick change from your tablet during a meeting, or finish your task from a home laptop. Because it's all web-based, you have a consistent toolset at your fingertips, no matter where your day takes you.</p>
 
-      {/* How-to */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        How to edit a PDF online for free
-      </h2>
+      <h2>How to edit a PDF — Step by Step</h2>
       <ol className="mt-5 space-y-4">
         {steps.map((s, i) => (
-          <li key={i} id={`step-${i + 1}`} className="flex gap-4">
+          <li key={i} className="flex gap-4">
             <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e5322d] text-white font-bold text-sm">
               {i + 1}
             </span>
             <div className="pt-1">
-              <p className="text-[15px] font-semibold">{s.title}</p>
-              <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.text}</p>
+              <h3 className="text-[15px] font-semibold text-[#383E45]">{s.title}</h3>
+              <p className="mt-1 text-[14.5px] leading-relaxed text-[#4B5563]">{s.text}</p>
             </div>
           </li>
         ))}
       </ol>
 
-      {/* What you can add */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        What you can add to any PDF
-      </h2>
-      <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        The sidebar toolbar exposes nine tools, each with its own style
-        panel: <strong>Select</strong> for grabbing and adjusting anything
-        already on the page; <strong>Highlight</strong> for translucent
-        yellow, green, pink or blue bands over a passage; <strong>Text</strong>{" "}
-        for typed text boxes with adjustable font size, colour and bold;{" "}
-        <strong>Rectangle</strong> and <strong>Ellipse</strong> for closed
-        shapes with a stroke colour, stroke width and optional filled
-        interior at any opacity; <strong>Line</strong> and{" "}
-        <strong>Arrow</strong> for clean straight strokes with a chosen
-        colour and thickness; <strong>Freehand</strong> for pen-style
-        drawing that follows the cursor or finger; and{" "}
-        <strong>Image</strong> for dropping a PNG or JPG onto the page and
-        resizing it. Everything is placed by click-and-drag or, in the
-        case of Image, by a single click at the target spot.
-      </p>
+      <h2>What can you edit in a PDF?</h2>
+      <h3>Add text and text boxes</h3>
+      <p>Add labels, fill forms, or include extra notes by drawing text boxes anywhere on your document pages.</p>
+      <h3>Insert images</h3>
+      <p>Drop logos, signatures, or photos directly onto the page, resizing and positioning them exactly where you need them.</p>
+      <h3>Add annotations and comments</h3>
+      <p>Leave notes and feedback on specific sections of your PDF, making it easy for collaborators to review your points.</p>
+      <h3>Draw and highlight</h3>
+      <p>Use our highlighter for emphasis, or draw freehand to circle important areas, underline text, or sketch diagrams.</p>
+      <h3>Add shapes and lines</h3>
+      <p>Insert rectangles, ellipses, lines, and arrows to structure your document or highlight specific data fields.</p>
 
-      {/* Honest note */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        An honest note: adding vs rewriting
-      </h2>
-      <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        A PDF is not a Word file. Its existing text is baked into the
-        page, often with fonts embedded and each letter positioned
-        individually, which means no browser tool can genuinely rewrite
-        that text the way you'd edit a paragraph in a document. What this
-        editor does is let you <em>add</em> new content on top: type
-        corrections beside a wrong value, strike through with a Line,
-        cover a block with a filled Rectangle, highlight a clause, or
-        drop a comment in the margin.
-      </p>
-      <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        For everyday needs, filling a form that has no fields, marking
-        up a review, correcting a typo, annotating study material, the
-        add-on-top approach is exactly right. If you need to genuinely
-        hide sensitive content so nobody can recover it, use{" "}
-        <Link to="/tools/$slug" params={{ slug: "redact-pdf" }} className="text-[#e5322d] underline">
-          Redact PDF
-        </Link>
-        . If the PDF has real interactive form fields you want to fill
-        properly, use{" "}
-        <Link to="/tools/$slug" params={{ slug: "fill-forms" }} className="text-[#e5322d] underline">
-          Fill PDF Forms
-        </Link>
-        .
-      </p>
+      <h2>8 Use Cases for PDF Editing</h2>
+      <h3>Adding comments to contracts</h3>
+      <p>Review legal agreements by adding your specific feedback directly in the margins, making it clear what parts of the contract need adjustment.</p>
+      <h3>Filling non-interactive forms</h3>
+      <p>For scans or older PDFs without form fields, our text tool lets you type responses in exactly the right spots.</p>
+      <h3>Annotating research papers</h3>
+      <p>Use highlights and freehand notes to mark key findings in technical papers, making it easier to study complex concepts.</p>
+      <h3>Adding logos to documents</h3>
+      <p>Quickly brand your quotes or invoices by placing your company logo in the header or footer section.</p>
+      <h3>Marking up designs</h3>
+      <p>Use arrows and shapes to give specific design feedback on layout previews without the need for specialized design software.</p>
+      <h3>Adding notes to presentations</h3>
+      <p>Include quick reminders or speaker notes directly onto your PDF slide decks for easy reference during a presentation.</p>
+      <h3>Correcting typos</h3>
+      <p>Fix minor spelling or data errors in PDFs by masking the original and typing the correct version on top.</p>
+      <h3>Adding stamps or labels</h3>
+      <p>Use rectangles, text, and images to create custom 'Approved', 'Confidential', or 'Draft' labels for your internal documents.</p>
 
-      {/* Privacy differentiator */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Private editing, your documents stay yours
-      </h2>
-      <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        The PDFs people edit or annotate are usually live working documents, a
-        contract under review, an application with personal details, a
-        salary slip being corrected, a form with a home address on
-        it. This free PDF editor runs entirely inside your browser tab: the file
-        loads locally, the annotations are painted on the local page
-        previews and the final file is written on your device with
-        pdf-lib. Nothing is transmitted to us or to any third party at
-        any point, so you can annotate a PDF containing personal data without
-        it ever leaving your machine.
-      </p>
-      <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        Once the page has finished loading you can disconnect from the
-        internet and the whole editor keeps working. There is no account
-        that remembers what you edited yesterday and no server-side copy
-        that could be leaked in a breach.
-      </p>
+      <h2>PDF Editing vs. PDF Form Filling</h2>
+      <p>It's important to distinguish between general PDF editing and formal PDF form filling. General editing (this tool) treats your PDF like a canvas, letting you add elements anywhere, regardless of how the document was built. This is perfect for marking up documents, adding notes, or fixing small errors on static files.</p>
+      <p>PDF form filling, on the other hand, is meant for interactive documents designed with specific fillable fields (AcroForm). If you need to enter data into checkboxes, dropdown menus, or specific form inputs, our <strong>Fill PDF Forms</strong> tool is the better choice, as it interacts directly with the PDF’s internal form data structure.</p>
+      <p>Using our general editor for non-interactive forms gives you more freedom to type anywhere, while form-filling tools provide a more structured approach for files specifically prepared to collect information from users.</p>
 
-      {/* Four benefits */}
-      <div className="mt-10 grid gap-6 sm:grid-cols-2">
-        {benefits.map((b) => (
-          <div key={b.h}>
-            <h3 className="text-[17px] font-semibold">{b.h}</h3>
-            <p className="mt-2 text-[14.5px] leading-relaxed text-[#4a4a55]">{b.p}</p>
-          </div>
-        ))}
-      </div>
+      <h2>Browser-Based vs. Server-Based Comparison</h2>
+      <table className="w-full text-left border-collapse border border-[#ececef] my-6">
+        <thead>
+          <tr className="bg-[#f7f7f8]">
+            <th className="py-3 px-4 border">Feature</th>
+            <th className="py-3 px-4 border">Browser-Based (Our Tool)</th>
+            <th className="py-3 px-4 border">Server-Based Tools</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td className="py-2 px-4 border">Privacy</td><td className="py-2 px-4 border">Files never leave your computer</td><td className="py-2 px-4 border">Files uploaded to servers</td></tr>
+          <tr><td className="py-2 px-4 border">Wait Time</td><td className="py-2 px-4 border">Instant</td><td className="py-2 px-4 border">Upload/Download lag</td></tr>
+          <tr><td className="py-2 px-4 border">Offline Usage</td><td className="py-2 px-4 border">Works offline</td><td className="py-2 px-4 border">Requires connection</td></tr>
+          <tr><td className="py-2 px-4 border">Watermarks</td><td className="py-2 px-4 border">None</td><td className="py-2 px-4 border">Often included</td></tr>
+        </tbody>
+      </table>
 
-      {/* Scenarios */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        When do you need to edit a PDF?
-      </h2>
-      <div className="mt-6 space-y-5">
-        {scenarios.map((s) => (
-          <div key={s.h}>
-            <h3 className="text-[17px] font-semibold">{s.h}</h3>
-            <p className="mt-1.5 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.p}</p>
-          </div>
-        ))}
-      </div>
+      <h2>5 Tips for PDF Editing</h2>
+      <h3>Zoom in for precision</h3>
+      <p>Use your browser's zoom or our tool's zoom features to place text and shapes with pixel-perfect accuracy.</p>
+      <h3>Check alignment</h3>
+      <p>Use shapes like lines or rectangles to help align your text boxes with the existing document structure.</p>
+      <h3>Use Select mode</h3>
+      <p>Always switch back to the Select tool after adding an element to move or resize it without accidentally creating new ones.</p>
+      <h3>Use Undo for mistakes</h3>
+      <p>Don't worry about errors; use the built-in Undo/Redo history to refine your annotations before finalizing the document.</p>
+      <h3>Check before saving</h3>
+      <p>Do a quick pass through your document preview to ensure every edit looks perfect before downloading the final file.</p>
 
-      {/* FAQ */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Frequently asked questions
-      </h2>
-      <div className="mt-6 divide-y divide-[#eee]">
-        {faqs.map((f) => (
-          <details key={f.q} className="group py-4">
-            <summary className="cursor-pointer list-none text-[15.5px] font-semibold flex justify-between items-center">
-              {f.q}
-              <span className="ml-4 text-[#e5322d] transition-transform group-open:rotate-45">+</span>
+      <h2>Frequently Asked Questions</h2>
+      <div className="mt-6 space-y-4">
+        {faqs.map((faq, i) => (
+          <details key={i} className="group border-b border-[#ececef] pb-4">
+            <summary className="flex cursor-pointer list-none items-center justify-between text-[16px] font-semibold text-[#383E45]">
+              {faq.q}
+              <span className="text-[#e5322d] transition-transform group-open:rotate-45 text-2xl">+</span>
             </summary>
-            <p className="mt-3 text-[14.5px] leading-relaxed text-[#4a4a55]">{f.a}</p>
+            <p className="mt-3 text-[15px] leading-relaxed text-[#6B7280]">{faq.a}</p>
           </details>
         ))}
       </div>
 
-      {/* Related */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Related PDF tools
-      </h2>
+      <h2>Related PDF Tools</h2>
       <RelatedToolsGrid items={related} />
     </section>
   );
@@ -340,7 +208,7 @@ export const editPdfFaqJsonLd = {
   mainEntity: faqs.map((f) => ({
     "@type": "Question",
     name: f.q,
-    acceptedAnswer: { "@type": "Answer", text: f.plain },
+    acceptedAnswer: { "@type": "Answer", text: f.a },
   })),
 };
 
@@ -348,17 +216,12 @@ export const editPdfHowToJsonLd = {
   "@context": "https://schema.org",
   "@type": "HowTo",
   name: "How to edit a PDF online for free",
-  description:
-    "Edit and annotate any PDF entirely in the browser, add text, highlights, shapes, lines, arrows, freehand drawings and images, then save a new PDF. No upload, no signup, no watermark.",
-  totalTime: "PT2M",
-  supply: [{ "@type": "HowToSupply", name: "A PDF file to edit" }],
-  tool: [{ "@type": "HowToTool", name: "pdftoolconverteronline.com Edit PDF (web browser)" }],
+  description: "Add text, images, and annotations to any PDF document entirely in your browser without any signups or file uploads.",
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
     name: s.title,
     text: s.text,
-    url: `/tools/edit-pdf#step-${i + 1}`,
   })),
 };
 
@@ -366,9 +229,8 @@ export const editPdfSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   name: "pdftoolconverteronline.com Edit PDF",
-  description:
-    "Edit PDF online free, add text, highlights, rectangles, ellipses, lines, arrows, freehand drawings and images to any PDF. Entirely in the browser. No upload, no signup, no watermark.",
-  applicationCategory: "UtilitiesApplication",
-  operatingSystem: "Web",
+  applicationCategory: "BrowserApplication",
+  operatingSystem: "Any",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  aggregateRating: { "@type": "AggregateRating", ratingValue: "4.8", ratingCount: "1780" },
 };

@@ -63,8 +63,8 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Delete pages from a PDF online free instantly in your browser. Remove unwanted pages, cover sheets, or blank pages. Free, no signup, no watermark, files never leave your device.",
   },
   "extract-pages": {
-    title: "Extract PDF Pages Free, Save as New PDF | pdftoolconverteronline.com",
-    desc: "Extract pages from PDF online free and save any selection as a new document. Great for pulling one chapter or invoice out of a longer report.",
+    title: "Extract Pages from PDF Online Free — Save Specific Pages as New PDF | PDFToolConverter",
+    desc: "Extract pages from PDF online free instantly in your browser. Save specific pages as a new PDF with no signup, no watermark, and files never leave your device.",
   },
   "reorder-pages": {
     title: "Reorder PDF Pages Free, Visual Drag & Drop | pdftoolconverteronline.com",
@@ -99,8 +99,8 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Crop PDF online free to trim white margins or cut unwanted edges from scans. Live preview shows the exact crop box before you save.",
   },
   "edit-pdf": {
-    title: "Edit PDF Text & Annotate Free Online | pdftoolconverteronline.com",
-    desc: "Edit existing PDF text, highlight, draw, and add images free in your browser. Match original style. No upload required.",
+    title: "Edit PDF Online Free — Add Text, Images & Annotations to PDF | PDFToolConverter",
+    desc: "Edit PDF online free and add text, images, or annotations to your document instantly in your browser. No signup, no watermark, files never leave your device.",
   },
   "fill-forms": {
     title: "Fill PDF Forms Online Free, No Signup | pdftoolconverteronline.com",
@@ -240,6 +240,8 @@ function ToolPage() {
                 ? "Add Watermark to PDF Online for Free"
                 : slug === "delete-pages"
                 ? "Delete Pages from PDF Online for Free"
+                : slug === "extract-pages"
+                ? "Extract Pages from PDF Online for Free"
                 : (seo?.layoutTitle ?? tool.name)
         }
         description={
