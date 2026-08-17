@@ -96,8 +96,8 @@ export function Footer() {
             >
               <LogoMark size={38} />
               <span className="inline-flex items-baseline gap-0.5">
-                <span style={{ color: "#ffffff" }}>FreePDF</span>
-                <span style={{ color: "#e5322d" }}>Hub</span>
+                <span style={{ color: "#ffffff" }}>PDFTool</span>
+                <span style={{ color: "#e5322d" }}>Converter</span>
               </span>
             </Link>
             <p

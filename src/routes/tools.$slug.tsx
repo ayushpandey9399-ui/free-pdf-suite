@@ -19,7 +19,7 @@ type ToolMeta = {
 // in toolSeoBundle so they never enter the critical route chunk.
 const TOOL_META: Record<string, ToolMeta> = {
   "merge": {
-    title: "Merge PDF Files Online Free — No Signup, No Limit | FreePDFHub",
+    title: "Merge PDF Files Online Free — No Signup, No Limit | pdftoolconverteronline.com",
     desc: "Combine multiple PDF files into one document instantly in your browser. Free PDF merger with drag-and-drop reordering. No signup, no watermark, no file upload to servers.",
   },
   "compress": {
@@ -119,7 +119,7 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Convert PDF to grayscale (black and white) online free. Save ink, reduce file size, and clean up scans with our browser-based PDF converter.",
   },
   "add-blank-pages": {
-    title: "Add Blank Pages to PDF Online Free — No Signup | FreePDFHub",
+    title: "Add Blank Pages to PDF Online Free — No Signup | pdftoolconverteronline.com",
     desc: "Add blank pages to any PDF instantly in your browser. Insert empty pages before, after, or between existing pages. Free, no signup, no watermark, files never leave your device.",
   },
   "scan-to-pdf": {

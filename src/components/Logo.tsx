@@ -11,8 +11,8 @@ export function Logo({ onClick }: { onClick?: () => void }) {
       <LogoMark size={38} />
 
       <span className="inline-flex items-baseline gap-0.5">
-        <span style={{ color: "#14142b" }}>FreePDF</span>
-        <span style={{ color: "#e5322d" }}>Hub</span>
+        <span style={{ color: "#14142b" }}>PDFTool</span>
+        <span style={{ color: "#e5322d" }}>Converter</span>
       </span>
     </Link>
   );
