@@ -24,7 +24,7 @@ const TOOL_META: Record<string, ToolMeta> = {
   },
   "compress": {
     title: "Compress PDF Online, Reduce PDF Size Free | pdftoolconverteronline.com",
-    desc: "Compress PDF file size online free without losing quality. Shrink large scans and reports in your browser to fit email limits and load faster, 100% private.",
+    desc: "Compress PDF file size online free without losing quality. Secure server-side processing for high-quality shrink, files are deleted immediately after download.",
   },
   "split": {
     title: "Split PDF Free, Extract Page Ranges Online | pdftoolconverteronline.com",
@@ -76,7 +76,7 @@ const TOOL_META: Record<string, ToolMeta> = {
   },
   "pdf-to-word": {
     title: "Convert PDF to Word Free, Editable DOCX | pdftoolconverteronline.com",
-    desc: "Convert PDF to Word online free and get a fully editable DOCX file. Headings, tables, and images are preserved, processed 100% in your browser.",
+    desc: "Convert PDF to Word online free and get a fully editable DOCX file. Headings, tables, and images are preserved. Secure server-side processing.",
   },
   "pdf-to-text": {
     title: "PDF to Text Free, Extract PDF Content | pdftoolconverteronline.com",
@@ -226,7 +226,7 @@ function ToolPage() {
           slug === "merge"
             ? "Combine multiple PDFs into one organized document in seconds. Drag and drop to reorder, then download your merged file. No signup, no watermarks, and your files never leave your device."
             : slug === "pdf-to-word"
-              ? "Converts your PDF into an editable Word file while keeping images, tables and page layout."
+              ? "Your file is securely uploaded to our server for processing and permanently deleted immediately after your download is complete. We never store, share, or access your files."
               : (slug === "add-blank-pages"
                 ? "Insert empty pages anywhere in your PDF — before, after, or between existing pages. Free, private, and instant. No upload, no signup, no watermark."
                 : tool.description)

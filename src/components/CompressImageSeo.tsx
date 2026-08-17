@@ -9,12 +9,12 @@ export const compressImageSoftwareJsonLd = {
   "@type": "SoftwareApplication",
   name: "Compress Image",
   applicationCategory: "MultimediaApplication",
-  operatingSystem: "Any (browser-based, Windows, macOS, Android, iOS, Linux)",
+  operatingSystem: "Any (Windows, macOS, Android, iOS, Linux)",
   url,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   publisher: { "@type": "Organization", name: "pdftoolconverteronline.com", url: SITE_URL },
   description:
-    "Free online image compressor. Reduce JPG, PNG, and WebP file size in your browser with a quality slider or a target size in KB. No upload, no signup.",
+    "Free online image compressor. Reduce JPG, PNG, and WebP file size with a quality slider or a target size in KB. Secure server-side processing with immediate deletion.",
 };
 
 export const compressImageHowToJsonLd = {
@@ -22,7 +22,7 @@ export const compressImageHowToJsonLd = {
   "@type": "HowTo",
   name: "How to compress an image",
   description:
-    "Reduce the file size of a JPG, PNG, or WebP image online, free, entirely in your browser.",
+    "Reduce the file size of a JPG, PNG, or WebP image online, free, with secure server-side processing.",
   totalTime: "PT1M",
   step: [
     {
@@ -78,10 +78,10 @@ export const compressImageFaqJsonLd = {
     },
     {
       "@type": "Question",
-      name: "Are my images uploaded to a server?",
+      name: "Is the processing private?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "No. Compression runs entirely in your browser using a Web Worker and the standard Canvas API. Your original images and the compressed versions are never uploaded, stored, or seen by us. You can disconnect from the internet after the page loads and it still works.",
+        text: "Yes. Your file is securely uploaded to our server for processing and permanently deleted immediately after your download is complete. We never store, share, or access your files.",
       },
     },
     {
@@ -155,16 +155,16 @@ export function CompressImageSeo() {
         Compress an image to shrink it for email, upload forms,
         WhatsApp, exam applications, resumes, product listings, or a
         faster website. This free image compressor reduces JPG, PNG,
-        and WebP file size right inside your browser tab. Pick a
-        quality, or set an exact target like 100KB, 200KB, 50KB, even
+        and WebP file size. Your file is securely uploaded to our 
+        server for processing and permanently deleted 
+        immediately after your download is complete. 
+        We never store, share, or access your files. 
+        Pick a quality, or set an exact target like 100KB, 200KB, 50KB, even
         20KB, and the compressor iterates the encoder until the file
         lands at or under your goal when possible.
       </p>
       <p className="mt-3">
-        Everything runs client-side. Your originals and the compressed
-        results never leave your device, so you can reduce photo file
-        size for a passport form, an ID upload, or a private document
-        without handing anything to a stranger's server.
+        🔒 Processed securely on our servers. Auto-deleted after download.
       </p>
 
       <h2 id="how-to" className="mt-10 text-[22px] font-bold text-[#1F2937]">
@@ -275,16 +275,16 @@ export function CompressImageSeo() {
       </p>
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
-        Your images never leave your device
+        Privacy and security
       </h2>
       <p className="mt-3">
-        Most online image compressors upload every photo to a
-        stranger's server, hold it for hours or days, and quietly log
-        the metadata. This tool does the opposite. Decoding, resizing,
-        and re-encoding all happen inside your browser tab, powered by
-        a Web Worker so the page stays responsive. Your files,
-        filenames, and any embedded EXIF data stay on your device. Turn
-        off Wi-Fi after the page loads and the compressor still works.
+        Your file is securely uploaded to our 
+        server for processing and permanently deleted 
+        immediately after your download is complete. 
+        We never store, share, or access your files. 
+        The connection is encrypted and the processing is automated 
+        to ensure your data remains completely private during its 
+        brief stay on our system.
       </p>
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
