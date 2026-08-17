@@ -96,8 +96,8 @@ const faqs = [
 
 export function ExtractImagesSeo() {
   return (
-    <section className="mx-auto max-w-4xl px-4 pb-16 text-[#33333c]">
-      <div className="prose prose-slate max-w-none prose-h2:text-[24px] prose-h2:sm:text-[28px] prose-h2:font-bold prose-h2:tracking-tight prose-h2:mt-14 prose-h3:text-[17px] prose-h3:font-semibold prose-h3:mt-8 prose-p:text-[15px] prose-p:leading-relaxed prose-p:text-[#4a4a55] prose-p:mt-4">
+    <section className="mx-auto max-w-4xl px-4 pb-16 seo-content">
+      <div>
         
         <h2>Why Would You Need to Extract Images from a PDF?</h2>
         <p>PDF files are designed as immutable containers, bundling text, vector graphics, embedded images, and complex formatting into a single, reliable format for sharing and printing. While this structure is ideal for document integrity, it presents a significant obstacle when you need to repurpose specific visual content. For instance, extracting a high-resolution logo from a brand guideline PDF or pulling a chart from a detailed financial report is often difficult because these elements are fused into the document structure.</p>

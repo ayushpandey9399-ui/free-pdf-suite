@@ -81,8 +81,8 @@ const related = [
 
 export function AddBlankPagesSeo() {
   return (
-    <section className="mx-auto max-w-4xl px-4 pb-16 text-[#33333c]">
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight text-center">
+    <section className="mx-auto max-w-4xl px-4 pb-16 seo-content">
+      <h2 className="text-center">
         When do you need to add blank pages to a PDF?
       </h2>
       <div className="mt-8 grid gap-8 sm:grid-cols-2">

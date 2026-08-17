@@ -96,12 +96,12 @@ const related = [
 
 export function MergePdfSeo() {
   return (
-    <section className="mx-auto max-w-4xl px-4 pb-16 text-[#33333c]">
+    <section className="mx-auto max-w-4xl px-4 pb-16 seo-content">
       {/* SECTION A */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
+      <h2>
         Why Merge PDF Files Into One Document?
       </h2>
-      <div className="mt-5 space-y-4 text-[15px] leading-relaxed text-[#4a4a55]">
+      <div>
         <p>
           Working with multiple separate PDF files creates confusion. You end up with dozens of files scattered across folders, 
           email attachments arrive as five separate documents instead of one, and finding the right file takes longer than it should. 
