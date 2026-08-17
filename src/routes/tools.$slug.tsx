@@ -71,8 +71,8 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Reorder PDF pages online free with drag and drop. Rearrange chapters or invoices into the right order and download the updated file instantly.",
   },
   "images-to-pdf": {
-    title: "Convert JPG to PDF Online Free, No Upload | pdftoolconverteronline.com",
-    desc: "Convert JPG or PNG images to PDF online free. Combine phone photos, screenshots, and scans into one tidy document. No upload, no signup, 100% private.",
+    title: "JPG to PDF Online Free — Convert Images to PDF Instantly | PDFToolConverter",
+    desc: "Convert JPG, PNG, WebP and other images to PDF online in your browser. Combine multiple photos into one PDF. Free, no signup, no watermark, files never leave your device.",
   },
   "pdf-to-word": {
     title: "Convert PDF to Word Free, Editable DOCX | pdftoolconverteronline.com",
@@ -232,6 +232,8 @@ function ToolPage() {
                 ? "Unlock PDF — Remove Password Protection Online for Free"
                 : slug === "rotate"
                 ? "Rotate PDF Pages Online for Free"
+                : slug === "images-to-pdf"
+                ? "Convert Images to PDF Online for Free"
                 : (seo?.layoutTitle ?? tool.name)
         }
         description={
@@ -255,6 +257,8 @@ function ToolPage() {
                     ? "Remove password protection from any PDF you are authorized to access. Enter the password once and download an unlocked copy instantly. No signup, no watermark, files stay on your device."
                     : slug === "rotate"
                     ? "Fix upside-down or sideways pages in any PDF instantly. Rotate individual pages or the entire document by 90, 180, or 270 degrees. No signup, no watermark, files stay on your device."
+                    : slug === "images-to-pdf"
+                    ? "Turn JPG, PNG, WebP, and other image files into a PDF document instantly. Add multiple images, arrange them in order, and download a clean PDF. No signup, no watermark, files stay on your device."
                     : tool.description)
         }
         crumbName={tool.name}
