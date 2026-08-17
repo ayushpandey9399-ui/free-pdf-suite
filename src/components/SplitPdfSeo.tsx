@@ -310,7 +310,8 @@ export const splitHowToJsonLd = {
     position: i + 1,
     name: s.title,
     text: s.text,
-    url: `/tools/split#step-${i + 1}`,
+    url: `/tools/$slug#step-${i + 1}`,
+    params: { slug: "split" },
   })),
 };
 
