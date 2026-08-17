@@ -232,7 +232,7 @@ export function ExtractImagesSeo() {
 
         <h2>Tips for Extracting Images from PDFs</h2>
         <h3>Check if Your PDF Contains Embedded Images</h3>
-        <p>Be aware that not all PDFs contain raster images. Some documents are entirely text-based or rely heavily on vector graphics, which do not appear as standard images and thus cannot be extracted as image files.</p>
+        <p>Be aware that not all PDFs contain raster images. Some documents are entirely text-based or rely heavily on vector graphics, which do not appear as standard images and thus cannot be extracted as image files. If your document is password-protected, you must first use our <Link to="/tools/$slug" params={{ slug: "unlock-pdf" }} className="text-[#e5322d] hover:underline">Unlock PDF tool</Link> to remove the security before extraction can occur.</p>
         
         <h3>Scanned PDFs Are One Large Image Per Page</h3>
         <p>If your document was created via a flatbed scanner or a mobile scanning app, every page typically consists of a single large, flat image layer. Extracting images from such a file will yield these full-page scans, which can then be cropped for your specific needs using our <Link to="/image-tools/$slug" params={{ slug: "crop-image" }} className="text-[#e5322d] hover:underline">Crop Image tool</Link>.</p>
