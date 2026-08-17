@@ -131,9 +131,14 @@ export function MergePdfSeo() {
       </h2>
       <div className="mt-5 space-y-6">
         {steps.map((s, i) => (
-          <div key={i}>
-            <h3 className="text-[18px] font-bold text-[#33333c]">{s.title}</h3>
-            <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">{s.text}</p>
+          <div key={i} className="flex gap-4">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#E5322D] text-white font-bold text-sm" aria-label={`Step ${i + 1}`}>
+              {i + 1}
+            </span>
+            <div className="pt-1">
+              <h3 className="text-[18px] font-bold text-[#33333c]">{s.title}</h3>
+              <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">{s.text}</p>
+            </div>
           </div>
         ))}
       </div>
