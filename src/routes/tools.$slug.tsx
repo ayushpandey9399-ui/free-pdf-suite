@@ -6,7 +6,9 @@ import { ClientOnly } from "@/components/ClientOnly";
 import { getTool, categoryTint } from "@/tools/registry";
 import { SITE_URL } from "@/lib/site";
 import { breadcrumbJsonLd, normalizeToolJsonLd } from "@/lib/seoSchema";
+import { cn } from "@/lib/utils";
 import { TOOL_SEO } from "@/components/toolSeoBundle";
+
 
 const OG_IMAGE = `${SITE_URL}/og-cover.png`;
 
