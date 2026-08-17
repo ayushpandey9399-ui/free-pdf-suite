@@ -67,8 +67,8 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Extract pages from PDF online free instantly in your browser. Save specific pages as a new PDF with no signup, no watermark, and files never leave your device.",
   },
   "reorder-pages": {
-    title: "Reorder PDF Pages Free, Visual Drag & Drop | pdftoolconverteronline.com",
-    desc: "Reorder PDF pages online free with drag and drop. Rearrange chapters or invoices into the right order and download the updated file instantly.",
+    title: "Reorder PDF Pages Online Free — Rearrange PDF Pages Instantly | PDFToolConverter",
+    desc: "Reorder PDF pages online free instantly in your browser. Rearrange chapters, invoices, or scanned documents with no signup, no watermark, and files never leave your device.",
   },
   "images-to-pdf": {
     title: "JPG to PDF Online Free — Convert Images to PDF Instantly | PDFToolConverter",
