@@ -96,8 +96,8 @@ const faqs = [
 
 export function ExtractImagesSeo() {
   return (
-    <section className=\"mx-auto max-w-4xl px-4 pb-16 text-[#33333c]\">
-      <div className=\"prose prose-slate max-w-none prose-h2:text-[24px] prose-h2:sm:text-[28px] prose-h2:font-bold prose-h2:tracking-tight prose-h2:mt-14 prose-h3:text-[17px] prose-h3:font-semibold prose-h3:mt-8 prose-p:text-[15px] prose-p:leading-relaxed prose-p:text-[#4a4a55] prose-p:mt-4\">
+    <section className="mx-auto max-w-4xl px-4 pb-16 text-[#33333c]">
+      <div className="prose prose-slate max-w-none prose-h2:text-[24px] prose-h2:sm:text-[28px] prose-h2:font-bold prose-h2:tracking-tight prose-h2:mt-14 prose-h3:text-[17px] prose-h3:font-semibold prose-h3:mt-8 prose-p:text-[15px] prose-p:leading-relaxed prose-p:text-[#4a4a55] prose-p:mt-4">
         
         <h2>Why Would You Need to Extract Images from a PDF?</h2>
         <p>PDF files are designed as immutable containers, bundling text, vector graphics, embedded images, and complex formatting into a single, reliable format for sharing and printing. While this structure is ideal for document integrity, it presents a significant obstacle when you need to repurpose specific visual content. For instance, extracting a high-resolution logo from a brand guideline PDF or pulling a chart from a detailed financial report is often difficult because these elements are fused into the document structure.</p>
@@ -107,15 +107,15 @@ export function ExtractImagesSeo() {
         <p>Finally, archival tasks often demand that documents be broken down into their constituent parts for preservation. Extracting photos, official stamps, signatures, or historical documents from a PDF helps in organizing and cataloging digital assets. Our tool creates standalone files from these elements, which can then be safely backed up, managed, or indexed individually, ensuring that your document archives are thorough and accessible.</p>
 
         <h2>How to Extract Images from a PDF — Step by Step</h2>
-        <div className=\"mt-5 space-y-4 not-prose\">
+        <div className="mt-5 space-y-4 not-prose">
           {steps.map((s, i) => (
-            <div key={i} className=\"flex gap-4\">
-              <span className=\"flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e5322d] text-white font-bold text-sm\">
+            <div key={i} className="flex gap-4">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e5322d] text-white font-bold text-sm">
                 {i + 1}
               </span>
-              <div className=\"pt-1\">
-                <h3 className=\"text-[15px] font-semibold text-[#33333c]\">{s.title}</h3>
-                <p className=\"mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]\">{s.text}</p>
+              <div className="pt-1">
+                <h3 className="text-[15px] font-semibold text-[#33333c]">{s.title}</h3>
+                <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.text}</p>
               </div>
             </div>
           ))}
@@ -166,60 +166,60 @@ export function ExtractImagesSeo() {
         <p>Whether you are on a Windows desktop, a Mac, a Linux machine, or mobile devices like Android or iOS, this tool runs seamlessly in any modern web browser. There is no requirement for plugins, software installations, or app downloads.</p>
 
         <h2>Browser-Based vs Server-Based Image Extraction</h2>
-        <div className=\"mt-6 overflow-x-auto not-prose\">
-          <table className=\"w-full text-left text-[14.5px] border-collapse\">
+        <div className="mt-6 overflow-x-auto not-prose">
+          <table className="w-full text-left text-[14.5px] border-collapse">
             <thead>
-              <tr className=\"border-b border-[#eee]\">
-                <th className=\"py-3 px-4 font-bold\">Feature</th>
-                <th className=\"py-3 px-4 font-bold\">Our Tool (Browser-Based)</th>
-                <th className=\"py-3 px-4 font-bold\">Server-Based Tools</th>
+              <tr className="border-b border-[#eee]">
+                <th className="py-3 px-4 font-bold">Feature</th>
+                <th className="py-3 px-4 font-bold">Our Tool (Browser-Based)</th>
+                <th className="py-3 px-4 font-bold">Server-Based Tools</th>
               </tr>
             </thead>
-            <tbody className=\"divide-y divide-[#eee]\">
+            <tbody className="divide-y divide-[#eee]">
               <tr>
-                <td className=\"py-3 px-4 font-medium\">File Privacy</td>
-                <td className=\"py-3 px-4\">Files never leave device</td>
-                <td className=\"py-3 px-4\">Files uploaded to server</td>
+                <td className="py-3 px-4 font-medium">File Privacy</td>
+                <td className="py-3 px-4">Files never leave device</td>
+                <td className="py-3 px-4">Files uploaded to server</td>
               </tr>
               <tr>
-                <td className=\"py-3 px-4 font-medium\">Speed</td>
-                <td className=\"py-3 px-4\">Instant (no upload wait)</td>
-                <td className=\"py-3 px-4\">Depends on internet speed</td>
+                <td className="py-3 px-4 font-medium">Speed</td>
+                <td className="py-3 px-4">Instant (no upload wait)</td>
+                <td className="py-3 px-4">Depends on internet speed</td>
               </tr>
               <tr>
-                <td className=\"py-3 px-4 font-medium\">File Size Limit</td>
-                <td className=\"py-3 px-4\">No limit (device memory)</td>
-                <td className=\"py-3 px-4\">Often 10-50MB cap</td>
+                <td className="py-3 px-4 font-medium">File Size Limit</td>
+                <td className="py-3 px-4">No limit (device memory)</td>
+                <td className="py-3 px-4">Often 10-50MB cap</td>
               </tr>
               <tr>
-                <td className=\"py-3 px-4 font-medium\">Image Quality</td>
-                <td className=\"py-3 px-4\">Original embedded quality</td>
-                <td className=\"py-3 px-4\">Sometimes re-compressed</td>
+                <td className="py-3 px-4 font-medium">Image Quality</td>
+                <td className="py-3 px-4">Original embedded quality</td>
+                <td className="py-3 px-4">Sometimes re-compressed</td>
               </tr>
               <tr>
-                <td className=\"py-3 px-4 font-medium\">Output Format</td>
-                <td className=\"py-3 px-4\">Native format preserved</td>
-                <td className=\"py-3 px-4\">Often forced to JPG only</td>
+                <td className="py-3 px-4 font-medium">Output Format</td>
+                <td className="py-3 px-4">Native format preserved</td>
+                <td className="py-3 px-4">Often forced to JPG only</td>
               </tr>
               <tr>
-                <td className=\"py-3 px-4 font-medium\">Account Required</td>
-                <td className=\"py-3 px-4\">No</td>
-                <td className=\"py-3 px-4\">Often required</td>
+                <td className="py-3 px-4 font-medium">Account Required</td>
+                <td className="py-3 px-4">No</td>
+                <td className="py-3 px-4">Often required</td>
               </tr>
               <tr>
-                <td className=\"py-3 px-4 font-medium\">Watermarks</td>
-                <td className=\"py-3 px-4\">Never</td>
-                <td className=\"py-3 px-4\">Common on free tier</td>
+                <td className="py-3 px-4 font-medium">Watermarks</td>
+                <td className="py-3 px-4">Never</td>
+                <td className="py-3 px-4">Common on free tier</td>
               </tr>
               <tr>
-                <td className=\"py-3 px-4 font-medium\">Batch ZIP Download</td>
-                <td className=\"py-3 px-4\">Yes</td>
-                <td className=\"py-3 px-4\">Sometimes premium only</td>
+                <td className="py-3 px-4 font-medium">Batch ZIP Download</td>
+                <td className="py-3 px-4">Yes</td>
+                <td className="py-3 px-4">Sometimes premium only</td>
               </tr>
               <tr>
-                <td className=\"py-3 px-4 font-medium\">Works Offline</td>
-                <td className=\"py-3 px-4\">Yes, after page loads</td>
-                <td className=\"py-3 px-4\">No, requires internet</td>
+                <td className="py-3 px-4 font-medium">Works Offline</td>
+                <td className="py-3 px-4">Yes, after page loads</td>
+                <td className="py-3 px-4">No, requires internet</td>
               </tr>
             </tbody>
           </table>
@@ -228,40 +228,40 @@ export function ExtractImagesSeo() {
         <h2>Extract Images vs Convert PDF to Image — What Is the Difference?</h2>
         <p>While these operations are frequently confused, they serve fundamentally different purposes. Extracting images from a PDF specifically identifies and retrieves the individual image files that were embedded within the document — such as logos, photos, and charts. Each resulting file is a standalone asset at its original resolution.</p>
         <p>Conversely, converting a PDF to image is a page-level operation. This process takes every single page of a PDF document and renders it as a flat image file, encompassing all text, background colors, headers, footers, and structural formatting. The output here is a screenshot-like image of the full page, not the individual embedded assets themselves.</p>
-        <p>Select the \"Extract Images\" tool when you require specific photos, logos, or graphics previously embedded inside the document. Use the \"PDF to Image\" tool if you need a visual representation of the entire page for reference or sharing. If the latter is what you require, please use our <Link to=\"/tools/$slug\" params={{ slug: \"pdf-to-images\" }} className=\"text-[#e5322d] hover:underline\">PDF to Image tool</Link> instead.</p>
+        <p>Select the "Extract Images" tool when you require specific photos, logos, or graphics previously embedded inside the document. Use the "PDF to Image" tool if you need a visual representation of the entire page for reference or sharing. If the latter is what you require, please use our <Link to="/tools/$slug" params={{ slug: "pdf-to-images" }} className="text-[#e5322d] hover:underline">PDF to Image tool</Link> instead.</p>
 
         <h2>Tips for Extracting Images from PDFs</h2>
         <h3>Check if Your PDF Contains Embedded Images</h3>
         <p>Be aware that not all PDFs contain raster images. Some documents are entirely text-based or rely heavily on vector graphics, which do not appear as standard images and thus cannot be extracted as image files.</p>
         
         <h3>Scanned PDFs Are One Large Image Per Page</h3>
-        <p>If your document was created via a flatbed scanner or a mobile scanning app, every page typically consists of a single large, flat image layer. Extracting images from such a file will yield these full-page scans, which can then be cropped for your specific needs using our <Link to=\"/image-tools/$slug\" params={{ slug: \"crop-image\" }} className=\"text-[#e5322d] hover:underline\">Crop Image tool</Link>.</p>
+        <p>If your document was created via a flatbed scanner or a mobile scanning app, every page typically consists of a single large, flat image layer. Extracting images from such a file will yield these full-page scans, which can then be cropped for your specific needs using our <Link to="/image-tools/$slug" params={{ slug: "crop-image" }} className="text-[#e5322d] hover:underline">Crop Image tool</Link>.</p>
         
         <h3>Use Compress Image After Extraction if Files Are Large</h3>
-        <p>Some documents include high-definition photographic data that can lead to large files. After extraction, you can use our <Link to=\"/image-tools/$slug\" params={{ slug: \"compress-image\" }} className=\"text-[#e5322d] hover:underline\">Compress Image tool</Link> to optimize file sizes without visible quality loss, making them perfect for website or email use.</p>
+        <p>Some documents include high-definition photographic data that can lead to large files. After extraction, you can use our <Link to="/image-tools/$slug" params={{ slug: "compress-image" }} className="text-[#e5322d] hover:underline">Compress Image tool</Link> to optimize file sizes without visible quality loss, making them perfect for website or email use.</p>
         
         <h3>Rename Images After Downloading</h3>
-        <p>The system generates generic filenames for extracted images, such as \"image_001.jpg\". We highly recommend renaming them with descriptive identifiers immediately after download to facilitate easier search and organization.</p>
+        <p>The system generates generic filenames for extracted images, such as "image_001.jpg". We highly recommend renaming them with descriptive identifiers immediately after download to facilitate easier search and organization.</p>
         
         <h3>Combine With Other PDF Tools for Complex Workflows</h3>
-        <p>If you only need images from specific parts of a long PDF, first use our <Link to=\"/tools/$slug\" params={{ slug: \"extract-pages\" }} className=\"text-[#e5322d] hover:underline\">Extract Pages tool</Link> to save only those relevant pages as a new, smaller document. This greatly simplifies the extraction process and ensures you only work with the specific images you require.</p>
+        <p>If you only need images from specific parts of a long PDF, first use our <Link to="/tools/$slug" params={{ slug: "extract-pages" }} className="text-[#e5322d] hover:underline">Extract Pages tool</Link> to save only those relevant pages as a new, smaller document. This greatly simplifies the extraction process and ensures you only work with the specific images you require.</p>
 
         <h2>Frequently Asked Questions About Extracting PDF Images</h2>
       </div>
 
-      <div className=\"mt-6 divide-y divide-[#eee]\">
+      <div className="mt-6 divide-y divide-[#eee]">
         {faqs.map((f, i) => (
-          <details key={i} className=\"group py-4\">
-            <summary className=\"cursor-pointer list-none text-[15.5px] font-semibold flex justify-between items-center text-[#33333c]\">
+          <details key={i} className="group py-4">
+            <summary className="cursor-pointer list-none text-[15.5px] font-semibold flex justify-between items-center text-[#33333c]">
               {f.q}
-              <span className=\"ml-4 text-[#e5322d] transition-transform group-open:rotate-45\">+</span>
+              <span className="ml-4 text-[#e5322d] transition-transform group-open:rotate-45">+</span>
             </summary>
-            <p className=\"mt-3 text-[14.5px] leading-relaxed text-[#4a4a55]\">{f.a}</p>
+            <p className="mt-3 text-[14.5px] leading-relaxed text-[#4a4a55]">{f.a}</p>
           </details>
         ))}
       </div>
 
-      <h2 className=\"mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight text-[#33333c]\">
+      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight text-[#33333c]">
         Related PDF and Image Tools
       </h2>
       <RelatedToolsGrid items={extractImagesRelated} />
