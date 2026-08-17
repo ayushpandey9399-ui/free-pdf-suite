@@ -260,7 +260,7 @@ export function DeletePagesSeo() {
         <div>
           <h3 className="text-[17px] font-semibold text-[#1F2937]">Remove Meta-Data for Privacy</h3>
           <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
-            After deleting sensitive pages, it's also a good idea to clear the document's hidden properties using our <Link to="/tools/pdf-metadata" className="text-[#e5322d] hover:underline">PDF Metadata</Link> tool.
+            After deleting sensitive pages, it's also a good idea to clear the document's hidden properties using our <Link to="/tools/$slug" params={{ slug: "pdf-metadata" }} className="text-[#e5322d] hover:underline">PDF Metadata</Link> tool.
           </p>
         </div>
         <div>
