@@ -242,6 +242,8 @@ function ToolPage() {
                 ? "Delete Pages from PDF Online for Free"
                 : slug === "extract-pages"
                 ? "Extract Pages from PDF Online for Free"
+                : slug === "reorder-pages"
+                ? "Reorder PDF Pages Online for Free"
                 : (seo?.layoutTitle ?? tool.name)
         }
         description={
