@@ -160,7 +160,7 @@ export function ExtractImagesSeo() {
         <p>The extractor is engineered to recognize and retrieve a wide range of embedded formats including JPEG, PNG, TIFF, BMP, and GIF. It adapts to the format in which the image was originally saved in the PDF, ensuring you always get the native file format back.</p>
         
         <h3>Batch Download as ZIP</h3>
-        <p>For PDFs packed with dozens or even hundreds of visual elements, saving each image individually is inefficient. Our tool offers a batch download feature, packaging all selected assets into a single ZIP file for quick transfer and storage.</p>
+        <p>For PDFs packed with dozens or even hundreds of visual elements, saving each image individually is inefficient. Our tool offers a batch download feature, packaging all selected assets into a single ZIP file for quick transfer and storage. If you need to combine these images into a new document later, you can use our <Link to="/tools/$slug" params={{ slug: "images-to-pdf" }} className="text-[#e5322d] hover:underline">Images to PDF tool</Link>.</p>
         
         <h3>Works on Every Device and Browser</h3>
         <p>Whether you are on a Windows desktop, a Mac, a Linux machine, or mobile devices like Android or iOS, this tool runs seamlessly in any modern web browser. There is no requirement for plugins, software installations, or app downloads.</p>
@@ -228,7 +228,7 @@ export function ExtractImagesSeo() {
         <h2>Extract Images vs Convert PDF to Image — What Is the Difference?</h2>
         <p>While these operations are frequently confused, they serve fundamentally different purposes. Extracting images from a PDF specifically identifies and retrieves the individual image files that were embedded within the document — such as logos, photos, and charts. Each resulting file is a standalone asset at its original resolution.</p>
         <p>Conversely, converting a PDF to image is a page-level operation. This process takes every single page of a PDF document and renders it as a flat image file, encompassing all text, background colors, headers, footers, and structural formatting. The output here is a screenshot-like image of the full page, not the individual embedded assets themselves.</p>
-        <p>Select the "Extract Images" tool when you require specific photos, logos, or graphics previously embedded inside the document. Use the "PDF to Image" tool if you need a visual representation of the entire page for reference or sharing. If the latter is what you require, please use our <Link to="/tools/$slug" params={{ slug: "pdf-to-images" }} className="text-[#e5322d] hover:underline">PDF to Image tool</Link> instead.</p>
+        <p>Select the "Extract Images" tool when you require specific photos, logos, or graphics previously embedded inside the document. Use the "PDF to Image" tool if you need a visual representation of the entire page for reference or sharing. If the latter is what you require, please use our <Link to="/tools/$slug" params={{ slug: "pdf-to-images" }} className="text-[#e5322d] hover:underline">PDF to Image tool</Link> instead. If you have multiple documents, you might want to use our <Link to="/tools/$slug" params={{ slug: "merge" }} className="text-[#e5322d] hover:underline">Merge PDF tool</Link> first to combine them before extraction.</p>
 
         <h2>Tips for Extracting Images from PDFs</h2>
         <h3>Check if Your PDF Contains Embedded Images</h3>
@@ -241,7 +241,7 @@ export function ExtractImagesSeo() {
         <p>Some documents include high-definition photographic data that can lead to large files. After extraction, you can use our <Link to="/image-tools/$slug" params={{ slug: "compress-image" }} className="text-[#e5322d] hover:underline">Compress Image tool</Link> to optimize file sizes without visible quality loss, making them perfect for website or email use.</p>
         
         <h3>Rename Images After Downloading</h3>
-        <p>The system generates generic filenames for extracted images, such as "image_001.jpg". We highly recommend renaming them with descriptive identifiers immediately after download to facilitate easier search and organization.</p>
+        <p>The system generates generic filenames for extracted images, such as "image_001.jpg". We highly recommend renaming them with descriptive identifiers immediately after download to facilitate easier search and organization. If the dimensions are not right, you can use our <Link to="/image-tools/$slug" params={{ slug: "image-resize" }} className="text-[#e5322d] hover:underline">Resize Image tool</Link> to adjust them.</p>
         
         <h3>Combine With Other PDF Tools for Complex Workflows</h3>
         <p>If you only need images from specific parts of a long PDF, first use our <Link to="/tools/$slug" params={{ slug: "extract-pages" }} className="text-[#e5322d] hover:underline">Extract Pages tool</Link> to save only those relevant pages as a new, smaller document. This greatly simplifies the extraction process and ensures you only work with the specific images you require.</p>
