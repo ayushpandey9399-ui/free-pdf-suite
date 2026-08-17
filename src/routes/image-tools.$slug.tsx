@@ -7,9 +7,9 @@ import { normalizeToolJsonLd } from "@/lib/seoSchema";
 import { IMAGE_SILOS } from "@/components/imageSeoBundle";
 
 
-const HEIC_TITLE = "HEIC to JPG Converter Free, No Upload | pdftoolconverteronline.com";
+const HEIC_TITLE = "HEIC to JPG Converter Online Free — Convert iPhone Photos | PDFToolConverter";
 const HEIC_DESC =
-  "Convert HEIC to JPG online free. Batch convert iPhone photos in your browser with no upload, no signup, and no quality loss. Fast and 100% private.";
+  "Convert HEIC photos to JPG online instantly in your browser. Batch convert iPhone HEIC images to JPG without losing quality. Free, no signup, no watermark, files never leave your device.";
 
 const HEIC_PNG_TITLE = "HEIC to PNG Converter Free, No Upload | pdftoolconverteronline.com";
 const HEIC_PNG_DESC =
