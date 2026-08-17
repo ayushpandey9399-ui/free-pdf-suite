@@ -124,8 +124,8 @@ type Silo = {
 export const IMAGE_SILOS: Record<string, Silo> = {
   "heic-to-jpg": {
     jsonLd: [heicToJpgSoftwareJsonLd, heicToJpgHowToJsonLd, heicToJpgFaqJsonLd],
-    h1: "Convert HEIC to JPG online, free",
-    subtitle: "Turn iPhone HEIC photos into universal JPGs, right in your browser.",
+    h1: "Convert HEIC to JPG Online for Free",
+    subtitle: "Convert iPhone HEIC photos to JPG format instantly in your browser. Batch convert multiple HEIC files at once. No signup, no watermark, your photos never leave your device.",
     Component: HeicToJpgTool,
     Seo: HeicToJpgSeo,
   },
