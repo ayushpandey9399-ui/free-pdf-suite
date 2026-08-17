@@ -159,7 +159,44 @@
   body {
     color: var(--color-foreground);
   }
+
+  /* Global Headings Reset/Unification */
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #383e45;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  @media (min-width: 640px) {
+    h1 {
+      font-size: 42px;
+    }
+  }
+
+  h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #383e45;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+  }
+
+  @media (min-width: 640px) {
+    h2 {
+      font-size: 24px;
+    }
+  }
+
+  h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #383e45;
+    line-height: 1.4;
+  }
 }
+
 
 @keyframes float-y {
   0%, 100% { transform: translateY(-4px); }

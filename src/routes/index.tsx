@@ -86,8 +86,8 @@ function Home() {
 
         <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 pt-10 pb-0 text-center">
           <h1
-            className="mx-auto max-w-[900px] font-extrabold text-[32px] sm:text-[42px] lg:text-[48px] leading-[1.08]"
-            style={{ color: "#1c1c26", letterSpacing: "-0.025em" }}
+            className="mx-auto max-w-[900px] text-[32px] sm:text-[42px] lg:text-[48px]"
+            style={{ letterSpacing: "-0.025em" }}
           >
             Every tool you need to work with{" "}
             <span className="relative inline-block">
@@ -216,10 +216,7 @@ function ToolCard({
       >
         <Icon size={46} />
       </div>
-      <h3
-        className="mt-3.5 sm:mt-4 font-semibold text-[16px] sm:text-[18px] leading-snug"
-        style={{ color: "#1F2937", letterSpacing: "-0.005em" }}
-      >
+      <h3 className="mt-3.5 sm:mt-4 text-[16px] sm:text-[18px] leading-snug">
         {name}
       </h3>
       <p

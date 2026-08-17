@@ -103,10 +103,7 @@ function PrivacyStory() {
         <Reveal>
           <div className="grid gap-10 lg:grid-cols-5 lg:gap-14 items-center">
             <div className="lg:col-span-3">
-              <h2
-                className="text-[24px] sm:text-[32px] font-bold leading-tight tracking-tight"
-                style={{ color: INK, letterSpacing: "-0.02em" }}
-              >
+              <h2>
                 Your files stay on your device
               </h2>
               <p className="mt-5 text-[16px]" style={{ color: MUTED, lineHeight: 1.7 }}>
@@ -236,10 +233,7 @@ function WhyChoose() {
     <section className="py-14 sm:py-24">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
         <Reveal>
-          <h2
-            className="text-center text-[24px] sm:text-[32px] font-bold tracking-tight"
-            style={{ color: INK, letterSpacing: "-0.02em" }}
-          >
+          <h2>
             Why people choose pdftoolconverteronline.com
           </h2>
           <p
@@ -292,7 +286,7 @@ function ReasonCard({
       >
         <Icon className="h-6 w-6" style={{ color: BRAND }} strokeWidth={2} />
       </div>
-      <h3 className="mt-5 text-[17px] font-semibold" style={{ color: INK }}>
+      <h3 className="mt-5 text-[17px]">
         {title}
       </h3>
       <p className="mt-2 text-[14px]" style={{ color: MUTED, lineHeight: 1.6 }}>
@@ -329,10 +323,7 @@ function HowItWorks() {
     <section style={{ backgroundColor: BAND }} className="py-14 sm:py-24">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
         <Reveal>
-          <h2
-            className="text-center text-[24px] sm:text-[32px] font-bold tracking-tight"
-            style={{ color: INK, letterSpacing: "-0.02em" }}
-          >
+          <h2 className="text-center">
             Three steps. That's the whole process.
           </h2>
 
@@ -362,7 +353,7 @@ function HowItWorks() {
                   >
                     {s.n}
                   </div>
-                  <h3 className="mt-5 text-[17px] font-semibold" style={{ color: INK }}>
+                  <h3 className="mt-5 text-[17px]">
                     {s.title}
                   </h3>
                   <p
@@ -400,10 +391,7 @@ function SeoProse() {
     <section className="py-14 sm:py-24">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
         <Reveal>
-          <h2
-            className="text-center text-[24px] sm:text-[32px] font-bold tracking-tight"
-            style={{ color: INK, letterSpacing: "-0.02em" }}
-          >
+          <h2 className="text-center">
             One toolkit for every PDF task
           </h2>
           <div
@@ -449,10 +437,7 @@ function FinalCta() {
     >
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 text-center">
         <Reveal>
-          <h2
-            className="text-[26px] sm:text-[36px] font-bold tracking-tight"
-            style={{ color: INK, letterSpacing: "-0.02em" }}
-          >
+          <h2 className="text-center">
             44 tools. All free. All private.
           </h2>
           <p className="mt-3 text-[16px]" style={{ color: MUTED }}>

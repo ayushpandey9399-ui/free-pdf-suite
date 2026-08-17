@@ -62,15 +62,7 @@ export function ToolLayout({
         </nav>
 
         <div className="flex flex-1 flex-col justify-center text-center mt-8 md:mt-0">
-          <h1
-            className="mx-auto text-[28px] sm:text-[42px]"
-            style={{
-              color: "#383E45",
-              fontWeight: 700,
-              letterSpacing: "-0.02em",
-              lineHeight: 1.15,
-            }}
-          >
+          <h1>
             {title}
           </h1>
           <p
