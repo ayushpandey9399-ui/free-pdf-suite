@@ -258,7 +258,7 @@ export function ProtectPdfSeo() {
       </p>
       <h3>Re-Protect After Editing</h3>
       <p>
-        If you need to edit a protected PDF, unlock it using our <Link to="/tools/unlock-pdf" className="text-[#E5322D] hover:underline">Unlock PDF tool</Link>, make your edits, and then re-protect the updated version with a new password.
+        If you need to edit a protected PDF, unlock it using our <Link to="/tools/$slug" params={{ slug: "unlock-pdf" }} className="text-[#E5322D] hover:underline">Unlock PDF tool</Link>, make your edits, and then re-protect the updated version with a new password.
       </p>
 
       <h2>Frequently Asked Questions About Protecting PDFs</h2>
@@ -273,7 +273,7 @@ export function ProtectPdfSeo() {
               {f.q === "Can I protect a PDF that already has a password?" || f.q === "Can I remove the password later?" ? (
                 <>
                   {f.a.split("Unlock PDF tool")[0]}
-                  <Link to="/tools/unlock-pdf" className="text-[#E5322D] hover:underline">Unlock PDF tool</Link>
+                  <Link to="/tools/$slug" params={{ slug: "unlock-pdf" }} className="text-[#E5322D] hover:underline">Unlock PDF tool</Link>
                   {f.a.split("Unlock PDF tool")[1]}
                 </>
               ) : (

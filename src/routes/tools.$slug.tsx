@@ -43,8 +43,8 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Redact PDF online free and permanently black out names, sensitive info, or account details. Text is truly removed from the file, not just covered.",
   },
   "protect-pdf": {
-    title: "Protect PDF with Password, Free AES-256 | pdftoolconverteronline.com",
-    desc: "Password protect PDF online free with real AES-256 encryption. Set a password directly in your browser, your file and password stay on your device.",
+    title: "Protect PDF Online Free — Add Password to PDF Instantly | PDFToolConverter",
+    desc: "Password protect your PDF files online in your browser. Add AES encryption to prevent unauthorized access. Free, no signup, no watermark, files never leave your device.",
   },
   "unlock-pdf": {
     title: "Unlock PDF Free, Remove PDF Password Online | pdftoolconverteronline.com",
@@ -226,6 +226,8 @@ function ToolPage() {
                 ? "Split PDF Online for Free"
                 : slug === "sign-pdf"
                 ? "Sign PDF Online for Free"
+                : slug === "protect-pdf"
+                ? "Protect PDF with Password Online for Free"
                 : (seo?.layoutTitle ?? tool.name)
         }
         description={
@@ -243,6 +245,8 @@ function ToolPage() {
                     ? "Separate a PDF into multiple files by page range, extract specific pages, or split every page into its own document. No signup, no watermark, files stay on your device."
                     : slug === "sign-pdf"
                     ? "Add your electronic signature to any PDF document in seconds. Draw with your mouse, type your name, or upload a signature image. No printing, no scanning, no signup required. Your files stay on your device."
+                    : slug === "protect-pdf"
+                    ? "Add a password to any PDF document instantly in your browser. Encrypt your file to prevent unauthorized access. No signup, no watermark, your files never leave your device."
                     : tool.description)
         }
         crumbName={tool.name}
