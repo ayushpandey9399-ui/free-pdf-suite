@@ -127,8 +127,8 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Scan documents to PDF free with your phone camera, right in the browser. Capture multiple pages and export as a single PDF.",
   },
   "extract-images": {
-    title: "Extract Images from PDF Online Free, Full Quality | pdftoolconverteronline.com",
-    desc: "Extract images from PDF online free. Pull out original photos, logos, and figures at full quality. No upload, entirely in your browser.",
+    title: "Extract Images from PDF Online Free — No Upload | PDFToolConverter",
+    desc: "Extract all images from any PDF file instantly in your browser. Download embedded JPG, PNG, TIFF images in original quality. Free, no signup, no upload to servers.",
   },
   "compare": {
     title: "Compare Two PDF Files Online, Side-by-Side | pdftoolconverteronline.com",
