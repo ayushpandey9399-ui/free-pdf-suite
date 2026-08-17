@@ -55,7 +55,7 @@ const faqs = [
   },
   {
     q: "Can I sign a password-protected PDF?",
-    a: "Not directly. First remove the password using our <Link to='/tools/unlock-pdf' className='text-[#e5322d] hover:underline'>Unlock PDF tool</Link>, then sign the document normally.",
+    a: "Not directly. First remove the password using our <Link to='/tools/$slug' params={{ slug: 'unlock-pdf' }} className='text-[#e5322d] hover:underline'>Unlock PDF tool</Link>, then sign the document normally.",
   },
   {
     q: "Will the signature look the same on all devices?",
@@ -230,15 +230,15 @@ export function SignPdfSeo() {
       <section className="mb-12">
         <h2>Tips for Signing PDFs Effectively</h2>
         <h3>Use a Transparent PNG for the Cleanest Signature</h3>
-        <p>If you are uploading a signature image, save it as a PNG file with a transparent background. This ensures the signature blends naturally with the document background without a white box around it. Most phone apps that let you sign on a white paper and photograph it produce images with white backgrounds — trim these using our <Link to='/image-tools/crop-image' className='text-[#e5322d] hover:underline'>Crop Image tool</Link> before uploading.</p>
+        <p>If you are uploading a signature image, save it as a PNG file with a transparent background. This ensures the signature blends naturally with the document background without a white box around it. Most phone apps that let you sign on a white paper and photograph it produce images with white backgrounds — trim these using our <Link to='/image-tools/$slug' params={{ slug: 'crop-image' }} className='text-[#e5322d] hover:underline'>Crop Image tool</Link> before uploading.</p>
         <h3>Draw on a Touchscreen for the Best Results</h3>
         <p>If you have a tablet or smartphone with a stylus, use it to draw your signature. The result looks more natural than drawing with a mouse and more closely resembles your actual handwritten signature.</p>
         <h3>Protect the Signed PDF With a Password</h3>
-        <p>After signing a sensitive document, add a password using our <Link to='/tools/protect-pdf' className='text-[#e5322d] hover:underline'>Protect PDF tool</Link> to prevent unauthorized access or further editing. This is especially important for financial agreements, legal contracts, and medical forms.</p>
+        <p>After signing a sensitive document, add a password using our <Link to='/tools/$slug' params={{ slug: 'protect-pdf' }} className='text-[#e5322d] hover:underline'>Protect PDF tool</Link> to prevent unauthorized access or further editing. This is especially important for financial agreements, legal contracts, and medical forms.</p>
         <h3>Add a Date Alongside Your Signature</h3>
-        <p>Many legal and business documents require a date next to the signature. Use the text annotation feature in our <Link to='/tools/edit-pdf' className='text-[#e5322d] hover:underline'>Edit PDF tool</Link> to add the current date in the correct format next to your signature placement.</p>
+        <p>Many legal and business documents require a date next to the signature. Use the text annotation feature in our <Link to='/tools/$slug' params={{ slug: 'edit-pdf' }} className='text-[#e5322d] hover:underline'>Edit PDF tool</Link> to add the current date in the correct format next to your signature placement.</p>
         <h3>Flatten the PDF After Signing</h3>
-        <p>Once you are satisfied with the signature placement, use our <Link to='/tools/flatten-pdf' className='text-[#e5322d] hover:underline'>Flatten PDF tool</Link> to permanently embed the signature into the document. Flattening converts interactive elements into static content so the signature cannot be moved, edited, or deleted by the recipient.</p>
+        <p>Once you are satisfied with the signature placement, use our <Link to='/tools/$slug' params={{ slug: 'flatten-pdf' }} className='text-[#e5322d] hover:underline'>Flatten PDF tool</Link> to permanently embed the signature into the document. Flattening converts interactive elements into static content so the signature cannot be moved, edited, or deleted by the recipient.</p>
       </section>
 
       {/* SECTION H */}
