@@ -272,7 +272,7 @@ export function DeletePagesSeo() {
         <div>
           <h3 className="text-[17px] font-semibold text-[#1F2937]">Check Internal Page References</h3>
           <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
-            If the document has a 'Table of Contents' that refers to page numbers, remember that deleting pages will change the total count. If precision is key, consider using the <Link to="/tools/edit-pdf" className="text-[#e5322d] hover:underline">Edit PDF</Link> tool to update the TOC.
+            If the document has a 'Table of Contents' that refers to page numbers, remember that deleting pages will change the total count. If precision is key, consider using the <Link to="/tools/$slug" params={{ slug: "edit-pdf" }} className="text-[#e5322d] hover:underline">Edit PDF</Link> tool to update the TOC.
           </p>
         </div>
       </div>
