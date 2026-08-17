@@ -19,9 +19,9 @@ const JPG_PNG_TITLE = "JPG to PNG Converter Online Free — Convert JPEG to PNG 
 const JPG_PNG_DESC =
   "Convert JPG images to PNG online instantly in your browser. Batch convert multiple JPEGs to PNG with transparency support. Free, no signup, no watermark, files never leave your device.";
 
-const PNG_JPG_TITLE = "PNG to JPG Converter Online Free, No Upload | pdftoolconverteronline.com";
+const PNG_JPG_TITLE = "PNG to JPG Converter Online Free — Convert PNG to JPEG | PDFToolConverter";
 const PNG_JPG_DESC =
-  "Convert PNG to JPG online free. Batch convert PNG images to smaller JPG files in your browser, adjustable quality, no upload, 100% private. No install needed.";
+  "Convert PNG images to JPG online instantly in your browser. Batch convert multiple PNG files to JPEG with quality control. Free, no signup, no watermark, files never leave your device.";
 
 const WEBP_JPG_TITLE = "WebP to JPG Converter Free, No Upload | pdftoolconverteronline.com";
 const WEBP_JPG_DESC =
