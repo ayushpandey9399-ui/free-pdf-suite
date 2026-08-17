@@ -250,15 +250,15 @@ export function SplitPdfSeo() {
         </div>
         <div>
           <h3 className="text-lg font-semibold text-[#383E45]">Compress After Splitting</h3>
-          <p className="mt-2 text-base leading-relaxed text-[#383E45]">If the extracted pages still produce large files (because they contain high-resolution images), run each split PDF through our <Link to="/tools/compress" className="text-[#E5322D] hover:underline">Compress PDF tool</Link> to reduce file size further before sharing.</p>
+          <p className="mt-2 text-base leading-relaxed text-[#383E45]">If the extracted pages still produce large files (because they contain high-resolution images), run each split PDF through our <Link to="/tools/$slug" params={{ slug: "compress" }} className="text-[#E5322D] hover:underline">Compress PDF tool</Link> to reduce file size further before sharing.</p>
         </div>
         <div>
           <h3 className="text-lg font-semibold text-[#383E45]">Merge Specific Pages Before Splitting</h3>
-          <p className="mt-2 text-base leading-relaxed text-[#383E45]">If you need pages from different parts of the document combined into one new file (for example, the introduction plus the conclusion), use our <Link to="/tools/extract-pages" className="text-[#E5322D] hover:underline">Extract Pages tool</Link> to pull those pages out first, then if needed merge them with other content.</p>
+          <p className="mt-2 text-base leading-relaxed text-[#383E45]">If you need pages from different parts of the document combined into one new file (for example, the introduction plus the conclusion), use our <Link to="/tools/$slug" params={{ slug: "extract-pages" }} className="text-[#E5322D] hover:underline">Extract Pages tool</Link> to pull those pages out first, then if needed merge them with other content.</p>
         </div>
         <div>
           <h3 className="text-lg font-semibold text-[#383E45]">Use Delete Pages for Simple Trimming</h3>
-          <p className="mt-2 text-base leading-relaxed text-[#383E45]">If you only need to remove a few pages from a document rather than splitting it into multiple files, our <Link to="/tools/delete-pages" className="text-[#E5322D] hover:underline">Delete Pages tool</Link> is faster. Upload the PDF, select the pages to remove, and download the trimmed version as a single file.</p>
+          <p className="mt-2 text-base leading-relaxed text-[#383E45]">If you only need to remove a few pages from a document rather than splitting it into multiple files, our <Link to="/tools/$slug" params={{ slug: "delete-pages" }} className="text-[#E5322D] hover:underline">Delete Pages tool</Link> is faster. Upload the PDF, select the pages to remove, and download the trimmed version as a single file.</p>
         </div>
         <div>
           <h3 className="text-lg font-semibold text-[#383E45]">Rename Output Files Immediately</h3>
