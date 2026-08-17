@@ -152,8 +152,8 @@ export const IMAGE_SILOS: Record<string, Silo> = {
   },
   "webp-to-jpg": {
     jsonLd: [webpToJpgSoftwareJsonLd, webpToJpgHowToJsonLd, webpToJpgFaqJsonLd],
-    h1: "Convert WebP to JPG online, free",
-    subtitle: "Turn .webp images into universal JPGs, right in your browser.",
+    h1: "Convert WebP to JPG Online for Free",
+    subtitle: "Transform WebP images into universally compatible JPG files instantly in your browser. Batch convert multiple files at once with quality control. No signup, no watermark, your images never leave your device.",
     Component: WebpToJpgTool,
     Seo: WebpToJpgSeo,
   },
