@@ -110,7 +110,7 @@ export function ExtractImagesSeo() {
         <div className="mt-5 space-y-4 not-prose">
           {steps.map((s, i) => (
             <div key={i} className="flex gap-4">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e5322d] text-white font-bold text-sm">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e5322d] text-white font-bold text-sm" aria-label={`Step ${i + 1}`}>
                 {i + 1}
               </span>
               <div className="pt-1">

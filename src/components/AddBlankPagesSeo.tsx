@@ -100,7 +100,7 @@ export function AddBlankPagesSeo() {
       <ol className="mt-8 space-y-6 max-w-2xl mx-auto">
         {steps.map((s, i) => (
           <li key={i} className="flex gap-4">
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e5322d] text-white font-bold text-sm">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e5322d] text-white font-bold text-sm" aria-label={`Step ${i + 1}`}>
               {i + 1}
             </span>
             <div className="pt-1">

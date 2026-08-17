@@ -34,7 +34,7 @@ export function RelatedToolsGrid({ items }: { items: readonly RelatedToolItem[] 
             }}
           >
             {Icon ? (
-              <div className="shrink-0 transition-transform duration-[180ms] ease-out group-hover:scale-[1.05]">
+              <div className="shrink-0 transition-transform duration-[180ms] ease-out group-hover:scale-[1.05]" aria-hidden="true" title={`${r.name} tool`}>
                 <Icon size={40} />
               </div>
             ) : null}
