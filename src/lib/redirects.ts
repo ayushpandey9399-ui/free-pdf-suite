@@ -1,7 +1,7 @@
-# 301 Redirects from old domain
-# Note: This is a placeholder for server-level configuration (e.g., Vercel/Cloudflare redirects).
-# In TanStack Start, we handle this in a root loader or middleware if running on the old domain.
-
+/**
+ * Domain redirection utility.
+ * Handles 301-equivalent logic for domain migration.
+ */
 export function handleDomainRedirect(url: string) {
   const oldDomain = "freepdfhub.in";
   const newDomain = "pdftoolconverteronline.com";
