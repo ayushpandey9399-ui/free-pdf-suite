@@ -230,6 +230,75 @@
 .legal-prose a:hover { color: #b8241f; }
 .legal-prose strong { color: #14142b; }
 
+/* SEO Content Section Styling */
+.seo-content {
+  color: #4b5563;
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.seo-content h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #383e45;
+  margin-top: 48px;
+  margin-bottom: 16px;
+}
+
+@media (min-width: 640px) {
+  .seo-content h2 {
+    font-size: 24px;
+  }
+}
+
+.seo-content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #383e45;
+  margin-top: 28px;
+  margin-bottom: 10px;
+}
+
+.seo-content p {
+  margin-bottom: 16px;
+}
+
+.seo-content a {
+  color: #e5322d;
+}
+
+.seo-content a:hover {
+  text-decoration: underline;
+}
+
+.seo-content details[open] summary span {
+  transform: rotate(45deg);
+}
+
+.seo-content summary {
+  cursor: pointer;
+  list-style: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: #383e45;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 8px;
+}
+
+.seo-content summary::-webkit-details-marker {
+  display: none;
+}
+
+.seo-content details p {
+  color: #6b7280;
+  line-height: 1.7;
+  margin-top: 12px;
+  margin-bottom: 0;
+}
+
+
 
 /* Hand-drawn hero underline draw */
 @keyframes draw-underline {

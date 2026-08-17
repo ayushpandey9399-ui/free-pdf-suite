@@ -96,12 +96,12 @@ const related = [
 
 export function MergePdfSeo() {
   return (
-    <section className="mx-auto max-w-4xl px-4 pb-16 text-[#33333c]">
+    <section className="mx-auto max-w-4xl px-4 pb-16 seo-content">
       {/* SECTION A */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
+      <h2>
         Why Merge PDF Files Into One Document?
       </h2>
-      <div className="mt-5 space-y-4 text-[15px] leading-relaxed text-[#4a4a55]">
+      <div>
         <p>
           Working with multiple separate PDF files creates confusion. You end up with dozens of files scattered across folders, 
           email attachments arrive as five separate documents instead of one, and finding the right file takes longer than it should. 
@@ -126,7 +126,7 @@ export function MergePdfSeo() {
       </div>
 
       {/* SECTION B */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
+      <h2>
         How to Merge PDF Files Online — Step by Step
       </h2>
       <div className="mt-5 space-y-6">
@@ -139,7 +139,7 @@ export function MergePdfSeo() {
       </div>
 
       {/* SECTION C */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
+      <h2>
         Common Scenarios for Combining PDF Documents
       </h2>
       <div className="mt-5 space-y-6">
@@ -203,7 +203,7 @@ export function MergePdfSeo() {
       </div>
 
       {/* SECTION D */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
+      <h2>
         Why Use Our Free Online PDF Merger?
       </h2>
       <div className="mt-5 space-y-6">
@@ -254,7 +254,7 @@ export function MergePdfSeo() {
       </div>
 
       {/* SECTION E */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
+      <h2>
         Browser-Based vs Server-Based PDF Merging
       </h2>
       <div className="mt-6 overflow-x-auto">
@@ -312,7 +312,7 @@ export function MergePdfSeo() {
       </div>
 
       {/* SECTION F */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
+      <h2>
         Tips for Merging PDF Files Effectively
       </h2>
       <div className="mt-5 space-y-6">
@@ -354,15 +354,15 @@ export function MergePdfSeo() {
       </div>
 
       {/* SECTION G */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
+      <h2>
         Frequently Asked Questions About Merging PDFs
       </h2>
-      <div className="mt-6 divide-y divide-[#ececef]">
+      <div className="mt-8 divide-y divide-[#ececef]">
         {faqs.map((f, i) => (
           <details key={i} className="group py-4">
-            <summary className="cursor-pointer list-none text-[16px] font-bold flex justify-between items-center text-[#33333c]">
+            <summary>
               {f.q}
-              <span className="ml-4 text-[#e5322d] transition-transform group-open:rotate-45">+</span>
+              <span className="ml-4 text-[#e5322d] text-xl">+</span>
             </summary>
             <div 
               className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]"
@@ -380,7 +380,7 @@ export function MergePdfSeo() {
                   To merge specific pages, first use our <Link to="/tools/$slug" params={{ slug: "extract-pages" }} className="text-[#e5322d] hover:underline">Extract Pages tool</Link> to pull out the pages you need from each document. Then merge the extracted files together.
                 </>
               ) : (
-                f.a
+                <p>{f.a}</p>
               )}
             </div>
           </details>
@@ -388,7 +388,7 @@ export function MergePdfSeo() {
       </div>
 
       {/* SECTION H */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
+      <h2 className="text-center">
         Related PDF Tools
       </h2>
       <RelatedToolsGrid items={related} />
