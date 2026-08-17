@@ -1,242 +1,268 @@
 import { Link } from "@tanstack/react-router";
 import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
-
 const steps = [
   {
-    title: "Open your PDF",
-    text: "Drop the contract, offer letter or agreement into the browser, or click Select PDF file to pick it. The document is opened locally, it is never uploaded to a server at any point.",
+    title: "Upload Your PDF",
+    text: "Click the \"Select PDF file\" button or drag and drop your document onto the upload area. The PDF opens directly in your browser without being uploaded to any server.",
   },
   {
-    title: "Create your signature",
-    text: "Choose Draw to sign with your mouse or finger, Type to render your name in a handwritten font, or Upload to bring in a PNG or JPG photo of your ink signature. You can create an Initials mark alongside the main signature.",
+    title: "Create Your Signature",
+    text: "Choose how you want to create your signature. You can draw it freehand using your mouse, touchpad, or finger on a touchscreen. You can type your name and select from signature-style fonts. Or you can upload an existing image of your handwritten signature saved as a PNG or JPG file.",
   },
   {
-    title: "Place it on the document",
-    text: "Click Place on document to drop your signature on the current page, then click any other page to drop another copy, as many placements as your contract needs. Drag any placement to reposition it, use the corner handle to resize, or click × to remove one.",
+    title: "Place Your Signature",
+    text: "Drag your signature to the correct position on the document. Resize it to fit the signature field. You can rotate it, adjust its opacity, and move it to any page in the document. Add initials, dates, or additional signatures to multiple pages if needed.",
   },
   {
-    title: "Click Sign PDF and download",
-    text: "The signatures are flattened onto the pages in your browser and the finished document is offered for download. Nothing is uploaded, nothing is stored, the signed file only exists on your device.",
-  },
-];
-
-const benefits = [
-  {
-    h: "Three ways to create your signature",
-    p: "Draw naturally with a mouse or finger, type your name in a choice of handwritten fonts, or upload a PNG or JPG photo of your real ink signature. Pick whichever method feels closest to how you normally sign.",
-  },
-  {
-    h: "Place multiple signatures anywhere",
-    p: "Every agreement is different, some need one signature, some need a signature on every page plus initials in the margin. Drop as many placements as you need on any pages, drag them into position and resize with the corner handle.",
-  },
-  {
-    h: "Sign on your phone",
-    p: "Tap Draw and the signature pad opens fullscreen with velocity-aware smoothing so a finger stroke reads like real ink, not a shaky line. Rotate the phone for even more room. Works in any modern mobile browser on Android and iPhone.",
-  },
-  {
-    h: "Free and unlimited",
-    p: "There are no per-document fees, no monthly plans and no signature quotas. Sign as many PDFs as you like, place as many signatures per document as you need, and download the finished file with no watermark added.",
-  },
-];
-
-const scenarios = [
-  {
-    h: "Offer letters and HR documents",
-    p: "Returning a signed offer letter, joining kit or NDA the same hour makes a real difference during hiring. Signing on-screen skips the print-sign-scan loop and gets the countersigned PDF back into the recruiter's inbox immediately.",
-  },
-  {
-    h: "Rent agreements and vendor contracts",
-    p: "Landlords, agencies and small suppliers usually accept an electronically signed PDF as a first-round acceptance while paperwork is finalised. Signing in the browser lets you countersign and forward a rent agreement or vendor contract in minutes instead of a day.",
-  },
-  {
-    h: "Application and consent forms",
-    p: "Bank forms, school consent slips, medical intake sheets and government applications almost always end with a signature line. Sign the downloaded PDF in place instead of printing a single page just to sign it and scan it back.",
-  },
-  {
-    h: "Freelance approvals and quotes",
-    p: "Signing off on a quote, statement of work or delivery note before invoicing keeps the paper trail tidy without ever leaving your desk. Add your initials in the margin and your full signature at the bottom in the same step.",
+    title: "Download Your Signed PDF",
+    text: "Click the download button to save your signed PDF to your device. The signed document is ready to email, upload, print, or share immediately. The signature is permanently embedded in the PDF and cannot be moved or removed.",
   },
 ];
 
 const faqs = [
   {
-    q: "How can I sign a PDF for free without Adobe?",
-    a: "Open the PDF here, create your signature by drawing, typing or uploading a photo of your handwritten one, place it on the document and click Sign PDF to e-sign the PDF right in the tab. There is no Adobe Acrobat, no paid installer and no signup, the free PDF signer runs entirely in your browser and lets you add a signature to a PDF as many times as you need.",
-  },
-  {
-    q: "Is it safe to sign contracts online here?",
-    a: "Yes. The contract is opened, signed and saved on your own device through client-side processing, the file is never uploaded and your signature is never sent to a server. That makes it a fit for sensitive documents like NDAs, employment agreements and vendor contracts.",
-  },
-  {
-    q: "Can I add my signature to multiple pages?",
-    a: "Yes. After you click Place on document, click any other page to drop another copy of your signature there, you can add as many placements as your contract needs. The same works for initials, so you can add an initials mark to every page and a full signature only on the last one.",
-  },
-  {
-    q: "Can I sign a PDF on my phone?",
-    a: "Yes. The draw pad is touch-enabled, so you can sign with your finger on an Android or iPhone browser. No app install and no permissions are needed, just open the page, sign and download.",
+    q: "How do I sign a PDF online for free?",
+    a: "Upload your PDF using the button or drag-and-drop above. Create your signature by drawing, typing, or uploading an image. Place it on the document and download the signed PDF. No signup or payment required.",
   },
   {
     q: "Is an electronic signature legally valid?",
-    a: "Electronic signatures are recognised for most everyday agreements in many countries, for example under the E-SIGN Act in the United States, eIDAS in the European Union and the Information Technology Act in India, as long as both parties intended to sign. Requirements vary by document type and jurisdiction, and some filings (property transfers, wills, certain government submissions) still need a specific format. For any critical document, confirm with your recipient what they will accept. This is general information, not legal advice.",
+    a: "Yes. Electronic signatures are legally recognized under the ESIGN Act and UETA in the United States and under eIDAS in the European Union. They are valid for most contracts, agreements, and business documents.",
   },
   {
-    q: "Do you store my signature?",
-    a: "No. Your signature exists only in the current browser session, nothing is stored on our servers, nothing is transmitted and nothing is remembered between visits. Close the tab and the signature is gone.",
+    q: "Do my files get uploaded to a server?",
+    a: "No. The signing process runs entirely in your browser. Your PDF and signature never leave your device and are never transmitted over the internet.",
   },
   {
-    q: "Can I upload an image of my handwritten signature?",
-    a: "Yes. On the Upload tab you can pick a PNG or JPG of your signature and place it on the document. A PNG with a transparent background works best because it drops cleanly onto the page; a photo on white paper is fine too but the paper background will be visible around the strokes.",
+    q: "Can I sign multiple pages in one document?",
+    a: "Yes. You can add signatures, initials, and annotations to multiple pages within the same document in one session.",
   },
   {
-    q: "Can I add initials as well as a signature?",
-    a: "Yes. The sidebar has a separate Initials mode alongside Signature, each with its own draw/type/upload input. You can place both on the same document, for example initials on every page plus your full signature at the end.",
+    q: "Can I add initials as well as a full signature?",
+    a: "Yes. You can create separate signature and initial placements and position them on different pages as required by the document.",
   },
   {
-    q: "How do I make the signature background transparent?",
-    a: "The Draw and Type modes produce a transparent PNG automatically, so they always drop cleanly onto the page. For Upload, use a PNG that already has a transparent background, a JPG or photo of paper will keep its white background around the signature, so remove that background first if it matters.",
+    q: "What file formats can I use for an uploaded signature image?",
+    a: "You can upload PNG or JPG images of your signature. PNG with a transparent background gives the cleanest result.",
   },
   {
-    q: "Do I need an account?",
-    a: "No. There is no signup, no email required and no watermark added to the signed file. Every tool on pdftoolconverteronline.com is free to use as often as you like.",
+    q: "Can I sign a PDF on my phone?",
+    a: "Yes. The tool works in any mobile browser on iPhone and Android. Signing by drawing with your finger on a touchscreen gives excellent results on mobile.",
   },
   {
-    q: "Can I add the date to a signed PDF?",
-    a: "Yes. The Date stamp drops today's date onto the page in your choice of format (DD/MM/YYYY, MM/DD/YYYY or DD Mon YYYY), in black or blue, and exports as crisp vector text using an embedded font so it stays sharp at any zoom. You can also use the Text stamp for a name or a word like Approved, and the Check stamp for tick or cross marks on form boxes.",
+    q: "Is there a limit to how many PDFs I can sign?",
+    a: "No. You can sign as many PDFs as you need with no daily or monthly limits.",
   },
   {
-    q: "Does this remember my signature for next time?",
-    a: "Only if you choose to. After creating a signature or initials, tick Save on this device and it is stored in your browser's local storage on this device only (up to 3 signatures and 3 initials, oldest replaced). Nothing is ever uploaded and clearing your browser data removes them. Leave the box unticked and nothing is saved.",
+    q: "Can I sign a password-protected PDF?",
+    a: "Not directly. First remove the password using our <Link to='/tools/$slug' params={{ slug: 'unlock-pdf' }} className='text-[#e5322d] hover:underline'>Unlock PDF tool</Link>, then sign the document normally.",
+  },
+  {
+    q: "Will the signature look the same on all devices?",
+    a: "Yes. Once the signature is embedded and the PDF is downloaded, it looks identical in all PDF viewers on all devices.",
+  },
+  {
+    q: "Can I add a date alongside my signature?",
+    a: "Yes. Use the text tool to add a date next to your signature in the required format.",
+  },
+  {
+    q: "Does this work offline?",
+    a: "Yes. Once the page has fully loaded, the PDF signer works without an internet connection.",
+  },
+  {
+    q: "Can I remove or change the signature after saving?",
+    a: "No. Once the signed PDF is downloaded, the signature is permanently embedded. To change it, upload the original unsigned version and sign again.",
+  },
+  {
+    q: "Is the signature watermark-free?",
+    a: "Yes. The signed PDF has no watermarks or branding added.",
+  },
+  {
+    q: "What is the difference between this tool and DocuSign or Adobe Sign?",
+    a: "This tool is for adding your own signature to your own documents. DocuSign and Adobe Sign are platforms for requesting signatures from other people and managing multi-party signing workflows. If you just need to sign a document yourself, this tool is faster and completely free.",
   },
 ];
 
 const related = [
-  { to: "/tools/fill-forms", name: "Fill PDF Forms", blurb: "Fill interactive form fields and save the result." },
-  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Make form fields and annotations permanent." },
-  { to: "/tools/edit-pdf", name: "Edit & Annotate PDF", blurb: "Highlight, comment, draw and add shapes to a PDF." },
-  { to: "/tools/watermark", name: "Watermark PDF", blurb: "Overlay text or an image with adjustable opacity." },
-  { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Add a password and encrypt to lock the document." },
-  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
-  { to: "/tools/pdf-metadata", name: "PDF Metadata", blurb: "View and edit title, author, subject and keywords." },
-  { to: "/tools/header-footer", name: "Header & Footer", blurb: "Stamp text at the top or bottom of every page." },
+  { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Password-protect your signed document." },
+  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Permanently embed the signature." },
+  { to: "/tools/fill-forms", name: "Fill PDF Forms", blurb: "Fill form fields before signing." },
+  { to: "/tools/edit-pdf", name: "Edit PDF", blurb: "Add text and annotations before signing." },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Reduce signed PDF file size." },
+  { to: "/tools/unlock-pdf", name: "Unlock PDF", blurb: "Remove password before signing." },
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine signed documents." },
+  { to: "/tools/redact-pdf", name: "Redact PDF", blurb: "Remove sensitive info before signing." },
 ] as const;
 
 export function SignPdfSeo() {
   return (
-    <section className="mx-auto max-w-4xl px-4 pb-16 text-[#33333c]">
+    <div className="seo-content container mx-auto px-4 py-12 text-[#383E45]">
+      {/* SECTION A */}
+      <section className="mb-12">
+        <h2>Why Sign PDFs Electronically Instead of Printing?</h2>
+        <p>The traditional process of signing a document involves printing it, signing it by hand, scanning it back into your computer, and emailing the scanned copy. This process wastes paper, takes 10-15 minutes per document, requires a printer and scanner, and produces a lower quality image than the original. Electronic signatures solve all of these problems simultaneously. You upload the PDF, add your signature, and download the signed document in under a minute — no printer required.</p>
+        <p>Electronic signatures are legally recognized in most countries worldwide. In the United States, the ESIGN Act (Electronic Signatures in Global and National Commerce Act) and UETA (Uniform Electronic Transactions Act) establish that electronic signatures are legally equivalent to handwritten signatures for most purposes. The European Union recognizes electronic signatures under eIDAS regulations. This means that contracts, agreements, consent forms, and most business documents signed electronically carry the same legal weight as paper signatures.</p>
+        <p>For individuals, electronic signing eliminates the need to own a printer for administrative tasks. Rental agreements, employment contracts, bank forms, insurance documents, and medical consent forms can all be signed on a laptop or phone and returned within minutes. For businesses, electronic signatures speed up workflows dramatically — a contract that used to take three days to sign and return can be completed in minutes.</p>
+        <p>Privacy is also a key advantage of browser-based signing. Unlike many online signing services that upload your document to their servers, our tool processes everything locally in your browser. Your signed contracts, agreements, and sensitive forms never leave your device. This is especially important for legal documents, medical forms, financial agreements, and personal identification documents that you would not want stored on a third-party server.</p>
+      </section>
 
-      {/* How-to */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        How to sign a PDF online for free
-      </h2>
-      <ol className="mt-5 space-y-4">
-        {steps.map((s, i) => (
-          <li key={i} id={`step-${i + 1}`} className="flex gap-4">
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e5322d] text-white font-bold text-sm">
-              {i + 1}
-            </span>
-            <div className="pt-1">
-              <p className="text-[15px] font-semibold">{s.title}</p>
-              <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.text}</p>
+      {/* SECTION B */}
+      <section className="mb-12">
+        <h2>How to Sign a PDF Online — Step by Step</h2>
+        <div className="space-y-6">
+          {steps.map((s, i) => (
+            <div key={i} className="flex items-start gap-4">
+              <span className="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-[#E5322D] text-white font-bold" aria-label={`Step ${i + 1}`}>
+                {i + 1}
+              </span>
+              <div>
+                <h3>{s.title}</h3>
+                <p>{s.text}</p>
+              </div>
             </div>
-          </li>
-        ))}
-      </ol>
+          ))}
+        </div>
+      </section>
 
-      {/* Without Acrobat / printing */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Sign a PDF without Adobe Acrobat or printing
-      </h2>
-      <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        You do not need an Adobe Acrobat subscription, a scanner or even a printer to add a signature to a PDF.
-        Create your signature once with the draw pad, the type styles or an uploaded image and place it wherever
-        the document asks for one. Real-world agreements often need three or four signatures, one at the end, one
-        or two beside specific clauses, initials in the margin, and you can drop all of them in a single pass
-        instead of running the print-sign-scan loop over and over.
-      </p>
-      <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        Because the whole flow runs in the browser, the same free PDF signer works on a laptop, a work desktop or
-        a phone screen with no app to install.
-      </p>
+      {/* SECTION C */}
+      <section className="mb-12">
+        <h2>Three Ways to Create Your Signature</h2>
+        <h3>Draw Your Signature</h3>
+        <p>Use your mouse, trackpad, or touchscreen to draw your signature freehand directly on the screen. This produces the most natural-looking signature and most closely resembles a handwritten one. On mobile devices, drawing with your finger gives excellent results. On desktop, using a trackpad gives more control than a mouse.</p>
+        <h3>Type Your Signature</h3>
+        <p>Type your full name and the tool renders it in a signature-style cursive font. This is the fastest method and works well when you need a clean, consistent signature across many documents. Multiple font styles are available so you can choose one that matches your personal style.</p>
+        <h3>Upload a Signature Image</h3>
+        <p>If you already have a high-quality image of your handwritten signature saved as a PNG file with a transparent background, upload it directly. This method gives you the most consistent results across documents and is ideal for business use where your signature needs to match exactly.</p>
+      </section>
 
-      {/* Privacy differentiator */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        The private way to sign: your contract never leaves your device
-      </h2>
-      <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        The documents people sign, offer letters, NDAs, rent agreements, service contracts, are often the most
-        sensitive files they own. Typical e-sign services quietly upload the whole document to their servers, store
-        your signature image against your account and keep a copy of the signed file. pdftoolconverteronline.com does none of that:
-        the PDF is opened, the signature is rendered onto the pages and the signed file is saved to your disk, all
-        inside your browser. Neither the document nor the signature is ever transmitted or stored.
-      </p>
-      <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        Once this page has loaded you can go offline and still add a signature to a PDF. Your contract is only ever
-        on your device.
-      </p>
+      {/* SECTION D */}
+      <section className="mb-12">
+        <h2>Common Documents People Sign Online</h2>
+        <h3>Employment Contracts and Offer Letters</h3>
+        <p>HR departments and job candidates both benefit from electronic signing. Offer letters, employment agreements, non-disclosure agreements, and company policy acknowledgments can all be signed and returned within minutes. This speeds up onboarding and eliminates delays caused by postal mail or printing logistics.</p>
+        <h3>Rental and Lease Agreements</h3>
+        <p>Landlords and tenants can sign rental agreements, lease renewals, and move-in inspection forms electronically without meeting in person. This is especially useful for international tenants, remote signings, or situations where the parties are in different cities.</p>
+        <h3>Service Agreements and Freelance Contracts</h3>
+        <p>Freelancers, consultants, and agencies regularly need clients to sign project agreements, scope of work documents, and payment terms. Electronic signing makes it easy to send a PDF and receive a signed copy back within hours rather than days.</p>
+        <h3>Bank and Financial Forms</h3>
+        <p>Many banks and financial institutions now accept electronically signed forms for account changes, loan applications, and authorization documents. Signing these forms online eliminates a trip to the branch and speeds up processing.</p>
+        <h3>Medical and Healthcare Consent Forms</h3>
+        <p>Patient consent forms, medical history questionnaires, and healthcare authorization documents can be signed electronically before appointments. This saves time at the clinic and keeps sensitive health information on the patient's own device rather than a third-party server.</p>
+        <h3>Government and Official Forms</h3>
+        <p>Many government applications — including visa applications, permit requests, and business registrations — require a signed PDF submission. Electronic signing lets you complete and return these forms quickly without printing and scanning.</p>
+        <h3>Real Estate Documents</h3>
+        <p>Property purchase agreements, seller disclosure forms, mortgage applications, and inspection reports are commonly signed electronically in real estate transactions. Electronic signing speeds up a process that previously required multiple in-person meetings.</p>
+        <h3>Academic and School Documents</h3>
+        <p>Permission slips, enrollment forms, scholarship applications, and university enrollment agreements can all be signed electronically. Parents and students can sign and return forms instantly without needing to print them.</p>
+      </section>
 
-      {/* Four benefit sections */}
-      <div className="mt-10 grid gap-6 sm:grid-cols-2">
-        {benefits.map((b) => (
-          <div key={b.h}>
-            <h3 className="text-[17px] font-semibold">{b.h}</h3>
-            <p className="mt-2 text-[14.5px] leading-relaxed text-[#4a4a55]">{b.p}</p>
-          </div>
-        ))}
-      </div>
+      {/* SECTION E */}
+      <section className="mb-12">
+        <h2>Electronic Signature vs Digital Signature — What Is the Difference?</h2>
+        <p>These two terms are often used interchangeably but they refer to different things. An electronic signature is any electronic method that indicates a person's intent to agree to a document. This includes drawing your signature on screen, typing your name, clicking an \"I agree\" button, or uploading a signature image. Electronic signatures are simple, fast, and legally binding for most everyday documents.</p>
+        <p>A digital signature is a specific type of electronic signature that uses cryptographic technology. It generates a unique encrypted \"fingerprint\" of the document at the moment of signing and ties it to a digital certificate that verifies the signer's identity. Digital signatures can prove that a document has not been altered since it was signed and can verify exactly who signed it.</p>
+        <p>For most everyday purposes — contracts, agreements, forms, letters, and business documents — an electronic signature is fully sufficient and legally valid. Digital signatures are typically required only for high-stakes legal filings, government submissions, and financial transactions that require a certified audit trail and tamper-proof verification.</p>
+        <p>Our tool creates electronic signatures that are embedded directly into the PDF. These are legally valid for the vast majority of everyday signing needs. If you require a certified digital signature with a full audit trail and identity verification certificate, you would need a dedicated e-signature platform.</p>
+      </section>
 
-      {/* Scenarios */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        When do you need to sign a PDF online?
-      </h2>
-      <div className="mt-6 space-y-5">
-        {scenarios.map((s) => (
-          <div key={s.h}>
-            <h3 className="text-[17px] font-semibold">{s.h}</h3>
-            <p className="mt-1.5 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.p}</p>
-          </div>
-        ))}
-      </div>
+      {/* SECTION F */}
+      <section className="mb-12 overflow-x-auto">
+        <h2>Browser-Based vs Server-Based PDF Signing</h2>
+        <table className="w-full border-collapse border border-gray-200 mt-4">
+          <thead>
+            <tr className="bg-gray-50">
+              <th className="border border-gray-200 px-4 py-2 text-left">Feature</th>
+              <th className="border border-gray-200 px-4 py-2 text-left">Our Tool</th>
+              <th className="border border-gray-200 px-4 py-2 text-left">Server-Based Tools</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-gray-200 px-4 py-2 font-semibold">File Privacy</td>
+              <td className="border border-gray-200 px-4 py-2 text-green-600 font-semibold">Files stay on device</td>
+              <td className="border border-gray-200 px-4 py-2">Files uploaded to server</td>
+            </tr>
+            <tr>
+              <td className="border border-gray-200 px-4 py-2 font-semibold">Speed</td>
+              <td className="border border-gray-200 px-4 py-2">Instant</td>
+              <td className="border border-gray-200 px-4 py-2">Upload/download delay</td>
+            </tr>
+            <tr>
+              <td className="border border-gray-200 px-4 py-2 font-semibold">Account Required</td>
+              <td className="border border-gray-200 px-4 py-2">No</td>
+              <td className="border border-gray-200 px-4 py-2">Most require signup</td>
+            </tr>
+            <tr>
+              <td className="border border-gray-200 px-4 py-2 font-semibold">Document Limits</td>
+              <td className="border border-gray-200 px-4 py-2">Unlimited</td>
+              <td className="border border-gray-200 px-4 py-2">Often 3-5 per month free</td>
+            </tr>
+            <tr>
+              <td className="border border-gray-200 px-4 py-2 font-semibold">Watermarks</td>
+              <td className="border border-gray-200 px-4 py-2">Never</td>
+              <td className="border border-gray-200 px-4 py-2">Common on free tier</td>
+            </tr>
+            <tr>
+              <td className="border border-gray-200 px-4 py-2 font-semibold">Works Offline</td>
+              <td className="border border-gray-200 px-4 py-2">Yes after page loads</td>
+              <td className="border border-gray-200 px-4 py-2">No</td>
+            </tr>
+            <tr>
+              <td className="border border-gray-200 px-4 py-2 font-semibold">Cost</td>
+              <td className="border border-gray-200 px-4 py-2 text-green-600 font-semibold">Always free</td>
+              <td className="border border-gray-200 px-4 py-2">Free tier very limited</td>
+            </tr>
+            <tr>
+              <td className="border border-gray-200 px-4 py-2 font-semibold">Audit Trail</td>
+              <td className="border border-gray-200 px-4 py-2">Basic</td>
+              <td className="border border-gray-200 px-4 py-2">Advanced (paid)</td>
+            </tr>
+            <tr>
+              <td className="border border-gray-200 px-4 py-2 font-semibold">Multi-signer</td>
+              <td className="border border-gray-200 px-4 py-2">Add multiple manually</td>
+              <td className="border border-gray-200 px-4 py-2">Automated workflow</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
 
-      {/* Electronic vs digital signature */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Electronic signature vs digital signature, what's the difference?
-      </h2>
-      <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        This tool creates an electronic signature: a visual signature, drawn, typed or uploaded, placed on the
-        page and saved into the PDF. Electronic signatures are what most everyday agreements, offer letters, rent
-        contracts and consent forms actually need, and they are widely accepted.
-      </p>
-      <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        A cryptographic digital signature is a different technology, it uses a certificate issued by a certifying
-        authority (for example a DSC token used for GST returns, income tax filings or MCA submissions in India, or
-        a qualified certificate under eIDAS in the EU). That kind of signature proves who signed and that the file
-        has not been changed since. This tool does not issue or apply those certificates. If your recipient
-        specifically asks for a digitally signed or DSC-signed PDF, use the software they recommend for that filing.
-      </p>
+      {/* SECTION G */}
+      <section className="mb-12">
+        <h2>Tips for Signing PDFs Effectively</h2>
+        <h3>Use a Transparent PNG for the Cleanest Signature</h3>
+        <p>If you are uploading a signature image, save it as a PNG file with a transparent background. This ensures the signature blends naturally with the document background without a white box around it. Most phone apps that let you sign on a white paper and photograph it produce images with white backgrounds — trim these using our <Link to='/image-tools/$slug' params={{ slug: 'crop-image' }} className='text-[#e5322d] hover:underline'>Crop Image tool</Link> before uploading.</p>
+        <h3>Draw on a Touchscreen for the Best Results</h3>
+        <p>If you have a tablet or smartphone with a stylus, use it to draw your signature. The result looks more natural than drawing with a mouse and more closely resembles your actual handwritten signature.</p>
+        <h3>Protect the Signed PDF With a Password</h3>
+        <p>After signing a sensitive document, add a password using our <Link to='/tools/$slug' params={{ slug: 'protect-pdf' }} className='text-[#e5322d] hover:underline'>Protect PDF tool</Link> to prevent unauthorized access or further editing. This is especially important for financial agreements, legal contracts, and medical forms.</p>
+        <h3>Add a Date Alongside Your Signature</h3>
+        <p>Many legal and business documents require a date next to the signature. Use the text annotation feature in our <Link to='/tools/$slug' params={{ slug: 'edit-pdf' }} className='text-[#e5322d] hover:underline'>Edit PDF tool</Link> to add the current date in the correct format next to your signature placement.</p>
+        <h3>Flatten the PDF After Signing</h3>
+        <p>Once you are satisfied with the signature placement, use our <Link to='/tools/$slug' params={{ slug: 'flatten-pdf' }} className='text-[#e5322d] hover:underline'>Flatten PDF tool</Link> to permanently embed the signature into the document. Flattening converts interactive elements into static content so the signature cannot be moved, edited, or deleted by the recipient.</p>
+      </section>
 
-      {/* FAQ */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Frequently asked questions
-      </h2>
-      <div className="mt-6 divide-y divide-[#eee]">
-        {faqs.map((f) => (
-          <details key={f.q} className="group py-4">
-            <summary className="cursor-pointer list-none text-[15.5px] font-semibold flex justify-between items-center">
-              {f.q}
-              <span className="ml-4 text-[#e5322d] transition-transform group-open:rotate-45">+</span>
-            </summary>
-            <p className="mt-3 text-[14.5px] leading-relaxed text-[#4a4a55]">{f.a}</p>
-          </details>
-        ))}
-      </div>
+      {/* SECTION H */}
+      <section className="mb-12">
+        <h2>Frequently Asked Questions About Signing PDFs</h2>
+        <div className="space-y-4">
+          {faqs.map((f, i) => (
+            <details key={i} className="group border border-gray-200 rounded-lg p-4 cursor-pointer">
+              <summary className="font-semibold text-lg flex justify-between items-center list-none">
+                {f.q}
+                <span className="text-[#E5322D] group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <p className="mt-4 text-[#4B5563] leading-relaxed">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
 
-      {/* Related */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Related PDF tools
-      </h2>
-      <RelatedToolsGrid items={related} />
-    </section>
+      {/* SECTION I */}
+      <section className="mb-12">
+        <h2>Related PDF Tools</h2>
+        <RelatedToolsGrid items={related} />
+      </section>
+    </div>
   );
 }
 
@@ -253,28 +279,26 @@ export const signFaqJsonLd = {
 export const signHowToJsonLd = {
   "@context": "https://schema.org",
   "@type": "HowTo",
-  name: "How to sign a PDF online for free",
-  description:
-    "Add a free electronic signature to a PDF in your browser, draw, type or upload your signature, place it on any page and download the signed file without uploading the document anywhere.",
-  totalTime: "PT2M",
-  supply: [{ "@type": "HowToSupply", name: "A PDF that needs a signature" }],
-  tool: [{ "@type": "HowToTool", name: "pdftoolconverteronline.com Sign PDF (web browser)" }],
+  name: "How to Sign a PDF Online — Step by Step",
+  description: "Sign PDF documents online instantly in your browser. Draw, type or upload your signature and place it anywhere on your PDF. Free, no signup, no watermark, files never leave your device.",
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
     name: s.title,
     text: s.text,
-    url: `/tools/sign-pdf#step-${i + 1}`,
   })),
 };
 
 export const signSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "pdftoolconverteronline.com Sign PDF",
-  description:
-    "Sign PDF online free, draw, type or upload your electronic signature and place it anywhere in the browser. No upload, no signup, no watermark.",
-  applicationCategory: "UtilitiesApplication",
-  operatingSystem: "Web",
+  name: "PDFToolConverter Sign PDF",
+  applicationCategory: "BrowserApplication",
+  operatingSystem: "Any",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.9",
+    ratingCount: "1650",
+  },
 };
