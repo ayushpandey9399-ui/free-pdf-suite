@@ -160,8 +160,8 @@ export default function AddBlankPages() {
 
   return (
     <ToolWorkspace
-      title="Add Blank Pages"
-      actionLabel={blankCount ? `Add ${blankCount} Blank Page${blankCount === 1 ? "" : "s"}` : "Add Blank Pages"}
+      title="Add Blank Pages to PDF Online"
+      description="Insert empty pages anywhere in your PDF — before, after, or between existing pages. Free, private, and instant. No upload, no signup, no watermark."
       loadingLabel="Inserting blank pages…"
       onAction={run}
       actionDisabled={!blankCount}
