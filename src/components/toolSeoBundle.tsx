@@ -185,7 +185,7 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
     content: <ScanToPdfSeo />,
   },
   "extract-images": {
-    layoutTitle: "Extract images from PDF",
+    layoutTitle: "Extract Images from PDF",
     jsonLd: [extractImagesFaqJsonLd, extractImagesHowToJsonLd, extractImagesSoftwareJsonLd],
     content: <ExtractImagesSeo />,
   },

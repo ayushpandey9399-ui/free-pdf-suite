@@ -220,7 +220,9 @@ function ToolPage() {
             ? "Merge PDF Files Online for Free"
             : slug === "add-blank-pages"
               ? "Add Blank Pages to PDF Online"
-              : (seo?.layoutTitle ?? tool.name)
+              : slug === "extract-images"
+                ? "Extract Images from PDF Online for Free"
+                : (seo?.layoutTitle ?? tool.name)
         }
         description={
           slug === "merge"
@@ -229,7 +231,9 @@ function ToolPage() {
               ? "Your file is securely uploaded to our server for processing and permanently deleted immediately after your download is complete. We never store, share, or access your files."
               : (slug === "add-blank-pages"
                 ? "Insert empty pages anywhere in your PDF — before, after, or between existing pages. Free, private, and instant. No upload, no signup, no watermark."
-                : tool.description)
+                : slug === "extract-images"
+                  ? "Pull out every embedded image from your PDF document in seconds. Download photos, graphics, logos, and diagrams in their original quality. No signup, no watermark, and your files never leave your device."
+                  : tool.description)
         }
         crumbName={tool.name}
         icon={tool.icon}
