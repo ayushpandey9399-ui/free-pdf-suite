@@ -21,7 +21,7 @@ import {
 type Phase = "idle" | "uploading" | "converting" | "done" | "error";
 
 const TRUST_NOTE =
-  "This tool uploads your PDF to our server, converts it, and deletes it within minutes.";
+  "Your file is securely uploaded to our server for processing and permanently deleted immediately after your download is complete. We never store, share, or access your files.";
 
 export default function PdfToWord() {
   const [phase, setPhase] = useState<Phase>("idle");
@@ -211,6 +211,9 @@ export default function PdfToWord() {
         buttonLabel="Select PDF file"
         onFiles={onFiles}
       />
+      <div className="mt-2 text-center text-[12px] text-[#6B7280]">
+        🔒 Processed securely on our servers. Auto-deleted after download.
+      </div>
 
       <div className="mx-auto -mt-2 max-w-[520px] px-4 text-center text-[13px]" style={{ color: "#8b8b96" }}>
         <p>

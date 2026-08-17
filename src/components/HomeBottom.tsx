@@ -110,17 +110,17 @@ function PrivacyStory() {
                 Your files stay on your device
               </h2>
               <p className="mt-5 text-[16px]" style={{ color: MUTED, lineHeight: 1.7 }}>
-                Every tool on this page processes your files in your browser.
-                When you merge, compress, sign or redact a PDF here, the work
-                happens on your own computer or phone, powered by the same
-                technology that runs modern web apps.
+                Our tools run in your browser. Where server processing 
+                is used (PDF to Word, Compress Image), files are 
+                securely deleted immediately after download.
               </p>
               <p className="mt-4 text-[16px]" style={{ color: MUTED, lineHeight: 1.7 }}>
-                These tools have no upload step, your file opens directly in
-                your browser and the processing happens right there. Nothing is
-                transmitted, nothing is stored, and nobody, including us , 
-                sees your documents. Close the tab, and no trace of your file
-                remains.
+                For the majority of our tools, they have no upload step, 
+                your file opens directly in your browser and the 
+                processing happens right there. Nothing is transmitted, 
+                nothing is stored, and nobody, including us, 
+                sees your documents. Close the tab, and no trace of 
+                your file remains.
               </p>
               <p className="mt-4 text-[14px]" style={{ color: "#8b8b95", lineHeight: 1.7 }}>
                 That's why pdftoolconverteronline.com is safe even for your most sensitive
@@ -209,7 +209,7 @@ const REASONS = [
     icon: ShieldCheck,
     title: "100% private",
     body:
-      "Files are processed in your browser and never uploaded anywhere. Your documents stay yours.",
+      "Our tools run in your browser. Where server processing is used, files are securely deleted immediately.",
   },
   {
     icon: Gift,
@@ -456,7 +456,7 @@ function FinalCta() {
             44 tools. All free. All private.
           </h2>
           <p className="mt-3 text-[16px]" style={{ color: MUTED }}>
-            Every tool processes your files in your browser, PDF and images alike. Start with any one.
+            Our tools run in your browser. Where server processing is used (PDF to Word, Compress Image), files are securely deleted immediately after download.
           </p>
 
           <button

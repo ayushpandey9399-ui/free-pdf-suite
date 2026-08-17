@@ -345,6 +345,9 @@ export function CompressImageTool() {
           onFiles={addFiles}
           accent="#e5322d"
         />
+        <div className="mt-2 text-center text-[12px] text-[#6B7280]">
+          🔒 Processed securely on our servers. Auto-deleted after download.
+        </div>
       </div>
     );
   }

@@ -7,7 +7,7 @@ import { SITE_URL, SITE_NAME, CONTACT_EMAIL } from "@/lib/site";
 
 const HOME_TITLE = "pdftoolconverteronline.com | Every PDF tool, 100% free";
 const HOME_DESC =
-  "Free PDF tools that run in your browser. Merge, split, convert, compress, edit, and organize PDFs. No signup, no upload step, no limits, no watermarks.";
+  "PDF tools that run in your browser. Where server processing is used (PDF to Word, Compress Image), files are securely deleted immediately after download.";
 const HOME_URL = `${SITE_URL}/`;
 const OG_IMAGE = `${SITE_URL}/og-cover.png`;
 
@@ -114,7 +114,7 @@ function Home() {
             className="mx-auto mt-4 max-w-[720px] text-[16px] sm:text-[17px] leading-relaxed"
             style={{ color: "#6b6b78" }}
           >
-            44 free tools to merge, split, convert, edit, sign PDFs and images, right in your browser. Fast, private and free.
+            44 free tools to merge, split, convert, edit, sign PDFs and images. Our tools run in your browser. Where server processing is used (PDF to Word, Compress Image), files are securely deleted immediately after download.
           </p>
 
           {/* Filter pills */}
