@@ -3,19 +3,19 @@ import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
 const steps = [
   {
-    title: "Upload Your Protected PDF",
+    title: "Step 1 — Upload Your Protected PDF",
     text: "Click the \"Select PDF file\" button or drag and drop your password-protected PDF onto the upload area. The file opens in your browser without being uploaded to any external server.",
   },
   {
-    title: "Enter the Password",
+    title: "Step 2 — Enter the Password",
     text: "Type the password for the PDF in the password field. This is the password that was set when the document was originally protected. Without the correct password, the file cannot be decrypted.",
   },
   {
-    title: "Unlock the PDF",
+    title: "Step 3 — Unlock the PDF",
     text: "Click the \"Unlock PDF\" button. The tool uses the password you entered to decrypt the file content and generate a new copy of the document without password protection. This process runs entirely in your browser.",
   },
   {
-    title: "Download the Unlocked PDF",
+    title: "Step 4 — Download the Unlocked PDF",
     text: "Download the unlocked PDF to your device. The new file is identical in content to the original but can be opened, edited, merged, and used in any PDF workflow without requiring a password.",
   },
 ];
@@ -186,12 +186,12 @@ export function UnlockPdfSeo() {
         <table className="w-full border-collapse border border-gray-200">
           <thead>
             <tr className="bg-gray-50 text-left">
-              <th className="p-3 border border-gray-200">Feature</th>
+              <th className="p-3 border border-gray-200 text-[#383E45]">Feature</th>
               <th className="p-3 border border-gray-200 font-semibold text-[#E5322D]">Our Tool</th>
-              <th className="p-3 border border-gray-200">Server-Based Tools</th>
+              <th className="p-3 border border-gray-200 text-[#383E45]">Server-Based Tools</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="text-[#383E45]">
             <tr>
               <td className="p-3 border border-gray-200 font-medium">File Privacy</td>
               <td className="p-3 border border-gray-200">Stays on device</td>
@@ -262,7 +262,7 @@ export function UnlockPdfSeo() {
       <div className="space-y-4">
         {faqs.map((f, i) => (
           <details key={i} className="group border border-gray-200 rounded-lg p-4">
-            <summary className="font-semibold cursor-pointer list-none flex justify-between items-center">
+            <summary className="font-semibold cursor-pointer list-none flex justify-between items-center text-[#383E45]">
               {f.q}
               <span className="text-[#E5322D] group-open:rotate-180 transition-transform">▼</span>
             </summary>
@@ -306,6 +306,14 @@ export const unlockSoftwareJsonLd = {
   name: "PDFToolConverter Unlock PDF",
   applicationCategory: "BrowserApplication",
   operatingSystem: "Any",
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  aggregateRating: { "@type": "AggregateRating", ratingValue: "4.8", ratingCount: "1280" },
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+  },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.8",
+    ratingCount: "1280",
+  },
 };
