@@ -51,8 +51,8 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Remove password protection from any PDF file instantly in your browser. Unlock secured PDFs you own. Free, no signup, no watermark, files never leave your device.",
   },
   "watermark": {
-    title: "Add Watermark to PDF Free, Online Tool | pdftoolconverteronline.com",
-    desc: "Add a watermark to PDF online free. Stamp text like DRAFT or your brand across every page with adjustable size, angle, and opacity.",
+    title: "Add Watermark to PDF Online Free — Text & Image Watermark | PDFToolConverter",
+    desc: "Add a watermark to PDF online free. Stamp text like DRAFT or your brand logo across every page in your browser. Free, no signup, no watermark on output, files never leave your device.",
   },
   "rotate": {
     title: "Rotate PDF Online Free — Rotate Pages 90, 180, 270 Degrees | PDFToolConverter",
@@ -236,6 +236,8 @@ function ToolPage() {
                 ? "Convert Images to PDF Online for Free"
                 : slug === "pdf-to-images"
                 ? "Convert PDF to JPG Online for Free"
+                : slug === "watermark"
+                ? "Add Watermark to PDF Online for Free"
                 : (seo?.layoutTitle ?? tool.name)
         }
         description={
@@ -263,6 +265,8 @@ function ToolPage() {
                     ? "Turn JPG, PNG, WebP, and other image files into a PDF document instantly. Add multiple images, arrange them in order, and download a clean PDF. No signup, no watermark, files stay on your device."
                     : slug === "pdf-to-images"
                     ? "Turn every page of your PDF into a high-quality JPG or PNG image instantly in your browser. Download images individually or as a ZIP file. No signup, no watermark, files never leave your device."
+                    : slug === "watermark"
+                    ? "Protect your documents or brand your PDFs by adding a text or image watermark to every page instantly in your browser. Adjust size, angle, and opacity to get the perfect look. No signup, no watermark on output, and your files never leave your device."
                     : tool.description)
         }
         crumbName={tool.name}

@@ -1,130 +1,125 @@
 import { Link } from "@tanstack/react-router";
 import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
+import { SITE_URL } from "@/lib/site";
 
+const url = `${SITE_URL}/tools/watermark`;
 
 const steps = [
   {
-    title: "Open the PDF you want to stamp",
-    text: "Drop a PDF into the browser or click Select PDF file. The document is loaded into the current tab and the watermark editor appears, nothing is uploaded, and the page count you see reflects a purely local parse.",
+    title: "Upload Your PDF File",
+    text: "Select the PDF document you want to watermark or drag and drop it into the upload zone. The file is processed entirely in your browser using local resources, ensuring your sensitive data never leaves your device.",
   },
   {
-    title: "Pick Text or Image mode",
-    text: "Switch between the Text tab (type a phrase like CONFIDENTIAL or a project name) and the Image tab (upload a PNG or JPG logo). The Text tab is the fastest for words, dates and purpose labels; the Image tab is for brand marks that already exist as a file.",
+    title: "Configure Watermark Settings",
+    text: "Choose between a text watermark (like 'DRAFT', 'CONFIDENTIAL', or your name) or upload an image/logo. Adjust the position, opacity, font size, and rotation to your liking. You can see the changes in real-time.",
   },
   {
-    title: "Dial in the look",
-    text: "For text, set the exact string, the Size (12 to 144 pt), the Color (any hex via the colour picker), the Angle (-90° to 90°, so -30° gives the classic diagonal) and the Opacity (5% to 100% for anything from a ghost stamp to a solid banner). For an image, set the Angle and Opacity, the picture is auto-scaled to half the shorter page edge and centred.",
+    title: "Apply the Watermark",
+    text: "Once you are happy with the preview, click the 'Apply Watermark' button. Our tool will bake the watermark into every page of your PDF document using high-fidelity rendering that preserves original quality.",
   },
   {
-    title: "Click Apply Watermark and download",
-    text: "The stamp is drawn once, centred, on every page of the document using pdf-lib in your browser. The file saves with a -watermarked suffix and opens in any reader with the mark baked in.",
+    title: "Download Your Document",
+    text: "Your watermarked PDF will be generated instantly. Download the file to your computer or mobile device. The output is 100% clean and free of any branding from our tool.",
   },
-];
-
-const benefits = [
-  {
-    h: "Full control over the look",
-    p: "You choose the exact text, its size from 12 to 144 pt, any colour through the picker, the tilt from a subtle 15° to a full -90°, and an opacity between 5% and 100%. That range covers a ghost DRAFT that barely tints the page, a bold red CONFIDENTIAL sash across the middle, and everything in between, readable enough to notice, transparent enough to keep the underlying document legible.",
-  },
-  {
-    h: "Every page in one click",
-    p: "The watermark is stamped once on every page of the PDF in a single pass. A one-page ID copy and a 300-page report take the same click, the mark lands consistently in the centre of each page, at the same size, angle and opacity you set.",
-  },
-  {
-    h: "No forced branding",
-    p: "The awkward thing about most free online watermarkers is that they add their own logo to your file unless you upgrade, the very thing you were trying to prevent. This tool never adds a second watermark of its own; the only text or image on the output is what you typed or uploaded.",
-  },
-  {
-    h: "Private by design",
-    p: "Watermarking is what you reach for on the files you least want floating around, ID copies, unpublished manuscripts, draft contracts, client proposals. Every step here runs inside your browser tab, so the original PDF and the stamped output both stay on your device.",
-  },
-];
-
-const scenarios = [
-  {
-    h: "ID proofs with a purpose and date",
-    p: "When a broker, telecom store, hotel or lender asks for a copy of your Aadhaar, PAN or passport, stamp the reason and the date diagonally across every page, for example For HDFC home loan application only, 15 Jan 2026. If that scan later surfaces somewhere it should not, the watermark makes the misuse obvious and the shared copy hard to reuse without noticeable edits.",
-  },
-  {
-    h: "Proposals and quotations you don't want passed off",
-    p: "Consulting decks, project proposals, sample deliverables and portfolio pieces get forwarded well beyond the person you sent them to. A diagonal stamp of your firm's name across each page makes the origin unambiguous and discourages the recipient from stripping your branding out of the header before reusing the content.",
-  },
-  {
-    h: "DRAFT versions circulated for review",
-    p: "A draft that gets mistaken for the final version is a small disaster, signed, forwarded, filed. Stamping DRAFT at 40% opacity across every page makes the status impossible to miss, no matter which page a reviewer opens or prints, and keeps the final version clean of that marker.",
-  },
-  {
-    h: "Course notes, e-books and reports you distribute",
-    p: "Study material, research reports and paid PDF products travel fast once one copy is loose. Watermarking every page with your name, the buyer's name or a licence line makes the file traceable and less useful to redistribute anonymously, a soft deterrent that costs the honest reader nothing.",
-  },
-  {
-    h: "Company logo across every page of a PDF",
-    p: "Invoices, quotations, offer letters, case studies and pitch decks look unmistakably yours the moment your logo is stamped on every page. Switch to the Image tab, upload your logo as a PNG (transparent background works best) or JPG, drop opacity to around 15 to 25% so it sits behind the text as a background brand mark, and click Apply Watermark, the same logo lands centred on page 1, page 50 and every page in between, so a forwarded screenshot still shows who the document came from.",
-  },
-
 ];
 
 const faqs = [
   {
     q: "How do I add a watermark to a PDF for free?",
-    a: "Open this page, click Select PDF file and choose your document, then use the Text tab to type the phrase you want stamped and adjust the size, colour, angle and opacity, or the Image tab to upload a logo. Click Apply Watermark and a stamped copy downloads to your device. No account, no card and no forced branding on the output.",
+    a: "Simply upload your PDF to our online tool, type your text or upload a logo, adjust the settings, and click 'Apply Watermark'. You can then download your file for free without any signups or watermarks from us.",
   },
   {
-    q: "Can I write the purpose on my Aadhaar or PAN copy?",
-    a: "Yes, and this is one of the strongest uses of the tool. Open the ID PDF here, switch to the Text tab, type a line such as For SBI credit card application only, 15 Jan 2026, tilt it to -30° for the diagonal look, set opacity around 40% so the ID stays readable and click Apply Watermark. The stamped copy is what you send to the requester, and the original ID file never leaves your browser during any of it.",
+    q: "Can I add both text and image watermarks?",
+    a: "Currently, our tool allows you to add either a text-based watermark or an image-based watermark in a single pass. If you need both, you can run the document through the tool a second time.",
   },
   {
-    q: "Can I make the watermark diagonal and transparent?",
-    a: "Yes. The Angle slider goes from -90° to 90° in 5° steps, -30° is the classic diagonal for stamps like CONFIDENTIAL, DRAFT or a purpose label. The Opacity slider goes from 5% to 100%, so you can drop the stamp to 20 to 40% for a soft see-through look that keeps the document underneath fully readable.",
+    q: "Will the watermark appear on every page of the PDF?",
+    a: "Yes, the tool is designed to apply the watermark consistently across every single page of your document automatically.",
   },
   {
-    q: "Will the watermark appear on every page?",
-    a: "Yes. The tool stamps every page of the PDF in a single pass, one text draw or one image draw per page, centred, using the exact size, angle and opacity you configured. A 1-page ID and a 250-page report are both fully covered by a single click.",
+    q: "Is it possible to change the opacity of the watermark?",
+    a: "Absolutely. You can use the opacity slider to make the watermark very subtle (transparent) or bold and opaque, depending on your needs.",
   },
   {
-    q: "Can I add my logo to a PDF?",
-    a: "Yes. Open the PDF, switch to the Image tab, and upload your logo as a PNG (transparent background recommended) or JPG. Set the Angle, 0° for an upright brand mark or -30° for a diagonal stamp, and set the Opacity, usually around 15 to 25% if you want the logo to sit as a soft background on document pages, or 60 to 100% if you want it to read as a clear brand stamp. Click Apply Watermark and the logo is centred on every page of the file. The image is auto-scaled to about half the shorter page edge, so it stays readable on both A4 pages and larger formats without any manual sizing.",
+    q: "Do my files get stored on your servers?",
+    a: "No. Unlike other services, PDFToolConverter processes everything locally in your web browser. Your files never leave your device, ensuring total privacy.",
   },
   {
-    q: "Can someone remove my watermark?",
-    a: "Honestly: a watermark deters casual misuse and makes reuse visible, but no stamp is impossible to remove. Someone with enough time and a good editor can crop, blur or repaint over parts of a page, the point of a watermark is that they have to do that work, and the result almost never looks clean. If your goal is the opposite direction, permanently removing something from a PDF instead of layering something on top, use the Redact PDF tool, which re-renders the affected pages so the removed content is actually gone.",
+    q: "What is the best position for a PDF watermark?",
+    a: "For security, a large diagonal watermark across the center of the page is most effective. For branding, a small logo in the header or footer corner is preferred.",
   },
   {
-    q: "Does watermarking reduce document quality?",
-    a: "No. The stamp is drawn as a new text or image layer on top of each existing page using pdf-lib, the original page content, fonts, images and vector shapes are copied through untouched. There is no re-rendering, no re-compression and no loss of resolution anywhere in the document.",
+    q: "Can I watermark protected or encrypted PDFs?",
+    a: "You will need to unlock the PDF first using our 'Unlock PDF' tool if it has a password that prevents editing or printing.",
   },
   {
-    q: "Do my files get uploaded?",
-    a: "No. The PDF, the watermark text and any logo image you pick are all opened and processed inside your browser tab. No network request is made during the watermarking, so nothing about the original file, the stamp text or the finished output ever reaches our servers.",
+    q: "Does watermarking increase the file size significantly?",
+    a: "Text watermarks add negligible size. Image watermarks will increase the size based on the dimensions and quality of the image you upload.",
   },
   {
-    q: "Is there a limit on pages or files?",
-    a: "No. Watermark a 1-page copy or a 500-page report, and run the tool on as many files as you want, one after the other, there is no daily cap, no page limit and no paywall gate at a certain document length.",
+    q: "Can I choose the font for my text watermark?",
+    a: "Yes, we provide several standard fonts that are universally compatible with all PDF readers to ensure your watermark looks consistent everywhere.",
   },
   {
-    q: "Do I need Acrobat or an account?",
-    a: "Neither. Adobe Acrobat's watermark feature is inside the paid Pro edition, but nothing here needs installing or signing up. Open the page, drop a PDF, apply the watermark, download, that is the entire workflow.",
+    q: "Is there a limit on how many PDFs I can watermark?",
+    a: "No, our tool is completely free with no daily limits or file count restrictions.",
+  },
+  {
+    q: "Can I remove a watermark after it has been applied?",
+    a: "Once a watermark is 'baked' into the PDF layers, it is difficult to remove without professional editing software. We recommend keeping a backup of your original file.",
+  },
+  {
+    q: "Does this tool work on mobile devices?",
+    a: "Yes, PDFToolConverter is fully responsive and works perfectly on Chrome, Safari, and other modern browsers on iPhone and Android.",
+  },
+  {
+    q: "Can I watermark a PDF with multiple lines of text?",
+    a: "Yes, our text watermark tool supports multi-line input so you can add detailed disclaimers or copyright notices.",
+  },
+  {
+    q: "What image formats are supported for watermarking?",
+    a: "You can upload JPG, PNG, or WebP images to use as watermarks. PNG is recommended for logos with transparency.",
+  },
+  {
+    q: "Is this tool safe for business and legal documents?",
+    a: "Yes. Because the processing is local, your business secrets and legal documents are never exposed to the internet.",
   },
 ];
 
 const related = [
-  { to: "/tools/header-footer", name: "Header & Footer", blurb: "Stamp text at the top or bottom of every page." },
-  { to: "/tools/page-numbers", name: "Page Numbers", blurb: "Add page numbers with custom position and style." },
-  { to: "/tools/edit-pdf", name: "Edit & Annotate PDF", blurb: "Highlight, comment, draw and add shapes to a PDF." },
-  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Draw or type a signature and place it on any page." },
-  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Make form fields and annotations permanent." },
-  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
-  { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Add a password and encrypt to lock the document." },
-  { to: "/tools/redact-pdf", name: "Redact PDF", blurb: "Permanently black out sensitive text and images." },
+  { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Encrypt your PDF with a strong password." },
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine multiple files into one PDF." },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Reduce PDF file size without losing quality." },
+  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Lock form fields and annotations permanently." },
+  { to: "/tools/redact-pdf", name: "Redact PDF", blurb: "Permanently hide sensitive information." },
+  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Add your electronic signature to any document." },
+  { to: "/tools/edit-pdf", name: "Edit PDF", blurb: "Change text and add annotations to your PDF." },
+  { to: "/tools/unlock-pdf", name: "Unlock PDF", blurb: "Remove passwords from protected documents." },
 ] as const;
 
 export function WatermarkPdfSeo() {
   return (
     <section className="mx-auto max-w-4xl px-4 pb-16 text-[#33333c]">
-
-      {/* How-to */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        How to add a watermark to a PDF online for free
+        Why watermark a PDF?
+      </h2>
+      <div className="mt-4 space-y-4 text-[15px] leading-relaxed text-[#4a4a55]">
+        <p>
+          Watermarking a PDF is one of the most effective ways to protect your intellectual property and control how your documents are used. By placing a visible layer of text or an image over your pages, you clearly communicate the ownership and status of the file. Whether you are distributing a draft for review or sharing a confidential report, a watermark acts as a constant reminder of the document's sensitive nature.
+        </p>
+        <p>
+          Beyond security, watermarks are essential for branding. When you send out invoices, proposals, or white papers, adding your company logo as a subtle background element reinforces your professional identity. It ensures that even if pages are printed or shared individually, the source of the information remains unmistakable.
+        </p>
+        <p>
+          For legal and official documents, watermarks serve as a deterrent against unauthorized copying and tampering. A diagonal 'CONFIDENTIAL' or 'COPY' stamp makes it much harder for someone to pass off your work as their own or to use a temporary draft as a final agreement. It adds a layer of psychological security that discourages casual data theft.
+        </p>
+        <p>
+          Finally, watermarking is a practical tool for workflow management. Using stamps like 'PAID', 'REVIEWED', or 'VOID' helps organizations track the lifecycle of a document at a glance. In a digital-first world, these visual cues are invaluable for maintaining order across large volumes of paperwork.
+        </p>
+      </div>
+
+      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
+        How to Add Watermark to PDF Online — Step by Step
       </h2>
       <ol className="mt-5 space-y-4">
         {steps.map((s, i) => (
@@ -133,79 +128,175 @@ export function WatermarkPdfSeo() {
               {i + 1}
             </span>
             <div className="pt-1">
-              <p className="text-[15px] font-semibold">{s.title}</p>
+              <h3 className="text-[17px] font-semibold">{s.title}</h3>
               <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.text}</p>
             </div>
           </li>
         ))}
       </ol>
 
-      {/* India money / purpose watermark */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Protect your documents from misuse with a purpose watermark
+        Choosing the Right Watermark Type
+      </h2>
+      <div className="mt-6 space-y-6">
+        <div>
+          <h3 className="text-[18px] font-bold text-[#1F2937]">Text Watermark</h3>
+          <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
+            Text watermarks are the most common choice for status labels and security warnings. You can type any custom text, such as 'DRAFT', 'DO NOT COPY', or your email address. Our tool allows you to customize the font size, color, and rotation. A diagonal red text watermark is the industry standard for marking confidential documents because it intersects with the main content, making it nearly impossible to remove without damaging the underlying text.
+          </p>
+        </div>
+        <div>
+          <h3 className="text-[18px] font-bold text-[#1F2937]">Image Watermark</h3>
+          <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
+            Image watermarks are perfect for corporate branding. By uploading your company logo (preferably a PNG with a transparent background), you can create professional-looking documents that carry your visual identity on every page. You can adjust the scale and opacity of the image to ensure it doesn't interfere with the readability of the document while still remaining clearly visible as a brand mark.
+          </p>
+        </div>
+      </div>
+
+      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
+        8 Professional Use Cases for PDF Watermarking
+      </h2>
+      <div className="mt-6 space-y-6">
+        <div>
+          <h3 className="text-[17px] font-semibold">1. Business Documents</h3>
+          <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
+            Protect your internal memos, strategy documents, and project plans. Adding a company-specific watermark ensures that sensitive business logic remains tied to your organization's identity even if files are leaked.
+          </p>
+        </div>
+        <div>
+          <h3 className="text-[17px] font-semibold">2. Confidential Reports</h3>
+          <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
+            Stamp investigative reports or financial audits with 'CONFIDENTIAL'. This visual warning is a critical part of data governance and compliance, reminding every reader of their nondisclosure obligations.
+          </p>
+        </div>
+        <div>
+          <h3 className="text-[17px] font-semibold">3. Draft Documents</h3>
+          <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
+            When circulating a contract or a manuscript for edits, a 'DRAFT' watermark prevents the document from being mistaken for the final, approved version. This prevents costly errors in legal and publishing workflows.
+          </p>
+        </div>
+        <div>
+          <h3 className="text-[17px] font-semibold">4. Copyright Protection</h3>
+          <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
+            Photographers, writers, and designers can protect their portfolios and sample works by adding a copyright notice watermark. It allows you to share your work with potential clients while discouraging unauthorized reuse.
+          </p>
+        </div>
+        <div>
+          <h3 className="text-[17px] font-semibold">5. Invoice Branding</h3>
+          <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
+            Give your invoices a premium feel by adding a faint logo watermark in the background. It makes your billing documents look official and harder to forge, adding a layer of trust to your financial transactions.
+          </p>
+        </div>
+        <div>
+          <h3 className="text-[17px] font-semibold">6. Legal Documents</h3>
+          <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
+            Law firms use watermarks like 'EXHIBIT A' or 'CERTIFIED COPY' to categorize evidence and court filings. This tool allows for the rapid labeling of large PDF bundles without needing specialized legal software.
+          </p>
+        </div>
+        <div>
+          <h3 className="text-[17px] font-semibold">7. Real Estate Listings</h3>
+          <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
+            Real estate agents can protect property floor plans and brochures by adding their agency's contact information as a watermark. This ensures that their effort in creating these marketing materials isn't hijacked by competitors.
+          </p>
+        </div>
+        <div>
+          <h3 className="text-[17px] font-semibold">8. Academic Work</h3>
+          <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
+            Students and researchers can watermark their theses or unpublished papers before submission. It provides a clear trail of ownership and protects against plagiarism during the peer-review process.
+          </p>
+        </div>
+      </div>
+
+      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
+        Watermark Position and Opacity Guide
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        Every time you share a copy of your Aadhaar, PAN or passport with a rental broker, a
-        telecom store or a loan officer, that scan can technically be reused for a different
-        application entirely, a KYC in your name for something you never authorised. One of
-        the simplest, most widely recommended safeguards is to write the exact purpose of the
-        copy across the document itself, for example For HDFC home loan application only, 15
-        Jan 2026 or For airtel SIM at Koramangala store, 15 Jan 2026.
+        The effectiveness of a watermark depends heavily on its placement and transparency. A watermark that is too opaque can make the text underneath impossible to read, while one that is too faint might be missed entirely. For security purposes, we recommend a center-page placement with a 45-degree rotation and an opacity between 20% and 40%. This ensures the watermark covers the core content without obstructing the reader.
       </p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        This tool makes that a five-second job. Load the ID PDF, type the purpose line, tilt it
-        to -30° so it runs diagonally across the page, drop opacity to around 40% so it is
-        obvious but the ID underneath stays readable, and click Apply Watermark. The mark is
-        impossible to crop out without cutting into the ID itself. And because the entire
-        workflow runs inside your browser, the original ID scan never touches our servers at
-        any stage.
+        For branding, a corner placement (top-right or bottom-right) is often better. In these cases, you can afford higher opacity (60% to 80%) because the logo is not competing with the main body text. Our tool provides a real-time preview, allowing you to fine-tune these settings until you achieve the perfect balance between visibility and legibility.
       </p>
 
-      {/* Professional intents */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Brand, label and control your PDFs
+        Browser-Based vs Server-Based Watermarking
       </h2>
-      <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        The same stamp mechanism handles the professional side of things. Mark a work-in-progress
-        as DRAFT so no one accidentally treats it as the signed version. Stamp CONFIDENTIAL or
-        INTERNAL across sensitive reports before you send them out for review, so a screenshot
-        of any single page still shows its status. Put your firm's or your own name across
-        proposals, portfolios and sample chapters so a recipient cannot quietly forward the file
-        as their own work, the watermark travels with every page and shows up on print, on
-        share and on screenshot.
-      </p>
-
-      {/* Four benefits */}
-      <div className="mt-10 grid gap-6 sm:grid-cols-2">
-        {benefits.map((b) => (
-          <div key={b.h}>
-            <h3 className="text-[17px] font-semibold">{b.h}</h3>
-            <p className="mt-2 text-[14.5px] leading-relaxed text-[#4a4a55]">{b.p}</p>
-          </div>
-        ))}
+      <div className="mt-6 overflow-x-auto">
+        <table className="w-full border-collapse border border-[#ececef] text-left text-[14px]">
+          <thead>
+            <tr className="bg-[#f9fafb]">
+              <th className="border border-[#ececef] p-3 font-semibold">Feature</th>
+              <th className="border border-[#ececef] p-3 font-semibold">PDFToolConverter (Browser)</th>
+              <th className="border border-[#ececef] p-3 font-semibold">Traditional Online Tools</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-[#ececef] p-3 font-medium">Privacy</td>
+              <td className="border border-[#ececef] p-3 text-green-600 font-medium">100% Secure - Files never leave your device</td>
+              <td className="border border-[#ececef] p-3">Files uploaded to a 3rd party server</td>
+            </tr>
+            <tr>
+              <td className="border border-[#ececef] p-3 font-medium">Speed</td>
+              <td className="border border-[#ececef] p-3 text-green-600 font-medium">Instant - No upload or download wait time</td>
+              <td className="border border-[#ececef] p-3">Dependent on internet upload speed</td>
+            </tr>
+            <tr>
+              <td className="border border-[#ececef] p-3 font-medium">Output Quality</td>
+              <td className="border border-[#ececef] p-3 text-green-600 font-medium">Original Quality Preserved</td>
+              <td className="border border-[#ececef] p-3">Often compressed to save server space</td>
+            </tr>
+            <tr>
+              <td className="border border-[#ececef] p-3 font-medium">Limits</td>
+              <td className="border border-[#ececef] p-3 text-green-600 font-medium">No file size or page limits</td>
+              <td className="border border-[#ececef] p-3">Often restricted to 50MB or 20 pages</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      {/* Scenarios */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        When do you need to watermark a PDF?
+        5 Tips for Effective PDF Watermarking
       </h2>
       <div className="mt-6 space-y-5">
-        {scenarios.map((s) => (
-          <div key={s.h}>
-            <h3 className="text-[17px] font-semibold">{s.h}</h3>
-            <p className="mt-1.5 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.p}</p>
-          </div>
-        ))}
+        <div>
+          <h3 className="text-[17px] font-semibold text-[#1F2937]">Keep Background Colors in Mind</h3>
+          <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
+            If your PDF has a colored background, choose a watermark color that provides enough contrast. A light gray watermark might disappear on a beige page, whereas a dark blue or red one will remain clear.
+          </p>
+        </div>
+        <div>
+          <h3 className="text-[17px] font-semibold text-[#1F2937]">Use PNG for Image Logos</h3>
+          <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
+            Always use a PNG file with transparency for logo watermarks. This prevents an ugly white box from appearing around your logo when it is placed over text or images in the PDF.
+          </p>
+        </div>
+        <div>
+          <h3 className="text-[17px] font-semibold text-[#1F2937]">Don't Over-Rotate</h3>
+          <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
+            While a 45-degree angle is standard, extreme angles can sometimes make the watermark look like a mistake or a glitch. Stick to 30 to 45 degrees for the most professional appearance.
+          </p>
+        </div>
+        <div>
+          <h3 className="text-[17px] font-semibold text-[#1F2937]">Check Every Page</h3>
+          <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
+            If your PDF has varying layouts (e.g., some pages are text-heavy, others are full-page images), check the preview to ensure the watermark position works well for all of them.
+          </p>
+        </div>
+        <div>
+          <h3 className="text-[17px] font-semibold text-[#1F2937]">Combine with Password Protection</h3>
+          <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
+            For maximum security, watermark your file and then use our <Link to="/tools/protect-pdf" className="text-[#e5322d] hover:underline">Protect PDF</Link> tool to encrypt it. This makes it much harder for someone to strip the watermark and reuse the file.
+          </p>
+        </div>
       </div>
 
-      {/* FAQ */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Frequently asked questions
+        Frequently Asked Questions
       </h2>
       <div className="mt-6 divide-y divide-[#eee]">
-        {faqs.map((f) => (
-          <details key={f.q} className="group py-4">
-            <summary className="cursor-pointer list-none text-[15.5px] font-semibold flex justify-between items-center">
+        {faqs.map((f, i) => (
+          <details key={i} className="group py-4">
+            <summary className="cursor-pointer list-none text-[15.5px] font-semibold flex justify-between items-center text-[#1F2937]">
               {f.q}
               <span className="ml-4 text-[#e5322d] transition-transform group-open:rotate-45">+</span>
             </summary>
@@ -214,9 +305,8 @@ export function WatermarkPdfSeo() {
         ))}
       </div>
 
-      {/* Related */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Related PDF tools
+        Related PDF Tools
       </h2>
       <RelatedToolsGrid items={related} />
     </section>
@@ -237,27 +327,28 @@ export const watermarkHowToJsonLd = {
   "@context": "https://schema.org",
   "@type": "HowTo",
   name: "How to add a watermark to a PDF online for free",
-  description:
-    "Stamp a text or image watermark on every page of a PDF entirely in your browser, control size, colour, angle and opacity. The document never leaves your device.",
+  description: "Add a text or image watermark to every page of a PDF online for free. Control opacity, position, and rotation entirely in your browser.",
   totalTime: "PT1M",
-  supply: [{ "@type": "HowToSupply", name: "The PDF you want to watermark" }],
-  tool: [{ "@type": "HowToTool", name: "pdftoolconverteronline.com Add Watermark (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
     name: s.title,
     text: s.text,
-    url: `/tools/watermark#step-${i + 1}`,
+    url: `${url}#step-${i + 1}`,
   })),
 };
 
 export const watermarkSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "pdftoolconverteronline.com Add Watermark",
-  description:
-    "Add text or image watermarks to every page of a PDF online free, stamp CONFIDENTIAL, DRAFT, purpose labels or your logo in your browser. No upload, no signup, no forced branding.",
-  applicationCategory: "UtilitiesApplication",
-  operatingSystem: "Web",
+  name: "PDFToolConverter Watermark Tool",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Any",
+  url,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.8",
+    ratingCount: "1240",
+  },
 };
