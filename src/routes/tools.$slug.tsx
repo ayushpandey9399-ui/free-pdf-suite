@@ -35,8 +35,8 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Sign PDF documents online instantly in your browser. Draw, type or upload your signature and place it anywhere on your PDF. Free, no signup, no watermark, files never leave your device.",
   },
   "pdf-to-images": {
-    title: "PDF to JPG Converter Free, High Quality Export | pdftoolconverteronline.com",
-    desc: "Convert PDF to JPG or PNG online free at high resolution. Each page becomes a separate image, processed in your browser with no signup or upload required.",
+    title: "PDF to JPG Online Free — Convert PDF Pages to Images | PDFToolConverter",
+    desc: "Convert PDF pages to JPG or PNG images online in your browser. Save each page as a high-quality image file. Free, no signup, no watermark, files never leave your device.",
   },
   "redact-pdf": {
     title: "Redact PDF Free, Permanently Black Out Text | pdftoolconverteronline.com",
@@ -234,6 +234,8 @@ function ToolPage() {
                 ? "Rotate PDF Pages Online for Free"
                 : slug === "images-to-pdf"
                 ? "Convert Images to PDF Online for Free"
+                : slug === "pdf-to-images"
+                ? "Convert PDF to JPG Online for Free"
                 : (seo?.layoutTitle ?? tool.name)
         }
         description={
@@ -259,6 +261,8 @@ function ToolPage() {
                     ? "Fix upside-down or sideways pages in any PDF instantly. Rotate individual pages or the entire document by 90, 180, or 270 degrees. No signup, no watermark, files stay on your device."
                     : slug === "images-to-pdf"
                     ? "Turn JPG, PNG, WebP, and other image files into a PDF document instantly. Add multiple images, arrange them in order, and download a clean PDF. No signup, no watermark, files stay on your device."
+                    : slug === "pdf-to-images"
+                    ? "Turn every page of your PDF into a high-quality JPG or PNG image instantly in your browser. Download images individually or as a ZIP file. No signup, no watermark, files never leave your device."
                     : tool.description)
         }
         crumbName={tool.name}
