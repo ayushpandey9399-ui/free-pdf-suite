@@ -281,13 +281,18 @@ function ToolPage() {
         icon={tool.icon}
         tint={categoryTint[tool.category]}
       >
-        <ClientOnly fallback={fallback}>
-          <Suspense fallback={fallback}>
-            <Comp />
-          </Suspense>
-        </ClientOnly>
+        <div className={cn("mt-10", slug === "merge" && "relative z-10")}>
+          <ClientOnly fallback={fallback}>
+            <Suspense fallback={fallback}>
+              <Comp />
+            </Suspense>
+          </ClientOnly>
+        </div>
       </ToolLayout>
-      {seo?.content}
+      <div className={cn(slug === "merge" && "bg-white relative z-0 -mt-16 pt-16 border-t border-[#ececec]")}>
+        {seo?.content}
+      </div>
+
       {seo?.jsonLd.map((v, i) => (
         <script
           key={i}

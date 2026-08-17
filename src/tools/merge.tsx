@@ -252,67 +252,66 @@ export default function Merge() {
   const notEnough = filesWithMeta.length < 2;
 
   return (
-    <div className="bg-[#F7F7F8] -mx-4 -mt-8 px-4 py-8 sm:px-6 lg:px-8 mb-8 rounded-b-3xl">
-      <ToolWorkspace
-        title="Merge PDF"
-        actionLabel={loading ? "Merging..." : `Merge ${filesWithMeta.length} PDFs →`}
-        onAction={run}
-        loading={loading}
-        loadingLabel="Merging your PDFs..."
-        actionDisabled={notEnough}
-        disabledReason="Add at least 2 PDFs to merge"
-        sidebar={
-          <div className="space-y-6">
-            <div className="space-y-2">
-              <label className="text-[13px] font-bold uppercase tracking-wider text-[#5a5a66]">
-                Output Filename
-              </label>
-              <Input 
-                value={outputFilename}
-                onChange={(e) => setOutputFilename(e.target.value)}
-                placeholder="merged.pdf"
-                className="h-11 rounded-xl border-[#ececef] bg-white focus:ring-[#e5322d]/20"
-              />
-            </div>
-
-            <div className="flex items-start space-x-3">
-              <Checkbox 
-                id="bookmarks" 
-                checked={addBookmarks} 
-                onCheckedChange={(checked) => setAddBookmarks(checked === true)}
-                className="mt-0.5 data-[state=checked]:bg-[#e5322d] data-[state=checked]:border-[#e5322d]"
-              />
-              <div className="grid gap-1.5 leading-none">
-                <label
-                  htmlFor="bookmarks"
-                  className="text-[14px] font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-[#33333c]"
-                >
-                  Add bookmarks for each file
-                </label>
-                <p className="text-[12px] text-[#5a5a66]">
-                  Creates PDF bookmarks named after each source file.
-                </p>
-              </div>
-            </div>
-
-            <InfoTip>
-              Files will be merged in the order shown in the grid. Drag to reorder.
-            </InfoTip>
+    <ToolWorkspace
+      title="Merge PDF"
+      actionLabel={loading ? "Merging..." : `Merge ${filesWithMeta.length} PDFs →`}
+      onAction={run}
+      loading={loading}
+      loadingLabel="Merging your PDFs..."
+      actionDisabled={notEnough}
+      disabledReason="Add at least 2 PDFs to merge"
+      sidebar={
+        <div className="space-y-6">
+          <div className="space-y-2 text-left">
+            <label className="text-[13px] font-bold uppercase tracking-wider text-[#5a5a66]">
+              Output Filename
+            </label>
+            <Input 
+              value={outputFilename}
+              onChange={(e) => setOutputFilename(e.target.value)}
+              placeholder="merged.pdf"
+              className="h-11 rounded-xl border-[#ececef] bg-white focus:ring-[#e5322d]/20"
+            />
           </div>
-        }
-      >
-        <ThumbnailGrid
-          filesWithMeta={filesWithMeta}
-          thumbs={thumbs}
-          onReorder={reorderFiles}
-          onRemove={removeAt}
-          onRotate={rotateAt}
-          onAddMore={openMoreFilesPicker}
-        />
-      </ToolWorkspace>
-    </div>
+
+          <div className="flex items-start space-x-3 text-left">
+            <Checkbox 
+              id="bookmarks" 
+              checked={addBookmarks} 
+              onCheckedChange={(checked) => setAddBookmarks(checked === true)}
+              className="mt-0.5 data-[state=checked]:bg-[#e5322d] data-[state=checked]:border-[#e5322d]"
+            />
+            <div className="grid gap-1.5 leading-none">
+              <label
+                htmlFor="bookmarks"
+                className="text-[14px] font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-[#33333c]"
+              >
+                Add bookmarks for each file
+              </label>
+              <p className="text-[12px] text-[#5a5a66]">
+                Creates PDF bookmarks named after each source file.
+              </p>
+            </div>
+          </div>
+
+          <InfoTip>
+            Files will be merged in the order shown in the grid. Drag to reorder.
+          </InfoTip>
+        </div>
+      }
+    >
+      <ThumbnailGrid
+        filesWithMeta={filesWithMeta}
+        thumbs={thumbs}
+        onReorder={reorderFiles}
+        onRemove={removeAt}
+        onRotate={rotateAt}
+        onAddMore={openMoreFilesPicker}
+      />
+    </ToolWorkspace>
   );
 }
+
 
 function ThumbnailGrid({
   filesWithMeta,
