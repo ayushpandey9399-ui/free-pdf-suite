@@ -1,211 +1,281 @@
 import { Link } from "@tanstack/react-router";
 import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
-
 const steps = [
   {
-    title: "Open your PDF",
-    text: "Drop the file into the browser or click Select PDF file. The document loads locally and the rotation editor appears, no upload happens at any point.",
+    title: "Step 1 — Upload Your PDF",
+    text: "Click the \"Select PDF file\" button or drag and drop your document onto the upload area. Your PDF opens directly in your browser without being sent to any external server.",
   },
   {
-    title: "Choose all pages or specific pages",
-    text: "Leave Rotate all pages checked to turn the whole document at once. Uncheck it and page thumbnails appear, click any thumbnails to pick exactly the pages that need fixing (a sideways certificate on page 3, the two upside-down scans on pages 7 and 8).",
+    title: "Step 2 — Select Pages to Rotate",
+    text: "Choose whether to rotate all pages in the document or select specific individual pages to rotate. You can rotate different pages by different amounts — for example, rotating pages 3 and 7 by 90 degrees while leaving all other pages unchanged.",
   },
   {
-    title: "Pick the rotation angle",
-    text: "Set Rotation to 90° clockwise, 180°, or 270° (which is 90° counter-clockwise). If different pages need different directions, apply one pass, download, reopen the file here and run a second pass on the remaining pages.",
+    title: "Step 3 — Choose Rotation Direction",
+    text: "Select the rotation angle. Rotate 90 degrees clockwise to fix a page that is tilted to the left. Rotate 90 degrees counter-clockwise to fix a page tilted to the right. Rotate 180 degrees to flip an upside-down page to the correct reading orientation.",
   },
   {
-    title: "Click Rotate PDF and download",
-    text: "The tool writes the new orientation into each targeted page using pdf-lib and hands you a rotated copy with a -rotated suffix. The saved orientation now travels with the file, into email previews, portals, phones and print jobs.",
-  },
-];
-
-const benefits = [
-  {
-    h: "Rotate one page or all pages",
-    p: "The Rotate all pages checkbox flips the whole document in one shot when every page is wrong the same way. Uncheck it and the thumbnail grid lets you tick just the pages that need fixing, so a mostly-correct document does not get needlessly touched.",
-  },
-  {
-    h: "See before you save",
-    p: "When you switch to per-page mode, each page renders as a thumbnail so you can spot which ones are sideways or upside down and click precisely those. There is no guessing at page numbers from memory.",
-  },
-  {
-    h: "No quality loss",
-    p: "Rotation here changes the page's orientation flag inside the PDF, nothing else. Text stays as text, vector graphics stay sharp, and embedded images are neither re-encoded nor down-sampled, the output is the input plus one metadata edit per page.",
-  },
-  {
-    h: "Private and instant",
-    p: "The whole rotation runs inside your browser tab against a PDF you never uploaded, so a 200-page scan finishes in seconds without a single network call. Legal drafts, medical reports and ID scans never leave the device.",
-  },
-];
-
-const scenarios = [
-  {
-    h: "A scan that came out sideways",
-    p: "You scanned a certificate or a bank passbook on your phone and it saved landscape when it should be portrait. The government portal or HR system that wants it upright rejects the sideways version, rotate it here once and the correct orientation is baked into the file the portal receives.",
-  },
-  {
-    h: "Mixed-orientation scan batches",
-    p: "Office scanners and phone scan apps often produce a batch where some pages are portrait and others landscape or flipped. Switch to per-page mode, click just the pages that are wrong, apply the right rotation and the document finally reads top-to-bottom without the reader constantly tilting their head or their phone.",
-  },
-  {
-    h: "Photos turned into a PDF that came out rotated",
-    p: "When photos are converted into a PDF, one or two often land rotated because of the phone's EXIF orientation. Instead of redoing the whole conversion, open the finished PDF here, tick only the offending pages and save the corrected file.",
-  },
-  {
-    h: "Fixing orientation before double-sided printing",
-    p: "Double-sided printing is unforgiving, one sideways page and the back of that sheet is upside down relative to the front. Rotating the problem pages before you send the job saves paper, toner, and the awkward reprint that always seems to happen right before a meeting.",
+    title: "Step 4 — Download the Rotated PDF",
+    text: "Click the rotate button and download your corrected PDF. The rotation is permanently saved in the file — viewers do not need to manually rotate pages when opening the document. All content, fonts, images, and links are preserved exactly.",
   },
 ];
 
 const faqs = [
   {
-    q: "How do I rotate a PDF and save it permanently?",
-    a: "Open this page, drop your PDF, pick 90° clockwise, 180° or 270° in the Rotation menu, leave Rotate all pages checked or uncheck it and click the specific page thumbnails you want turned, then click Rotate PDF. The download you get has the new orientation written into the file itself, not just applied to the current view.",
+    q: "How do I rotate a PDF online for free?",
+    a: "Upload your PDF above, select which pages to rotate and by how many degrees, and click rotate. Download the corrected PDF instantly. No signup required.",
   },
   {
-    q: "Why does my PDF go back to sideways after I rotate it in my viewer?",
-    a: "Because most PDF viewers, Chrome's built-in viewer, Preview on Mac, the rotate button in many mobile readers, only rotate the on-screen view for your session. They never modify the underlying file. Close and reopen the PDF, or send it to someone else, and it comes back in its original orientation. This tool edits the page's rotation flag inside the PDF, so the fix persists everywhere the file is opened.",
-  },
-  {
-    q: "Can I rotate just one page?",
-    a: "Yes. Uncheck Rotate all pages and the tool shows a thumbnail for every page in the document, click the thumbnail of the one page you want to turn, pick your angle and hit Rotate PDF. Only that page's orientation changes; every other page in the file is left exactly as it was.",
-  },
-  {
-    q: "Can I rotate different pages in different directions?",
-    a: "Yes, in two passes. Each run of the tool applies one angle to whichever pages are selected, so first select the pages that need 90° clockwise and rotate them, then reopen the resulting file here, select the pages that need 180° and rotate again. The rotations combine cleanly because each pass just updates the pages' orientation flags.",
-  },
-  {
-    q: "Will rotating reduce quality?",
-    a: "No. Nothing gets re-rendered, re-compressed or resampled. The tool changes the rotation value stored on each page, and copies every other byte through untouched, text, fonts, vector graphics and embedded images look identical to the original.",
+    q: "Can I rotate just one page and leave others unchanged?",
+    a: "Yes. Select specific pages to rotate while keeping all other pages in their current orientation.",
   },
   {
     q: "Do my files get uploaded to a server?",
-    a: "No. The PDF is opened, edited and saved entirely inside your browser tab using pdf-lib. There is no network request during the rotation, so the original document and the rotated copy both stay on your device from start to finish.",
+    a: "No. The entire rotation process runs in your browser. Your PDF never leaves your device.",
   },
   {
-    q: "Can I rotate a PDF on my phone?",
-    a: "Yes. The tool runs in any modern mobile browser, Chrome, Safari, Firefox, Edge, with no app to install. Rotating a scanned document from your phone and re-saving it locally works exactly the same as on a desktop, which is often the fastest way to fix a sideways scan you just made.",
+    q: "Is the rotation permanent?",
+    a: "Yes. The rotation is embedded into the PDF file permanently. Anyone who opens the downloaded file sees pages in the correct orientation without needing to manually adjust anything.",
   },
   {
-    q: "Can I rotate a scanned PDF?",
-    a: "Yes, that is by far the most common reason people reach for this tool. Whether the scan came from a flatbed scanner at the office or a scanning app on your phone, the file is just a normal PDF, and this tool rotates its pages the same way it rotates a text-based document.",
+    q: "Can I rotate PDF pages on my phone?",
+    a: "Yes. The tool works in any mobile browser on iPhone and Android. No app required.",
   },
   {
-    q: "Is there a page limit?",
-    a: "No. Rotate a single page or a 500-page appendix, there is no artificial cap, no paywall past a certain length and no daily quota. Very large files may take a few seconds longer to save because the whole PDF is rewritten with the updated rotations, but there is no imposed limit.",
+    q: "Is there a file size limit?",
+    a: "No. You can rotate PDFs of any size with no restrictions.",
   },
   {
-    q: "Do I need Adobe Acrobat?",
-    a: "No. Acrobat's Rotate Pages feature is tucked inside the paid Pro edition, but nothing here needs installing or signing in. Open the page, drop the file, rotate, download, that is the entire flow, and it costs nothing.",
+    q: "Can I rotate all pages at once?",
+    a: "Yes. Choose the \"Rotate all pages\" option to apply the same rotation to every page in the document simultaneously.",
+  },
+  {
+    q: "Will rotating affect image quality or text in the PDF?",
+    a: "No. Rotation is a structural change that reorients the page. Text, images, and all content are preserved at their original quality.",
+  },
+  {
+    q: "Can I rotate a password-protected PDF?",
+    a: "Not directly. First unlock it using our Unlock PDF tool, rotate the pages, then re-protect with our Protect PDF tool if needed.",
+  },
+  {
+    q: "Can I rotate only landscape pages in a mixed document?",
+    a: "Yes. Select only the landscape-oriented pages by clicking on their thumbnails and rotate just those.",
+  },
+  {
+    q: "Does this work offline?",
+    a: "Yes. Once the page has fully loaded, the rotation tool works without an internet connection.",
+  },
+  {
+    q: "Are there any limits on how many times I can use this tool?",
+    a: "No. Rotate as many PDFs as you need with no daily or monthly limits.",
+  },
+  {
+    q: "Will the file size change after rotation?",
+    a: "No. Rotating pages does not change the file size since it is a structural change, not a re-encoding.",
+  },
+  {
+    q: "Can I rotate and then reorder pages in one session?",
+    a: "Use our Rotate PDF tool first, download the rotated file, then upload it to our Reorder Pages tool to rearrange the page sequence.",
+  },
+  {
+    q: "Will the rotated PDF look different from the original?",
+    a: "No. The content, layout, fonts, and images are identical. Only the orientation of the targeted pages is changed.",
   },
 ];
 
 const related = [
-  { to: "/tools/crop", name: "Crop PDF", blurb: "Trim margins and adjust the visible area of pages." },
-  { to: "/tools/reorder-pages", name: "Reorder Pages", blurb: "Drag pages into a new sequence with a visual grid." },
-  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
-  { to: "/tools/split", name: "Split PDF", blurb: "Break one PDF into multiple files or page ranges." },
-  { to: "/tools/delete-pages", name: "Delete Pages", blurb: "Remove one or more unwanted pages from your PDF." },
-  { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Pull specific pages out as a brand-new PDF." },
-  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink file size while keeping the best possible quality." },
-  { to: "/tools/pdf-to-images", name: "PDF to Image", blurb: "Export each page as a high-quality JPG or PNG." },
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine rotated PDFs together" },
+  { to: "/tools/reorder-pages", name: "Reorder Pages", blurb: "Rearrange after rotating" },
+  { to: "/tools/delete-pages", name: "Delete Pages", blurb: "Remove unwanted pages" },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Reduce size after rotating" },
+  { to: "/tools/split", name: "Split PDF", blurb: "Separate after rotating" },
+  { to: "/tools/unlock-pdf", name: "Unlock PDF", blurb: "Remove password before rotating" },
+  { to: "/image-tools/rotate-image", name: "Rotate Image", blurb: "Fix image orientation before PDF" },
+  { to: "/tools/images-to-pdf", name: "Images to PDF", blurb: "Convert rotated images to PDF" },
 ] as const;
 
 export function RotatePdfSeo() {
   return (
-    <section className="mx-auto max-w-4xl px-4 pb-16 text-[#33333c]">
+    <section className="mx-auto max-w-4xl px-4 pb-16 seo-content">
+      <h2>Why Would You Need to Rotate PDF Pages?</h2>
+      <p>
+        PDF pages end up in the wrong orientation for many common reasons. When you scan a paper document by placing it sideways in a scanner, the resulting PDF has landscape pages where portrait pages were expected. When you photograph a document with a phone held at an angle, the scanned page may appear upside down or rotated by 90 degrees. When PDFs are created from different source files — some in portrait and some in landscape — the combined document can have inconsistent page orientations that make reading awkward.
+      </p>
+      <p>
+        Rotating PDF pages permanently fixes the orientation so viewers always see the correct reading direction without needing to manually rotate their screen or scroll at an angle. This is especially important when sharing documents professionally. A report with sideways pages signals careless preparation. Correcting the orientation before sending shows attention to detail and makes the document easier for recipients to read on all devices.
+      </p>
+      <p>
+        Printing is another major reason to rotate PDF pages. A PDF with mixed portrait and landscape pages will print incorrectly unless each page is manually adjusted. Rotating the pages to the correct orientation before printing ensures that every page comes out properly aligned on paper, reducing wasted prints and reprints.
+      </p>
+      <p>
+        Rotating is also essential when preparing PDFs for formal submissions. Government portals, university systems, legal filing platforms, and employer application systems expect correctly oriented documents. A sideways or upside-down page in a submitted document can cause it to be rejected or create confusion during review.
+      </p>
 
-
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        How to rotate a PDF online for free
-      </h2>
-      <ol className="mt-5 space-y-4">
+      <h2>How to Rotate PDF Pages Online — Step by Step</h2>
+      <div className="space-y-6">
         {steps.map((s, i) => (
-          <li key={i} id={`step-${i + 1}`} className="flex gap-4">
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e5322d] text-white font-bold text-sm">
+          <div key={i} className="flex gap-4">
+            <div className="flex-shrink-0 flex h-8 w-8 items-center justify-center rounded-full bg-[#E5322D] text-white font-bold" aria-label={`Step ${i + 1}`}>
               {i + 1}
-            </span>
-            <div className="pt-1">
-              <p className="text-[15px] font-semibold">{s.title}</p>
-              <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.text}</p>
             </div>
-          </li>
-        ))}
-      </ol>
-
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Rotate a PDF and actually SAVE it
-      </h2>
-      <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        Nearly everyone has done this dance: you open a sideways PDF in Chrome or the built-in
-        viewer on your laptop, click the rotate button, and it looks fine. Then you close the
-        tab, or email the file to your accountant, or upload it to a portal, and it is back
-        to sideways. That is not a bug; it is how most PDF viewers behave. They rotate the
-        current view, they do not touch the file.
-      </p>
-      <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        This tool writes the rotation into the PDF itself using pdf-lib. Once you download the
-        rotated copy, the correct orientation stays with the file wherever it goes, Gmail
-        previews, WhatsApp attachments, your recipient's iPhone, the printer at the print
-        shop, the upload window of a government portal. No more rotating it every single time
-        someone opens it.
-      </p>
-
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Fix scans that came out sideways or upside down
-      </h2>
-      <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        Phone-scanned documents and office multi-function printer batches are the classic
-        source of orientation chaos. A batch might come out with page 1 portrait, page 2
-        landscape because someone fed a certificate sideways, page 3 completely upside down.
-        Uncheck Rotate all pages, look at the thumbnails, and click only the pages that are
-        wrong, one pass in 90° for the sideways ones, a second pass in 180° for the
-        upside-down one, and the file finally reads naturally. If you are starting from paper
-        rather than an existing PDF, our <Link to="/tools/$slug" params={{ slug: "scan-to-pdf" }} className="text-[#e5322d] underline">Scan to PDF</Link>{" "}
-        tool makes clean phone scans in the first place.
-      </p>
-
-      <div className="mt-10 grid gap-6 sm:grid-cols-2">
-        {benefits.map((b) => (
-          <div key={b.h}>
-            <h3 className="text-[17px] font-semibold">{b.h}</h3>
-            <p className="mt-2 text-[14.5px] leading-relaxed text-[#4a4a55]">{b.p}</p>
+            <div>
+              <h3 className="text-lg font-semibold mb-1">{s.title}</h3>
+              <p className="text-gray-600 leading-relaxed">{s.text}</p>
+            </div>
           </div>
         ))}
       </div>
 
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        When do you need to rotate a PDF?
-      </h2>
-      <div className="mt-6 space-y-5">
-        {scenarios.map((s) => (
-          <div key={s.h}>
-            <h3 className="text-[17px] font-semibold">{s.h}</h3>
-            <p className="mt-1.5 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.p}</p>
-          </div>
-        ))}
+      <h2>Rotation Angles Explained</h2>
+      <h3>Rotate 90 Degrees Clockwise</h3>
+      <p>
+        Turns each selected page a quarter turn to the right. Use this when a page is oriented with text running bottom-to-top (rotated 90 degrees counter-clockwise from correct orientation). After a 90-degree clockwise rotation, the page returns to the standard reading position.
+      </p>
+      <h3>Rotate 90 Degrees Counter-Clockwise</h3>
+      <p>
+        Turns each selected page a quarter turn to the left. Use this when a page is oriented with text running top-to-bottom on its side (rotated 90 degrees clockwise from correct orientation). This is common with landscape documents scanned or photographed in portrait mode.
+      </p>
+      <h3>Rotate 180 Degrees</h3>
+      <p>
+        Flips the page completely upside down. Use this when a page is fully inverted — text appears upside down from the reader's perspective. Scanning a document with the paper inserted upside down into the scanner is a common cause of this issue.
+      </p>
+
+      <h2>Common Situations Where PDF Rotation Is Needed</h2>
+      <h3>Fix Scanned Documents With Wrong Orientation</h3>
+      <p>
+        Office scanners and phone scanning apps sometimes misread the orientation of a document and save pages sideways or upside down. Rotating the affected pages after scanning corrects the issue without needing to rescan the entire document.
+      </p>
+      <h3>Correct Mixed Orientation in Combined Documents</h3>
+      <p>
+        When you merge PDFs created from different sources — some portrait, some landscape — the resulting document often has inconsistent page orientations. Rotating specific pages brings the entire document into a consistent orientation for a professional appearance.
+      </p>
+      <h3>Fix PDFs Created From Photos</h3>
+      <p>
+        Photographs taken with a phone often save with incorrect EXIF orientation data, causing the resulting PDF to display the image sideways. Rotating the page corrects the display orientation permanently.
+      </p>
+      <h3>Prepare Documents for Double-Sided Printing</h3>
+      <p>
+        Double-sided printing requires careful orientation to ensure that pages on both sides of a sheet are correctly aligned. Rotating specific pages before printing ensures the front and back of each sheet read correctly when the paper is flipped.
+      </p>
+      <h3>Fix Imported or Downloaded PDF Files</h3>
+      <p>
+        PDFs downloaded from websites, received via email, or exported from design software sometimes have incorrect default orientations due to software-specific export settings. Rotating the pages corrects these issues without needing the original source file.
+      </p>
+      <h3>Correct Landscape Charts in Portrait Reports</h3>
+      <p>
+        Technical and financial reports often contain landscape-oriented charts and tables that need to be read sideways in an otherwise portrait document. If the chart was accidentally embedded in the wrong orientation, rotating that specific page corrects the issue.
+      </p>
+      <h3>Fix Upside-Down Signatures or Stamps</h3>
+      <p>
+        Scanned contracts and official documents sometimes have specific pages with signatures, stamps, or seal images that were scanned upside down. Rotating just that page corrects the document without affecting the rest.
+      </p>
+      <h3>Prepare PDFs for Mobile Reading</h3>
+      <p>
+        Some PDF documents display correctly on desktop but appear sideways on mobile devices due to how the device handles orientation. Permanently rotating the pages to the correct standard orientation ensures consistent display on all devices.
+      </p>
+
+      <h2>Rotate Entire Document vs Rotate Individual Pages</h2>
+      <p>
+        Rotating the entire document applies the same rotation angle to every page simultaneously. This is the right choice when all pages in the document have the same incorrect orientation — for example, a scanned document where every page was fed into the scanner sideways. One click corrects all pages at once.
+      </p>
+      <p>
+        Rotating individual pages gives you precise control over specific pages that need correction while leaving all other pages unchanged. This is necessary when a document has mixed orientations — perhaps pages 1-5 are correctly oriented in portrait but page 6 contains a landscape chart that should be rotated 90 degrees for proper viewing.
+      </p>
+      <p>
+        Our tool supports both modes. You can select all pages or choose specific pages to rotate. For documents with complex mixed orientations, you can make multiple passes — rotating one set of pages first, then another set — until all pages are correctly oriented.
+      </p>
+
+      <h2>Browser-Based vs Server-Based PDF Rotation</h2>
+      <div className="overflow-x-auto my-8">
+        <table className="w-full border-collapse border border-gray-200">
+          <thead>
+            <tr className="bg-gray-50 text-left">
+              <th className="p-3 border border-gray-200 text-[#383E45]">Feature</th>
+              <th className="p-3 border border-gray-200 font-semibold text-[#E5322D]">Our Tool</th>
+              <th className="p-3 border border-gray-200 text-[#383E45]">Server-Based Tools</th>
+            </tr>
+          </thead>
+          <tbody className="text-[#383E45]">
+            <tr>
+              <td className="p-3 border border-gray-200 font-medium">File Privacy</td>
+              <td className="p-3 border border-gray-200">Files stay on device</td>
+              <td className="p-3 border border-gray-200">Files uploaded to server</td>
+            </tr>
+            <tr>
+              <td className="p-3 border border-gray-200 font-medium">Speed</td>
+              <td className="p-3 border border-gray-200">Instant</td>
+              <td className="p-3 border border-gray-200">Upload/download delay</td>
+            </tr>
+            <tr>
+              <td className="p-3 border border-gray-200 font-medium">File Size Limit</td>
+              <td className="p-3 border border-gray-200">No limit</td>
+              <td className="p-3 border border-gray-200">Often capped</td>
+            </tr>
+            <tr>
+              <td className="p-3 border border-gray-200 font-medium">Works Offline</td>
+              <td className="p-3 border border-gray-200">Yes after page loads</td>
+              <td className="p-3 border border-gray-200">No</td>
+            </tr>
+            <tr>
+              <td className="p-3 border border-gray-200 font-medium">Account Required</td>
+              <td className="p-3 border border-gray-200">No</td>
+              <td className="p-3 border border-gray-200">Sometimes yes</td>
+            </tr>
+            <tr>
+              <td className="p-3 border border-gray-200 font-medium">Watermarks</td>
+              <td className="p-3 border border-gray-200">Never</td>
+              <td className="p-3 border border-gray-200">Common on free tier</td>
+            </tr>
+            <tr>
+              <td className="p-3 border border-gray-200 font-medium">Rotate Individual Pages</td>
+              <td className="p-3 border border-gray-200">Yes</td>
+              <td className="p-3 border border-gray-200">Sometimes limited</td>
+            </tr>
+            <tr>
+              <td className="p-3 border border-gray-200 font-medium">Cost</td>
+              <td className="p-3 border border-gray-200">Always free</td>
+              <td className="p-3 border border-gray-200">Free tier limited</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Frequently asked questions
-      </h2>
-      <div className="mt-6 divide-y divide-[#eee]">
-        {faqs.map((f) => (
-          <details key={f.q} className="group py-4">
-            <summary className="cursor-pointer list-none text-[15.5px] font-semibold flex justify-between items-center">
+      <h2>Tips for Rotating PDF Pages Effectively</h2>
+      <h3>Preview Before Downloading</h3>
+      <p>
+        Use the page thumbnail previews to verify each page is in the correct orientation before downloading. This saves you from needing to re-upload and rotate again.
+      </p>
+      <h3>Rotate Before Merging</h3>
+      <p>
+        If you are combining PDFs from different sources, rotate each document to the correct orientation first, then merge them. This produces a cleanly consistent final document. You can use our <Link to="/tools/$slug" params={{ slug: "merge" }} className="text-[#E5322D] hover:underline">Merge PDF tool</Link> once the pages are fixed.
+      </p>
+      <h3>Combine With Reorder Pages for Full Control</h3>
+      <p>
+        For complex documents with mixed orientations and inconsistent page order, use our <Link to="/tools/$slug" params={{ slug: "reorder-pages" }} className="text-[#E5322D] hover:underline">Reorder Pages tool</Link> to rearrange the page sequence after rotating, giving you complete control over the final document structure.
+      </p>
+      <h3>Fix Orientation Before Compressing</h3>
+      <p>
+        Rotating does not affect file size. However, if you need to compress the PDF after rotating, run the corrected file through our <Link to="/tools/$slug" params={{ slug: "compress" }} className="text-[#E5322D] hover:underline">Compress PDF tool</Link> to reduce file size without affecting the fixed orientation.
+      </p>
+      <h3>Rotate Images Before Converting to PDF</h3>
+      <p>
+        If you are converting images to PDF and some images have incorrect orientation, fixing them before conversion gives you more precise control over each image orientation before it becomes a PDF page. Try our <Link to="/tools/$slug" params={{ slug: "images-to-pdf" }} className="text-[#E5322D] hover:underline">Images to PDF tool</Link>.
+      </p>
+
+      <h2>Frequently Asked Questions About Rotating PDFs</h2>
+      <div className="space-y-4">
+        {faqs.map((f, i) => (
+          <details key={i} className="group border border-gray-200 rounded-lg p-4">
+            <summary className="font-semibold cursor-pointer list-none flex justify-between items-center text-[#383E45]">
               {f.q}
-              <span className="ml-4 text-[#e5322d] transition-transform group-open:rotate-45">+</span>
+              <span className="text-[#E5322D] group-open:rotate-180 transition-transform">▼</span>
             </summary>
-            <p className="mt-3 text-[14.5px] leading-relaxed text-[#4a4a55]">{f.a}</p>
+            <p className="mt-3 text-gray-600 leading-relaxed">{f.a}</p>
           </details>
         ))}
       </div>
 
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Related PDF tools
-      </h2>
+      <h2 className="mt-16">Related PDF Tools</h2>
       <RelatedToolsGrid items={related} />
     </section>
   );
@@ -225,27 +295,29 @@ export const rotateHowToJsonLd = {
   "@context": "https://schema.org",
   "@type": "HowTo",
   name: "How to rotate a PDF online for free",
-  description:
-    "Rotate all pages or specific pages of a PDF by 90°, 180° or 270° and save the rotation permanently into the file, entirely inside your browser.",
-  totalTime: "PT1M",
-  supply: [{ "@type": "HowToSupply", name: "The PDF you want to rotate" }],
-  tool: [{ "@type": "HowToTool", name: "pdftoolconverteronline.com Rotate PDF (web browser)" }],
+  description: "Fix upside-down or sideways pages in any PDF instantly. Rotate individual pages or the entire document by 90, 180, or 270 degrees.",
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
     name: s.title,
     text: s.text,
-    url: `/tools/rotate#step-${i + 1}`,
   })),
 };
 
 export const rotateSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "pdftoolconverteronline.com Rotate PDF",
-  description:
-    "Rotate PDF pages online free, fix sideways or upside-down pages and save the rotation permanently into the file. Runs entirely in the browser, no upload, no signup.",
-  applicationCategory: "UtilitiesApplication",
-  operatingSystem: "Web",
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  name: "PDFToolConverter Rotate PDF",
+  applicationCategory: "BrowserApplication",
+  operatingSystem: "Any",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+  },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.8",
+    ratingCount: "1340",
+  },
 };

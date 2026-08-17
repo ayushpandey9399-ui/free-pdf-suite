@@ -55,8 +55,8 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Add a watermark to PDF online free. Stamp text like DRAFT or your brand across every page with adjustable size, angle, and opacity.",
   },
   "rotate": {
-    title: "Rotate PDF Pages Free, Permanently Save | pdftoolconverteronline.com",
-    desc: "Rotate PDF pages online free and save the change permanently. Fix sideways or upside-down pages one at a time or in bulk, right from your browser.",
+    title: "Rotate PDF Online Free — Rotate Pages 90, 180, 270 Degrees | PDFToolConverter",
+    desc: "Rotate PDF pages online instantly in your browser. Rotate individual pages or the entire document by 90, 180 or 270 degrees. Free, no signup, no watermark, files never leave your device.",
   },
   "delete-pages": {
     title: "Delete PDF Pages Free, Remove Unwanted Pages | pdftoolconverteronline.com",
@@ -230,6 +230,8 @@ function ToolPage() {
                 ? "Protect PDF with Password Online for Free"
                 : slug === "unlock-pdf"
                 ? "Unlock PDF — Remove Password Protection Online for Free"
+                : slug === "rotate"
+                ? "Rotate PDF Pages Online for Free"
                 : (seo?.layoutTitle ?? tool.name)
         }
         description={
@@ -251,6 +253,8 @@ function ToolPage() {
                     ? "Add a password to any PDF document instantly in your browser. Encrypt your file to prevent unauthorized access. No signup, no watermark, your files never leave your device."
                     : slug === "unlock-pdf"
                     ? "Remove password protection from any PDF you are authorized to access. Enter the password once and download an unlocked copy instantly. No signup, no watermark, files stay on your device."
+                    : slug === "rotate"
+                    ? "Fix upside-down or sideways pages in any PDF instantly. Rotate individual pages or the entire document by 90, 180, or 270 degrees. No signup, no watermark, files stay on your device."
                     : tool.description)
         }
         crumbName={tool.name}
