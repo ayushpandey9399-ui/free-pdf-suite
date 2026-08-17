@@ -19,8 +19,8 @@ type ToolMeta = {
 // in toolSeoBundle so they never enter the critical route chunk.
 const TOOL_META: Record<string, ToolMeta> = {
   "merge": {
-    title: "Merge PDF Free, Combine Multiple Files Online | pdftoolconverteronline.com",
-    desc: "Merge PDF files online free. Combine multiple documents into one clean file. Works right in your browser with no signup, no upload, and no watermark.",
+    title: "Merge PDF Files Online Free — No Signup, No Limit | FreePDFHub",
+    desc: "Combine multiple PDF files into one document instantly in your browser. Free PDF merger with drag-and-drop reordering. No signup, no watermark, no file upload to servers.",
   },
   "compress": {
     title: "Compress PDF Online, Reduce PDF Size Free | pdftoolconverteronline.com",
@@ -216,16 +216,20 @@ function ToolPage() {
     <>
       <ToolLayout
         title={
-          slug === "add-blank-pages"
-            ? "Add Blank Pages to PDF Online"
-            : (seo?.layoutTitle ?? tool.name)
+          slug === "merge"
+            ? "Merge PDF Files Online for Free"
+            : slug === "add-blank-pages"
+              ? "Add Blank Pages to PDF Online"
+              : (seo?.layoutTitle ?? tool.name)
         }
         description={
-          slug === "pdf-to-word"
-            ? "Converts your PDF into an editable Word file while keeping images, tables and page layout."
-            : (slug === "add-blank-pages"
-              ? "Insert empty pages anywhere in your PDF — before, after, or between existing pages. Free, private, and instant. No upload, no signup, no watermark."
-              : tool.description)
+          slug === "merge"
+            ? "Combine multiple PDFs into one organized document in seconds. Drag and drop to reorder, then download your merged file. No signup, no watermarks, and your files never leave your device."
+            : slug === "pdf-to-word"
+              ? "Converts your PDF into an editable Word file while keeping images, tables and page layout."
+              : (slug === "add-blank-pages"
+                ? "Insert empty pages anywhere in your PDF — before, after, or between existing pages. Free, private, and instant. No upload, no signup, no watermark."
+                : tool.description)
         }
         crumbName={tool.name}
         icon={tool.icon}
