@@ -215,11 +215,17 @@ function ToolPage() {
   return (
     <>
       <ToolLayout
-        title={seo?.layoutTitle ?? tool.name}
+        title={
+          slug === "add-blank-pages"
+            ? "Add Blank Pages to PDF Online"
+            : (seo?.layoutTitle ?? tool.name)
+        }
         description={
           slug === "pdf-to-word"
             ? "Converts your PDF into an editable Word file while keeping images, tables and page layout."
-            : tool.description
+            : (slug === "add-blank-pages"
+              ? "Insert empty pages anywhere in your PDF — before, after, or between existing pages. Free, private, and instant. No upload, no signup, no watermark."
+              : tool.description)
         }
         crumbName={tool.name}
         icon={tool.icon}
