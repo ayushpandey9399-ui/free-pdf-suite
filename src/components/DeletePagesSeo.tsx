@@ -254,7 +254,7 @@ export function DeletePagesSeo() {
         <div>
           <h3 className="text-[17px] font-semibold text-[#1F2937]">Combine with Reordering</h3>
           <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
-            If you need to move pages around as well as delete some, use our <Link to="/tools/reorder-pages" className="text-[#e5322d] hover:underline">Reorder Pages</Link> tool. It often provides the same deletion capability with the added benefit of drag-and-drop sorting.
+            If you need to move pages around as well as delete some, use our <Link to="/tools/$slug" params={{ slug: "reorder-pages" }} className="text-[#e5322d] hover:underline">Reorder Pages</Link> tool. It often provides the same deletion capability with the added benefit of drag-and-drop sorting.
           </p>
         </div>
         <div>
