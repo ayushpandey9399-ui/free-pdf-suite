@@ -256,7 +256,7 @@ export function ExtractImagesSeo() {
           "Convert PDF to Image" is a completely different operation. It takes each entire page of the PDF and renders it as a flat image, including all text, backgrounds, headers, footers, and formatting. The result is a screenshot-like image of the full page, not the individual embedded images.
         </p>
         <p>
-          Choose "Extract Images" when you need specific photos, logos, or graphics from inside a document. Choose "PDF to Image" when you need a visual copy of the entire page. If you need the latter, use our <Link to="/tools/pdf-to-images" className="text-[#e5322d] hover:underline">PDF to Image tool</Link> instead.
+          Choose "Extract Images" when you need specific photos, logos, or graphics from inside a document. Choose "PDF to Image" when you need a visual copy of the entire page. If you need the latter, use our <Link to="/tools/$slug" params={{ slug: "pdf-to-images" }} className="text-[#e5322d] hover:underline">PDF to Image tool</Link> instead.
         </p>
 
         <h2>Tips for Extracting Images from PDFs</h2>
