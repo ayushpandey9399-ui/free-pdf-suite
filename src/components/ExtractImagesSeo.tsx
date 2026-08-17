@@ -166,60 +166,60 @@ export function ExtractImagesSeo() {
         <p>Whether you are on a Windows desktop, a Mac, a Linux machine, or mobile devices like Android or iOS, this tool runs seamlessly in any modern web browser. There is no requirement for plugins, software installations, or app downloads.</p>
 
         <h2>Browser-Based vs Server-Based Image Extraction</h2>
-        <div className="mt-6 overflow-x-auto not-prose">
-          <table className="w-full text-left text-[14.5px] border-collapse">
+        <div className="mt-6 overflow-x-auto">
+          <table className="w-full text-left border-collapse border border-[#ececef]">
             <thead>
-              <tr className="border-b border-[#eee]">
-                <th className="py-3 px-4 font-bold">Feature</th>
-                <th className="py-3 px-4 font-bold">Our Tool (Browser-Based)</th>
-                <th className="py-3 px-4 font-bold">Server-Based Tools</th>
+              <tr className="bg-[#f7f7f8]">
+                <th className="py-3 px-4 font-bold border border-[#ececef]">Feature</th>
+                <th className="py-3 px-4 font-bold border border-[#ececef]">Our Tool (Browser-Based)</th>
+                <th className="py-3 px-4 font-bold border border-[#ececef]">Server-Based Tools</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#eee]">
+            <tbody className="divide-y divide-[#ececef]">
               <tr>
-                <td className="py-3 px-4 font-medium">File Privacy</td>
-                <td className="py-3 px-4">Files never leave device</td>
-                <td className="py-3 px-4">Files uploaded to server</td>
+                <td className="py-3 px-4 font-semibold border border-[#ececef]">File Privacy</td>
+                <td className="py-3 px-4 border border-[#ececef]">Files never leave device</td>
+                <td className="py-3 px-4 border border-[#ececef]">Files uploaded to server</td>
               </tr>
               <tr>
-                <td className="py-3 px-4 font-medium">Speed</td>
-                <td className="py-3 px-4">Instant (no upload wait)</td>
-                <td className="py-3 px-4">Depends on internet speed</td>
+                <td className="py-3 px-4 font-semibold border border-[#ececef]">Speed</td>
+                <td className="py-3 px-4 border border-[#ececef]">Instant (no upload wait)</td>
+                <td className="py-3 px-4 border border-[#ececef]">Depends on internet speed</td>
               </tr>
               <tr>
-                <td className="py-3 px-4 font-medium">File Size Limit</td>
-                <td className="py-3 px-4">No limit (device memory)</td>
-                <td className="py-3 px-4">Often 10-50MB cap</td>
+                <td className="py-3 px-4 font-semibold border border-[#ececef]">File Size Limit</td>
+                <td className="py-3 px-4 border border-[#ececef]">No limit (device memory)</td>
+                <td className="py-3 px-4 border border-[#ececef]">Often 10-50MB cap</td>
               </tr>
               <tr>
-                <td className="py-3 px-4 font-medium">Image Quality</td>
-                <td className="py-3 px-4">Original embedded quality</td>
-                <td className="py-3 px-4">Sometimes re-compressed</td>
+                <td className="py-3 px-4 font-semibold border border-[#ececef]">Image Quality</td>
+                <td className="py-3 px-4 border border-[#ececef]">Original embedded quality</td>
+                <td className="py-3 px-4 border border-[#ececef]">Sometimes re-compressed</td>
               </tr>
               <tr>
-                <td className="py-3 px-4 font-medium">Output Format</td>
-                <td className="py-3 px-4">Native format preserved</td>
-                <td className="py-3 px-4">Often forced to JPG only</td>
+                <td className="py-3 px-4 font-semibold border border-[#ececef]">Output Format</td>
+                <td className="py-3 px-4 border border-[#ececef]">Native format preserved</td>
+                <td className="py-3 px-4 border border-[#ececef]">Often forced to JPG only</td>
               </tr>
               <tr>
-                <td className="py-3 px-4 font-medium">Account Required</td>
-                <td className="py-3 px-4">No</td>
-                <td className="py-3 px-4">Often required</td>
+                <td className="py-3 px-4 font-semibold border border-[#ececef]">Account Required</td>
+                <td className="py-3 px-4 border border-[#ececef]">No</td>
+                <td className="py-3 px-4 border border-[#ececef]">Often required</td>
               </tr>
               <tr>
-                <td className="py-3 px-4 font-medium">Watermarks</td>
-                <td className="py-3 px-4">Never</td>
-                <td className="py-3 px-4">Common on free tier</td>
+                <td className="py-3 px-4 font-semibold border border-[#ececef]">Watermarks</td>
+                <td className="py-3 px-4 border border-[#ececef]">Never</td>
+                <td className="py-3 px-4 border border-[#ececef]">Common on free tier</td>
               </tr>
               <tr>
-                <td className="py-3 px-4 font-medium">Batch ZIP Download</td>
-                <td className="py-3 px-4">Yes</td>
-                <td className="py-3 px-4">Sometimes premium only</td>
+                <td className="py-3 px-4 font-semibold border border-[#ececef]">Batch ZIP Download</td>
+                <td className="py-3 px-4 border border-[#ececef]">Yes</td>
+                <td className="py-3 px-4 border border-[#ececef]">Sometimes premium only</td>
               </tr>
               <tr>
-                <td className="py-3 px-4 font-medium">Works Offline</td>
-                <td className="py-3 px-4">Yes, after page loads</td>
-                <td className="py-3 px-4">No, requires internet</td>
+                <td className="py-3 px-4 font-semibold border border-[#ececef]">Works Offline</td>
+                <td className="py-3 px-4 border border-[#ececef]">Yes, after page loads</td>
+                <td className="py-3 px-4 border border-[#ececef]">No, requires internet</td>
               </tr>
             </tbody>
           </table>
