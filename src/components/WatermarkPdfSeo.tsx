@@ -285,7 +285,7 @@ export function WatermarkPdfSeo() {
         <div>
           <h3 className="text-[17px] font-semibold text-[#1F2937]">Combine with Password Protection</h3>
           <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
-            For maximum security, watermark your file and then use our <Link to="/tools/protect-pdf" className="text-[#e5322d] hover:underline">Protect PDF</Link> tool to encrypt it. This makes it much harder for someone to strip the watermark and reuse the file.
+            For maximum security, watermark your file and then use our <Link to="/tools/$slug" params={{ slug: "protect-pdf" }} className="text-[#e5322d] hover:underline">Protect PDF</Link> tool to encrypt it. This makes it much harder for someone to strip the watermark and reuse the file.
           </p>
         </div>
       </div>
