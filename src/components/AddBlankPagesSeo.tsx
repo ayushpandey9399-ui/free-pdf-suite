@@ -94,7 +94,7 @@ export function AddBlankPagesSeo() {
         ))}
       </div>
 
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight text-center">
+      <h2 className="text-center">
         How to add blank pages to a PDF online
       </h2>
       <ol className="mt-8 space-y-6 max-w-2xl mx-auto">
@@ -111,22 +111,22 @@ export function AddBlankPagesSeo() {
         ))}
       </ol>
 
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight text-center">
+      <h2 className="text-center">
         Frequently asked questions
       </h2>
-      <div className="mt-8 divide-y divide-[#eee] max-w-3xl mx-auto">
+      <div className="mt-8 divide-y divide-[#eee] max-w-3xl mx-auto not-prose">
         {faqs.map((f, i) => (
           <details key={i} className="group py-4">
-            <summary className="cursor-pointer list-none text-[16px] font-semibold flex justify-between items-center pr-2">
+            <summary>
               {f.q}
-              <span className="ml-4 text-[#e5322d] transition-transform group-open:rotate-45 text-xl">+</span>
+              <span className="ml-4 text-[#e5322d] text-xl">+</span>
             </summary>
-            <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">{f.a}</p>
+            <p>{f.a}</p>
           </details>
         ))}
       </div>
 
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight text-center">
+      <h2 className="text-center">
         Related PDF tools
       </h2>
       <div className="mt-8">
