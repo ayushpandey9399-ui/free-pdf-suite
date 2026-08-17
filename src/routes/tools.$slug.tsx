@@ -56,11 +56,11 @@ const TOOL_META: Record<string, ToolMeta> = {
   },
   "rotate": {
     title: "Rotate PDF Online Free — Rotate Pages 90, 180, 270 Degrees | PDFToolConverter",
-    desc: "Rotate PDF pages online instantly in your browser. Rotate individual pages or the entire document by 90, 180 or 270 degrees. Free, no signup, no watermark, files never leave your device.",
+    desc: "Rotate PDF pages online free instantly in your browser. Rotate individual pages or the entire document by 90, 180 or 270 degrees. Free, no signup, no watermark, files never leave your device.",
   },
   "delete-pages": {
-    title: "Delete PDF Pages Free, Remove Unwanted Pages | pdftoolconverteronline.com",
-    desc: "Delete pages from a PDF online free. Pick unwanted pages in the thumbnail view and download a clean copy of the document in seconds.",
+    title: "Delete Pages from PDF Online Free — Remove PDF Pages Instantly | PDFToolConverter",
+    desc: "Delete pages from a PDF online free instantly in your browser. Remove unwanted pages, cover sheets, or blank pages. Free, no signup, no watermark, files never leave your device.",
   },
   "extract-pages": {
     title: "Extract PDF Pages Free, Save as New PDF | pdftoolconverteronline.com",
@@ -238,6 +238,8 @@ function ToolPage() {
                 ? "Convert PDF to JPG Online for Free"
                 : slug === "watermark"
                 ? "Add Watermark to PDF Online for Free"
+                : slug === "delete-pages"
+                ? "Delete Pages from PDF Online for Free"
                 : (seo?.layoutTitle ?? tool.name)
         }
         description={
@@ -267,6 +269,8 @@ function ToolPage() {
                     ? "Turn every page of your PDF into a high-quality JPG or PNG image instantly in your browser. Download images individually or as a ZIP file. No signup, no watermark, files never leave your device."
                     : slug === "watermark"
                     ? "Protect your documents or brand your PDFs by adding a text or image watermark to every page instantly in your browser. Adjust size, angle, and opacity to get the perfect look. No signup, no watermark on output, and your files never leave your device."
+                    : slug === "delete-pages"
+                    ? "Remove unwanted pages from your PDF document instantly in your browser. Simply select the pages you want to discard and download a clean copy in seconds. No signup, no watermark, and your files never leave your device."
                     : tool.description)
         }
         crumbName={tool.name}
