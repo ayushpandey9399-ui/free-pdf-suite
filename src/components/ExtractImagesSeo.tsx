@@ -270,7 +270,7 @@ export function ExtractImagesSeo() {
         </p>
         <h3>Use Compress Image After Extraction if Files Are Large</h3>
         <p>
-          Some PDFs contain very high-resolution images that result in large file sizes. After extraction, use our <Link to="/image-tools/compress-image" className="text-[#e5322d] hover:underline">Compress Image tool</Link> to reduce file sizes while maintaining visual quality, especially before uploading to websites or sending via email.
+          Some PDFs contain very high-resolution images that result in large file sizes. After extraction, use our <Link to="/image-tools/$slug" params={{ slug: "compress-image" }} className="text-[#e5322d] hover:underline">Compress Image tool</Link> to reduce file sizes while maintaining visual quality, especially before uploading to websites or sending via email.
         </p>
         <h3>Rename Images After Downloading</h3>
         <p>
@@ -278,7 +278,7 @@ export function ExtractImagesSeo() {
         </p>
         <h3>Combine With Other PDF Tools for Complex Workflows</h3>
         <p>
-          If you only need images from specific pages, first use our <Link to="/tools/extract-pages" className="text-[#e5322d] hover:underline">Extract Pages tool</Link> to pull out those pages as a separate PDF, then run the image extractor on just that smaller file. This speeds up the process and gives you only the images you actually need.
+          If you only need images from specific pages, first use our <Link to="/tools/$slug" params={{ slug: "extract-pages" }} className="text-[#e5322d] hover:underline">Extract Pages tool</Link> to pull out those pages as a separate PDF, then run the image extractor on just that smaller file. This speeds up the process and gives you only the images you actually need.
         </p>
 
         <h2>Frequently Asked Questions About Extracting PDF Images</h2>
