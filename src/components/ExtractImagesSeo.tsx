@@ -2,14 +2,14 @@ import { Link } from "@tanstack/react-router";
 import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
 const extractImagesRelated = [
-  { to: "/tools/pdf-to-images", name: "PDF to Image", blurb: "Convert entire PDF pages to JPG or PNG." },
-  { to: "/tools/images-to-pdf", name: "Images to PDF", blurb: "Combine images into a single PDF." },
-  { to: "/image-tools/compress-image", name: "Compress Image", blurb: "Reduce image file size after extraction." },
-  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine multiple PDFs before extracting." },
-  { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Pull out specific pages from a PDF." },
-  { to: "/image-tools/crop-image", name: "Crop Image", blurb: "Trim extracted images to the exact area." },
-  { to: "/image-tools/image-resize", name: "Resize Image", blurb: "Change dimensions of extracted images." },
-  { to: "/tools/unlock-pdf", name: "Unlock PDF", blurb: "Remove password before extracting images." },
+  { to: "/tools/$slug", params: { slug: "pdf-to-images" }, name: "PDF to Image", blurb: "Convert entire PDF pages to JPG or PNG." },
+  { to: "/tools/$slug", params: { slug: "images-to-pdf" }, name: "Images to PDF", blurb: "Combine images into a single PDF." },
+  { to: "/image-tools/$slug", params: { slug: "compress-image" }, name: "Compress Image", blurb: "Reduce image file size after extraction." },
+  { to: "/tools/$slug", params: { slug: "merge" }, name: "Merge PDF", blurb: "Combine multiple PDFs before extracting." },
+  { to: "/tools/$slug", params: { slug: "extract-pages" }, name: "Extract Pages", blurb: "Pull out specific pages from a PDF." },
+  { to: "/image-tools/$slug", params: { slug: "crop-image" }, name: "Crop Image", blurb: "Trim extracted images to the exact area." },
+  { to: "/image-tools/$slug", params: { slug: "image-resize" }, name: "Resize Image", blurb: "Change dimensions of extracted images." },
+  { to: "/tools/$slug", params: { slug: "unlock-pdf" }, name: "Unlock PDF", blurb: "Remove password before extracting images." },
 ] as const;
 
 const steps = [
