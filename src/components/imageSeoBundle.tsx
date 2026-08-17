@@ -138,8 +138,8 @@ export const IMAGE_SILOS: Record<string, Silo> = {
   },
   "jpg-to-png": {
     jsonLd: [jpgToPngSoftwareJsonLd, jpgToPngHowToJsonLd, jpgToPngFaqJsonLd],
-    h1: "Convert JPG to PNG online, free",
-    subtitle: "Turn JPG and JPEG images into lossless PNGs, right in your browser.",
+    h1: "Convert JPG to PNG Online for Free",
+    subtitle: "Transform JPEG images into lossless PNG format instantly in your browser. Batch convert multiple files at once. No signup, no watermark, your images never leave your device.",
     Component: JpgToPngTool,
     Seo: JpgToPngSeo,
   },

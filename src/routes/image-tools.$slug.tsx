@@ -15,9 +15,9 @@ const HEIC_PNG_TITLE = "HEIC to PNG Converter Free, No Upload | pdftoolconverter
 const HEIC_PNG_DESC =
   "Convert HEIC to PNG online free. Batch convert iPhone HEIC photos to lossless PNG in your browser, no upload, no signup, 100% private. Works on any device.";
 
-const JPG_PNG_TITLE = "JPG to PNG Converter Online Free, No Upload | pdftoolconverteronline.com";
+const JPG_PNG_TITLE = "JPG to PNG Converter Online Free — Convert JPEG to PNG | PDFToolConverter";
 const JPG_PNG_DESC =
-  "Convert JPG to PNG online free. Batch convert JPG and JPEG images to lossless PNG in your browser, no upload, no signup, 100% private. Works on any device.";
+  "Convert JPG images to PNG online instantly in your browser. Batch convert multiple JPEGs to PNG with transparency support. Free, no signup, no watermark, files never leave your device.";
 
 const PNG_JPG_TITLE = "PNG to JPG Converter Online Free, No Upload | pdftoolconverteronline.com";
 const PNG_JPG_DESC =
