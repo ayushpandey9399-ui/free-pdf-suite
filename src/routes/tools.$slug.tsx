@@ -119,8 +119,8 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Convert PDF to grayscale (black and white) online free. Save ink, reduce file size, and clean up scans with our browser-based PDF converter.",
   },
   "add-blank-pages": {
-    title: "Add Blank Page to PDF Online, Insert Spacers | pdftoolconverteronline.com",
-    desc: "Insert blank pages into a PDF online free at any position. Add spacers between chapters or signature pages before you download.",
+    title: "Add Blank Pages to PDF Online Free — No Signup | FreePDFHub",
+    desc: "Add blank pages to any PDF instantly in your browser. Insert empty pages before, after, or between existing pages. Free, no signup, no watermark, files never leave your device.",
   },
   "scan-to-pdf": {
     title: "Scan to PDF Online Free, Use Phone Camera | pdftoolconverteronline.com",
@@ -215,11 +215,17 @@ function ToolPage() {
   return (
     <>
       <ToolLayout
-        title={seo?.layoutTitle ?? tool.name}
+        title={
+          slug === "add-blank-pages"
+            ? "Add Blank Pages to PDF Online"
+            : (seo?.layoutTitle ?? tool.name)
+        }
         description={
           slug === "pdf-to-word"
             ? "Converts your PDF into an editable Word file while keeping images, tables and page layout."
-            : tool.description
+            : (slug === "add-blank-pages"
+              ? "Insert empty pages anywhere in your PDF — before, after, or between existing pages. Free, private, and instant. No upload, no signup, no watermark."
+              : tool.description)
         }
         crumbName={tool.name}
         icon={tool.icon}
