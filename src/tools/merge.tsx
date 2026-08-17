@@ -189,7 +189,7 @@ export default function Merge() {
   return (
     <ToolWorkspace
       title="Merge PDF Files Online for Free"
-      description="Combine multiple PDFs into one organized document in seconds. Drag and drop to reorder, then download your merged file. No signup, no watermarks, and your files never leave your device."
+      actionLabel="Merge PDF"
       loadingLabel="Merging…"
       onAction={run}
       loading={loading}

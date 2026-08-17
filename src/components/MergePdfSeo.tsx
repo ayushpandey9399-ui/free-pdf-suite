@@ -43,7 +43,7 @@ const faqs = [
   },
   {
     q: "Can I merge password-protected PDFs?",
-    a: "Not directly. If a PDF is password-protected, you need to unlock it first using our <a href=\"/tools/unlock-pdf\" class=\"text-[#e5322d] hover:underline\">Unlock PDF tool</a>. Once unlocked, you can merge it with other files normally. You can re-protect the merged file afterward using our <a href=\"/tools/protect-pdf\" class=\"text-[#e5322d] hover:underline\">Protect PDF tool</a>.",
+    a: "Not directly. If a PDF is password-protected, you need to unlock it first using our Unlock PDF tool. Once unlocked, you can merge it with other files normally. You can re-protect the merged file afterward using our Protect PDF tool.",
   },
   {
     q: "Does this work on mobile phones?",
@@ -55,7 +55,7 @@ const faqs = [
   },
   {
     q: "What file types can I merge?",
-    a: "This tool is designed for merging PDF files. If you need to combine images like JPG or PNG into a PDF, use our <a href=\"/tools/images-to-pdf\" class=\"text-[#e5322d] hover:underline\">Images to PDF tool</a> first, then merge the resulting PDF with your other files.",
+    a: "This tool is designed for merging PDF files. If you need to combine images like JPG or PNG into a PDF, use our Images to PDF tool first, then merge the resulting PDF with your other files.",
   },
   {
     q: "Is the merged PDF searchable?",
@@ -63,7 +63,7 @@ const faqs = [
   },
   {
     q: "Can I merge only specific pages from each PDF?",
-    a: "To merge specific pages, first use our <a href=\"/tools/extract-pages\" class=\"text-[#e5322d] hover:underline\">Extract Pages tool</a> to pull out the pages you need from each document. Then merge the extracted files together.",
+    a: "To merge specific pages, first use our Extract Pages tool to pull out the pages you need from each document. Then merge the extracted files together.",
   },
   {
     q: "How long does the merging process take?",
@@ -327,27 +327,27 @@ export function MergePdfSeo() {
           <h3 className="text-[18px] font-bold text-[#33333c]">Check Page Orientation Consistency</h3>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             If some of your PDFs are portrait and others are landscape, the merged file will preserve each page's original orientation. 
-            For a consistent look, consider rotating pages using our <Link to="/tools/rotate" className="text-[#e5322d] hover:underline">Rotate PDF tool</Link> before merging.
+            For a consistent look, consider rotating pages using our <Link to="/tools/$slug" params={{ slug: "rotate" }} className="text-[#e5322d] hover:underline">Rotate PDF tool</Link> before merging.
           </p>
         </div>
         <div>
           <h3 className="text-[18px] font-bold text-[#33333c]">Remove Unnecessary Pages First</h3>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
-            If you only need certain pages from a large PDF, use our <Link to="/tools/extract-pages" className="text-[#e5322d] hover:underline">Extract Pages tool</Link> or <Link to="/tools/delete-pages" className="text-[#e5322d] hover:underline">Delete Pages tool</Link> to pull out what you need before merging. 
+            If you only need certain pages from a large PDF, use our <Link to="/tools/$slug" params={{ slug: "extract-pages" }} className="text-[#e5322d] hover:underline">Extract Pages tool</Link> or <Link to="/tools/$slug" params={{ slug: "delete-pages" }} className="text-[#e5322d] hover:underline">Delete Pages tool</Link> to pull out what you need before merging. 
             This keeps the final document lean and focused.
           </p>
         </div>
         <div>
           <h3 className="text-[18px] font-bold text-[#33333c]">Compress After Merging for Smaller File Size</h3>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
-            Merged PDFs with many pages can become large. After merging, run the combined file through our <Link to="/tools/compress" className="text-[#e5322d] hover:underline">Compress PDF tool</Link> to reduce the file size without visible quality loss. 
+            Merged PDFs with many pages can become large. After merging, run the combined file through our <Link to="/tools/$slug" params={{ slug: "compress" }} className="text-[#e5322d] hover:underline">Compress PDF tool</Link> to reduce the file size without visible quality loss. 
             This is especially helpful before emailing or uploading.
           </p>
         </div>
         <div>
           <h3 className="text-[18px] font-bold text-[#33333c]">Use Blank Pages as Section Dividers</h3>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
-            For professional documents, consider adding blank separator pages between sections using our <Link to="/tools/add-blank-pages" className="text-[#e5322d] hover:underline">Add Blank Pages tool</Link> before merging. 
+            For professional documents, consider adding blank separator pages between sections using our <Link to="/tools/$slug" params={{ slug: "add-blank-pages" }} className="text-[#e5322d] hover:underline">Add Blank Pages tool</Link> before merging. 
             This creates clear visual breaks when the document is printed double-sided.
           </p>
         </div>
@@ -366,8 +366,23 @@ export function MergePdfSeo() {
             </summary>
             <div 
               className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]"
-              dangerouslySetInnerHTML={{ __html: f.a }}
-            />
+            >
+              {i === 5 ? (
+                <>
+                  Not directly. If a PDF is password-protected, you need to unlock it first using our <Link to="/tools/$slug" params={{ slug: "unlock-pdf" }} className="text-[#e5322d] hover:underline">Unlock PDF tool</Link>. Once unlocked, you can merge it with other files normally. You can re-protect the merged file afterward using our <Link to="/tools/$slug" params={{ slug: "protect-pdf" }} className="text-[#e5322d] hover:underline">Protect PDF tool</Link>.
+                </>
+              ) : i === 8 ? (
+                <>
+                  This tool is designed for merging PDF files. If you need to combine images like JPG or PNG into a PDF, use our <Link to="/tools/$slug" params={{ slug: "images-to-pdf" }} className="text-[#e5322d] hover:underline">Images to PDF tool</Link> first, then merge the resulting PDF with your other files.
+                </>
+              ) : i === 10 ? (
+                <>
+                  To merge specific pages, first use our <Link to="/tools/$slug" params={{ slug: "extract-pages" }} className="text-[#e5322d] hover:underline">Extract Pages tool</Link> to pull out the pages you need from each document. Then merge the extracted files together.
+                </>
+              ) : (
+                f.a
+              )}
+            </div>
           </details>
         ))}
       </div>
