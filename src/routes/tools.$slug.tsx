@@ -31,8 +31,8 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Split PDF files online instantly in your browser. Extract pages, separate by range, or split every page into individual PDFs. Free, no signup, no watermark, files never leave your device.",
   },
   "sign-pdf": {
-    title: "Sign PDF Online Free, Add Signature to PDF | pdftoolconverteronline.com",
-    desc: "Sign PDF documents online free by drawing, typing, or uploading your signature. Place it anywhere on any page and download a signed copy in seconds.",
+    title: "Sign PDF Online Free — Add Electronic Signature to PDF | PDFToolConverter",
+    desc: "Sign PDF documents online instantly in your browser. Draw, type or upload your signature and place it anywhere on your PDF. Free, no signup, no watermark, files never leave your device.",
   },
   "pdf-to-images": {
     title: "PDF to JPG Converter Free, High Quality Export | pdftoolconverteronline.com",
@@ -224,6 +224,8 @@ function ToolPage() {
                 ? "Extract Images from PDF Online for Free"
               : slug === "split"
                 ? "Split PDF Online for Free"
+                : slug === "sign-pdf"
+                ? "Sign PDF Online for Free"
                 : (seo?.layoutTitle ?? tool.name)
         }
         description={
@@ -239,6 +241,8 @@ function ToolPage() {
                   ? "Pull out every embedded image from your PDF document in seconds. Download photos, graphics, logos, and diagrams in their original quality. No signup, no watermark, and your files never leave your device."
                   : slug === "split"
                     ? "Separate a PDF into multiple files by page range, extract specific pages, or split every page into its own document. No signup, no watermark, files stay on your device."
+                    : slug === "sign-pdf"
+                    ? "Add your electronic signature to any PDF document in seconds. Draw with your mouse, type your name, or upload a signature image. No printing, no scanning, no signup required. Your files stay on your device."
                     : tool.description)
         }
         crumbName={tool.name}
