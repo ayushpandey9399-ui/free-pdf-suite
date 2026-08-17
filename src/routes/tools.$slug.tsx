@@ -27,8 +27,8 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Compress PDF files online and reduce file size instantly in your browser. Free PDF compressor with no file size limits, no signup, no watermark. Files never leave your device.",
   },
   "split": {
-    title: "Split PDF Free, Extract Page Ranges Online | pdftoolconverteronline.com",
-    desc: "Split PDF into separate files or extract page ranges online free. Runs offline in your browser, break up long documents without an account or upload.",
+    title: "Split PDF Online Free — Separate PDF Pages by Range | PDFToolConverter",
+    desc: "Split PDF files online instantly in your browser. Extract pages, separate by range, or split every page into individual PDFs. Free, no signup, no watermark, files never leave your device.",
   },
   "sign-pdf": {
     title: "Sign PDF Online Free, Add Signature to PDF | pdftoolconverteronline.com",
@@ -222,6 +222,8 @@ function ToolPage() {
               ? "Add Blank Pages to PDF Online"
               : slug === "extract-images"
                 ? "Extract Images from PDF Online for Free"
+              : slug === "split"
+                ? "Split PDF Online for Free"
                 : (seo?.layoutTitle ?? tool.name)
         }
         description={
@@ -235,7 +237,9 @@ function ToolPage() {
                 ? "Insert empty pages anywhere in your PDF — before, after, or between existing pages. Free, private, and instant. No upload, no signup, no watermark."
                 : slug === "extract-images"
                   ? "Pull out every embedded image from your PDF document in seconds. Download photos, graphics, logos, and diagrams in their original quality. No signup, no watermark, and your files never leave your device."
-                  : tool.description)
+                  : slug === "split"
+                    ? "Separate a PDF into multiple files by page range, extract specific pages, or split every page into its own document. No signup, no watermark, files stay on your device."
+                    : tool.description)
         }
         crumbName={tool.name}
         icon={tool.icon}
