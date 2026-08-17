@@ -437,10 +437,7 @@ function FinalCta() {
     >
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 text-center">
         <Reveal>
-          <h2
-            className="text-[26px] sm:text-[36px] font-bold tracking-tight"
-            style={{ color: INK, letterSpacing: "-0.02em" }}
-          >
+          <h2 className="text-center">
             44 tools. All free. All private.
           </h2>
           <p className="mt-3 text-[16px]" style={{ color: MUTED }}>
