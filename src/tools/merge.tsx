@@ -188,7 +188,7 @@ export default function Merge() {
 
   return (
     <ToolWorkspace
-      title="Merge PDF"
+      title="Merge PDF Files Online for Free"
       actionLabel="Merge PDF"
       loadingLabel="Merging…"
       onAction={run}
