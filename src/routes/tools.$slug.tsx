@@ -56,7 +56,7 @@ const TOOL_META: Record<string, ToolMeta> = {
   },
   "rotate": {
     title: "Rotate PDF Online Free — Rotate Pages 90, 180, 270 Degrees | PDFToolConverter",
-    desc: "Rotate PDF pages online instantly in your browser. Rotate individual pages or the entire document by 90, 180 or 270 degrees. Free, no signup, no watermark, files never leave your device.",
+    desc: "Rotate PDF pages online free instantly in your browser. Rotate individual pages or the entire document by 90, 180 or 270 degrees. Free, no signup, no watermark, files never leave your device.",
   },
   "delete-pages": {
     title: "Delete Pages from PDF Online Free — Remove PDF Pages Instantly | PDFToolConverter",
