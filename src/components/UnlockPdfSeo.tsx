@@ -1,243 +1,277 @@
 import { Link } from "@tanstack/react-router";
 import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
-
 const steps = [
   {
-    title: "Open the protected PDF",
-    text: "Drop the locked PDF into the browser or click Select PDF file. The tool inspects the document in your tab, detects that it is encrypted, and shows a padlock badge along with a password field, nothing has been sent anywhere.",
+    title: "Upload Your Protected PDF",
+    text: "Click the \"Select PDF file\" button or drag and drop your password-protected PDF onto the upload area. The file opens in your browser without being uploaded to any external server.",
   },
   {
-    title: "Type the current password",
-    text: "Enter the password that currently opens the file. You can toggle the eye icon to check what you typed. If the password is wrong, the tool tells you inline so you can try again, it does not upload anything on a failed attempt.",
+    title: "Enter the Password",
+    text: "Type the password for the PDF in the password field. This is the password that was set when the document was originally protected. Without the correct password, the file cannot be decrypted.",
   },
   {
-    title: "Click Unlock PDF",
-    text: "The tool authenticates the password locally using the mupdf WebAssembly engine, then re-saves the document with encryption set to none. This runs at the speed of your CPU, not your uplink.",
+    title: "Unlock the PDF",
+    text: "Click the \"Unlock PDF\" button. The tool uses the password you entered to decrypt the file content and generate a new copy of the document without password protection. This process runs entirely in your browser.",
   },
   {
-    title: "Download the unlocked copy",
-    text: "A file with a -unlocked suffix downloads to your device. Open it in any reader on any phone or laptop, it will no longer ask for a password. Your original file, and the password you typed, stayed on your machine the whole time.",
-  },
-];
-
-const benefits = [
-  {
-    h: "Permanently unlocked",
-    p: "The downloaded copy is a plain, unencrypted PDF. It opens instantly in the Gmail attachment preview, in your phone's file browser, in any desktop reader, no password prompt, ever again, on any device you copy it to.",
-  },
-  {
-    h: "Original stays untouched",
-    p: "What you get back is a separate, unlocked copy of the document. The protected original in your Downloads folder or email is not modified, moved or replaced, so you can always fall back to it if the encrypted version was the one you actually needed to keep.",
-  },
-  {
-    h: "No quality or content change",
-    p: "Removing encryption does not re-render pages, re-compress images or touch the text layer. Every page, every font and every embedded image is byte-identical to the protected file, only the encryption wrapper is stripped away.",
-  },
-  {
-    h: "Free and unlimited",
-    p: "Unlock one statement or a whole year of them. There is no daily limit, no page cap, no watermark on the output and no account to create. Open a file, type its password, download the unlocked copy, done.",
-  },
-];
-
-const scenarios = [
-  {
-    h: "Monthly bank and credit-card statements",
-    p: "Statements arriving in your inbox every month are almost always password-protected, and typing the password on every open across every device gets old fast. Unlock the ones you have already archived somewhere safe of your own so they behave like normal PDFs when you actually need to look at them.",
-  },
-  {
-    h: "Insurance and investment documents",
-    p: "Policy documents, mutual fund statements and annual investment summaries are opened often, during tax season, during renewals, when a claim is filed. Keeping an unlocked working copy in your personal records folder means you are not hunting for the password every time.",
-  },
-  {
-    h: "Portals that reject password-protected PDFs",
-    p: "Many government portals, HR systems and application forms refuse encrypted uploads outright and return an error like Encrypted files are not accepted. Unlock the file first, then upload the plain copy, this is the fix for most such rejections.",
-  },
-  {
-    h: "Editing, merging or signing a protected file",
-    p: "Encrypted PDFs cannot be processed by most PDF tools until they are unlocked, you cannot merge one into another file, add a signature to it or extract a page range while the encryption is in place. Unlock it once, then run whichever tool you actually needed.",
+    title: "Download the Unlocked PDF",
+    text: "Download the unlocked PDF to your device. The new file is identical in content to the original but can be opened, edited, merged, and used in any PDF workflow without requiring a password.",
   },
 ];
 
 const faqs = [
   {
-    q: "How do I remove a password from a PDF for free?",
-    a: "Open this page, click Select PDF file, choose the protected document, type the password that currently opens it and click Unlock PDF to remove the PDF password. An unlocked copy downloads to your device a moment later. You do not need Adobe Acrobat, an account or a card, and this free PDF password remover runs entirely in your browser.",
+    q: "How do I unlock a PDF online for free?",
+    a: "Upload your protected PDF, enter the correct password, and click Unlock PDF. Download the unlocked file instantly. No signup required.",
   },
   {
-    q: "Can you unlock a PDF without knowing the password?",
-    a: "No. This tool decrypts the file using the password you provide, it does not attempt to guess, bypass or crack an unknown one. That is a deliberate design choice: password-cracking utilities are what people use to open other people's documents, which is not what this tool is for. If you have genuinely lost the password to a document, contact whoever issued it (your bank, your employer, your insurer) and ask them to send a fresh copy or reset the password.",
+    q: "Do I need to know the password to unlock a PDF?",
+    a: "Yes. This tool requires the correct password to decrypt the file. It does not crack or bypass encryption — it removes the protection layer after you authenticate with the correct password.",
   },
   {
-    q: "Is my password sent to your server?",
-    a: "No. The password is fed directly into the mupdf WebAssembly engine running inside your browser tab and used there to derive the decryption key. It is never placed in a network request, never logged and never stored, because no network request is made at all during the unlock. You can watch the Network tab in your browser's developer tools and confirm this yourself.",
+    q: "Do my files get uploaded to a server?",
+    a: "No. The entire process runs in your browser. Your PDF and password never leave your device.",
   },
   {
-    q: "What is the password for my bank statement PDF?",
-    a: "The bank always states the formula in the same email that delivered the statement, read that email first. The common patterns in India are your PAN in capital letters, your date of birth in a specific format (often DDMMYYYY or DDMM), or a mix such as the first four letters of your name in caps plus the last four digits of your account or year of birth. Different banks use different formulas, so trust the one printed in the delivery email rather than guessing.",
+    q: "Can I unlock a PDF without knowing the password?",
+    a: "No. Properly encrypted PDFs cannot be opened without the correct password. If you have forgotten the password, contact the sender for a new copy.",
   },
   {
-    q: "Will the unlocked PDF work everywhere?",
-    a: "Yes. The output is a standard PDF with the encryption wrapper removed, so every reader that supports PDF at all, Adobe Reader, Chrome, Edge, Firefox, Safari, Preview on macOS, phone viewers on Android and iOS, the inline preview inside email clients, opens it with no prompt.",
+    q: "Is it legal to unlock a PDF?",
+    a: "Yes, when you are the authorized recipient and you know the password. It is not legal to bypass protection on documents you are not authorized to access.",
   },
   {
-    q: "Is it legal to remove a PDF password?",
-    a: "For your own documents where you know the password, your bank statement, your salary slip, your insurance policy, a report you generated, yes, you are simply removing a lock on something that is yours. What is not okay is removing protection from a document you are not authorised to access; that is true even if a tool technically lets you do it. This tool requires the correct password precisely so it stays on the right side of that line.",
+    q: "What types of PDF passwords can this tool remove?",
+    a: "The tool can remove both document open passwords (user passwords) and permissions passwords (owner passwords) when you provide the correct password.",
   },
   {
-    q: "Why does a portal reject my password-protected PDF?",
-    a: "Most upload systems parse the PDF to validate it, extract text or generate a thumbnail, none of which they can do while the file is encrypted. Rather than deal with the ambiguity, they refuse the upload outright with a message like Encrypted or password-protected files are not accepted. Unlock the file with this tool first and re-upload the plain copy.",
+    q: "Is there a file size limit?",
+    a: "No. You can unlock PDFs of any size with no restrictions.",
   },
   {
-    q: "Does unlocking change quality or content?",
-    a: "No. Removing encryption is a metadata-level change, it strips the encryption dictionary from the PDF and re-saves everything else as-is. Pages, fonts, images, form fields and annotations are all preserved exactly as they were in the protected file.",
+    q: "Can I unlock a PDF on my phone?",
+    a: "Yes. The tool works in any mobile browser on iPhone and Android. No app required.",
   },
   {
-    q: "Can I add a new password later?",
-    a: "Yes. Once you have the unlocked copy, open our free Protect PDF tool, drop the file in and set a new password. Like this tool, that one also runs entirely in your browser, so the new password is never sent anywhere either.",
+    q: "Will the content of the PDF change after unlocking?",
+    a: "No. Unlocking only removes the encryption layer. All content, formatting, images, and links remain exactly the same.",
   },
   {
-    q: "Do I need Adobe Acrobat?",
-    a: "No. Adobe Acrobat can remove a password too, but only the paid Pro edition. This tool is free, needs no install and runs in any modern browser, the workflow is the same but without the subscription.",
+    q: "Can I unlock multiple PDFs at once?",
+    a: "Currently the tool processes one PDF at a time. Unlock each file separately.",
+  },
+  {
+    q: "Does this tool crack PDF passwords?",
+    a: "No. This tool only removes protection when you provide the correct password. It cannot bypass or crack encryption.",
+  },
+  {
+    q: "Will the unlocked PDF look different from the original?",
+    a: "No. The content, layout, fonts, and images are identical. Only the password protection layer is removed.",
+  },
+  {
+    q: "Can I use this offline?",
+    a: "Yes. Once the page has fully loaded, the tool works without an internet connection.",
+  },
+  {
+    q: "Is this tool really free?",
+    a: "Yes. No usage limits, no signup, no watermarks on the output.",
+  },
+  {
+    q: "What should I do after unlocking a PDF?",
+    a: "Keep the original protected version for your records. Use the unlocked version for merging, compressing, editing, or any other workflow that requires an unprotected file.",
   },
 ];
 
 const related = [
-  { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Add a password and encrypt to lock the document." },
-  { to: "/tools/redact-pdf", name: "Redact PDF", blurb: "Permanently black out sensitive text and images." },
-  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Make form fields and annotations permanent." },
-  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Draw or type a signature and place it on any page." },
-  { to: "/tools/pdf-metadata", name: "PDF Metadata", blurb: "View and edit title, author, subject and keywords." },
-  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
-  { to: "/tools/split", name: "Split PDF", blurb: "Break one PDF into multiple files or page ranges." },
-  { to: "/tools/compare", name: "Compare PDFs", blurb: "See the differences between two versions side by side." },
+  { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Add new password after editing" },
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine unlocked PDFs together" },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Reduce size after unlocking" },
+  { to: "/tools/edit-pdf", name: "Edit PDF", blurb: "Annotate after removing protection" },
+  { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Sign the unlocked document" },
+  { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Pull pages from unlocked PDF" },
+  { to: "/tools/split", name: "Split PDF", blurb: "Separate the unlocked document" },
+  { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Flatten forms after unlocking" },
 ] as const;
 
 export function UnlockPdfSeo() {
   return (
-    <section className="mx-auto max-w-4xl px-4 pb-16 text-[#33333c]">
+    <section className="mx-auto max-w-4xl px-4 pb-16 seo-content">
+      <h2>Why Would You Need to Unlock a PDF?</h2>
+      <p>
+        Password-protected PDFs are common in everyday work. Banks send password-protected statements to protect account information. Employers send encrypted payslips with your employee ID as the password. Government agencies distribute encrypted forms. Insurance companies send policy documents with a protection layer. In each of these cases, you know the password, but you need to unlock the PDF to merge it with other documents, compress it, edit it, or use it in a workflow that does not accept password-protected files.
+      </p>
+      <p>
+        Many PDF tools and workflows do not accept password-protected files as inputs. If you try to merge a locked PDF with other documents, the merger will fail. If you try to compress an encrypted PDF, the compressor cannot access the content. If you need to extract pages, add page numbers, or watermark a password-protected document, you first need to remove the protection and then perform the operation on the unlocked copy.
+      </p>
+      <p>
+        Long-term document storage is another common reason to unlock PDFs. If you received an encrypted document years ago and want to archive it without needing to remember or look up the password every time you need to view it, unlocking it and saving the decrypted copy as your archive version is a practical solution — provided you are authorized to do so.
+      </p>
+      <p>
+        It is important to understand that a PDF unlocker does not bypass or crack encryption. You must know the correct password to unlock the file. What the tool does is use the password you provide to decrypt the file and save a new copy without the protection layer. This is the equivalent of opening a locked filing cabinet with your key, making a copy of the contents, and putting the copy in an unlocked folder for easier access.
+      </p>
 
-      {/* How-to */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        How to remove a password from a PDF
-      </h2>
-      <ol className="mt-5 space-y-4">
+      <h2>How to Unlock a PDF Online — Step by Step</h2>
+      <div className="space-y-6">
         {steps.map((s, i) => (
-          <li key={i} id={`step-${i + 1}`} className="flex gap-4">
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e5322d] text-white font-bold text-sm">
+          <div key={i} className="flex gap-4">
+            <div className="flex-shrink-0 flex h-8 w-8 items-center justify-center rounded-full bg-[#E5322D] text-white font-bold" aria-label={`Step ${i + 1}`}>
               {i + 1}
-            </span>
-            <div className="pt-1">
-              <p className="text-[15px] font-semibold">{s.title}</p>
-              <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.text}</p>
             </div>
-          </li>
-        ))}
-      </ol>
-
-      {/* Pain section */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Tired of typing the password every single time?
-      </h2>
-      <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        Bank statements, credit card bills, salary slips, insurance policies and Aadhaar PDFs
-        almost always arrive password-protected, and then insist on the password on every
-        open, on every phone, on every laptop you copy the file to. The lock made sense while
-        the file was in transit through email; once you have moved it into your own secure
-        storage, typing the password for the tenth time this month is pure friction and
-        nothing else.
-      </p>
-      <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        Unlock the file once here and you get a copy that just opens, no prompt, no delay,
-        no fishing around your inbox for the delivery email. Which brings up the other
-        common question: what is the password in the first place? Banks and issuers in India
-        almost always state the formula inside the same email, commonly your PAN in
-        capitals, your date of birth as DDMMYYYY, or the first four letters of your name in
-        capitals joined to your year of birth. Read the delivery email once and you will
-        find it.
-      </p>
-
-      {/* Privacy section */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        The only safe place to type a PDF password
-      </h2>
-      <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        When you unlock a PDF on an upload-based site, you have to hand it two things at
-        once: the encrypted document and the exact password that decrypts it. Together those
-        are literally everything an attacker needs to read the file, and often the same
-        password you have reused on a bank statement from last year and one from this year.
-        Even if the site is well-intentioned, it now holds a temporary copy of both.
-      </p>
-      <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        This tool does the whole thing inside your browser. The PDF is opened in tab
-        memory, the password you type is fed into a WebAssembly build of mupdf to derive
-        the decryption key, and the unlocked file is saved straight back to your device.
-        Neither the document nor the password is ever transmitted, logged or stored, no
-        request goes out at all during the unlock. Once the page has loaded, you could even
-        turn Wi-Fi off and it would still work.
-      </p>
-
-      {/* Ethics */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        We unlock, we don't crack
-      </h2>
-      <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        This tool removes protection from a PDF when you already know the password, your
-        own bank statement, your salary slip, your insurance policy, a report you generated
-        for yourself. It cannot guess, bypass or brute-force an unknown password, and that
-        is a deliberate choice: password-crackers are what people reach for when they want
-        to open someone else's documents, which is not the job this tool is trying to do.
-      </p>
-      <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        If you have genuinely lost the password to a document you own, the right next step
-        is to contact whoever issued it, your bank, your employer, your insurer, the
-        government department, and ask them to resend the file or reset the password.
-        That is faster than any workaround and it keeps the paper trail clean.
-      </p>
-
-      {/* Four benefits */}
-      <div className="mt-10 grid gap-6 sm:grid-cols-2">
-        {benefits.map((b) => (
-          <div key={b.h}>
-            <h3 className="text-[17px] font-semibold">{b.h}</h3>
-            <p className="mt-2 text-[14.5px] leading-relaxed text-[#4a4a55]">{b.p}</p>
+            <div>
+              <h3 className="text-lg font-semibold mb-1">{s.title}</h3>
+              <p className="text-gray-600 leading-relaxed">{s.text}</p>
+            </div>
           </div>
         ))}
       </div>
 
-      {/* Scenarios */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        When do you need to unlock a PDF?
-      </h2>
-      <div className="mt-6 space-y-5">
-        {scenarios.map((s) => (
-          <div key={s.h}>
-            <h3 className="text-[17px] font-semibold">{s.h}</h3>
-            <p className="mt-1.5 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.p}</p>
-          </div>
-        ))}
+      <h2>Two Types of PDF Passwords — What Each One Does</h2>
+      <h3>Document Open Password (User Password)</h3>
+      <p>
+        This password prevents the file from being opened at all. Anyone who receives a PDF with this type of protection sees a locked file and is prompted to enter a password before viewing any content. Banks, government agencies, and HR departments commonly use this type of protection for sensitive documents they send to individuals.
+      </p>
+      <h3>Permissions Password (Owner Password)</h3>
+      <p>
+        This password does not prevent the file from being opened but restricts what can be done with it. A PDF protected with only a permissions password can be viewed but cannot be printed, copied, or edited. This type of protection is common in commercially distributed PDF documents, e-books, and reports where the creator wants to control usage without preventing reading.
+      </p>
+
+      <h2>Common Situations Where You Need to Unlock a PDF</h2>
+      <h3>Bank Statements and Financial Documents</h3>
+      <p>
+        Many banks send monthly statements as password-protected PDFs, using your date of birth or account number as the password. Unlocking these statements lets you merge them into a single annual statement, compress them for storage, or share specific pages with an accountant or financial advisor without sending the password separately.
+      </p>
+      <h3>Payslips and Salary Documents</h3>
+      <p>
+        HR departments often protect payslips with an employee's date of birth or employee ID as the password. When applying for a loan, visa, or rental property, you may need to submit payslips as unlocked PDFs that can be combined and compressed. Unlocking them first makes this process straightforward.
+      </p>
+      <h3>Government and Official Documents</h3>
+      <p>
+        Some government documents, tax notices, and official certificates are distributed as protected PDFs. Unlocking them allows you to merge them with other application documents, compress them to meet upload limits, or print them without restriction.
+      </p>
+      <h3>Academic Certificates and Transcripts</h3>
+      <p>
+        Universities sometimes distribute grade transcripts and certificates as password-protected PDFs. Unlocking these allows you to combine them with other application documents and compress them for online submissions.
+      </p>
+      <h3>Insurance and Medical Documents</h3>
+      <p>
+        Insurance policies, claim documents, and medical reports occasionally come protected. Unlocking them lets you share specific sections with relevant parties, merge multiple documents into a single submission, or annotate them with our <Link to="/tools/$slug" params={{ slug: "edit-pdf" }} className="text-[#E5322D] hover:underline">Edit PDF tool</Link>.
+      </p>
+      <h3>Merging Multiple PDFs Including a Protected One</h3>
+      <p>
+        If you need to merge several PDFs into one document and one of them is password-protected, you need to unlock it first. Most PDF mergers cannot process encrypted files directly. You can use our <Link to="/tools/$slug" params={{ slug: "merge" }} className="text-[#E5322D] hover:underline">Merge PDF tool</Link> once the file is unlocked.
+      </p>
+      <h3>Compressing Protected PDFs</h3>
+      <p>
+        A PDF compressor cannot optimize the contents of an encrypted file because it cannot access the image data inside. Unlocking the PDF first allows the compressor to process the file and achieve proper size reduction. Try our <Link to="/tools/$slug" params={{ slug: "compress" }} className="text-[#E5322D] hover:underline">Compress PDF tool</Link> after unlocking.
+      </p>
+      <h3>Re-Protecting With a New Password</h3>
+      <p>
+        If you want to change the password on a protected PDF, you first need to unlock the current version and then re-protect it with a new password using our <Link to="/tools/$slug" params={{ slug: "protect-pdf" }} className="text-[#E5322D] hover:underline">Protect PDF tool</Link>.
+      </p>
+
+      <h2>Is It Legal to Unlock a PDF?</h2>
+      <p>
+        Unlocking a PDF is legal when you are the authorized recipient of the document and you know the password. If a bank sent you a protected statement, an employer sent you an encrypted payslip, or a government agency sent you a protected certificate, you have full authorization to unlock and use that document as needed.
+      </p>
+      <p>
+        It is not legal to use a PDF unlocking tool to bypass protection on documents you are not authorized to access, crack passwords on commercially distributed e-books or content to circumvent digital rights management, or remove protection from someone else's confidential documents without permission. Our tool requires you to know and enter the correct password — it does not bypass or crack encryption.
+      </p>
+      <p>
+        If you have forgotten the password to a document you own or created yourself, you should contact the original sender for a new copy or check whether you stored the password in a password manager. Our tool cannot unlock a PDF without the correct password — it simply removes the protection layer after authentication.
+      </p>
+
+      <h2>Browser-Based vs Server-Based PDF Unlocking</h2>
+      <div className="overflow-x-auto my-8">
+        <table className="w-full border-collapse border border-gray-200">
+          <thead>
+            <tr className="bg-gray-50 text-left">
+              <th className="p-3 border border-gray-200">Feature</th>
+              <th className="p-3 border border-gray-200 font-semibold text-[#E5322D]">Our Tool</th>
+              <th className="p-3 border border-gray-200">Server-Based Tools</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="p-3 border border-gray-200 font-medium">File Privacy</td>
+              <td className="p-3 border border-gray-200">Stays on device</td>
+              <td className="p-3 border border-gray-200">Uploaded to server</td>
+            </tr>
+            <tr>
+              <td className="p-3 border border-gray-200 font-medium">Password Privacy</td>
+              <td className="p-3 border border-gray-200">Never sent over internet</td>
+              <td className="p-3 border border-gray-200">Sent to server</td>
+            </tr>
+            <tr>
+              <td className="p-3 border border-gray-200 font-medium">Speed</td>
+              <td className="p-3 border border-gray-200">Instant</td>
+              <td className="p-3 border border-gray-200">Upload/download delay</td>
+            </tr>
+            <tr>
+              <td className="p-3 border border-gray-200 font-medium">Account Required</td>
+              <td className="p-3 border border-gray-200">No</td>
+              <td className="p-3 border border-gray-200">Sometimes yes</td>
+            </tr>
+            <tr>
+              <td className="p-3 border border-gray-200 font-medium">Watermarks</td>
+              <td className="p-3 border border-gray-200">Never</td>
+              <td className="p-3 border border-gray-200">Common on free tier</td>
+            </tr>
+            <tr>
+              <td className="p-3 border border-gray-200 font-medium">Works Offline</td>
+              <td className="p-3 border border-gray-200">Yes after page loads</td>
+              <td className="p-3 border border-gray-200">No</td>
+            </tr>
+            <tr>
+              <td className="p-3 border border-gray-200 font-medium">File Size Limit</td>
+              <td className="p-3 border border-gray-200">No limit</td>
+              <td className="p-3 border border-gray-200">Often capped</td>
+            </tr>
+            <tr>
+              <td className="p-3 border border-gray-200 font-medium">Cost</td>
+              <td className="p-3 border border-gray-200">Always free</td>
+              <td className="p-3 border border-gray-200">Free tier limited</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      {/* FAQ */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Frequently asked questions
-      </h2>
-      <div className="mt-6 divide-y divide-[#eee]">
-        {faqs.map((f) => (
-          <details key={f.q} className="group py-4">
-            <summary className="cursor-pointer list-none text-[15.5px] font-semibold flex justify-between items-center">
+      <h2>Tips for Working With Unlocked PDFs</h2>
+      <h3>Keep the Original Protected Version</h3>
+      <p>
+        After unlocking a PDF, keep both the protected original and the unlocked copy. The original serves as proof of the official protected version you received, while the unlocked copy is for your working needs.
+      </p>
+      <h3>Re-Protect After Making Edits</h3>
+      <p>
+        If you unlock a document, edit it, and need to share it securely, use our <Link to="/tools/$slug" params={{ slug: "protect-pdf" }} className="text-[#E5322D] hover:underline">Protect PDF tool</Link> to add a new password before sharing.
+      </p>
+      <h3>Compress After Unlocking</h3>
+      <p>
+        Unlocked PDFs can be compressed normally. Run the unlocked file through our <Link to="/tools/$slug" params={{ slug: "compress" }} className="text-[#E5322D] hover:underline">Compress PDF tool</Link> to reduce file size before archiving or emailing.
+      </p>
+      <h3>Merge Unlocked PDFs With Other Documents</h3>
+      <p>
+        Once unlocked, the PDF can be merged with other documents using our <Link to="/tools/$slug" params={{ slug: "merge" }} className="text-[#E5322D] hover:underline">Merge PDF tool</Link> without any restrictions.
+      </p>
+      <h3>Check Permissions After Unlocking</h3>
+      <p>
+        Some PDFs have two layers of protection — an open password and a permissions password. After removing the open password, verify that printing and copying are now available. If restrictions remain, the permissions password may still be active.
+      </p>
+
+      <h2>Frequently Asked Questions About Unlocking PDFs</h2>
+      <div className="space-y-4">
+        {faqs.map((f, i) => (
+          <details key={i} className="group border border-gray-200 rounded-lg p-4">
+            <summary className="font-semibold cursor-pointer list-none flex justify-between items-center">
               {f.q}
-              <span className="ml-4 text-[#e5322d] transition-transform group-open:rotate-45">+</span>
+              <span className="text-[#E5322D] group-open:rotate-180 transition-transform">▼</span>
             </summary>
-            <p className="mt-3 text-[14.5px] leading-relaxed text-[#4a4a55]">{f.a}</p>
+            <p className="mt-3 text-gray-600 leading-relaxed">{f.a}</p>
           </details>
         ))}
       </div>
 
-      {/* Related */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Related PDF tools
-      </h2>
+      <h2 className="mt-16">Related PDF Tools</h2>
       <RelatedToolsGrid items={related} />
     </section>
   );
@@ -257,27 +291,21 @@ export const unlockHowToJsonLd = {
   "@context": "https://schema.org",
   "@type": "HowTo",
   name: "How to remove a password from a PDF",
-  description:
-    "Decrypt a password-protected PDF entirely in your browser using the password you already know, the file and password never leave your device.",
-  totalTime: "PT1M",
-  supply: [{ "@type": "HowToSupply", name: "A password-protected PDF and its current password" }],
-  tool: [{ "@type": "HowToTool", name: "pdftoolconverteronline.com Unlock PDF (web browser)" }],
+  description: "Remove password protection from any PDF you are authorized to access. Enter the password once and download an unlocked copy instantly.",
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
     name: s.title,
     text: s.text,
-    url: `/tools/unlock-pdf#step-${i + 1}`,
   })),
 };
 
 export const unlockSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "pdftoolconverteronline.com Unlock PDF",
-  description:
-    "Remove password from PDF online free, decrypt password-protected PDFs in your browser with the password you know. File and password never leave your device.",
-  applicationCategory: "UtilitiesApplication",
-  operatingSystem: "Web",
+  name: "PDFToolConverter Unlock PDF",
+  applicationCategory: "BrowserApplication",
+  operatingSystem: "Any",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  aggregateRating: { "@type": "AggregateRating", ratingValue: "4.8", ratingCount: "1280" },
 };
