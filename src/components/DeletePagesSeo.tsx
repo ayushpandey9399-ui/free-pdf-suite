@@ -187,7 +187,7 @@ export function DeletePagesSeo() {
         <div>
           <h3 className="text-[17px] font-semibold">6. Cleaning Up Merged Documents</h3>
           <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
-            After using our <Link to="/tools/merge" className="text-[#e5322d] hover:underline">Merge PDF</Link> tool, you might find redundant table of contents or index pages. Remove them to create a seamless unified document.
+            After using our <Link to="/tools/$slug" params={{ slug: "merge" }} className="text-[#e5322d] hover:underline">Merge PDF</Link> tool, you might find redundant table of contents or index pages. Remove them to create a seamless unified document.
           </p>
         </div>
         <div>
