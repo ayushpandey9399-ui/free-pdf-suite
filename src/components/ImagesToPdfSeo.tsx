@@ -134,7 +134,7 @@ export function ImagesToPdfSeo() {
         WebP images, increasingly common as the default format from modern phone cameras and web browsers, convert directly to PDF without needing a separate format conversion step. This saves the extra step of converting WebP to JPG before creating the PDF. BMP and TIFF formats, used in professional scanning workflows and older imaging applications, are also supported.
       </p>
       <p>
-        For HEIC images from iPhones and newer Apple devices, first convert them to JPG or PNG using our <Link to="/image-tools/heic-to-jpg" className="text-[#E5322D] hover:underline">HEIC to JPG tool</Link>, then add the converted images to the PDF converter. This two-step process handles the full workflow from iPhone photos to a finished PDF.
+        For HEIC images from iPhones and newer Apple devices, first convert them to JPG or PNG using our <Link to="/image-tools/$slug" params={{ slug: "heic-to-jpg" }} className="text-[#E5322D] hover:underline">HEIC to JPG tool</Link>, then add the converted images to the PDF converter. This two-step process handles the full workflow from iPhone photos to a finished PDF.
       </p>
 
       <h2>Common Scenarios for Converting Images to PDF</h2>
@@ -256,15 +256,15 @@ export function ImagesToPdfSeo() {
       </p>
       <h3>Rotate Images Before Converting</h3>
       <p>
-        If any images are sideways or upside down, use our <Link to="/image-tools/rotate-image" className="text-[#E5322D] hover:underline">Rotate Image tool</Link> to fix their orientation before converting to PDF. This gives you cleaner results than trying to rotate PDF pages after conversion.
+        If any images are sideways or upside down, use our <Link to="/image-tools/$slug" params={{ slug: "rotate-image" }} className="text-[#E5322D] hover:underline">Rotate Image tool</Link> to fix their orientation before converting to PDF. This gives you cleaner results than trying to rotate PDF pages after conversion.
       </p>
       <h3>Compress the PDF After Converting</h3>
       <p>
-        If your images are high-resolution photographs, the resulting PDF may be large. Run it through our <Link to="/tools/compress" className="text-[#E5322D] hover:underline">Compress PDF tool</Link> after conversion to reduce the file size without noticeable quality loss.
+        If your images are high-resolution photographs, the resulting PDF may be large. Run it through our <Link to="/tools/$slug" params={{ slug: "compress" }} className="text-[#E5322D] hover:underline">Compress PDF tool</Link> after conversion to reduce the file size without noticeable quality loss.
       </p>
       <h3>Convert HEIC to JPG First</h3>
       <p>
-        iPhone photos saved as HEIC files need to be converted to JPG or PNG before adding them to the PDF converter. Use our <Link to="/image-tools/heic-to-jpg" className="text-[#E5322D] hover:underline">HEIC to JPG tool</Link> to batch convert them first.
+        iPhone photos saved as HEIC files need to be converted to JPG or PNG before adding them to the PDF converter. Use our <Link to="/image-tools/$slug" params={{ slug: "heic-to-jpg" }} className="text-[#E5322D] hover:underline">HEIC to JPG tool</Link> to batch convert them first.
       </p>
       <h3>Use Consistent Page Size for Professional Results</h3>
       <p>
