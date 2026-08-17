@@ -123,8 +123,8 @@ export default function Split() {
 
   const actionLabel =
     mode === "select"
-      ? `Extract ${selected.size} page${selected.size === 1 ? "" : "s"} →`
-      : `Split into ${outputCount} file${outputCount === 1 ? "" : "s"} →`;
+      ? `Extract ${selected.size} page${selected.size === 1 ? "" : "s"}`
+      : `Split into ${outputCount} file${outputCount === 1 ? "" : "s"}`;
 
   const actionDisabled =
     (mode === "ranges" && !rangesValid) ||
