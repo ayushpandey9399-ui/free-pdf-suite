@@ -98,7 +98,6 @@ export function ExtractImagesSeo() {
   return (
     <section className="mx-auto max-w-4xl px-4 pb-16 text-[#33333c]">
       <div className="prose prose-slate max-w-none prose-h2:text-[24px] prose-h2:sm:text-[28px] prose-h2:font-bold prose-h2:tracking-tight prose-h2:mt-14 prose-h3:text-[17px] prose-h3:font-semibold prose-h3:mt-8 prose-p:text-[15px] prose-p:leading-relaxed prose-p:text-[#4a4a55] prose-p:mt-4">
-        
         <h2>Why Would You Need to Extract Images from a PDF?</h2>
         <p>
           PDF files are designed to keep everything locked together — text, images, charts, and formatting all bundled into one read-only package. That is great for sharing documents, but it becomes a problem when you need just one image from a 50-page report or want to reuse a chart from a client presentation. Copying and pasting from a PDF usually gives you a low-resolution screenshot, not the original high-quality image. A dedicated image extractor pulls out the actual embedded image data at its original resolution.
