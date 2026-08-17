@@ -63,8 +63,8 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Delete pages from a PDF online free instantly in your browser. Remove unwanted pages, cover sheets, or blank pages. Free, no signup, no watermark, files never leave your device.",
   },
   "extract-pages": {
-    title: "Extract PDF Pages Free, Save as New PDF | pdftoolconverteronline.com",
-    desc: "Extract pages from PDF online free and save any selection as a new document. Great for pulling one chapter or invoice out of a longer report.",
+    title: "Extract Pages from PDF Online Free — Save Specific Pages as New PDF | PDFToolConverter",
+    desc: "Extract pages from PDF online free instantly in your browser. Save specific pages as a new PDF with no signup, no watermark, and files never leave your device.",
   },
   "reorder-pages": {
     title: "Reorder PDF Pages Free, Visual Drag & Drop | pdftoolconverteronline.com",
