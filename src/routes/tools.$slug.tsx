@@ -47,8 +47,8 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Password protect your PDF files online in your browser. Add AES encryption to prevent unauthorized access. Free, no signup, no watermark, files never leave your device.",
   },
   "unlock-pdf": {
-    title: "Unlock PDF Free, Remove PDF Password Online | pdftoolconverteronline.com",
-    desc: "Unlock a password protected PDF online free if you have the password. Decryption runs in your browser with no account or upload needed.",
+    title: "Unlock PDF Online Free — Remove PDF Password Instantly | PDFToolConverter",
+    desc: "Remove password protection from any PDF file instantly in your browser. Unlock secured PDFs you own. Free, no signup, no watermark, files never leave your device.",
   },
   "watermark": {
     title: "Add Watermark to PDF Free, Online Tool | pdftoolconverteronline.com",
@@ -228,6 +228,8 @@ function ToolPage() {
                 ? "Sign PDF Online for Free"
                 : slug === "protect-pdf"
                 ? "Protect PDF with Password Online for Free"
+                : slug === "unlock-pdf"
+                ? "Unlock PDF — Remove Password Protection Online for Free"
                 : (seo?.layoutTitle ?? tool.name)
         }
         description={
@@ -247,6 +249,8 @@ function ToolPage() {
                     ? "Add your electronic signature to any PDF document in seconds. Draw with your mouse, type your name, or upload a signature image. No printing, no scanning, no signup required. Your files stay on your device."
                     : slug === "protect-pdf"
                     ? "Add a password to any PDF document instantly in your browser. Encrypt your file to prevent unauthorized access. No signup, no watermark, your files never leave your device."
+                    : slug === "unlock-pdf"
+                    ? "Remove password protection from any PDF you are authorized to access. Enter the password once and download an unlocked copy instantly. No signup, no watermark, files stay on your device."
                     : tool.description)
         }
         crumbName={tool.name}
