@@ -240,6 +240,8 @@ function ToolPage() {
                 ? "Add Watermark to PDF Online for Free"
                 : slug === "delete-pages"
                 ? "Delete Pages from PDF Online for Free"
+                : slug === "extract-pages"
+                ? "Extract Pages from PDF Online for Free"
                 : (seo?.layoutTitle ?? tool.name)
         }
         description={
