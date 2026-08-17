@@ -1,7 +1,185 @@
 import { Link } from "@tanstack/react-router";
 import { imageTools } from "@/lib/imageTools";
 import { SITE_URL } from "@/lib/site";
-import { pngToJpgFaqJsonLd } from "@/components/imageSeoBundle";
+
+const url = `${SITE_URL}/image-tools/png-to-jpg`;
+
+export const pngToJpgSoftwareJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "PDFToolConverter PNG to JPG",
+  applicationCategory: "BrowserApplication",
+  operatingSystem: "Any",
+  url,
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.9",
+    ratingCount: "1890",
+  },
+  description:
+    "Convert PNG images to JPG online instantly in your browser. Batch convert multiple PNG files to JPEG with quality control. Free, no signup, no watermark, files never leave your device.",
+};
+
+export const pngToJpgHowToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "How to convert PNG to JPG online",
+  description: "Transform PNG images into smaller JPG files instantly in your browser.",
+  step: [
+    {
+      "@type": "HowToStep",
+      position: 1,
+      name: "Upload Your PNG Images",
+      text: "Click the 'Select images' button or drag and drop your PNG files onto the upload area.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 2,
+      name: "Set Output Quality",
+      text: "Choose the JPG output quality level using the slider (80-90% recommended).",
+    },
+    {
+      "@type": "HowToStep",
+      position: 3,
+      name: "Convert Your Images",
+      text: "Click the convert button. The tool renders each PNG on an HTML Canvas and encodes it as JPG.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 4,
+      name: "Download Your JPG Files",
+      text: "Download individual JPG files or download all converted images at once as a ZIP archive.",
+    },
+  ],
+};
+
+export const pngToJpgFaqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "How do I convert PNG to JPG for free?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Upload your PNG images using the button or drag-and-drop above. Set your quality level, convert, and download your JPG files instantly. No signup required.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Will converting PNG to JPG reduce quality?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Some quality reduction is inherent to JPG compression. At 80-90% quality, the difference is invisible in photographs. For graphics and logos, quality loss may be visible as blurring near sharp edges.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do my files get uploaded to a server?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "No. All conversion runs in your browser. Your images never leave your device.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What happens to transparent PNG backgrounds?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Transparent areas are filled with white in the JPG output because JPG does not support transparency.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How much smaller will the JPG be?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "For photographic images, JPG at 80% quality is typically 70-85% smaller than the equivalent PNG.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I convert multiple PNG files at once?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Add as many PNG files as needed and all will be converted simultaneously.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is there a file size limit?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "No. Convert PNG images of any size with no restrictions.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I convert on my phone?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. The tool works in any mobile browser on iPhone and Android.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Will the JPG look the same as the PNG?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "For photographs, yes — the difference at standard quality settings is invisible to the human eye.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What quality setting should I use?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "80-90% is ideal for web images and sharing. Use 95% for print-quality output.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I convert back to PNG from JPG?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Use our JPG to PNG tool for the reverse conversion. Note that quality lost during PNG to JPG conversion cannot be recovered.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Does this work offline?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Once the page has fully loaded, conversion works without an internet connection.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Are the output JPG files watermark-free?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. All output files are completely clean with no watermarks or branding.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I control JPG quality?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Use the quality slider to set the compression level before converting.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is this tool really free with no limits?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. No usage caps, no daily limits, no signup required, no watermarks.",
+      },
+    },
+  ],
+};
 
 const related = imageTools.filter((t) => t.slug !== "png-to-jpg").slice(0, 8);
 
@@ -92,7 +270,7 @@ export function PngToJpgSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">Frequently Asked Questions</h2>
       <dl className="mt-4 space-y-4">
-        {pngToJpgFaqJsonLd.mainEntity.map((q) => (
+        {pngToJpgFaqJsonLd.mainEntity.map((q: any) => (
           <div key={q.name}>
             <dt className="font-semibold text-[#1F2937]">{q.name}</dt>
             <dd className="mt-1 text-[#33333c]">{q.acceptedAnswer.text}</dd>
