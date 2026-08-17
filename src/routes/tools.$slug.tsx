@@ -23,8 +23,8 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Combine multiple PDF files into one document instantly in your browser. Free PDF merger with drag-and-drop reordering. No signup, no watermark, no file upload to servers.",
   },
   "compress": {
-    title: "Compress PDF Online, Reduce PDF Size Free | pdftoolconverteronline.com",
-    desc: "Compress PDF file size online free without losing quality. Secure server-side processing for high-quality shrink, files are deleted immediately after download.",
+    title: "Compress PDF Online Free — Reduce PDF Size Without Losing Quality | PDFToolConverter",
+    desc: "Compress PDF files online and reduce file size instantly in your browser. Free PDF compressor with no file size limits, no signup, no watermark. Files never leave your device.",
   },
   "split": {
     title: "Split PDF Free, Extract Page Ranges Online | pdftoolconverteronline.com",
@@ -227,7 +227,9 @@ function ToolPage() {
         description={
           slug === "merge"
             ? "Combine multiple PDFs into one organized document in seconds. Drag and drop to reorder, then download your merged file. No signup, no watermarks, and your files never leave your device."
-            : slug === "pdf-to-word"
+            : slug === "compress"
+              ? "Reduce your PDF file size instantly without losing quality. Choose your compression level and download a smaller PDF in seconds. No signup, no watermark, no file size limits."
+              : slug === "pdf-to-word"
               ? "Your file is securely uploaded to our server for processing and permanently deleted immediately after your download is complete. We never store, share, or access your files."
               : (slug === "add-blank-pages"
                 ? "Insert empty pages anywhere in your PDF — before, after, or between existing pages. Free, private, and instant. No upload, no signup, no watermark."
