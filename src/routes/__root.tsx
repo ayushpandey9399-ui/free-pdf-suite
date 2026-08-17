@@ -166,6 +166,7 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        {/* Google tag (gtag.js) */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-2DDFKP33MW"></script>
         <script
           dangerouslySetInnerHTML={{
