@@ -99,8 +99,8 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Crop PDF online free to trim white margins or cut unwanted edges from scans. Live preview shows the exact crop box before you save.",
   },
   "edit-pdf": {
-    title: "Edit PDF Text & Annotate Free Online | pdftoolconverteronline.com",
-    desc: "Edit existing PDF text, highlight, draw, and add images free in your browser. Match original style. No upload required.",
+    title: "Edit PDF Online Free — Add Text, Images & Annotations to PDF | PDFToolConverter",
+    desc: "Edit PDF online free and add text, images, or annotations to your document instantly in your browser. No signup, no watermark, files never leave your device.",
   },
   "fill-forms": {
     title: "Fill PDF Forms Online Free, No Signup | pdftoolconverteronline.com",
