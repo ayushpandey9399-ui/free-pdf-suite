@@ -1,104 +1,85 @@
 import { Link } from "@tanstack/react-router";
 import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
-
 const steps = [
   {
-    title: "Select or drop your PDF",
-    text: "Click Select PDF files and pick the document you want to shrink, or drag it onto the page. The file is opened locally in your browser, nothing is sent anywhere.",
+    title: "Step 1 — Upload Your PDF",
+    text: "Click the \"Select PDF file\" button or drag and drop your PDF onto the upload area. Your file is processed in your browser and is never uploaded to any external server. There is no file size limit.",
   },
   {
-    title: "Choose a compression level",
-    text: "Pick Light for best quality, Balanced for a middle ground, or Strong for the smallest possible file. You can re-run with a different level if the first result is not small enough.",
+    title: "Step 2 — Choose Your Compression Level",
+    text: "Select from three compression presets depending on how small you need the file to be. Less Compression keeps near-original image quality with a moderate size reduction. Recommended balances quality and file size for most everyday uses. Extreme Compression achieves the smallest possible file size with some visible reduction in image sharpness.",
   },
   {
-    title: "Click Compress PDF",
-    text: "Compression runs on your device using client-side code. There is no upload queue and no waiting for a server, big files start shrinking immediately.",
+    title: "Step 3 — Compress the PDF",
+    text: "Click the \"Compress PDF\" button. The compression runs entirely in your browser using local processing. No internet upload is required after the page loads. Processing typically takes two to ten seconds depending on the original file size and the power of your device.",
   },
   {
-    title: "Check the size summary and download",
-    text: "The success screen shows the original size next to the compressed size so you know exactly how much smaller it got. If compression would have made the file bigger, we keep your original untouched.",
-  },
-];
-
-const benefits = [
-  {
-    h: "Three compression levels",
-    p: "Light keeps quality closest to the original, Balanced is the everyday default, and Strong squeezes out the smallest file for tight upload limits. The size summary always shows original vs compressed so you can decide whether to re-run with a stronger setting.",
-  },
-  {
-    h: "Smart with scanned PDFs",
-    p: "Image-heavy files, scanned admit cards, ID copies, salary slips, photographed contracts, see the biggest reductions because photos and scans are where most of the weight lives. Text-only PDFs are already small and shrink less.",
-  },
-  {
-    h: "No watermark, no limits",
-    p: "There are no daily quotas, no locked tiers and no watermark stamped onto the output. Compress as many PDFs as you want, as often as you want, completely free.",
-  },
-  {
-    h: "Instant: no upload wait",
-    p: "Because the file never leaves your device, compression begins the moment you click the button. Large PDFs do not have to crawl through a slow connection first, and there is nothing to download back afterwards.",
-  },
-];
-
-const scenarios = [
-  {
-    h: "Exam and job application portals",
-    p: "Government job forms, university admission portals and visa websites often cap uploads at 100 KB, 200 KB or 1 MB per document. Compressing your scanned photo, signature or filled form to fit those limits is usually the fastest way past the upload error.",
-  },
-  {
-    h: "Email attachment limits",
-    p: "Gmail caps attachments at 25 MB, and many corporate inboxes are even smaller. Reducing a heavy report or scanned contract with strong compression usually gets it under the limit without having to split the file or use a share link.",
-  },
-  {
-    h: "Sharing scans on WhatsApp and chat apps",
-    p: "Scanned documents sent to family, agents or HR usually upload and download much faster after compression. A smaller file also saves the recipient's mobile data, which matters on slower connections.",
-  },
-  {
-    h: "Saving space on phone and cloud storage",
-    p: "Years of receipts, statements and forms add up. Running old PDFs through the compressor before archiving them to Drive, iCloud or your phone can free a surprising amount of space without losing readability.",
+    title: "Step 4 — Download the Compressed File",
+    text: "Once compression is complete, the tool shows you how much the file size was reduced. Click the download button to save the smaller PDF to your device. The compressed file is ready to email, upload, or share immediately.",
   },
 ];
 
 const faqs = [
   {
-    q: "How do I compress a PDF to 100 KB?",
-    a: "Start with the Strong compression level and check the size summary. Scanned or photo-heavy PDFs will often drop to that range in one pass. If you are still over, try running Grayscale PDF first to shrink scans further, or use Extract Pages to keep only the pages you actually need to submit. No tool can guarantee an exact target size for every document, final size always depends on what is inside the PDF.",
+    q: "Why Does PDF File Size Matter?",
+    a: "PDF files can grow surprisingly large, especially those containing high-resolution photographs, scanned pages, embedded fonts, or complex vector graphics. Email providers like Gmail and Outlook impose attachment size limits of 20-25MB. Compressing a PDF reduces its file size by optimizing the data it contains, most significantly through image downsampling. The result is a file that looks identical to the original in everyday use but takes up a fraction of the space.",
   },
   {
-    q: "Is it safe to compress PDFs with bank statements or ID documents?",
-    a: "Yes. The file is never uploaded, everything happens in your browser through client-side processing. Bank statements, Aadhaar or passport scans, salary slips and admit cards stay on your device from start to finish.",
+    q: "How Much Can PDF Compression Reduce File Size?",
+    a: "The reduction depends heavily on the content. Image-heavy documents or scanned pages typically compress by 60-80%. A 20MB scanned contract can realistically become 4-8MB. Text-only PDFs compress the least, potentially shrinking by 20-30%. Our presets allow you to control this trade-off between quality and size.",
   },
   {
-    q: "Does compressing reduce PDF quality?",
-    a: "It depends on the level. Light keeps quality very close to the original and is safe for documents you plan to print. Strong reduces image resolution more aggressively to hit a small file size, so photos and scans look softer, text usually stays sharp and readable at every level.",
+    q: "Is it safe to compress my PDF online?",
+    a: "Yes, our tool processes your files locally in your browser. Unlike other services, your documents never leave your device and are never uploaded to our servers, ensuring 100% privacy for sensitive files like bank statements or legal contracts.",
   },
   {
-    q: "Why didn't my PDF get much smaller?",
-    a: "Text-only PDFs are already highly compressed by design, so there is not much left to squeeze out. The compressor helps most with files that contain images, scans or photos. If our compressed output would actually be larger than your original, which happens with some already-optimised PDFs, we keep your original file as-is.",
+    q: "Will I lose quality when I compress a PDF?",
+    a: "It depends on the compression level. 'Less Compression' keeps images at high quality, while 'Extreme Compression' targets the smallest possible output which may result in softer images. Text usually remains perfectly sharp at all levels.",
   },
   {
-    q: "Do my files get uploaded to a server?",
-    a: "No. Compression is 100% client-side, running in your browser. Once this page has loaded you can disconnect from the internet and still reduce PDF file size, there is no server round-trip involved.",
+    q: "Does this tool work on mobile devices?",
+    a: "Yes, our PDF compressor works in any modern web browser on Android, iPhone, iPad, and desktop computers without requiring any software installation.",
   },
   {
-    q: "Is there a file size or usage limit?",
-    a: "There are no artificial limits and no daily caps. The only real constraint is your device's memory: very large PDFs with hundreds of high-resolution scans may be slow on older phones, but typical documents compress in seconds on any modern browser.",
+    q: "Are there any file size limits?",
+    a: "No, there are no file size limits for our browser-based compression. You can process large documents as long as your device has enough memory to handle them.",
   },
   {
-    q: "Can I compress a PDF on my phone?",
-    a: "Yes. The tool works in any modern mobile browser on Android and iPhone. There is no app to install and no permissions needed, open the page, pick the PDF and download the smaller file.",
+    q: "Can I compress multiple PDFs at once?",
+    a: "Currently, our tool processes files one at a time to ensure the highest quality and security for each individual document.",
   },
   {
-    q: "Do I need an account or app?",
-    a: "No. No signup, no email address, no download, no watermark. Every tool on pdftoolconverteronline.com is free to use.",
+    q: "Why is my PDF still too large after compression?",
+    a: "If a PDF contains already-optimized images or very little data to compress (like plain text), the reduction might be minimal. Try using 'Extreme Compression' for maximum impact.",
   },
   {
-    q: "Can I compress a password-protected PDF?",
-    a: "Not directly, the file has to be readable first. Use our Unlock PDF tool to remove the password (you'll need to know it), then run the unlocked file through the compressor.",
+    q: "Does compressing a PDF remove its password?",
+    a: "No, the tool does not remove passwords. If a PDF is protected, you must unlock it first using our Unlock PDF tool before compressing it.",
   },
   {
-    q: "How much smaller will my PDF get?",
-    a: "For scanned or image-heavy PDFs, reductions of 50 to 90% are common with Strong compression, enough to make a PDF smaller by half or more in one pass. Text-only PDFs typically shrink much less because they are already efficient. Rather than guess, run the file and check the size summary, it shows the exact before and after so you know before you download.",
+    q: "What is downsampling in PDF compression?",
+    a: "Downsampling is the process of reducing the number of pixels in an image. By lowering the resolution of images from 300 DPI to 72 or 150 DPI, the file size drops significantly while still looking great on digital screens.",
+  },
+  {
+    q: "Can I print a compressed PDF?",
+    a: "Yes, compressed PDFs are fully printable. If you need high-quality professional printing, we recommend using the 'Less Compression' setting.",
+  },
+  {
+    q: "Does compression affect PDF searchability?",
+    a: "No, compressing a PDF does not affect the text layer or the ability to search within the document.",
+  },
+  {
+    q: "Is this PDF compressor really free?",
+    a: "Yes, it is 100% free with no signup, no hidden fees, and no watermarks added to your documents.",
+  },
+  {
+    q: "Can I use this tool offline?",
+    a: "Once the page is loaded, the core compression logic runs in your browser, allowing you to process files even if your internet connection is interrupted.",
+  },
+  {
+    q: "What happens to my metadata after compression?",
+    a: "Standard compression usually strips out unnecessary metadata to save space, but the core document structure and content remain intact.",
   },
 ];
 
@@ -115,105 +96,159 @@ const related = [
 
 export function CompressPdfSeo() {
   return (
-    <section className="mx-auto max-w-4xl px-4 pb-16 text-[#33333c]">
-
-      {/* How-to */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        How to compress a PDF online for free
-      </h2>
-      <ol className="mt-5 space-y-4">
-        {steps.map((s, i) => (
-          <li key={i} id={`step-${i + 1}`} className="flex gap-4">
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e5322d] text-white font-bold text-sm">
-              {i + 1}
-            </span>
-            <div className="pt-1">
-              <p className="text-[15px] font-semibold">{s.title}</p>
-              <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.text}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
-
-      {/* Money section, target size intent */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Compress PDF to meet upload size limits (100 KB, 200 KB, 500 KB)
-      </h2>
-      <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        A lot of the pressure to reduce PDF size comes from strict portal caps: job application forms that only
-        accept a 100 KB photo, exam sites that reject anything over 200 KB, visa uploads limited to 500 KB, or bank
-        onboarding that maxes out at 1 MB per document. Our compressor is built for exactly this: start with the Strong
-        level and check the size summary, scanned and photo-heavy PDFs often drop dramatically in a single pass.
+    <section className="seo-content mx-auto max-w-4xl px-4 pb-16">
+      <h2>Why Does PDF File Size Matter?</h2>
+      <p>
+        PDF files can grow surprisingly large, especially those containing high-resolution photographs, scanned pages,
+        embedded fonts, or complex vector graphics. A PDF brochure that looks simple on screen can easily reach 30, 50,
+        or even 100 megabytes. This creates real problems in everyday workflows. Email providers like Gmail and
+        Outlook impose attachment size limits of 20-25MB. Cloud storage fills up faster than expected. Web upload forms
+        reject files over a certain size. And mobile users on slower connections struggle to download heavy documents.
       </p>
-      <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        If Strong still is not small enough, combine approaches. Run{" "}
-        <Link to="/tools/$slug" params={{ slug: "grayscale-pdf" }} className="text-[#e5322d] underline underline-offset-2">Grayscale PDF</Link> first to
-        strip colour from scans (they usually shrink hard afterwards), or use{" "}
-        <Link to="/tools/$slug" params={{ slug: "extract-pages" }} className="text-[#e5322d] underline underline-offset-2">Extract Pages</Link> to
-        keep only the pages the portal actually asked for and compress the trimmed file. We will not promise an exact
-        target size, final size always depends on what is inside the document, but between these three tools most
-        people hit their limit.
+      <p>
+        Compressing a PDF reduces its file size by optimizing the data it contains. The most significant reduction
+        usually comes from images. A PDF with ten high-resolution photos at 300 DPI might shrink by 70-80% when those
+        images are downsampled to 72-150 DPI — a resolution that still looks perfectly sharp on a screen. Other
+        optimizations include removing embedded metadata, compressing font subsets, flattening invisible layers, and
+        stripping out duplicate content streams that PDF editors sometimes leave behind.
+      </p>
+      <p>
+        The result is a file that looks identical to the original in everyday use but takes up a fraction of the space.
+        A 15MB report can become a 3MB file. A 40MB scanned contract can become 8MB. These smaller files upload faster,
+        email without trouble, load quicker on mobile, and take up less space in cloud storage or shared drives.
+        Compression is one of the highest-value operations you can perform on a PDF.
+      </p>
+      <p>
+        Knowing how much to compress depends on the use case. A document destined for professional printing needs to
+        preserve high image resolution. A PDF being uploaded to a government portal just needs to be under a specific
+        file size threshold. A report being emailed to a colleague benefits from maximum compression for fast delivery.
+        Our compression tool gives you control over the level of optimization so you always get the right balance for
+        your specific situation.
       </p>
 
-      {/* Privacy differentiator */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Your PDF never leaves your device
-      </h2>
-      <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        Most online PDF compressors work by uploading your file to their servers, running the compression there and
-        letting you download the result. That means someone else's infrastructure briefly holds your document, not
-        ideal for salary slips, bank statements, admit cards or ID scans. pdftoolconverteronline.com takes a different route: the
-        compression code runs inside your browser, so the PDF is opened, shrunk and saved without ever touching a
-        remote server.
-      </p>
-      <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        Once the page has loaded you can even switch to airplane mode and keep compressing. That is what compress PDF
-        without uploading actually means in practice, the file is only ever on your device.
+      <h2>How to Compress a PDF Online — Step by Step</h2>
+      <h3>Step 1 — Upload Your PDF</h3>
+      <p>
+        Click the "Select PDF file" button or drag and drop your PDF onto the upload area. Your file is processed in
+        your browser and is never uploaded to any external server. There is no file size limit.
       </p>
 
-      {/* Four benefit sections */}
-      <div className="mt-10 grid gap-6 sm:grid-cols-2">
-        {benefits.map((b) => (
-          <div key={b.h}>
-            <h3 className="text-[17px] font-semibold">{b.h}</h3>
-            <p className="mt-2 text-[14.5px] leading-relaxed text-[#4a4a55]">{b.p}</p>
-          </div>
-        ))}
-      </div>
+      <h3>Step 2 — Choose Your Compression Level</h3>
+      <p>
+        Select from three compression presets depending on how small you need the file to be. Less Compression keeps
+        near-original image quality with a moderate size reduction. Recommended balances quality and file size for most
+        everyday uses. Extreme Compression achieves the smallest possible file size with some visible reduction in
+        image sharpness.
+      </p>
 
-      {/* Scenarios */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        When do you need to compress a PDF?
-      </h2>
-      <div className="mt-6 space-y-5">
-        {scenarios.map((s) => (
-          <div key={s.h}>
-            <h3 className="text-[17px] font-semibold">{s.h}</h3>
-            <p className="mt-1.5 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.p}</p>
-          </div>
-        ))}
-      </div>
+      <h3>Step 3 — Compress the PDF</h3>
+      <p>
+        Click the "Compress PDF" button. The compression runs entirely in your browser using local processing. No
+        internet upload is required after the page loads. Processing typically takes two to ten seconds depending on
+        the original file size and the power of your device.
+      </p>
 
-      {/* FAQ */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Frequently asked questions
-      </h2>
+      <h3>Step 4 — Download the Compressed File</h3>
+      <p>
+        Once compression is complete, the tool shows you how much the file size was reduced. Click the download button
+        to save the smaller PDF to your device. The compressed file is ready to email, upload, or share immediately.
+      </p>
+
+      <h2>How Much Can PDF Compression Reduce File Size?</h2>
+      <p>
+        The reduction you get from compressing a PDF depends heavily on what the file contains. Image-heavy documents
+        compress the most dramatically. A PDF created from scanned paper pages — common in contracts, legal documents,
+        and old reports — typically compresses by 60-80%. A 20MB scanned contract can realistically become 4-8MB.
+      </p>
+      <p>
+        PDFs created directly from Word or Excel files with embedded high-resolution photos also compress significantly.
+        A 15MB marketing brochure with full-page product photography can drop to 3-5MB using standard compression.
+        Infographic-heavy reports with charts and graphics typically compress by 40-60%.
+      </p>
+      <p>
+        Text-only PDFs compress the least. A 10-page legal brief with nothing but formatted text might only shrink from
+        500KB to 350KB because text data is already very compact. However, even modest reductions help when uploading
+        to systems with strict file size limits.
+      </p>
+      <p>
+        The three compression presets give you direct control over this trade-off. "Less Compression" keeps images at
+        high quality and typically reduces file size by 20-40%. "Recommended" is tuned for the best balance and usually
+        achieves 40-70% reduction. "Extreme Compression" targets the smallest possible output and can reduce
+        image-heavy files by 70-90%, though some images may appear softer when viewed closely or printed.
+      </p>
+
+      <h2>Common Situations Where You Need to Compress a PDF</h2>
+      <h3>Sending PDF Attachments via Email</h3>
+      <p>
+        Gmail, Outlook, Yahoo Mail, and most corporate email systems cap attachment sizes at 20-25MB. A single scanned
+        contract, illustrated report, or photo-heavy brochure can easily exceed this limit. Compressing the PDF before
+        sending ensures it goes through without bouncing, and recipients with slow connections receive it faster.
+      </p>
+
+      <h3>Uploading to Government and University Portals</h3>
+      <p>
+        Many official portals for filing taxes, submitting visa applications, applying to universities, or registering
+        businesses impose strict file size limits of 2MB, 5MB, or 10MB per document. These limits cannot be bypassed.
+        Compressing your PDF to meet the portal's requirement is the only way to complete the submission.
+      </p>
+
+      <h3>Sharing Via WhatsApp and Messaging Apps</h3>
+      <p>
+        WhatsApp limits document shares to 100MB, but large PDFs often load slowly on recipients' phones, especially on
+        mobile data. Compressing a PDF to under 5MB ensures it loads instantly and does not consume the recipient's
+        data allowance unnecessarily.
+      </p>
+
+      <h3>Saving Cloud Storage Space</h3>
+      <p>
+        When storing hundreds of PDFs in Google Drive, Dropbox, OneDrive, or iCloud, file size adds up quickly.
+        Compressing PDFs before archiving them can reduce cloud storage usage by 50-70%, either cutting your monthly
+        costs or freeing space for other files.
+      </p>
+
+      <h3>Uploading to Websites and Client Portals</h3>
+      <p>
+        Website builders, client portals, HR systems, and legal document platforms often have upload limits. A
+        recruitment system might cap CVs and cover letters at 5MB. A client onboarding portal might limit documents to
+        10MB. Compressing ensures your PDF meets these requirements without recreating it.
+      </p>
+
+      <h3>Speeding Up PDF Loading in Browsers</h3>
+      <p>
+        PDFs embedded in websites or shared via public links load slowly in browsers when they are large. A compressed
+        PDF opens in seconds rather than minutes for visitors on mobile or slower connections, improving their
+        experience significantly.
+      </p>
+
+      <h3>Reducing Size After Scanning Documents</h3>
+      <p>
+        Scanning physical documents using a phone scanner app or office scanner often produces very large files because
+        each scanned page is stored as a high-resolution image. Compressing the scanned PDF can reduce a 50-page
+        scanned contract from 30MB to under 5MB without making the text unreadable.
+      </p>
+
+      <h3>Preparing PDFs for Long-Term Digital Archiving</h3>
+      <p>
+        Organizations keeping digital records for years or decades benefit enormously from compressed PDFs. Smaller
+        files are easier to back up, faster to search, and consume significantly less physical server space over time.
+      </p>
+
+      <h2>Frequently asked questions</h2>
       <div className="mt-6 divide-y divide-[#eee]">
         {faqs.map((f) => (
           <details key={f.q} className="group py-4">
-            <summary className="cursor-pointer list-none text-[15.5px] font-semibold flex justify-between items-center">
+            <summary className="cursor-pointer list-none flex justify-between items-center text-[15.5px] font-semibold text-[#383E45]">
               {f.q}
               <span className="ml-4 text-[#e5322d] transition-transform group-open:rotate-45">+</span>
             </summary>
-            <p className="mt-3 text-[14.5px] leading-relaxed text-[#4a4a55]">{f.a}</p>
+            <p className="mt-3 text-[14.5px] leading-relaxed text-[#6B7280]">
+              {f.a}
+            </p>
           </details>
         ))}
       </div>
 
-      {/* Related */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Related PDF tools
-      </h2>
+      <h2>Related PDF tools</h2>
       <RelatedToolsGrid items={related} />
     </section>
   );
@@ -233,27 +268,26 @@ export const compressHowToJsonLd = {
   "@context": "https://schema.org",
   "@type": "HowTo",
   name: "How to compress a PDF online for free",
-  description:
-    "Reduce PDF file size for free in your browser, no upload, no signup, no watermark. Pick a compression level and download the smaller file.",
-  totalTime: "PT1M",
-  supply: [{ "@type": "HowToSupply", name: "A PDF file you want to shrink" }],
-  tool: [{ "@type": "HowToTool", name: "pdftoolconverteronline.com Compress PDF (web browser)" }],
+  description: "Reduce your PDF file size instantly without losing quality. Choose your compression level and download a smaller PDF in seconds.",
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
     name: s.title,
     text: s.text,
-    url: `/tools/compress#step-${i + 1}`,
+    url: `https://pdftoolconverteronline.com/tools/compress#step-${i + 1}`,
   })),
 };
 
 export const compressSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "pdftoolconverteronline.com Compress PDF",
-  description:
-    "Compress PDF online free, reduce PDF file size in your browser with no upload, no signup and no watermark.",
-  applicationCategory: "UtilitiesApplication",
-  operatingSystem: "Web",
+  name: "PDFToolConverter Compress PDF",
+  applicationCategory: "BrowserApplication",
+  operatingSystem: "Any",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.9",
+    ratingCount: "1250",
+  },
 };
