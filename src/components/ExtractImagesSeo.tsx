@@ -249,19 +249,19 @@ export function ExtractImagesSeo() {
         <h2>Frequently Asked Questions About Extracting PDF Images</h2>
       </div>
 
-      <div className="mt-6 divide-y divide-[#eee]">
+      <div className="mt-8 divide-y divide-[#eee]">
         {faqs.map((f, i) => (
           <details key={i} className="group py-4">
-            <summary className="cursor-pointer list-none text-[15.5px] font-semibold flex justify-between items-center text-[#33333c]">
+            <summary>
               {f.q}
-              <span className="ml-4 text-[#e5322d] transition-transform group-open:rotate-45">+</span>
+              <span className="ml-4 text-[#e5322d] text-xl">+</span>
             </summary>
-            <p className="mt-3 text-[14.5px] leading-relaxed text-[#4a4a55]">{f.a}</p>
+            <p>{f.a}</p>
           </details>
         ))}
       </div>
 
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight text-[#33333c]">
+      <h2 className="text-center">
         Related PDF and Image Tools
       </h2>
       <RelatedToolsGrid items={extractImagesRelated} />
