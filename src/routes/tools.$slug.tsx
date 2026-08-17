@@ -6,7 +6,9 @@ import { ClientOnly } from "@/components/ClientOnly";
 import { getTool, categoryTint } from "@/tools/registry";
 import { SITE_URL } from "@/lib/site";
 import { breadcrumbJsonLd, normalizeToolJsonLd } from "@/lib/seoSchema";
+import { cn } from "@/lib/utils";
 import { TOOL_SEO } from "@/components/toolSeoBundle";
+
 
 const OG_IMAGE = `${SITE_URL}/og-cover.png`;
 
@@ -281,13 +283,18 @@ function ToolPage() {
         icon={tool.icon}
         tint={categoryTint[tool.category]}
       >
-        <ClientOnly fallback={fallback}>
-          <Suspense fallback={fallback}>
-            <Comp />
-          </Suspense>
-        </ClientOnly>
+        <div className={cn("mt-10", slug === "merge" && "relative z-10")}>
+          <ClientOnly fallback={fallback}>
+            <Suspense fallback={fallback}>
+              <Comp />
+            </Suspense>
+          </ClientOnly>
+        </div>
       </ToolLayout>
-      {seo?.content}
+      <div className={cn(slug === "merge" && "bg-white relative z-0 -mt-16 pt-16 border-t border-[#ececec]")}>
+        {seo?.content}
+      </div>
+
       {seo?.jsonLd.map((v, i) => (
         <script
           key={i}
