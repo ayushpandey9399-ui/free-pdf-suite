@@ -177,7 +177,7 @@ export function PdfMetadataSeo() {
       {/* Definition FIRST */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         What is PDF metadata?
-      </h3>
+      </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         Every PDF quietly carries a small file of information about
         itself: a Title, an Author name, the software that produced
@@ -200,7 +200,7 @@ export function PdfMetadataSeo() {
       {/* How-to */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         How to edit PDF metadata online for free
-      </h3>
+      </h2>
       <ol className="mt-5 space-y-4">
         {steps.map((s, i) => (
           <li key={i} id={`step-${i + 1}`} className="flex gap-4">
@@ -218,7 +218,7 @@ export function PdfMetadataSeo() {
       {/* Privacy section */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Check what your PDF is telling people about you
-      </h3>
+      </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         Before you attach a resume, a proposal or a tender document,
         it is worth looking at what is riding along inside the file.
@@ -238,7 +238,7 @@ export function PdfMetadataSeo() {
       {/* Browser-tab title section */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Fix titles that look broken in browsers
-      </h3>
+      </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         When a PDF opens in a browser tab, the tab does not show the
         filename, it shows the metadata Title. That is why official
@@ -256,7 +256,7 @@ export function PdfMetadataSeo() {
       {/* 30-second sanity check */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         A 30-second sanity check before every external send
-      </h3>
+      </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         Metadata leaks are almost always accidental, someone reused a template and never looked
         at the Author, or exported a client draft with the internal project code sitting in the
@@ -280,7 +280,7 @@ export function PdfMetadataSeo() {
       <div className="mt-10 grid gap-6 sm:grid-cols-2">
         {benefits.map((b) => (
           <div key={b.h}>
-            <h4 className="text-[17px] font-semibold">{b.h}</h3>
+            <h3 className="text-[17px] font-semibold">{b.h}</h2>
             <p className="mt-2 text-[14.5px] leading-relaxed text-[#4a4a55]">{b.p}</p>
           </div>
         ))}
@@ -289,11 +289,11 @@ export function PdfMetadataSeo() {
       {/* Scenarios */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         When do you need to edit PDF metadata?
-      </h3>
+      </h2>
       <div className="mt-6 space-y-5">
         {scenarios.map((s) => (
           <div key={s.h}>
-            <h4 className="text-[17px] font-semibold">{s.h}</h3>
+            <h3 className="text-[17px] font-semibold">{s.h}</h2>
             <p className="mt-1.5 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.p}</p>
           </div>
         ))}
@@ -302,7 +302,7 @@ export function PdfMetadataSeo() {
       {/* FAQ */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Frequently asked questions
-      </h3>
+      </h2>
       <div className="mt-6 divide-y divide-[#eee]">
         {faqs.map((f) => (
           <details key={f.q} className="group py-4">
@@ -318,7 +318,7 @@ export function PdfMetadataSeo() {
       {/* Related */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Related PDF tools
-      </h3>
+      </h2>
       <RelatedToolsGrid items={related} />
     </section>
   );

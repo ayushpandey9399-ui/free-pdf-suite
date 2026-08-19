@@ -170,7 +170,7 @@ export function MemeGeneratorSeo() {
     <section className="mx-auto mt-16 max-w-3xl text-[15px] leading-[1.75] text-[#33333c]">
       <h2 className="mb-3 text-[24px] font-bold text-[#1F2937]">
         How to make a meme online, free
-      </h3>
+      </h2>
       <p>
         Making a meme should take fifteen seconds, not fifteen minutes. Open
         this page, drop in a photo, type your top and bottom text, and press
@@ -192,7 +192,7 @@ export function MemeGeneratorSeo() {
 
       <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">
         No watermark, ever
-      </h3>
+      </h2>
       <p>
         This is the differentiator. Almost every free meme maker on the web
         stamps a logo, a URL, or a footer bar on the finished meme, then locks
@@ -205,7 +205,7 @@ export function MemeGeneratorSeo() {
 
       <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">
         Use your own photo, privately
-      </h3>
+      </h2>
       <p>
         Because the whole meme generator runs in your browser, you can use
         pictures of family, coworkers, chat screenshots, or anything you would
@@ -218,7 +218,7 @@ export function MemeGeneratorSeo() {
 
       <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">
         Classic top and bottom text
-      </h3>
+      </h2>
       <p>
         The bold uppercase style that made memes famous originally used the
         Impact typeface. Impact is proprietary, so we cannot legally ship it.
@@ -236,7 +236,7 @@ export function MemeGeneratorSeo() {
 
       <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">
         Add extra captions anywhere
-      </h3>
+      </h2>
       <p>
         Not every meme is a two-liner. Reaction images, four-panel jokes, and
         object-labeling memes need more text in more places. Click Add text to
@@ -249,7 +249,7 @@ export function MemeGeneratorSeo() {
 
       <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">
         Caption bar style
-      </h3>
+      </h2>
       <p>
         The modern Twitter and Reddit meme style uses a white bar above the
         image with black text, instead of stamping white text on top of the
@@ -261,7 +261,7 @@ export function MemeGeneratorSeo() {
 
       <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">
         Export as JPG or PNG
-      </h3>
+      </h2>
       <p>
         Pick JPG for smaller files that upload quickly to WhatsApp, Instagram,
         Twitter, or Discord. Pick PNG when you want the sharpest possible text
@@ -281,7 +281,7 @@ export function MemeGeneratorSeo() {
 
       <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">
         Stickers, overlays, and multi-panel collages
-      </h3>
+      </h2>
       <p>
         Modern memes are not always plain text on a photo. Open the emoji
         picker to drop any of 60 popular emojis (faces, hands, hearts, symbols,
@@ -302,7 +302,7 @@ export function MemeGeneratorSeo() {
 
       <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">
         Works on Windows, Mac, Android, and iPhone
-      </h3>
+      </h2>
       <p>
 
 
@@ -315,11 +315,11 @@ export function MemeGeneratorSeo() {
 
       <h2 className="mt-10 mb-4 text-[22px] font-bold text-[#1F2937]">
         Frequently asked questions
-      </h3>
+      </h2>
       <div className="space-y-4">
         {(memeGeneratorFaqJsonLd.mainEntity as Array<{ name: string; acceptedAnswer: { text: string } }>).map((q) => (
           <div key={q.name}>
-            <h4 className="text-[16px] font-semibold text-[#1F2937]">{q.name}</h3>
+            <h3 className="text-[16px] font-semibold text-[#1F2937]">{q.name}</h2>
             <p className="mt-1 text-[14px] text-[#4B5563]">{q.acceptedAnswer.text}</p>
           </div>
         ))}

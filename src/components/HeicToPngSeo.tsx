@@ -150,7 +150,7 @@ export function HeicToPngSeo() {
     <section className="mx-auto mt-16 max-w-3xl px-4 text-[15px] leading-relaxed text-[#33333c]">
       <h2 className="text-[24px] font-bold text-[#1F2937]">
         HEIC to PNG, converted in your browser
-      </h3>
+      </h2>
       <p className="mt-3">
         Your iPhone saves photos as HEIC, and Windows 11, Windows 10, and most
         online editors still cannot open the format. This free HEIC to PNG
@@ -167,7 +167,7 @@ export function HeicToPngSeo() {
 
       <h2 id="how-to" className="mt-10 text-[22px] font-bold text-[#1F2937]">
         How to convert HEIC to PNG
-      </h3>
+      </h2>
       <ol className="mt-3 list-decimal space-y-2 pl-5">
         <li id="step-1">Open the HEIC to PNG tool, no signup needed.</li>
         <li id="step-2">
@@ -183,7 +183,7 @@ export function HeicToPngSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Why iPhone photos are HEIC and won't open on Windows
-      </h3>
+      </h2>
       <p className="mt-3">
         Since iOS 11, iPhones store camera photos as HEIC, a container built
         on the HEVC video codec. HEIC files are roughly half the size of an
@@ -202,7 +202,7 @@ export function HeicToPngSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         HEIC to PNG in bulk
-      </h3>
+      </h2>
       <p className="mt-3">
         Vacations and camera rolls are never a single file. Select as many
         HEIC photos as you like, or drop a whole folder, and every image is
@@ -214,7 +214,7 @@ export function HeicToPngSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         PNG vs JPG: which should you choose
-      </h3>
+      </h2>
       <p className="mt-3">
         PNG is a lossless format. Every pixel of the decoded HEIC is written
         out exactly, with no additional compression artifacts. That makes PNG
@@ -240,7 +240,7 @@ export function HeicToPngSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Your photos never leave your device
-      </h3>
+      </h2>
       <p className="mt-3">
         Photos are personal. They carry faces, locations, timestamps, and
         camera serial numbers. Most online HEIC converters upload every file
@@ -253,7 +253,7 @@ export function HeicToPngSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         How to stop your iPhone from saving HEIC
-      </h3>
+      </h2>
       <p className="mt-3">
         If you would rather your iPhone save universally compatible files
         directly, open <strong>Settings &gt; Camera &gt; Formats</strong> and
@@ -265,7 +265,7 @@ export function HeicToPngSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Works on Windows, Mac, Android, and iPhone
-      </h3>
+      </h2>
       <p className="mt-3">
         Because the converter is a web page, it runs anywhere a modern
         browser runs: Windows 10, Windows 11, macOS, Chromebook, Linux,
@@ -276,7 +276,7 @@ export function HeicToPngSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Frequently asked questions
-      </h3>
+      </h2>
       <dl className="mt-4 space-y-4">
         {heicToPngFaqJsonLd.mainEntity.map((q) => (
           <div key={q.name}>
@@ -288,7 +288,7 @@ export function HeicToPngSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         More image tools
-      </h3>
+      </h2>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         {related.map((t) =>
           t.status === "live" ? (

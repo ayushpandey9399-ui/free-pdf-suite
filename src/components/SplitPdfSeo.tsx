@@ -98,7 +98,7 @@ export function SplitPdfSeo() {
   return (
     <section className="mx-auto max-w-4xl px-4 pb-16 seo-content">
       {/* Section A */}
-      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Why Would You Need to Split a PDF File?</h3>
+      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Why Would You Need to Split a PDF File?</h2>
       <p className="mt-4 text-base leading-relaxed text-[#383E45]">
         PDF files are designed to bundle information together, which is ideal for sharing but creates problems when you only need part of a document. A 200-page annual report might contain separate chapters for different departments, each needing to be distributed individually. A scanned booklet might have multiple independent forms on different pages. A legal contract might need specific sections extracted for review without sharing the entire document. Splitting a PDF solves all of these problems instantly.
       </p>
@@ -113,7 +113,7 @@ export function SplitPdfSeo() {
       </p>
 
       {/* Section B - How-to */}
-      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">How to Split a PDF Online — Step by Step</h3>
+      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">How to Split a PDF Online — Step by Step</h2>
       <ol className="mt-5 space-y-4">
         {steps.map((s, i) => (
           <li key={i} id={`step-${i + 1}`} className="flex gap-4">
@@ -121,7 +121,7 @@ export function SplitPdfSeo() {
               {i + 1}
             </span>
             <div className="pt-1">
-              <h4 className="text-lg font-semibold text-[#383E45]">{s.title}</h3>
+              <h3 className="text-lg font-semibold text-[#383E45]">{s.title}</h2>
               <p className="mt-1 text-base leading-relaxed text-[#383E45]">{s.text}</p>
             </div>
           </li>
@@ -129,59 +129,59 @@ export function SplitPdfSeo() {
       </ol>
 
       {/* Section C */}
-      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Three Ways to Split a PDF</h3>
-      <h4 className="mt-6 text-lg font-semibold text-[#383E45]">Split by Page Range</h3>
+      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Three Ways to Split a PDF</h2>
+      <h3 className="mt-6 text-lg font-semibold text-[#383E45]">Split by Page Range</h2>
       <p className="mt-2 text-base leading-relaxed text-[#383E45]">
         This is the most common split method. You define specific page ranges and each range becomes a separate PDF file. For example, a 30-page document can be split into three 10-page files, or into unequal sections such as pages 1-5, 6-22, and 23-30 based on where chapters or sections begin and end. This method is ideal for splitting long reports, books, and multi-section documents.
       </p>
-      <h4 className="mt-6 text-lg font-semibold text-[#383E45]">Extract Every Page as a Separate PDF</h3>
+      <h3 className="mt-6 text-lg font-semibold text-[#383E45]">Extract Every Page as a Separate PDF</h2>
       <p className="mt-2 text-base leading-relaxed text-[#383E45]">
         This method creates one individual PDF file for every single page in the document. A 20-page document produces 20 separate one-page PDFs. This is useful when each page is an independent document (such as individual invoices, certificates, or forms) that needs to be distributed or filed separately.
       </p>
-      <h4 className="mt-6 text-lg font-semibold text-[#383E45]">Extract Specific Pages</h3>
+      <h3 className="mt-6 text-lg font-semibold text-[#383E45]">Extract Specific Pages</h2>
       <p className="mt-2 text-base leading-relaxed text-[#383E45]">
         Select individual pages from anywhere in the document and save them as a new PDF. Unlike range-based splitting which requires consecutive pages, this method lets you pick pages 2, 7, 15, and 22 from a 30-page document and combine them into one new file. This is ideal for extracting highlighted sections, relevant exhibits, or specific records from a larger archive.
       </p>
 
       {/* Section D */}
-      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Common Scenarios for Splitting PDF Files</h3>
+      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Common Scenarios for Splitting PDF Files</h2>
       <div className="mt-6 space-y-6">
         <div>
-          <h4 className="text-lg font-semibold text-[#383E45]">Split a Large Report Into Chapters</h3>
+          <h3 className="text-lg font-semibold text-[#383E45]">Split a Large Report Into Chapters</h2>
           <p className="mt-1.5 text-base leading-relaxed text-[#383E45]">Annual reports, research papers, and technical manuals are often distributed as single large PDFs but contain clearly defined chapters or sections. Splitting by chapter page ranges creates separate files that individual team members or departments can receive without accessing unrelated sections.</p>
         </div>
         <div>
-          <h4 className="text-lg font-semibold text-[#383E45]">Extract Individual Invoices from a Batch PDF</h3>
+          <h3 className="text-lg font-semibold text-[#383E45]">Extract Individual Invoices from a Batch PDF</h2>
           <p className="mt-1.5 text-base leading-relaxed text-[#383E45]">Accounting software often exports monthly invoices as a single multi-page PDF. Splitting each invoice into its own file makes it easy to email individual invoices to clients, file them by customer name, or attach specific invoices to expense reports.</p>
         </div>
         <div>
-          <h4 className="text-lg font-semibold text-[#383E45]">Separate Pages Before Distributing to Recipients</h3>
+          <h3 className="text-lg font-semibold text-[#383E45]">Separate Pages Before Distributing to Recipients</h2>
           <p className="mt-1.5 text-base leading-relaxed text-[#383E45]">When a document contains information for multiple recipients — for example, a HR onboarding packet with different forms for different employees — splitting by recipient section ensures each person receives only the pages relevant to them.</p>
         </div>
         <div>
-          <h4 className="text-lg font-semibold text-[#383E45]">Split Scanned Documents Into Individual Forms</h3>
+          <h3 className="text-lg font-semibold text-[#383E45]">Split Scanned Documents Into Individual Forms</h2>
           <p className="mt-1.5 text-base leading-relaxed text-[#383E45]">Scanning a stack of paper forms in one go produces a single multi-page PDF. Splitting each form onto its own PDF file creates properly organized digital records that can be named, filed, and retrieved individually.</p>
         </div>
         <div>
-          <h4 className="text-lg font-semibold text-[#383E45]">Reduce File Size for Upload Limits</h3>
+          <h3 className="text-lg font-semibold text-[#383E45]">Reduce File Size for Upload Limits</h2>
           <p className="mt-1.5 text-base leading-relaxed text-[#383E45]">When a PDF is too large to upload to a portal, splitting it into smaller sections and uploading each separately is often the simplest solution. Split a 50-page document into five 10-page sections and upload them as separate attachments.</p>
         </div>
         <div>
-          <h4 className="text-lg font-semibold text-[#383E45]">Extract Evidence or Exhibits for Legal Filings</h3>
+          <h3 className="text-lg font-semibold text-[#383E45]">Extract Evidence or Exhibits for Legal Filings</h2>
           <p className="mt-1.5 text-base leading-relaxed text-[#383E45]">Legal professionals regularly need to extract specific pages, exhibits, or appendices from long case files. Splitting lets them pull out exactly the pages needed for a specific motion, filing, or presentation without sharing the entire confidential file.</p>
         </div>
         <div>
-          <h4 className="text-lg font-semibold text-[#383E45]">Create Chapter Previews or Samples</h3>
+          <h3 className="text-lg font-semibold text-[#383E45]">Create Chapter Previews or Samples</h2>
           <p className="mt-1.5 text-base leading-relaxed text-[#383E45]">Publishers and content creators can split a full e-book or guide PDF to create free sample chapters. Extract the first chapter or introduction as a standalone PDF to share as a preview while keeping the rest of the document private.</p>
         </div>
         <div>
-          <h4 className="text-lg font-semibold text-[#383E45]">Organize Scanned Archives by Topic</h3>
+          <h3 className="text-lg font-semibold text-[#383E45]">Organize Scanned Archives by Topic</h2>
           <p className="mt-1.5 text-base leading-relaxed text-[#383E45]">Large scanned archives of historical records, medical files, or project documentation can be split into topic-based sections for easier navigation. Instead of scrolling through 300 pages to find one record, split the archive once and retrieve individual sections instantly.</p>
         </div>
       </div>
 
       {/* Section E - Comparison */}
-      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Browser-Based vs Server-Based PDF Splitting</h3>
+      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Browser-Based vs Server-Based PDF Splitting</h2>
       <div className="mt-6 overflow-x-auto">
         <table className="w-full border-collapse border border-[#eee] text-base">
           <thead>
@@ -242,32 +242,32 @@ export function SplitPdfSeo() {
       </div>
 
       {/* Section F - Tips */}
-      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Tips for Splitting PDFs Effectively</h3>
+      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Tips for Splitting PDFs Effectively</h2>
       <div className="mt-6 space-y-6">
         <div>
-          <h4 className="text-lg font-semibold text-[#383E45]">Know Your Page Numbers Before Splitting</h3>
+          <h3 className="text-lg font-semibold text-[#383E45]">Know Your Page Numbers Before Splitting</h2>
           <p className="mt-2 text-base leading-relaxed text-[#383E45]">Open the PDF in your browser and note the exact page numbers of each section you want to extract. PDF page numbers shown in the document header may differ from the actual PDF page order if the document has a cover page, table of contents, or front matter.</p>
         </div>
         <div>
-          <h4 className="text-lg font-semibold text-[#383E45]">Compress After Splitting</h3>
+          <h3 className="text-lg font-semibold text-[#383E45]">Compress After Splitting</h2>
           <p className="mt-2 text-base leading-relaxed text-[#383E45]">If the extracted pages still produce large files (because they contain high-resolution images), run each split PDF through our <Link to="/tools/$slug" params={{ slug: "compress" }} className="text-[#E5322D] hover:underline">Compress PDF tool</Link> to reduce file size further before sharing.</p>
         </div>
         <div>
-          <h4 className="text-lg font-semibold text-[#383E45]">Merge Specific Pages Before Splitting</h3>
+          <h3 className="text-lg font-semibold text-[#383E45]">Merge Specific Pages Before Splitting</h2>
           <p className="mt-2 text-base leading-relaxed text-[#383E45]">If you need pages from different parts of the document combined into one new file (for example, the introduction plus the conclusion), use our <Link to="/tools/$slug" params={{ slug: "extract-pages" }} className="text-[#E5322D] hover:underline">Extract Pages tool</Link> to pull those pages out first, then if needed merge them with other content.</p>
         </div>
         <div>
-          <h4 className="text-lg font-semibold text-[#383E45]">Use Delete Pages for Simple Trimming</h3>
+          <h3 className="text-lg font-semibold text-[#383E45]">Use Delete Pages for Simple Trimming</h2>
           <p className="mt-2 text-base leading-relaxed text-[#383E45]">If you only need to remove a few pages from a document rather than splitting it into multiple files, our <Link to="/tools/$slug" params={{ slug: "delete-pages" }} className="text-[#E5322D] hover:underline">Delete Pages tool</Link> is faster. Upload the PDF, select the pages to remove, and download the trimmed version as a single file.</p>
         </div>
         <div>
-          <h4 className="text-lg font-semibold text-[#383E45]">Rename Output Files Immediately</h3>
+          <h3 className="text-lg font-semibold text-[#383E45]">Rename Output Files Immediately</h2>
           <p className="mt-2 text-base leading-relaxed text-[#383E45]">Split PDFs are usually named generically. Rename each output file with a descriptive name immediately after downloading so you can find and share the right file without confusion later.</p>
         </div>
       </div>
 
       {/* FAQ */}
-      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Frequently Asked Questions About Splitting PDFs</h3>
+      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Frequently Asked Questions About Splitting PDFs</h2>
       <div className="mt-6 divide-y divide-[#eee]">
         {faqs.map((f, i) => (
           <details key={i} className="group py-4">
@@ -281,7 +281,7 @@ export function SplitPdfSeo() {
       </div>
 
       {/* Related */}
-      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Related PDF Tools</h3>
+      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Related PDF Tools</h2>
       <RelatedToolsGrid items={related} />
     </section>
   );

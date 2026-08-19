@@ -150,7 +150,7 @@ export function WebpToPngSeo() {
     <section className="mx-auto mt-16 max-w-3xl px-4 text-[15px] leading-relaxed text-[#33333c]">
       <h2 className="text-[24px] font-bold text-[#1F2937]">
         WebP to PNG, converted in your browser
-      </h3>
+      </h2>
       <p className="mt-3">
         You downloaded an image from a website or Google Images and got
         a .webp file that half of your apps refuse to open. This free
@@ -170,7 +170,7 @@ export function WebpToPngSeo() {
 
       <h2 id="how-to" className="mt-10 text-[22px] font-bold text-[#1F2937]">
         How to convert WebP to PNG
-      </h3>
+      </h2>
       <ol className="mt-3 list-decimal space-y-2 pl-5">
         <li id="step-1">Open the WebP to PNG tool, no signup needed.</li>
         <li id="step-2">Drag and drop your .webp files, or click to select them.</li>
@@ -186,7 +186,7 @@ export function WebpToPngSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Why your downloaded images are WebP and won't open
-      </h3>
+      </h2>
       <p className="mt-3">
         WebP is Google's modern image format for the web. It compresses
         images more efficiently than PNG or JPG, so Chrome, Edge, and
@@ -202,7 +202,7 @@ export function WebpToPngSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Why convert WebP to PNG
-      </h3>
+      </h2>
       <p className="mt-3">
         PNG has three properties that make it the safer archival format
         for graphics: it is lossless, so converting will not degrade the
@@ -217,7 +217,7 @@ export function WebpToPngSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Transparency is preserved
-      </h3>
+      </h2>
       <p className="mt-3">
         This is the key difference between converting WebP to PNG and
         converting WebP to JPG. JPG cannot store transparency at all,
@@ -245,7 +245,7 @@ export function WebpToPngSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         WebP vs PNG: what is the difference
-      </h3>
+      </h2>
       <ul className="mt-3 list-disc space-y-2 pl-5">
         <li>
           <strong>Compression.</strong> WebP is newer and typically
@@ -276,7 +276,7 @@ export function WebpToPngSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Convert WebP to PNG in bulk
-      </h3>
+      </h2>
       <p className="mt-3">
         Batch conversion is built in. Select as many WebP files as you
         like, or drop a whole folder onto the drop zone, and every
@@ -289,7 +289,7 @@ export function WebpToPngSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Save WebP as PNG without losing quality
-      </h3>
+      </h2>
       <p className="mt-3">
         Because PNG is a lossless format, the converter will not
         discard any pixels during encoding. If the source WebP was
@@ -303,7 +303,7 @@ export function WebpToPngSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Your images never leave your device
-      </h3>
+      </h2>
       <p className="mt-3">
         Most online WebP to PNG converters upload every image to a
         stranger's server, hold it for hours or days, and quietly log
@@ -316,7 +316,7 @@ export function WebpToPngSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Works on Windows, Mac, Android, and iPhone
-      </h3>
+      </h2>
       <p className="mt-3">
         Because the converter is a web page, it runs anywhere a modern
         browser runs: Windows 10, Windows 11, macOS, Chromebook,
@@ -327,7 +327,7 @@ export function WebpToPngSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Frequently asked questions
-      </h3>
+      </h2>
       <dl className="mt-4 space-y-4">
         {webpToPngFaqJsonLd.mainEntity.map((q) => (
           <div key={q.name}>
@@ -339,7 +339,7 @@ export function WebpToPngSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         More image tools
-      </h3>
+      </h2>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         {related.map((t) =>
           t.status === "live" ? (

@@ -157,7 +157,7 @@ export function PdfToTextSeo() {
       {/* How-to */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         How to extract text from a PDF online for free
-      </h3>
+      </h2>
       <ol className="mt-5 space-y-4">
         {steps.map((s, i) => (
           <li key={i} id={`step-${i + 1}`} className="flex gap-4">
@@ -175,7 +175,7 @@ export function PdfToTextSeo() {
       {/* Get clean text */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Get clean, copyable text out of any PDF
-      </h3>
+      </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         PDF is a great format for reading and printing but a stubborn one for
         reuse. Selecting a passage in a PDF viewer and pasting it into a
@@ -198,7 +198,7 @@ export function PdfToTextSeo() {
       {/* Honest OCR note */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         An honest note about scanned PDFs
-      </h3>
+      </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         This tool extracts the text <em>layer</em> of a PDF. If your PDF is a
         scan, pages that are really just photographs of paper wrapped in a
@@ -221,7 +221,7 @@ export function PdfToTextSeo() {
       <div className="mt-10 grid gap-6 sm:grid-cols-2">
         {benefits.map((b) => (
           <div key={b.h}>
-            <h4 className="text-[17px] font-semibold">{b.h}</h3>
+            <h3 className="text-[17px] font-semibold">{b.h}</h2>
             <p className="mt-2 text-[14.5px] leading-relaxed text-[#4a4a55]">{b.p}</p>
           </div>
         ))}
@@ -230,11 +230,11 @@ export function PdfToTextSeo() {
       {/* Scenarios */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         When do you need to extract text from a PDF?
-      </h3>
+      </h2>
       <div className="mt-6 space-y-5">
         {scenarios.map((s) => (
           <div key={s.h}>
-            <h4 className="text-[17px] font-semibold">{s.h}</h3>
+            <h3 className="text-[17px] font-semibold">{s.h}</h2>
             <p className="mt-1.5 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.p}</p>
           </div>
         ))}
@@ -243,7 +243,7 @@ export function PdfToTextSeo() {
       {/* FAQ */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Frequently asked questions
-      </h3>
+      </h2>
       <div className="mt-6 divide-y divide-[#eee]">
         {faqs.map((f) => (
           <details key={f.q} className="group py-4">
@@ -259,7 +259,7 @@ export function PdfToTextSeo() {
       {/* Related */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Related PDF tools
-      </h3>
+      </h2>
       <RelatedToolsGrid items={related} />
     </section>
   );

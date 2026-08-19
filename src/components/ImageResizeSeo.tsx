@@ -150,7 +150,7 @@ export function ImageResizeSeo() {
     <section className="mx-auto mt-16 max-w-3xl px-4 text-[15px] leading-relaxed text-[#33333c]">
       <h2 className="text-[24px] font-bold text-[#1F2937]">
         Resize images online, free
-      </h3>
+      </h2>
       <p className="mt-3">
         Resize an image to fit a form, a website hero, a WhatsApp
         share, a job portal upload, or a school exam application. This
@@ -171,7 +171,7 @@ export function ImageResizeSeo() {
 
       <h2 id="how-to" className="mt-10 text-[22px] font-bold text-[#1F2937]">
         How to resize an image
-      </h3>
+      </h2>
       <ol className="mt-3 list-decimal space-y-2 pl-5">
         <li id="step-1">Open the Resize Image tool, no signup needed.</li>
         <li id="step-2">
@@ -191,7 +191,7 @@ export function ImageResizeSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Resize an image to exact pixels for online forms
-      </h3>
+      </h2>
       <p className="mt-3">
         Government portals, exam applications, banking KYC uploads,
         and job sites almost always ask for a specific pixel size. The
@@ -208,7 +208,7 @@ export function ImageResizeSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Resize to a target file size in KB
-      </h3>
+      </h2>
       <p className="mt-3">
         Many forms are strict about file size on top of pixel size,
         for example "photo under 100 KB" or "signature under 20 KB".
@@ -223,7 +223,7 @@ export function ImageResizeSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Resize without losing quality
-      </h3>
+      </h2>
       <p className="mt-3">
         Downscaling is friendly to quality: this resizer halves the
         image in steps and uses high quality smoothing, so text stays
@@ -240,7 +240,7 @@ export function ImageResizeSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Resize JPG, PNG, and WebP
-      </h3>
+      </h2>
       <p className="mt-3">
         Each file keeps its original format on output, which matters
         for transparency and file size. PNG and WebP preserve the
@@ -261,7 +261,7 @@ export function ImageResizeSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Resize images in bulk
-      </h3>
+      </h2>
       <p className="mt-3">
         Batch resize is built in. Drop a whole folder of images, pick
         one pixel target or one percent value, and every file is
@@ -275,7 +275,7 @@ export function ImageResizeSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Your images never leave your device
-      </h3>
+      </h2>
       <p className="mt-3">
         Most online image resizers upload every photo to a stranger's
         server, hold it for hours or days, and log the filename. This
@@ -289,7 +289,7 @@ export function ImageResizeSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Works on Windows, Mac, Android, and iPhone
-      </h3>
+      </h2>
       <p className="mt-3">
         Because the resizer is a web page, it runs anywhere a modern
         browser runs: Windows 10, Windows 11, macOS, Chromebook,
@@ -301,7 +301,7 @@ export function ImageResizeSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Frequently asked questions
-      </h3>
+      </h2>
       <dl className="mt-4 space-y-4">
         {imageResizeFaqJsonLd.mainEntity.map((q) => (
           <div key={q.name}>
@@ -313,7 +313,7 @@ export function ImageResizeSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         More image tools
-      </h3>
+      </h2>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         {related.map((t) =>
           t.status === "live" ? (
