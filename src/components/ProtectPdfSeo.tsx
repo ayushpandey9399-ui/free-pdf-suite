@@ -97,7 +97,7 @@ const related = [
 export function ProtectPdfSeo() {
   return (
     <section className="mx-auto max-w-4xl px-4 pb-16 seo-content">
-      <h3>Why Should You Password Protect a PDF?</h4>
+      <h2>Why Should You Password Protect a PDF?</h3>
       <p>
         When you share a PDF document, you lose control over who can access it. An email forwarded to the wrong person, a shared drive with incorrect permissions, or a downloaded file on a borrowed device can all expose sensitive information to unintended readers. Password protecting a PDF adds a layer of security that ensures only people who know the password can open and read the file. Without the correct password, the document appears as unreadable encrypted data.
       </p>
@@ -111,7 +111,7 @@ export function ProtectPdfSeo() {
         PDF password protection using AES encryption is extremely strong. AES-256 encryption — the standard used by governments and banks — makes brute-force attacks computationally impossible with today's technology. A well-chosen password combined with AES encryption provides military-grade document security without requiring any special software or technical knowledge.
       </p>
 
-      <h3>How to Password Protect a PDF Online — Step by Step</h4>
+      <h2>How to Password Protect a PDF Online — Step by Step</h3>
       <div className="space-y-6">
         {steps.map((s, i) => (
           <div key={i} className="flex gap-4">
@@ -119,14 +119,14 @@ export function ProtectPdfSeo() {
               {i + 1}
             </div>
             <div>
-              <h4 className="text-lg font-semibold mb-1">{s.title}</h4>
+              <h4 className="text-lg font-semibold mb-1">{s.title}</h3>
               <p className="text-gray-600 leading-relaxed">{s.text}</p>
             </div>
           </div>
         ))}
       </div>
 
-      <h3>Understanding PDF Encryption — AES-128 vs AES-256</h4>
+      <h2>Understanding PDF Encryption — AES-128 vs AES-256</h3>
       <p>
         PDF password protection works by encrypting the file contents using the AES (Advanced Encryption Standard) algorithm. Encryption scrambles the document data into an unreadable format that can only be decoded with the correct password. Without the right password, the file contents are mathematically impossible to read — not just difficult, but computationally infeasible.
       </p>
@@ -140,51 +140,51 @@ export function ProtectPdfSeo() {
         The strength of encryption also depends on the password itself. A 4-digit PIN provides very weak protection regardless of the encryption standard because it can be guessed in seconds. A 12-character password combining letters, numbers, and symbols makes the encryption essentially unbreakable. Always use a strong, unique password for important documents.
       </p>
 
-      <h3>Common Scenarios Where PDF Password Protection Is Essential</h4>
-      <h3>Sharing Financial Documents</h4>
+      <h2>Common Scenarios Where PDF Password Protection Is Essential</h3>
+      <h2>Sharing Financial Documents</h3>
       <p>
         Tax returns, salary slips, bank statements, investment portfolios, and financial projections should always be password protected before sharing via email or messaging apps. Financial information in an unprotected PDF is accessible to anyone who intercepts the file.
       </p>
-      <h3>Sending Legal Contracts and Agreements</h4>
+      <h2>Sending Legal Contracts and Agreements</h3>
       <p>
         Contracts, NDAs, settlement agreements, and legal opinions contain sensitive information about parties and terms. Password protecting them ensures that only the intended signatory can access the document, not anyone else on the email chain or shared drive.
       </p>
-      <h3>Distributing Confidential Business Reports</h4>
+      <h2>Distributing Confidential Business Reports</h3>
       <p>
         Internal financial reports, strategic plans, acquisition documents, and board meeting materials should be encrypted before distribution, even to trusted employees. Password protection limits access to authorized readers and reduces the risk of leaks.
       </p>
-      <h3>Protecting Personal Identification Documents</h4>
+      <h2>Protecting Personal Identification Documents</h3>
       <p>
         Scans of passports, driving licenses, national IDs, and birth certificates are frequently required for applications and verifications. Sending these as unprotected PDFs exposes your personal details to anyone who might see the email. Always encrypt identity documents before sharing them online.
       </p>
-      <h3>Securing Medical Records</h4>
+      <h2>Securing Medical Records</h3>
       <p>
         Medical history, prescriptions, test results, insurance claims, and hospital discharge summaries contain highly sensitive personal health information. Encrypting these documents before sharing with doctors, insurers, or family members protects your medical privacy.
       </p>
-      <h3>Protecting Academic Work Before Submission</h4>
+      <h2>Protecting Academic Work Before Submission</h3>
       <p>
         Students and researchers protecting original dissertation drafts, thesis documents, and unpublished research before sharing with supervisors or collaborators can use password protection to prevent unauthorized copying or distribution of their work.
       </p>
-      <h3>Controlling Access to Premium or Paid Content</h4>
+      <h2>Controlling Access to Premium or Paid Content</h3>
       <p>
         Content creators, publishers, and course creators distributing paid PDF guides, e-books, reports, and workbooks can password protect files and share the password only with paying customers. This provides basic access control without requiring a dedicated subscription platform.
       </p>
-      <h3>Protecting HR and Employee Documents</h4>
+      <h2>Protecting HR and Employee Documents</h3>
       <p>
         Offer letters, salary information, performance reviews, disciplinary records, and personal employee data should all be encrypted before sharing, even within an organization. Password protection ensures that sensitive HR documents are only accessible to the intended recipient.
       </p>
 
-      <h3>Two Types of PDF Passwords — What Is the Difference?</h4>
-      <h3>Document Open Password (User Password)</h4>
+      <h2>Two Types of PDF Passwords — What Is the Difference?</h3>
+      <h2>Document Open Password (User Password)</h3>
       <p>
         This password controls who can open and view the document. Anyone who does not know this password sees a locked file that they cannot read. This is the most common type of PDF protection and is what most people mean when they talk about password protecting a PDF.
       </p>
-      <h3>Permissions Password (Owner Password)</h4>
+      <h2>Permissions Password (Owner Password)</h3>
       <p>
         This password controls what an authorized user can do with the document after opening it. Even if someone knows the open password, the permissions password can restrict printing, copying text, or making edits. This lets you share a readable document while preventing downstream misuse of its contents.
       </p>
 
-      <h3>Browser-Based vs Server-Based PDF Protection</h4>
+      <h2>Browser-Based vs Server-Based PDF Protection</h3>
       <div className="overflow-x-auto my-8">
         <table className="w-full border-collapse border border-gray-200">
           <thead>
@@ -239,29 +239,29 @@ export function ProtectPdfSeo() {
         </table>
       </div>
 
-      <h3>Tips for Creating Strong PDF Password Protection</h4>
-      <h3>Use a Long, Random Password</h4>
+      <h2>Tips for Creating Strong PDF Password Protection</h3>
+      <h2>Use a Long, Random Password</h3>
       <p>
         A strong PDF password should be at least 12 characters long and include a mix of uppercase letters, lowercase letters, numbers, and symbols. Avoid using common words, names, dates, or keyboard patterns. A longer password makes the encryption exponentially harder to crack regardless of the encryption algorithm used.
       </p>
-      <h3>Share the Password Separately</h4>
+      <h2>Share the Password Separately</h3>
       <p>
         Never include the password in the same email as the protected PDF. Share the password through a different channel — a phone call, text message, or separate encrypted message. This ensures that even if the email is intercepted, the attacker has the encrypted file but not the key to open it.
       </p>
-      <h3>Keep a Record of the Password</h4>
+      <h2>Keep a Record of the Password</h3>
       <p>
         PDF encryption is extremely strong. If you forget the password to a protected PDF, the file is effectively inaccessible — even to us. Store important passwords in a secure password manager so you can always recover them when needed.
       </p>
-      <h3>Restrict Printing and Copying for Sensitive Documents</h4>
+      <h2>Restrict Printing and Copying for Sensitive Documents</h3>
       <p>
         For highly sensitive documents that need to be readable but not reproducible, use the permissions settings to disable printing and text copying. This prevents recipients from creating paper copies or extracting text from the document.
       </p>
-      <h3>Re-Protect After Editing</h4>
+      <h2>Re-Protect After Editing</h3>
       <p>
         If you need to edit a protected PDF, unlock it using our <Link to="/tools/$slug" params={{ slug: "unlock-pdf" }} className="text-[#E5322D] hover:underline">Unlock PDF tool</Link>, make your edits, and then re-protect the updated version with a new password.
       </p>
 
-      <h3>Frequently Asked Questions About Protecting PDFs</h4>
+      <h2>Frequently Asked Questions About Protecting PDFs</h3>
       <div className="space-y-4">
         {faqs.map((f, i) => (
           <details key={i} className="group border border-gray-200 rounded-lg p-4">
@@ -284,7 +284,7 @@ export function ProtectPdfSeo() {
         ))}
       </div>
 
-      <h2 className="mt-16">Related PDF Tools</h4>
+      <h2 className="mt-16">Related PDF Tools</h3>
       <RelatedToolsGrid items={related} />
     </section>
   );

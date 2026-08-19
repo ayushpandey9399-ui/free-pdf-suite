@@ -150,7 +150,7 @@ export function CompressImageSeo() {
     <section className="mx-auto mt-16 max-w-3xl px-4 text-[15px] leading-relaxed text-[#33333c]">
       <h2 className="text-[24px] font-bold text-[#1F2937]">
         Compress images online, free
-      </h4>
+      </h3>
       <p className="mt-3">
         Compress an image to shrink it for email, upload forms,
         WhatsApp, exam applications, resumes, product listings, or a
@@ -169,7 +169,7 @@ export function CompressImageSeo() {
 
       <h2 id="how-to" className="mt-10 text-[22px] font-bold text-[#1F2937]">
         How to compress an image
-      </h4>
+      </h3>
       <ol className="mt-3 list-decimal space-y-2 pl-5">
         <li id="step-1">Open the Compress Image tool, no signup needed.</li>
         <li id="step-2">
@@ -187,7 +187,7 @@ export function CompressImageSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Compress an image to a target size (100KB, 200KB, 50KB)
-      </h4>
+      </h3>
       <p className="mt-3">
         Most online forms cap uploads at a specific size. Job portals
         want a photo under 200KB. School and government exam forms
@@ -210,7 +210,7 @@ export function CompressImageSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Compress JPG, PNG, and WebP
-      </h4>
+      </h3>
       <p className="mt-3">
         The tool accepts JPG (JPEG), PNG, and WebP, and each file
         keeps its original format on output. That is important because
@@ -247,7 +247,7 @@ export function CompressImageSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Quality vs file size
-      </h4>
+      </h3>
       <p className="mt-3">
         Compression is a trade. Push quality down to save more bytes,
         push it up to keep more detail. For JPG and WebP, the sweet
@@ -262,7 +262,7 @@ export function CompressImageSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Compress images in bulk
-      </h4>
+      </h3>
       <p className="mt-3">
         Batch compression is built in. Drop a whole folder of images,
         apply the same quality or KB target to all of them in one
@@ -276,7 +276,7 @@ export function CompressImageSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Privacy and security
-      </h4>
+      </h3>
       <p className="mt-3">
         Your file is securely uploaded to our 
         server for processing and permanently deleted 
@@ -289,7 +289,7 @@ export function CompressImageSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Works on Windows, Mac, Android, and iPhone
-      </h4>
+      </h3>
       <p className="mt-3">
         Because the compressor is a web page, it runs anywhere a
         modern browser runs: Windows 10, Windows 11, macOS,
@@ -301,7 +301,7 @@ export function CompressImageSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Frequently asked questions
-      </h4>
+      </h3>
       <dl className="mt-4 space-y-4">
         {compressImageFaqJsonLd.mainEntity.map((q) => (
           <div key={q.name}>
@@ -313,7 +313,7 @@ export function CompressImageSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         More image tools
-      </h4>
+      </h3>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         {related.map((t) =>
           t.status === "live" ? (

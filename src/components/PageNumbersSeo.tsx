@@ -141,7 +141,7 @@ export function PageNumbersSeo() {
       {/* How-to */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         How to add page numbers to a PDF online for free
-      </h4>
+      </h3>
       <ol className="mt-5 space-y-4">
         {steps.map((s, i) => (
           <li key={i} id={`step-${i + 1}`} className="flex gap-4">
@@ -159,7 +159,7 @@ export function PageNumbersSeo() {
       {/* Exactly how you need */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Number your pages exactly the way you need
-      </h4>
+      </h3>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         Three controls sit on the right of the workspace and, together, cover
         almost every real-world numbering need. The six-tile position grid
@@ -182,7 +182,7 @@ export function PageNumbersSeo() {
       {/* Why numbers matter */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Why numbered pages matter
-      </h4>
+      </h3>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         A stapleless report drops out of a folder and turns into a puzzle
         without page numbers. A team on a call struggling to sync to
@@ -202,7 +202,7 @@ export function PageNumbersSeo() {
       <div className="mt-10 grid gap-6 sm:grid-cols-2">
         {benefits.map((b) => (
           <div key={b.h}>
-            <h4 className="text-[17px] font-semibold">{b.h}</h4>
+            <h4 className="text-[17px] font-semibold">{b.h}</h3>
             <p className="mt-2 text-[14.5px] leading-relaxed text-[#4a4a55]">{b.p}</p>
           </div>
         ))}
@@ -211,11 +211,11 @@ export function PageNumbersSeo() {
       {/* Scenarios */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         When do you need to add page numbers to a PDF?
-      </h4>
+      </h3>
       <div className="mt-6 space-y-5">
         {scenarios.map((s) => (
           <div key={s.h}>
-            <h4 className="text-[17px] font-semibold">{s.h}</h4>
+            <h4 className="text-[17px] font-semibold">{s.h}</h3>
             <p className="mt-1.5 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.p}</p>
           </div>
         ))}
@@ -224,7 +224,7 @@ export function PageNumbersSeo() {
       {/* FAQ */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Frequently asked questions
-      </h4>
+      </h3>
       <div className="mt-6 divide-y divide-[#eee]">
         {faqs.map((f) => (
           <details key={f.q} className="group py-4">
@@ -240,7 +240,7 @@ export function PageNumbersSeo() {
       {/* Related */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Related PDF tools
-      </h4>
+      </h3>
       <RelatedToolsGrid items={related} />
     </section>
   );

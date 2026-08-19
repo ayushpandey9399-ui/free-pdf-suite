@@ -189,7 +189,7 @@ export const heicToJpgFaqJsonLd = {
 export function HeicToJpgSeo() {
   return (
     <section className="mx-auto mt-16 max-w-3xl px-4 text-[15px] leading-relaxed text-[#33333c]">
-      <h2 className="text-[24px] font-bold text-[#383E45]">What Is HEIC and Why Do You Need to Convert It?</h4>
+      <h2 className="text-[24px] font-bold text-[#383E45]">What Is HEIC and Why Do You Need to Convert It?</h3>
       <p className="mt-3">
         HEIC stands for High Efficiency Image Container. It is the default photo format used by iPhones and iPads since iOS 11 (released in 2017). Apple switched to HEIC because it uses the HEVC (H.265) compression algorithm, which compresses photos to roughly half the file size of a JPEG while maintaining the same visual quality. A photo that would be 3MB as a JPG becomes approximately 1.5MB as a HEIC file. This is why your iPhone can store roughly twice as many photos in the same storage space.
       </p>
@@ -203,25 +203,25 @@ export function HeicToJpgSeo() {
         Converting HEIC to JPG is essential in everyday situations. Sending iPhone photos to Android users, uploading photos to government and university portals, submitting photos to online stores, printing at a photo lab, sharing with Windows users via email, and posting on websites that do not accept HEIC — all of these require JPG format.
       </p>
 
-      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">How to Convert HEIC to JPG Online — Step by Step</h4>
-      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-1">Step 1 — Upload Your HEIC Files</h4>
+      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">How to Convert HEIC to JPG Online — Step by Step</h3>
+      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-1">Step 1 — Upload Your HEIC Files</h3>
       <p className="mt-2">
         Click the "Select HEIC files" button or drag and drop your HEIC photos onto the upload area. You can add multiple HEIC files at once for batch conversion. All processing happens locally in your browser — your photos never leave your device.
       </p>
-      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-2">Step 2 — Set Quality Options</h4>
+      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-2">Step 2 — Set Quality Options</h3>
       <p className="mt-2">
         Choose the output quality level. Higher quality preserves more image detail but produces larger JPG files. For most everyday uses — sharing on messaging apps, social media, or email — standard quality produces excellent results at a fraction of the file size. For professional or print use, select maximum quality.
       </p>
-      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-3">Step 3 — Convert All Files</h4>
+      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-3">Step 3 — Convert All Files</h3>
       <p className="mt-2">
         Click the convert button. The tool processes each HEIC file individually in your browser using the heic2any library. Multiple files are converted simultaneously for fast batch processing. A progress indicator shows the status of each file.
       </p>
-      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-4">Step 4 — Download Your JPG Files</h4>
+      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-4">Step 4 — Download Your JPG Files</h3>
       <p className="mt-2">
         Download individual JPG files or download all converted images at once as a ZIP archive. Every JPG output file is clean — no watermarks, no branding, and full quality preserved from the original HEIC source.
       </p>
 
-      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Why iPhone Photos Are Saved as HEIC</h4>
+      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Why iPhone Photos Are Saved as HEIC</h3>
       <p className="mt-3">
         Apple introduced HEIC as the default camera format in iOS 11 to help users store more photos without running out of storage space. The iPhone's camera produces high-resolution images — a 12-megapixel photo shot on an iPhone can be 6-8MB as a JPEG. With HEIC compression, that same photo shrinks to 3-4MB with no visible quality difference to the human eye. For users who take hundreds of photos, this difference adds up to gigabytes of saved storage.
       </p>
@@ -232,41 +232,41 @@ export function HeicToJpgSeo() {
         You can configure your iPhone to capture photos in JPG instead of HEIC by going to Settings → Camera → Formats → Most Compatible. This saves all future photos as JPG but uses more storage space. Most iPhone users prefer to keep HEIC for storage efficiency and convert photos to JPG only when needed for sharing or uploading.
       </p>
 
-      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Common Situations Where You Need HEIC to JPG</h4>
-      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]">Sending Photos to Android Users</h4>
+      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Common Situations Where You Need HEIC to JPG</h3>
+      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]">Sending Photos to Android Users</h3>
       <p className="mt-2">
         Android devices can open most image formats but HEIC support varies by manufacturer and Android version. Many Android phones cannot display HEIC files natively. Converting to JPG before sending via WhatsApp, email, or Bluetooth ensures the recipient can view the photo immediately without any compatibility issues.
       </p>
-      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]">Uploading Photos to Websites and Portals</h4>
+      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]">Uploading Photos to Websites and Portals</h3>
       <p className="mt-2">
         Most websites only accept JPG, PNG, and WebP image uploads. Government portals, university application systems, visa applications, job portals, and online forms typically reject HEIC files with an \"unsupported format\" error. Converting to JPG first ensures the upload succeeds.
       </p>
-      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]">Printing at Photo Labs</h4>
+      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]">Printing at Photo Labs</h3>
       <p className="mt-2">
         Professional photo printing services — both online and in-store — universally accept JPG photos. Many do not accept HEIC. Converting iPhone photos to JPG before ordering prints ensures the lab receives files in the format their printing systems expect.
       </p>
-      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]">Editing in Photo Software</h4>
+      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]">Editing in Photo Software</h3>
       <p className="mt-2">
         Many photo editing applications — including older versions of Photoshop, Lightroom, GIMP, and most free online editors — do not support HEIC files directly. Converting to JPG first lets you edit the photos in any application without compatibility errors.
       </p>
-      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]">Sharing on Social Media</h4>
+      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]">Sharing on Social Media</h3>
       <p className="mt-2">
         Instagram, Facebook, Twitter, LinkedIn, and Pinterest all accept JPG uploads from web browsers and apps. While iOS apps often handle HEIC conversion automatically when uploading directly from an iPhone, uploading HEIC files from a computer to these platforms often fails. Converting to JPG first avoids upload errors.
       </p>
-      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]">Attaching to Emails on Windows</h4>
+      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]">Attaching to Emails on Windows</h3>
       <p className="mt-2">
         Microsoft Outlook and other email clients on Windows do not display HEIC images as inline previews. Recipients see a blank attachment icon instead of the photo. Converting to JPG before attaching ensures the photo displays correctly for all recipients regardless of their device.
       </p>
-      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]">Using Photos in Office Documents</h4>
+      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]">Using Photos in Office Documents</h3>
       <p className="mt-2">
         Microsoft Word, PowerPoint, and Excel on Windows cannot insert HEIC images directly in older versions. Converting to JPG lets you insert iPhone photos into documents, presentations, and spreadsheets without any compatibility issues.
       </p>
-      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]">Submitting ID Photos and Document Scans</h4>
+      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]">Submitting ID Photos and Document Scans</h3>
       <p className="mt-2">
         Many official applications — for jobs, universities, visas, and registrations — require photo submissions in JPG format with specific file size limits. HEIC files are consistently rejected by these systems. Converting to JPG and then compressing if needed ensures the submission meets all requirements.
       </p>
 
-      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">HEIC vs JPG — Full Comparison</h4>
+      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">HEIC vs JPG — Full Comparison</h3>
       <div className="mt-4 overflow-hidden rounded-lg border border-[#eee]">
         <table className="w-full text-left text-[14px]">
           <thead className="bg-[#f9fafb] text-[#383E45]">
@@ -331,7 +331,7 @@ export function HeicToJpgSeo() {
         </table>
       </div>
 
-      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Browser-Based vs Server-Based HEIC Conversion</h4>
+      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Browser-Based vs Server-Based HEIC Conversion</h3>
       <div className="mt-4 overflow-hidden rounded-lg border border-[#eee]">
         <table className="w-full text-left text-[14px]">
           <thead className="bg-[#f9fafb] text-[#383E45]">
@@ -386,29 +386,29 @@ export function HeicToJpgSeo() {
         </table>
       </div>
 
-      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Tips for Converting HEIC to JPG Effectively</h4>
-      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]">Use Batch Conversion for Multiple Files</h4>
+      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Tips for Converting HEIC to JPG Effectively</h3>
+      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]">Use Batch Conversion for Multiple Files</h3>
       <p className="mt-2">
         Add all your HEIC files at once instead of converting them one by one. Our tool processes multiple files simultaneously, making batch conversion just as fast as converting a single file.
       </p>
-      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]">Set iPhone to Capture in JPG Directly</h4>
+      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]">Set iPhone to Capture in JPG Directly</h3>
       <p className="mt-2">
         If you frequently need JPG photos, configure your iPhone to shoot in Most Compatible mode: Settings → Camera → Formats → Most Compatible. This saves future photos as JPG, eliminating the need to convert them later. Note that this increases per-photo storage usage.
       </p>
-      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]">Compress After Converting for Uploads</h4>
+      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]">Compress After Converting for Uploads</h3>
       <p className="mt-2">
         If you need to upload photos to a portal with a strict file size limit, convert HEIC to JPG first, then use our <Link to="/image-tools/$slug" params={{ slug: "compress-image" }} className="text-[#E5322D] hover:underline">Compress Image tool</Link> to reduce the file size while maintaining acceptable quality.
       </p>
-      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]">Convert to PNG for Transparent Backgrounds</h4>
+      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]">Convert to PNG for Transparent Backgrounds</h3>
       <p className="mt-2">
         If your HEIC photo needs a transparent background for design work, use our <Link to="/image-tools/$slug" params={{ slug: "heic-to-png" }} className="text-[#E5322D] hover:underline">HEIC to PNG tool</Link> instead of HEIC to JPG. PNG supports transparency while JPG fills transparent areas with white.
       </p>
-      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]">Resize After Converting for Specific Requirements</h4>
+      <h4 className="mt-6 text-[18px] font-bold text-[#383E45]">Resize After Converting for Specific Requirements</h3>
       <p className="mt-2">
         Many application forms have both format and dimension requirements for photo uploads. After converting HEIC to JPG, use our <Link to="/image-tools/$slug" params={{ slug: "image-resize" }} className="text-[#E5322D] hover:underline">Resize Image tool</Link> to set the exact pixel dimensions required.
       </p>
 
-      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Frequently Asked Questions About HEIC to JPG Conversion</h4>
+      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Frequently Asked Questions About HEIC to JPG Conversion</h3>
       <dl className="mt-4 space-y-4">
         {heicToJpgFaqJsonLd.mainEntity.map((q, idx) => (
           <div key={idx} className="border-b border-[#eee] pb-4">
@@ -422,7 +422,7 @@ export function HeicToJpgSeo() {
         ))}
       </dl>
 
-      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Related Image Tools</h4>
+      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Related Image Tools</h3>
       <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {[
           { name: "HEIC to PNG", desc: "Convert iPhone photos to PNG", slug: "heic-to-png", type: "image" },

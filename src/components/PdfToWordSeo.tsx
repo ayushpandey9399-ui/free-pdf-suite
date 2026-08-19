@@ -176,7 +176,7 @@ export function PdfToWordSeo() {
       {/* How-to */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         How to convert PDF to Word
-      </h4>
+      </h3>
       <ol className="mt-5 space-y-4">
         {steps.map((s, i) => (
           <li key={i} id={`step-${i + 1}`} className="flex gap-4">
@@ -194,7 +194,7 @@ export function PdfToWordSeo() {
       {/* Intro prose */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Turn a PDF into an editable Word document
-      </h4>
+      </h3>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         A PDF is built to be read, not rewritten. The moment a sentence needs to
         change, a date needs updating or a clause needs a redline, the format
@@ -214,7 +214,7 @@ export function PdfToWordSeo() {
       {/* Honest server note */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         An honest note: this tool uses our server
-      </h4>
+      </h3>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         Every other tool on pdftoolconverteronline.com runs entirely inside your browser and
         never uploads anything. This one is the exception, and we would rather
@@ -236,7 +236,7 @@ export function PdfToWordSeo() {
       <div className="mt-10 grid gap-6 sm:grid-cols-2">
         {benefits.map((b) => (
           <div key={b.h}>
-            <h4 className="text-[17px] font-semibold">{b.h}</h4>
+            <h4 className="text-[17px] font-semibold">{b.h}</h3>
             <p className="mt-2 text-[14.5px] leading-relaxed text-[#4a4a55]">{b.p}</p>
           </div>
         ))}
@@ -245,11 +245,11 @@ export function PdfToWordSeo() {
       {/* Scenarios */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         When do you need to convert PDF to Word?
-      </h4>
+      </h3>
       <div className="mt-6 space-y-5">
         {scenarios.map((s) => (
           <div key={s.h}>
-            <h4 className="text-[17px] font-semibold">{s.h}</h4>
+            <h4 className="text-[17px] font-semibold">{s.h}</h3>
             <p className="mt-1.5 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.p}</p>
           </div>
         ))}
@@ -258,7 +258,7 @@ export function PdfToWordSeo() {
       {/* FAQ */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Frequently asked questions
-      </h4>
+      </h3>
       <div className="mt-6 divide-y divide-[#eee]">
         {faqs.map((f) => (
           <details key={f.q} className="group py-4">
@@ -274,7 +274,7 @@ export function PdfToWordSeo() {
       {/* Related */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Related PDF tools
-      </h4>
+      </h3>
       <RelatedToolsGrid items={related} />
     </section>
   );

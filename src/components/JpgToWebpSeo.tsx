@@ -150,7 +150,7 @@ export function JpgToWebpSeo() {
     <section className="mx-auto mt-16 max-w-3xl px-4 text-[15px] leading-relaxed text-[#33333c]">
       <h2 className="text-[24px] font-bold text-[#1F2937]">
         JPG to WebP, converted in your browser
-      </h4>
+      </h3>
       <p className="mt-3">
         WebP is Google's modern image format for the web. It ships images
         that are typically 25 to 35 percent smaller than JPG at the same
@@ -172,7 +172,7 @@ export function JpgToWebpSeo() {
 
       <h2 id="how-to" className="mt-10 text-[22px] font-bold text-[#1F2937]">
         How to convert JPG to WebP
-      </h4>
+      </h3>
       <ol className="mt-3 list-decimal space-y-2 pl-5">
         <li id="step-1">Open the JPG to WebP tool, no signup needed.</li>
         <li id="step-2">Drag and drop .jpg or .jpeg files, or click to select.</li>
@@ -187,7 +187,7 @@ export function JpgToWebpSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Why WebP: smaller files, faster pages
-      </h4>
+      </h3>
       <p className="mt-3">
         WebP was designed from day one for the web. It combines the
         best ideas from JPG (efficient lossy compression) and PNG
@@ -209,7 +209,7 @@ export function JpgToWebpSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Choosing the right WebP quality
-      </h4>
+      </h3>
       <p className="mt-3">
         The quality slider runs from about 30 to 100. The default of 85
         is the industry sweet spot: files are dramatically smaller than
@@ -225,7 +225,7 @@ export function JpgToWebpSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Where WebP is supported (and where it isn't)
-      </h4>
+      </h3>
       <p className="mt-3">
         Every modern browser reads WebP today: Chrome and Edge since
         launch, Firefox since 65, and Safari since version 14 on both
@@ -245,7 +245,7 @@ export function JpgToWebpSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Bulk convert JPG to WebP
-      </h4>
+      </h3>
       <p className="mt-3">
         Batch conversion is built in. Select as many JPGs as you like,
         or drop a whole folder, and each file is converted in one pass
@@ -258,7 +258,7 @@ export function JpgToWebpSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Your images never leave your device
-      </h4>
+      </h3>
       <p className="mt-3">
         Most online JPG to WebP converters upload every image to a
         stranger's server, hold it for hours, and log the metadata.
@@ -272,7 +272,7 @@ export function JpgToWebpSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Works on Windows, Mac, Android, and iPhone
-      </h4>
+      </h3>
       <p className="mt-3">
         Because the converter is a web page, it runs anywhere a modern
         browser runs: Windows 10 and 11, macOS, Chromebook, Linux,
@@ -284,7 +284,7 @@ export function JpgToWebpSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Frequently asked questions
-      </h4>
+      </h3>
       <dl className="mt-4 space-y-4">
         {jpgToWebpFaqJsonLd.mainEntity.map((q) => (
           <div key={q.name}>
@@ -296,7 +296,7 @@ export function JpgToWebpSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         More image tools
-      </h4>
+      </h3>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         {related.map((t) =>
           t.status === "live" ? (

@@ -149,7 +149,7 @@ export function WatermarkImageSeo() {
     <section className="mx-auto mt-16 max-w-3xl px-4 text-[15px] leading-relaxed text-[#33333c]">
       <h2 className="text-[24px] font-bold text-[#1F2937]">
         Add a watermark to images online, free
-      </h4>
+      </h3>
       <p className="mt-3">
         Brand a portfolio of photos with your name, protect product
         shots from casual theft, mark a batch of proofs with a
@@ -173,7 +173,7 @@ export function WatermarkImageSeo() {
 
       <h2 id="how-to" className="mt-10 text-[22px] font-bold text-[#1F2937]">
         How to add a watermark
-      </h4>
+      </h3>
       <ol className="mt-3 list-decimal space-y-2 pl-5">
         <li id="step-1">Open the Add Watermark to Image tool, no signup needed.</li>
         <li id="step-2">Drop your JPG, PNG, or WebP photos, or click to select them.</li>
@@ -192,7 +192,7 @@ export function WatermarkImageSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Text watermark vs logo watermark
-      </h4>
+      </h3>
       <p className="mt-3">
         A text watermark is the fastest option and often the right
         one. Type a copyright line, a name, a URL, or a short brand
@@ -215,7 +215,7 @@ export function WatermarkImageSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Watermark many photos at once
-      </h4>
+      </h3>
       <p className="mt-3">
         The single most common use case is a folder of freshly edited
         photos that all need the same corner mark before going out.
@@ -230,7 +230,7 @@ export function WatermarkImageSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Tile watermark to protect photos
-      </h4>
+      </h3>
       <p className="mt-3">
         Photographers and small sellers often want a watermark that
         cannot simply be cropped off. Enable <strong>Tile</strong> and
@@ -245,7 +245,7 @@ export function WatermarkImageSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Choosing opacity and position
-      </h4>
+      </h3>
       <p className="mt-3">
         Opacity controls how strong the watermark looks against the
         photo. A subtle brand mark on a public post usually sits at
@@ -260,7 +260,7 @@ export function WatermarkImageSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Watermark JPG, PNG, and WebP
-      </h4>
+      </h3>
       <p className="mt-3">
         Every input format is supported, and the output keeps the
         input format so a JPG stays a JPG, a PNG stays a PNG, and a
@@ -275,7 +275,7 @@ export function WatermarkImageSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Your photos never leave your device
-      </h4>
+      </h3>
       <p className="mt-3">
         Privacy matters more than usual for a watermark tool because
         people watermark unpublished, original work: portfolio
@@ -291,7 +291,7 @@ export function WatermarkImageSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Works on Windows, Mac, Android, and iPhone
-      </h4>
+      </h3>
       <p className="mt-3">
         Because the tool is a web page, it runs anywhere a modern
         browser runs: Windows 10, Windows 11, macOS, Chromebook,
@@ -312,7 +312,7 @@ export function WatermarkImageSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Frequently asked questions
-      </h4>
+      </h3>
       <dl className="mt-4 space-y-4">
         {watermarkImageFaqJsonLd.mainEntity.map((q) => (
           <div key={q.name}>
@@ -324,7 +324,7 @@ export function WatermarkImageSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         More image tools
-      </h4>
+      </h3>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         {related.map((t) =>
           t.status === "live" ? (
