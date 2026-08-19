@@ -213,7 +213,7 @@ export function WebpToJpgSeo() {
       
       <h3 id="step-1" className="mt-6 text-[18px] font-bold text-[#1F2937]">
         Step 1 — Upload Your WebP Images
-      </h2>
+      </h3>
       <p className="mt-2">
         Click the "Select images" button or drag and drop your WebP files onto the upload area. You can add multiple WebP files at once for batch conversion. All processing runs locally in your browser using Canvas API — your images never leave your device.
       </p>
@@ -316,7 +316,7 @@ export function WebpToJpgSeo() {
       </h2>
       <h3 className="mt-6 text-[18px] font-bold text-[#1F2937]">
         Uploading to Government and Official Portals
-      </h2>
+      </h3>
       <p className="mt-2">
         Government application systems, visa portals, university admission platforms, tax filing portals, and business registration systems typically accept only JPG, PNG, or PDF uploads. WebP files are consistently rejected with format error messages. Converting to JPG before uploading ensures the submission succeeds.
       </p>
@@ -452,7 +452,7 @@ export function WebpToJpgSeo() {
       </h2>
       <h3 className="mt-6 text-[18px] font-bold text-[#1F2937]">
         Use 80-90% Quality for Most Purposes
-      </h2>
+      </h3>
       <p className="mt-2">
         For web sharing, email, and everyday use, JPG at 80-90% quality produces images that look identical to the original WebP at much smaller file sizes than 100% quality JPG output. Only increase to 95%+ for professional print output.
       </p>
@@ -513,7 +513,7 @@ export function WebpToJpgSeo() {
       </h2>
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
         <Link to="/image-tools/$slug" params={{ slug: "webp-to-png" }} className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]">
-          <h3 className="font-bold">WebP to PNG</h2>
+          <h3 className="font-bold">WebP to PNG</h3>
           <p className="mt-1 text-sm text-[#5a5a66]">Convert WebP to PNG with transparency</p>
         </Link>
         <Link to="/image-tools/$slug" params={{ slug: "jpg-to-webp" }} className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]">
