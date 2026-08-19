@@ -85,7 +85,7 @@ export function Footer() {
   };
   return (
     <footer style={{ backgroundColor: "#0F172A", color: "#9CA3AF" }}>
-      <nav aria-label="Footer" className="mx-auto max-w-[1200px] px-4 sm:px-6 pt-14 pb-10 sm:pt-16 sm:pb-10">
+      <nav aria-label="Footer" className="mx-auto max-w-[1200px] px-4 sm:px-6 pt-14 pb-10 sm:pt-16 sm:pb-10 overflow-hidden">
         <div className="grid gap-10 sm:gap-12 grid-cols-2 lg:grid-cols-8 items-start">
           {/* Brand, 2 col wide on desktop */}
           <div className="col-span-2 lg:col-span-2">
