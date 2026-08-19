@@ -99,14 +99,14 @@ export function ExtractImagesSeo() {
     <section className="mx-auto max-w-4xl px-4 pb-16 seo-content">
       <div>
         
-        <h2>Why Would You Need to Extract Images from a PDF?</h4>
+        <h3>Why Would You Need to Extract Images from a PDF?</h4>
         <p>PDF files are designed as immutable containers, bundling text, vector graphics, embedded images, and complex formatting into a single, reliable format for sharing and printing. While this structure is ideal for document integrity, it presents a significant obstacle when you need to repurpose specific visual content. For instance, extracting a high-resolution logo from a brand guideline PDF or pulling a chart from a detailed financial report is often difficult because these elements are fused into the document structure.</p>
         <p>When you attempt to copy and paste visuals directly from a PDF reader, you almost always end up with a low-resolution screenshot or a jagged, pixelated approximation of the original graphic. This is unacceptable for professional design, printing, or high-quality digital output. Our PDF image extractor solves this by precisely locating the actual embedded image binary data within the PDF file structure and pulling it out at its original, native resolution. Whether your PDF contains photographs, icons, logos, or technical diagrams, this tool guarantees that you retrieve the exact image file that was placed there originally.</p>
         <p>For design and creative professionals, receiving brand assets, product photos, or icons embedded inside a PDF is a daily occurrence. Instead of going through the time-consuming process of requesting individual assets from the original creator, you can use our tool to instantly extract these images. This is essential for maintaining brand consistency in presentations, social media graphics, website banners, and digital marketing materials. By bypassing the need for original files, you dramatically speed up your creative workflow.</p>
         <p>Researchers, students, and analysts frequently deal with academic textbooks, research papers, and industrial reports filled with essential charts, diagrams, and infographics. Extracting these visual assets allows for easy citation and reuse in your own research or study materials without the need to recreate complex graphics from scratch. By using our image extraction tool, you ensure that the integrity and clarity of the original technical visuals are preserved for your own documentation, wikis, or academic projects.</p>
         <p>Finally, archival tasks often demand that documents be broken down into their constituent parts for preservation. Extracting photos, official stamps, signatures, or historical documents from a PDF helps in organizing and cataloging digital assets. Our tool creates standalone files from these elements, which can then be safely backed up, managed, or indexed individually, ensuring that your document archives are thorough and accessible.</p>
 
-        <h2>How to Extract Images from a PDF — Step by Step</h4>
+        <h3>How to Extract Images from a PDF — Step by Step</h4>
         <div className="mt-5 space-y-4 not-prose">
           {steps.map((s, i) => (
             <div key={i} className="flex gap-4">
@@ -121,51 +121,51 @@ export function ExtractImagesSeo() {
           ))}
         </div>
 
-        <h2>Common Scenarios for Extracting Images from PDFs</h4>
-        <h2>Recover Product Photos from Catalogs</h4>
+        <h3>Common Scenarios for Extracting Images from PDFs</h4>
+        <h3>Recover Product Photos from Catalogs</h4>
         <p>Marketing teams and e-commerce store managers often receive large product catalogs as PDFs from manufacturers. Extracting these product photos allows for immediate integration into an online store, website catalog, or social media feed. Instead of waiting for the supplier to send hundreds of individual photo files, you can simply run the catalog through this tool and pull out all product images instantly.</p>
         
-        <h2>Pull Charts and Graphs from Reports</h4>
+        <h3>Pull Charts and Graphs from Reports</h4>
         <p>Business consultants and analysts need to extract key performance indicators, market research data, or financial charts from complex PDF reports for inclusion in client presentations. Extracting these items as high-quality images ensures that labels are legible and the original chart design remains intact, avoiding the need for manual recreation.</p>
         
-        <h2>Save Diagrams from Technical Documentation</h4>
+        <h3>Save Diagrams from Technical Documentation</h4>
         <p>Engineers and architects often refer to technical manuals, system blueprints, and construction documents in PDF format. Extracting the embedded diagrams or schematics allows them to be referenced in project management software, internal wikis, or site documentation without losing essential technical detail.</p>
         
-        <h2>Extract Logos for Brand Consistency</h4>
+        <h3>Extract Logos for Brand Consistency</h4>
         <p>When working on collaborative projects, designers often receive PDF-based brand guidelines containing the company logo in various sizes and formats. Extracting these logo files directly from the guideline document ensures you are using the officially approved version of the brand asset.</p>
         
-        <h2>Archive Signatures and Stamps</h4>
+        <h3>Archive Signatures and Stamps</h4>
         <p>Administrative and legal personnel often need to extract official stamps, notarized signatures, or company seals from signed legal documents for compliance records. This tool creates isolated image files of these elements, facilitating easier verification and digital archiving.</p>
         
-        <h2>Repurpose Infographics for Social Media</h4>
+        <h3>Repurpose Infographics for Social Media</h4>
         <p>Content creators can extract high-value infographics from long-form research reports or e-books. Once extracted, these visuals can be repurposed as standalone social media posts or blog headers, maximizing the reach and utility of the original content.</p>
         
-        <h2>Build Training Materials from Existing Documents</h4>
+        <h3>Build Training Materials from Existing Documents</h4>
         <p>Educators and corporate trainers frequently pull diagrams, illustrations, and technical screenshots from existing training PDF manuals to develop new instructional slide decks, worksheets, and interactive e-learning modules.</p>
         
-        <h2>Recover Images from Scanned Documents</h4>
+        <h3>Recover Images from Scanned Documents</h4>
         <p>When processing scanned PDF files that contain embedded documents like identity card scans, old photographs, or historical document copies, this tool isolates each photo or scan component, allowing you to save or enhance them individually for your records.</p>
 
-        <h2>Why Use Our Free PDF Image Extractor?</h4>
-        <h2>Your Files Never Leave Your Device</h4>
+        <h3>Why Use Our Free PDF Image Extractor?</h4>
+        <h3>Your Files Never Leave Your Device</h4>
         <p>Unlike most online PDF extraction tools that require uploading your file to a remote cloud server for processing, our application processes everything locally within your web browser. This means your file data is never transmitted over the internet, making it the safest option for highly sensitive documents, private photographs, or confidential corporate graphics.</p>
         
-        <h2>Original Quality Preserved</h4>
+        <h3>Original Quality Preserved</h4>
         <p>This extraction process identifies the exact binary data of images already stored within the PDF, rather than taking a screenshot or generating a new image file. As a result, every extracted file maintains its original color depth, resolution, and format, with absolutely zero quality loss or re-compression.</p>
         
-        <h2>Completely Free With No Hidden Limits</h4>
+        <h3>Completely Free With No Hidden Limits</h4>
         <p>There are no arbitrary file size limits, daily usage quotas, or requirements to sign up for a premium account. You are free to process as many PDF documents as you need, as often as you want, and every downloaded image will be free of watermarks or branding.</p>
         
-        <h2>Supports All Embedded Image Formats</h4>
+        <h3>Supports All Embedded Image Formats</h4>
         <p>The extractor is engineered to recognize and retrieve a wide range of embedded formats including JPEG, PNG, TIFF, BMP, and GIF. It adapts to the format in which the image was originally saved in the PDF, ensuring you always get the native file format back.</p>
         
-        <h2>Batch Download as ZIP</h4>
+        <h3>Batch Download as ZIP</h4>
         <p>For PDFs packed with dozens or even hundreds of visual elements, saving each image individually is inefficient. Our tool offers a batch download feature, packaging all selected assets into a single ZIP file for quick transfer and storage. If you need to combine these images into a new document later, you can use our <Link to="/tools/$slug" params={{ slug: "images-to-pdf" }} className="text-[#e5322d] hover:underline">Images to PDF tool</Link>.</p>
         
-        <h2>Works on Every Device and Browser</h4>
+        <h3>Works on Every Device and Browser</h4>
         <p>Whether you are on a Windows desktop, a Mac, a Linux machine, or mobile devices like Android or iOS, this tool runs seamlessly in any modern web browser. There is no requirement for plugins, software installations, or app downloads.</p>
 
-        <h2>Browser-Based vs Server-Based Image Extraction</h4>
+        <h3>Browser-Based vs Server-Based Image Extraction</h4>
         <div className="mt-6 overflow-x-auto">
           <table className="w-full text-left border-collapse border border-[#ececef]">
             <thead>
@@ -225,28 +225,28 @@ export function ExtractImagesSeo() {
           </table>
         </div>
 
-        <h2>Extract Images vs Convert PDF to Image — What Is the Difference?</h4>
+        <h3>Extract Images vs Convert PDF to Image — What Is the Difference?</h4>
         <p>While these operations are frequently confused, they serve fundamentally different purposes. Extracting images from a PDF specifically identifies and retrieves the individual image files that were embedded within the document — such as logos, photos, and charts. Each resulting file is a standalone asset at its original resolution.</p>
         <p>Conversely, converting a PDF to image is a page-level operation. This process takes every single page of a PDF document and renders it as a flat image file, encompassing all text, background colors, headers, footers, and structural formatting. The output here is a screenshot-like image of the full page, not the individual embedded assets themselves.</p>
         <p>Select the "Extract Images" tool when you require specific photos, logos, or graphics previously embedded inside the document. Use the "PDF to Image" tool if you need a visual representation of the entire page for reference or sharing. If the latter is what you require, please use our <Link to="/tools/$slug" params={{ slug: "pdf-to-images" }} className="text-[#e5322d] hover:underline">PDF to Image tool</Link> instead. If you have multiple documents, you might want to use our <Link to="/tools/$slug" params={{ slug: "merge" }} className="text-[#e5322d] hover:underline">Merge PDF tool</Link> first to combine them before extraction.</p>
 
-        <h2>Tips for Extracting Images from PDFs</h4>
-        <h2>Check if Your PDF Contains Embedded Images</h4>
+        <h3>Tips for Extracting Images from PDFs</h4>
+        <h3>Check if Your PDF Contains Embedded Images</h4>
         <p>Be aware that not all PDFs contain raster images. Some documents are entirely text-based or rely heavily on vector graphics, which do not appear as standard images and thus cannot be extracted as image files. If your document is password-protected, you must first use our <Link to="/tools/$slug" params={{ slug: "unlock-pdf" }} className="text-[#e5322d] hover:underline">Unlock PDF tool</Link> to remove the security before extraction can occur.</p>
         
-        <h2>Scanned PDFs Are One Large Image Per Page</h4>
+        <h3>Scanned PDFs Are One Large Image Per Page</h4>
         <p>If your document was created via a flatbed scanner or a mobile scanning app, every page typically consists of a single large, flat image layer. Extracting images from such a file will yield these full-page scans, which can then be cropped for your specific needs using our <Link to="/image-tools/$slug" params={{ slug: "crop-image" }} className="text-[#e5322d] hover:underline">Crop Image tool</Link>.</p>
         
-        <h2>Use Compress Image After Extraction if Files Are Large</h4>
+        <h3>Use Compress Image After Extraction if Files Are Large</h4>
         <p>Some documents include high-definition photographic data that can lead to large files. After extraction, you can use our <Link to="/image-tools/$slug" params={{ slug: "compress-image" }} className="text-[#e5322d] hover:underline">Compress Image tool</Link> to optimize file sizes without visible quality loss, making them perfect for website or email use.</p>
         
-        <h2>Rename Images After Downloading</h4>
+        <h3>Rename Images After Downloading</h4>
         <p>The system generates generic filenames for extracted images, such as "image_001.jpg". We highly recommend renaming them with descriptive identifiers immediately after download to facilitate easier search and organization. If the dimensions are not right, you can use our <Link to="/image-tools/$slug" params={{ slug: "image-resize" }} className="text-[#e5322d] hover:underline">Resize Image tool</Link> to adjust them.</p>
         
-        <h2>Combine With Other PDF Tools for Complex Workflows</h4>
+        <h3>Combine With Other PDF Tools for Complex Workflows</h4>
         <p>If you only need images from specific parts of a long PDF, first use our <Link to="/tools/$slug" params={{ slug: "extract-pages" }} className="text-[#e5322d] hover:underline">Extract Pages tool</Link> to save only those relevant pages as a new, smaller document. This greatly simplifies the extraction process and ensures you only work with the specific images you require.</p>
 
-        <h2>Frequently Asked Questions About Extracting PDF Images</h4>
+        <h3>Frequently Asked Questions About Extracting PDF Images</h4>
       </div>
 
       <div className="mt-8 divide-y divide-[#eee]">

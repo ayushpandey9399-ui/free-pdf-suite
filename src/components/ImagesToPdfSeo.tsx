@@ -97,7 +97,7 @@ const related = [
 export function ImagesToPdfSeo() {
   return (
     <section className="mx-auto max-w-4xl px-4 pb-16 seo-content">
-      <h2>Why Convert Images to PDF?</h4>
+      <h3>Why Convert Images to PDF?</h4>
       <p>
         Images and PDFs serve very different purposes. A JPG or PNG file is ideal for viewing a single photo, but it becomes inconvenient when you have ten scanned pages, fifteen product photos, or twenty document screenshots that need to be shared as one organized file. Sending twenty separate image files via email creates confusion, takes up more space, and makes it hard for the recipient to view them in the correct order. Converting them all into a single PDF solves every one of these problems.
       </p>
@@ -111,7 +111,7 @@ export function ImagesToPdfSeo() {
         Converting images to PDF also offers better control over the final document. You can set the page size (A4, Letter, or custom), choose the orientation (portrait or landscape), control the margins, and arrange the images in any order before generating the PDF. This level of control is not possible when simply sharing raw image files.
       </p>
 
-      <h2>How to Convert Images to PDF — Step by Step</h4>
+      <h3>How to Convert Images to PDF — Step by Step</h4>
       <div className="space-y-6">
         {steps.map((s, i) => (
           <div key={i} className="flex gap-4">
@@ -126,7 +126,7 @@ export function ImagesToPdfSeo() {
         ))}
       </div>
 
-      <h2>Which Image Formats Can Be Converted to PDF?</h4>
+      <h3>Which Image Formats Can Be Converted to PDF?</h4>
       <p>
         Our tool supports all major image formats for PDF conversion. JPG and JPEG are the most common formats for photographs and scanned documents and convert cleanly to PDF at their original resolution. PNG files, which are common for screenshots, logos, and graphics with transparent backgrounds, are also fully supported. Transparent areas in PNG images are rendered with a white background in the PDF output.
       </p>
@@ -137,59 +137,59 @@ export function ImagesToPdfSeo() {
         For HEIC images from iPhones and newer Apple devices, first convert them to JPG or PNG using our <Link to="/image-tools/$slug" params={{ slug: "heic-to-jpg" }} className="text-[#E5322D] hover:underline">HEIC to JPG tool</Link>, then add the converted images to the PDF converter. This two-step process handles the full workflow from iPhone photos to a finished PDF.
       </p>
 
-      <h2>Common Scenarios for Converting Images to PDF</h4>
-      <h2>Scan Multi-Page Documents With Your Phone</h4>
+      <h3>Common Scenarios for Converting Images to PDF</h4>
+      <h3>Scan Multi-Page Documents With Your Phone</h4>
       <p>
         Modern phone scanning apps like Google Drive's scan feature and Apple's Notes scanner capture each page as a separate image. Converting all these page images into a single PDF recreates the original multi-page document in the standard format expected by submission portals, email recipients, and archiving systems.
       </p>
-      <h2>Submit ID Documents and Proofs Online</h4>
+      <h3>Submit ID Documents and Proofs Online</h4>
       <p>
         Many platforms require identity verification, address proof, and income documents uploaded as PDFs. If you have photos of your passport, utility bill, and bank statement as separate JPG files, converting them into a single PDF makes the submission process faster and cleaner.
       </p>
-      <h2>Create a Photo Portfolio or Lookbook</h4>
+      <h3>Create a Photo Portfolio or Lookbook</h4>
       <p>
         Photographers, designers, and artists can convert a curated selection of images into a professional PDF portfolio. Each image occupies a full page, the order is exactly as you set it, and the result is a document that looks polished on any screen or when printed.
       </p>
-      <h2>Build a Product Catalog From Photos</h4>
+      <h3>Build a Product Catalog From Photos</h4>
       <p>
         E-commerce sellers and small businesses can convert product photographs into a catalog PDF. Each product gets its own page, the catalog can be emailed to buyers, and it opens correctly on any device without requiring specific software.
       </p>
-      <h2>Combine Scanned Receipts for Expense Reports</h4>
+      <h3>Combine Scanned Receipts for Expense Reports</h4>
       <p>
         Photographing receipts throughout the month and then converting all the photos into a single PDF at the end of the month creates a clean expense report attachment. Accountants and finance teams prefer one organized PDF over a folder of individual receipt photos.
       </p>
-      <h2>Convert Screenshots Into a Reference Document</h4>
+      <h3>Convert Screenshots Into a Reference Document</h4>
       <p>
         Researchers, developers, and students who collect screenshots of reference material, error messages, or online content can convert them into a searchable, shareable PDF document. This is much easier to review and share than a collection of separate screenshot files.
       </p>
-      <h2>Prepare Medical or Insurance Documents</h4>
+      <h3>Prepare Medical or Insurance Documents</h4>
       <p>
         Photographed prescriptions, test results, doctor letters, and insurance claim forms can be combined into a single PDF for easy submission to insurance providers, hospitals, or pharmacies that require document uploads in PDF format.
       </p>
-      <h2>Create PDF Albums From Event Photos</h4>
+      <h3>Create PDF Albums From Event Photos</h4>
       <p>
         Wedding photographers, event planners, and families can convert a selection of event photos into a beautifully organized PDF album that can be shared via email or printed without any specialized album software.
       </p>
 
-      <h2>Page Size and Layout Options Explained</h4>
-      <h2>A4 Page Size</h4>
+      <h3>Page Size and Layout Options Explained</h4>
+      <h3>A4 Page Size</h4>
       <p>
         A4 (210 × 297mm) is the international standard page size used in most countries outside North America. It is the default choice for official documents, reports, applications, and business correspondence. Use A4 when submitting documents to government portals, universities, or international clients.
       </p>
-      <h2>Letter Page Size</h4>
+      <h3>Letter Page Size</h4>
       <p>
         Letter (8.5 × 11 inches) is the standard page size in the United States and Canada. Use Letter format when creating documents for US-based submission portals, US clients, or US printing requirements.
       </p>
-      <h2>Fit Image to Page</h4>
+      <h3>Fit Image to Page</h4>
       <p>
         This option scales each image to fill the entire page area edge-to-edge. This is ideal for photographs, product images, and portfolio images where you want maximum visual impact and no white margins.
       </p>
-      <h2>Maintain Image Proportions With Margins</h4>
+      <h3>Maintain Image Proportions With Margins</h4>
       <p>
         This option places each image centered on the page while maintaining its original aspect ratio, with white margins around it. This is better for documents with images of varying dimensions, where consistent centering looks more professional than edge-to-edge fills.
       </p>
 
-      <h2>Browser-Based vs Server-Based Image to PDF Conversion</h4>
+      <h3>Browser-Based vs Server-Based Image to PDF Conversion</h4>
       <div className="overflow-x-auto my-8">
         <table className="w-full border-collapse border border-gray-200">
           <thead>
@@ -249,29 +249,29 @@ export function ImagesToPdfSeo() {
         </table>
       </div>
 
-      <h2>Tips for Converting Images to PDF Effectively</h4>
-      <h2>Sort and Name Files Before Uploading</h4>
+      <h3>Tips for Converting Images to PDF Effectively</h4>
+      <h3>Sort and Name Files Before Uploading</h4>
       <p>
         Rename your image files in the correct order before uploading (e.g., 01_page.jpg, 02_page.jpg) so they appear in the right sequence. This is especially helpful when working with many scanned pages.
       </p>
-      <h2>Rotate Images Before Converting</h4>
+      <h3>Rotate Images Before Converting</h4>
       <p>
         If any images are sideways or upside down, use our <Link to="/image-tools/$slug" params={{ slug: "rotate-image" }} className="text-[#E5322D] hover:underline">Rotate Image tool</Link> to fix their orientation before converting to PDF. This gives you cleaner results than trying to rotate PDF pages after conversion.
       </p>
-      <h2>Compress the PDF After Converting</h4>
+      <h3>Compress the PDF After Converting</h4>
       <p>
         If your images are high-resolution photographs, the resulting PDF may be large. Run it through our <Link to="/tools/$slug" params={{ slug: "compress" }} className="text-[#E5322D] hover:underline">Compress PDF tool</Link> after conversion to reduce the file size without noticeable quality loss.
       </p>
-      <h2>Convert HEIC to JPG First</h4>
+      <h3>Convert HEIC to JPG First</h4>
       <p>
         iPhone photos saved as HEIC files need to be converted to JPG or PNG before adding them to the PDF converter. Use our <Link to="/image-tools/$slug" params={{ slug: "heic-to-jpg" }} className="text-[#E5322D] hover:underline">HEIC to JPG tool</Link> to batch convert them first.
       </p>
-      <h2>Use Consistent Page Size for Professional Results</h4>
+      <h3>Use Consistent Page Size for Professional Results</h4>
       <p>
         For documents intended for professional distribution, choose one page size (A4 or Letter) and stick to it throughout. Mixing page sizes in a single PDF looks inconsistent when printed or viewed in a document viewer.
       </p>
 
-      <h2>Frequently Asked Questions About Converting Images to PDF</h4>
+      <h3>Frequently Asked Questions About Converting Images to PDF</h4>
       <div className="space-y-4">
         {faqs.map((f, i) => (
           <details key={i} className="group border border-gray-200 rounded-lg p-4">

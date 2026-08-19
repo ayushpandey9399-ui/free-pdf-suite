@@ -98,7 +98,7 @@ export function MergePdfSeo() {
   return (
     <section className="mx-auto max-w-4xl px-4 pb-16 seo-content">
       {/* SECTION A */}
-      <h2>
+      <h3>
         Why Merge PDF Files Into One Document?
       </h4>
       <div>
@@ -126,7 +126,7 @@ export function MergePdfSeo() {
       </div>
 
       {/* SECTION B */}
-      <h2>
+      <h3>
         How to Merge PDF Files Online — Step by Step
       </h4>
       <div className="mt-5 space-y-6">
@@ -144,7 +144,7 @@ export function MergePdfSeo() {
       </div>
 
       {/* SECTION C */}
-      <h2>
+      <h3>
         Common Scenarios for Combining PDF Documents
       </h4>
       <div className="mt-5 space-y-6">
@@ -208,7 +208,7 @@ export function MergePdfSeo() {
       </div>
 
       {/* SECTION D */}
-      <h2>
+      <h3>
         Why Use Our Free Online PDF Merger?
       </h4>
       <div className="mt-5 space-y-6">
@@ -259,7 +259,7 @@ export function MergePdfSeo() {
       </div>
 
       {/* SECTION E */}
-      <h2>
+      <h3>
         Browser-Based vs Server-Based PDF Merging
       </h4>
       <div className="mt-6 overflow-x-auto">
@@ -317,7 +317,7 @@ export function MergePdfSeo() {
       </div>
 
       {/* SECTION F */}
-      <h2>
+      <h3>
         Tips for Merging PDF Files Effectively
       </h4>
       <div className="mt-5 space-y-6">
@@ -359,7 +359,7 @@ export function MergePdfSeo() {
       </div>
 
       {/* SECTION G */}
-      <h2>
+      <h3>
         Frequently Asked Questions About Merging PDFs
       </h4>
       <div className="mt-8 divide-y divide-[#ececef]">
