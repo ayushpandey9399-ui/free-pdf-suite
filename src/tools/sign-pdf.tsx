@@ -114,7 +114,7 @@ export default function SignPdf() {
       }
 
       const modifiedPdfBytes = await pdfDoc.save();
-      const blob = new Blob([modifiedPdfBytes], { type: "application/pdf" });
+      const blob = new Blob([modifiedPdfBytes.buffer], { type: "application/pdf" });
       
       setResult({
         blob,
@@ -154,10 +154,10 @@ export default function SignPdf() {
             </p>
           </div>
           <FileDropzone
-            onFilesAdded={handleFileUpload}
-            accept=".pdf"
+            files={file ? [file] : []}
+            onFilesChange={(files) => handleFileUpload(files)}
+            accept="application/pdf"
             multiple={false}
-            description="Select your PDF file to start signing"
           />
         </div>
       )}
