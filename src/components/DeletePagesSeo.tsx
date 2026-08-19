@@ -128,7 +128,7 @@ export function DeletePagesSeo() {
               {i + 1}
             </span>
             <div className="pt-1">
-              <h3 className="text-[17px] font-semibold">{s.title}</h2>
+              <h3 className="text-[17px] font-semibold">{s.title}</h3>
               <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.text}</p>
             </div>
           </li>
@@ -155,49 +155,49 @@ export function DeletePagesSeo() {
       </h2>
       <div className="mt-6 space-y-6">
         <div>
-          <h3 className="text-[17px] font-semibold">1. Removing Cover Pages</h2>
+          <h3 className="text-[17px] font-semibold">1. Removing Cover Pages</h3>
           <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
             Professional reports often come with generic cover sheets that aren't needed when merging documents or saving space. Deleting them creates a more direct reading experience.
           </p>
         </div>
         <div>
-          <h3 className="text-[17px] font-semibold">2. Deleting Blank Pages</h2>
+          <h3 className="text-[17px] font-semibold">2. Deleting Blank Pages</h3>
           <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
             Scanners often insert blank pages when processing double-sided documents. Our tool lets you visually identify and remove these empty pages in a single click.
           </p>
         </div>
         <div>
-          <h3 className="text-[17px] font-semibold">3. Removing Confidential Sections</h2>
+          <h3 className="text-[17px] font-semibold">3. Removing Confidential Sections</h3>
           <p>
             Before sharing a file externally, you can delete pages containing internal financial data, private notes, or sensitive employee information that shouldn't be public.
           </p>
         </div>
         <div>
-          <h3 className="text-[17px] font-semibold">4. Trimming Scanned Documents</h2>
+          <h3 className="text-[17px] font-semibold">4. Trimming Scanned Documents</h3>
           <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
             If you've scanned a 20-page document but only need the 5 pages of the actual contract, you can discard the extra pages instantly without re-scanning.
           </p>
         </div>
         <div>
-          <h3 className="text-[17px] font-semibold">5. Removing Ads from Downloaded PDFs</h2>
+          <h3 className="text-[17px] font-semibold">5. Removing Ads from Downloaded PDFs</h3>
           <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
             Many free e-books and online manuals include several pages of advertisements at the beginning or end. Delete them to keep your reference library clean.
           </p>
         </div>
         <div>
-          <h3 className="text-[17px] font-semibold">6. Cleaning Up Merged Documents</h2>
+          <h3 className="text-[17px] font-semibold">6. Cleaning Up Merged Documents</h3>
           <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
             After using our <Link to="/tools/$slug" params={{ slug: "merge" }} className="text-[#e5322d] hover:underline">Merge PDF</Link> tool, you might find redundant table of contents or index pages. Remove them to create a seamless unified document.
           </p>
         </div>
         <div>
-          <h3 className="text-[17px] font-semibold">7. Submission Requirements</h2>
+          <h3 className="text-[17px] font-semibold">7. Submission Requirements</h3>
           <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
             University or government portals often have strict page limits for uploads. If your document is slightly over, you can remove non-essential pages to meet the requirements.
           </p>
         </div>
         <div>
-          <h3 className="text-[17px] font-semibold">8. Removing Outdated Content</h2>
+          <h3 className="text-[17px] font-semibold">8. Removing Outdated Content</h3>
           <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
             When a document is updated, you may want to remove old terms of service or superseded price lists while keeping the rest of the document intact.
           </p>
@@ -246,31 +246,31 @@ export function DeletePagesSeo() {
       </h2>
       <div className="mt-6 space-y-5">
         <div>
-          <h3 className="text-[17px] font-semibold text-[#1F2937]">Use Thumbnail View to Spot Blanks</h2>
+          <h3 className="text-[17px] font-semibold text-[#1F2937]">Use Thumbnail View to Spot Blanks</h3>
           <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
             Scroll through the thumbnails carefully. Blank pages or pages with scanning errors (like black lines) are easy to spot and remove in one go.
           </p>
         </div>
         <div>
-          <h3 className="text-[17px] font-semibold text-[#1F2937]">Combine with Reordering</h2>
+          <h3 className="text-[17px] font-semibold text-[#1F2937]">Combine with Reordering</h3>
           <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
             If you need to move pages around as well as delete some, use our <Link to="/tools/$slug" params={{ slug: "reorder-pages" }} className="text-[#e5322d] hover:underline">Reorder Pages</Link> tool. It often provides the same deletion capability with the added benefit of drag-and-drop sorting.
           </p>
         </div>
         <div>
-          <h3 className="text-[17px] font-semibold text-[#1F2937]">Remove Meta-Data for Privacy</h2>
+          <h3 className="text-[17px] font-semibold text-[#1F2937]">Remove Meta-Data for Privacy</h3>
           <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
             After deleting sensitive pages, it's also a good idea to clear the document's hidden properties using our <Link to="/tools/$slug" params={{ slug: "pdf-metadata" }} className="text-[#e5322d] hover:underline">PDF Metadata</Link> tool.
           </p>
         </div>
         <div>
-          <h3 className="text-[17px] font-semibold text-[#1F2937]">Save Ink and Paper</h2>
+          <h3 className="text-[17px] font-semibold text-[#1F2937]">Save Ink and Paper</h3>
           <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
             Before printing a long document, delete the pages you don't need. It's a simple way to be more environmentally friendly and save on toner costs.
           </p>
         </div>
         <div>
-          <h3 className="text-[17px] font-semibold text-[#1F2937]">Check Internal Page References</h2>
+          <h3 className="text-[17px] font-semibold text-[#1F2937]">Check Internal Page References</h3>
           <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
             If the document has a 'Table of Contents' that refers to page numbers, remember that deleting pages will change the total count. If precision is key, consider using the <Link to="/tools/$slug" params={{ slug: "edit-pdf" }} className="text-[#e5322d] hover:underline">Edit PDF</Link> tool to update the TOC.
           </p>

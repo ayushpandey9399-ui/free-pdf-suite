@@ -201,21 +201,21 @@ export function PngToJpgSeo() {
       </p>
 
       <h2 id="how-to" className="mt-10 text-[22px] font-bold text-[#1F2937]">How to Convert PNG to JPG Online — Step by Step</h2>
-      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">Step 1 — Upload Your PNG Images</h2>
+      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">Step 1 — Upload Your PNG Images</h3>
       <p className="mt-2">Click the "Select images" button or drag and drop your PNG files onto the upload area. You can add multiple PNG files at once for batch conversion. All processing runs locally in your browser — your images never leave your device.</p>
-      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">Step 2 — Set Output Quality</h2>
+      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">Step 2 — Set Output Quality</h3>
       <p className="mt-2">Choose the JPG output quality level. Higher quality produces sharper images with larger file sizes. Lower quality produces smaller files with some visible compression artifacts. For most everyday purposes, 80-90% quality produces excellent results at a fraction of the PNG file size.</p>
-      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">Step 3 — Convert Your Images</h2>
+      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">Step 3 — Convert Your Images</h3>
       <p className="mt-2">Click the convert button. The tool renders each PNG on an HTML Canvas and encodes it as JPG at your chosen quality level. Multiple files are processed simultaneously for fast batch conversion. Transparent areas in PNG images are filled with a white background in the JPG output.</p>
-      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">Step 4 — Download Your JPG Files</h2>
+      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">Step 4 — Download Your JPG Files</h3>
       <p className="mt-2">Download individual JPG files or download all converted images at once as a ZIP archive. Each JPG output file is clean and watermark-free.</p>
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">Should You Convert PNG to JPG? When It Makes Sense</h2>
-      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">When PNG to JPG Conversion Is the Right Choice</h2>
+      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">When PNG to JPG Conversion Is the Right Choice</h3>
       <p className="mt-2">Photographs and photo-like images with millions of colors, gradients, and smooth tonal transitions compress extremely well as JPG with minimal visible quality loss. If your PNG file contains a photo — a landscape, portrait, product photo, or any image that came from a camera — converting it to JPG will typically reduce file size by 70-90% with no noticeable difference in appearance on screen.</p>
-      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">When to Stay With PNG</h2>
+      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">When to Stay With PNG</h3>
       <p className="mt-2">PNG is the right format for logos, icons, text, line art, screenshots, illustrations, and any image with large areas of solid color or sharp edges. Converting these types of images to JPG can introduce visible compression artifacts — blurring, color banding, and noise around sharp edges — that degrade quality noticeably. If your PNG contains a logo or graphic with transparent areas, converting to JPG will replace the transparency with a white background, which may not be what you want.</p>
-      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">The Quality Setting Matters</h2>
+      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">The Quality Setting Matters</h3>
       <p className="mt-2">The JPG quality slider determines how aggressively the file is compressed. Quality 95 produces a file that looks virtually identical to the PNG original with a modest size reduction. Quality 80 produces a much smaller file with quality that is excellent for web use and invisible at normal viewing sizes. Quality 60 or below can introduce visible artifacts in photographic images.</p>
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">Common Reasons People Convert PNG to JPG</h2>

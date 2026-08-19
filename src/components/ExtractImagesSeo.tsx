@@ -114,7 +114,7 @@ export function ExtractImagesSeo() {
                 {i + 1}
               </span>
               <div className="pt-1">
-                <h3 className="text-[15px] font-semibold text-[#33333c]">{s.title}</h2>
+                <h3 className="text-[15px] font-semibold text-[#33333c]">{s.title}</h3>
                 <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.text}</p>
               </div>
             </div>

@@ -513,35 +513,35 @@ export function WebpToJpgSeo() {
       </h2>
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
         <Link to="/image-tools/$slug" params={{ slug: "webp-to-png" }} className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]">
-          <h3 className="font-bold">WebP to PNG</h2>
+          <h3 className="font-bold">WebP to PNG</h3>
           <p className="mt-1 text-sm text-[#5a5a66]">Convert WebP to PNG with transparency</p>
         </Link>
         <Link to="/image-tools/$slug" params={{ slug: "jpg-to-webp" }} className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]">
-          <h3 className="font-bold">JPG to WebP</h2>
+          <h3 className="font-bold">JPG to WebP</h3>
           <p className="mt-1 text-sm text-[#5a5a66]">Convert JPG back to WebP</p>
         </Link>
         <Link to="/image-tools/$slug" params={{ slug: "png-to-jpg" }} className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]">
-          <h3 className="font-bold">PNG to JPG</h2>
+          <h3 className="font-bold">PNG to JPG</h3>
           <p className="mt-1 text-sm text-[#5a5a66]">Convert PNG images to JPG</p>
         </Link>
         <Link to="/image-tools/$slug" params={{ slug: "heic-to-jpg" }} className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]">
-          <h3 className="font-bold">HEIC to JPG</h2>
+          <h3 className="font-bold">HEIC to JPG</h3>
           <p className="mt-1 text-sm text-[#5a5a66]">Convert iPhone photos to JPG</p>
         </Link>
         <Link to="/image-tools/$slug" params={{ slug: "compress-image" }} className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]">
-          <h3 className="font-bold">Compress Image</h2>
+          <h3 className="font-bold">Compress Image</h3>
           <p className="mt-1 text-sm text-[#5a5a66]">Reduce JPG file size after converting</p>
         </Link>
         <Link to="/image-tools/$slug" params={{ slug: "image-resize" }} className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]">
-          <h3 className="font-bold">Resize Image</h2>
+          <h3 className="font-bold">Resize Image</h3>
           <p className="mt-1 text-sm text-[#5a5a66]">Resize images after converting</p>
         </Link>
         <Link to="/image-tools/$slug" params={{ slug: "rotate-image" }} className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]">
-          <h3 className="font-bold">Rotate Image</h2>
+          <h3 className="font-bold">Rotate Image</h3>
           <p className="mt-1 text-sm text-[#5a5a66]">Fix image orientation</p>
         </Link>
         <Link to="/tools/$slug" params={{ slug: "images-to-pdf" }} className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]">
-          <h3 className="font-bold">Images to PDF</h2>
+          <h3 className="font-bold">Images to PDF</h3>
           <p className="mt-1 text-sm text-[#5a5a66]">Combine JPGs into a PDF</p>
         </Link>
       </div>

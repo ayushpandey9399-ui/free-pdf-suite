@@ -204,37 +204,37 @@ export function JpgToPngSeo() {
       </p>
 
       <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">How to Convert JPG to PNG Online — Step by Step</h2>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-1">Step 1 — Upload Your JPG Files</h2>
+      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-1">Step 1 — Upload Your JPG Files</h3>
       <p className="mt-2">
         Click the "Select JPG files" button or drag and drop your JPEG photos onto the upload area. You can add multiple JPG files at once for batch conversion. All processing happens locally in your browser — your images never leave your device.
       </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-2">Step 2 — Set Conversion Options</h2>
+      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-2">Step 2 — Set Conversion Options</h3>
       <p className="mt-2">
         Since PNG is a lossless format, there are no quality settings to adjust like there are with JPG. The tool will automatically preserve the full fidelity of your original image during the conversion process.
       </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-3">Step 3 — Convert All Files</h2>
+      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-3">Step 3 — Convert All Files</h3>
       <p className="mt-2">
         Click the convert button. The tool processes each JPG file individually in your browser using the Canvas API. Multiple files are converted simultaneously for fast batch processing. A progress indicator shows the status of each file.
       </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-4">Step 4 — Download Your PNG Files</h2>
+      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-4">Step 4 — Download Your PNG Files</h3>
       <p className="mt-2">
         Download individual PNG files or download all converted images at once as a ZIP archive. Every PNG output file is clean — no watermarks, no branding, and full quality preserved from the original JPG source.
       </p>
 
       <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Common Situations Where You Need JPG to PNG</h2>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Creating Transparent Logos</h2>
+      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Creating Transparent Logos</h3>
       <p className="mt-2">
         If you have a logo saved as a JPG with a white background, you cannot make that background transparent without first converting it to PNG. Once converted, you can use transparency-aware tools to remove the white pixels, allowing the logo to be placed over any background color or image.
       </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Graphic Design and UI Mockups</h2>
+      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Graphic Design and UI Mockups</h3>
       <p className="mt-2">
         Designers prefer PNG for UI elements, buttons, and icons because it maintains perfectly sharp edges and supports alpha transparency. Converting JPG assets to PNG is often the first step in a professional design workflow to ensure these assets meet technical requirements.
       </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Preserving Text Clarity</h2>
+      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Preserving Text Clarity</h3>
       <p className="mt-2">
         If an image contains text — such as a screenshot, a diagram, or an infographic — JPG compression will often create "halos" or blurry artifacts around the letters. Converting to PNG ensures that the text remains crisp and readable, especially if the image needs to be scaled or embedded in a document.
       </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Preparing Images for Further Editing</h2>
+      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Preparing Images for Further Editing</h3>
       <p className="mt-2">
         If you plan to perform complex edits, color grading, or retouching in software like Photoshop or GIMP, converting the source JPG to PNG first prevents any additional quality loss during the multi-stage editing process.
       </p>
@@ -320,19 +320,19 @@ export function JpgToPngSeo() {
       </div>
 
       <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Tips for Converting JPG to PNG Effectively</h2>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Convert Before Removing Backgrounds</h2>
+      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Convert Before Removing Backgrounds</h3>
       <p className="mt-2">
         If you need to make a JPG logo transparent, convert it to PNG first. Most background removal tools work better and produce cleaner results when outputting to a PNG container that natively supports transparency.
       </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Use for Screenshots with Text</h2>
+      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Use for Screenshots with Text</h3>
       <p className="mt-2">
         If you've taken a screenshot that was saved as a JPG, convert it to PNG before sharing it in a professional document. This prevents the text from becoming fuzzy or unreadable due to additional compression.
       </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Compress After Converting if Needed</h2>
+      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Compress After Converting if Needed</h3>
       <p className="mt-2">
         If your resulting PNG file is too large for web use, you can use our <Link to="/image-tools/$slug" params={{ slug: "compress-image" }} className="text-[#E5322D] hover:underline">Compress Image tool</Link> to reduce the PNG file size using lossless optimization techniques.
       </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Convert to WebP for Even Better Web Performance</h2>
+      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Convert to WebP for Even Better Web Performance</h3>
       <p className="mt-2">
         If you need the benefits of PNG (transparency and lossless quality) but with smaller file sizes for your website, consider converting your JPG to WebP instead using our <Link to="/image-tools/$slug" params={{ slug: "jpg-to-webp" }} className="text-[#E5322D] hover:underline">JPG to WebP tool</Link>.
       </p>
