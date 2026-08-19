@@ -217,3 +217,51 @@ export default function SignPdf() {
     </div>
   );
 }
+
+const SignPdfSeo = () => (
+  <div className="container mx-auto px-4 py-16">
+    <div className="mx-auto max-w-4xl space-y-12">
+      <section>
+        <h2 className="mb-6 text-3xl font-bold">How to Sign a PDF Online</h2>
+        <div className="grid gap-8 md:grid-cols-3">
+          <div className="space-y-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-100 text-xl font-bold text-red-600">1</div>
+            <h3 className="text-xl font-bold">Upload Document</h3>
+            <p className="text-gray-600">Select the PDF document you want to sign from your computer or mobile device.</p>
+          </div>
+          <div className="space-y-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-100 text-xl font-bold text-red-600">2</div>
+            <h3 className="text-xl font-bold">Create Signature</h3>
+            <p className="text-gray-600">Draw your signature, type it using professional fonts, or upload an image of your physical signature.</p>
+          </div>
+          <div className="space-y-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-100 text-xl font-bold text-red-600">3</div>
+            <h3 className="text-xl font-bold">Place and Download</h3>
+            <p className="text-gray-600">Drag your signature onto the document, adjust the size, and download your securely signed PDF.</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="rounded-2xl bg-gray-50 p-8">
+        <h2 className="mb-6 text-2xl font-bold">Frequently Asked Questions</h2>
+        <div className="space-y-6">
+          <div>
+            <h4 className="text-lg font-bold">Is it safe to sign my documents here?</h4>
+            <p className="text-gray-600">Yes. Unlike other tools, we process your signature and PDF entirely in your browser. Your sensitive documents and signatures are never uploaded to any server.</p>
+          </div>
+          <div>
+            <h4 className="text-lg font-bold">Can I add initials as well?</h4>
+            <p className="text-gray-600">Absolutely. You can create both a full signature and initials, then place them multiple times throughout the document as needed.</p>
+          </div>
+          <div>
+            <h4 className="text-lg font-bold">Do I need to pay or create an account?</h4>
+            <p className="text-gray-600">No. Our PDF signing tool is 100% free and requires no registration. You can sign as many documents as you need without any watermarks.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+);
+
+export { SignPdfSeo };
+
