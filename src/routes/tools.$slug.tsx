@@ -139,7 +139,7 @@ const TOOL_META: Record<string, ToolMeta> = {
 };
 
 export const Route = createFileRoute("/tools/$slug")({
-  loader: ({ params }) => {
+  loader: async ({ params }) => {
     const tool = getTool(params.slug);
     if (!tool) throw notFound();
     return { slug: tool.slug, name: tool.name, description: tool.description };
