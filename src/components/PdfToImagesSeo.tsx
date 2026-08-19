@@ -126,7 +126,7 @@ export function PdfToImagesSeo() {
         ))}
       </div>
 
-      <h2>JPG vs PNG — Which Format Should You Choose?</h3>
+      <h2>JPG vs PNG — Which Format Should You Choose?</h2>
       <p>
         JPG (JPEG) and PNG are both excellent output formats for PDF conversion, but they serve different purposes best. JPG uses lossy compression that reduces file size by slightly approximating colors and details that the human eye cannot easily distinguish. The result is a much smaller file that looks nearly identical to the original for most viewing purposes. JPG is the right choice when file size matters and the document contains photographs, gradients, or colorful graphics.
       </p>

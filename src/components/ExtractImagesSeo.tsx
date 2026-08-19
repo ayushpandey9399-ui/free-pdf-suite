@@ -121,7 +121,7 @@ export function ExtractImagesSeo() {
           ))}
         </div>
 
-        <h2>Common Scenarios for Extracting Images from PDFs</h3>
+        <h2>Common Scenarios for Extracting Images from PDFs</h2>
         <h2>Recover Product Photos from Catalogs</h2>
         <p>Marketing teams and e-commerce store managers often receive large product catalogs as PDFs from manufacturers. Extracting these product photos allows for immediate integration into an online store, website catalog, or social media feed. Instead of waiting for the supplier to send hundreds of individual photo files, you can simply run the catalog through this tool and pull out all product images instantly.</p>
         

@@ -272,7 +272,7 @@ export function FillFormsSeo() {
       {/* Scenarios */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         When do you need to fill a PDF form?
-      </h3>
+      </h2>
       <div className="mt-6 space-y-5">
         {scenarios.map((s) => (
           <div key={s.h}>

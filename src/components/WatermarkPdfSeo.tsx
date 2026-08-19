@@ -137,7 +137,7 @@ export function WatermarkPdfSeo() {
 
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Choosing the Right Watermark Type
-      </h3>
+      </h2>
       <div className="mt-6 space-y-6">
         <div>
           <h3 className="text-[18px] font-bold text-[#1F2937]">Text Watermark</h3>

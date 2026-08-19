@@ -226,7 +226,7 @@ export function ScanToPdfSeo() {
       </section>
 
       <section>
-        <h2 className="text-2xl font-bold">Related PDF tools</h3>
+        <h2 className="text-2xl font-bold">Related PDF tools</h2>
         <RelatedToolsGrid items={scanToPdfRelated} />
       </section>
 

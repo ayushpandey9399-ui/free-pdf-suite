@@ -121,7 +121,7 @@ export function ExtractPagesSeo() {
         ))}
       </ol>
 
-      <h2>Extract pages vs split PDF vs delete pages — what is the difference?</h3>
+      <h2>Extract pages vs split PDF vs delete pages — what is the difference?</h2>
       <p>While these tools may seem similar, they serve distinct purposes. <strong>Extracting pages</strong> is the process of hand-picking specific pages you want to keep and placing them into a single new document. It is the most surgical approach, ideal when you only need a small subset of a larger file.</p>
       <p><strong>Splitting a PDF</strong> is more about division. It allows you to take a single document and break it into multiple separate files, often by page ranges (e.g., pages 1-10 as file A and pages 11-20 as file B). This is best for organizing large reports into manageable chapters or individual invoices from a batch.</p>
       <p><strong>Deleting pages</strong> is essentially the inverse of extraction. Instead of picking what to keep, you identify the pages you want to discard—like blank pages or cover sheets—and remove them while keeping the rest of the document intact. Each tool is designed to make these specific workflows as fast and intuitive as possible.</p>

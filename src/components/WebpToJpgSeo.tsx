@@ -241,7 +241,7 @@ export function WebpToJpgSeo() {
 
       <h2 className="mt-10 text-[24px] font-bold text-[#1F2937]">
         WebP vs JPG — A Complete Format Comparison
-      </h2>
+      </h3>
       <div className="mt-4 overflow-x-auto">
         <table className="w-full border-collapse border border-[#ececef] text-left text-[14px]">
           <thead>
@@ -365,7 +365,7 @@ export function WebpToJpgSeo() {
 
       <h2 className="mt-10 text-[24px] font-bold text-[#1F2937]">
         How WebP Compression Works — and Why Files Get Larger After Converting
-      </h2>
+      </h3>
       <p className="mt-3">
         WebP uses a more advanced compression algorithm than JPG, which is why WebP files are smaller at equivalent quality. WebP lossy compression is based on VP8 video frame encoding, which is more sophisticated than the discrete cosine transform (DCT) used by JPG. WebP lossless compression uses a combination of spatial prediction, color transform, palette coding, and LZ77 compression to achieve smaller file sizes than PNG.
       </p>
@@ -498,7 +498,7 @@ export function WebpToJpgSeo() {
 
       <h2 className="mt-10 text-[24px] font-bold text-[#1F2937]">
         Frequently Asked Questions About WebP to JPG Conversion
-      </h2>
+      </h3>
       <dl className="mt-4 space-y-4">
         {webpToJpgFaqJsonLd.mainEntity.map((q, i) => (
           <div key={i} className="rounded-lg border border-[#ececef] p-4">

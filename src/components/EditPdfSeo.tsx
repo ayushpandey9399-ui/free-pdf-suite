@@ -119,7 +119,7 @@ export function EditPdfSeo() {
         ))}
       </ol>
 
-      <h2>What can you edit in a PDF?</h3>
+      <h2>What can you edit in a PDF?</h2>
       <h2>Add text and text boxes</h2>
       <p>Add labels, fill forms, or include extra notes by drawing text boxes anywhere on your document pages.</p>
       <h2>Insert images</h2>

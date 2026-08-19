@@ -126,7 +126,7 @@ export function ProtectPdfSeo() {
         ))}
       </div>
 
-      <h2>Understanding PDF Encryption — AES-128 vs AES-256</h3>
+      <h2>Understanding PDF Encryption — AES-128 vs AES-256</h2>
       <p>
         PDF password protection works by encrypting the file contents using the AES (Advanced Encryption Standard) algorithm. Encryption scrambles the document data into an unreadable format that can only be decoded with the correct password. Without the right password, the file contents are mathematically impossible to read — not just difficult, but computationally infeasible.
       </p>

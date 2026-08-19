@@ -146,7 +146,7 @@ export function MergePdfSeo() {
       {/* SECTION C */}
       <h2>
         Common Scenarios for Combining PDF Documents
-      </h3>
+      </h2>
       <div className="mt-5 space-y-6">
         <div>
           <h3 className="text-[18px] font-bold text-[#33333c]">Combine Project Reports for Stakeholders</h3>
