@@ -23,7 +23,7 @@ const BAND = "#FAFAF9";
 /*
  * Scroll reveal, opt-in from the client only.
  */
-function Reveal({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+function RevealInternal({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement | null>(null);
   useIsomorphicLayoutEffect(() => {
     const el = ref.current;
@@ -80,10 +80,10 @@ export function PrivacyStoryInternal() {
   return (
     <section style={{ backgroundColor: BAND }} className="py-14 sm:py-24">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
-        <Reveal>
+        <RevealInternal>
           <div className="grid gap-10 lg:grid-cols-5 lg:gap-14 items-center">
             <div className="lg:col-span-3">
-              <h2>Your files stay on your device</h2>
+              <h2 className="text-[24px] sm:text-[32px] font-bold text-[#1F2937]">Your files stay on your device</h2>
               <p className="mt-5 text-[16px]" style={{ color: MUTED, lineHeight: 1.7 }}>
                 Our tools run in your browser. Where server processing 
                 is used (PDF to Word, Compress Image), files are 
@@ -107,7 +107,7 @@ export function PrivacyStoryInternal() {
               <PrivacyIllustration />
             </div>
           </div>
-        </Reveal>
+        </RevealInternal>
       </div>
     </section>
   );
@@ -117,8 +117,8 @@ export function WhyChooseInternal() {
   return (
     <section className="py-14 sm:py-24">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
-        <Reveal>
-          <h2>Why people choose pdftoolconverteronline.com</h2>
+        <RevealInternal>
+          <h2 className="text-[24px] sm:text-[32px] font-bold text-[#1F2937] text-center">Why people choose pdftoolconverteronline.com</h2>
           <p className="mx-auto mt-3 max-w-[640px] text-center text-[16px]" style={{ color: MUTED, lineHeight: 1.7 }}>
             No tricks, no accounts, no fine print, just tools that work.
           </p>
@@ -127,7 +127,7 @@ export function WhyChooseInternal() {
               <ReasonCard key={title} Icon={Icon} title={title} body={body} />
             ))}
           </div>
-        </Reveal>
+        </RevealInternal>
       </div>
     </section>
   );
@@ -137,8 +137,8 @@ export function HowItWorksInternal() {
   return (
     <section style={{ backgroundColor: BAND }} className="py-14 sm:py-24">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
-        <Reveal>
-          <h2 className="text-center">Three steps. That's the whole process.</h2>
+        <RevealInternal>
+          <h2 className="text-[24px] sm:text-[32px] font-bold text-[#1F2937] text-center">Three steps. That's the whole process.</h2>
           <div className="relative mt-14">
             <div
               aria-hidden
@@ -170,7 +170,7 @@ export function HowItWorksInternal() {
               ))}
             </div>
           </div>
-        </Reveal>
+        </RevealInternal>
       </div>
     </section>
   );
@@ -180,8 +180,8 @@ export function SeoProseInternal() {
   return (
     <section className="py-14 sm:py-24">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
-        <Reveal>
-          <h2 className="text-center">One toolkit for every PDF task</h2>
+        <RevealInternal>
+          <h2 className="text-[24px] sm:text-[32px] font-bold text-[#1F2937] text-center">One toolkit for every PDF task</h2>
           <div className="mx-auto mt-8 max-w-[760px] text-left text-[16px]" style={{ color: MUTED, lineHeight: 1.7 }}>
             <p>
               Organize documents by <SeoLink slug="merge">merging</SeoLink>, splitting, extracting,
@@ -198,7 +198,7 @@ export function SeoProseInternal() {
               to finish a PDF task is also the most private one.
             </p>
           </div>
-        </Reveal>
+        </RevealInternal>
       </div>
     </section>
   );
@@ -213,8 +213,8 @@ export function FinalCtaInternal() {
   return (
     <section className="relative overflow-hidden py-16 sm:py-24" style={{ backgroundColor: "#FAFAF9" }}>
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 text-center">
-        <Reveal>
-          <h2 className="text-center">44 tools. All free. All private.</h2>
+        <RevealInternal>
+          <h2 className="text-[24px] sm:text-[32px] font-bold text-[#1F2937] text-center">44 tools. All free. All private.</h2>
           <p className="mt-3 text-[16px]" style={{ color: MUTED }}>
             Our tools run in your browser. Where server processing is used (PDF to Word, Compress Image), files are securely deleted immediately after download.
           </p>
@@ -236,7 +236,7 @@ export function FinalCtaInternal() {
             Browse all tools
             <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
           </button>
-        </Reveal>
+        </RevealInternal>
       </div>
     </section>
   );
