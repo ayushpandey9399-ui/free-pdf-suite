@@ -220,55 +220,62 @@ export function SignWorkspace({
         onMouseUp={handleMouseUp}
       >
         <div className="mx-auto flex flex-col items-center gap-8" style={{ width: `${zoom * 100}%`, maxWidth: '1000px' }}>
-          {pages.map((page, idx) => (
-            <div 
-              key={idx} 
-              className="relative shadow-lg bg-white"
-              style={{ width: '100%', aspectRatio: `${page.width}/${page.height}` }}
-              ref={idx === 0 ? containerRef : null}
-            >
-              <img src={page.url} alt={`Page ${idx + 1}`} className="h-full w-full object-contain pointer-events-none" />
-              <div className="absolute top-full left-0 right-0 py-2 text-center text-xs text-gray-400">
-                Page {idx + 1} of {pages.length}
-              </div>
-
-              {/* Placements for this page */}
-              {placements.filter(p => p.pageIndex === idx).map(p => (
-                <div
-                  key={p.id}
-                  onMouseDown={(e) => handleMouseDown(e, p.id)}
-                  className={cn(
-                    "absolute cursor-move border-2 transition-all",
-                    selectedId === p.id ? "border-red-500 border-dashed bg-red-50/20" : "border-transparent hover:border-blue-400 hover:border-dashed"
-                  )}
-                  style={{
-                    left: `${p.x}%`,
-                    top: `${p.y}%`,
-                    width: `${p.width}px`,
-                    height: `${p.height}px`,
-                    transform: `rotate(${p.rotation}deg)`
-                  }}
-                >
-                  {p.type === "signature" || p.type === "initials" ? (
-                    <img src={p.content} alt={p.type} className="h-full w-full object-contain pointer-events-none" />
-                  ) : (
-                    <div className="flex h-full w-full items-center justify-center p-2 text-center font-medium">
-                      {p.content}
-                    </div>
-                  )}
-                  
-                  {selectedId === p.id && (
-                    <button
-                      onClick={(e) => { e.stopPropagation(); removePlacement(p.id); }}
-                      className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-red-500 text-white shadow-md hover:bg-red-600"
-                    >
-                      <X className="h-3 w-3" />
-                    </button>
-                  )}
-                </div>
-              ))}
+          {pages.length === 0 ? (
+            <div className="flex h-[600px] w-full flex-col items-center justify-center space-y-4">
+              <Loader2 className="h-12 w-12 animate-spin text-red-500" />
+              <p className="text-gray-500 font-medium">Loading PDF pages...</p>
             </div>
-          ))}
+          ) : (
+            pages.map((page, idx) => (
+              <div 
+                key={idx} 
+                className="relative shadow-lg bg-white"
+                style={{ width: '100%', aspectRatio: `${page.width}/${page.height}` }}
+                ref={idx === 0 ? containerRef : null}
+              >
+                <img src={page.url} alt={`Page ${idx + 1}`} className="h-full w-full object-contain pointer-events-none" />
+                <div className="absolute top-full left-0 right-0 py-2 text-center text-xs text-gray-400">
+                  Page {idx + 1} of {pages.length}
+                </div>
+
+                {/* Placements for this page */}
+                {placements.filter(p => p.pageIndex === idx).map(p => (
+                  <div
+                    key={p.id}
+                    onMouseDown={(e) => handleMouseDown(e, p.id)}
+                    className={cn(
+                      "absolute cursor-move border-2 transition-all",
+                      selectedId === p.id ? "border-red-500 border-dashed bg-red-50/20" : "border-transparent hover:border-blue-400 hover:border-dashed"
+                    )}
+                    style={{
+                      left: `${p.x}%`,
+                      top: `${p.y}%`,
+                      width: `${p.width}px`,
+                      height: `${p.height}px`,
+                      transform: `rotate(${p.rotation}deg)`
+                    }}
+                  >
+                    {p.type === "signature" || p.type === "initials" ? (
+                      <img src={p.content} alt={p.type} className="h-full w-full object-contain pointer-events-none" />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center p-2 text-center font-medium">
+                        {p.content}
+                      </div>
+                    )}
+                    
+                    {selectedId === p.id && (
+                      <button
+                        onClick={(e) => { e.stopPropagation(); removePlacement(p.id); }}
+                        className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-red-500 text-white shadow-md hover:bg-red-600"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ))
+          )}
         </div>
       </div>
 
