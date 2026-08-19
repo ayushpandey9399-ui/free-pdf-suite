@@ -156,7 +156,7 @@ export function SplitPdfSeo() {
         </div>
         <div>
           <h3 className="text-lg font-semibold text-[#383E45]">Separate Pages Before Distributing to Recipients</h3>
-          <p className="mt-1.5 text-base leading-relaxed text-[#383E45]">When a document contains information for multiple recipients — for example, a HR onboarding packet with different forms for different employees — splitting by recipient section ensures each person receives only the pages relevant to them.</p>
+          <p className="mt-1.5 text-base leading-relaxed text-[#383E45]">When a document contains information for multiple recipients, for example, a HR onboarding packet with different forms for different employees, splitting by recipient section ensures each person receives only the pages relevant to them.</p>
         </div>
         <div>
           <h3 className="text-lg font-semibold text-[#383E45]">Split Scanned Documents Into Individual Forms</h3>
