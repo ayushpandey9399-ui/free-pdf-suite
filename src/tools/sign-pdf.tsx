@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { toast } from "sonner";
-import { PDFDocument, rgb } from "pdf-lib";
+import { PDFDocument, rgb, degrees } from "pdf-lib";
 import fontkit from "@pdf-lib/fontkit";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
@@ -114,7 +114,7 @@ export default function SignPdf() {
       }
 
       const modifiedPdfBytes = await pdfDoc.save();
-      const blob = new Blob([modifiedPdfBytes.buffer], { type: "application/pdf" });
+      const blob = new Blob([modifiedPdfBytes], { type: "application/pdf" });
       
       setResult({
         blob,
