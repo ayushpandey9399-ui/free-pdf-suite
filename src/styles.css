@@ -81,7 +81,7 @@
   --secondary: oklch(0.968 0.007 247.896);
   --secondary-foreground: oklch(0.208 0.042 265.755);
   --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
+  --muted-foreground: oklch(0.45 0.03 264.695);
   --accent: oklch(0.968 0.007 247.896);
   --accent-foreground: oklch(0.208 0.042 265.755);
   --destructive: oklch(0.577 0.245 27.325);
@@ -213,13 +213,13 @@
 /* Scroll reveal (JS toggles .is-visible) */
 .reveal-on-scroll {
   opacity: 0;
-  transform: translateY(12px);
+  transform: translate3d(0, 12px, 0);
   transition: opacity 250ms ease-out, transform 250ms ease-out;
   will-change: opacity, transform;
 }
 .reveal-on-scroll.is-visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
 }
 
 /* Soft pulse for shield badge */
@@ -267,7 +267,7 @@
 
 /* SEO Content Section Styling */
 .seo-content {
-  color: #4b5563;
+  color: #374151; /* Darker gray for contrast */
   font-size: 16px;
   line-height: 1.75;
   content-visibility: auto;
@@ -330,7 +330,7 @@
 }
 
 .seo-content details p {
-  color: #6b7280;
+  color: #4b5563; /* Darker gray for contrast */
   line-height: 1.7;
   margin-top: 12px;
   margin-bottom: 0;

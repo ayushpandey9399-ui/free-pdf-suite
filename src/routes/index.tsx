@@ -95,7 +95,7 @@ function Home() {
 
         <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 pt-10 pb-0 text-center">
           <h1
-            className="mx-auto max-w-[900px] text-[32px] sm:text-[42px] lg:text-[48px]"
+            className="mx-auto max-w-[900px] text-[32px] sm:text-[42px] lg:text-[48px] font-bold text-[#1F2937]"
             style={{ letterSpacing: "-0.025em" }}
           >
             Every tool you need to work with{" "}
@@ -119,9 +119,10 @@ function Home() {
             </span>{" "}
             in one place
           </h1>
+          <h2 className="sr-only">Free PDF Tools Overview</h2>
           <p
             className="mx-auto mt-4 max-w-[720px] text-[16px] sm:text-[17px] leading-relaxed"
-            style={{ color: "#6b6b78" }}
+            style={{ color: "#4b5563" }}
           >
             Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use! Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.
           </p>
@@ -172,7 +173,8 @@ function Home() {
 
       {/* Tool cards grid */}
       <section id="tools" className="mx-auto max-w-[1200px] px-4 sm:px-6 pt-6 pb-12">
-        <div className="grid gap-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 items-stretch">
+        <h2 className="sr-only">Available PDF Tools</h2>
+        <div className="grid gap-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 items-stretch" role="list">
           {visible.map((t) => {
             const Icon = t.icon;
             return (
@@ -207,6 +209,7 @@ function ToolCard({
       to="/tools/$slug"
       params={{ slug }}
       className="group relative flex h-full flex-col rounded-lg bg-white p-5 sm:p-6 text-left transition-all duration-200 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-[#E5322D]/40"
+      role="listitem"
       style={{
         border: `1px solid ${hover ? tint + "55" : "#ececef"}`,
         boxShadow: hover
@@ -225,12 +228,12 @@ function ToolCard({
       >
         <Icon size={46} />
       </div>
-      <h3 className="mt-3.5 sm:mt-4 text-[16px] sm:text-[18px] leading-snug">
+      <h3 className="mt-3.5 sm:mt-4 text-[16px] sm:text-[18px] font-semibold text-[#1F2937] leading-snug">
         {name}
       </h3>
       <p
         className="mt-2 text-[13.5px] sm:text-[14px] leading-[1.55]"
-        style={{ color: "#6B7280" }}
+        style={{ color: "#4b5563" }}
       >
         {description}
       </p>

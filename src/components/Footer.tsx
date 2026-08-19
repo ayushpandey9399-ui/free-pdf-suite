@@ -66,7 +66,7 @@ const imageTools: ImageLink[] = [
 
 
 const HEAD_STYLE = {
-  color: "#6B7280",
+  color: "#4B5563",
   letterSpacing: "0.05em",
   fontWeight: 600,
 } as const;
@@ -74,7 +74,7 @@ const HEAD_STYLE = {
 const LINK_CLASS =
   "inline-block py-1.5 text-[14px] transition-all duration-150 ease-out hover:text-white hover:translate-x-0.5";
 
-const LINK_STYLE = { color: "#9CA3AF" } as const;
+const LINK_STYLE = { color: "#d1d5db" } as const;
 
 export function Footer() {
   
