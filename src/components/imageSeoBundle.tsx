@@ -4,7 +4,7 @@
  * Imported ONLY from the route component so none of it lands in the route's
  * critical chunk (which every page downloads).
  */
-import { lazy, type ReactNode } from "react";
+import { lazy, type ComponentType } from "react";
 
 const HeicToJpgTool = lazy(() => import("@/tools/heic-to-jpg").then(m => ({ default: m.HeicToJpgTool })));
 const HeicToPngTool = lazy(() => import("@/tools/heic-to-png").then(m => ({ default: m.HeicToPngTool })));
@@ -117,10 +117,11 @@ type Silo = {
   jsonLd: readonly unknown[];
   h1: string;
   subtitle: string;
-  Component: () => ReactNode;
-  Seo: () => ReactNode;
+  Component: ComponentType;
+  Seo: ComponentType;
   maxWidth?: string;
 };
+
 
 export const IMAGE_SILOS: Record<string, Silo> = {
   "heic-to-jpg": {
