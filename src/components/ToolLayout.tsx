@@ -66,12 +66,6 @@ export function ToolLayout({
           <h1 className="tool-title">
             {title}
           </h1>
-          <p
-            className="mx-auto mt-4 max-w-[640px] text-[15px] sm:text-[18px] tool-description"
-            style={{ color: "#6B7280", lineHeight: 1.65, textWrap: "balance", textWrapStyle: "balance" } as CSSProperties}
-          >
-            {description}
-          </p>
 
           <div className="mt-10">{children}</div>
         </div>
