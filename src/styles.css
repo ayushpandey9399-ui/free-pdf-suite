@@ -1,9 +1,7 @@
 @import "tailwindcss" source(none);
 @import "@fontsource/plus-jakarta-sans/400.css";
-@import "@fontsource/plus-jakarta-sans/500.css";
-@import "@fontsource/plus-jakarta-sans/600.css";
 @import "@fontsource/plus-jakarta-sans/700.css";
-@import "@fontsource/plus-jakarta-sans/800.css";
+
 @source "../src";
 @import "tw-animate-css";
 
@@ -272,7 +270,10 @@
   color: #4b5563;
   font-size: 16px;
   line-height: 1.75;
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
 }
+
 
 .seo-content h2 {
   font-size: 20px;

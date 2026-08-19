@@ -4,23 +4,24 @@
  * Imported ONLY from the route component so none of it lands in the route's
  * critical chunk (which every page downloads).
  */
-import type { ReactNode } from "react";
+import { lazy, type ReactNode } from "react";
 
-import { HeicToJpgTool } from "@/tools/heic-to-jpg";
-import { HeicToPngTool } from "@/tools/heic-to-png";
-import { JpgToPngTool } from "@/tools/jpg-to-png";
-import { PngToJpgTool } from "@/tools/png-to-jpg";
-import { WebpToJpgTool } from "@/tools/webp-to-jpg";
-import { WebpToPngTool } from "@/tools/webp-to-png";
-import { CompressImageTool } from "@/tools/compress-image";
-import { ImageResizeTool } from "@/tools/image-resize";
-import { JpgToWebpTool } from "@/tools/jpg-to-webp";
-import { PngToWebpTool } from "@/tools/png-to-webp";
-import { CropImageTool } from "@/tools/crop-image";
-import { RotateImageTool } from "@/tools/rotate-image";
-import { WatermarkImageTool } from "@/tools/watermark-image";
-import { MemeGeneratorTool } from "@/tools/meme-generator";
-import { PhotoEditorTool } from "@/tools/photo-editor";
+const HeicToJpgTool = lazy(() => import("@/tools/heic-to-jpg").then(m => ({ default: m.HeicToJpgTool })));
+const HeicToPngTool = lazy(() => import("@/tools/heic-to-png").then(m => ({ default: m.HeicToPngTool })));
+const JpgToPngTool = lazy(() => import("@/tools/jpg-to-png").then(m => ({ default: m.JpgToPngTool })));
+const PngToJpgTool = lazy(() => import("@/tools/png-to-jpg").then(m => ({ default: m.PngToJpgTool })));
+const WebpToJpgTool = lazy(() => import("@/tools/webp-to-jpg").then(m => ({ default: m.WebpToJpgTool })));
+const WebpToPngTool = lazy(() => import("@/tools/webp-to-png").then(m => ({ default: m.WebpToPngTool })));
+const CompressImageTool = lazy(() => import("@/tools/compress-image").then(m => ({ default: m.CompressImageTool })));
+const ImageResizeTool = lazy(() => import("@/tools/image-resize").then(m => ({ default: m.ImageResizeTool })));
+const JpgToWebpTool = lazy(() => import("@/tools/jpg-to-webp").then(m => ({ default: m.JpgToWebpTool })));
+const PngToWebpTool = lazy(() => import("@/tools/png-to-webp").then(m => ({ default: m.PngToWebpTool })));
+const CropImageTool = lazy(() => import("@/tools/crop-image").then(m => ({ default: m.CropImageTool })));
+const RotateImageTool = lazy(() => import("@/tools/rotate-image").then(m => ({ default: m.RotateImageTool })));
+const WatermarkImageTool = lazy(() => import("@/tools/watermark-image").then(m => ({ default: m.WatermarkImageTool })));
+const MemeGeneratorTool = lazy(() => import("@/tools/meme-generator").then(m => ({ default: m.MemeGeneratorTool })));
+const PhotoEditorTool = lazy(() => import("@/tools/photo-editor").then(m => ({ default: m.PhotoEditorTool })));
+
 import {
   HeicToJpgSeo,
   heicToJpgFaqJsonLd,

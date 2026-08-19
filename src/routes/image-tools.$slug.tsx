@@ -1,5 +1,6 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
+
 import { getImageTool } from "@/lib/imageTools";
 
 import { SITE_URL } from "@/lib/site";
@@ -196,6 +197,16 @@ function ImageToolPage() {
   const Seo = silo.Seo;
   const maxWidth = silo.maxWidth ?? "max-w-4xl";
 
+  const fallback = (
+    <div className="flex items-center justify-center py-16 text-muted-foreground">
+      <div className="h-5 w-5 animate-spin rounded-full border-2 border-primary border-t-transparent mr-2" />
+      Loading tool…
+    </div>
+  );
+
+  const Seo = silo.Seo;
+  const maxWidth = silo.maxWidth ?? "max-w-4xl";
+
   return (
     <div className="w-full">
       <div className="bg-[#F7F7F8] border-b border-[#ececec]">
@@ -220,8 +231,11 @@ function ImageToolPage() {
               {silo.subtitle}
             </p>
             <div className="mt-10">
-              <Tool />
+              <Suspense fallback={fallback}>
+                <Tool />
+              </Suspense>
             </div>
+
           </div>
         </section>
       </div>
