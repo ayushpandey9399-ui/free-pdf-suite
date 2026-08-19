@@ -18,16 +18,16 @@ const steps = [
     text: "Click the \"Select PDF file\" button or drag and drop your document onto the page. Your file opens directly in your browser and is not uploaded to any server.",
   },
   {
-    title: "Step 2 — Wait for Automatic Extraction",
+    title: "Step 2: Wait for Automatic Extraction",
     text: "The tool scans every page of your PDF and identifies all embedded images including photographs, logos, icons, charts, and diagrams. This process runs entirely in your browser using JavaScript and takes just a few seconds even for large documents.",
   },
   {
-    title: "Step 3 — Preview and Select Images",
+    title: "Step 3: Preview and Select Images",
     text: "After extraction, you will see thumbnails of every image found in the PDF. You can preview each image at full size before downloading. Select individual images you need, or choose to download all of them at once.",
   },
   {
-    title: "Step 4 — Download Your Images",
-    text: "Download individual images one by one, or get all extracted images as a single ZIP file. Every image is saved in its original format and resolution — no compression, no quality loss, no watermark added.",
+    title: "Step 4: Download Your Images",
+    text: "Download individual images one by one, or get all extracted images as a single ZIP file. Every image is saved in its original format and resolution; no compression, no quality loss, no watermark added.",
   },
 ];
 
