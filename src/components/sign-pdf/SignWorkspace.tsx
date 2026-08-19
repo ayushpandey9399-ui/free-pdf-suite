@@ -68,7 +68,7 @@ export function SignWorkspace({
         canvas.height = viewport.height;
         canvas.width = viewport.width;
 
-        await page.render({ canvasContext: context, viewport }).promise;
+        await page.render({ canvasContext: context, viewport, canvas }).promise;
         renderedPages.push({
           url: canvas.toDataURL(),
           width: viewport.width,
