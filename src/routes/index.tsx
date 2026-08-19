@@ -173,6 +173,7 @@ function Home() {
       {/* Tool cards grid */}
       <section id="tools" className="mx-auto max-w-[1200px] px-4 sm:px-6 pt-6 pb-12">
         <div className="grid gap-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 items-stretch" role="list">
+          <h2 className="sr-only">Available PDF Tools</h2>
           {visible.map((t) => {
             const Icon = t.icon;
             return (
@@ -226,9 +227,9 @@ function ToolCard({
       >
         <Icon size={46} />
       </div>
-      <h2 className="mt-3.5 sm:mt-4 text-[16px] sm:text-[18px] font-semibold text-[#1F2937] leading-snug">
+      <h3 className="mt-3.5 sm:mt-4 text-[16px] sm:text-[18px] font-semibold text-[#1F2937] leading-snug">
         {name}
-      </h2>
+      </h3>
       <p
         className="mt-2 text-[13.5px] sm:text-[14px] leading-[1.55]"
         style={{ color: "#4b5563" }}
