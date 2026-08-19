@@ -1,16 +1,19 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { PDFDocument, rgb, degrees } from "pdf-lib";
 import fontkit from "@pdf-lib/fontkit";
+import * as pdfjsLib from "pdfjs-dist";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 import { downloadBlob } from "@/lib/download";
 import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { SignatureCreator } from "@/components/sign-pdf/SignatureCreator";
 import { SignWorkspace } from "@/components/sign-pdf/SignWorkspace";
 import { Loader2 } from "lucide-react";
 import confetti from "canvas-confetti";
+
+// CRITICAL: Set worker source correctly
+pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
 
 type Screen = "UPLOAD" | "CREATION" | "EDITOR" | "PROCESSING" | "SUCCESS";
 
@@ -33,9 +36,9 @@ interface Placement {
 }
 
 export default function SignPdf() {
-  const isMobile = useIsMobile();
   const [screen, setScreen] = useState<Screen>("UPLOAD");
   const [file, setFile] = useState<File | null>(null);
+  const [pdfBuffer, setPdfBuffer] = useState<ArrayBuffer | null>(null);
   const [signature, setSignature] = useState<SignatureData | null>(null);
   const [initials, setInitials] = useState<SignatureData | undefined>(undefined);
   const [result, setResult] = useState<{ blob: Blob; filename: string } | null>(null);
@@ -43,8 +46,17 @@ export default function SignPdf() {
 
   const handleFileUpload = (files: File[]) => {
     if (files.length > 0) {
-      setFile(files[0]);
-      setScreen("CREATION");
+      const selectedFile = files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        setFile(selectedFile);
+        setPdfBuffer(reader.result as ArrayBuffer);
+        setScreen("CREATION");
+      };
+      reader.onerror = () => {
+        toast.error("Failed to read PDF file.");
+      };
+      reader.readAsArrayBuffer(selectedFile);
     }
   };
 
@@ -55,17 +67,15 @@ export default function SignPdf() {
   };
 
   const handleSign = async (placements: Placement[]) => {
-    if (!file || !signature) return;
+    if (!pdfBuffer || !signature || !file) return;
     
     setPlacementsCount(placements.length);
     setScreen("PROCESSING");
 
     try {
-      const pdfBytes = await file.arrayBuffer();
-      const pdfDoc = await PDFDocument.load(pdfBytes);
+      const pdfDoc = await PDFDocument.load(pdfBuffer);
       pdfDoc.registerFontkit(fontkit);
 
-      // Embed signature and initials images if they exist
       const embeddedImages: Record<string, any> = {};
       
       const sigImageBytes = await fetch(signature.dataUrl).then(res => res.arrayBuffer());
@@ -82,12 +92,8 @@ export default function SignPdf() {
         const page = pages[p.pageIndex];
         const { width, height } = page.getSize();
         
-        // Convert percentage coordinates to PDF points
-        // In PDF, (0,0) is bottom-left. In browser, it's top-left.
         const pdfX = (p.x / 100) * width;
         const pdfY = height - ((p.y / 100) * height) - ((p.height / 100) * height);
-        
-        // Scale dimensions
         const pdfW = (p.width / 100) * width;
         const pdfH = (p.height / 100) * height;
 
@@ -103,10 +109,9 @@ export default function SignPdf() {
             });
           }
         } else {
-          // Simplified text drawing for now (Standard fonts)
           page.drawText(p.content, {
             x: pdfX,
-            y: pdfY + (pdfH / 4), // Adjust baseline
+            y: pdfY + (pdfH / 4),
             size: 14,
             color: rgb(0, 0, 0),
           });
@@ -137,6 +142,7 @@ export default function SignPdf() {
 
   const reset = () => {
     setFile(null);
+    setPdfBuffer(null);
     setSignature(null);
     setInitials(undefined);
     setResult(null);
@@ -146,19 +152,21 @@ export default function SignPdf() {
   return (
     <div className="min-h-[600px]">
       {screen === "UPLOAD" && (
-        <div className="mx-auto max-w-4xl py-12">
+        <div className="mx-auto max-w-4xl py-12 px-4">
           <div className="mb-8 text-center">
             <h1 className="mb-4 text-4xl font-bold text-gray-900">Sign PDF Online</h1>
             <p className="text-lg text-gray-600">
               Add your signature to any PDF document in seconds. 100% browser-based.
             </p>
           </div>
-          <FileDropzone
-            files={file ? [file] : []}
-            onFilesChange={(files) => handleFileUpload(files)}
-            accept="application/pdf"
-            multiple={false}
-          />
+          <div className="bg-[#F7F7F8] p-8 rounded-3xl border border-gray-100 shadow-sm">
+            <FileDropzone
+              files={file ? [file] : []}
+              onFilesChange={(files) => handleFileUpload(files)}
+              accept="application/pdf"
+              multiple={false}
+            />
+          </div>
         </div>
       )}
 
@@ -198,7 +206,7 @@ export default function SignPdf() {
       )}
 
       {screen === "SUCCESS" && result && (
-        <div className="mx-auto max-w-3xl py-12">
+        <div className="mx-auto max-w-3xl py-12 px-4">
           <ToolSuccessScreen
             heading="Your PDF has been signed!"
             subheading={`Successfully embedded ${placementsCount} field${placementsCount !== 1 ? 's' : ''} into "${result.filename}"`}
@@ -214,6 +222,8 @@ export default function SignPdf() {
           </ToolSuccessScreen>
         </div>
       )}
+      
+      <SignPdfSeo />
     </div>
   );
 }
@@ -264,4 +274,3 @@ const SignPdfSeo = () => (
 );
 
 export { SignPdfSeo };
-
