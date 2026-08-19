@@ -138,7 +138,7 @@ export function HowItWorksInternal() {
     <section style={{ backgroundColor: BAND }} className="py-14 sm:py-24">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
         <RevealInternal>
-          <h2 className="text-[24px] sm:text-[32px] font-bold text-[#1F2937] text-center">Three steps. That's the whole process.</h2>
+          <h3 className="text-[24px] sm:text-[32px] font-bold text-[#1F2937] text-center">Three steps. That's the whole process.</h3>
           <div className="relative mt-14">
             <div
               aria-hidden
@@ -162,7 +162,7 @@ export function HowItWorksInternal() {
                   >
                     {s.n}
                   </div>
-                  <h3 className="mt-5 text-[17px] font-semibold text-[#1F2937]">{s.title}</h3>
+                  <h4 className="mt-5 text-[17px] font-semibold text-[#1F2937]">{s.title}</h4>
                   <p className="mt-2 max-w-[280px] text-[14px]" style={{ color: MUTED, lineHeight: 1.6 }}>
                     {s.body}
                   </p>
