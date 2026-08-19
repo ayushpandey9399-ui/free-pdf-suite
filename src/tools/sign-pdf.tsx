@@ -99,7 +99,7 @@ export default function SignPdf() {
               y: pdfY,
               width: pdfW,
               height: pdfH,
-              rotate: { angle: -p.rotation, type: 'degrees' as const }
+              rotate: degrees(-p.rotation)
             });
           }
         } else {
@@ -114,7 +114,7 @@ export default function SignPdf() {
       }
 
       const modifiedPdfBytes = await pdfDoc.save();
-      const blob = new Blob([modifiedPdfBytes], { type: "application/pdf" });
+      const blob = new Blob([modifiedPdfBytes.buffer], { type: "application/pdf" });
       
       setResult({
         blob,
@@ -155,7 +155,7 @@ export default function SignPdf() {
           </div>
           <FileDropzone
             onFilesAdded={handleFileUpload}
-            accept={{ "application/pdf": [".pdf"] }}
+            accept=".pdf"
             multiple={false}
             description="Select your PDF file to start signing"
           />
