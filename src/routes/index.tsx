@@ -60,11 +60,20 @@ export const Route = createFileRoute("/")({
       { name: "twitter:description", content: HOME_DESC },
       { name: "twitter:image", content: OG_IMAGE },
     ],
-    links: [{ rel: "canonical", href: HOME_URL }],
+    links: [
+      { rel: "canonical", href: HOME_URL },
+      // Preload critical tool chunks for top pages
+      { rel: "prefetch", href: "/assets/merge.js" },
+      { rel: "prefetch", href: "/assets/compress.js" },
+      { rel: "prefetch", href: "/assets/split.js" },
+      { rel: "prefetch", href: "/assets/sign-pdf.js" },
+      { rel: "prefetch", href: "/assets/rotate.js" },
+    ],
     scripts: [
       { type: "application/ld+json", children: JSON.stringify(homeJsonLd) },
     ],
   }),
+
   component: Home,
 });
 
