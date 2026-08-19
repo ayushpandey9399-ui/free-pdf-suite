@@ -141,49 +141,49 @@ export function PdfToImagesSeo() {
       </p>
 
       <h2>Common Reasons to Convert PDF Pages to Images</h2>
-      <h3>Share Documents on Social Media</h3>
+      <h2>Share Documents on Social Media</h2>
       <p>
         Instagram, Facebook, LinkedIn, and Twitter all display images natively in feeds but cannot display PDF files directly. Converting your PDF pages to JPG lets you share report pages, infographics, certificates, and design previews directly as social media posts without requiring followers to download and open a PDF file.
       </p>
-      <h3>Insert PDF Content Into Presentations</h3>
+      <h2>Insert PDF Content Into Presentations</h2>
       <p>
         PowerPoint, Google Slides, Keynote, and other presentation tools allow you to insert images but not PDF pages. Converting a specific PDF page — such as a chart, diagram, or summary slide — to JPG lets you insert it directly into your presentation at any size.
       </p>
-      <h3>Create Document Thumbnails and Previews</h3>
+      <h2>Create Document Thumbnails and Previews</h2>
       <p>
         When displaying a library of documents on a website, app, or internal portal, showing a JPG thumbnail of the first page helps users identify documents visually without downloading them. Convert the first page of each PDF to create thumbnail images for your document library.
       </p>
-      <h3>Share Pages via WhatsApp and Messaging Apps</h3>
+      <h2>Share Pages via WhatsApp and Messaging Apps</h2>
       <p>
         Messaging apps display JPG and PNG images inline in the conversation, making them instantly visible without tapping to download. Converting a specific page from a contract, invoice, or form to a JPG and sending it as an image message is faster and more convenient than sending the full PDF.
       </p>
-      <h3>Use PDF Pages in Design and Marketing</h3>
+      <h2>Use PDF Pages in Design and Marketing</h2>
       <p>
         Graphic designers, content creators, and marketers often need to incorporate specific pages from brand guideline documents, product sheets, or approval documents into their design work. Converting the relevant PDF pages to high-quality JPG or PNG images provides the clean source files they need to work with in Photoshop, Canva, or other design tools.
       </p>
-      <h3>Archive Visual Records of Documents</h3>
+      <h2>Archive Visual Records of Documents</h2>
       <p>
         For visual archives — keeping a record of how a document looked at a specific point in time — JPG images are more universally viewable than PDF files, especially as PDF specifications change over time. Converting important document pages to images ensures they remain viewable on any future device or system.
       </p>
-      <h3>Extract Specific Pages as Standalone Images</h3>
+      <h2>Extract Specific Pages as Standalone Images</h2>
       <p>
         When you need to share just one page from a long PDF — such as the signature page of a contract, a specific chart from a report, or a single certificate from a multi-certificate document — converting that specific page to JPG is faster than splitting the PDF and sharing the single-page result.
       </p>
-      <h3>Embed PDF Content in Emails</h3>
+      <h2>Embed PDF Content in Emails</h2>
       <p>
         Email clients display inline images in the email body, making them immediately visible to the recipient. PDF attachments require the recipient to download and open a separate file. Embedding a JPG of the key content inline in the email body ensures the recipient sees the important information immediately without needing to open an attachment.
       </p>
 
       <h2>What Quality Level Should You Choose?</h2>
-      <h3>Standard Quality (72-96 DPI)</h3>
+      <h2>Standard Quality (72-96 DPI)</h2>
       <p>
         This is the default setting for screen viewing. Images produced at standard quality look excellent on any monitor or phone screen, load quickly when shared online, and have the smallest file sizes. Choose standard quality when images will be shared via messaging, email, or social media and viewed on screens.
       </p>
-      <h3>High Quality (150-200 DPI)</h3>
+      <h2>High Quality (150-200 DPI)</h2>
       <p>
         High quality produces noticeably sharper images with more detail. This setting is ideal when images will be inserted into presentations, used in documents that will be printed at standard paper sizes, or displayed on high-resolution screens. File sizes are larger but the additional clarity is visible especially in text-heavy documents.
       </p>
-      <h3>Maximum Quality (300 DPI)</h3>
+      <h2>Maximum Quality (300 DPI)</h2>
       <p>
         Maximum quality renders images at print resolution — the standard for professional printing. Use this setting when images will be printed at large sizes, used in professional print designs, or submitted to print services. File sizes are significantly larger but image clarity is preserved at the highest level.
       </p>
@@ -249,23 +249,23 @@ export function PdfToImagesSeo() {
       </div>
 
       <h2>Tips for Converting PDFs to Images Effectively</h2>
-      <h3>Choose the Right Output Format for Your Use Case</h3>
+      <h2>Choose the Right Output Format for Your Use Case</h2>
       <p>
         Use JPG for photographs, colorful reports, and most sharing purposes where file size matters. Use PNG for text-heavy documents, diagrams, logos, and situations where you need perfectly sharp edges.
       </p>
-      <h3>Convert Only the Pages You Need</h3>
+      <h2>Convert Only the Pages You Need</h2>
       <p>
         If you only need specific pages from a large PDF, first use our <Link to="/tools/$slug" params={{ slug: "split" }} className="text-[#E5322D] hover:underline">Split PDF tool</Link> to extract those pages as a separate PDF, then convert just that smaller file. This is faster and gives you only the images you actually need.
       </p>
-      <h3>Compress Images After Converting</h3>
+      <h2>Compress Images After Converting</h2>
       <p>
         High-quality PDF to JPG conversion can produce large image files. If you need to share them via email or messaging, use our <Link to="/image-tools/$slug" params={{ slug: "compress-image" }} className="text-[#E5322D] hover:underline">Compress Image tool</Link> to reduce the file size while maintaining acceptable visual quality.
       </p>
-      <h3>Rotate Pages Before Converting</h3>
+      <h2>Rotate Pages Before Converting</h2>
       <p>
         If some PDF pages are in the wrong orientation, use our <Link to="/tools/$slug" params={{ slug: "rotate" }} className="text-[#E5322D] hover:underline">Rotate PDF tool</Link> to fix the orientation first. The converted JPG images will then be in the correct orientation without needing a separate image rotation step.
       </p>
-      <h3>Use PNG for Images You Will Further Edit</h3>
+      <h2>Use PNG for Images You Will Further Edit</h2>
       <p>
         If you plan to edit the converted images in Photoshop, GIMP, Canva, or another design tool, use PNG output rather than JPG. PNG preserves more detail and does not degrade further when re-saved after editing. JPG files lose a small amount of quality each time they are saved, which accumulates over multiple edits.
       </p>

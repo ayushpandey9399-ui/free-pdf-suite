@@ -127,21 +127,21 @@ export function ExtractPagesSeo() {
       <p><strong>Deleting pages</strong> is essentially the inverse of extraction. Instead of picking what to keep, you identify the pages you want to discard—like blank pages or cover sheets—and remove them while keeping the rest of the document intact. Each tool is designed to make these specific workflows as fast and intuitive as possible.</p>
 
       <h2>8 use cases for extracting PDF pages</h2>
-      <h3>Extracting specific chapters</h3>
+      <h2>Extracting specific chapters</h2>
       <p>Turn a massive textbook into smaller, focused files for each week's study session, making them easier to read on tablets and phones.</p>
-      <h3>Pulling out invoices</h3>
+      <h2>Pulling out invoices</h2>
       <p>Isolate individual vendor invoices from a monthly batch PDF for easier filing in your accounting software or project folders.</p>
-      <h3>Sharing specific sections</h3>
+      <h2>Sharing specific sections</h2>
       <p>Send only the relevant executive summary or financial data from an annual report to stakeholders without overwhelming them with unnecessary pages.</p>
-      <h3>Extracting certificates from multi-doc PDFs</h3>
+      <h2>Extracting certificates from multi-doc PDFs</h2>
       <p>Pull out a single diploma or professional certification from a large bundle of credentials for job applications or verification portals.</p>
-      <h3>Legal exhibits</h3>
+      <h2>Legal exhibits</h2>
       <p>Isolate specific pages from discovery documents to create clean, focused exhibits for court filings or client reviews.</p>
-      <h3>Academic references</h3>
+      <h2>Academic references</h2>
       <p>Save just the bibliography or specific citations from a research paper to keep your own reference library organized and relevant.</p>
-      <h3>Extracting forms</h3>
+      <h2>Extracting forms</h2>
       <p>Pull out just the single form page you need to sign and return from a long information pack or application manual.</p>
-      <h3>Sharing relevant pages only</h3>
+      <h2>Sharing relevant pages only</h2>
       <p>Improve collaboration by sending only the pages that require attention, ensuring your team isn't distracted by hundreds of pages of context.</p>
 
       <h2>Browser-based vs server-based comparison</h2>
@@ -162,15 +162,15 @@ export function ExtractPagesSeo() {
       </table>
 
       <h2>5 tips for extracting PDF pages</h2>
-      <h3>Use Thumbnail View to Spot Pages</h3>
+      <h2>Use Thumbnail View to Spot Pages</h2>
       <p>Scroll through the thumbnails carefully to visually identify the exact pages you need. The visual interface makes it impossible to pick the wrong page by mistake.</p>
-      <h3>Check Your Counter</h3>
+      <h2>Check Your Counter</h2>
       <p>Always keep an eye on the sidebar selection counter. It provides a quick sanity check to ensure you haven't missed a page or accidentally double-clicked.</p>
-      <h3>Extract Multiple Ranges</h3>
+      <h2>Extract Multiple Ranges</h2>
       <p>Don't feel limited to consecutive pages. You can click on page 1, page 5, and page 50, and the tool will elegantly pull all three into a single new document.</p>
-      <h3>Unlock Protected PDFs First</h3>
+      <h2>Unlock Protected PDFs First</h2>
       <p>If your document is password protected, use our 'Unlock PDF' tool first so that this extractor can access and process the page data.</p>
-      <h3>Check the Download</h3>
+      <h2>Check the Download</h2>
       <p>After extracting, do a quick scroll through your new file to ensure the page order and content are exactly what you needed before sharing it.</p>
 
       <h2>Frequently Asked Questions</h2>

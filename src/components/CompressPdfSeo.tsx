@@ -200,56 +200,56 @@ export function CompressPdfSeo() {
       </p>
 
       <h2>Common Situations Where You Need to Compress a PDF</h2>
-      <h3>Sending PDF Attachments via Email</h3>
+      <h2>Sending PDF Attachments via Email</h2>
       <p>
         Gmail, Outlook, Yahoo Mail, and most corporate email systems cap attachment sizes at 20-25MB. A single scanned
         contract, illustrated report, or photo-heavy brochure can easily exceed this limit. Compressing the PDF before
         sending ensures it goes through without bouncing, and recipients with slow connections receive it faster.
       </p>
 
-      <h3>Uploading to Government and University Portals</h3>
+      <h2>Uploading to Government and University Portals</h2>
       <p>
         Many official portals for filing taxes, submitting visa applications, applying to universities, or registering
         businesses impose strict file size limits of 2MB, 5MB, or 10MB per document. These limits cannot be bypassed.
         Compressing your PDF to meet the portal's requirement is the only way to complete the submission.
       </p>
 
-      <h3>Sharing Via WhatsApp and Messaging Apps</h3>
+      <h2>Sharing Via WhatsApp and Messaging Apps</h2>
       <p>
         WhatsApp limits document shares to 100MB, but large PDFs often load slowly on recipients' phones, especially on
         mobile data. Compressing a PDF to under 5MB ensures it loads instantly and does not consume the recipient's
         data allowance unnecessarily.
       </p>
 
-      <h3>Saving Cloud Storage Space</h3>
+      <h2>Saving Cloud Storage Space</h2>
       <p>
         When storing hundreds of PDFs in Google Drive, Dropbox, OneDrive, or iCloud, file size adds up quickly.
         Compressing PDFs before archiving them can reduce cloud storage usage by 50-70%, either cutting your monthly
         costs or freeing space for other files.
       </p>
 
-      <h3>Uploading to Websites and Client Portals</h3>
+      <h2>Uploading to Websites and Client Portals</h2>
       <p>
         Website builders, client portals, HR systems, and legal document platforms often have upload limits. A
         recruitment system might cap CVs and cover letters at 5MB. A client onboarding portal might limit documents to
         10MB. Compressing ensures your PDF meets these requirements without recreating it.
       </p>
 
-      <h3>Speeding Up PDF Loading in Browsers</h3>
+      <h2>Speeding Up PDF Loading in Browsers</h2>
       <p>
         PDFs embedded in websites or shared via public links load slowly in browsers when they are large. A compressed
         PDF opens in seconds rather than minutes for visitors on mobile or slower connections, improving their
         experience significantly.
       </p>
 
-      <h3>Reducing Size After Scanning Documents</h3>
+      <h2>Reducing Size After Scanning Documents</h2>
       <p>
         Scanning physical documents using a phone scanner app or office scanner often produces very large files because
         each scanned page is stored as a high-resolution image. Compressing the scanned PDF can reduce a 50-page
         scanned contract from 30MB to under 5MB without making the text unreadable.
       </p>
 
-      <h3>Preparing PDFs for Long-Term Digital Archiving</h3>
+      <h2>Preparing PDFs for Long-Term Digital Archiving</h2>
       <p>
         Organizations keeping digital records for years or decades benefit enormously from compressed PDFs. Smaller
         files are easier to back up, faster to search, and consume significantly less physical server space over time.

@@ -63,11 +63,11 @@ export function ToolLayout({
         </nav>
 
         <div className="flex flex-1 flex-col justify-center text-center mt-8 md:mt-0">
-          <h1>
+          <h1 className="tool-title">
             {title}
           </h1>
           <p
-            className="mx-auto mt-4 max-w-[640px] text-[15px] sm:text-[18px]"
+            className="mx-auto mt-4 max-w-[640px] text-[15px] sm:text-[18px] tool-description"
             style={{ color: "#6B7280", lineHeight: 1.65, textWrap: "balance", textWrapStyle: "balance" } as CSSProperties}
           >
             {description}

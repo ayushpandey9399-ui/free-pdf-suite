@@ -120,33 +120,33 @@ export function EditPdfSeo() {
       </ol>
 
       <h2>What can you edit in a PDF?</h2>
-      <h3>Add text and text boxes</h3>
+      <h2>Add text and text boxes</h2>
       <p>Add labels, fill forms, or include extra notes by drawing text boxes anywhere on your document pages.</p>
-      <h3>Insert images</h3>
+      <h2>Insert images</h2>
       <p>Drop logos, signatures, or photos directly onto the page, resizing and positioning them exactly where you need them.</p>
-      <h3>Add annotations and comments</h3>
+      <h2>Add annotations and comments</h2>
       <p>Leave notes and feedback on specific sections of your PDF, making it easy for collaborators to review your points.</p>
-      <h3>Draw and highlight</h3>
+      <h2>Draw and highlight</h2>
       <p>Use our highlighter for emphasis, or draw freehand to circle important areas, underline text, or sketch diagrams.</p>
-      <h3>Add shapes and lines</h3>
+      <h2>Add shapes and lines</h2>
       <p>Insert rectangles, ellipses, lines, and arrows to structure your document or highlight specific data fields.</p>
 
       <h2>8 Use Cases for PDF Editing</h2>
-      <h3>Adding comments to contracts</h3>
+      <h2>Adding comments to contracts</h2>
       <p>Review legal agreements by adding your specific feedback directly in the margins, making it clear what parts of the contract need adjustment.</p>
-      <h3>Filling non-interactive forms</h3>
+      <h2>Filling non-interactive forms</h2>
       <p>For scans or older PDFs without form fields, our text tool lets you type responses in exactly the right spots.</p>
-      <h3>Annotating research papers</h3>
+      <h2>Annotating research papers</h2>
       <p>Use highlights and freehand notes to mark key findings in technical papers, making it easier to study complex concepts.</p>
-      <h3>Adding logos to documents</h3>
+      <h2>Adding logos to documents</h2>
       <p>Quickly brand your quotes or invoices by placing your company logo in the header or footer section.</p>
-      <h3>Marking up designs</h3>
+      <h2>Marking up designs</h2>
       <p>Use arrows and shapes to give specific design feedback on layout previews without the need for specialized design software.</p>
-      <h3>Adding notes to presentations</h3>
+      <h2>Adding notes to presentations</h2>
       <p>Include quick reminders or speaker notes directly onto your PDF slide decks for easy reference during a presentation.</p>
-      <h3>Correcting typos</h3>
+      <h2>Correcting typos</h2>
       <p>Fix minor spelling or data errors in PDFs by masking the original and typing the correct version on top.</p>
-      <h3>Adding stamps or labels</h3>
+      <h2>Adding stamps or labels</h2>
       <p>Use rectangles, text, and images to create custom 'Approved', 'Confidential', or 'Draft' labels for your internal documents.</p>
 
       <h2>PDF Editing vs. PDF Form Filling</h2>
@@ -172,15 +172,15 @@ export function EditPdfSeo() {
       </table>
 
       <h2>5 Tips for PDF Editing</h2>
-      <h3>Zoom in for precision</h3>
+      <h2>Zoom in for precision</h2>
       <p>Use your browser's zoom or our tool's zoom features to place text and shapes with pixel-perfect accuracy.</p>
-      <h3>Check alignment</h3>
+      <h2>Check alignment</h2>
       <p>Use shapes like lines or rectangles to help align your text boxes with the existing document structure.</p>
-      <h3>Use Select mode</h3>
+      <h2>Use Select mode</h2>
       <p>Always switch back to the Select tool after adding an element to move or resize it without accidentally creating new ones.</p>
-      <h3>Use Undo for mistakes</h3>
+      <h2>Use Undo for mistakes</h2>
       <p>Don't worry about errors; use the built-in Undo/Redo history to refine your annotations before finalizing the document.</p>
-      <h3>Check before saving</h3>
+      <h2>Check before saving</h2>
       <p>Do a quick pass through your document preview to ensure every edit looks perfect before downloading the final file.</p>
 
       <h2>Frequently Asked Questions</h2>

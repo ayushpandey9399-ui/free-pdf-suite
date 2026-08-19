@@ -116,7 +116,7 @@ export function SignPdfSeo() {
                 {i + 1}
               </span>
               <div>
-                <h3>{s.title}</h3>
+                <h2>{s.title}</h2>
                 <p>{s.text}</p>
               </div>
             </div>
@@ -127,32 +127,32 @@ export function SignPdfSeo() {
       {/* SECTION C */}
       <section className="mb-12">
         <h2>Three Ways to Create Your Signature</h2>
-        <h3>Draw Your Signature</h3>
+        <h2>Draw Your Signature</h2>
         <p>Use your mouse, trackpad, or touchscreen to draw your signature freehand directly on the screen. This produces the most natural-looking signature and most closely resembles a handwritten one. On mobile devices, drawing with your finger gives excellent results. On desktop, using a trackpad gives more control than a mouse.</p>
-        <h3>Type Your Signature</h3>
+        <h2>Type Your Signature</h2>
         <p>Type your full name and the tool renders it in a signature-style cursive font. This is the fastest method and works well when you need a clean, consistent signature across many documents. Multiple font styles are available so you can choose one that matches your personal style.</p>
-        <h3>Upload a Signature Image</h3>
+        <h2>Upload a Signature Image</h2>
         <p>If you already have a high-quality image of your handwritten signature saved as a PNG file with a transparent background, upload it directly. This method gives you the most consistent results across documents and is ideal for business use where your signature needs to match exactly.</p>
       </section>
 
       {/* SECTION D */}
       <section className="mb-12">
         <h2>Common Documents People Sign Online</h2>
-        <h3>Employment Contracts and Offer Letters</h3>
+        <h2>Employment Contracts and Offer Letters</h2>
         <p>HR departments and job candidates both benefit from electronic signing. Offer letters, employment agreements, non-disclosure agreements, and company policy acknowledgments can all be signed and returned within minutes. This speeds up onboarding and eliminates delays caused by postal mail or printing logistics.</p>
-        <h3>Rental and Lease Agreements</h3>
+        <h2>Rental and Lease Agreements</h2>
         <p>Landlords and tenants can sign rental agreements, lease renewals, and move-in inspection forms electronically without meeting in person. This is especially useful for international tenants, remote signings, or situations where the parties are in different cities.</p>
-        <h3>Service Agreements and Freelance Contracts</h3>
+        <h2>Service Agreements and Freelance Contracts</h2>
         <p>Freelancers, consultants, and agencies regularly need clients to sign project agreements, scope of work documents, and payment terms. Electronic signing makes it easy to send a PDF and receive a signed copy back within hours rather than days.</p>
-        <h3>Bank and Financial Forms</h3>
+        <h2>Bank and Financial Forms</h2>
         <p>Many banks and financial institutions now accept electronically signed forms for account changes, loan applications, and authorization documents. Signing these forms online eliminates a trip to the branch and speeds up processing.</p>
-        <h3>Medical and Healthcare Consent Forms</h3>
+        <h2>Medical and Healthcare Consent Forms</h2>
         <p>Patient consent forms, medical history questionnaires, and healthcare authorization documents can be signed electronically before appointments. This saves time at the clinic and keeps sensitive health information on the patient's own device rather than a third-party server.</p>
-        <h3>Government and Official Forms</h3>
+        <h2>Government and Official Forms</h2>
         <p>Many government applications — including visa applications, permit requests, and business registrations — require a signed PDF submission. Electronic signing lets you complete and return these forms quickly without printing and scanning.</p>
-        <h3>Real Estate Documents</h3>
+        <h2>Real Estate Documents</h2>
         <p>Property purchase agreements, seller disclosure forms, mortgage applications, and inspection reports are commonly signed electronically in real estate transactions. Electronic signing speeds up a process that previously required multiple in-person meetings.</p>
-        <h3>Academic and School Documents</h3>
+        <h2>Academic and School Documents</h2>
         <p>Permission slips, enrollment forms, scholarship applications, and university enrollment agreements can all be signed electronically. Parents and students can sign and return forms instantly without needing to print them.</p>
       </section>
 
@@ -229,15 +229,15 @@ export function SignPdfSeo() {
       {/* SECTION G */}
       <section className="mb-12">
         <h2>Tips for Signing PDFs Effectively</h2>
-        <h3>Use a Transparent PNG for the Cleanest Signature</h3>
+        <h2>Use a Transparent PNG for the Cleanest Signature</h2>
         <p>If you are uploading a signature image, save it as a PNG file with a transparent background. This ensures the signature blends naturally with the document background without a white box around it. Most phone apps that let you sign on a white paper and photograph it produce images with white backgrounds — trim these using our <Link to='/image-tools/$slug' params={{ slug: 'crop-image' }} className='text-[#e5322d] hover:underline'>Crop Image tool</Link> before uploading.</p>
-        <h3>Draw on a Touchscreen for the Best Results</h3>
+        <h2>Draw on a Touchscreen for the Best Results</h2>
         <p>If you have a tablet or smartphone with a stylus, use it to draw your signature. The result looks more natural than drawing with a mouse and more closely resembles your actual handwritten signature.</p>
-        <h3>Protect the Signed PDF With a Password</h3>
+        <h2>Protect the Signed PDF With a Password</h2>
         <p>After signing a sensitive document, add a password using our <Link to='/tools/$slug' params={{ slug: 'protect-pdf' }} className='text-[#e5322d] hover:underline'>Protect PDF tool</Link> to prevent unauthorized access or further editing. This is especially important for financial agreements, legal contracts, and medical forms.</p>
-        <h3>Add a Date Alongside Your Signature</h3>
+        <h2>Add a Date Alongside Your Signature</h2>
         <p>Many legal and business documents require a date next to the signature. Use the text annotation feature in our <Link to='/tools/$slug' params={{ slug: 'edit-pdf' }} className='text-[#e5322d] hover:underline'>Edit PDF tool</Link> to add the current date in the correct format next to your signature placement.</p>
-        <h3>Flatten the PDF After Signing</h3>
+        <h2>Flatten the PDF After Signing</h2>
         <p>Once you are satisfied with the signature placement, use our <Link to='/tools/$slug' params={{ slug: 'flatten-pdf' }} className='text-[#e5322d] hover:underline'>Flatten PDF tool</Link> to permanently embed the signature into the document. Flattening converts interactive elements into static content so the signature cannot be moved, edited, or deleted by the recipient.</p>
       </section>
 

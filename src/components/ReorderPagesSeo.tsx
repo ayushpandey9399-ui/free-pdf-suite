@@ -122,31 +122,31 @@ export function ReorderPagesSeo() {
       </ol>
 
       <h2>Common causes of wrong page order</h2>
-      <h3>Scanning pages out of sequence</h3>
+      <h2>Scanning pages out of sequence</h2>
       <p>Sheet-fed scanners can easily pull multiple pages at once or feed them in reverse order if the stack isn't prepared perfectly. Manual scanning is also prone to human error, resulting in a disorganized digital file.</p>
-      <h3>Merging PDFs from different sources</h3>
+      <h2>Merging PDFs from different sources</h2>
       <p>When you combine files from various departments or teammates, the default merge order might not match your final requirements, requiring a quick reorganization of the resulting bundle.</p>
-      <h3>Exporting from design software</h3>
+      <h2>Exporting from design software</h2>
       <p>Design tools like Canva or Adobe InDesign sometimes export artboards in an unexpected sequence, especially when working with complex multi-page layouts.</p>
-      <h3>Combining documents from multiple contributors</h3>
+      <h2>Combining documents from multiple contributors</h2>
       <p>Assembling a final report from several individual contributions often means the sections arrive in a random order that needs to be fixed before final publication.</p>
 
       <h2>8 use cases for reordering PDF pages</h2>
-      <h3>Fixing scanned documents</h3>
+      <h2>Fixing scanned documents</h2>
       <p>Quickly restore the correct sequence to a document that was scanned upside down or in reverse, saving you from the hassle of re-scanning the entire stack.</p>
-      <h3>Reorganizing reports</h3>
+      <h2>Reorganizing reports</h2>
       <p>Move the executive summary to the very beginning and ensure that all supporting charts and appendices follow the main text in a logical flow.</p>
-      <h3>Reordering book chapters</h3>
+      <h2>Reordering book chapters</h2>
       <p>Organize your e-book or manual draft by moving chapters into their final sequence before generating the table of contents.</p>
-      <h3>Fixing merged contracts</h3>
+      <h2>Fixing merged contracts</h2>
       <p>Ensure that the main agreement comes first, followed by all relevant addendums and the final signature page in a professional bundle.</p>
-      <h3>Reorganizing portfolios</h3>
+      <h2>Reorganizing portfolios</h2>
       <p>Arrange your best work at the front of your PDF portfolio to make a strong first impression on potential clients or employers.</p>
-      <h3>Fixing presentation exports</h3>
+      <h2>Fixing presentation exports</h2>
       <p>Adjust the slide order of your PDF presentation if the original export from PowerPoint or Keynote didn't match your speaking flow.</p>
-      <h3>Legal document ordering</h3>
+      <h2>Legal document ordering</h2>
       <p>Arrange discovery documents and court filings into a strict chronological or thematic order for better clarity during legal proceedings.</p>
-      <h3>Academic paper organization</h3>
+      <h2>Academic paper organization</h2>
       <p>Ensure that your thesis or research paper follows the correct academic structure, moving the abstract and bibliography to their required positions.</p>
 
       <h2>Reorder vs Split vs Delete pages — what is the difference?</h2>
@@ -172,15 +172,15 @@ export function ReorderPagesSeo() {
       </table>
 
       <h2>5 tips for reordering PDF pages</h2>
-      <h3>Use the visual grid</h3>
+      <h2>Use the visual grid</h2>
       <p>Take advantage of the thumbnail grid to see exactly what each page looks like before you move it, ensuring you don't miss a single page.</p>
-      <h3>Reorder large files in sections</h3>
+      <h2>Reorder large files in sections</h2>
       <p>For very long documents, try reordering one section at a time to maintain clarity and focus as you move through the document.</p>
-      <h3>Double-check the first and last pages</h3>
+      <h2>Double-check the first and last pages</h2>
       <p>The first and last pages are the most important for professional presentation; ensure they are positioned perfectly before exporting.</p>
-      <h3>Combine with other tools</h3>
+      <h2>Combine with other tools</h2>
       <p>If you need to both rotate and reorder, use our 'Rotate PDF' tool first to fix orientations, then use this tool to finalize the sequence.</p>
-      <h3>Preview the final order</h3>
+      <h2>Preview the final order</h2>
       <p>Scan the grid one last time from top-left to bottom-right to confirm the sequence is exactly what you need before clicking the save button.</p>
 
       <h2>Frequently Asked Questions</h2>

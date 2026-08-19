@@ -127,45 +127,45 @@ export function UnlockPdfSeo() {
       </div>
 
       <h2>Two Types of PDF Passwords — What Each One Does</h2>
-      <h3>Document Open Password (User Password)</h3>
+      <h2>Document Open Password (User Password)</h2>
       <p>
         This password prevents the file from being opened at all. Anyone who receives a PDF with this type of protection sees a locked file and is prompted to enter a password before viewing any content. Banks, government agencies, and HR departments commonly use this type of protection for sensitive documents they send to individuals.
       </p>
-      <h3>Permissions Password (Owner Password)</h3>
+      <h2>Permissions Password (Owner Password)</h2>
       <p>
         This password does not prevent the file from being opened but restricts what can be done with it. A PDF protected with only a permissions password can be viewed but cannot be printed, copied, or edited. This type of protection is common in commercially distributed PDF documents, e-books, and reports where the creator wants to control usage without preventing reading.
       </p>
 
       <h2>Common Situations Where You Need to Unlock a PDF</h2>
-      <h3>Bank Statements and Financial Documents</h3>
+      <h2>Bank Statements and Financial Documents</h2>
       <p>
         Many banks send monthly statements as password-protected PDFs, using your date of birth or account number as the password. Unlocking these statements lets you merge them into a single annual statement, compress them for storage, or share specific pages with an accountant or financial advisor without sending the password separately.
       </p>
-      <h3>Payslips and Salary Documents</h3>
+      <h2>Payslips and Salary Documents</h2>
       <p>
         HR departments often protect payslips with an employee's date of birth or employee ID as the password. When applying for a loan, visa, or rental property, you may need to submit payslips as unlocked PDFs that can be combined and compressed. Unlocking them first makes this process straightforward.
       </p>
-      <h3>Government and Official Documents</h3>
+      <h2>Government and Official Documents</h2>
       <p>
         Some government documents, tax notices, and official certificates are distributed as protected PDFs. Unlocking them allows you to merge them with other application documents, compress them to meet upload limits, or print them without restriction.
       </p>
-      <h3>Academic Certificates and Transcripts</h3>
+      <h2>Academic Certificates and Transcripts</h2>
       <p>
         Universities sometimes distribute grade transcripts and certificates as password-protected PDFs. Unlocking these allows you to combine them with other application documents and compress them for online submissions.
       </p>
-      <h3>Insurance and Medical Documents</h3>
+      <h2>Insurance and Medical Documents</h2>
       <p>
         Insurance policies, claim documents, and medical reports occasionally come protected. Unlocking them lets you share specific sections with relevant parties, merge multiple documents into a single submission, or annotate them with our <Link to="/tools/$slug" params={{ slug: "edit-pdf" }} className="text-[#E5322D] hover:underline">Edit PDF tool</Link>.
       </p>
-      <h3>Merging Multiple PDFs Including a Protected One</h3>
+      <h2>Merging Multiple PDFs Including a Protected One</h2>
       <p>
         If you need to merge several PDFs into one document and one of them is password-protected, you need to unlock it first. Most PDF mergers cannot process encrypted files directly. You can use our <Link to="/tools/$slug" params={{ slug: "merge" }} className="text-[#E5322D] hover:underline">Merge PDF tool</Link> once the file is unlocked.
       </p>
-      <h3>Compressing Protected PDFs</h3>
+      <h2>Compressing Protected PDFs</h2>
       <p>
         A PDF compressor cannot optimize the contents of an encrypted file because it cannot access the image data inside. Unlocking the PDF first allows the compressor to process the file and achieve proper size reduction. Try our <Link to="/tools/$slug" params={{ slug: "compress" }} className="text-[#E5322D] hover:underline">Compress PDF tool</Link> after unlocking.
       </p>
-      <h3>Re-Protecting With a New Password</h3>
+      <h2>Re-Protecting With a New Password</h2>
       <p>
         If you want to change the password on a protected PDF, you first need to unlock the current version and then re-protect it with a new password using our <Link to="/tools/$slug" params={{ slug: "protect-pdf" }} className="text-[#E5322D] hover:underline">Protect PDF tool</Link>.
       </p>
@@ -237,23 +237,23 @@ export function UnlockPdfSeo() {
       </div>
 
       <h2>Tips for Working With Unlocked PDFs</h2>
-      <h3>Keep the Original Protected Version</h3>
+      <h2>Keep the Original Protected Version</h2>
       <p>
         After unlocking a PDF, keep both the protected original and the unlocked copy. The original serves as proof of the official protected version you received, while the unlocked copy is for your working needs.
       </p>
-      <h3>Re-Protect After Making Edits</h3>
+      <h2>Re-Protect After Making Edits</h2>
       <p>
         If you unlock a document, edit it, and need to share it securely, use our <Link to="/tools/$slug" params={{ slug: "protect-pdf" }} className="text-[#E5322D] hover:underline">Protect PDF tool</Link> to add a new password before sharing.
       </p>
-      <h3>Compress After Unlocking</h3>
+      <h2>Compress After Unlocking</h2>
       <p>
         Unlocked PDFs can be compressed normally. Run the unlocked file through our <Link to="/tools/$slug" params={{ slug: "compress" }} className="text-[#E5322D] hover:underline">Compress PDF tool</Link> to reduce file size before archiving or emailing.
       </p>
-      <h3>Merge Unlocked PDFs With Other Documents</h3>
+      <h2>Merge Unlocked PDFs With Other Documents</h2>
       <p>
         Once unlocked, the PDF can be merged with other documents using our <Link to="/tools/$slug" params={{ slug: "merge" }} className="text-[#E5322D] hover:underline">Merge PDF tool</Link> without any restrictions.
       </p>
-      <h3>Check Permissions After Unlocking</h3>
+      <h2>Check Permissions After Unlocking</h2>
       <p>
         Some PDFs have two layers of protection — an open password and a permissions password. After removing the open password, verify that printing and copying are now available. If restrictions remain, the permissions password may still be active.
       </p>
