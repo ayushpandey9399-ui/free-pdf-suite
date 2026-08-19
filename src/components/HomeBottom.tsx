@@ -181,7 +181,7 @@ export function SeoProseInternal() {
     <section className="py-14 sm:py-24">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
         <RevealInternal>
-          <h2 className="text-[24px] sm:text-[32px] font-bold text-[#1F2937] text-center">One toolkit for every PDF task</h2>
+          <h3 className="text-[24px] sm:text-[32px] font-bold text-[#1F2937] text-center">One toolkit for every PDF task</h3>
           <div className="mx-auto mt-8 max-w-[760px] text-left text-[16px]" style={{ color: MUTED, lineHeight: 1.7 }}>
             <p>
               Organize documents by <SeoLink slug="merge">merging</SeoLink>, splitting, extracting,
@@ -214,7 +214,7 @@ export function FinalCtaInternal() {
     <section className="relative overflow-hidden py-16 sm:py-24" style={{ backgroundColor: "#FAFAF9" }}>
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 text-center">
         <RevealInternal>
-          <h2 className="text-[24px] sm:text-[32px] font-bold text-[#1F2937] text-center">44 tools. All free. All private.</h2>
+          <h3 className="text-[24px] sm:text-[32px] font-bold text-[#1F2937] text-center">44 tools. All free. All private.</h3>
           <p className="mt-3 text-[16px]" style={{ color: MUTED }}>
             Our tools run in your browser. Where server processing is used (PDF to Word, Compress Image), files are securely deleted immediately after download.
           </p>
