@@ -345,6 +345,16 @@
 
 
 
+/* Tables in SEO content should be responsive */
+.seo-content table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
 /* Hand-drawn hero underline draw */
 @keyframes draw-underline {
   from { stroke-dashoffset: 260; }

@@ -168,7 +168,7 @@ function Home() {
       {/* Tool cards grid */}
       <section id="tools" className="mx-auto max-w-[1200px] px-4 sm:px-6 pt-6 pb-12">
         <h2 className="sr-only">Available PDF Tools</h2>
-        <div className="grid gap-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 items-stretch" role="list">
+        <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 items-stretch" role="list">
           {visible.map((t) => {
             const Icon = t.icon;
             return (
