@@ -83,7 +83,7 @@ export function PrivacyStoryInternal() {
         <RevealInternal>
           <div className="grid gap-10 lg:grid-cols-5 lg:gap-14 items-center">
             <div className="lg:col-span-3">
-              <h2 className="text-[24px] sm:text-[32px] font-bold text-[#1F2937]">Your files stay on your device</h2>
+              <h3 className="text-[24px] sm:text-[32px] font-bold text-[#1F2937]">Your files stay on your device</h3>
               <p className="mt-5 text-[16px]" style={{ color: MUTED, lineHeight: 1.7 }}>
                 Our tools run in your browser. Where server processing 
                 is used (PDF to Word, Compress Image), files are 
@@ -118,7 +118,7 @@ export function WhyChooseInternal() {
     <section className="py-14 sm:py-24">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
         <RevealInternal>
-          <h2 className="text-[24px] sm:text-[32px] font-bold text-[#1F2937] text-center">Why people choose pdftoolconverteronline.com</h2>
+          <h3 className="text-[24px] sm:text-[32px] font-bold text-[#1F2937] text-center">Why people choose pdftoolconverteronline.com</h3>
           <p className="mx-auto mt-3 max-w-[640px] text-center text-[16px] font-medium" style={{ color: MUTED, lineHeight: 1.7 }}>
             No tricks, no accounts, no fine print, just tools that work.
           </p>
@@ -341,7 +341,7 @@ function ReasonCard({ Icon, title, body }: { Icon: any; title: string; body: str
       <div className="flex h-12 w-12 items-center justify-center rounded-full transition-colors duration-200" style={{ backgroundColor: hover ? "rgba(229,50,45,0.14)" : "rgba(229,50,45,0.08)" }}>
         <Icon className="h-6 w-6" style={{ color: BRAND }} strokeWidth={2} />
       </div>
-      <h3 className="mt-5 text-[17px] font-semibold text-[#1F2937]">{title}</h3>
+      <h4 className="mt-5 text-[17px] font-semibold text-[#1F2937]">{title}</h4>
       <p className="mt-2 text-[14px]" style={{ color: MUTED, lineHeight: 1.6 }}>{body}</p>
     </div>
   );
