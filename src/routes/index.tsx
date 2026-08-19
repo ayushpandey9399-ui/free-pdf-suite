@@ -85,7 +85,7 @@ function Home() {
   return (
     <div style={{ backgroundColor: "#ffffff", color: "#33333c" }}>
       {/* Hero */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden w-full">
 
         <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 pt-10 pb-0 text-center">
           <h1

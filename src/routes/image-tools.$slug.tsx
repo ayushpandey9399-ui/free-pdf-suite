@@ -208,7 +208,7 @@ function ImageToolPage() {
 
   return (
     <div className="w-full">
-      <div className="bg-[#F7F7F8] border-b border-[#ececec]">
+      <div className="bg-[#F7F7F8] border-b border-[#ececec] w-full overflow-hidden">
         <section className={`mx-auto ${maxWidth} px-4 relative flex flex-col pt-6 pb-20 sm:pb-28`}>
           <Breadcrumb name={tool.name} />
           <div className="flex flex-1 flex-col justify-center text-center mt-8 md:mt-0">
