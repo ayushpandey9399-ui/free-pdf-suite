@@ -223,12 +223,6 @@ function ImageToolPage() {
             >
               {silo.h1}
             </h1>
-            <p
-              className="mx-auto mt-4 max-w-[640px] text-[15px] sm:text-[18px]"
-              style={{ color: "#6B7280", lineHeight: 1.65 }}
-            >
-              {silo.subtitle}
-            </p>
             <div className="mt-10">
               <Suspense fallback={fallback}>
                 <Tool />
@@ -295,7 +289,7 @@ function ComingSoonView({ name, description }: { name: string; description: stri
           Coming soon
         </span>
         <h2 className="mt-4 text-[32px] font-bold text-[#1F2937]">{name}</h2>
-        <p className="mx-auto mt-3 max-w-[520px] text-[15px] text-[#6B7280]">{description}</p>
+        
         <Link
           to="/image-tools"
           className="mt-8 inline-flex items-center rounded-lg border border-[#ececef] px-4 py-2.5 text-[14px] font-semibold text-[#33333c] hover:bg-[#f9fafb]"
