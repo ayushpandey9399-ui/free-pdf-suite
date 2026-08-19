@@ -3,7 +3,7 @@ import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
 const steps = [
   {
-    title: "Step 1 — Upload Your Images",
+    title: "Step 1: Upload Your Images",
     text: "Click the \"Select images\" button or drag and drop your image files onto the upload area. You can add multiple images at once — JPG, PNG, WebP, and other common formats are all supported. All processing happens locally in your browser.",
   },
   {

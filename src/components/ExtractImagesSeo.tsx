@@ -14,7 +14,7 @@ const extractImagesRelated = [
 
 const steps = [
   {
-    title: "Step 1 — Upload Your PDF",
+    title: "Step 1: Upload Your PDF",
     text: "Click the \"Select PDF file\" button or drag and drop your document onto the page. Your file opens directly in your browser and is not uploaded to any server.",
   },
   {

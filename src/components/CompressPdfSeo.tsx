@@ -108,7 +108,7 @@ export function CompressPdfSeo() {
       <p>
         Compressing a PDF reduces its file size by optimizing the data it contains. The most significant reduction
         usually comes from images. A PDF with ten high-resolution photos at 300 DPI might shrink by 70-80% when those
-        images are downsampled to 72-150 DPI — a resolution that still looks perfectly sharp on a screen. Other
+        images are downsampled to 72-150 DPI, a resolution that still looks perfectly sharp on a screen. Other
         optimizations include removing embedded metadata, compressing font subsets, flattening invisible layers, and
         stripping out duplicate content streams that PDF editors sometimes leave behind.
       </p>
@@ -179,7 +179,7 @@ export function CompressPdfSeo() {
       <h2>How Much Can PDF Compression Reduce File Size?</h2>
       <p>
         The reduction you get from compressing a PDF depends heavily on what the file contains. Image-heavy documents
-        compress the most dramatically. A PDF created from scanned paper pages — common in contracts, legal documents,
+        compress the most dramatically. A PDF created from scanned paper pages, which are common in contracts, legal documents,
         and old reports — typically compresses by 60-80%. A 20MB scanned contract can realistically become 4-8MB.
       </p>
       <p>
