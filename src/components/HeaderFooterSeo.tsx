@@ -153,7 +153,7 @@ export function HeaderFooterSeo() {
       {/* How-to */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         How to add a header or footer to a PDF online for free
-      </h2>
+      </h4>
       <ol className="mt-5 space-y-4">
         {steps.map((s, i) => (
           <li key={i} id={`step-${i + 1}`} className="flex gap-4">
@@ -171,7 +171,7 @@ export function HeaderFooterSeo() {
       {/* Tokens differentiator */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Smart tokens: dates, filenames and page numbers that fill themselves
-      </h2>
+      </h4>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         The chips beneath each row of inputs, {"{page}"}, {"{total}"},
         {" "}{"{date}"} and {"{filename}"}, are the reason this tool is faster
@@ -193,7 +193,7 @@ export function HeaderFooterSeo() {
       {/* Label like a professional document */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Label every page like a professional document
-      </h2>
+      </h4>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         A report without a header, a bundle without a footer, or a printed
         handout without a date all share the same problem, the pages don't
@@ -214,7 +214,7 @@ export function HeaderFooterSeo() {
       <div className="mt-10 grid gap-6 sm:grid-cols-2">
         {benefits.map((b) => (
           <div key={b.h}>
-            <h3 className="text-[17px] font-semibold">{b.h}</h3>
+            <h4 className="text-[17px] font-semibold">{b.h}</h4>
             <p className="mt-2 text-[14.5px] leading-relaxed text-[#4a4a55]">{b.p}</p>
           </div>
         ))}
@@ -223,11 +223,11 @@ export function HeaderFooterSeo() {
       {/* Scenarios */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         When do you need headers and footers on a PDF?
-      </h2>
+      </h4>
       <div className="mt-6 space-y-5">
         {scenarios.map((s) => (
           <div key={s.h}>
-            <h3 className="text-[17px] font-semibold">{s.h}</h3>
+            <h4 className="text-[17px] font-semibold">{s.h}</h4>
             <p className="mt-1.5 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.p}</p>
           </div>
         ))}
@@ -236,7 +236,7 @@ export function HeaderFooterSeo() {
       {/* FAQ */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Frequently asked questions
-      </h2>
+      </h4>
       <div className="mt-6 divide-y divide-[#eee]">
         {faqs.map((f) => (
           <details key={f.q} className="group py-4">
@@ -252,7 +252,7 @@ export function HeaderFooterSeo() {
       {/* Related */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Related PDF tools
-      </h2>
+      </h4>
       <RelatedToolsGrid items={related} />
     </section>
   );

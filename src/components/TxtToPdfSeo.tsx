@@ -145,7 +145,7 @@ export function TxtToPdfSeo() {
       {/* How-to */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         How to convert a text file to PDF online for free
-      </h2>
+      </h4>
       <ol className="mt-5 space-y-4">
         {steps.map((s, i) => (
           <li key={i} id={`step-${i + 1}`} className="flex gap-4">
@@ -163,7 +163,7 @@ export function TxtToPdfSeo() {
       {/* Hindi differentiator */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Works with Hindi, where most converters fail
-      </h2>
+      </h4>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         Try converting a paragraph of Hindi, Marathi or Sanskrit in most free
         online text-to-PDF tools and you'll see the same disappointing result:
@@ -191,7 +191,7 @@ export function TxtToPdfSeo() {
       {/* Presentable */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         From plain text to a presentable document
-      </h2>
+      </h4>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         A .txt file is a strange thing to hand someone. It has no page
         structure, opens in whatever editor the recipient happens to have set
@@ -213,7 +213,7 @@ export function TxtToPdfSeo() {
       <div className="mt-10 grid gap-6 sm:grid-cols-2">
         {benefits.map((b) => (
           <div key={b.h}>
-            <h3 className="text-[17px] font-semibold">{b.h}</h3>
+            <h4 className="text-[17px] font-semibold">{b.h}</h4>
             <p className="mt-2 text-[14.5px] leading-relaxed text-[#4a4a55]">{b.p}</p>
           </div>
         ))}
@@ -222,11 +222,11 @@ export function TxtToPdfSeo() {
       {/* Scenarios */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         When do you need to convert text to PDF?
-      </h2>
+      </h4>
       <div className="mt-6 space-y-5">
         {scenarios.map((s) => (
           <div key={s.h}>
-            <h3 className="text-[17px] font-semibold">{s.h}</h3>
+            <h4 className="text-[17px] font-semibold">{s.h}</h4>
             <p className="mt-1.5 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.p}</p>
           </div>
         ))}
@@ -235,7 +235,7 @@ export function TxtToPdfSeo() {
       {/* FAQ */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Frequently asked questions
-      </h2>
+      </h4>
       <div className="mt-6 divide-y divide-[#eee]">
         {faqs.map((f) => (
           <details key={f.q} className="group py-4">
@@ -251,7 +251,7 @@ export function TxtToPdfSeo() {
       {/* Related */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Related PDF tools
-      </h2>
+      </h4>
       <RelatedToolsGrid items={related} />
     </section>
   );

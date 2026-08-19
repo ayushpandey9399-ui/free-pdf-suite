@@ -100,13 +100,13 @@ const related = [
 export function ReorderPagesSeo() {
   return (
     <section className="mx-auto max-w-4xl px-4 pb-16 seo-content">
-      <h2>Why reorder PDF pages?</h2>
+      <h2>Why reorder PDF pages?</h4>
       <p>Managing digital documents often involves fixing errors that occurred during creation or scanning. Reordering PDF pages is one of the most common tasks for professionals who need their documents to be perfectly structured. Whether you've scanned a stack of papers and found them out of sequence, or you're assembling a complex report from multiple contributors, the ability to rearrange pages visually is essential for maintaining a logical flow.</p>
       <p>Professional presentation is key in business and academia. A document with sections in the wrong order—like a resume appearing before the cover letter, or a conclusion sandwiched between data tables—looks disorganized and can confuse your audience. By reordering pages, you ensure that your message is delivered exactly as intended, leading to better engagement and clarity for your readers.</p>
       <p>Reorganizing merged documents is another major use case. When you combine several PDFs, the resulting file might not follow the desired sequence. Instead of re-merging every individual file in a specific order, you can simply merge them all at once and then use our reorder tool to fine-tune the final sequence. This saves significant time and effort, especially when dealing with dozens of source files.</p>
       <p>Finally, browser-based reordering offers a massive privacy advantage. Traditional methods often involve uploading your entire document to a third-party server. With our tool, every page stays on your device. You can rearrange sensitive contracts, medical records, or financial statements with total peace of mind, knowing that your data never leaves your computer.</p>
 
-      <h2>How to reorder PDF pages — Step by Step</h2>
+      <h2>How to reorder PDF pages — Step by Step</h4>
       <ol className="mt-5 space-y-4">
         {steps.map((s, i) => (
           <li key={i} className="flex gap-4">
@@ -114,47 +114,47 @@ export function ReorderPagesSeo() {
               {i + 1}
             </span>
             <div className="pt-1">
-              <h3 className="text-[15px] font-semibold text-[#383E45]">{s.title}</h3>
+              <h4 className="text-[15px] font-semibold text-[#383E45]">{s.title}</h4>
               <p className="mt-1 text-[14.5px] leading-relaxed text-[#4B5563]">{s.text}</p>
             </div>
           </li>
         ))}
       </ol>
 
-      <h2>Common causes of wrong page order</h2>
-      <h3>Scanning pages out of sequence</h3>
+      <h2>Common causes of wrong page order</h4>
+      <h2>Scanning pages out of sequence</h4>
       <p>Sheet-fed scanners can easily pull multiple pages at once or feed them in reverse order if the stack isn't prepared perfectly. Manual scanning is also prone to human error, resulting in a disorganized digital file.</p>
-      <h3>Merging PDFs from different sources</h3>
+      <h2>Merging PDFs from different sources</h4>
       <p>When you combine files from various departments or teammates, the default merge order might not match your final requirements, requiring a quick reorganization of the resulting bundle.</p>
-      <h3>Exporting from design software</h3>
+      <h2>Exporting from design software</h4>
       <p>Design tools like Canva or Adobe InDesign sometimes export artboards in an unexpected sequence, especially when working with complex multi-page layouts.</p>
-      <h3>Combining documents from multiple contributors</h3>
+      <h2>Combining documents from multiple contributors</h4>
       <p>Assembling a final report from several individual contributions often means the sections arrive in a random order that needs to be fixed before final publication.</p>
 
-      <h2>8 use cases for reordering PDF pages</h2>
-      <h3>Fixing scanned documents</h3>
+      <h2>8 use cases for reordering PDF pages</h4>
+      <h2>Fixing scanned documents</h4>
       <p>Quickly restore the correct sequence to a document that was scanned upside down or in reverse, saving you from the hassle of re-scanning the entire stack.</p>
-      <h3>Reorganizing reports</h3>
+      <h2>Reorganizing reports</h4>
       <p>Move the executive summary to the very beginning and ensure that all supporting charts and appendices follow the main text in a logical flow.</p>
-      <h3>Reordering book chapters</h3>
+      <h2>Reordering book chapters</h4>
       <p>Organize your e-book or manual draft by moving chapters into their final sequence before generating the table of contents.</p>
-      <h3>Fixing merged contracts</h3>
+      <h2>Fixing merged contracts</h4>
       <p>Ensure that the main agreement comes first, followed by all relevant addendums and the final signature page in a professional bundle.</p>
-      <h3>Reorganizing portfolios</h3>
+      <h2>Reorganizing portfolios</h4>
       <p>Arrange your best work at the front of your PDF portfolio to make a strong first impression on potential clients or employers.</p>
-      <h3>Fixing presentation exports</h3>
+      <h2>Fixing presentation exports</h4>
       <p>Adjust the slide order of your PDF presentation if the original export from PowerPoint or Keynote didn't match your speaking flow.</p>
-      <h3>Legal document ordering</h3>
+      <h2>Legal document ordering</h4>
       <p>Arrange discovery documents and court filings into a strict chronological or thematic order for better clarity during legal proceedings.</p>
-      <h3>Academic paper organization</h3>
+      <h2>Academic paper organization</h4>
       <p>Ensure that your thesis or research paper follows the correct academic structure, moving the abstract and bibliography to their required positions.</p>
 
-      <h2>Reorder vs Split vs Delete pages — what is the difference?</h2>
+      <h2>Reorder vs Split vs Delete pages — what is the difference?</h4>
       <p>It's important to choose the right tool for your specific document management needs. <strong>Reordering pages</strong> is about sequence; it takes every page in your file and lets you move them around without removing or adding anything. It is the best choice when the content is all there but in the wrong order.</p>
       <p><strong>Splitting a PDF</strong> is about division. It takes one document and breaks it into two or more separate files. This is useful if you have a single PDF containing multiple distinct documents that need to be filed individually.</p>
       <p><strong>Deleting pages</strong> is about removal. It allows you to pick specific pages—like blank sheets or irrelevant cover pages—and discard them permanently while keeping the rest of the document in its original order. Each tool is optimized for its specific task to ensure the best results.</p>
 
-      <h2>Browser-based vs server-based comparison</h2>
+      <h2>Browser-based vs server-based comparison</h4>
       <table className="w-full text-left border-collapse border border-[#ececef] my-6">
         <thead>
           <tr className="bg-[#f7f7f8]">
@@ -171,19 +171,19 @@ export function ReorderPagesSeo() {
         </tbody>
       </table>
 
-      <h2>5 tips for reordering PDF pages</h2>
-      <h3>Use the visual grid</h3>
+      <h2>5 tips for reordering PDF pages</h4>
+      <h2>Use the visual grid</h4>
       <p>Take advantage of the thumbnail grid to see exactly what each page looks like before you move it, ensuring you don't miss a single page.</p>
-      <h3>Reorder large files in sections</h3>
+      <h2>Reorder large files in sections</h4>
       <p>For very long documents, try reordering one section at a time to maintain clarity and focus as you move through the document.</p>
-      <h3>Double-check the first and last pages</h3>
+      <h2>Double-check the first and last pages</h4>
       <p>The first and last pages are the most important for professional presentation; ensure they are positioned perfectly before exporting.</p>
-      <h3>Combine with other tools</h3>
+      <h2>Combine with other tools</h4>
       <p>If you need to both rotate and reorder, use our 'Rotate PDF' tool first to fix orientations, then use this tool to finalize the sequence.</p>
-      <h3>Preview the final order</h3>
+      <h2>Preview the final order</h4>
       <p>Scan the grid one last time from top-left to bottom-right to confirm the sequence is exactly what you need before clicking the save button.</p>
 
-      <h2>Frequently Asked Questions</h2>
+      <h2>Frequently Asked Questions</h4>
       <div className="mt-6 space-y-4">
         {faqs.map((faq, i) => (
           <details key={i} className="group border-b border-[#ececef] pb-4">
@@ -196,7 +196,7 @@ export function ReorderPagesSeo() {
         ))}
       </div>
 
-      <h2>Related PDF Tools</h2>
+      <h2>Related PDF Tools</h4>
       <RelatedToolsGrid items={related} />
     </section>
   );

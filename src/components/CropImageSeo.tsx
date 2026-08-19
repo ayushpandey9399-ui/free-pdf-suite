@@ -150,7 +150,7 @@ export function CropImageSeo() {
     <section className="mx-auto mt-16 max-w-3xl px-4 text-[15px] leading-relaxed text-[#33333c]">
       <h2 className="text-[24px] font-bold text-[#1F2937]">
         Crop images online, free
-      </h2>
+      </h4>
       <p className="mt-3">
         Crop an image to a square for Instagram, a wide 16:9 for a
         YouTube thumbnail, a tall 9:16 for Reels and Stories, a
@@ -172,7 +172,7 @@ export function CropImageSeo() {
 
       <h2 id="how-to" className="mt-10 text-[22px] font-bold text-[#1F2937]">
         How to crop an image
-      </h2>
+      </h4>
       <ol className="mt-3 list-decimal space-y-2 pl-5">
         <li id="step-1">Open the Crop Image tool, no signup needed.</li>
         <li id="step-2">
@@ -190,7 +190,7 @@ export function CropImageSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Crop to exact pixels
-      </h2>
+      </h4>
       <p className="mt-3">
         When a form or website asks for a specific size (say, a 600 by
         600 profile picture, a 1500 by 500 banner, or a 200 by 230
@@ -212,7 +212,7 @@ export function CropImageSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Crop for social media
-      </h2>
+      </h4>
       <p className="mt-3">
         Every social network has its own favourite aspect ratio and
         cropping to the right shape before you upload keeps the
@@ -228,7 +228,7 @@ export function CropImageSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Crop passport size photos (35x45)
-      </h2>
+      </h4>
       <p className="mt-3">
         Indian and international passport photos use a 35 by 45 mm
         frame, which is a 35:45 aspect ratio (roughly 7:9). Pick the
@@ -251,7 +251,7 @@ export function CropImageSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Crop JPG, PNG, and WebP
-      </h2>
+      </h4>
       <p className="mt-3">
         Every crop keeps the input format on the output side, which
         matters for transparency and file size. PNG and WebP outputs
@@ -265,7 +265,7 @@ export function CropImageSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Crop many images at once
-      </h2>
+      </h4>
       <p className="mt-3">
         Batch cropping is built in. Add several files, click a
         thumbnail in the file strip to make it active, set the crop
@@ -279,7 +279,7 @@ export function CropImageSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Your images never leave your device
-      </h2>
+      </h4>
       <p className="mt-3">
         Most online image croppers upload every photo to a stranger's
         server, hold it for hours or days, and log the filename. This
@@ -293,7 +293,7 @@ export function CropImageSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Works on Windows, Mac, Android, and iPhone
-      </h2>
+      </h4>
       <p className="mt-3">
         Because the cropper is a web page, it runs anywhere a modern
         browser runs: Windows 10, Windows 11, macOS, Chromebook,
@@ -305,7 +305,7 @@ export function CropImageSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Frequently asked questions
-      </h2>
+      </h4>
       <dl className="mt-4 space-y-4">
         {cropImageFaqJsonLd.mainEntity.map((q) => (
           <div key={q.name}>
@@ -317,7 +317,7 @@ export function CropImageSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         More image tools
-      </h2>
+      </h4>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         {related.map((t) =>
           t.status === "live" ? (

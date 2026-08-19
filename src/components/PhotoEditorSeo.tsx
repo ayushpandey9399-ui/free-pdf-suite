@@ -52,7 +52,7 @@ export const photoEditorFaqJsonLd = {
 export function PhotoEditorSeo() {
   return (
     <section className="mx-auto mt-16 max-w-3xl text-[15px] leading-[1.75] text-[#33333c]">
-      <h2 className="mb-3 text-[24px] font-bold text-[#1F2937]">How to edit a photo online, free</h2>
+      <h2 className="mb-3 text-[24px] font-bold text-[#1F2937]">How to edit a photo online, free</h4>
       <p>
         Editing a photo should not require an install, an account, or a monthly
         fee. Open this page, drop in a JPG, PNG, or WebP, and every adjustment
@@ -69,7 +69,7 @@ export function PhotoEditorSeo() {
         exactly zero requests going out with your image.
       </p>
 
-      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">Crop, rotate, and straighten in one place</h2>
+      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">Crop, rotate, and straighten in one place</h4>
       <p>
         The Crop and Rotate tab lets you finish a photo without hopping between
         tools. Rotate 90 degrees left or right, mirror or flip vertically, and
@@ -82,7 +82,7 @@ export function PhotoEditorSeo() {
         together.
       </p>
 
-      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">Adjust brightness, contrast, and color</h2>
+      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">Adjust brightness, contrast, and color</h4>
       <p>
         The adjustment sliders cover the edits that fix the vast majority of
         everyday photos. Brightness lifts or dims the overall exposure.
@@ -108,7 +108,7 @@ export function PhotoEditorSeo() {
         Hold Space to peek at the original at any time.
       </p>
 
-      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">Duotone color grading</h2>
+      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">Duotone color grading</h4>
       <p>
         The duotone chips remap your photo between two chosen colors, a shadow
         tone and a highlight tone. Pick Navy | Cream for a magazine cover feel,
@@ -121,7 +121,7 @@ export function PhotoEditorSeo() {
       </p>
 
 
-      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">One-tap filters, B&W, sepia, vintage, and more</h2>
+      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">One-tap filters, B&W, sepia, vintage, and more</h4>
       <p>
         The filter chips at the top set a preset combination of sliders in a
         single tap. B&W drives grayscale to 100 with a small contrast bump.
@@ -135,7 +135,7 @@ export function PhotoEditorSeo() {
         you can dial them in further.
       </p>
 
-      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">Fix a dark or washed-out photo</h2>
+      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">Fix a dark or washed-out photo</h4>
       <p>
         For a dark indoor photo, try this recipe: bump Brightness by about
         +20, add Contrast around +15 to keep the shadows from turning gray,
@@ -148,7 +148,7 @@ export function PhotoEditorSeo() {
         you drag.
       </p>
 
-      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">Before and after compare</h2>
+      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">Before and after compare</h4>
       <p>
         The Hold to compare button lets you press and hold to see the
         original, un-edited photo instantly. It works with mouse and touch,
@@ -157,7 +157,7 @@ export function PhotoEditorSeo() {
         edit look worse than the original, dial it back.
       </p>
 
-      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">Export as JPG, PNG, or WebP</h2>
+      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">Export as JPG, PNG, or WebP</h4>
       <p>
         JPG is the default and the right choice for most photos, small file,
         universal support, adjustable quality slider. PNG is the right choice
@@ -178,7 +178,7 @@ export function PhotoEditorSeo() {
       </p>
 
 
-      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">Your photo never leaves your device</h2>
+      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">Your photo never leaves your device</h4>
       <p>
         Personal photos are personal. A picture of your child, a screenshot
         with private information, a photo of a document, none of these belong
@@ -189,7 +189,7 @@ export function PhotoEditorSeo() {
         thumbnails.
       </p>
 
-      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">Works on Windows, Mac, Android, and iPhone</h2>
+      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">Works on Windows, Mac, Android, and iPhone</h4>
       <p>
         The photo editor is a plain web page. It runs in Chrome, Safari,
         Edge, and Firefox on Windows, macOS, and Linux, and in mobile Safari
@@ -202,11 +202,11 @@ export function PhotoEditorSeo() {
         tool is right next door, also fully in the browser.
       </p>
 
-      <h2 className="mt-10 mb-4 text-[22px] font-bold text-[#1F2937]">Frequently asked questions</h2>
+      <h2 className="mt-10 mb-4 text-[22px] font-bold text-[#1F2937]">Frequently asked questions</h4>
       <div className="space-y-4">
         {(photoEditorFaqJsonLd.mainEntity as Array<{ name: string; acceptedAnswer: { text: string } }>).map((q) => (
           <div key={q.name}>
-            <h3 className="text-[16px] font-semibold text-[#1F2937]">{q.name}</h3>
+            <h4 className="text-[16px] font-semibold text-[#1F2937]">{q.name}</h4>
             <p className="mt-1 text-[14px] text-[#4B5563]">{q.acceptedAnswer.text}</p>
           </div>
         ))}

@@ -97,7 +97,7 @@ const related = [
 export function CompressPdfSeo() {
   return (
     <section className="seo-content mx-auto max-w-4xl px-4 pb-16">
-      <h2>Why Does PDF File Size Matter?</h2>
+      <h2>Why Does PDF File Size Matter?</h4>
       <p>
         PDF files can grow surprisingly large, especially those containing high-resolution photographs, scanned pages,
         embedded fonts, or complex vector graphics. A PDF brochure that looks simple on screen can easily reach 30, 50,
@@ -126,12 +126,12 @@ export function CompressPdfSeo() {
         your specific situation.
       </p>
 
-      <h2>How to Compress a PDF Online — Step by Step</h2>
+      <h2>How to Compress a PDF Online — Step by Step</h4>
       <div className="mt-8 space-y-6">
         <div className="flex gap-4">
           <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#E5322D] text-white font-bold text-sm" aria-label="Step 1">1</span>
           <div>
-            <h3 className="text-lg font-bold text-[#383E45]">Step 1 — Upload Your PDF</h3>
+            <h4 className="text-lg font-bold text-[#383E45]">Step 1 — Upload Your PDF</h4>
             <p className="mt-2 text-base leading-relaxed text-[#383E45]">
               Click the "Select PDF file" button or drag and drop your PDF onto the upload area. Your file is processed in
               your browser and is never uploaded to any external server. There is no file size limit.
@@ -142,7 +142,7 @@ export function CompressPdfSeo() {
         <div className="flex gap-4">
           <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#E5322D] text-white font-bold text-sm" aria-label="Step 2">2</span>
           <div>
-            <h3 className="text-lg font-bold text-[#383E45]">Step 2 — Choose Your Compression Level</h3>
+            <h4 className="text-lg font-bold text-[#383E45]">Step 2 — Choose Your Compression Level</h4>
             <p className="mt-2 text-base leading-relaxed text-[#383E45]">
               Select from three compression presets depending on how small you need the file to be. Less Compression keeps
               near-original image quality with a moderate size reduction. Recommended balances quality and file size for most
@@ -155,7 +155,7 @@ export function CompressPdfSeo() {
         <div className="flex gap-4">
           <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#E5322D] text-white font-bold text-sm" aria-label="Step 3">3</span>
           <div>
-            <h3 className="text-lg font-bold text-[#383E45]">Step 3 — Compress the PDF</h3>
+            <h4 className="text-lg font-bold text-[#383E45]">Step 3 — Compress the PDF</h4>
             <p className="mt-2 text-base leading-relaxed text-[#383E45]">
               Click the "Compress PDF" button. The compression runs entirely in your browser using local processing. No
               internet upload is required after the page loads. Processing typically takes two to ten seconds depending on
@@ -167,7 +167,7 @@ export function CompressPdfSeo() {
         <div className="flex gap-4">
           <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#E5322D] text-white font-bold text-sm" aria-label="Step 4">4</span>
           <div>
-            <h3 className="text-lg font-bold text-[#383E45]">Step 4 — Download the Compressed File</h3>
+            <h4 className="text-lg font-bold text-[#383E45]">Step 4 — Download the Compressed File</h4>
             <p className="mt-2 text-base leading-relaxed text-[#383E45]">
               Once compression is complete, the tool shows you how much the file size was reduced. Click the download button
               to save the smaller PDF to your device. The compressed file is ready to email, upload, or share immediately.
@@ -176,7 +176,7 @@ export function CompressPdfSeo() {
         </div>
       </div>
 
-      <h2>How Much Can PDF Compression Reduce File Size?</h2>
+      <h2>How Much Can PDF Compression Reduce File Size?</h4>
       <p>
         The reduction you get from compressing a PDF depends heavily on what the file contains. Image-heavy documents
         compress the most dramatically. A PDF created from scanned paper pages — common in contracts, legal documents,
@@ -199,63 +199,63 @@ export function CompressPdfSeo() {
         image-heavy files by 70-90%, though some images may appear softer when viewed closely or printed.
       </p>
 
-      <h2>Common Situations Where You Need to Compress a PDF</h2>
-      <h3>Sending PDF Attachments via Email</h3>
+      <h2>Common Situations Where You Need to Compress a PDF</h4>
+      <h2>Sending PDF Attachments via Email</h4>
       <p>
         Gmail, Outlook, Yahoo Mail, and most corporate email systems cap attachment sizes at 20-25MB. A single scanned
         contract, illustrated report, or photo-heavy brochure can easily exceed this limit. Compressing the PDF before
         sending ensures it goes through without bouncing, and recipients with slow connections receive it faster.
       </p>
 
-      <h3>Uploading to Government and University Portals</h3>
+      <h2>Uploading to Government and University Portals</h4>
       <p>
         Many official portals for filing taxes, submitting visa applications, applying to universities, or registering
         businesses impose strict file size limits of 2MB, 5MB, or 10MB per document. These limits cannot be bypassed.
         Compressing your PDF to meet the portal's requirement is the only way to complete the submission.
       </p>
 
-      <h3>Sharing Via WhatsApp and Messaging Apps</h3>
+      <h2>Sharing Via WhatsApp and Messaging Apps</h4>
       <p>
         WhatsApp limits document shares to 100MB, but large PDFs often load slowly on recipients' phones, especially on
         mobile data. Compressing a PDF to under 5MB ensures it loads instantly and does not consume the recipient's
         data allowance unnecessarily.
       </p>
 
-      <h3>Saving Cloud Storage Space</h3>
+      <h2>Saving Cloud Storage Space</h4>
       <p>
         When storing hundreds of PDFs in Google Drive, Dropbox, OneDrive, or iCloud, file size adds up quickly.
         Compressing PDFs before archiving them can reduce cloud storage usage by 50-70%, either cutting your monthly
         costs or freeing space for other files.
       </p>
 
-      <h3>Uploading to Websites and Client Portals</h3>
+      <h2>Uploading to Websites and Client Portals</h4>
       <p>
         Website builders, client portals, HR systems, and legal document platforms often have upload limits. A
         recruitment system might cap CVs and cover letters at 5MB. A client onboarding portal might limit documents to
         10MB. Compressing ensures your PDF meets these requirements without recreating it.
       </p>
 
-      <h3>Speeding Up PDF Loading in Browsers</h3>
+      <h2>Speeding Up PDF Loading in Browsers</h4>
       <p>
         PDFs embedded in websites or shared via public links load slowly in browsers when they are large. A compressed
         PDF opens in seconds rather than minutes for visitors on mobile or slower connections, improving their
         experience significantly.
       </p>
 
-      <h3>Reducing Size After Scanning Documents</h3>
+      <h2>Reducing Size After Scanning Documents</h4>
       <p>
         Scanning physical documents using a phone scanner app or office scanner often produces very large files because
         each scanned page is stored as a high-resolution image. Compressing the scanned PDF can reduce a 50-page
         scanned contract from 30MB to under 5MB without making the text unreadable.
       </p>
 
-      <h3>Preparing PDFs for Long-Term Digital Archiving</h3>
+      <h2>Preparing PDFs for Long-Term Digital Archiving</h4>
       <p>
         Organizations keeping digital records for years or decades benefit enormously from compressed PDFs. Smaller
         files are easier to back up, faster to search, and consume significantly less physical server space over time.
       </p>
 
-      <h2>Frequently asked questions</h2>
+      <h2>Frequently asked questions</h4>
       <div className="mt-6 divide-y divide-[#eee]">
         {faqs.map((f) => (
           <details key={f.q} className="group py-4">
@@ -270,7 +270,7 @@ export function CompressPdfSeo() {
         ))}
       </div>
 
-      <h2>Related PDF tools</h2>
+      <h2>Related PDF tools</h4>
       <RelatedToolsGrid items={related} />
     </section>
   );

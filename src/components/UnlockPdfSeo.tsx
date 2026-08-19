@@ -97,7 +97,7 @@ const related = [
 export function UnlockPdfSeo() {
   return (
     <section className="mx-auto max-w-4xl px-4 pb-16 seo-content">
-      <h2>Why Would You Need to Unlock a PDF?</h2>
+      <h2>Why Would You Need to Unlock a PDF?</h4>
       <p>
         Password-protected PDFs are common in everyday work. Banks send password-protected statements to protect account information. Employers send encrypted payslips with your employee ID as the password. Government agencies distribute encrypted forms. Insurance companies send policy documents with a protection layer. In each of these cases, you know the password, but you need to unlock the PDF to merge it with other documents, compress it, edit it, or use it in a workflow that does not accept password-protected files.
       </p>
@@ -111,7 +111,7 @@ export function UnlockPdfSeo() {
         It is important to understand that a PDF unlocker does not bypass or crack encryption. You must know the correct password to unlock the file. What the tool does is use the password you provide to decrypt the file and save a new copy without the protection layer. This is the equivalent of opening a locked filing cabinet with your key, making a copy of the contents, and putting the copy in an unlocked folder for easier access.
       </p>
 
-      <h2>How to Unlock a PDF Online — Step by Step</h2>
+      <h2>How to Unlock a PDF Online — Step by Step</h4>
       <div className="space-y-6">
         {steps.map((s, i) => (
           <div key={i} className="flex gap-4">
@@ -119,58 +119,58 @@ export function UnlockPdfSeo() {
               {i + 1}
             </div>
             <div>
-              <h3 className="text-lg font-semibold mb-1">{s.title}</h3>
+              <h4 className="text-lg font-semibold mb-1">{s.title}</h4>
               <p className="text-gray-600 leading-relaxed">{s.text}</p>
             </div>
           </div>
         ))}
       </div>
 
-      <h2>Two Types of PDF Passwords — What Each One Does</h2>
-      <h3>Document Open Password (User Password)</h3>
+      <h2>Two Types of PDF Passwords — What Each One Does</h4>
+      <h2>Document Open Password (User Password)</h4>
       <p>
         This password prevents the file from being opened at all. Anyone who receives a PDF with this type of protection sees a locked file and is prompted to enter a password before viewing any content. Banks, government agencies, and HR departments commonly use this type of protection for sensitive documents they send to individuals.
       </p>
-      <h3>Permissions Password (Owner Password)</h3>
+      <h2>Permissions Password (Owner Password)</h4>
       <p>
         This password does not prevent the file from being opened but restricts what can be done with it. A PDF protected with only a permissions password can be viewed but cannot be printed, copied, or edited. This type of protection is common in commercially distributed PDF documents, e-books, and reports where the creator wants to control usage without preventing reading.
       </p>
 
-      <h2>Common Situations Where You Need to Unlock a PDF</h2>
-      <h3>Bank Statements and Financial Documents</h3>
+      <h2>Common Situations Where You Need to Unlock a PDF</h4>
+      <h2>Bank Statements and Financial Documents</h4>
       <p>
         Many banks send monthly statements as password-protected PDFs, using your date of birth or account number as the password. Unlocking these statements lets you merge them into a single annual statement, compress them for storage, or share specific pages with an accountant or financial advisor without sending the password separately.
       </p>
-      <h3>Payslips and Salary Documents</h3>
+      <h2>Payslips and Salary Documents</h4>
       <p>
         HR departments often protect payslips with an employee's date of birth or employee ID as the password. When applying for a loan, visa, or rental property, you may need to submit payslips as unlocked PDFs that can be combined and compressed. Unlocking them first makes this process straightforward.
       </p>
-      <h3>Government and Official Documents</h3>
+      <h2>Government and Official Documents</h4>
       <p>
         Some government documents, tax notices, and official certificates are distributed as protected PDFs. Unlocking them allows you to merge them with other application documents, compress them to meet upload limits, or print them without restriction.
       </p>
-      <h3>Academic Certificates and Transcripts</h3>
+      <h2>Academic Certificates and Transcripts</h4>
       <p>
         Universities sometimes distribute grade transcripts and certificates as password-protected PDFs. Unlocking these allows you to combine them with other application documents and compress them for online submissions.
       </p>
-      <h3>Insurance and Medical Documents</h3>
+      <h2>Insurance and Medical Documents</h4>
       <p>
         Insurance policies, claim documents, and medical reports occasionally come protected. Unlocking them lets you share specific sections with relevant parties, merge multiple documents into a single submission, or annotate them with our <Link to="/tools/$slug" params={{ slug: "edit-pdf" }} className="text-[#E5322D] hover:underline">Edit PDF tool</Link>.
       </p>
-      <h3>Merging Multiple PDFs Including a Protected One</h3>
+      <h2>Merging Multiple PDFs Including a Protected One</h4>
       <p>
         If you need to merge several PDFs into one document and one of them is password-protected, you need to unlock it first. Most PDF mergers cannot process encrypted files directly. You can use our <Link to="/tools/$slug" params={{ slug: "merge" }} className="text-[#E5322D] hover:underline">Merge PDF tool</Link> once the file is unlocked.
       </p>
-      <h3>Compressing Protected PDFs</h3>
+      <h2>Compressing Protected PDFs</h4>
       <p>
         A PDF compressor cannot optimize the contents of an encrypted file because it cannot access the image data inside. Unlocking the PDF first allows the compressor to process the file and achieve proper size reduction. Try our <Link to="/tools/$slug" params={{ slug: "compress" }} className="text-[#E5322D] hover:underline">Compress PDF tool</Link> after unlocking.
       </p>
-      <h3>Re-Protecting With a New Password</h3>
+      <h2>Re-Protecting With a New Password</h4>
       <p>
         If you want to change the password on a protected PDF, you first need to unlock the current version and then re-protect it with a new password using our <Link to="/tools/$slug" params={{ slug: "protect-pdf" }} className="text-[#E5322D] hover:underline">Protect PDF tool</Link>.
       </p>
 
-      <h2>Is It Legal to Unlock a PDF?</h2>
+      <h2>Is It Legal to Unlock a PDF?</h4>
       <p>
         Unlocking a PDF is legal when you are the authorized recipient of the document and you know the password. If a bank sent you a protected statement, an employer sent you an encrypted payslip, or a government agency sent you a protected certificate, you have full authorization to unlock and use that document as needed.
       </p>
@@ -181,7 +181,7 @@ export function UnlockPdfSeo() {
         If you have forgotten the password to a document you own or created yourself, you should contact the original sender for a new copy or check whether you stored the password in a password manager. Our tool cannot unlock a PDF without the correct password — it simply removes the protection layer after authentication.
       </p>
 
-      <h2>Browser-Based vs Server-Based PDF Unlocking</h2>
+      <h2>Browser-Based vs Server-Based PDF Unlocking</h4>
       <div className="overflow-x-auto my-8">
         <table className="w-full border-collapse border border-gray-200">
           <thead>
@@ -236,29 +236,29 @@ export function UnlockPdfSeo() {
         </table>
       </div>
 
-      <h2>Tips for Working With Unlocked PDFs</h2>
-      <h3>Keep the Original Protected Version</h3>
+      <h2>Tips for Working With Unlocked PDFs</h4>
+      <h2>Keep the Original Protected Version</h4>
       <p>
         After unlocking a PDF, keep both the protected original and the unlocked copy. The original serves as proof of the official protected version you received, while the unlocked copy is for your working needs.
       </p>
-      <h3>Re-Protect After Making Edits</h3>
+      <h2>Re-Protect After Making Edits</h4>
       <p>
         If you unlock a document, edit it, and need to share it securely, use our <Link to="/tools/$slug" params={{ slug: "protect-pdf" }} className="text-[#E5322D] hover:underline">Protect PDF tool</Link> to add a new password before sharing.
       </p>
-      <h3>Compress After Unlocking</h3>
+      <h2>Compress After Unlocking</h4>
       <p>
         Unlocked PDFs can be compressed normally. Run the unlocked file through our <Link to="/tools/$slug" params={{ slug: "compress" }} className="text-[#E5322D] hover:underline">Compress PDF tool</Link> to reduce file size before archiving or emailing.
       </p>
-      <h3>Merge Unlocked PDFs With Other Documents</h3>
+      <h2>Merge Unlocked PDFs With Other Documents</h4>
       <p>
         Once unlocked, the PDF can be merged with other documents using our <Link to="/tools/$slug" params={{ slug: "merge" }} className="text-[#E5322D] hover:underline">Merge PDF tool</Link> without any restrictions.
       </p>
-      <h3>Check Permissions After Unlocking</h3>
+      <h2>Check Permissions After Unlocking</h4>
       <p>
         Some PDFs have two layers of protection — an open password and a permissions password. After removing the open password, verify that printing and copying are now available. If restrictions remain, the permissions password may still be active.
       </p>
 
-      <h2>Frequently Asked Questions About Unlocking PDFs</h2>
+      <h2>Frequently Asked Questions About Unlocking PDFs</h4>
       <div className="space-y-4">
         {faqs.map((f, i) => (
           <details key={i} className="group border border-gray-200 rounded-lg p-4">
@@ -271,7 +271,7 @@ export function UnlockPdfSeo() {
         ))}
       </div>
 
-      <h2 className="mt-16">Related PDF Tools</h2>
+      <h2 className="mt-16">Related PDF Tools</h4>
       <RelatedToolsGrid items={related} />
     </section>
   );

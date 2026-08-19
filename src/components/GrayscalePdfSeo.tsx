@@ -139,7 +139,7 @@ export function GrayscalePdfSeo() {
     <section className="mx-auto max-w-4xl px-4 pb-16 text-[#33333c]">
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         How to convert a PDF to grayscale online for free
-      </h2>
+      </h4>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         Need to make a PDF black and white to save ink or meet submission requirements? 
         Our online converter renders each page in true grayscale directly in your browser.
@@ -160,7 +160,7 @@ export function GrayscalePdfSeo() {
 
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Save ink, shrink scans, print cleaner
-      </h2>
+      </h4>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         Color pages drain expensive cartridges even when the color is just a tiny logo or header. 
         Converting to grayscale ensures your printer treats every page as black and white, 
@@ -173,11 +173,11 @@ export function GrayscalePdfSeo() {
 
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Why use pdftoolconverteronline.com for grayscale conversion?
-      </h2>
+      </h4>
       <div className="mt-10 grid gap-6 sm:grid-cols-2">
         {benefits.map((b) => (
           <div key={b.h}>
-            <h3 className="text-[17px] font-semibold">{b.h}</h3>
+            <h4 className="text-[17px] font-semibold">{b.h}</h4>
             <p className="mt-2 text-[14.5px] leading-relaxed text-[#4a4a55]">{b.p}</p>
           </div>
         ))}
@@ -185,11 +185,11 @@ export function GrayscalePdfSeo() {
 
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Common scenarios for grayscale PDFs
-      </h2>
+      </h4>
       <div className="mt-6 space-y-5">
         {scenarios.map((s) => (
           <div key={s.h}>
-            <h3 className="text-[17px] font-semibold">{s.h}</h3>
+            <h4 className="text-[17px] font-semibold">{s.h}</h4>
             <p className="mt-1.5 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.p}</p>
           </div>
         ))}
@@ -197,7 +197,7 @@ export function GrayscalePdfSeo() {
 
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Frequently asked questions
-      </h2>
+      </h4>
       <div className="mt-6 divide-y divide-[#eee]">
         {faqs.map((f) => (
           <details key={f.q} className="group py-4">
@@ -212,7 +212,7 @@ export function GrayscalePdfSeo() {
 
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Related PDF tools
-      </h2>
+      </h4>
       <RelatedToolsGrid items={related} />
     </section>
   );

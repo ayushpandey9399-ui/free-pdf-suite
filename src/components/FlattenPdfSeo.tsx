@@ -175,7 +175,7 @@ export function FlattenPdfSeo() {
       {/* Definition FIRST */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         What does flattening a PDF mean?
-      </h2>
+      </h4>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         A fillable PDF has two layers stacked on top of each other: the
         printed page underneath, and a set of interactive boxes on top
@@ -195,7 +195,7 @@ export function FlattenPdfSeo() {
       {/* How-to */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         How to flatten a PDF online for free
-      </h2>
+      </h4>
       <ol className="mt-5 space-y-4">
         {steps.map((s, i) => (
           <li key={i} id={`step-${i + 1}`} className="flex gap-4">
@@ -213,7 +213,7 @@ export function FlattenPdfSeo() {
       {/* Why flatten */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Why flatten before you send?
-      </h2>
+      </h4>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         You filled a form carefully, an application, a declaration, a
         salary figure on an invoice template, and hit send. The
@@ -235,7 +235,7 @@ export function FlattenPdfSeo() {
       {/* Flatten vs Print-to-PDF */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Flatten vs Print-to-PDF: why the shortcut isn't the same
-      </h2>
+      </h4>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         The common workaround for locking a filled form is Print → Save as PDF, and it does
         remove the interactive fields. What it also does is rasterise every page: the printer
@@ -254,7 +254,7 @@ export function FlattenPdfSeo() {
       {/* Privacy differentiator */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Private flattening, your form stays with you
-      </h2>
+      </h4>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         A filled form is usually the last document you'd want on a
         stranger's server: it has your name, your address, sometimes
@@ -270,7 +270,7 @@ export function FlattenPdfSeo() {
       <div className="mt-10 grid gap-6 sm:grid-cols-2">
         {benefits.map((b) => (
           <div key={b.h}>
-            <h3 className="text-[17px] font-semibold">{b.h}</h3>
+            <h4 className="text-[17px] font-semibold">{b.h}</h4>
             <p className="mt-2 text-[14.5px] leading-relaxed text-[#4a4a55]">{b.p}</p>
           </div>
         ))}
@@ -279,11 +279,11 @@ export function FlattenPdfSeo() {
       {/* Scenarios */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         When should you flatten a PDF?
-      </h2>
+      </h4>
       <div className="mt-6 space-y-5">
         {scenarios.map((s) => (
           <div key={s.h}>
-            <h3 className="text-[17px] font-semibold">{s.h}</h3>
+            <h4 className="text-[17px] font-semibold">{s.h}</h4>
             <p className="mt-1.5 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.p}</p>
           </div>
         ))}
@@ -292,7 +292,7 @@ export function FlattenPdfSeo() {
       {/* FAQ */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Frequently asked questions
-      </h2>
+      </h4>
       <div className="mt-6 divide-y divide-[#eee]">
         {faqs.map((f) => (
           <details key={f.q} className="group py-4">
@@ -308,7 +308,7 @@ export function FlattenPdfSeo() {
       {/* Related */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Related PDF tools
-      </h2>
+      </h4>
       <RelatedToolsGrid items={related} />
     </section>
   );

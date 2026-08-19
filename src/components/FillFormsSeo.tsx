@@ -176,7 +176,7 @@ export function FillFormsSeo() {
       {/* How-to */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         How to fill out a PDF form online for free
-      </h2>
+      </h4>
       <ol className="mt-5 space-y-4">
         {steps.map((s, i) => (
           <li key={i} id={`step-${i + 1}`} className="flex gap-4">
@@ -194,7 +194,7 @@ export function FillFormsSeo() {
       {/* Print-fill-scan */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Skip the print-fill-scan cycle
-      </h2>
+      </h4>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         The old ritual is familiar: download the form, hunt for a
         printer, fill each line by hand, then find a scanner or a phone
@@ -214,7 +214,7 @@ export function FillFormsSeo() {
       {/* Privacy differentiator */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         The private way to fill forms
-      </h2>
+      </h4>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         Forms are the most personal documents most people ever fill.
         They ask, by design, for a full legal name, a residential
@@ -237,7 +237,7 @@ export function FillFormsSeo() {
       {/* Honest note */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         An honest note: fillable vs flat forms
-      </h2>
+      </h4>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         This tool works with PDFs that contain real interactive fields , 
         the kind where a cursor blinks in a box the moment you click
@@ -263,7 +263,7 @@ export function FillFormsSeo() {
       <div className="mt-10 grid gap-6 sm:grid-cols-2">
         {benefits.map((b) => (
           <div key={b.h}>
-            <h3 className="text-[17px] font-semibold">{b.h}</h3>
+            <h4 className="text-[17px] font-semibold">{b.h}</h4>
             <p className="mt-2 text-[14.5px] leading-relaxed text-[#4a4a55]">{b.p}</p>
           </div>
         ))}
@@ -272,11 +272,11 @@ export function FillFormsSeo() {
       {/* Scenarios */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         When do you need to fill a PDF form?
-      </h2>
+      </h4>
       <div className="mt-6 space-y-5">
         {scenarios.map((s) => (
           <div key={s.h}>
-            <h3 className="text-[17px] font-semibold">{s.h}</h3>
+            <h4 className="text-[17px] font-semibold">{s.h}</h4>
             <p className="mt-1.5 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.p}</p>
           </div>
         ))}
@@ -285,7 +285,7 @@ export function FillFormsSeo() {
       {/* FAQ */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Frequently asked questions
-      </h2>
+      </h4>
       <div className="mt-6 divide-y divide-[#eee]">
         {faqs.map((f) => (
           <details key={f.q} className="group py-4">
@@ -301,7 +301,7 @@ export function FillFormsSeo() {
       {/* Related */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Related PDF tools
-      </h2>
+      </h4>
       <RelatedToolsGrid items={related} />
     </section>
   );

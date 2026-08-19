@@ -150,7 +150,7 @@ export function PngToWebpSeo() {
     <section className="mx-auto mt-16 max-w-3xl px-4 text-[15px] leading-relaxed text-[#33333c]">
       <h2 className="text-[24px] font-bold text-[#1F2937]">
         PNG to WebP, converted in your browser
-      </h2>
+      </h4>
       <p className="mt-3">
         WebP is Google's modern image format for the web. Compared to
         PNG, it typically produces files that are 50 to 80 percent
@@ -174,7 +174,7 @@ export function PngToWebpSeo() {
 
       <h2 id="how-to" className="mt-10 text-[22px] font-bold text-[#1F2937]">
         How to convert PNG to WebP
-      </h2>
+      </h4>
       <ol className="mt-3 list-decimal space-y-2 pl-5">
         <li id="step-1">Open the PNG to WebP tool, no signup needed.</li>
         <li id="step-2">Drag and drop .png files, or click to select.</li>
@@ -190,7 +190,7 @@ export function PngToWebpSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Transparency is preserved
-      </h2>
+      </h4>
       <p className="mt-3">
         This is the most important guarantee of a PNG to WebP tool, and
         the one many free converters get wrong. WebP fully supports an
@@ -214,7 +214,7 @@ export function PngToWebpSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Why WebP for your website
-      </h2>
+      </h4>
       <p className="mt-3">
         PNG is lossless and universal, but it is also large. A modern
         product photograph exported as PNG can easily hit two or three
@@ -234,7 +234,7 @@ export function PngToWebpSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Choosing the right WebP quality
-      </h2>
+      </h4>
       <p className="mt-3">
         The quality slider runs from about 30 to 100. The default of 85
         is the industry sweet spot: files are dramatically smaller than
@@ -251,7 +251,7 @@ export function PngToWebpSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Where WebP is supported (and where it isn't)
-      </h2>
+      </h4>
       <p className="mt-3">
         Every modern browser reads WebP with transparency today: Chrome
         and Edge since launch, Firefox since 65, and Safari since
@@ -271,7 +271,7 @@ export function PngToWebpSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Bulk convert PNG to WebP
-      </h2>
+      </h4>
       <p className="mt-3">
         Batch conversion is built in. Select as many PNGs as you like,
         or drop a whole folder, and each file is converted in one pass
@@ -284,7 +284,7 @@ export function PngToWebpSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Your images never leave your device
-      </h2>
+      </h4>
       <p className="mt-3">
         Most online PNG to WebP converters upload every image to a
         stranger's server, hold it for hours, and log the metadata.
@@ -298,7 +298,7 @@ export function PngToWebpSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Works on Windows, Mac, Android, and iPhone
-      </h2>
+      </h4>
       <p className="mt-3">
         Because the converter is a web page, it runs anywhere a modern
         browser runs: Windows 10 and 11, macOS, Chromebook, Linux,
@@ -310,7 +310,7 @@ export function PngToWebpSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Frequently asked questions
-      </h2>
+      </h4>
       <dl className="mt-4 space-y-4">
         {pngToWebpFaqJsonLd.mainEntity.map((q) => (
           <div key={q.name}>
@@ -322,7 +322,7 @@ export function PngToWebpSeo() {
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         More image tools
-      </h2>
+      </h4>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         {related.map((t) =>
           t.status === "live" ? (

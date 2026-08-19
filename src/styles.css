@@ -159,18 +159,25 @@
   }
 
   /* Global Headings Reset/Unification */
-  h1 {
+  h1, .tool-title {
     font-size: 28px;
     font-weight: 700;
     color: #383e45;
     line-height: 1.15;
     letter-spacing: -0.02em;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 42px;
   }
 
   @media (min-width: 640px) {
-    h1 {
+    h1, .tool-title {
       font-size: 42px;
     }
+  }
+
+  .tool-description {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 60px;
   }
 
   h2 {

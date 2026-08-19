@@ -84,11 +84,11 @@ export function AddBlankPagesSeo() {
     <section className="mx-auto max-w-4xl px-4 pb-16 seo-content">
       <h2 className="text-center">
         When do you need to add blank pages to a PDF?
-      </h2>
+      </h4>
       <div className="mt-8 grid gap-8 sm:grid-cols-2">
         {useCases.map((uc, i) => (
           <div key={i}>
-            <h3 className="text-[18px] font-semibold">{uc.h}</h3>
+            <h4 className="text-[18px] font-semibold">{uc.h}</h4>
             <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">{uc.p}</p>
           </div>
         ))}
@@ -96,7 +96,7 @@ export function AddBlankPagesSeo() {
 
       <h2 className="text-center">
         How to add blank pages to a PDF online
-      </h2>
+      </h4>
       <ol className="mt-8 space-y-6 max-w-2xl mx-auto">
         {steps.map((s, i) => (
           <li key={i} className="flex gap-4">
@@ -113,7 +113,7 @@ export function AddBlankPagesSeo() {
 
       <h2 className="text-center">
         Frequently asked questions
-      </h2>
+      </h4>
       <div className="mt-8 divide-y divide-[#eee] max-w-3xl mx-auto not-prose">
         {faqs.map((f, i) => (
           <details key={i} className="group py-4">
@@ -128,7 +128,7 @@ export function AddBlankPagesSeo() {
 
       <h2 className="text-center">
         Related PDF tools
-      </h2>
+      </h4>
       <div className="mt-8">
         <RelatedToolsGrid items={related} />
       </div>

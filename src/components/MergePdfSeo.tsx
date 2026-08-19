@@ -100,7 +100,7 @@ export function MergePdfSeo() {
       {/* SECTION A */}
       <h2>
         Why Merge PDF Files Into One Document?
-      </h2>
+      </h4>
       <div>
         <p>
           Working with multiple separate PDF files creates confusion. You end up with dozens of files scattered across folders, 
@@ -128,7 +128,7 @@ export function MergePdfSeo() {
       {/* SECTION B */}
       <h2>
         How to Merge PDF Files Online — Step by Step
-      </h2>
+      </h4>
       <div className="mt-5 space-y-6">
         {steps.map((s, i) => (
           <div key={i} className="flex gap-4">
@@ -136,7 +136,7 @@ export function MergePdfSeo() {
               {i + 1}
             </span>
             <div className="pt-1">
-              <h3 className="text-[18px] font-bold text-[#33333c]">{s.title}</h3>
+              <h4 className="text-[18px] font-bold text-[#33333c]">{s.title}</h4>
               <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">{s.text}</p>
             </div>
           </div>
@@ -146,17 +146,17 @@ export function MergePdfSeo() {
       {/* SECTION C */}
       <h2>
         Common Scenarios for Combining PDF Documents
-      </h2>
+      </h4>
       <div className="mt-5 space-y-6">
         <div>
-          <h3 className="text-[18px] font-bold text-[#33333c]">Combine Project Reports for Stakeholders</h3>
+          <h4 className="text-[18px] font-bold text-[#33333c]">Combine Project Reports for Stakeholders</h4>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             When a project involves multiple teams, each submitting their own progress report, merging all reports into one PDF creates a unified deliverable. 
             Stakeholders receive a single document instead of opening five attachments. This also reduces the risk of someone missing a report buried in an email thread.
           </p>
         </div>
         <div>
-          <h3 className="text-[18px] font-bold text-[#33333c]">Merge Legal Documents and Case Files</h3>
+          <h4 className="text-[18px] font-bold text-[#33333c]">Merge Legal Documents and Case Files</h4>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             Attorneys frequently work with contracts, affidavits, evidence exhibits, and correspondence that need to be filed together. 
             Combining these into one PDF ensures nothing is lost and the court receives a properly ordered submission. 
@@ -164,42 +164,42 @@ export function MergePdfSeo() {
           </p>
         </div>
         <div>
-          <h3 className="text-[18px] font-bold text-[#33333c]">Consolidate Invoices and Financial Records</h3>
+          <h4 className="text-[18px] font-bold text-[#33333c]">Consolidate Invoices and Financial Records</h4>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             Freelancers and small business owners can merge monthly invoices into quarterly or annual PDFs for cleaner bookkeeping. 
             Accountants combine receipts, bank statements, and tax forms into organized bundles before submitting to clients or tax authorities.
           </p>
         </div>
         <div>
-          <h3 className="text-[18px] font-bold text-[#33333c]">Build a Student Portfolio or Thesis</h3>
+          <h4 className="text-[18px] font-bold text-[#33333c]">Build a Student Portfolio or Thesis</h4>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             Graduate students merge their thesis chapters, bibliography, abstract, and appendices into the final submission document. 
             Undergraduate students combine assignment submissions, certificates, and project reports into a portfolio PDF for job applications.
           </p>
         </div>
         <div>
-          <h3 className="text-[18px] font-bold text-[#33333c]">Prepare Rental or Visa Applications</h3>
+          <h4 className="text-[18px] font-bold text-[#33333c]">Prepare Rental or Visa Applications</h4>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             Rental applications and visa applications typically require identity proof, income proof, bank statements, and reference letters all in one document. 
             Merging these into a single PDF makes the application cleaner and reduces the chance of a missing attachment causing a rejection.
           </p>
         </div>
         <div>
-          <h3 className="text-[18px] font-bold text-[#33333c]">Combine Scanned Pages Into One Document</h3>
+          <h4 className="text-[18px] font-bold text-[#33333c]">Combine Scanned Pages Into One Document</h4>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             When scanning multi-page documents using a phone scanner, each page often saves as a separate file. 
             Merging these individual scans into one continuous PDF recreates the original multi-page document properly.
           </p>
         </div>
         <div>
-          <h3 className="text-[18px] font-bold text-[#33333c]">Organize Travel Documents</h3>
+          <h4 className="text-[18px] font-bold text-[#33333c]">Organize Travel Documents</h4>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             Combine your flight tickets, hotel booking confirmations, visa copy, travel insurance, and itinerary into one travel PDF. 
             Having everything in a single file on your phone means you can access any document instantly at the airport or hotel check-in, even without internet.
           </p>
         </div>
         <div>
-          <h3 className="text-[18px] font-bold text-[#33333c]">Create Unified Training or Course Materials</h3>
+          <h4 className="text-[18px] font-bold text-[#33333c]">Create Unified Training or Course Materials</h4>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             Trainers and course creators merge slides, handouts, reading materials, and quizzes into a single course packet PDF. 
             Participants receive one comprehensive file instead of downloading multiple attachments from different emails or platforms.
@@ -210,10 +210,10 @@ export function MergePdfSeo() {
       {/* SECTION D */}
       <h2>
         Why Use Our Free Online PDF Merger?
-      </h2>
+      </h4>
       <div className="mt-5 space-y-6">
         <div>
-          <h3 className="text-[18px] font-bold text-[#33333c]">Your Files Never Leave Your Device</h3>
+          <h4 className="text-[18px] font-bold text-[#33333c]">Your Files Never Leave Your Device</h4>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             Unlike most online PDF tools that upload your files to cloud servers for processing, our merger runs entirely in your browser. 
             Your PDFs are processed locally using client-side JavaScript, which means no file data is ever transmitted over the internet. 
@@ -221,7 +221,7 @@ export function MergePdfSeo() {
           </p>
         </div>
         <div>
-          <h3 className="text-[18px] font-bold text-[#33333c]">Completely Free With No Hidden Limits</h3>
+          <h4 className="text-[18px] font-bold text-[#33333c]">Completely Free With No Hidden Limits</h4>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             There are no file size limits, no daily usage caps, and no premium tier hiding the features you actually need. 
             You can merge as many files as you want, as often as you want, without creating an account or providing an email address. 
@@ -229,28 +229,28 @@ export function MergePdfSeo() {
           </p>
         </div>
         <div>
-          <h3 className="text-[18px] font-bold text-[#33333c]">No Quality Loss</h3>
+          <h4 className="text-[18px] font-bold text-[#33333c]">No Quality Loss</h4>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             The merging process preserves every element of your original PDFs exactly as they are. Text remains selectable, images retain their original resolution, 
             hyperlinks continue to work, and form fields stay fillable. The merged file is not a re-encoded copy — it is a precise combination of the original page data.
           </p>
         </div>
         <div>
-          <h3 className="text-[18px] font-bold text-[#33333c]">Drag-and-Drop Reordering</h3>
+          <h4 className="text-[18px] font-bold text-[#33333c]">Drag-and-Drop Reordering</h4>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             After selecting your files, you can easily rearrange them by dragging and dropping. 
             This visual interface makes it simple to get the exact page order you need without renaming files or guessing which document comes first.
           </p>
         </div>
         <div>
-          <h3 className="text-[18px] font-bold text-[#33333c]">Works on Every Device and Browser</h3>
+          <h4 className="text-[18px] font-bold text-[#33333c]">Works on Every Device and Browser</h4>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             The PDF merger works on Windows, Mac, Linux, ChromeOS, iOS, and Android. It runs in any modern browser including Chrome, Firefox, Safari, Edge, and Opera. 
             No software download, plugin, or app installation is needed — just open the page and start merging.
           </p>
         </div>
         <div>
-          <h3 className="text-[18px] font-bold text-[#33333c]">Lightning-Fast Processing</h3>
+          <h4 className="text-[18px] font-bold text-[#33333c]">Lightning-Fast Processing</h4>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             Because the processing happens locally on your device rather than waiting for a server upload and download cycle, merging is nearly instant. 
             Even combining ten large PDF files typically completes in under five seconds on a modern phone or laptop.
@@ -261,7 +261,7 @@ export function MergePdfSeo() {
       {/* SECTION E */}
       <h2>
         Browser-Based vs Server-Based PDF Merging
-      </h2>
+      </h4>
       <div className="mt-6 overflow-x-auto">
         <table className="w-full border-collapse border border-[#ececef] text-[14.5px]">
           <thead>
@@ -319,38 +319,38 @@ export function MergePdfSeo() {
       {/* SECTION F */}
       <h2>
         Tips for Merging PDF Files Effectively
-      </h2>
+      </h4>
       <div className="mt-5 space-y-6">
         <div>
-          <h3 className="text-[18px] font-bold text-[#33333c]">Name Your Files Before Merging</h3>
+          <h4 className="text-[18px] font-bold text-[#33333c]">Name Your Files Before Merging</h4>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             Give each PDF a clear, descriptive filename before adding it to the merger. 
             This makes it easier to identify and reorder documents in the merge interface, especially when working with many files.
           </p>
         </div>
         <div>
-          <h3 className="text-[18px] font-bold text-[#33333c]">Check Page Orientation Consistency</h3>
+          <h4 className="text-[18px] font-bold text-[#33333c]">Check Page Orientation Consistency</h4>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             If some of your PDFs are portrait and others are landscape, the merged file will preserve each page's original orientation. 
             For a consistent look, consider rotating pages using our <Link to="/tools/$slug" params={{ slug: "rotate" }} className="text-[#e5322d] hover:underline">Rotate PDF tool</Link> before merging.
           </p>
         </div>
         <div>
-          <h3 className="text-[18px] font-bold text-[#33333c]">Remove Unnecessary Pages First</h3>
+          <h4 className="text-[18px] font-bold text-[#33333c]">Remove Unnecessary Pages First</h4>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             If you only need certain pages from a large PDF, use our <Link to="/tools/$slug" params={{ slug: "extract-pages" }} className="text-[#e5322d] hover:underline">Extract Pages tool</Link> or <Link to="/tools/$slug" params={{ slug: "delete-pages" }} className="text-[#e5322d] hover:underline">Delete Pages tool</Link> to pull out what you need before merging. 
             This keeps the final document lean and focused.
           </p>
         </div>
         <div>
-          <h3 className="text-[18px] font-bold text-[#33333c]">Compress After Merging for Smaller File Size</h3>
+          <h4 className="text-[18px] font-bold text-[#33333c]">Compress After Merging for Smaller File Size</h4>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             Merged PDFs with many pages can become large. After merging, run the combined file through our <Link to="/tools/$slug" params={{ slug: "compress" }} className="text-[#e5322d] hover:underline">Compress PDF tool</Link> to reduce the file size without visible quality loss. 
             This is especially helpful before emailing or uploading.
           </p>
         </div>
         <div>
-          <h3 className="text-[18px] font-bold text-[#33333c]">Use Blank Pages as Section Dividers</h3>
+          <h4 className="text-[18px] font-bold text-[#33333c]">Use Blank Pages as Section Dividers</h4>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             For professional documents, consider adding blank separator pages between sections using our <Link to="/tools/$slug" params={{ slug: "add-blank-pages" }} className="text-[#e5322d] hover:underline">Add Blank Pages tool</Link> before merging. 
             This creates clear visual breaks when the document is printed double-sided.
@@ -361,7 +361,7 @@ export function MergePdfSeo() {
       {/* SECTION G */}
       <h2>
         Frequently Asked Questions About Merging PDFs
-      </h2>
+      </h4>
       <div className="mt-8 divide-y divide-[#ececef]">
         {faqs.map((f, i) => (
           <details key={i} className="group py-4">
@@ -395,7 +395,7 @@ export function MergePdfSeo() {
       {/* SECTION H */}
       <h2 className="text-center">
         Related PDF Tools
-      </h2>
+      </h4>
       <RelatedToolsGrid items={related} />
     </section>
   );

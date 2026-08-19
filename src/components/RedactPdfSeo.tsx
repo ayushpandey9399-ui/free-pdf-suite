@@ -120,7 +120,7 @@ export function RedactPdfSeo() {
       {/* How-to */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         How to redact a PDF online for free
-      </h2>
+      </h4>
       <ol className="mt-5 space-y-4">
         {steps.map((s, i) => (
           <li key={i} id={`step-${i + 1}`} className="flex gap-4">
@@ -138,7 +138,7 @@ export function RedactPdfSeo() {
       {/* True redaction */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Real redaction, not just a black box
-      </h2>
+      </h4>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         This is the part almost every online tool gets wrong. In the usual PDF editor, drawing a black rectangle
         over sensitive text only covers it visually, the underlying characters remain inside the file as regular
@@ -165,7 +165,7 @@ export function RedactPdfSeo() {
       {/* Aadhaar / India */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Hide your Aadhaar number in a PDF (masked Aadhaar)
-      </h2>
+      </h4>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         UIDAI defines a masked Aadhaar as a copy where only the last 4 digits of the 12-digit number are visible
         and the first 8 digits are hidden. Sharing the masked version instead of the full Aadhaar is now the
@@ -193,7 +193,7 @@ export function RedactPdfSeo() {
       <div className="mt-10 grid gap-6 sm:grid-cols-2">
         {benefits.map((b) => (
           <div key={b.h}>
-            <h3 className="text-[17px] font-semibold">{b.h}</h3>
+            <h4 className="text-[17px] font-semibold">{b.h}</h4>
             <p className="mt-2 text-[14.5px] leading-relaxed text-[#4a4a55]">{b.p}</p>
           </div>
         ))}
@@ -202,11 +202,11 @@ export function RedactPdfSeo() {
       {/* Scenarios */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         What should you redact before sharing a document?
-      </h2>
+      </h4>
       <div className="mt-6 space-y-5">
         {scenarios.map((s) => (
           <div key={s.h}>
-            <h3 className="text-[17px] font-semibold">{s.h}</h3>
+            <h4 className="text-[17px] font-semibold">{s.h}</h4>
             <p className="mt-1.5 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.p}</p>
           </div>
         ))}
@@ -215,7 +215,7 @@ export function RedactPdfSeo() {
       {/* FAQ */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Frequently asked questions
-      </h2>
+      </h4>
       <div className="mt-6 divide-y divide-[#eee]">
         {faqs.map((f) => (
           <details key={f.q} className="group py-4">
@@ -231,7 +231,7 @@ export function RedactPdfSeo() {
       {/* Related */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Related PDF tools
-      </h2>
+      </h4>
       <RelatedToolsGrid items={related} />
     </section>
   );
