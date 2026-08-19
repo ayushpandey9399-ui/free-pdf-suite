@@ -104,7 +104,7 @@ export function Footer() {
               className="mt-5 text-[14px] max-w-[280px]"
               style={{ color: "#9CA3AF", lineHeight: 1.65 }}
             >
-              Free PDF tools that process your files right in your browser, private, fast and completely free.
+              Free PDF tools that process your files right in your browser. Our tools are private, fast and completely free.
             </p>
             <ul
               className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-[12px]"
