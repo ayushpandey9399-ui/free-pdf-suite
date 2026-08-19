@@ -126,7 +126,7 @@ export function RotatePdfSeo() {
         ))}
       </div>
 
-      <h2>Rotation Angles Explained</h2>
+      <h2>Rotation Angles Explained</h3>
       <h2>Rotate 90 Degrees Clockwise</h2>
       <p>
         Turns each selected page a quarter turn to the right. Use this when a page is oriented with text running bottom-to-top (rotated 90 degrees counter-clockwise from correct orientation). After a 90-degree clockwise rotation, the page returns to the standard reading position.

@@ -126,7 +126,7 @@ export function UnlockPdfSeo() {
         ))}
       </div>
 
-      <h2>Two Types of PDF Passwords — What Each One Does</h2>
+      <h2>Two Types of PDF Passwords — What Each One Does</h3>
       <h2>Document Open Password (User Password)</h2>
       <p>
         This password prevents the file from being opened at all. Anyone who receives a PDF with this type of protection sees a locked file and is prompted to enter a password before viewing any content. Banks, government agencies, and HR departments commonly use this type of protection for sensitive documents they send to individuals.

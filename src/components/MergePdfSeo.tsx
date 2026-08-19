@@ -146,7 +146,7 @@ export function MergePdfSeo() {
       {/* SECTION C */}
       <h2>
         Common Scenarios for Combining PDF Documents
-      </h2>
+      </h3>
       <div className="mt-5 space-y-6">
         <div>
           <h3 className="text-[18px] font-bold text-[#33333c]">Combine Project Reports for Stakeholders</h3>
@@ -210,7 +210,7 @@ export function MergePdfSeo() {
       {/* SECTION D */}
       <h2>
         Why Use Our Free Online PDF Merger?
-      </h2>
+      </h3>
       <div className="mt-5 space-y-6">
         <div>
           <h3 className="text-[18px] font-bold text-[#33333c]">Your Files Never Leave Your Device</h3>
@@ -261,7 +261,7 @@ export function MergePdfSeo() {
       {/* SECTION E */}
       <h2>
         Browser-Based vs Server-Based PDF Merging
-      </h2>
+      </h3>
       <div className="mt-6 overflow-x-auto">
         <table className="w-full border-collapse border border-[#ececef] text-[14.5px]">
           <thead>
@@ -361,7 +361,7 @@ export function MergePdfSeo() {
       {/* SECTION G */}
       <h2>
         Frequently Asked Questions About Merging PDFs
-      </h2>
+      </h3>
       <div className="mt-8 divide-y divide-[#ececef]">
         {faqs.map((f, i) => (
           <details key={i} className="group py-4">

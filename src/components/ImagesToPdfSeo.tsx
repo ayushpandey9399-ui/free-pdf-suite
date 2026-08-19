@@ -126,7 +126,7 @@ export function ImagesToPdfSeo() {
         ))}
       </div>
 
-      <h2>Which Image Formats Can Be Converted to PDF?</h2>
+      <h2>Which Image Formats Can Be Converted to PDF?</h3>
       <p>
         Our tool supports all major image formats for PDF conversion. JPG and JPEG are the most common formats for photographs and scanned documents and convert cleanly to PDF at their original resolution. PNG files, which are common for screenshots, logos, and graphics with transparent backgrounds, are also fully supported. Transparent areas in PNG images are rendered with a white background in the PDF output.
       </p>

@@ -210,7 +210,7 @@ export function PngToJpgSeo() {
       <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">Step 4 — Download Your JPG Files</h3>
       <p className="mt-2">Download individual JPG files or download all converted images at once as a ZIP archive. Each JPG output file is clean and watermark-free.</p>
 
-      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">Should You Convert PNG to JPG? When It Makes Sense</h2>
+      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">Should You Convert PNG to JPG? When It Makes Sense</h3>
       <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">When PNG to JPG Conversion Is the Right Choice</h3>
       <p className="mt-2">Photographs and photo-like images with millions of colors, gradients, and smooth tonal transitions compress extremely well as JPG with minimal visible quality loss. If your PNG file contains a photo — a landscape, portrait, product photo, or any image that came from a camera — converting it to JPG will typically reduce file size by 70-90% with no noticeable difference in appearance on screen.</p>
       <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">When to Stay With PNG</h3>
@@ -218,7 +218,7 @@ export function PngToJpgSeo() {
       <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">The Quality Setting Matters</h3>
       <p className="mt-2">The JPG quality slider determines how aggressively the file is compressed. Quality 95 produces a file that looks virtually identical to the PNG original with a modest size reduction. Quality 80 produces a much smaller file with quality that is excellent for web use and invisible at normal viewing sizes. Quality 60 or below can introduce visible artifacts in photographic images.</p>
 
-      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">Common Reasons People Convert PNG to JPG</h2>
+      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">Common Reasons People Convert PNG to JPG</h3>
       <ul className="mt-4 list-disc space-y-2 pl-5">
         <li><strong>Reducing Website Image File Sizes:</strong> Improve site performance by serving JPGs.</li>
         <li><strong>Sending Photos via Email:</strong> Avoid size limits on email attachments.</li>

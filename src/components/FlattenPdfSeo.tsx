@@ -279,7 +279,7 @@ export function FlattenPdfSeo() {
       {/* Scenarios */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         When should you flatten a PDF?
-      </h2>
+      </h3>
       <div className="mt-6 space-y-5">
         {scenarios.map((s) => (
           <div key={s.h}>
@@ -292,7 +292,7 @@ export function FlattenPdfSeo() {
       {/* FAQ */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Frequently asked questions
-      </h2>
+      </h3>
       <div className="mt-6 divide-y divide-[#eee]">
         {faqs.map((f) => (
           <details key={f.q} className="group py-4">

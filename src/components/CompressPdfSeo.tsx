@@ -176,7 +176,7 @@ export function CompressPdfSeo() {
         </div>
       </div>
 
-      <h2>How Much Can PDF Compression Reduce File Size?</h2>
+      <h2>How Much Can PDF Compression Reduce File Size?</h3>
       <p>
         The reduction you get from compressing a PDF depends heavily on what the file contains. Image-heavy documents
         compress the most dramatically. A PDF created from scanned paper pages — common in contracts, legal documents,

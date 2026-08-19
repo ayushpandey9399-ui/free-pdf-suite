@@ -137,7 +137,7 @@ export function DeletePagesSeo() {
 
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Delete Pages vs Split PDF — What is the difference?
-      </h2>
+      </h3>
       <div className="mt-4 space-y-4 text-[15px] leading-relaxed text-[#4a4a55]">
         <p>
           While they might seem similar, deleting pages and splitting a PDF serve different purposes. When you delete pages, your goal is usually to create a single, 'cleaned-up' version of the original document. You identify the parts that aren't needed—like a blank back page or an old cover—and discard them permanently. The result is one file that is a direct, shorter descendant of the original.
@@ -206,7 +206,7 @@ export function DeletePagesSeo() {
 
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Browser-Based vs Server-Based Page Deletion
-      </h2>
+      </h3>
       <div className="mt-6 overflow-x-auto">
         <table className="w-full border-collapse border border-[#ececef] text-left text-[14px]">
           <thead>
@@ -279,7 +279,7 @@ export function DeletePagesSeo() {
 
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Frequently Asked Questions
-      </h2>
+      </h3>
       <div className="mt-6 divide-y divide-[#eee]">
         {faqs.map((f, i) => (
           <details key={i} className="group py-4">

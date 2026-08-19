@@ -121,7 +121,7 @@ export function ReorderPagesSeo() {
         ))}
       </ol>
 
-      <h2>Common causes of wrong page order</h2>
+      <h2>Common causes of wrong page order</h3>
       <h2>Scanning pages out of sequence</h2>
       <p>Sheet-fed scanners can easily pull multiple pages at once or feed them in reverse order if the stack isn't prepared perfectly. Manual scanning is also prone to human error, resulting in a disorganized digital file.</p>
       <h2>Merging PDFs from different sources</h2>

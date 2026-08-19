@@ -137,7 +137,7 @@ export function WatermarkPdfSeo() {
 
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Choosing the Right Watermark Type
-      </h2>
+      </h3>
       <div className="mt-6 space-y-6">
         <div>
           <h3 className="text-[18px] font-bold text-[#1F2937]">Text Watermark</h3>
@@ -155,7 +155,7 @@ export function WatermarkPdfSeo() {
 
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         8 Professional Use Cases for PDF Watermarking
-      </h2>
+      </h3>
       <div className="mt-6 space-y-6">
         <div>
           <h3 className="text-[17px] font-semibold">1. Business Documents</h3>
@@ -209,7 +209,7 @@ export function WatermarkPdfSeo() {
 
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Watermark Position and Opacity Guide
-      </h2>
+      </h3>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         The effectiveness of a watermark depends heavily on its placement and transparency. A watermark that is too opaque can make the text underneath impossible to read, while one that is too faint might be missed entirely. For security purposes, we recommend a center-page placement with a 45-degree rotation and an opacity between 20% and 40%. This ensures the watermark covers the core content without obstructing the reader.
       </p>
@@ -292,7 +292,7 @@ export function WatermarkPdfSeo() {
 
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Frequently Asked Questions
-      </h2>
+      </h3>
       <div className="mt-6 divide-y divide-[#eee]">
         {faqs.map((f, i) => (
           <details key={i} className="group py-4">

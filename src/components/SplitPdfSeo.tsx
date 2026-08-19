@@ -129,7 +129,7 @@ export function SplitPdfSeo() {
       </ol>
 
       {/* Section C */}
-      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Three Ways to Split a PDF</h2>
+      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Three Ways to Split a PDF</h3>
       <h3 className="mt-6 text-lg font-semibold text-[#383E45]">Split by Page Range</h3>
       <p className="mt-2 text-base leading-relaxed text-[#383E45]">
         This is the most common split method. You define specific page ranges and each range becomes a separate PDF file. For example, a 30-page document can be split into three 10-page files, or into unequal sections such as pages 1-5, 6-22, and 23-30 based on where chapters or sections begin and end. This method is ideal for splitting long reports, books, and multi-section documents.
@@ -144,7 +144,7 @@ export function SplitPdfSeo() {
       </p>
 
       {/* Section D */}
-      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Common Scenarios for Splitting PDF Files</h2>
+      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Common Scenarios for Splitting PDF Files</h3>
       <div className="mt-6 space-y-6">
         <div>
           <h3 className="text-lg font-semibold text-[#383E45]">Split a Large Report Into Chapters</h3>
@@ -181,7 +181,7 @@ export function SplitPdfSeo() {
       </div>
 
       {/* Section E - Comparison */}
-      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Browser-Based vs Server-Based PDF Splitting</h2>
+      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Browser-Based vs Server-Based PDF Splitting</h3>
       <div className="mt-6 overflow-x-auto">
         <table className="w-full border-collapse border border-[#eee] text-base">
           <thead>
@@ -267,7 +267,7 @@ export function SplitPdfSeo() {
       </div>
 
       {/* FAQ */}
-      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Frequently Asked Questions About Splitting PDFs</h2>
+      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Frequently Asked Questions About Splitting PDFs</h3>
       <div className="mt-6 divide-y divide-[#eee]">
         {faqs.map((f, i) => (
           <details key={i} className="group py-4">

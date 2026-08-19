@@ -96,7 +96,7 @@ export function AddBlankPagesSeo() {
 
       <h2 className="text-center">
         How to add blank pages to a PDF online
-      </h2>
+      </h3>
       <ol className="mt-8 space-y-6 max-w-2xl mx-auto">
         {steps.map((s, i) => (
           <li key={i} className="flex gap-4">
