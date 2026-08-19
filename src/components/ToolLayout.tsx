@@ -25,7 +25,7 @@ export function ToolLayout({
 
   return (
     <div className="w-full">
-      <div className="bg-[#F7F7F8]">
+      <div className="bg-[#F7F7F8] w-full overflow-hidden">
         <section className="mx-auto max-w-4xl px-4 relative flex flex-col pt-6 pb-20 sm:pb-28">
 
 

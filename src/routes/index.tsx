@@ -85,11 +85,11 @@ function Home() {
   return (
     <div style={{ backgroundColor: "#ffffff", color: "#33333c" }}>
       {/* Hero */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden w-full">
 
         <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 pt-10 pb-0 text-center">
           <h1
-            className="mx-auto max-w-[900px] text-[32px] sm:text-[42px] lg:text-[48px] font-bold text-[#1F2937]"
+            className="mx-auto max-w-[900px] text-[28px] sm:text-[42px] lg:text-[48px] font-bold text-[#1F2937] break-words"
             style={{ letterSpacing: "-0.025em" }}
           >
             Every tool you need to work with{" "}
@@ -168,7 +168,7 @@ function Home() {
       {/* Tool cards grid */}
       <section id="tools" className="mx-auto max-w-[1200px] px-4 sm:px-6 pt-6 pb-12">
         <h2 className="sr-only">Available PDF Tools</h2>
-        <div className="grid gap-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 items-stretch" role="list">
+        <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 items-stretch" role="list">
           {visible.map((t) => {
             const Icon = t.icon;
             return (

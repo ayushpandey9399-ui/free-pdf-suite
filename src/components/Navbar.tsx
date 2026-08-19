@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { Logo } from "./Logo";
 import { tools, categories, type ToolCategory } from "@/tools/registry";
 
@@ -89,7 +90,7 @@ export function Navbar() {
       >
         <div className="flex items-center gap-10">
           <Logo />
-          <nav aria-label="Primary" className="hidden min-[860px]:flex items-center gap-8">
+          <nav aria-label="Primary" className="hidden min-[920px]:flex items-center gap-8">
             <Link
               to="/tools/$slug"
               params={{ slug: "merge" }}
@@ -152,6 +153,7 @@ export function Navbar() {
               {dropdown === "convert" && (
                 <DropdownPanel
                   width={280}
+                  className="hidden min-[920px]:block"
                   onMouseEnter={cancelClose}
                   onMouseLeave={scheduleClose}
                 >
@@ -185,6 +187,7 @@ export function Navbar() {
                 <DropdownPanel
                   width={720}
                   align="right"
+                  className="hidden min-[920px]:block"
                   onMouseEnter={cancelClose}
                   onMouseLeave={scheduleClose}
                 >
@@ -216,9 +219,10 @@ export function Navbar() {
 
         <button
           type="button"
+          name="menu"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
-          className="min-[860px]:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg hover:bg-[#f6f4f9]"
+          className="min-[920px]:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg hover:bg-[#f6f4f9]"
           onClick={() => setOpen((v) => !v)}
         >
           {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -228,7 +232,7 @@ export function Navbar() {
 
       {open && (
         <div
-          className="min-[860px]:hidden border-t bg-white px-4 py-4"
+          className="min-[920px]:hidden border-t bg-white px-4 py-4"
           style={{ borderColor: "#ececef" }}
         >
           <nav className="flex flex-col gap-1">
@@ -313,18 +317,20 @@ function DropdownPanel({
   children,
   width,
   align = "left",
+  className,
   onMouseEnter,
   onMouseLeave,
 }: {
   children: React.ReactNode;
   width: number;
   align?: "left" | "right";
+  className?: string;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
 }) {
   return (
     <div
-      className="absolute top-full z-50 pt-2"
+      className={cn("absolute top-full z-50 pt-2", className)}
       style={{ [align]: 0 } as React.CSSProperties}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
