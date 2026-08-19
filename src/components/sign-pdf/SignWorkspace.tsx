@@ -3,7 +3,7 @@ import {
   ZoomIn, ZoomOut, Maximize, MousePointer2, 
   Signature as SignatureIcon, Calendar, Type, 
   Building2, Trash2, Undo, Redo, 
-  ChevronLeft, ChevronRight, X
+  ChevronLeft, ChevronRight, X, Loader2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
