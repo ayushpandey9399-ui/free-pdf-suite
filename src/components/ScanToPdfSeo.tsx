@@ -133,7 +133,7 @@ export function ScanToPdfSeo() {
       </section>
 
       <section>
-        <h2 className="text-2xl font-bold">Tips for scans that look professionally done</h3>
+        <h2 className="text-2xl font-bold">Tips for scans that look professionally done</h2>
         <ul className="mt-3 list-disc space-y-2 pl-6">
           <li>
             Fill the frame with the page and shoot straight down, not at an angle, a
@@ -201,7 +201,7 @@ export function ScanToPdfSeo() {
       </section>
 
       <section>
-        <h2 className="text-2xl font-bold">Make the PDF searchable (OCR, beta)</h3>
+        <h2 className="text-2xl font-bold">Make the PDF searchable (OCR, beta)</h2>
         <p className="mt-3">
           Turn on the Searchable PDF toggle before you press Create PDF and each
           page is read by an in-browser text engine. The output looks identical,

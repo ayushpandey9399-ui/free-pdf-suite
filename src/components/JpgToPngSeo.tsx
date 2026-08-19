@@ -221,7 +221,7 @@ export function JpgToPngSeo() {
         Download individual PNG files or download all converted images at once as a ZIP archive. Every PNG output file is clean — no watermarks, no branding, and full quality preserved from the original JPG source.
       </p>
 
-      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Common Situations Where You Need JPG to PNG</h3>
+      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Common Situations Where You Need JPG to PNG</h2>
       <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Creating Transparent Logos</h3>
       <p className="mt-2">
         If you have a logo saved as a JPG with a white background, you cannot make that background transparent without first converting it to PNG. Once converted, you can use transparency-aware tools to remove the white pixels, allowing the logo to be placed over any background color or image.
@@ -239,7 +239,7 @@ export function JpgToPngSeo() {
         If you plan to perform complex edits, color grading, or retouching in software like Photoshop or GIMP, converting the source JPG to PNG first prevents any additional quality loss during the multi-stage editing process.
       </p>
 
-      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">JPG vs PNG — Full Comparison</h3>
+      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">JPG vs PNG — Full Comparison</h2>
       <div className="mt-4 overflow-hidden rounded-lg border border-[#eee]">
         <table className="w-full text-left text-[14px]">
           <thead className="bg-[#f9fafb] text-[#383E45]">
@@ -337,7 +337,7 @@ export function JpgToPngSeo() {
         If you need the benefits of PNG (transparency and lossless quality) but with smaller file sizes for your website, consider converting your JPG to WebP instead using our <Link to="/image-tools/$slug" params={{ slug: "jpg-to-webp" }} className="text-[#E5322D] hover:underline">JPG to WebP tool</Link>.
       </p>
 
-      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Frequently Asked Questions About JPG to PNG Conversion</h3>
+      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Frequently Asked Questions About JPG to PNG Conversion</h2>
       <dl className="mt-4 space-y-4">
         {jpgToPngFaqJsonLd.mainEntity.map((q, idx) => (
           <div key={idx} className="border-b border-[#eee] pb-4">

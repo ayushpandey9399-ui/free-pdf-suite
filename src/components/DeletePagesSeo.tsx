@@ -206,7 +206,7 @@ export function DeletePagesSeo() {
 
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Browser-Based vs Server-Based Page Deletion
-      </h3>
+      </h2>
       <div className="mt-6 overflow-x-auto">
         <table className="w-full border-collapse border border-[#ececef] text-left text-[14px]">
           <thead>
@@ -279,7 +279,7 @@ export function DeletePagesSeo() {
 
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Frequently Asked Questions
-      </h3>
+      </h2>
       <div className="mt-6 divide-y divide-[#eee]">
         {faqs.map((f, i) => (
           <details key={i} className="group py-4">

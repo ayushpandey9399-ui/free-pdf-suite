@@ -144,7 +144,7 @@ export function SplitPdfSeo() {
       </p>
 
       {/* Section D */}
-      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Common Scenarios for Splitting PDF Files</h3>
+      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Common Scenarios for Splitting PDF Files</h2>
       <div className="mt-6 space-y-6">
         <div>
           <h3 className="text-lg font-semibold text-[#383E45]">Split a Large Report Into Chapters</h3>
@@ -181,7 +181,7 @@ export function SplitPdfSeo() {
       </div>
 
       {/* Section E - Comparison */}
-      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Browser-Based vs Server-Based PDF Splitting</h3>
+      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Browser-Based vs Server-Based PDF Splitting</h2>
       <div className="mt-6 overflow-x-auto">
         <table className="w-full border-collapse border border-[#eee] text-base">
           <thead>
@@ -267,7 +267,7 @@ export function SplitPdfSeo() {
       </div>
 
       {/* FAQ */}
-      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Frequently Asked Questions About Splitting PDFs</h3>
+      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Frequently Asked Questions About Splitting PDFs</h2>
       <div className="mt-6 divide-y divide-[#eee]">
         {faqs.map((f, i) => (
           <details key={i} className="group py-4">

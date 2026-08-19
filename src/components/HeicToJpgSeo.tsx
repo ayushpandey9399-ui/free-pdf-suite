@@ -221,7 +221,7 @@ export function HeicToJpgSeo() {
         Download individual JPG files or download all converted images at once as a ZIP archive. Every JPG output file is clean — no watermarks, no branding, and full quality preserved from the original HEIC source.
       </p>
 
-      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Why iPhone Photos Are Saved as HEIC</h3>
+      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Why iPhone Photos Are Saved as HEIC</h2>
       <p className="mt-3">
         Apple introduced HEIC as the default camera format in iOS 11 to help users store more photos without running out of storage space. The iPhone's camera produces high-resolution images — a 12-megapixel photo shot on an iPhone can be 6-8MB as a JPEG. With HEIC compression, that same photo shrinks to 3-4MB with no visible quality difference to the human eye. For users who take hundreds of photos, this difference adds up to gigabytes of saved storage.
       </p>
@@ -266,7 +266,7 @@ export function HeicToJpgSeo() {
         Many official applications — for jobs, universities, visas, and registrations — require photo submissions in JPG format with specific file size limits. HEIC files are consistently rejected by these systems. Converting to JPG and then compressing if needed ensures the submission meets all requirements.
       </p>
 
-      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">HEIC vs JPG — Full Comparison</h3>
+      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">HEIC vs JPG — Full Comparison</h2>
       <div className="mt-4 overflow-hidden rounded-lg border border-[#eee]">
         <table className="w-full text-left text-[14px]">
           <thead className="bg-[#f9fafb] text-[#383E45]">
@@ -408,7 +408,7 @@ export function HeicToJpgSeo() {
         Many application forms have both format and dimension requirements for photo uploads. After converting HEIC to JPG, use our <Link to="/image-tools/$slug" params={{ slug: "image-resize" }} className="text-[#E5322D] hover:underline">Resize Image tool</Link> to set the exact pixel dimensions required.
       </p>
 
-      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Frequently Asked Questions About HEIC to JPG Conversion</h3>
+      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Frequently Asked Questions About HEIC to JPG Conversion</h2>
       <dl className="mt-4 space-y-4">
         {heicToJpgFaqJsonLd.mainEntity.map((q, idx) => (
           <div key={idx} className="border-b border-[#eee] pb-4">
