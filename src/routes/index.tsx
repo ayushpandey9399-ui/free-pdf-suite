@@ -89,7 +89,7 @@ function Home() {
 
         <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 pt-10 pb-0 text-center">
           <h1
-            className="mx-auto max-w-[900px] text-[32px] sm:text-[42px] lg:text-[48px] font-bold text-[#1F2937]"
+            className="mx-auto max-w-[900px] text-[28px] sm:text-[42px] lg:text-[48px] font-bold text-[#1F2937] break-words"
             style={{ letterSpacing: "-0.025em" }}
           >
             Every tool you need to work with{" "}

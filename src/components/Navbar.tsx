@@ -219,6 +219,7 @@ export function Navbar() {
 
         <button
           type="button"
+          name="menu"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           className="min-[920px]:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg hover:bg-[#f6f4f9]"
