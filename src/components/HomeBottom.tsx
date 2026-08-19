@@ -16,7 +16,7 @@ import {
 
 const BRAND = "#E5322D";
 const INK = "#1F2937";
-const MUTED = "#6B7280";
+const MUTED = "#4B5563";
 const BORDER = "#E5E7EB";
 const BAND = "#FAFAF9";
 
@@ -83,15 +83,21 @@ function Reveal({ children, className = "" }: { children: React.ReactNode; class
 }
 
 
+const PrivacyStory = lazy(() => import("./HomeBottom").then(m => ({ default: m.PrivacyStory })));
+const WhyChoose = lazy(() => import("./HomeBottom").then(m => ({ default: m.WhyChoose })));
+const HowItWorks = lazy(() => import("./HomeBottom").then(m => ({ default: m.HowItWorks })));
+const SeoProse = lazy(() => import("./HomeBottom").then(m => ({ default: m.SeoProse })));
+const FinalCta = lazy(() => import("./HomeBottom").then(m => ({ default: m.FinalCta })));
+
 export function HomeBottom() {
   return (
-    <>
+    <Suspense fallback={<div className="h-40" />}>
       <PrivacyStory />
       <WhyChoose />
       <HowItWorks />
       <SeoProse />
       <FinalCta />
-    </>
+    </Suspense>
   );
 }
 
