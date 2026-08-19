@@ -52,33 +52,53 @@ export function SignWorkspace({
 
   // --- PDF RENDERING ---
   useEffect(() => {
+    let cancelled = false;
     const renderPdf = async () => {
-      const pdfjs = await import("pdfjs-dist");
-      pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
-      
-      const arrayBuffer = await pdfFile.arrayBuffer();
-      const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
-      const renderedPages = [];
+      try {
+        const { loadPdfJsDoc } = await import("@/lib/pdfGuard");
+        const pdfjs = await import("pdfjs-dist");
+        
+        const arrayBuffer = await pdfFile.arrayBuffer();
+        const pdf = await loadPdfJsDoc(arrayBuffer);
+        
+        if (cancelled) return;
 
-      for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i);
-        const viewport = page.getViewport({ scale: 2 }); // High res
-        const canvas = document.createElement("canvas");
-        const context = canvas.getContext("2d")!;
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
+        const renderedPages = [];
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const page = await pdf.getPage(i);
+          const viewport = page.getViewport({ scale: 2 }); // High res
+          const canvas = document.createElement("canvas");
+          const context = canvas.getContext("2d")!;
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
 
-        await page.render({ canvasContext: context, viewport, canvas }).promise;
-        renderedPages.push({
-          url: canvas.toDataURL(),
-          width: viewport.width,
-          height: viewport.height
-        });
+          await page.render({ 
+            canvasContext: context, 
+            viewport,
+            intent: 'display'
+          }).promise;
+          
+          if (cancelled) return;
+
+          renderedPages.push({
+            url: canvas.toDataURL("image/png"),
+            width: viewport.width,
+            height: viewport.height
+          });
+        }
+        
+        if (!cancelled) {
+          setPages(renderedPages);
+        }
+      } catch (error) {
+        console.error("PDF rendering failed:", error);
       }
-      setPages(renderedPages);
     };
 
     renderPdf();
+    return () => {
+      cancelled = true;
+    };
   }, [pdfFile]);
 
   // --- PLACEMENT LOGIC ---
