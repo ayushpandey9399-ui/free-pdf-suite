@@ -119,6 +119,7 @@ function Home() {
             </span>{" "}
             in one place
           </h1>
+          <h2 className="sr-only">Free PDF Tools Overview</h2>
           <p
             className="mx-auto mt-4 max-w-[720px] text-[16px] sm:text-[17px] leading-relaxed"
             style={{ color: "#4b5563" }}
