@@ -75,6 +75,7 @@ export function SignWorkspace({
           await page.render({ 
             canvasContext: context, 
             viewport,
+            canvas,
             intent: 'display'
           }).promise;
           
