@@ -291,7 +291,7 @@ function ToolPage() {
           </ClientOnly>
         </div>
       </ToolLayout>
-      <div className={cn(slug === "merge" && "bg-white relative z-0 -mt-16 pt-16 border-t border-[#ececec]")}>
+      <div className={cn((slug === "merge" || slug === "sign-pdf") && "bg-white relative z-0 -mt-16 pt-16 border-t border-[#ececec]")}>
         {seo?.content}
       </div>
 
