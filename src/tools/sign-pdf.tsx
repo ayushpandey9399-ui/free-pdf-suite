@@ -114,7 +114,7 @@ export default function SignPdf() {
       }
 
       const modifiedPdfBytes = await pdfDoc.save();
-      const blob = new Blob([modifiedPdfBytes.buffer], { type: "application/pdf" });
+      const blob = new Blob([modifiedPdfBytes.buffer as ArrayBuffer], { type: "application/pdf" });
       
       setResult({
         blob,
