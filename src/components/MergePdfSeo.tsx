@@ -3,19 +3,19 @@ import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
 const steps = [
   {
-    title: "Step 1 — Select Your PDF Files",
+    title: "Step 1: Select Your PDF Files",
     text: "Click the \"Select PDF files\" button or drag and drop your files directly onto the page. You can add two or more PDF files at once. There is no limit on the number of files or total file size.",
   },
   {
-    title: "Step 2 — Arrange the File Order",
+    title: "Step 2: Arrange the File Order",
     text: "Once your files are uploaded, you will see thumbnail previews of each PDF. Drag and drop the files to rearrange them in the order you want them to appear in the final merged document. The first file in the list becomes the first section of your combined PDF.",
   },
   {
-    title: "Step 3 — Click Merge PDF",
+    title: "Step 3: Click Merge PDF",
     text: "When you are satisfied with the order, click the \"Merge PDF\" button. The merging process runs entirely inside your browser using client-side JavaScript, so your files are never uploaded to any server. Processing typically takes just a few seconds, even for large documents.",
   },
   {
-    title: "Step 4 — Download Your Merged File",
+    title: "Step 4: Download Your Merged File",
     text: "Your combined PDF is ready instantly. Click the download button to save it to your device. The merged file preserves all original formatting, fonts, images, links, and page layouts from every source file without any quality loss.",
   },
 ];
@@ -127,7 +127,7 @@ export function MergePdfSeo() {
 
       {/* SECTION B */}
       <h2>
-        How to Merge PDF Files Online — Step by Step
+        How to Merge PDF Files Online: Step by Step
       </h2>
       <div className="mt-5 space-y-6">
         {steps.map((s, i) => (

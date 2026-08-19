@@ -3,20 +3,20 @@ import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
 const steps = [
   {
-    title: "Step 1 — Upload Your PDF",
+    title: "Step 1: Upload Your PDF",
     text: "Click the \"Select PDF file\" button or drag and drop your document onto the upload area. Your PDF opens directly in your browser without being sent to any external server.",
   },
   {
-    title: "Step 2 — Select Pages to Rotate",
-    text: "Choose whether to rotate all pages in the document or select specific individual pages to rotate. You can rotate different pages by different amounts — for example, rotating pages 3 and 7 by 90 degrees while leaving all other pages unchanged.",
+    title: "Step 2: Select Pages to Rotate",
+    text: "Choose whether to rotate all pages in the document or select specific individual pages to rotate. You can rotate different pages by different amounts, for example, rotating pages 3 and 7 by 90 degrees while leaving all other pages unchanged.",
   },
   {
-    title: "Step 3 — Choose Rotation Direction",
+    title: "Step 3: Choose Rotation Direction",
     text: "Select the rotation angle. Rotate 90 degrees clockwise to fix a page that is tilted to the left. Rotate 90 degrees counter-clockwise to fix a page tilted to the right. Rotate 180 degrees to flip an upside-down page to the correct reading orientation.",
   },
   {
-    title: "Step 4 — Download the Rotated PDF",
-    text: "Click the rotate button and download your corrected PDF. The rotation is permanently saved in the file — viewers do not need to manually rotate pages when opening the document. All content, fonts, images, and links are preserved exactly.",
+    title: "Step 4: Download the Rotated PDF",
+    text: "Click the rotate button and download your corrected PDF. The rotation is permanently saved in the file; viewers do not need to manually rotate pages when opening the document. All content, fonts, images, and links are preserved exactly.",
   },
 ];
 

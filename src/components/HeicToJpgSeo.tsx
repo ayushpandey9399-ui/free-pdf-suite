@@ -18,7 +18,7 @@ export const heicToJpgSoftwareJsonLd = {
     ratingCount: "3240"
   },
   publisher: { "@type": "Organization", name: "PDFToolConverter", url: SITE_URL },
-  description: "Convert HEIC photos to JPG online instantly in your browser. Batch convert iPhone HEIC images to JPG without losing quality. Free, no signup, no watermark, files never leave your device.",
+  description: "Convert HEIC photos to JPG online instantly in your browser. Batch convert iPhone HEIC images to JPG without losing quality. Free, no signup, no watermark; files never leave your device.",
 };
 
 export const heicToJpgHowToJsonLd = {

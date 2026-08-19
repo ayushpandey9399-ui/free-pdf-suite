@@ -188,10 +188,10 @@ export function PngToJpgSeo() {
     <section className="mx-auto mt-16 max-w-3xl px-4 text-[15px] leading-relaxed text-[#33333c]">
       <h2 className="text-[24px] font-bold text-[#1F2937]">Why Convert PNG to JPG?</h2>
       <p className="mt-3">
-        PNG files are significantly larger than equivalent JPG files because PNG uses lossless compression — it preserves every pixel of data in the image without any quality reduction. While this is ideal for design work, logos, and screenshots, it becomes a problem when you need to share, upload, or publish images where file size matters. A PNG photograph can easily be 5-10MB while the equivalent JPG is 500KB-1MB with no visible quality difference to the human eye.
+        PNG files are significantly larger than equivalent JPG files because PNG uses lossless compression; it preserves every pixel of data in the image without any quality reduction. While this is ideal for design work, logos, and screenshots, it becomes a problem when you need to share, upload, or publish images where file size matters. A PNG photograph can easily be 5-10MB while the equivalent JPG is 500KB-1MB with no visible quality difference to the human eye.
       </p>
       <p className="mt-3">
-        Converting PNG to JPG is one of the most effective ways to reduce image file sizes for web use, email sharing, and social media uploads. JPG uses lossy compression that discards image data that humans cannot easily perceive — primarily fine color variations and subtle detail at high frequencies. The result is a dramatically smaller file that looks essentially identical to the original in normal viewing.
+        Converting PNG to JPG is one of the most effective ways to reduce image file sizes for web use, email sharing, and social media uploads. JPG uses lossy compression that discards image data that humans cannot easily perceive, primarily fine color variations and subtle detail at high frequencies. The result is a dramatically smaller file that looks essentially identical to the original in normal viewing.
       </p>
       <p className="mt-3">
         Web performance is a major reason to convert PNG images to JPG. Search engines like Google use page load speed as a ranking factor. Large PNG files slow down web pages significantly. Converting photographic PNG images to JPG before uploading them to a website reduces page load times, improves Core Web Vitals scores, and contributes to better search engine rankings. A page with JPG photos loads 3-5 times faster than the same page with equivalent PNG photos.

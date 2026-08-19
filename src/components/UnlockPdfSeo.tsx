@@ -3,19 +3,19 @@ import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
 const steps = [
   {
-    title: "Step 1 — Upload Your Protected PDF",
+    title: "Step 1: Upload Your Protected PDF",
     text: "Click the \"Select PDF file\" button or drag and drop your password-protected PDF onto the upload area. The file opens in your browser without being uploaded to any external server.",
   },
   {
-    title: "Step 2 — Enter the Password",
+    title: "Step 2: Enter the Password",
     text: "Type the password for the PDF in the password field. This is the password that was set when the document was originally protected. Without the correct password, the file cannot be decrypted.",
   },
   {
-    title: "Step 3 — Unlock the PDF",
+    title: "Step 3: Unlock the PDF",
     text: "Click the \"Unlock PDF\" button. The tool uses the password you entered to decrypt the file content and generate a new copy of the document without password protection. This process runs entirely in your browser.",
   },
   {
-    title: "Step 4 — Download the Unlocked PDF",
+    title: "Step 4: Download the Unlocked PDF",
     text: "Download the unlocked PDF to your device. The new file is identical in content to the original but can be opened, edited, merged, and used in any PDF workflow without requiring a password.",
   },
 ];
@@ -126,7 +126,7 @@ export function UnlockPdfSeo() {
         ))}
       </div>
 
-      <h2>Two Types of PDF Passwords — What Each One Does</h2>
+      <h2>Two Types of PDF Passwords: What Each One Does</h2>
       <h2>Document Open Password (User Password)</h2>
       <p>
         This password prevents the file from being opened at all. Anyone who receives a PDF with this type of protection sees a locked file and is prompted to enter a password before viewing any content. Banks, government agencies, and HR departments commonly use this type of protection for sensitive documents they send to individuals.

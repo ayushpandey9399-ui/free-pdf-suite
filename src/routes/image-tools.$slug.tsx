@@ -8,7 +8,7 @@ import { normalizeToolJsonLd } from "@/lib/seoSchema";
 import { IMAGE_SILOS } from "@/components/imageSeoBundle";
 
 
-const HEIC_TITLE = "HEIC to JPG Converter Online Free — Convert iPhone Photos | PDFToolConverter";
+const HEIC_TITLE = "HEIC to JPG Converter Online Free: Convert iPhone Photos | PDFToolConverter";
 const HEIC_DESC =
   "Convert HEIC photos to JPG online instantly in your browser. Batch convert iPhone HEIC images to JPG without losing quality. Free, no signup, no watermark, files never leave your device.";
 
@@ -16,15 +16,15 @@ const HEIC_PNG_TITLE = "HEIC to PNG Converter Free, No Upload | pdftoolconverter
 const HEIC_PNG_DESC =
   "Convert HEIC to PNG online free. Batch convert iPhone HEIC photos to lossless PNG in your browser, no upload, no signup, 100% private. Works on any device.";
 
-const JPG_PNG_TITLE = "JPG to PNG Converter Online Free — Convert JPEG to PNG | PDFToolConverter";
+const JPG_PNG_TITLE = "JPG to PNG Converter Online Free: Convert JPEG to PNG | PDFToolConverter";
 const JPG_PNG_DESC =
   "Convert JPG images to PNG online instantly in your browser. Batch convert multiple JPEGs to PNG with transparency support. Free, no signup, no watermark, files never leave your device.";
 
-const PNG_JPG_TITLE = "PNG to JPG Converter Online Free — Convert PNG to JPEG | PDFToolConverter";
+const PNG_JPG_TITLE = "PNG to JPG Converter Online Free: Convert PNG to JPEG | PDFToolConverter";
 const PNG_JPG_DESC =
   "Convert PNG images to JPG online instantly in your browser. Batch convert multiple PNG files to JPEG with quality control. Free, no signup, no watermark, files never leave your device.";
 
-const WEBP_JPG_TITLE = "WebP to JPG Converter Online Free — Convert WebP to JPEG | PDFToolConverter";
+const WEBP_JPG_TITLE = "WebP to JPG Converter Online Free: Convert WebP to JPEG | PDFToolConverter";
 const WEBP_JPG_DESC =
   "Convert WebP images to JPG online instantly in your browser. Batch convert multiple WebP files to JPEG. Free, no signup, no watermark, files never leave your device.";
 

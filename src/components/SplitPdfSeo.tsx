@@ -3,19 +3,19 @@ import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
 const steps = [
   {
-    title: "Step 1 — Upload Your PDF",
+    title: "Step 1: Upload Your PDF",
     text: "Click the \"Select PDF\" button or drag and drop your document onto the page. Your file opens directly in your browser without being uploaded to any server. There is no file size or page count limit.",
   },
   {
-    title: "Step 2 — Choose Your Split Method",
+    title: "Step 2: Choose Your Split Method",
     text: "Select how you want to split the PDF. You can split by custom page ranges (for example, pages 1-10, 11-20, and 21-30 as three separate files), extract all pages as individual PDFs, or select specific pages to save as a new document.",
   },
   {
-    title: "Step 3 — Preview Your Selection",
+    title: "Step 3: Preview Your Selection",
     text: "The tool shows you a visual preview of your PDF pages so you can confirm exactly which pages will be included in each output file. Adjust your selection before processing to make sure the result is exactly what you need.",
   },
   {
-    title: "Step 4 — Download Your Split Files",
+    title: "Step 4: Download Your Split Files",
     text: "Click the split button and your output files are ready instantly. If you are splitting into multiple files, they are packaged into a ZIP archive for convenient download. Every output file preserves the original formatting, fonts, images, and links from the source document.",
   },
 ];
@@ -113,7 +113,7 @@ export function SplitPdfSeo() {
       </p>
 
       {/* Section B - How-to */}
-      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">How to Split a PDF Online — Step by Step</h2>
+      <h2 className="mt-14 text-2xl font-bold text-[#383E45]">How to Split a PDF Online: Step by Step</h2>
       <ol className="mt-5 space-y-4">
         {steps.map((s, i) => (
           <li key={i} id={`step-${i + 1}`} className="flex gap-4">
@@ -148,7 +148,7 @@ export function SplitPdfSeo() {
       <div className="mt-6 space-y-6">
         <div>
           <h3 className="text-lg font-semibold text-[#383E45]">Split a Large Report Into Chapters</h3>
-          <p className="mt-1.5 text-base leading-relaxed text-[#383E45]">Annual reports, research papers, and technical manuals are often distributed as single large PDFs but contain clearly defined chapters or sections. Splitting by chapter page ranges creates separate files that individual team members or departments can receive without accessing unrelated sections.</p>
+          <p className="mt-1.5 text-base leading-relaxed text-[#383E45]">Annual reports, research papers, and technical manuals are often distributed as single large PDFs, but contain clearly defined chapters or sections. Splitting by chapter page ranges creates separate files that individual team members or departments can receive without accessing unrelated sections.</p>
         </div>
         <div>
           <h3 className="text-lg font-semibold text-[#383E45]">Extract Individual Invoices from a Batch PDF</h3>
@@ -156,7 +156,7 @@ export function SplitPdfSeo() {
         </div>
         <div>
           <h3 className="text-lg font-semibold text-[#383E45]">Separate Pages Before Distributing to Recipients</h3>
-          <p className="mt-1.5 text-base leading-relaxed text-[#383E45]">When a document contains information for multiple recipients — for example, a HR onboarding packet with different forms for different employees — splitting by recipient section ensures each person receives only the pages relevant to them.</p>
+          <p className="mt-1.5 text-base leading-relaxed text-[#383E45]">When a document contains information for multiple recipients, for example, a HR onboarding packet with different forms for different employees, splitting by recipient section ensures each person receives only the pages relevant to them.</p>
         </div>
         <div>
           <h3 className="text-lg font-semibold text-[#383E45]">Split Scanned Documents Into Individual Forms</h3>

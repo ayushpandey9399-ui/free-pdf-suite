@@ -3,19 +3,19 @@ import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
 const steps = [
   {
-    title: "Step 1 — Upload Your Images",
-    text: "Click the \"Select images\" button or drag and drop your image files onto the upload area. You can add multiple images at once — JPG, PNG, WebP, and other common formats are all supported. All processing happens locally in your browser.",
+    title: "Step 1: Upload Your Images",
+    text: "Click the \"Select images\" button or drag and drop your image files onto the upload area. You can add multiple images at once; JPG, PNG, WebP, and other common formats are all supported. All processing happens locally in your browser.",
   },
   {
-    title: "Step 2 — Arrange the Image Order",
+    title: "Step 2: Arrange the Image Order",
     text: "After uploading, drag and drop the image thumbnails to set the order they will appear in the PDF. The first image in the list becomes page one of the PDF, the second becomes page two, and so on. Take a moment to confirm the order is correct before proceeding.",
   },
   {
-    title: "Step 3 — Set Page Options",
+    title: "Step 3: Set Page Options",
     text: "Choose the page size (A4 is standard for most uses), orientation (portrait or landscape), and margin settings. You can choose to fit each image to fill the entire page or maintain the original image proportions with white margins.",
   },
   {
-    title: "Step 4 — Convert and Download",
+    title: "Step 4: Convert and Download",
     text: "Click the \"Convert to PDF\" button. Your images are combined into a single PDF document entirely within your browser. Download the finished PDF instantly. The output file has no watermarks and is ready to share, print, or submit immediately.",
   },
 ];
@@ -27,7 +27,7 @@ const faqs = [
   },
   {
     q: "Which image formats are supported?",
-    a: "JPG, JPEG, PNG, WebP, BMP, and TIFF are all supported. For HEIC images from iPhones, first convert to JPG using our HEIC to JPG tool.",
+    a: "JPG, JPEG, PNG, WebP, BMP, and TIFF are all supported. For HEIC images from iPhones, first convert them to JPG using our HEIC to JPG tool.",
   },
   {
     q: "Can I combine multiple images into one PDF?",
