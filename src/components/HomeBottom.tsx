@@ -119,7 +119,7 @@ export function WhyChooseInternal() {
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
         <RevealInternal>
           <h2 className="text-[24px] sm:text-[32px] font-bold text-[#1F2937] text-center">Why people choose pdftoolconverteronline.com</h2>
-          <p className="mx-auto mt-3 max-w-[640px] text-center text-[16px]" style={{ color: MUTED, lineHeight: 1.7 }}>
+          <p className="mx-auto mt-3 max-w-[640px] text-center text-[16px] font-medium" style={{ color: MUTED, lineHeight: 1.7 }}>
             No tricks, no accounts, no fine print, just tools that work.
           </p>
           <div className="mt-12 grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
@@ -162,7 +162,7 @@ export function HowItWorksInternal() {
                   >
                     {s.n}
                   </div>
-                  <h3 className="mt-5 text-[17px]">{s.title}</h3>
+                  <h3 className="mt-5 text-[17px] font-semibold text-[#1F2937]">{s.title}</h3>
                   <p className="mt-2 max-w-[280px] text-[14px]" style={{ color: MUTED, lineHeight: 1.6 }}>
                     {s.body}
                   </p>

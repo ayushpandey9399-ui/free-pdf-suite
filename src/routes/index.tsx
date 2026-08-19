@@ -95,7 +95,7 @@ function Home() {
 
         <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 pt-10 pb-0 text-center">
           <h1
-            className="mx-auto max-w-[900px] text-[32px] sm:text-[42px] lg:text-[48px]"
+            className="mx-auto max-w-[900px] text-[32px] sm:text-[42px] lg:text-[48px] font-bold text-[#1F2937]"
             style={{ letterSpacing: "-0.025em" }}
           >
             Every tool you need to work with{" "}
@@ -226,9 +226,9 @@ function ToolCard({
       >
         <Icon size={46} />
       </div>
-      <h3 className="mt-3.5 sm:mt-4 text-[16px] sm:text-[18px] leading-snug">
+      <h2 className="mt-3.5 sm:mt-4 text-[16px] sm:text-[18px] font-semibold text-[#1F2937] leading-snug">
         {name}
-      </h3>
+      </h2>
       <p
         className="mt-2 text-[13.5px] sm:text-[14px] leading-[1.55]"
         style={{ color: "#4b5563" }}

@@ -184,9 +184,9 @@ export function Footer() {
 
 function FooterHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="text-[13px] uppercase" style={HEAD_STYLE}>
+    <h4 className="text-[13px] uppercase" style={HEAD_STYLE}>
       {children}
-    </h3>
+    </h4>
   );
 }
 
