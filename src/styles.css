@@ -213,13 +213,13 @@
 /* Scroll reveal (JS toggles .is-visible) */
 .reveal-on-scroll {
   opacity: 0;
-  transform: translateY(12px);
+  transform: translate3d(0, 12px, 0);
   transition: opacity 250ms ease-out, transform 250ms ease-out;
   will-change: opacity, transform;
 }
 .reveal-on-scroll.is-visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
 }
 
 /* Soft pulse for shield badge */

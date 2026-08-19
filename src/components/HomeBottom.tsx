@@ -341,7 +341,7 @@ function ReasonCard({ Icon, title, body }: { Icon: any; title: string; body: str
       <div className="flex h-12 w-12 items-center justify-center rounded-full transition-colors duration-200" style={{ backgroundColor: hover ? "rgba(229,50,45,0.14)" : "rgba(229,50,45,0.08)" }}>
         <Icon className="h-6 w-6" style={{ color: BRAND }} strokeWidth={2} />
       </div>
-      <h3 className="mt-5 text-[17px]">{title}</h3>
+      <h3 className="mt-5 text-[17px] font-semibold text-[#1F2937]">{title}</h3>
       <p className="mt-2 text-[14px]" style={{ color: MUTED, lineHeight: 1.6 }}>{body}</p>
     </div>
   );
