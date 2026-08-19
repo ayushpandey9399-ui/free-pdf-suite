@@ -11,11 +11,11 @@ const steps = [
     text: "Select whether you want the output images as JPG (best for photographs, colorful pages, and documents with images) or PNG (best for documents with text, logos, and graphics that require sharp edges and transparent backgrounds). JPG produces smaller files while PNG preserves sharper edges on text and line art.",
   },
   {
-    title: "Step 3 — Set Image Quality",
+    title: "Step 3: Set Image Quality",
     text: "Choose the image resolution and quality level. Higher quality settings produce sharper images with larger file sizes. Standard quality is sufficient for screen viewing and most sharing purposes. High quality is recommended when images will be printed or used in professional presentations.",
   },
   {
-    title: "Step 4 — Convert and Download",
+    title: "Step 4: Convert and Download",
     text: "Click the convert button. Each page of the PDF is rendered as a separate image file. Download individual pages as needed, or download all images at once as a single ZIP archive. All images are clean with no watermarks.",
   },
 ];

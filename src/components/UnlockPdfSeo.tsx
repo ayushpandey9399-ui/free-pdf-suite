@@ -7,15 +7,15 @@ const steps = [
     text: "Click the \"Select PDF file\" button or drag and drop your password-protected PDF onto the upload area. The file opens in your browser without being uploaded to any external server.",
   },
   {
-    title: "Step 2 — Enter the Password",
+    title: "Step 2: Enter the Password",
     text: "Type the password for the PDF in the password field. This is the password that was set when the document was originally protected. Without the correct password, the file cannot be decrypted.",
   },
   {
-    title: "Step 3 — Unlock the PDF",
+    title: "Step 3: Unlock the PDF",
     text: "Click the \"Unlock PDF\" button. The tool uses the password you entered to decrypt the file content and generate a new copy of the document without password protection. This process runs entirely in your browser.",
   },
   {
-    title: "Step 4 — Download the Unlocked PDF",
+    title: "Step 4: Download the Unlocked PDF",
     text: "Download the unlocked PDF to your device. The new file is identical in content to the original but can be opened, edited, merged, and used in any PDF workflow without requiring a password.",
   },
 ];
