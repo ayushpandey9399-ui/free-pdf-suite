@@ -3,7 +3,7 @@ import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
 const steps = [
   {
-    title: "Step 1 — Upload Your Protected PDF",
+    title: "Step 1: Upload Your Protected PDF",
     text: "Click the \"Select PDF file\" button or drag and drop your password-protected PDF onto the upload area. The file opens in your browser without being uploaded to any external server.",
   },
   {

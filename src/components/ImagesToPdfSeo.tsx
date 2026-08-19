@@ -27,7 +27,7 @@ const faqs = [
   },
   {
     q: "Which image formats are supported?",
-    a: "JPG, JPEG, PNG, WebP, BMP, and TIFF are all supported. For HEIC images from iPhones, first convert to JPG using our HEIC to JPG tool.",
+    a: "JPG, JPEG, PNG, WebP, BMP, and TIFF are all supported. For HEIC images from iPhones, first convert them to JPG using our HEIC to JPG tool.",
   },
   {
     q: "Can I combine multiple images into one PDF?",

@@ -3,11 +3,11 @@ import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
 const steps = [
   {
-    title: "Step 1 — Upload Your PDF",
+    title: "Step 1: Upload Your PDF",
     text: "Click the \"Select PDF file\" button or drag and drop your PDF onto the upload area. The file opens directly in your browser without being sent to any external server. There is no file size or page count limit.",
   },
   {
-    title: "Step 2 — Choose Output Format",
+    title: "Step 2: Choose Output Format",
     text: "Select whether you want the output images as JPG (best for photographs, colorful pages, and documents with images) or PNG (best for documents with text, logos, and graphics that require sharp edges and transparent backgrounds). JPG produces smaller files while PNG preserves sharper edges on text and line art.",
   },
   {
