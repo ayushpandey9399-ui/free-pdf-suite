@@ -34,6 +34,7 @@ export function prefetchPdfLibs(): void {
   warmed = true;
   const run = () => {
     void loadPdfLib().catch(() => {});
+    void import("pdfjs-dist/legacy/build/pdf.mjs").catch(() => {});
   };
   const idle = (window as unknown as {
     requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
