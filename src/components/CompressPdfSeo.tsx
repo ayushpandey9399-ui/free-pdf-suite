@@ -3,19 +3,19 @@ import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
 const steps = [
   {
-    title: "Step 1 — Upload Your PDF",
+    title: "Step 1: Upload Your PDF",
     text: "Click the \"Select PDF file\" button or drag and drop your PDF onto the upload area. Your file is processed in your browser and is never uploaded to any external server. There is no file size limit.",
   },
   {
-    title: "Step 2 — Choose Your Compression Level",
+    title: "Step 2: Choose Your Compression Level",
     text: "Select from three compression presets depending on how small you need the file to be. Less Compression keeps near-original image quality with a moderate size reduction. Recommended balances quality and file size for most everyday uses. Extreme Compression achieves the smallest possible file size with some visible reduction in image sharpness.",
   },
   {
-    title: "Step 3 — Compress the PDF",
+    title: "Step 3: Compress the PDF",
     text: "Click the \"Compress PDF\" button. The compression runs entirely in your browser using local processing. No internet upload is required after the page loads. Processing typically takes two to ten seconds depending on the original file size and the power of your device.",
   },
   {
-    title: "Step 4 — Download the Compressed File",
+    title: "Step 4: Download the Compressed File",
     text: "Once compression is complete, the tool shows you how much the file size was reduced. Click the download button to save the smaller PDF to your device. The compressed file is ready to email, upload, or share immediately.",
   },
 ];
@@ -126,12 +126,12 @@ export function CompressPdfSeo() {
         your specific situation.
       </p>
 
-      <h2>How to Compress a PDF Online — Step by Step</h2>
+      <h2>How to Compress a PDF Online: Step by Step</h2>
       <div className="mt-8 space-y-6">
         <div className="flex gap-4">
           <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#E5322D] text-white font-bold text-sm" aria-label="Step 1">1</span>
           <div>
-            <h3 className="text-lg font-bold text-[#383E45]">Step 1 — Upload Your PDF</h3>
+            <h3 className="text-lg font-bold text-[#383E45]">Step 1: Upload Your PDF</h3>
             <p className="mt-2 text-base leading-relaxed text-[#383E45]">
               Click the "Select PDF file" button or drag and drop your PDF onto the upload area. Your file is processed in
               your browser and is never uploaded to any external server. There is no file size limit.
@@ -142,7 +142,7 @@ export function CompressPdfSeo() {
         <div className="flex gap-4">
           <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#E5322D] text-white font-bold text-sm" aria-label="Step 2">2</span>
           <div>
-            <h3 className="text-lg font-bold text-[#383E45]">Step 2 — Choose Your Compression Level</h3>
+            <h3 className="text-lg font-bold text-[#383E45]">Step 2: Choose Your Compression Level</h3>
             <p className="mt-2 text-base leading-relaxed text-[#383E45]">
               Select from three compression presets depending on how small you need the file to be. Less Compression keeps
               near-original image quality with a moderate size reduction. Recommended balances quality and file size for most
@@ -155,7 +155,7 @@ export function CompressPdfSeo() {
         <div className="flex gap-4">
           <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#E5322D] text-white font-bold text-sm" aria-label="Step 3">3</span>
           <div>
-            <h3 className="text-lg font-bold text-[#383E45]">Step 3 — Compress the PDF</h3>
+            <h3 className="text-lg font-bold text-[#383E45]">Step 3: Compress the PDF</h3>
             <p className="mt-2 text-base leading-relaxed text-[#383E45]">
               Click the "Compress PDF" button. The compression runs entirely in your browser using local processing. No
               internet upload is required after the page loads. Processing typically takes two to ten seconds depending on
@@ -167,7 +167,7 @@ export function CompressPdfSeo() {
         <div className="flex gap-4">
           <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#E5322D] text-white font-bold text-sm" aria-label="Step 4">4</span>
           <div>
-            <h3 className="text-lg font-bold text-[#383E45]">Step 4 — Download the Compressed File</h3>
+            <h3 className="text-lg font-bold text-[#383E45]">Step 4: Download the Compressed File</h3>
             <p className="mt-2 text-base leading-relaxed text-[#383E45]">
               Once compression is complete, the tool shows you how much the file size was reduced. Click the download button
               to save the smaller PDF to your device. The compressed file is ready to email, upload, or share immediately.

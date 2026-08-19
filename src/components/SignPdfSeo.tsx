@@ -100,15 +100,15 @@ export function SignPdfSeo() {
       {/* SECTION A */}
       <section className="mb-12">
         <h2>Why Sign PDFs Electronically Instead of Printing?</h2>
-        <p>The traditional process of signing a document involves printing it, signing it by hand, scanning it back into your computer, and emailing the scanned copy. This process wastes paper, takes 10-15 minutes per document, requires a printer and scanner, and produces a lower quality image than the original. Electronic signatures solve all of these problems simultaneously. You upload the PDF, add your signature, and download the signed document in under a minute — no printer required.</p>
+        <p>The traditional process of signing a document involves printing it, signing it by hand, scanning it back into your computer, and emailing the scanned copy. This process wastes paper, takes 10-15 minutes per document, requires a printer and scanner, and produces a lower quality image than the original. Electronic signatures solve all of these problems simultaneously. You upload the PDF, add your signature, and download the signed document in under a minute; no printer required.</p>
         <p>Electronic signatures are legally recognized in most countries worldwide. In the United States, the ESIGN Act (Electronic Signatures in Global and National Commerce Act) and UETA (Uniform Electronic Transactions Act) establish that electronic signatures are legally equivalent to handwritten signatures for most purposes. The European Union recognizes electronic signatures under eIDAS regulations. This means that contracts, agreements, consent forms, and most business documents signed electronically carry the same legal weight as paper signatures.</p>
-        <p>For individuals, electronic signing eliminates the need to own a printer for administrative tasks. Rental agreements, employment contracts, bank forms, insurance documents, and medical consent forms can all be signed on a laptop or phone and returned within minutes. For businesses, electronic signatures speed up workflows dramatically — a contract that used to take three days to sign and return can be completed in minutes.</p>
+        <p>For individuals, electronic signing eliminates the need to own a printer for administrative tasks. Rental agreements, employment contracts, bank forms, insurance documents, and medical consent forms can all be signed on a laptop or phone and returned within minutes. For businesses, electronic signatures speed up workflows dramatically: a contract that used to take three days to sign and return can be completed in minutes.</p>
         <p>Privacy is also a key advantage of browser-based signing. Unlike many online signing services that upload your document to their servers, our tool processes everything locally in your browser. Your signed contracts, agreements, and sensitive forms never leave your device. This is especially important for legal documents, medical forms, financial agreements, and personal identification documents that you would not want stored on a third-party server.</p>
       </section>
 
       {/* SECTION B */}
       <section className="mb-12">
-        <h2>How to Sign a PDF Online — Step by Step</h2>
+        <h2>How to Sign a PDF Online: Step by Step</h2>
         <div className="space-y-6">
           {steps.map((s, i) => (
             <div key={i} className="flex items-start gap-4">
@@ -158,7 +158,7 @@ export function SignPdfSeo() {
 
       {/* SECTION E */}
       <section className="mb-12">
-        <h2>Electronic Signature vs Digital Signature — What Is the Difference?</h2>
+        <h2>Electronic Signature vs Digital Signature: What Is the Difference?</h2>
         <p>These two terms are often used interchangeably but they refer to different things. An electronic signature is any electronic method that indicates a person's intent to agree to a document. This includes drawing your signature on screen, typing your name, clicking an \"I agree\" button, or uploading a signature image. Electronic signatures are simple, fast, and legally binding for most everyday documents.</p>
         <p>A digital signature is a specific type of electronic signature that uses cryptographic technology. It generates a unique encrypted \"fingerprint\" of the document at the moment of signing and ties it to a digital certificate that verifies the signer's identity. Digital signatures can prove that a document has not been altered since it was signed and can verify exactly who signed it.</p>
         <p>For most everyday purposes — contracts, agreements, forms, letters, and business documents — an electronic signature is fully sufficient and legally valid. Digital signatures are typically required only for high-stakes legal filings, government submissions, and financial transactions that require a certified audit trail and tamper-proof verification.</p>
