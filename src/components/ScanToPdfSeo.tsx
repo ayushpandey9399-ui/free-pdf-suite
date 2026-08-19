@@ -99,7 +99,7 @@ export function ScanToPdfSeo() {
 
       <section className="grid gap-6 md:grid-cols-2">
         <div>
-          <h3 className="text-lg font-bold">Multi-page documents</h2>
+          <h3 className="text-lg font-bold">Multi-page documents</h3>
           <p className="mt-1 text-sm">
             Tap capture for page one, flip to page two, capture again, the numbered
             thumbnail strip grows with every shot. When you press Done, all pages arrive
@@ -166,7 +166,7 @@ export function ScanToPdfSeo() {
         <h2 className="text-2xl font-bold">When do you need to scan to PDF?</h2>
         <div className="mt-4 space-y-4">
           <div>
-            <h3 className="text-lg font-bold">Submitting IDs and certificates to online portals</h2>
+            <h3 className="text-lg font-bold">Submitting IDs and certificates to online portals</h3>
             <p className="mt-1 text-sm">
               College admission forms, job applications, KYC uploads, government portals , 
               most accept a PDF but reject a phone photo. Scan the physical certificate
@@ -218,7 +218,7 @@ export function ScanToPdfSeo() {
         <div className="mt-4 space-y-4">
           {scanToPdfFaq.map((f) => (
             <div key={f.q}>
-              <h3 className="font-bold">{f.q}</h2>
+              <h3 className="font-bold">{f.q}</h3>
               <p className="mt-1 text-sm" style={{ color: "#4a4a55" }}>{f.a}</p>
             </div>
           ))}

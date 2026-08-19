@@ -204,7 +204,7 @@ export function HeicToJpgSeo() {
       </p>
 
       <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">How to Convert HEIC to JPG Online — Step by Step</h2>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-1">Step 1 — Upload Your HEIC Files</h2>
+      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-1">Step 1 — Upload Your HEIC Files</h3>
       <p className="mt-2">
         Click the "Select HEIC files" button or drag and drop your HEIC photos onto the upload area. You can add multiple HEIC files at once for batch conversion. All processing happens locally in your browser — your photos never leave your device.
       </p>
@@ -233,7 +233,7 @@ export function HeicToJpgSeo() {
       </p>
 
       <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Common Situations Where You Need HEIC to JPG</h2>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Sending Photos to Android Users</h2>
+      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Sending Photos to Android Users</h3>
       <p className="mt-2">
         Android devices can open most image formats but HEIC support varies by manufacturer and Android version. Many Android phones cannot display HEIC files natively. Converting to JPG before sending via WhatsApp, email, or Bluetooth ensures the recipient can view the photo immediately without any compatibility issues.
       </p>
@@ -387,7 +387,7 @@ export function HeicToJpgSeo() {
       </div>
 
       <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Tips for Converting HEIC to JPG Effectively</h2>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Use Batch Conversion for Multiple Files</h2>
+      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Use Batch Conversion for Multiple Files</h3>
       <p className="mt-2">
         Add all your HEIC files at once instead of converting them one by one. Our tool processes multiple files simultaneously, making batch conversion just as fast as converting a single file.
       </p>

@@ -121,7 +121,7 @@ export function SplitPdfSeo() {
               {i + 1}
             </span>
             <div className="pt-1">
-              <h3 className="text-lg font-semibold text-[#383E45]">{s.title}</h2>
+              <h3 className="text-lg font-semibold text-[#383E45]">{s.title}</h3>
               <p className="mt-1 text-base leading-relaxed text-[#383E45]">{s.text}</p>
             </div>
           </li>
@@ -130,7 +130,7 @@ export function SplitPdfSeo() {
 
       {/* Section C */}
       <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Three Ways to Split a PDF</h2>
-      <h3 className="mt-6 text-lg font-semibold text-[#383E45]">Split by Page Range</h2>
+      <h3 className="mt-6 text-lg font-semibold text-[#383E45]">Split by Page Range</h3>
       <p className="mt-2 text-base leading-relaxed text-[#383E45]">
         This is the most common split method. You define specific page ranges and each range becomes a separate PDF file. For example, a 30-page document can be split into three 10-page files, or into unequal sections such as pages 1-5, 6-22, and 23-30 based on where chapters or sections begin and end. This method is ideal for splitting long reports, books, and multi-section documents.
       </p>
@@ -245,7 +245,7 @@ export function SplitPdfSeo() {
       <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Tips for Splitting PDFs Effectively</h2>
       <div className="mt-6 space-y-6">
         <div>
-          <h3 className="text-lg font-semibold text-[#383E45]">Know Your Page Numbers Before Splitting</h2>
+          <h3 className="text-lg font-semibold text-[#383E45]">Know Your Page Numbers Before Splitting</h3>
           <p className="mt-2 text-base leading-relaxed text-[#383E45]">Open the PDF in your browser and note the exact page numbers of each section you want to extract. PDF page numbers shown in the document header may differ from the actual PDF page order if the document has a cover page, table of contents, or front matter.</p>
         </div>
         <div>
