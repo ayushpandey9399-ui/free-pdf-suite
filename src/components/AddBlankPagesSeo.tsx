@@ -88,7 +88,7 @@ export function AddBlankPagesSeo() {
       <div className="mt-8 grid gap-8 sm:grid-cols-2">
         {useCases.map((uc, i) => (
           <div key={i}>
-            <h3 className="text-[18px] font-semibold">{uc.h}</h3>
+            <h3 className="text-[18px] font-semibold">{uc.h}</h2>
             <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">{uc.p}</p>
           </div>
         ))}

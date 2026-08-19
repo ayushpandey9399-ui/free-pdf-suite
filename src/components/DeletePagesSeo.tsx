@@ -128,7 +128,7 @@ export function DeletePagesSeo() {
               {i + 1}
             </span>
             <div className="pt-1">
-              <h3 className="text-[17px] font-semibold">{s.title}</h3>
+              <h3 className="text-[17px] font-semibold">{s.title}</h2>
               <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.text}</p>
             </div>
           </li>
@@ -155,7 +155,7 @@ export function DeletePagesSeo() {
       </h2>
       <div className="mt-6 space-y-6">
         <div>
-          <h3 className="text-[17px] font-semibold">1. Removing Cover Pages</h3>
+          <h3 className="text-[17px] font-semibold">1. Removing Cover Pages</h2>
           <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
             Professional reports often come with generic cover sheets that aren't needed when merging documents or saving space. Deleting them creates a more direct reading experience.
           </p>
@@ -246,7 +246,7 @@ export function DeletePagesSeo() {
       </h2>
       <div className="mt-6 space-y-5">
         <div>
-          <h3 className="text-[17px] font-semibold text-[#1F2937]">Use Thumbnail View to Spot Blanks</h3>
+          <h3 className="text-[17px] font-semibold text-[#1F2937]">Use Thumbnail View to Spot Blanks</h2>
           <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
             Scroll through the thumbnails carefully. Blank pages or pages with scanning errors (like black lines) are easy to spot and remove in one go.
           </p>

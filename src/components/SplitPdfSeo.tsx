@@ -121,7 +121,7 @@ export function SplitPdfSeo() {
               {i + 1}
             </span>
             <div className="pt-1">
-              <h3 className="text-lg font-semibold text-[#383E45]">{s.title}</h3>
+              <h3 className="text-lg font-semibold text-[#383E45]">{s.title}</h2>
               <p className="mt-1 text-base leading-relaxed text-[#383E45]">{s.text}</p>
             </div>
           </li>
@@ -245,7 +245,7 @@ export function SplitPdfSeo() {
       <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Tips for Splitting PDFs Effectively</h2>
       <div className="mt-6 space-y-6">
         <div>
-          <h3 className="text-lg font-semibold text-[#383E45]">Know Your Page Numbers Before Splitting</h3>
+          <h3 className="text-lg font-semibold text-[#383E45]">Know Your Page Numbers Before Splitting</h2>
           <p className="mt-2 text-base leading-relaxed text-[#383E45]">Open the PDF in your browser and note the exact page numbers of each section you want to extract. PDF page numbers shown in the document header may differ from the actual PDF page order if the document has a cover page, table of contents, or front matter.</p>
         </div>
         <div>

@@ -128,7 +128,7 @@ export function WatermarkPdfSeo() {
               {i + 1}
             </span>
             <div className="pt-1">
-              <h3 className="text-[17px] font-semibold">{s.title}</h3>
+              <h3 className="text-[17px] font-semibold">{s.title}</h2>
               <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.text}</p>
             </div>
           </li>
@@ -259,7 +259,7 @@ export function WatermarkPdfSeo() {
       </h2>
       <div className="mt-6 space-y-5">
         <div>
-          <h3 className="text-[17px] font-semibold text-[#1F2937]">Keep Background Colors in Mind</h3>
+          <h3 className="text-[17px] font-semibold text-[#1F2937]">Keep Background Colors in Mind</h2>
           <p className="mt-1 text-[14.5px] leading-relaxed text-[#4a4a55]">
             If your PDF has a colored background, choose a watermark color that provides enough contrast. A light gray watermark might disappear on a beige page, whereas a dark blue or red one will remain clear.
           </p>

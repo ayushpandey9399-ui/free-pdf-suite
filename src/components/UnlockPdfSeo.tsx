@@ -119,7 +119,7 @@ export function UnlockPdfSeo() {
               {i + 1}
             </div>
             <div>
-              <h3 className="text-lg font-semibold mb-1">{s.title}</h3>
+              <h3 className="text-lg font-semibold mb-1">{s.title}</h2>
               <p className="text-gray-600 leading-relaxed">{s.text}</p>
             </div>
           </div>

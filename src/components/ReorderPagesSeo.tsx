@@ -114,7 +114,7 @@ export function ReorderPagesSeo() {
               {i + 1}
             </span>
             <div className="pt-1">
-              <h3 className="text-[15px] font-semibold text-[#383E45]">{s.title}</h3>
+              <h3 className="text-[15px] font-semibold text-[#383E45]">{s.title}</h2>
               <p className="mt-1 text-[14.5px] leading-relaxed text-[#4B5563]">{s.text}</p>
             </div>
           </li>

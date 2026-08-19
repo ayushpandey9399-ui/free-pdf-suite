@@ -319,7 +319,7 @@ export function MemeGeneratorSeo() {
       <div className="space-y-4">
         {(memeGeneratorFaqJsonLd.mainEntity as Array<{ name: string; acceptedAnswer: { text: string } }>).map((q) => (
           <div key={q.name}>
-            <h3 className="text-[16px] font-semibold text-[#1F2937]">{q.name}</h3>
+            <h3 className="text-[16px] font-semibold text-[#1F2937]">{q.name}</h2>
             <p className="mt-1 text-[14px] text-[#4B5563]">{q.acceptedAnswer.text}</p>
           </div>
         ))}

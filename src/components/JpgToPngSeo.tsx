@@ -204,7 +204,7 @@ export function JpgToPngSeo() {
       </p>
 
       <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">How to Convert JPG to PNG Online — Step by Step</h2>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-1">Step 1 — Upload Your JPG Files</h3>
+      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-1">Step 1 — Upload Your JPG Files</h2>
       <p className="mt-2">
         Click the "Select JPG files" button or drag and drop your JPEG photos onto the upload area. You can add multiple JPG files at once for batch conversion. All processing happens locally in your browser — your images never leave your device.
       </p>
@@ -320,7 +320,7 @@ export function JpgToPngSeo() {
       </div>
 
       <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Tips for Converting JPG to PNG Effectively</h2>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Convert Before Removing Backgrounds</h3>
+      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Convert Before Removing Backgrounds</h2>
       <p className="mt-2">
         If you need to make a JPG logo transparent, convert it to PNG first. Most background removal tools work better and produce cleaner results when outputting to a PNG container that natively supports transparency.
       </p>

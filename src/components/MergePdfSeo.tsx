@@ -136,7 +136,7 @@ export function MergePdfSeo() {
               {i + 1}
             </span>
             <div className="pt-1">
-              <h3 className="text-[18px] font-bold text-[#33333c]">{s.title}</h3>
+              <h3 className="text-[18px] font-bold text-[#33333c]">{s.title}</h2>
               <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">{s.text}</p>
             </div>
           </div>
@@ -322,7 +322,7 @@ export function MergePdfSeo() {
       </h2>
       <div className="mt-5 space-y-6">
         <div>
-          <h3 className="text-[18px] font-bold text-[#33333c]">Name Your Files Before Merging</h3>
+          <h3 className="text-[18px] font-bold text-[#33333c]">Name Your Files Before Merging</h2>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             Give each PDF a clear, descriptive filename before adding it to the merger. 
             This makes it easier to identify and reorder documents in the merge interface, especially when working with many files.

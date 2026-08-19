@@ -201,7 +201,7 @@ export function PngToJpgSeo() {
       </p>
 
       <h2 id="how-to" className="mt-10 text-[22px] font-bold text-[#1F2937]">How to Convert PNG to JPG Online — Step by Step</h2>
-      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">Step 1 — Upload Your PNG Images</h3>
+      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">Step 1 — Upload Your PNG Images</h2>
       <p className="mt-2">Click the "Select images" button or drag and drop your PNG files onto the upload area. You can add multiple PNG files at once for batch conversion. All processing runs locally in your browser — your images never leave your device.</p>
       <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">Step 2 — Set Output Quality</h3>
       <p className="mt-2">Choose the JPG output quality level. Higher quality produces sharper images with larger file sizes. Lower quality produces smaller files with some visible compression artifacts. For most everyday purposes, 80-90% quality produces excellent results at a fraction of the PNG file size.</p>

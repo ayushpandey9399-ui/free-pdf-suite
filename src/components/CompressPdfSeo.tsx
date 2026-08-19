@@ -131,7 +131,7 @@ export function CompressPdfSeo() {
         <div className="flex gap-4">
           <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#E5322D] text-white font-bold text-sm" aria-label="Step 1">1</span>
           <div>
-            <h3 className="text-lg font-bold text-[#383E45]">Step 1 — Upload Your PDF</h3>
+            <h3 className="text-lg font-bold text-[#383E45]">Step 1 — Upload Your PDF</h2>
             <p className="mt-2 text-base leading-relaxed text-[#383E45]">
               Click the "Select PDF file" button or drag and drop your PDF onto the upload area. Your file is processed in
               your browser and is never uploaded to any external server. There is no file size limit.
