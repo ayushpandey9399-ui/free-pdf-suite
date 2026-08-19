@@ -140,7 +140,7 @@ export function WatermarkPdfSeo() {
       </h2>
       <div className="mt-6 space-y-6">
         <div>
-          <h3 className="text-[18px] font-bold text-[#1F2937]">Text Watermark</h3>
+          <h3 className="text-[18px] font-bold text-[#1F2937]">Text Watermark</h2>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             Text watermarks are the most common choice for status labels and security warnings. You can type any custom text, such as 'DRAFT', 'DO NOT COPY', or your email address. Our tool allows you to customize the font size, color, and rotation. A diagonal red text watermark is the industry standard for marking confidential documents because it intersects with the main content, making it nearly impossible to remove without damaging the underlying text.
           </p>

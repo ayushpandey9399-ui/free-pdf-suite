@@ -130,7 +130,7 @@ export function SplitPdfSeo() {
 
       {/* Section C */}
       <h2 className="mt-14 text-2xl font-bold text-[#383E45]">Three Ways to Split a PDF</h2>
-      <h3 className="mt-6 text-lg font-semibold text-[#383E45]">Split by Page Range</h3>
+      <h3 className="mt-6 text-lg font-semibold text-[#383E45]">Split by Page Range</h2>
       <p className="mt-2 text-base leading-relaxed text-[#383E45]">
         This is the most common split method. You define specific page ranges and each range becomes a separate PDF file. For example, a 30-page document can be split into three 10-page files, or into unequal sections such as pages 1-5, 6-22, and 23-30 based on where chapters or sections begin and end. This method is ideal for splitting long reports, books, and multi-section documents.
       </p>
