@@ -198,352 +198,120 @@ export function WebpToJpgSeo() {
         WebP is a modern image format developed by Google in 2010 and officially released in 2012. It was designed specifically for web use, offering both lossy and lossless compression in a single format. The key advantage of WebP is its compression efficiency — a WebP image is typically 25-35% smaller than an equivalent JPG at the same visual quality, and up to 26% smaller than a PNG with the same quality. This makes WebP the preferred format for websites, because smaller images mean faster page loads and better performance scores.
       </p>
       <p className="mt-3">
-        Despite its technical advantages, WebP has a significant compatibility problem outside of web browsers. Many applications, platforms, and devices that handle images daily do not support WebP files. Adobe Stock, most print labs and photo printing services, Microsoft Office applications on older Windows versions, email clients, many CMS plugins, court e-filing portals, government submission systems, and university application portals all either refuse WebP uploads outright or display them as broken file icons. This is why millions of people need to convert WebP images to JPG every day.
+        However, WebP is not yet as universal as JPG. While all modern web browsers support it, many desktop applications, older operating systems, and some email clients still struggle to open WebP files natively. If you need to use an image for a presentation, send it to someone using an older computer, or upload it to a platform that only accepts standard formats, converting WebP to JPG is the most reliable solution. JPEG is the most widely compatible image format in the world, ensuring your image will look the same on every screen and in every application.
+      </p>
+
+      <h2 className="mt-12 text-[24px] font-bold text-[#1F2937]" id="step-1">
+        How Our WebP to JPG Converter Works
+      </h2>
+      <p className="mt-3">
+        Our tool uses high-performance browser-based processing to convert your images. When you upload a WebP file, your browser's rendering engine (the same technology that displays websites) parses the WebP data. It then draws that image onto a hidden HTML Canvas element. From there, we use the browser's native encoding capabilities to extract the pixel data and wrap it in the JPG format at your chosen quality level.
       </p>
       <p className="mt-3">
-        JPG (JPEG) is the universal image format that works everywhere — on every operating system, device, application, printing service, and upload form in the world. Converting a WebP image to JPG makes it instantly compatible with any workflow, platform, or submission system without any format compatibility concerns.
+        This approach offers several significant benefits:
       </p>
-      <p className="mt-3">
-        The conversion from WebP to JPG is also a one-way trip in terms of file size — JPG files are typically larger than their WebP equivalents because JPG is less compression-efficient. However, for compatibility and universal usability, JPG remains the practical choice when WebP is not accepted.
+      <ul className="mt-3 list-disc pl-5">
+        <li><strong>Privacy:</strong> Because the processing happens entirely within your browser, your images are never sent to a remote server. Your private photos stay on your device.</li>
+        <li><strong>Speed:</strong> Local processing is often faster than uploading large files to a server and waiting for a download, especially on slower internet connections.</li>
+        <li><strong>Zero Cost:</strong> We don't have to pay for expensive server-side processing power, allowing us to offer this tool completely for free with no limits.</li>
+      </ul>
+
+      <h3 className="mt-8 text-[18px] font-bold text-[#383E45]" id="step-2">
+        1. Choose Your Compression Level
+      </h3>
+      <p className="mt-2">
+        Before converting, you can adjust the quality slider. JPG is a lossy format, meaning it discards some image data to achieve smaller file sizes. A setting of 80% to 90% typically offers an excellent balance where the file size is small but the image looks identical to the human eye. If you need absolute maximum quality, set it to 100%.
       </p>
 
-      <h2 className="mt-10 text-[24px] font-bold text-[#1F2937]">
-        How to Convert WebP to JPG Online — Step by Step
+      <h3 className="mt-8 text-[18px] font-bold text-[#383E45]" id="step-3">
+        2. Batch Processing for Efficiency
+      </h3>
+      <p className="mt-2">
+        Converting images one by one is tedious. Our WebP to JPG converter supports batch processing. Simply select dozens of WebP files at once, and the tool will process them sequentially. You can then download them all as a single ZIP file, saving you time and effort.
+      </p>
+
+      <h2 className="mt-12 text-[24px] font-bold text-[#1F2937]">
+        Frequently Asked Questions
       </h2>
-      
-      <h3 id="step-1" className="mt-6 text-[18px] font-bold text-[#1F2937]">
-        Step 1 — Upload Your WebP Images
-      </h3>
-      <p className="mt-2">
-        Click the "Select images" button or drag and drop your WebP files onto the upload area. You can add multiple WebP files at once for batch conversion. All processing runs locally in your browser using Canvas API — your images never leave your device.
-      </p>
-
-      <h3 id="step-2" className="mt-6 text-[18px] font-bold text-[#1F2937]">
-        Step 2 — Set Output Quality
-      </h3>
-      <p className="mt-2">
-        Choose the JPG output quality level. Higher quality produces sharper images with larger file sizes. For most sharing and web purposes, 80-90% quality produces excellent results. For professional print use, choose 95% or higher.
-      </p>
-
-      <h3 id="step-3" className="mt-6 text-[18px] font-bold text-[#1F2937]">
-        Step 3 — Convert Your Images
-      </h3>
-      <p className="mt-2">
-        Click the convert button. The tool renders each WebP image on an HTML Canvas and encodes it as JPG at your chosen quality level. Transparent areas in WebP images are automatically filled with a white background in the JPG output since JPG does not support transparency.
-      </p>
-
-      <h3 id="step-4" className="mt-6 text-[18px] font-bold text-[#1F2937]">
-        Step 4 — Download Your JPG Files
-      </h3>
-      <p className="mt-2">
-        Download individual JPG files or download all converted images at once as a ZIP archive. Each JPG output file is clean and completely watermark-free.
-      </p>
-
-      <h2 className="mt-10 text-[24px] font-bold text-[#1F2937]">
-        WebP vs JPG — A Complete Format Comparison
-      </h2>
-      <div className="mt-4 overflow-x-auto">
-        <table className="w-full border-collapse border border-[#ececef] text-left text-[14px]">
-          <thead>
-            <tr className="bg-[#f9fafb]">
-              <th className="border border-[#ececef] p-3 font-semibold">Feature</th>
-              <th className="border border-[#ececef] p-3 font-semibold">WebP</th>
-              <th className="border border-[#ececef] p-3 font-semibold">JPG</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="border border-[#ececef] p-3">File Size</td>
-              <td className="border border-[#ececef] p-3">25-35% smaller</td>
-              <td className="border border-[#ececef] p-3">Larger</td>
-            </tr>
-            <tr>
-              <td className="border border-[#ececef] p-3">Compression Type</td>
-              <td className="border border-[#ececef] p-3">Both lossy and lossless</td>
-              <td className="border border-[#ececef] p-3">Lossy only</td>
-            </tr>
-            <tr>
-              <td className="border border-[#ececef] p-3">Transparency Support</td>
-              <td className="border border-[#ececef] p-3">Yes</td>
-              <td className="border border-[#ececef] p-3">No</td>
-            </tr>
-            <tr>
-              <td className="border border-[#ececef] p-3">Animation Support</td>
-              <td className="border border-[#ececef] p-3">Yes</td>
-              <td className="border border-[#ececef] p-3">No</td>
-            </tr>
-            <tr>
-              <td className="border border-[#ececef] p-3">Universal Compatibility</td>
-              <td className="border border-[#ececef] p-3">Web browsers only</td>
-              <td className="border border-[#ececef] p-3">All devices and apps</td>
-            </tr>
-            <tr>
-              <td className="border border-[#ececef] p-3">Print Lab Support</td>
-              <td className="border border-[#ececef] p-3">Often rejected</td>
-              <td className="border border-[#ececef] p-3">Always accepted</td>
-            </tr>
-            <tr>
-              <td className="border border-[#ececef] p-3">Email Client Support</td>
-              <td className="border border-[#ececef] p-3">Limited</td>
-              <td className="border border-[#ececef] p-3">Universal</td>
-            </tr>
-            <tr>
-              <td className="border border-[#ececef] p-3">Office App Support</td>
-              <td className="border border-[#ececef] p-3">Limited</td>
-              <td className="border border-[#ececef] p-3">Universal</td>
-            </tr>
-            <tr>
-              <td className="border border-[#ececef] p-3">Portal Upload Support</td>
-              <td className="border border-[#ececef] p-3">Often rejected</td>
-              <td className="border border-[#ececef] p-3">Always accepted</td>
-            </tr>
-            <tr>
-              <td className="border border-[#ececef] p-3">Editing Software Support</td>
-              <td className="border border-[#ececef] p-3">Limited</td>
-              <td className="border border-[#ececef] p-3">Universal</td>
-            </tr>
-            <tr>
-              <td className="border border-[#ececef] p-3">Social Media Support</td>
-              <td className="border border-[#ececef] p-3">Improving but varies</td>
-              <td className="border border-[#ececef] p-3">Universal</td>
-            </tr>
-          </tbody>
-        </table>
+      <div className="mt-6 space-y-6">
+        <div>
+          <h3 className="text-[18px] font-bold text-[#383E45]">Is WebP better than JPG?</h3>
+          <p className="mt-2 text-[#5a5a66]">
+            Technically, yes. WebP provides better compression than JPG, meaning smaller files for the same quality. However, JPG is far superior in terms of compatibility. If your image is for the web, WebP is better. If it is for general storage or sharing, JPG is usually safer.
+          </p>
+        </div>
+        <div>
+          <h3 className="text-[18px] font-bold text-[#383E45]">Will I lose quality when converting?</h3>
+          <p className="mt-2 text-[#5a5a66]">
+            Yes, a small amount. Converting from one lossy format (WebP) to another (JPG) always involves some data loss. However, if you keep the quality slider at 90% or higher, the difference is practically invisible to the human eye.
+          </p>
+        </div>
+        <div>
+          <h3 className="text-[18px] font-bold text-[#383E45]">Does this tool work on Mac and Windows?</h3>
+          <p className="mt-2 text-[#5a5a66]">
+            Yes. Since the tool runs in the browser, it works perfectly on Windows, macOS, Linux, ChromeOS, and even mobile platforms like iOS and Android.
+          </p>
+        </div>
+        <div>
+          <h3 className="text-[18px] font-bold text-[#383E45]">Is there a limit to how many images I can convert?</h3>
+          <p className="mt-2 text-[#5a5a66]">
+            No. Unlike many other online converters, we do not have a daily limit or a file count restriction. You can convert as many WebP images as you need, whenever you need.
+          </p>
+        </div>
       </div>
 
-      <h2 className="mt-10 text-[24px] font-bold text-[#1F2937]">
-        Common Situations Where You Need WebP to JPG
-      </h2>
-      <h3 className="mt-6 text-[18px] font-bold text-[#1F2937]">
-        Uploading to Government and Official Portals
-      </h3>
-      <p className="mt-2">
-        Government application systems, visa portals, university admission platforms, tax filing portals, and business registration systems typically accept only JPG, PNG, or PDF uploads. WebP files are consistently rejected with format error messages. Converting to JPG before uploading ensures the submission succeeds.
-      </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#1F2937]">
-        Printing Photos at a Photo Lab
-      </h3>
-      <p className="mt-2">
-        Professional photo printing services — both online print services and in-store photo labs — universally accept JPG for photo prints. Many reject WebP files because their printing systems do not support the format. Converting WebP to JPG before ordering prints ensures the lab can process your files.
-      </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#1F2937]">
-        Sending Images in Email
-      </h3>
-      <p className="mt-2">
-        Many email clients — particularly Microsoft Outlook on desktop — do not render WebP images as inline previews. Recipients see a blank attachment or broken icon instead of the image. Converting to JPG ensures the image displays correctly for all recipients regardless of their email client.
-      </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#1F2937]">
-        Using Images in Microsoft Office
-      </h3>
-      <p className="mt-2">
-        Microsoft Word, PowerPoint, and Excel on older versions of Windows cannot insert WebP images directly. Converting WebP images to JPG allows them to be inserted into any Office document without compatibility issues.
-      </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#1F2937]">
-        Uploading Product Photos to Marketplaces
-      </h3>
-      <p className="mt-2">
-        E-commerce platforms like Amazon, Etsy, eBay, and many supplier portals require product images in JPG format. WebP product images downloaded from a website or generated by a design tool need to be converted to JPG before uploading to these platforms.
-      </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#1F2937]">
-        Sharing Downloaded Web Images
-      </h3>
-      <p className="mt-2">
-        Many modern websites save images in WebP format for faster loading. When you right-click and save an image from a website, it often saves as WebP. Converting the downloaded WebP to JPG makes it usable in any application without format concerns.
-      </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#1F2937]">
-        Working With Adobe and Design Tools
-      </h3>
-      <p className="mt-2">
-        Older versions of Adobe Photoshop, Lightroom, and Illustrator do not support WebP files natively. Converting WebP images to JPG before opening them in these applications eliminates compatibility errors.
-      </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#1F2937]">
-        Sending to Clients Who Cannot Open WebP
-      </h3>
-      <p className="mt-2">
-        Clients, colleagues, and business contacts using older computers or image viewer applications may not be able to open WebP files. Converting to JPG before sharing ensures everyone can view the image regardless of their software.
-      </p>
-
-      <h2 className="mt-10 text-[24px] font-bold text-[#1F2937]">
-        How WebP Compression Works — and Why Files Get Larger After Converting
-      </h2>
-      <p className="mt-3">
-        WebP uses a more advanced compression algorithm than JPG, which is why WebP files are smaller at equivalent quality. WebP lossy compression is based on VP8 video frame encoding, which is more sophisticated than the discrete cosine transform (DCT) used by JPG. WebP lossless compression uses a combination of spatial prediction, color transform, palette coding, and LZ77 compression to achieve smaller file sizes than PNG.
-      </p>
-      <p className="mt-3">
-        When a WebP image is converted to JPG, the more advanced WebP compression is replaced by JPG's less efficient compression. This means the JPG output file will be larger than the original WebP file even at the same visual quality. This is a normal and expected result of the conversion. The trade-off is universal compatibility — the larger JPG file works everywhere, while the smaller WebP file has limited compatibility outside of web browsers.
-      </p>
-      <p className="mt-3">
-        If file size remains a concern after converting to JPG, you can reduce the output quality setting to produce a smaller JPG file. For most sharing and viewing purposes, JPG at 80% quality is invisible in difference from the original WebP image while producing a reasonably compact file.
-      </p>
-
-      <h2 className="mt-10 text-[24px] font-bold text-[#1F2937]">
-        What Happens to WebP Transparency During Conversion?
-      </h2>
-      <p className="mt-3">
-        WebP supports alpha channel transparency, allowing images to have transparent or semi-transparent backgrounds. JPG does not support transparency — every pixel must have a solid color. When a WebP image with a transparent background is converted to JPG, the transparent areas are filled with white.
-      </p>
-      <p className="mt-3">
-        If you need a different background color for the transparent areas, first open the WebP in an image editor, fill the transparent layer with the desired background color, and then convert it to JPG. Alternatively, use our{" "}
-        <Link to="/image-tools/$slug" params={{ slug: "webp-to-png" }} className="text-[#e5322d] underline">
-          WebP to PNG tool
-        </Link>{" "}
-        if you need to preserve the transparency in the output file, since PNG fully supports transparent backgrounds.
-      </p>
-
-      <h2 className="mt-10 text-[24px] font-bold text-[#1F2937]">
-        Browser-Based vs Server-Based WebP to JPG Conversion
-      </h2>
-      <div className="mt-4 overflow-x-auto">
-        <table className="w-full border-collapse border border-[#ececef] text-left text-[14px]">
-          <thead>
-            <tr className="bg-[#f9fafb]">
-              <th className="border border-[#ececef] p-3 font-semibold">Feature</th>
-              <th className="border border-[#ececef] p-3 font-semibold">Our Tool</th>
-              <th className="border border-[#ececef] p-3 font-semibold">Server-Based Tools</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="border border-[#ececef] p-3">Image Privacy</td>
-              <td className="border border-[#ececef] p-3">Files stay on device</td>
-              <td className="border border-[#ececef] p-3">Files uploaded to server</td>
-            </tr>
-            <tr>
-              <td className="border border-[#ececef] p-3">Speed</td>
-              <td className="border border-[#ececef] p-3">Instant</td>
-              <td className="border border-[#ececef] p-3">Upload/download delay</td>
-            </tr>
-            <tr>
-              <td className="border border-[#ececef] p-3">File Size Limit</td>
-              <td className="border border-[#ececef] p-3">No limit</td>
-              <td className="border border-[#ececef] p-3">Often 10-50MB per file</td>
-            </tr>
-            <tr>
-              <td className="border border-[#ececef] p-3">Works Offline</td>
-              <td className="border border-[#ececef] p-3">Yes after page loads</td>
-              <td className="border border-[#ececef] p-3">No</td>
-            </tr>
-            <tr>
-              <td className="border border-[#ececef] p-3">Account Required</td>
-              <td className="border border-[#ececef] p-3">No</td>
-              <td className="border border-[#ececef] p-3">Sometimes yes</td>
-            </tr>
-            <tr>
-              <td className="border border-[#ececef] p-3">Batch Convert</td>
-              <td className="border border-[#ececef] p-3">Yes</td>
-              <td className="border border-[#ececef] p-3">Sometimes limited</td>
-            </tr>
-            <tr>
-              <td className="border border-[#ececef] p-3">Watermarks</td>
-              <td className="border border-[#ececef] p-3">Never</td>
-              <td className="border border-[#ececef] p-3">Sometimes added</td>
-            </tr>
-            <tr>
-              <td className="border border-[#ececef] p-3">Cost</td>
-              <td className="border border-[#ececef] p-3">Always free</td>
-              <td className="border border-[#ececef] p-3">Free tier limited</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h2 className="mt-10 text-[24px] font-bold text-[#1F2937]">
-        Tips for Converting WebP to JPG Effectively
-      </h2>
-      <h3 className="mt-6 text-[18px] font-bold text-[#1F2937]">
-        Use 80-90% Quality for Most Purposes
-      </h3>
-      <p className="mt-2">
-        For web sharing, email, and everyday use, JPG at 80-90% quality produces images that look identical to the original WebP at much smaller file sizes than 100% quality JPG output. Only increase to 95%+ for professional print output.
-      </p>
-
-      <h3 className="mt-6 text-[18px] font-bold text-[#1F2937]">
-        Convert WebP to PNG if You Need Transparency
-      </h3>
-      <p className="mt-2">
-        If your WebP image has a transparent background and you need to preserve the transparency, convert it to PNG instead of JPG using our{" "}
-        <Link to="/image-tools/$slug" params={{ slug: "webp-to-png" }} className="text-[#e5322d] underline">
-          WebP to PNG tool
-        </Link>. PNG supports transparency while JPG does not.
-      </p>
-
-      <h3 className="mt-6 text-[18px] font-bold text-[#1F2937]">
-        Batch Convert Multiple WebP Files Together
-      </h3>
-      <p className="mt-2">
-        Add all your WebP files at once instead of converting them one at a time. The batch conversion processes all files simultaneously and packages them in a ZIP file for convenient download.
-      </p>
-
-      <h3 className="mt-6 text-[18px] font-bold text-[#1F2937]">
-        Compress JPG After Converting if Needed
-      </h3>
-      <p className="mt-2">
-        After converting WebP to JPG, if the output file is still larger than needed, use our{" "}
-        <Link to="/image-tools/$slug" params={{ slug: "compress-image" }} className="text-[#e5322d] underline">
-          Compress Image tool
-        </Link>{" "}
-        to reduce the file size further while maintaining acceptable visual quality.
-      </p>
-
-      <h3 className="mt-6 text-[18px] font-bold text-[#1F2937]">
-        Resize Before Converting for Specific Requirements
-      </h3>
-      <p className="mt-2">
-        If you need the output JPG to be a specific size in pixels, use our{" "}
-        <Link to="/image-tools/$slug" params={{ slug: "image-resize" }} className="text-[#e5322d] underline">
-          Resize Image tool
-        </Link>{" "}
-        to set the exact dimensions before or after converting.
-      </p>
-
-      <h2 className="mt-10 text-[24px] font-bold text-[#1F2937]">
-        Frequently Asked Questions About WebP to JPG Conversion
-      </h2>
-      <dl className="mt-4 space-y-4">
-        {webpToJpgFaqJsonLd.mainEntity.map((q, i) => (
-          <div key={i} className="rounded-lg border border-[#ececef] p-4">
-            <dt className="font-semibold text-[#1F2937]">{q.name}</dt>
-            <dd className="mt-2 text-[#33333c]">{q.acceptedAnswer.text}</dd>
-          </div>
-        ))}
-      </dl>
-
-      <h2 className="mt-16 text-[24px] font-bold text-[#1F2937]">
-        Related Image Tools
-      </h2>
-      <div className="mt-6 grid gap-4 sm:grid-cols-2">
-        <Link to="/image-tools/$slug" params={{ slug: "webp-to-png" }} className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]">
-          <h3 className="font-bold">WebP to PNG</h3>
-          <p className="mt-1 text-sm text-[#5a5a66]">Convert WebP to PNG with transparency</p>
-        </Link>
-        <Link to="/image-tools/$slug" params={{ slug: "jpg-to-webp" }} className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]">
-          <h3 className="font-bold">JPG to WebP</h3>
-          <p className="mt-1 text-sm text-[#5a5a66]">Convert JPG back to WebP</p>
-        </Link>
-        <Link to="/image-tools/$slug" params={{ slug: "png-to-jpg" }} className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]">
-          <h3 className="font-bold">PNG to JPG</h3>
-          <p className="mt-1 text-sm text-[#5a5a66]">Convert PNG images to JPG</p>
-        </Link>
-        <Link to="/image-tools/$slug" params={{ slug: "heic-to-jpg" }} className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]">
-          <h3 className="font-bold">HEIC to JPG</h3>
-          <p className="mt-1 text-sm text-[#5a5a66]">Convert iPhone photos to JPG</p>
-        </Link>
-        <Link to="/image-tools/$slug" params={{ slug: "compress-image" }} className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]">
-          <h3 className="font-bold">Compress Image</h3>
-          <p className="mt-1 text-sm text-[#5a5a66]">Reduce JPG file size after converting</p>
-        </Link>
-        <Link to="/image-tools/$slug" params={{ slug: "image-resize" }} className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]">
-          <h3 className="font-bold">Resize Image</h3>
-          <p className="mt-1 text-sm text-[#5a5a66]">Resize images after converting</p>
-        </Link>
-        <Link to="/image-tools/$slug" params={{ slug: "rotate-image" }} className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]">
-          <h3 className="font-bold">Rotate Image</h3>
-          <p className="mt-1 text-sm text-[#5a5a66]">Fix image orientation</p>
-        </Link>
-        <Link to="/tools/$slug" params={{ slug: "images-to-pdf" }} className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]">
-          <h3 className="font-bold">Images to PDF</h3>
-          <p className="mt-1 text-sm text-[#5a5a66]">Combine JPGs into a PDF</p>
-        </Link>
+      <div className="mt-12 border-t border-[#ececef] pt-8">
+        <h2 className="text-[24px] font-bold text-[#1F2937]">Related Image Tools</h2>
+        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <Link
+            to="/image-tools/$slug"
+            params={{ slug: "jpg-to-png" }}
+            className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]"
+          >
+            <h3 className="font-bold">JPG to PNG</h3>
+            <p className="mt-1 text-sm text-[#5a5a66]">Convert JPG to lossless PNG</p>
+          </Link>
+          <Link
+            to="/image-tools/$slug"
+            params={{ slug: "png-to-jpg" }}
+            className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]"
+          >
+            <h3 className="font-bold">PNG to JPG</h3>
+            <p className="mt-1 text-sm text-[#5a5a66]">Convert PNG to high-quality JPG</p>
+          </Link>
+          <Link
+            to="/image-tools/$slug"
+            params={{ slug: "compress-image" }}
+            className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]"
+          >
+            <h3 className="font-bold">Compress Image</h3>
+            <p className="mt-1 text-sm text-[#5a5a66]">Reduce JPG file size after converting</p>
+          </Link>
+          <Link
+            to="/image-tools/$slug"
+            params={{ slug: "image-resize" }}
+            className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]"
+          >
+            <h3 className="font-bold">Resize Image</h3>
+            <p className="mt-1 text-sm text-[#5a5a66]">Resize images after converting</p>
+          </Link>
+          <Link
+            to="/image-tools/$slug"
+            params={{ slug: "rotate-image" }}
+            className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]"
+          >
+            <h3 className="font-bold">Rotate Image</h3>
+            <p className="mt-1 text-sm text-[#5a5a66]">Fix image orientation</p>
+          </Link>
+          <Link
+            to="/tools/$slug"
+            params={{ slug: "images-to-pdf" }}
+            className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]"
+          >
+            <h3 className="font-bold">Images to PDF</h3>
+            <p className="mt-1 text-sm text-[#5a5a66]">Combine JPGs into a PDF</p>
+          </Link>
+        </div>
       </div>
     </section>
   );
