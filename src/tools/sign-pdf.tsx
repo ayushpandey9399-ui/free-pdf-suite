@@ -738,7 +738,9 @@ export default function SignPdf() {
         });
       }
       const out = await pdfDoc.save();
-      downloadBlob(new Blob([new Uint8Array(out)], { type: "application/pdf" }), "signed.pdf");
+      const blob = new Blob([new Uint8Array(out)], { type: "application/pdf" });
+      setSignedBlob(blob);
+      downloadBlob(blob, signedFileName);
       setScreen("SUCCESS");
     } catch (e) {
       toast.error((e as Error).message || "Signing failed");
@@ -762,39 +764,43 @@ export default function SignPdf() {
     );
   }
 
-  if (screen === "PROCESSING") {
-    return (
-      <div className="flex h-[600px] flex-col items-center justify-center gap-6">
-        <Loader2 className="h-14 w-14 animate-spin" style={{ color: RED }} />
-        <h2 className="text-[24px] font-semibold" style={{ color: "#1a1a1a" }}>
-          Signing your PDF...
-        </h2>
-      </div>
-    );
-  }
-
   if (screen === "SUCCESS") {
     return (
-      <div className="flex h-[520px] flex-col items-center justify-center gap-5 text-center">
+      <div className="flex min-h-[520px] flex-col items-center justify-center gap-4 text-center">
         <div
           className="flex h-16 w-16 items-center justify-center rounded-full"
-          style={{ background: "#fff5f5", color: RED }}
+          style={{ background: "#eafaf0", color: "#1f9d55" }}
         >
-          <Download className="h-7 w-7" />
+          <CheckCircle2 className="h-8 w-8" />
         </div>
         <h2 className="text-[24px] font-semibold" style={{ color: "#1a1a1a" }}>
           Your PDF has been signed
         </h2>
+        <p className="text-[14px]" style={{ color: "#555" }}>
+          {signedFileName}
+        </p>
+        <p className="text-[13px]" style={{ color: "#888" }}>
+          {placementSummary}
+        </p>
+        <button
+          type="button"
+          onClick={() => signedBlob && downloadBlob(signedBlob, signedFileName)}
+          className="mt-2 inline-flex items-center gap-2 text-[15px] font-semibold text-white"
+          style={{ background: RED, borderRadius: 8, padding: "14px 32px" }}
+        >
+          <Download className="h-4 w-4" /> Download Again
+        </button>
         <button
           type="button"
           onClick={() => {
             setFile(null);
             setPages([]);
             setPlacements([]);
+            setSignedBlob(null);
             setScreen("UPLOAD");
           }}
-          className="text-[15px] font-semibold text-white"
-          style={{ background: RED, borderRadius: 8, padding: "12px 28px" }}
+          className="text-[13px] font-semibold underline"
+          style={{ color: "#5a5a66" }}
         >
           Sign another PDF
         </button>
@@ -804,6 +810,7 @@ export default function SignPdf() {
 
   const total = pages.length;
   const canSign = placements.length > 0;
+
 
   return (
     <div className="w-screen relative left-1/2 -translate-x-1/2">
