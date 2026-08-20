@@ -297,7 +297,7 @@ function SignatureModal({
         <div className="mt-5">
           {tab === "draw" && (
             <div>
-              <div className="relative" style={{ border: "1px solid #e0e0e0", borderRadius: 8 }}>
+              <div ref={wrapRef} className="relative" style={{ border: "1px solid #e0e0e0", borderRadius: 8 }}>
                 <span
                   className="pointer-events-none absolute inset-0 flex items-center justify-center text-[24px]"
                   style={{ color: "#f0f0f0" }}
@@ -306,12 +306,12 @@ function SignatureModal({
                 </span>
                 <canvas
                   ref={canvasRef}
-                  width={1024}
-                  height={320}
-                  className="relative block h-[160px] w-full touch-none rounded-lg"
+                  className="relative block w-full touch-none rounded-lg"
+                  style={{ height: 180, touchAction: "none" }}
                   onPointerDown={start}
                   onPointerMove={move}
                   onPointerUp={end}
+                  onPointerCancel={end}
                   onPointerLeave={end}
                 />
               </div>
