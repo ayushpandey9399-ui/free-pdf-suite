@@ -1,28 +1,25 @@
-import { useState, useRef, useEffect } from "react";
-import { toast } from "sonner";
+import React, { useState, useRef, useEffect, useCallback } from "react";
+import { 
+  ZoomIn, ZoomOut, Maximize, MousePointer2, 
+  Signature as SignatureIcon, Calendar, Type, 
+  Building2, Trash2, Undo, Redo, 
+  ChevronLeft, ChevronRight, X, Loader2, Plus, PenLine, Upload
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { format } from "date-fns";
+import { FileDropzone } from "@/components/FileDropzone";
+import * as pdfjsLib from "pdfjs-dist";
 import { PDFDocument, rgb, degrees } from "pdf-lib";
 import fontkit from "@pdf-lib/fontkit";
-import * as pdfjsLib from "pdfjs-dist";
-import { FileDropzone } from "@/components/FileDropzone";
-import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 import { downloadBlob } from "@/lib/download";
-import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
-import { 
-  Loader2, Plus, PenLine, Type, Upload, X, 
-  Signature as SignatureIcon, Calendar, Building2,
-  Trash2, Undo, Redo, ZoomIn, ZoomOut, Maximize,
-  ChevronLeft, ChevronRight
-} from "lucide-react";
-import confetti from "canvas-confetti";
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useDropzone } from "react-dropzone";
+import { Slider } from "@/components/ui/slider";
 
 // Font preloads
 import "@fontsource/dancing-script/600.css";
@@ -38,9 +35,32 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs
 
 type Screen = "UPLOAD" | "WORKAREA" | "PROCESSING" | "SUCCESS";
 
+interface Placement {
+  id: string;
+  type: "signature" | "initials" | "date" | "name" | "text" | "stamp";
+  pageIndex: number;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  content: string;
+  rotation: number;
+}
+
 export default function SignPdf() {
   const [screen, setScreen] = useState<Screen>("UPLOAD");
   const [file, setFile] = useState<File | null>(null);
+  const [pdfBuffer, setPdfBuffer] = useState<ArrayBuffer | null>(null);
+
+  const handleFileUpload = async (files: File[]) => {
+      if (files.length > 0) {
+          const selectedFile = files[0];
+          const arrayBuffer = await selectedFile.arrayBuffer();
+          setFile(selectedFile);
+          setPdfBuffer(arrayBuffer);
+          setScreen("WORKAREA");
+      }
+  };
 
   return (
     <div className="min-h-[600px]">
@@ -49,12 +69,7 @@ export default function SignPdf() {
             <h1 className="text-4xl font-bold mb-8">Sign PDF Online</h1>
             <FileDropzone
               files={file ? [file] : []}
-              onFilesChange={(files) => {
-                  if (files.length > 0) {
-                      setFile(files[0]);
-                      setScreen("WORKAREA");
-                  }
-              }}
+              onFilesChange={handleFileUpload}
               accept="application/pdf"
               multiple={false}
             />
@@ -88,7 +103,9 @@ export default function SignPdf() {
               {/* Right sidebar */}
               <aside className="w-80 border-l bg-white p-6 shadow-sm">
                   <h3 className="font-bold uppercase text-gray-500 mb-6">Signing Options</h3>
-                  <Button className="w-full bg-[#e5322d] py-6" onClick={() => setScreen("PROCESSING")}>Sign and Download</Button>
+                  <div className="space-y-4">
+                      <Button className="w-full bg-[#e5322d] py-6" onClick={() => setScreen("PROCESSING")}>Sign and Download</Button>
+                  </div>
               </aside>
           </div>
       )}
