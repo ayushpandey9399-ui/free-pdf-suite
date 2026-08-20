@@ -711,6 +711,14 @@ export default function SignPdf() {
     setModal(null);
   };
 
+  const signedFileName = file ? file.name.replace(/\.pdf$/i, "") + "-signed.pdf" : "signed.pdf";
+  const pagesWithFields = new Set(placements.map((p) => p.pageIndex)).size;
+  const placementSummary = placements.length
+    ? `${placements.length} field${placements.length === 1 ? "" : "s"} placed on ${pagesWithFields} page${pagesWithFields === 1 ? "" : "s"}`
+    : "0 fields placed";
+
+
+
   const sign = async () => {
     if (!file || !placements.length) return;
     setScreen("PROCESSING");
