@@ -17,6 +17,7 @@ import {
   Download,
   GripVertical,
   Trash2,
+  CheckCircle2,
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -78,6 +79,15 @@ const SIG_FONTS = [
   { label: "Satisfy", css: "'Satisfy', cursive" },
 ];
 
+const FIELD_LABELS: Record<FieldType, string> = {
+  signature: "Signature",
+  initials: "Initials",
+  name: "Name",
+  date: "Date",
+  text: "Text",
+  stamp: "Company Stamp",
+};
+
 const INK_COLORS = ["#111827", "#2563eb", "#1e3a8a", "#e5322d"];
 
 function uid() {
@@ -121,49 +131,100 @@ function SignatureModal({
   const [uploaded, setUploaded] = useState<string | null>(null);
   const [removeBg, setRemoveBg] = useState(true);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const wrapRef = useRef<HTMLDivElement | null>(null);
   const drawing = useRef(false);
-  const last = useRef<{ x: number; y: number } | null>(null);
-  const hasInk = useRef(false);
+  const points = useRef<{ x: number; y: number }[]>([]);
+  const strokes = useRef<{ points: { x: number; y: number }[]; color: string; lineWidth: number }[]>([]);
+
+  /** Size the canvas to its container at device pixel ratio so strokes stay crisp. */
+  useEffect(() => {
+    if (tab !== "draw") return;
+    const c = canvasRef.current;
+    const wrap = wrapRef.current;
+    if (!c || !wrap) return;
+    const dpr = window.devicePixelRatio || 1;
+    c.width = Math.max(1, Math.round(wrap.clientWidth * dpr));
+    c.height = Math.round(180 * dpr);
+    c.style.width = "100%";
+    c.style.height = "180px";
+    c.style.touchAction = "none";
+    const ctx = c.getContext("2d")!;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    redraw();
+  }, [tab]);
+
+  const strokePath = (
+    ctx: CanvasRenderingContext2D,
+    pts: { x: number; y: number }[],
+    strokeColor: string,
+    lineWidth: number,
+  ) => {
+    if (pts.length < 2) {
+      if (pts.length === 1) {
+        ctx.beginPath();
+        ctx.fillStyle = strokeColor;
+        ctx.arc(pts[0].x, pts[0].y, lineWidth / 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      return;
+    }
+    ctx.beginPath();
+    ctx.strokeStyle = strokeColor;
+    ctx.lineWidth = lineWidth;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.moveTo(pts[0].x, pts[0].y);
+    for (let i = 1; i < pts.length - 1; i++) {
+      const midX = (pts[i].x + pts[i + 1].x) / 2;
+      const midY = (pts[i].y + pts[i + 1].y) / 2;
+      ctx.quadraticCurveTo(pts[i].x, pts[i].y, midX, midY);
+    }
+    ctx.lineTo(pts[pts.length - 1].x, pts[pts.length - 1].y);
+    ctx.stroke();
+  };
+
+  const redraw = () => {
+    const c = canvasRef.current;
+    if (!c) return;
+    const ctx = c.getContext("2d")!;
+    const dpr = window.devicePixelRatio || 1;
+    ctx.clearRect(0, 0, c.width / dpr, c.height / dpr);
+    for (const s of strokes.current) strokePath(ctx, s.points, s.color, s.lineWidth);
+  };
 
   const pos = (e: React.PointerEvent) => {
     const c = canvasRef.current!;
     const r = c.getBoundingClientRect();
-    return { x: (e.clientX - r.left) * (c.width / r.width), y: (e.clientY - r.top) * (c.height / r.height) };
+    return { x: e.clientX - r.left, y: e.clientY - r.top };
   };
 
   const start = (e: React.PointerEvent) => {
     drawing.current = true;
-    last.current = pos(e);
+    points.current = [pos(e)];
     (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
   };
   const move = (e: React.PointerEvent) => {
     if (!drawing.current) return;
-    const c = canvasRef.current!;
-    const ctx = c.getContext("2d")!;
-    const p = pos(e);
-    const l = last.current!;
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 3.5;
-    ctx.lineCap = "round";
-    ctx.lineJoin = "round";
-    ctx.beginPath();
-    ctx.moveTo(l.x, l.y);
-    ctx.quadraticCurveTo(l.x, l.y, (l.x + p.x) / 2, (l.y + p.y) / 2);
-    ctx.stroke();
-    last.current = p;
-    hasInk.current = true;
+    points.current.push(pos(e));
+    redraw();
+    strokePath(canvasRef.current!.getContext("2d")!, points.current, color, 2.5);
   };
   const end = () => {
+    if (!drawing.current) return;
     drawing.current = false;
-    last.current = null;
+    if (points.current.length) {
+      strokes.current.push({ points: [...points.current], color, lineWidth: 2.5 });
+    }
+    points.current = [];
+    redraw();
   };
 
   const clear = () => {
-    const c = canvasRef.current;
-    if (!c) return;
-    c.getContext("2d")!.clearRect(0, 0, c.width, c.height);
-    hasInk.current = false;
+    strokes.current = [];
+    points.current = [];
+    redraw();
   };
+
 
   const handleUpload = (file: File) => {
     const reader = new FileReader();
@@ -195,7 +256,7 @@ function SignatureModal({
 
   const apply = async () => {
     if (tab === "draw") {
-      if (!hasInk.current) return toast.error("Draw your signature first");
+      if (!strokes.current.length) return toast.error("Draw your signature first");
       onApply(canvasRef.current!.toDataURL("image/png"));
       return;
     }
@@ -246,7 +307,7 @@ function SignatureModal({
         <div className="mt-5">
           {tab === "draw" && (
             <div>
-              <div className="relative" style={{ border: "1px solid #e0e0e0", borderRadius: 8 }}>
+              <div ref={wrapRef} className="relative" style={{ border: "1px solid #e0e0e0", borderRadius: 8 }}>
                 <span
                   className="pointer-events-none absolute inset-0 flex items-center justify-center text-[24px]"
                   style={{ color: "#f0f0f0" }}
@@ -255,12 +316,12 @@ function SignatureModal({
                 </span>
                 <canvas
                   ref={canvasRef}
-                  width={1024}
-                  height={320}
-                  className="relative block h-[160px] w-full touch-none rounded-lg"
+                  className="relative block w-full touch-none rounded-lg"
+                  style={{ height: 180, touchAction: "none" }}
                   onPointerDown={start}
                   onPointerMove={move}
                   onPointerUp={end}
+                  onPointerCancel={end}
                   onPointerLeave={end}
                 />
               </div>
@@ -471,10 +532,23 @@ export default function SignPdf() {
   const [initials, setInitials] = useState<string | null>(null);
   const [modal, setModal] = useState<null | "signature" | "initials">(null);
   const [signedName, setSignedName] = useState("Your name");
+  const [placeMode, setPlaceMode] = useState<FieldType | null>(null);
+  const [showHint, setShowHint] = useState(false);
+  const [signedBlob, setSignedBlob] = useState<Blob | null>(null);
 
   const viewerRef = useRef<HTMLDivElement | null>(null);
   const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
   const dragType = useRef<FieldType | null>(null);
+  const hintShown = useRef(false);
+
+  /** Escape cancels click-to-place mode. */
+  useEffect(() => {
+    if (!placeMode) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setPlaceMode(null);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [placeMode]);
+
 
   const handleFileUpload = async (files: File[]) => {
     if (!files.length) return;
@@ -544,26 +618,65 @@ export default function SignPdf() {
       const size = defaultSize(type);
       const c = contentFor(type);
       const id = uid();
-      setPlacements((prev) => [...prev, { id, type, pageIndex, x, y, ...size, ...c }]);
+      const page = pages[pageIndex];
+      const maxX = page ? Math.max(0, page.width - size.width) : x;
+      const maxY = page ? Math.max(0, page.height - size.height) : y;
+      setPlacements((prev) => [
+        ...prev,
+        {
+          id,
+          type,
+          pageIndex,
+          x: Math.max(0, Math.min(maxX, x)),
+          y: Math.max(0, Math.min(maxY, y)),
+          ...size,
+          ...c,
+        },
+      ]);
       setSelectedId(id);
+      if (!hintShown.current) {
+        hintShown.current = true;
+        setShowHint(true);
+        window.setTimeout(() => setShowHint(false), 3000);
+      }
     },
-    [signature, initials, signedName],
+    [signature, initials, signedName, pages],
   );
+
+  /** Map a client point onto PDF point coordinates for the given page element. */
+  const pointOnPage = (clientX: number, clientY: number, el: HTMLElement, pageIndex: number) => {
+    const rect = el.getBoundingClientRect();
+    const page = pages[pageIndex];
+    const scale = page ? page.width / rect.width : 1;
+    return { x: (clientX - rect.left) * scale, y: (clientY - rect.top) * scale };
+  };
 
   const dropOnPage = (e: React.DragEvent, pageIndex: number) => {
     e.preventDefault();
     const type = dragType.current;
     if (!type) return;
-    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     const size = defaultSize(type);
-    addPlacement(
-      type,
-      pageIndex,
-      Math.max(0, e.clientX - rect.left - size.width / 2),
-      Math.max(0, e.clientY - rect.top - size.height / 2),
-    );
+    const pt = pointOnPage(e.clientX, e.clientY, e.currentTarget as HTMLElement, pageIndex);
+    addPlacement(type, pageIndex, pt.x - size.width / 2, pt.y - size.height / 2);
     dragType.current = null;
   };
+
+  const clickOnPage = (e: React.MouseEvent, pageIndex: number) => {
+    if (!placeMode) return;
+    e.stopPropagation();
+    const size = defaultSize(placeMode);
+    const pt = pointOnPage(e.clientX, e.clientY, e.currentTarget as HTMLElement, pageIndex);
+    addPlacement(placeMode, pageIndex, pt.x - size.width / 2, pt.y - size.height / 2);
+    setPlaceMode(null);
+  };
+
+  /** Clicking a sidebar card arms placement mode instead of dropping blindly. */
+  const startPlaceMode = (type: FieldType) => {
+    if (type === "signature" && !signature) return setModal("signature");
+    if (type === "initials" && !initials) return setModal("initials");
+    setPlaceMode(type);
+  };
+
 
   /** Pointer-driven move/resize for a placed field. */
   const beginInteract = (e: React.PointerEvent, id: string, action: "move" | "resize") => {
@@ -574,18 +687,25 @@ export default function SignPdf() {
     const startY = e.clientY;
     const target = placements.find((p) => p.id === id);
     if (!target) return;
+    const pageEl = pageRefs.current[target.pageIndex];
+    const page = pages[target.pageIndex];
+    const scale = pageEl && page ? page.width / pageEl.getBoundingClientRect().width : 1;
     const origin = { x: target.x, y: target.y, w: target.width, h: target.height };
 
     const onMove = (ev: PointerEvent) => {
-      const dx = ev.clientX - startX;
-      const dy = ev.clientY - startY;
+      const dx = (ev.clientX - startX) * scale;
+      const dy = (ev.clientY - startY) * scale;
       setPlacements((prev) =>
         prev.map((p) =>
           p.id !== id
             ? p
             : action === "move"
-              ? { ...p, x: Math.max(0, origin.x + dx), y: Math.max(0, origin.y + dy) }
-              : { ...p, width: Math.max(40, origin.w + dx), height: Math.max(20, origin.h + dy) },
+              ? {
+                  ...p,
+                  x: Math.max(0, Math.min(page ? page.width - p.width : Infinity, origin.x + dx)),
+                  y: Math.max(0, Math.min(page ? page.height - p.height : Infinity, origin.y + dy)),
+                }
+              : { ...p, width: Math.max(60, origin.w + dx), height: Math.max(30, origin.h + dy) },
         ),
       );
     };
@@ -597,6 +717,7 @@ export default function SignPdf() {
     window.addEventListener("pointerup", onUp);
   };
 
+
   const goToPage = (i: number) => {
     setActivePage(i);
     pageRefs.current[i]?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -607,6 +728,14 @@ export default function SignPdf() {
     else setSignature(dataUrl);
     setModal(null);
   };
+
+  const signedFileName = file ? file.name.replace(/\.pdf$/i, "") + "-signed.pdf" : "signed.pdf";
+  const pagesWithFields = new Set(placements.map((p) => p.pageIndex)).size;
+  const placementSummary = placements.length
+    ? `${placements.length} field${placements.length === 1 ? "" : "s"} placed on ${pagesWithFields} page${pagesWithFields === 1 ? "" : "s"}`
+    : "0 fields placed";
+
+
 
   const sign = async () => {
     if (!file || !placements.length) return;
@@ -635,7 +764,9 @@ export default function SignPdf() {
         });
       }
       const out = await pdfDoc.save();
-      downloadBlob(new Blob([new Uint8Array(out)], { type: "application/pdf" }), "signed.pdf");
+      const blob = new Blob([new Uint8Array(out)], { type: "application/pdf" });
+      setSignedBlob(blob);
+      downloadBlob(blob, signedFileName);
       setScreen("SUCCESS");
     } catch (e) {
       toast.error((e as Error).message || "Signing failed");
@@ -659,39 +790,43 @@ export default function SignPdf() {
     );
   }
 
-  if (screen === "PROCESSING") {
-    return (
-      <div className="flex h-[600px] flex-col items-center justify-center gap-6">
-        <Loader2 className="h-14 w-14 animate-spin" style={{ color: RED }} />
-        <h2 className="text-[24px] font-semibold" style={{ color: "#1a1a1a" }}>
-          Signing your PDF...
-        </h2>
-      </div>
-    );
-  }
-
   if (screen === "SUCCESS") {
     return (
-      <div className="flex h-[520px] flex-col items-center justify-center gap-5 text-center">
+      <div className="flex min-h-[520px] flex-col items-center justify-center gap-4 text-center">
         <div
           className="flex h-16 w-16 items-center justify-center rounded-full"
-          style={{ background: "#fff5f5", color: RED }}
+          style={{ background: "#eafaf0", color: "#1f9d55" }}
         >
-          <Download className="h-7 w-7" />
+          <CheckCircle2 className="h-8 w-8" />
         </div>
         <h2 className="text-[24px] font-semibold" style={{ color: "#1a1a1a" }}>
           Your PDF has been signed
         </h2>
+        <p className="text-[14px]" style={{ color: "#555" }}>
+          {signedFileName}
+        </p>
+        <p className="text-[13px]" style={{ color: "#888" }}>
+          {placementSummary}
+        </p>
+        <button
+          type="button"
+          onClick={() => signedBlob && downloadBlob(signedBlob, signedFileName)}
+          className="mt-2 inline-flex items-center gap-2 text-[15px] font-semibold text-white"
+          style={{ background: RED, borderRadius: 8, padding: "14px 32px" }}
+        >
+          <Download className="h-4 w-4" /> Download Again
+        </button>
         <button
           type="button"
           onClick={() => {
             setFile(null);
             setPages([]);
             setPlacements([]);
+            setSignedBlob(null);
             setScreen("UPLOAD");
           }}
-          className="text-[15px] font-semibold text-white"
-          style={{ background: RED, borderRadius: 8, padding: "12px 28px" }}
+          className="text-[13px] font-semibold underline"
+          style={{ color: "#5a5a66" }}
         >
           Sign another PDF
         </button>
@@ -701,6 +836,7 @@ export default function SignPdf() {
 
   const total = pages.length;
   const canSign = placements.length > 0;
+
 
   return (
     <div className="w-screen relative left-1/2 -translate-x-1/2">
@@ -807,9 +943,11 @@ export default function SignPdf() {
                   margin: "16px auto",
                   boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
                   maxWidth: "calc(100% - 24px)",
+                  cursor: placeMode ? "crosshair" : "default",
                 }}
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={(e) => dropOnPage(e, i)}
+                onClick={(e) => clickOnPage(e, i)}
               >
                 <img src={page.url} alt={`Page ${i + 1}`} className="pointer-events-none h-full w-full" />
 
@@ -823,14 +961,13 @@ export default function SignPdf() {
                         onPointerDown={(e) => beginInteract(e, p.id, "move")}
                         className="absolute flex cursor-move items-center justify-center"
                         style={{
-                          left: p.x,
-                          top: p.y,
-                          width: p.width,
-                          height: p.height,
-                          border: `2px dashed ${RED}`,
-                          background: "rgba(229,50,45,0.05)",
-                          minWidth: 40,
-                          minHeight: 20,
+                          left: `${(p.x / page.width) * 100}%`,
+                          top: `${(p.y / page.height) * 100}%`,
+                          width: `${(p.width / page.width) * 100}%`,
+                          height: `${(p.height / page.height) * 100}%`,
+                          border: selected ? `2px solid ${RED}` : `2px dashed ${RED}`,
+                          background: "rgba(229,50,45,0.08)",
+                          opacity: selected ? 1 : 0.75,
                         }}
                       >
                         {p.isImage && p.content ? (
@@ -839,49 +976,99 @@ export default function SignPdf() {
                             alt={p.type}
                             className="pointer-events-none h-full w-full object-contain"
                           />
+                        ) : p.type === "text" ? (
+                          <input
+                            value={p.content}
+                            onPointerDown={(e) => e.stopPropagation()}
+                            onClick={(e) => e.stopPropagation()}
+                            onChange={(e) =>
+                              setPlacements((prev) =>
+                                prev.map((x) => (x.id === p.id ? { ...x, content: e.target.value } : x)),
+                              )
+                            }
+                            placeholder="Type text"
+                            className="h-full w-full bg-transparent px-1 text-center outline-none"
+                            style={{ fontSize: Math.max(10, p.height * 0.55), color: "#111827" }}
+                          />
                         ) : (
                           <span
                             className="pointer-events-none truncate px-1"
                             style={{ fontSize: Math.max(10, p.height * 0.6), color: "#111827" }}
                           >
-                            {p.content || p.type}
+                            {p.content || FIELD_LABELS[p.type]}
                           </span>
                         )}
 
-                        {selected && (
-                          <>
-                            <button
-                              type="button"
-                              aria-label="Remove field"
-                              onPointerDown={(e) => e.stopPropagation()}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setPlacements((prev) => prev.filter((x) => x.id !== p.id));
-                              }}
-                              className="absolute flex items-center justify-center rounded-full text-white"
-                              style={{ top: -10, right: -10, width: 20, height: 20, background: RED }}
-                            >
-                              <X className="h-3 w-3" />
-                            </button>
-                            <span
-                              onPointerDown={(e) => beginInteract(e, p.id, "resize")}
-                              className="absolute cursor-nwse-resize"
-                              style={{
-                                right: -5,
-                                bottom: -5,
-                                width: 12,
-                                height: 12,
-                                background: "#9ca3af",
-                                borderRadius: 2,
-                              }}
-                            />
-                          </>
+                        {!p.isImage || p.content ? null : (
+                          <span
+                            className="pointer-events-none px-1 text-center text-[11px] font-semibold"
+                            style={{ color: RED }}
+                          >
+                            {FIELD_LABELS[p.type]}
+                          </span>
                         )}
+
+                        <button
+                          type="button"
+                          aria-label="Remove field"
+                          onPointerDown={(e) => e.stopPropagation()}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setPlacements((prev) => prev.filter((x) => x.id !== p.id));
+                          }}
+                          className="absolute z-10 flex items-center justify-center rounded-full text-white"
+                          style={{ top: -10, right: -10, width: 20, height: 20, background: RED }}
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                        <span
+                          onPointerDown={(e) => beginInteract(e, p.id, "resize")}
+                          className="absolute z-10 cursor-nwse-resize"
+                          style={{
+                            right: -6,
+                            bottom: -6,
+                            width: 12,
+                            height: 12,
+                            background: "#666",
+                            borderRadius: 2,
+                          }}
+                        />
                       </div>
                     );
                   })}
               </div>
             ))}
+
+            {placeMode && (
+              <div
+                className="pointer-events-none sticky top-2 z-20 mx-auto w-fit rounded-full px-4 py-2 text-[13px] font-semibold text-white"
+                style={{ background: "rgba(17,24,39,0.85)" }}
+              >
+                Click on the document to place {FIELD_LABELS[placeMode]} (Esc to cancel)
+              </div>
+            )}
+
+            {showHint && (
+              <div
+                className="pointer-events-none sticky bottom-4 z-20 mx-auto w-fit rounded-full px-4 py-2 text-[12px] font-medium text-white"
+                style={{ background: "rgba(17,24,39,0.85)" }}
+              >
+                Drag to move, corner to resize, x to delete
+              </div>
+            )}
+
+            {screen === "PROCESSING" && (
+              <div
+                className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-3"
+                style={{ background: "rgba(255,255,255,0.8)" }}
+              >
+                <Loader2 className="h-10 w-10 animate-spin" style={{ color: RED }} />
+                <p className="text-[15px] font-semibold" style={{ color: "#1a1a1a" }}>
+                  Generating your signed PDF...
+                </p>
+              </div>
+            )}
+
 
             {!loadingPages && (
               <button
@@ -959,7 +1146,7 @@ export default function SignPdf() {
                   onDragStart={() => {
                     dragType.current = "signature";
                   }}
-                  onClick={() => addPlacement("signature", activePage, 60, 60)}
+                  onClick={() => startPlaceMode("signature")}
                 />
                 {signature && (
                   <img
@@ -986,7 +1173,7 @@ export default function SignPdf() {
                   onDragStart={() => {
                     dragType.current = "initials";
                   }}
-                  onClick={() => addPlacement("initials", activePage, 60, 60)}
+                  onClick={() => startPlaceMode("initials")}
                 />
                 <FieldCard
                   label="Name"
@@ -995,7 +1182,7 @@ export default function SignPdf() {
                   onDragStart={() => {
                     dragType.current = "name";
                   }}
-                  onClick={() => addPlacement("name", activePage, 60, 60)}
+                  onClick={() => startPlaceMode("name")}
                 />
                 <FieldCard
                   label="Date"
@@ -1004,7 +1191,7 @@ export default function SignPdf() {
                   onDragStart={() => {
                     dragType.current = "date";
                   }}
-                  onClick={() => addPlacement("date", activePage, 60, 60)}
+                  onClick={() => startPlaceMode("date")}
                 />
                 <FieldCard
                   label="Text"
@@ -1013,7 +1200,7 @@ export default function SignPdf() {
                   onDragStart={() => {
                     dragType.current = "text";
                   }}
-                  onClick={() => addPlacement("text", activePage, 60, 60)}
+                  onClick={() => startPlaceMode("text")}
                 />
                 <FieldCard
                   label="Company Stamp"
@@ -1022,7 +1209,7 @@ export default function SignPdf() {
                   onDragStart={() => {
                     dragType.current = "stamp";
                   }}
-                  onClick={() => addPlacement("stamp", activePage, 60, 60)}
+                  onClick={() => startPlaceMode("stamp")}
                 />
                 {placements.length > 0 && (
                   <button
@@ -1052,6 +1239,9 @@ export default function SignPdf() {
               >
                 Sign <ArrowRight className="h-4 w-4" />
               </button>
+              <p className="mt-2 text-center text-[12px]" style={{ color: "#888" }}>
+                {placementSummary}
+              </p>
             </div>
           </aside>
         </div>
@@ -1064,11 +1254,20 @@ export default function SignPdf() {
           onClick={sign}
           disabled={!canSign}
           className="flex w-full items-center justify-center gap-2 text-[16px] font-semibold text-white"
-          style={{ height: 52, borderRadius: 8, background: canSign ? RED : "#fca5a5" }}
+          style={{
+            height: 52,
+            borderRadius: 8,
+            background: canSign ? RED : "#fca5a5",
+            cursor: canSign ? "pointer" : "not-allowed",
+          }}
         >
           Sign <ArrowRight className="h-4 w-4" />
         </button>
+        <p className="mt-2 text-center text-[12px]" style={{ color: "#888" }}>
+          {placementSummary}
+        </p>
       </div>
+
 
       {modal && (
         <SignatureModal mode={modal} onClose={() => setModal(null)} onApply={applySignature} />
