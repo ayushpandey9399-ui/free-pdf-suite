@@ -17,6 +17,7 @@ import {
   Download,
   GripVertical,
   Trash2,
+  CheckCircle2,
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
