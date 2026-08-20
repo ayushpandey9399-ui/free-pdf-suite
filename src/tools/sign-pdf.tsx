@@ -79,6 +79,15 @@ const SIG_FONTS = [
   { label: "Satisfy", css: "'Satisfy', cursive" },
 ];
 
+const FIELD_LABELS: Record<FieldType, string> = {
+  signature: "Signature",
+  initials: "Initials",
+  name: "Name",
+  date: "Date",
+  text: "Text",
+  stamp: "Company Stamp",
+};
+
 const INK_COLORS = ["#111827", "#2563eb", "#1e3a8a", "#e5322d"];
 
 function uid() {
