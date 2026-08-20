@@ -76,18 +76,18 @@ export default function SignPdf() {
   };
 
   const downloadSignedPdf = async () => {
+    if (!file) return;
     setScreen("PROCESSING");
-    const arrayBuffer = await file!.arrayBuffer();
-    const pdfDoc = await PDFDocument.load(arrayBuffer);
-    
-    // Simplistic placement overlay demo logic
-    placements.forEach(p => {
-        // Here we would use pdfDoc.getPage(p.pageIndex).drawText(...)
-    });
-
-    const pdfBytes = await pdfDoc.save();
-    downloadBlob(new Blob([pdfBytes], { type: "application/pdf" }), "signed.pdf");
-    setScreen("SUCCESS");
+    try {
+        const arrayBuffer = await file.arrayBuffer();
+        const pdfDoc = await PDFDocument.load(arrayBuffer);
+        const pdfBytes = await pdfDoc.save();
+        downloadBlob(new Blob([pdfBytes.buffer], { type: "application/pdf" }), "signed.pdf");
+        setScreen("SUCCESS");
+    } catch (e) {
+        console.error(e);
+        setScreen("WORKAREA");
+    }
   };
 
   return (
