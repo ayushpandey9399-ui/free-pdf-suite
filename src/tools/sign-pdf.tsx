@@ -246,7 +246,7 @@ function SignatureModal({
 
   const apply = async () => {
     if (tab === "draw") {
-      if (!hasInk.current) return toast.error("Draw your signature first");
+      if (!strokes.current.length) return toast.error("Draw your signature first");
       onApply(canvasRef.current!.toDataURL("image/png"));
       return;
     }
