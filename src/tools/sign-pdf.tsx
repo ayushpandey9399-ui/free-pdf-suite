@@ -608,25 +608,56 @@ export default function SignPdf() {
       const size = defaultSize(type);
       const c = contentFor(type);
       const id = uid();
-      setPlacements((prev) => [...prev, { id, type, pageIndex, x, y, ...size, ...c }]);
+      const page = pages[pageIndex];
+      const maxX = page ? Math.max(0, page.width - size.width) : x;
+      const maxY = page ? Math.max(0, page.height - size.height) : y;
+      setPlacements((prev) => [
+        ...prev,
+        {
+          id,
+          type,
+          pageIndex,
+          x: Math.max(0, Math.min(maxX, x)),
+          y: Math.max(0, Math.min(maxY, y)),
+          ...size,
+          ...c,
+        },
+      ]);
       setSelectedId(id);
+      if (!hintShown.current) {
+        hintShown.current = true;
+        setShowHint(true);
+        window.setTimeout(() => setShowHint(false), 3000);
+      }
     },
-    [signature, initials, signedName],
+    [signature, initials, signedName, pages],
   );
+
+  /** Map a client point onto PDF point coordinates for the given page element. */
+  const pointOnPage = (clientX: number, clientY: number, el: HTMLElement, pageIndex: number) => {
+    const rect = el.getBoundingClientRect();
+    const page = pages[pageIndex];
+    const scale = page ? page.width / rect.width : 1;
+    return { x: (clientX - rect.left) * scale, y: (clientY - rect.top) * scale };
+  };
 
   const dropOnPage = (e: React.DragEvent, pageIndex: number) => {
     e.preventDefault();
     const type = dragType.current;
     if (!type) return;
-    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     const size = defaultSize(type);
-    addPlacement(
-      type,
-      pageIndex,
-      Math.max(0, e.clientX - rect.left - size.width / 2),
-      Math.max(0, e.clientY - rect.top - size.height / 2),
-    );
+    const pt = pointOnPage(e.clientX, e.clientY, e.currentTarget as HTMLElement, pageIndex);
+    addPlacement(type, pageIndex, pt.x - size.width / 2, pt.y - size.height / 2);
     dragType.current = null;
+  };
+
+  const clickOnPage = (e: React.MouseEvent, pageIndex: number) => {
+    if (!placeMode) return;
+    e.stopPropagation();
+    const size = defaultSize(placeMode);
+    const pt = pointOnPage(e.clientX, e.clientY, e.currentTarget as HTMLElement, pageIndex);
+    addPlacement(placeMode, pageIndex, pt.x - size.width / 2, pt.y - size.height / 2);
+    setPlaceMode(null);
   };
 
   /** Pointer-driven move/resize for a placed field. */
@@ -638,18 +669,25 @@ export default function SignPdf() {
     const startY = e.clientY;
     const target = placements.find((p) => p.id === id);
     if (!target) return;
+    const pageEl = pageRefs.current[target.pageIndex];
+    const page = pages[target.pageIndex];
+    const scale = pageEl && page ? page.width / pageEl.getBoundingClientRect().width : 1;
     const origin = { x: target.x, y: target.y, w: target.width, h: target.height };
 
     const onMove = (ev: PointerEvent) => {
-      const dx = ev.clientX - startX;
-      const dy = ev.clientY - startY;
+      const dx = (ev.clientX - startX) * scale;
+      const dy = (ev.clientY - startY) * scale;
       setPlacements((prev) =>
         prev.map((p) =>
           p.id !== id
             ? p
             : action === "move"
-              ? { ...p, x: Math.max(0, origin.x + dx), y: Math.max(0, origin.y + dy) }
-              : { ...p, width: Math.max(40, origin.w + dx), height: Math.max(20, origin.h + dy) },
+              ? {
+                  ...p,
+                  x: Math.max(0, Math.min(page ? page.width - p.width : Infinity, origin.x + dx)),
+                  y: Math.max(0, Math.min(page ? page.height - p.height : Infinity, origin.y + dy)),
+                }
+              : { ...p, width: Math.max(60, origin.w + dx), height: Math.max(30, origin.h + dy) },
         ),
       );
     };
@@ -660,6 +698,7 @@ export default function SignPdf() {
     window.addEventListener("pointermove", onMove);
     window.addEventListener("pointerup", onUp);
   };
+
 
   const goToPage = (i: number) => {
     setActivePage(i);
