@@ -1,43 +1,33 @@
-# Rebuild Sign PDF Tool
+# Plan: Rebuild Sign PDF Tool Workspace
 
-Rebuild the Sign PDF tool (`src/tools/sign-pdf.tsx`) from scratch to match the requested 4-panel layout, signature creation modal, and professional document editor.
+Complete rebuild of the Sign PDF tool workspace using a professional 4-panel layout with draggable fields, signature creation modal, and high-fidelity rendering.
+
+## User Review Required
+
+- **Placement Persistence**: Fields will be stored in component state during the session.
+- **Background Removal**: The signature upload feature will use basic white-pixel transparency.
 
 ## Proposed Changes
 
-### 1. `src/tools/sign-pdf.tsx`
-- **Rewrite entirely** to contain all logic and components in one file as requested.
-- **Screen State Machine**:
-  - `UPLOAD`: Standard file dropzone.
-  - `WORKAREA`: The core 4-panel workspace (Thumbnails, Top Bar, Viewer, Sidebar).
-  - `PROCESSING`: Loading state during PDF generation.
-  - `SUCCESS`: Download and metrics screen.
-- **Panels**:
-  - **Left Sidebar**: Small canvas thumbnails of all pages.
-  - **Top Bar**: Navigation (Prev/Next), page input, document name.
-  - **Main Viewer**: Gray background, white page cards, floating red "+" button.
-  - **Right Sidebar**: "Signing options" with tab cards for Simple/Digital signature, Required fields (Signature), and Optional fields (Initials, Name, Date, Text, Stamp).
-- **Signature Creation Modal**:
-  - Tabs: Draw (smooth quadratic bezier), Type (font selection), Upload (background removal).
-- **Drag-and-Drop**:
-  - HTML5 Drag API for dragging fields from sidebar to page containers.
-  - Absolute positioning with percentage-based coordinates.
-  - Interaction: Resizing, dragging, deleting.
-- **PDF Generation**:
-  - Use `pdf-lib` to embed signatures (images) and text.
-  - Correct coordinate mapping (inverted Y-axis).
+### Tool Workspace
+- **Layout**: 4-panel structure (Sidebar Thumbnails | Top Nav | Central Viewer | Right Options).
+- **Draggable Fields**: Implement drag-and-drop for Signature, Initials, Name, Date, Text, and Stamp.
+- **Rendering**: Optimized multi-page preview using pdfjs-dist.
 
-### Technical Details
-- **Libraries**: `pdfjs-dist`, `pdf-lib`, `@pdf-lib/fontkit`, `date-fns`, `lucide-react`.
-- **Worker**: Explicit CDN worker source.
-- **Mobile**: Responsive layout (hide thumbnails, bottom sheet sidebar).
+### Signature Modal
+- **Draw**: Smooth bezier curves for mouse/touch signatures.
+- **Type**: 8+ cursive/handwriting font options.
+- **Upload**: PNG/JPG support with automatic background removal.
+
+### Technical Detail
+- **State**: `placements` array tracking `type`, `pageIndex`, `x`, `y`, `width`, `height`, and `rotation`.
+- **Export**: `pdf-lib` for final embedding with coordinate transformation (Y-axis inversion).
 
 ## Verification Plan
 
 ### Manual Verification
-- Upload a multi-page PDF.
-- Verify thumbnails are generated and clickable for navigation.
-- Open signature modal, draw/type a signature, and apply.
-- Drag signature and text fields onto different pages.
-- Resize and move fields.
-- Click "Sign" and verify the downloaded PDF has all elements in the correct positions.
-- Test mobile view for responsiveness.
+- Upload multi-page PDF.
+- Drag signature field to page 2.
+- Create signature via "Draw" and "Type".
+- Resize and rotate placed field.
+- Verify final download has signature in the correct location.
