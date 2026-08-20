@@ -3,7 +3,7 @@ import {
   ZoomIn, ZoomOut, Maximize, MousePointer2, 
   Signature as SignatureIcon, Calendar, Type, 
   Building2, Trash2, Undo, Redo, 
-  ChevronLeft, ChevronRight, X, Loader2, Plus
+  ChevronLeft, ChevronRight, X, Loader2, Plus, Edit2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -32,12 +32,16 @@ export default function SignPdf() {
               const renderedPages = [];
               for (let i = 1; i <= pdf.numPages; i++) {
                 const page = await pdf.getPage(i);
-                const viewport = page.getViewport({ scale: 1 });
+                const viewport = page.getViewport({ scale: 1.5 });
                 const canvas = document.createElement("canvas");
                 const context = canvas.getContext("2d")!;
                 canvas.height = viewport.height;
                 canvas.width = viewport.width;
-                await page.render({ canvasContext: context, viewport }).promise;
+                await page.render({ 
+                  canvasContext: context, 
+                  viewport,
+                  canvas: canvas
+                }).promise;
                 renderedPages.push({
                     url: canvas.toDataURL("image/png"),
                     width: viewport.width,
@@ -72,7 +76,7 @@ export default function SignPdf() {
               <div className="w-40 border-r bg-[#F1F1F1] p-4 overflow-y-auto flex flex-col gap-4">
                   {pages.map((p, i) => (
                       <div key={i} className="bg-white p-1 shadow-sm border border-gray-200 cursor-pointer hover:border-red-500">
-                          <img src={p.url} alt={`Page ${i+1}`} />
+                          <img src={p.url} alt={`Page ${i+1}`} className="w-full h-auto" />
                           <p className="text-[10px] text-center mt-1">{i+1}</p>
                       </div>
                   ))}
@@ -88,10 +92,10 @@ export default function SignPdf() {
                       <span className="text-gray-400 mx-auto text-sm">{file.name}</span>
                   </div>
                   {/* PDF Viewer area */}
-                  <div className="flex-1 overflow-auto bg-[#E5E5E5] p-8 flex flex-col items-center gap-6">
+                  <div className="flex-1 overflow-auto bg-[#E5E5E5] p-8 flex flex-col items-center gap-6 relative">
                       {pages.map((p, i) => (
                           <div key={i} className="bg-white shadow-lg p-2" style={{ width: 600 }}>
-                              <img src={p.url} alt={`Page ${i+1}`} className="w-full" />
+                              <img src={p.url} alt={`Page ${i+1}`} className="w-full h-auto" />
                           </div>
                       ))}
                       <Button className="fixed top-24 right-96 h-12 w-12 rounded-full shadow-xl bg-[#e5322d] hover:bg-[#c72620]">
@@ -109,15 +113,21 @@ export default function SignPdf() {
                       <div className="text-gray-400 font-bold">⠿</div>
                       <SignatureIcon className="text-red-500 h-5 w-5" />
                       <span className="font-medium flex-1">Signature</span>
-                      <PenLine className="h-4 w-4 text-gray-400 cursor-pointer" />
+                      <Edit2 className="h-4 w-4 text-gray-400 cursor-pointer" />
                   </div>
                   
                   <div className="text-xs font-bold text-gray-500 uppercase my-6">Optional fields</div>
                   <div className="space-y-4">
-                      {["Initials", "Name", "Date", "Text", "Company Stamp"].map(t => (
-                          <div key={t} className="border rounded-lg p-4 flex items-center gap-3 cursor-grab hover:border-red-500 transition-colors">
+                      {[
+                        { label: "Initials", icon: <Type className="h-4 w-4" /> },
+                        { label: "Name", icon: <Type className="h-4 w-4" /> },
+                        { label: "Date", icon: <Calendar className="h-4 w-4" /> },
+                        { label: "Text", icon: <Type className="h-4 w-4" /> },
+                        { label: "Company Stamp", icon: <Building2 className="h-4 w-4" /> }
+                      ].map(t => (
+                          <div key={t.label} className="border rounded-lg p-4 flex items-center gap-3 cursor-grab hover:border-red-500 transition-colors">
                             <div className="text-gray-400 font-bold">⠿</div>
-                            <span className="text-sm font-medium flex-1">{t}</span>
+                            <span className="text-sm font-medium flex-1">{t.label}</span>
                           </div>
                       ))}
                   </div>
