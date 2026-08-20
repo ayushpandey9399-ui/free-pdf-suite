@@ -522,10 +522,23 @@ export default function SignPdf() {
   const [initials, setInitials] = useState<string | null>(null);
   const [modal, setModal] = useState<null | "signature" | "initials">(null);
   const [signedName, setSignedName] = useState("Your name");
+  const [placeMode, setPlaceMode] = useState<FieldType | null>(null);
+  const [showHint, setShowHint] = useState(false);
+  const [signedBlob, setSignedBlob] = useState<Blob | null>(null);
 
   const viewerRef = useRef<HTMLDivElement | null>(null);
   const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
   const dragType = useRef<FieldType | null>(null);
+  const hintShown = useRef(false);
+
+  /** Escape cancels click-to-place mode. */
+  useEffect(() => {
+    if (!placeMode) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setPlaceMode(null);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [placeMode]);
+
 
   const handleFileUpload = async (files: File[]) => {
     if (!files.length) return;
