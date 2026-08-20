@@ -121,49 +121,100 @@ function SignatureModal({
   const [uploaded, setUploaded] = useState<string | null>(null);
   const [removeBg, setRemoveBg] = useState(true);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const wrapRef = useRef<HTMLDivElement | null>(null);
   const drawing = useRef(false);
-  const last = useRef<{ x: number; y: number } | null>(null);
-  const hasInk = useRef(false);
+  const points = useRef<{ x: number; y: number }[]>([]);
+  const strokes = useRef<{ points: { x: number; y: number }[]; color: string; lineWidth: number }[]>([]);
+
+  /** Size the canvas to its container at device pixel ratio so strokes stay crisp. */
+  useEffect(() => {
+    if (tab !== "draw") return;
+    const c = canvasRef.current;
+    const wrap = wrapRef.current;
+    if (!c || !wrap) return;
+    const dpr = window.devicePixelRatio || 1;
+    c.width = Math.max(1, Math.round(wrap.clientWidth * dpr));
+    c.height = Math.round(180 * dpr);
+    c.style.width = "100%";
+    c.style.height = "180px";
+    c.style.touchAction = "none";
+    const ctx = c.getContext("2d")!;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    redraw();
+  }, [tab]);
+
+  const strokePath = (
+    ctx: CanvasRenderingContext2D,
+    pts: { x: number; y: number }[],
+    strokeColor: string,
+    lineWidth: number,
+  ) => {
+    if (pts.length < 2) {
+      if (pts.length === 1) {
+        ctx.beginPath();
+        ctx.fillStyle = strokeColor;
+        ctx.arc(pts[0].x, pts[0].y, lineWidth / 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      return;
+    }
+    ctx.beginPath();
+    ctx.strokeStyle = strokeColor;
+    ctx.lineWidth = lineWidth;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.moveTo(pts[0].x, pts[0].y);
+    for (let i = 1; i < pts.length - 1; i++) {
+      const midX = (pts[i].x + pts[i + 1].x) / 2;
+      const midY = (pts[i].y + pts[i + 1].y) / 2;
+      ctx.quadraticCurveTo(pts[i].x, pts[i].y, midX, midY);
+    }
+    ctx.lineTo(pts[pts.length - 1].x, pts[pts.length - 1].y);
+    ctx.stroke();
+  };
+
+  const redraw = () => {
+    const c = canvasRef.current;
+    if (!c) return;
+    const ctx = c.getContext("2d")!;
+    const dpr = window.devicePixelRatio || 1;
+    ctx.clearRect(0, 0, c.width / dpr, c.height / dpr);
+    for (const s of strokes.current) strokePath(ctx, s.points, s.color, s.lineWidth);
+  };
 
   const pos = (e: React.PointerEvent) => {
     const c = canvasRef.current!;
     const r = c.getBoundingClientRect();
-    return { x: (e.clientX - r.left) * (c.width / r.width), y: (e.clientY - r.top) * (c.height / r.height) };
+    return { x: e.clientX - r.left, y: e.clientY - r.top };
   };
 
   const start = (e: React.PointerEvent) => {
     drawing.current = true;
-    last.current = pos(e);
+    points.current = [pos(e)];
     (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
   };
   const move = (e: React.PointerEvent) => {
     if (!drawing.current) return;
-    const c = canvasRef.current!;
-    const ctx = c.getContext("2d")!;
-    const p = pos(e);
-    const l = last.current!;
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 3.5;
-    ctx.lineCap = "round";
-    ctx.lineJoin = "round";
-    ctx.beginPath();
-    ctx.moveTo(l.x, l.y);
-    ctx.quadraticCurveTo(l.x, l.y, (l.x + p.x) / 2, (l.y + p.y) / 2);
-    ctx.stroke();
-    last.current = p;
-    hasInk.current = true;
+    points.current.push(pos(e));
+    redraw();
+    strokePath(canvasRef.current!.getContext("2d")!, points.current, color, 2.5);
   };
   const end = () => {
+    if (!drawing.current) return;
     drawing.current = false;
-    last.current = null;
+    if (points.current.length) {
+      strokes.current.push({ points: [...points.current], color, lineWidth: 2.5 });
+    }
+    points.current = [];
+    redraw();
   };
 
   const clear = () => {
-    const c = canvasRef.current;
-    if (!c) return;
-    c.getContext("2d")!.clearRect(0, 0, c.width, c.height);
-    hasInk.current = false;
+    strokes.current = [];
+    points.current = [];
+    redraw();
   };
+
 
   const handleUpload = (file: File) => {
     const reader = new FileReader();
