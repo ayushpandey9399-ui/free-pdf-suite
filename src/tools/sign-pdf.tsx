@@ -926,9 +926,11 @@ export default function SignPdf() {
                   margin: "16px auto",
                   boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
                   maxWidth: "calc(100% - 24px)",
+                  cursor: placeMode ? "crosshair" : "default",
                 }}
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={(e) => dropOnPage(e, i)}
+                onClick={(e) => clickOnPage(e, i)}
               >
                 <img src={page.url} alt={`Page ${i + 1}`} className="pointer-events-none h-full w-full" />
 
@@ -942,14 +944,13 @@ export default function SignPdf() {
                         onPointerDown={(e) => beginInteract(e, p.id, "move")}
                         className="absolute flex cursor-move items-center justify-center"
                         style={{
-                          left: p.x,
-                          top: p.y,
-                          width: p.width,
-                          height: p.height,
-                          border: `2px dashed ${RED}`,
-                          background: "rgba(229,50,45,0.05)",
-                          minWidth: 40,
-                          minHeight: 20,
+                          left: `${(p.x / page.width) * 100}%`,
+                          top: `${(p.y / page.height) * 100}%`,
+                          width: `${(p.width / page.width) * 100}%`,
+                          height: `${(p.height / page.height) * 100}%`,
+                          border: selected ? `2px solid ${RED}` : `2px dashed ${RED}`,
+                          background: "rgba(229,50,45,0.08)",
+                          opacity: selected ? 1 : 0.75,
                         }}
                       >
                         {p.isImage && p.content ? (
@@ -958,49 +959,99 @@ export default function SignPdf() {
                             alt={p.type}
                             className="pointer-events-none h-full w-full object-contain"
                           />
+                        ) : p.type === "text" ? (
+                          <input
+                            value={p.content}
+                            onPointerDown={(e) => e.stopPropagation()}
+                            onClick={(e) => e.stopPropagation()}
+                            onChange={(e) =>
+                              setPlacements((prev) =>
+                                prev.map((x) => (x.id === p.id ? { ...x, content: e.target.value } : x)),
+                              )
+                            }
+                            placeholder="Type text"
+                            className="h-full w-full bg-transparent px-1 text-center outline-none"
+                            style={{ fontSize: Math.max(10, p.height * 0.55), color: "#111827" }}
+                          />
                         ) : (
                           <span
                             className="pointer-events-none truncate px-1"
                             style={{ fontSize: Math.max(10, p.height * 0.6), color: "#111827" }}
                           >
-                            {p.content || p.type}
+                            {p.content || FIELD_LABELS[p.type]}
                           </span>
                         )}
 
-                        {selected && (
-                          <>
-                            <button
-                              type="button"
-                              aria-label="Remove field"
-                              onPointerDown={(e) => e.stopPropagation()}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setPlacements((prev) => prev.filter((x) => x.id !== p.id));
-                              }}
-                              className="absolute flex items-center justify-center rounded-full text-white"
-                              style={{ top: -10, right: -10, width: 20, height: 20, background: RED }}
-                            >
-                              <X className="h-3 w-3" />
-                            </button>
-                            <span
-                              onPointerDown={(e) => beginInteract(e, p.id, "resize")}
-                              className="absolute cursor-nwse-resize"
-                              style={{
-                                right: -5,
-                                bottom: -5,
-                                width: 12,
-                                height: 12,
-                                background: "#9ca3af",
-                                borderRadius: 2,
-                              }}
-                            />
-                          </>
+                        {!p.isImage || p.content ? null : (
+                          <span
+                            className="pointer-events-none px-1 text-center text-[11px] font-semibold"
+                            style={{ color: RED }}
+                          >
+                            {FIELD_LABELS[p.type]}
+                          </span>
                         )}
+
+                        <button
+                          type="button"
+                          aria-label="Remove field"
+                          onPointerDown={(e) => e.stopPropagation()}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setPlacements((prev) => prev.filter((x) => x.id !== p.id));
+                          }}
+                          className="absolute z-10 flex items-center justify-center rounded-full text-white"
+                          style={{ top: -10, right: -10, width: 20, height: 20, background: RED }}
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                        <span
+                          onPointerDown={(e) => beginInteract(e, p.id, "resize")}
+                          className="absolute z-10 cursor-nwse-resize"
+                          style={{
+                            right: -6,
+                            bottom: -6,
+                            width: 12,
+                            height: 12,
+                            background: "#666",
+                            borderRadius: 2,
+                          }}
+                        />
                       </div>
                     );
                   })}
               </div>
             ))}
+
+            {placeMode && (
+              <div
+                className="pointer-events-none sticky top-2 z-20 mx-auto w-fit rounded-full px-4 py-2 text-[13px] font-semibold text-white"
+                style={{ background: "rgba(17,24,39,0.85)" }}
+              >
+                Click on the document to place {FIELD_LABELS[placeMode]} (Esc to cancel)
+              </div>
+            )}
+
+            {showHint && (
+              <div
+                className="pointer-events-none sticky bottom-4 z-20 mx-auto w-fit rounded-full px-4 py-2 text-[12px] font-medium text-white"
+                style={{ background: "rgba(17,24,39,0.85)" }}
+              >
+                Drag to move, corner to resize, x to delete
+              </div>
+            )}
+
+            {screen === "PROCESSING" && (
+              <div
+                className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-3"
+                style={{ background: "rgba(255,255,255,0.8)" }}
+              >
+                <Loader2 className="h-10 w-10 animate-spin" style={{ color: RED }} />
+                <p className="text-[15px] font-semibold" style={{ color: "#1a1a1a" }}>
+                  Generating your signed PDF...
+                </p>
+              </div>
+            )}
+
 
             {!loadingPages && (
               <button
