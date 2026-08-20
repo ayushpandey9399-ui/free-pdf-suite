@@ -670,6 +670,14 @@ export default function SignPdf() {
     setPlaceMode(null);
   };
 
+  /** Clicking a sidebar card arms placement mode instead of dropping blindly. */
+  const startPlaceMode = (type: FieldType) => {
+    if (type === "signature" && !signature) return setModal("signature");
+    if (type === "initials" && !initials) return setModal("initials");
+    setPlaceMode(type);
+  };
+
+
   /** Pointer-driven move/resize for a placed field. */
   const beginInteract = (e: React.PointerEvent, id: string, action: "move" | "resize") => {
     e.stopPropagation();
