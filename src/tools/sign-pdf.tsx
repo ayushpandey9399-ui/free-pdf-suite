@@ -1138,7 +1138,7 @@ export default function SignPdf() {
                   onDragStart={() => {
                     dragType.current = "signature";
                   }}
-                  onClick={() => addPlacement("signature", activePage, 60, 60)}
+                  onClick={() => startPlaceMode("signature")}
                 />
                 {signature && (
                   <img
@@ -1165,7 +1165,7 @@ export default function SignPdf() {
                   onDragStart={() => {
                     dragType.current = "initials";
                   }}
-                  onClick={() => addPlacement("initials", activePage, 60, 60)}
+                  onClick={() => startPlaceMode("initials")}
                 />
                 <FieldCard
                   label="Name"
@@ -1174,7 +1174,7 @@ export default function SignPdf() {
                   onDragStart={() => {
                     dragType.current = "name";
                   }}
-                  onClick={() => addPlacement("name", activePage, 60, 60)}
+                  onClick={() => startPlaceMode("name")}
                 />
                 <FieldCard
                   label="Date"
@@ -1183,7 +1183,7 @@ export default function SignPdf() {
                   onDragStart={() => {
                     dragType.current = "date";
                   }}
-                  onClick={() => addPlacement("date", activePage, 60, 60)}
+                  onClick={() => startPlaceMode("date")}
                 />
                 <FieldCard
                   label="Text"
@@ -1192,7 +1192,7 @@ export default function SignPdf() {
                   onDragStart={() => {
                     dragType.current = "text";
                   }}
-                  onClick={() => addPlacement("text", activePage, 60, 60)}
+                  onClick={() => startPlaceMode("text")}
                 />
                 <FieldCard
                   label="Company Stamp"
@@ -1201,7 +1201,7 @@ export default function SignPdf() {
                   onDragStart={() => {
                     dragType.current = "stamp";
                   }}
-                  onClick={() => addPlacement("stamp", activePage, 60, 60)}
+                  onClick={() => startPlaceMode("stamp")}
                 />
                 {placements.length > 0 && (
                   <button
