@@ -704,7 +704,7 @@ export default function SignPdf() {
 
   return (
     <div className="w-screen relative left-1/2 -translate-x-1/2">
-      <div className="flex h-[calc(100vh-140px)] min-h-[560px] w-full flex-col overflow-hidden">
+      <div className="flex h-[calc(100dvh-220px)] min-h-[560px] w-full flex-col overflow-hidden">
         {/* TOP BAR */}
         <div
           className="flex h-12 shrink-0 items-center gap-3 bg-white px-4"
