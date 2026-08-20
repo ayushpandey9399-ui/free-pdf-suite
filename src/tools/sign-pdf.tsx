@@ -1231,6 +1231,9 @@ export default function SignPdf() {
               >
                 Sign <ArrowRight className="h-4 w-4" />
               </button>
+              <p className="mt-2 text-center text-[12px]" style={{ color: "#888" }}>
+                {placementSummary}
+              </p>
             </div>
           </aside>
         </div>
@@ -1243,11 +1246,20 @@ export default function SignPdf() {
           onClick={sign}
           disabled={!canSign}
           className="flex w-full items-center justify-center gap-2 text-[16px] font-semibold text-white"
-          style={{ height: 52, borderRadius: 8, background: canSign ? RED : "#fca5a5" }}
+          style={{
+            height: 52,
+            borderRadius: 8,
+            background: canSign ? RED : "#fca5a5",
+            cursor: canSign ? "pointer" : "not-allowed",
+          }}
         >
           Sign <ArrowRight className="h-4 w-4" />
         </button>
+        <p className="mt-2 text-center text-[12px]" style={{ color: "#888" }}>
+          {placementSummary}
+        </p>
       </div>
+
 
       {modal && (
         <SignatureModal mode={modal} onClose={() => setModal(null)} onApply={applySignature} />
