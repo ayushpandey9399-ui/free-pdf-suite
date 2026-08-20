@@ -12,7 +12,6 @@ import * as pdfjsLib from "pdfjs-dist";
 import { loadPdfJsDoc } from "@/lib/pdfGuard";
 import { PDFDocument } from "pdf-lib";
 import { downloadBlob } from "@/lib/download";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
 
@@ -82,7 +81,9 @@ export default function SignPdf() {
         const arrayBuffer = await file.arrayBuffer();
         const pdfDoc = await PDFDocument.load(arrayBuffer);
         const pdfBytes = await pdfDoc.save();
-        downloadBlob(new Blob([pdfBytes.buffer], { type: "application/pdf" }), "signed.pdf");
+        // Convert to Uint8Array first then use it
+        const blob = new Blob([new Uint8Array(pdfBytes)], { type: "application/pdf" });
+        downloadBlob(blob, "signed.pdf");
         setScreen("SUCCESS");
     } catch (e) {
         console.error(e);
