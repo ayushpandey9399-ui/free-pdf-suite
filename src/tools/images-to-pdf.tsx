@@ -11,8 +11,6 @@ import {
   ArrowDownZa,
   RectangleVertical,
   RectangleHorizontal,
-  Move,
-  Maximize,
 } from "lucide-react";
 import { FileDropzone } from "@/components/FileDropzone";
 import { ToolWorkspace } from "@/components/ToolWorkspace";
@@ -217,7 +215,7 @@ export default function ImagesToPdf() {
     try {
       if (mergeAll) {
         const bytes = await generatePdf(entries);
-        const blob = new Blob([bytes.buffer], { type: "application/pdf" });
+        const blob = new Blob([bytes.buffer as ArrayBuffer], { type: "application/pdf" });
         setResult({ blob, filename: "PDFToolConverter-images.pdf", count: entries.length });
       } else {
         const zip = new JSZip();
