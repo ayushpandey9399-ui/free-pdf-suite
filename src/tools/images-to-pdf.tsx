@@ -380,6 +380,15 @@ export default function ImagesToPdf() {
       loadingLabel="Converting..."
       onAction={run}
       loading={loading}
+      extraSidebarButton={
+        <div className="mt-2 text-center">
+          <p className="text-[11px] text-[#8a8a93] italic">
+            {mergeAll 
+              ? `All ${entries.length} images will be combined into one PDF` 
+              : `Each image will become a separate PDF`}
+          </p>
+        </div>
+      }
       sidebar={
         <div className="space-y-6">
           {/* PAGE SIZE */}
@@ -456,7 +465,7 @@ export default function ImagesToPdf() {
           {/* OUTPUT FILENAME */}
           <section>
             <label className="text-[11px] font-bold uppercase tracking-wider text-[#8a8a93]">Output Filename</label>
-            <div className="mt-2 flex w-[90%] items-center overflow-hidden rounded-full border border-[#ececef] bg-white px-4 py-2 focus-within:border-[#e5322d]">
+            <div className="mt-2 flex w-full items-center overflow-hidden rounded-full border border-[#ececef] bg-white px-4 py-2 focus-within:border-[#e5322d]">
               <input
                 type="text"
                 value={outputFilename}
