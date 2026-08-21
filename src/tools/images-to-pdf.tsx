@@ -56,7 +56,9 @@ export default function ImagesToPdf() {
   const [orientation, setOrientation] = useState<Orientation>("portrait");
   const [margin, setMargin] = useState<Margin>("none");
   const [mergeAll, setMergeAll] = useState(true);
+  const [outputFilename, setOutputFilename] = useState("images");
   const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [result, setResult] = useState<{ blob: Blob; filename: string; count: number; isZip?: boolean } | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc" | null>(null);
@@ -116,7 +118,9 @@ export default function ImagesToPdf() {
     setOrientation("portrait");
     setMargin("none");
     setMergeAll(true);
+    setOutputFilename("images");
     setResult(null);
+    setProgress(0);
   };
 
   useEffect(() => {
@@ -212,20 +216,87 @@ export default function ImagesToPdf() {
   const run = async () => {
     if (!entries.length) return;
     setLoading(true);
+    setProgress(0);
     try {
+      const finalFilename = outputFilename.trim() || "images";
+      
       if (mergeAll) {
-        const bytes = await generatePdf(entries);
+        // We'll simulate progress by number of images embedded
+        const { PDFDocument, PageSizes, degrees } = await loadPdfLib();
+        const pdf = await PDFDocument.create();
+        const marginMap = { none: 0, small: 28.35, large: 70.87 };
+        const m = marginMap[margin];
+
+        for (let i = 0; i < entries.length; i++) {
+          const item = entries[i];
+          const imgBytes = await item.file.arrayBuffer();
+          const extension = item.file.name.split(".").pop()?.toLowerCase();
+          
+          let img;
+          try {
+            if (extension === "png") img = await pdf.embedPng(imgBytes);
+            else img = await pdf.embedJpg(imgBytes);
+          } catch (err) {
+            const imgElement = new Image();
+            const url = URL.createObjectURL(item.file);
+            await new Promise((res, rej) => {
+              imgElement.onload = res;
+              imgElement.onerror = rej;
+              imgElement.src = url;
+            });
+            const canvas = document.createElement("canvas");
+            canvas.width = imgElement.naturalWidth;
+            canvas.height = imgElement.naturalHeight;
+            const ctx = canvas.getContext("2d")!;
+            ctx.fillStyle = "#FFFFFF";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(imgElement, 0, 0);
+            const pngBlob = await new Promise<Blob>((res) => canvas.toBlob(b => res(b!), "image/png"));
+            img = await pdf.embedPng(await pngBlob.arrayBuffer());
+            URL.revokeObjectURL(url);
+          }
+
+          let pageW, pageH;
+          if (pageSize === "fit") {
+            pageW = img.width + m * 2;
+            pageH = img.height + m * 2;
+          } else {
+            const base = pageSize === "a4" ? [595.28, 841.89] : [612, 792];
+            [pageW, pageH] = orientation === "landscape" ? [base[1], base[0]] : [base[0], base[1]];
+          }
+
+          const page = pdf.addPage([pageW, pageH]);
+          const availW = pageW - m * 2;
+          const availH = pageH - m * 2;
+          const scale = Math.min(availW / img.width, availH / img.height);
+          const w = img.width * scale;
+          const h = img.height * scale;
+
+          page.drawImage(img, {
+            x: (pageW - w) / 2,
+            y: (pageH - h) / 2,
+            width: w,
+            height: h,
+            rotate: degrees(item.rotation),
+          });
+          
+          setProgress(Math.round(((i + 1) / entries.length) * 100));
+        }
+
+        const bytes = await pdf.save();
         const blob = new Blob([bytes.buffer as ArrayBuffer], { type: "application/pdf" });
-        setResult({ blob, filename: "PDFToolConverter-images.pdf", count: entries.length });
+        setResult({ blob, filename: `${finalFilename}.pdf`, count: entries.length });
       } else {
         const zip = new JSZip();
-        for (const entry of entries) {
+        for (let i = 0; i < entries.length; i++) {
+          const entry = entries[i];
           const bytes = await generatePdf([entry]);
-          const name = entry.file.name.replace(/\.[^/.]+$/, "") + ".pdf";
+          const name = `image-${i + 1}.pdf`;
           zip.file(name, bytes);
+          setProgress(Math.round(((i + 1) / entries.length) * 100));
         }
         const blob = await zip.generateAsync({ type: "blob" });
-        setResult({ blob, filename: "PDFToolConverter-images.zip", count: entries.length, isZip: true });
+        setResult({ blob, filename: `${finalFilename}.zip`, count: entries.length, isZip: true });
       }
       toast.success("Conversion complete!");
     } catch (err) {
@@ -239,15 +310,33 @@ export default function ImagesToPdf() {
   if (result) {
     return (
       <ToolSuccessScreen
-        heading={result.isZip ? "Your ZIP is ready!" : "Your PDF is ready!"}
-        subheading={result.isZip 
-          ? `Individual PDF files for each of your ${result.count} images have been packaged.` 
-          : `${result.count} images have been combined into a professional PDF.`}
+        heading="Your PDF is ready!"
+        resultInfo={{
+          filename: result.filename,
+          pages: result.isZip ? undefined : result.count,
+          size: result.blob.size,
+          customDetails: result.isZip ? `ZIP containing ${result.count} PDFs` : `Converted from ${result.count} images`,
+        }}
         downloadLabel={result.isZip ? "Download ZIP" : "Download PDF"}
         onDownload={() => downloadBlob(result.blob, result.filename, result.isZip ? "application/zip" : "application/pdf")}
         onReset={resetAll}
-        suggestedSlugs={TOOL_SUGGESTIONS["images-to-pdf"]}
+        suggestedSlugs={["compress-pdf", "merge-pdf", "rotate-pdf", "pdf-to-images"]}
       />
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="flex min-h-[400px] flex-col items-center justify-center p-8 text-center">
+        <div className="mb-8 h-2 w-64 overflow-hidden rounded-full bg-[#ececef]">
+          <div 
+            className="h-full bg-[#e5322d] transition-all duration-300" 
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+        <h2 className="text-2xl font-bold text-[#33333c]">Converting {Math.ceil((progress / 100) * entries.length)} of {entries.length} images...</h2>
+        <p className="mt-2 text-[#8a8a93]">Building your PDF...</p>
+      </div>
     );
   }
 
@@ -268,13 +357,13 @@ export default function ImagesToPdf() {
 
   return (
     <ToolWorkspace
-      title="Image to PDF options"
-      actionLabel="Convert to PDF"
+      title="Options"
+      actionLabel="Convert to PDF →"
       loadingLabel="Converting..."
       onAction={run}
       loading={loading}
       sidebar={
-        <div className="space-y-8">
+        <div className="space-y-6">
           {/* PAGE SIZE */}
           <section>
             <label className="text-[11px] font-bold uppercase tracking-wider text-[#8a8a93]">Page Size</label>
@@ -297,7 +386,7 @@ export default function ImagesToPdf() {
           </section>
 
           {/* ORIENTATION */}
-          <section className={cn(pageSize === "fit" && "opacity-40 pointer-events-none")}>
+          <section className={cn(pageSize === "fit" && "hidden")}>
             <label className="text-[11px] font-bold uppercase tracking-wider text-[#8a8a93]">Orientation</label>
             <div className="mt-2 flex gap-2">
               <button
@@ -346,6 +435,21 @@ export default function ImagesToPdf() {
             </div>
           </section>
 
+          {/* OUTPUT FILENAME */}
+          <section>
+            <label className="text-[11px] font-bold uppercase tracking-wider text-[#8a8a93]">Output Filename</label>
+            <div className="mt-2 flex w-[90%] items-center overflow-hidden rounded-full border border-[#ececef] bg-white px-4 py-2 focus-within:border-[#e5322d]">
+              <input
+                type="text"
+                value={outputFilename}
+                onChange={(e) => setOutputFilename(e.target.value)}
+                className="w-full text-[14px] outline-none"
+                placeholder="Filename"
+              />
+              <span className="text-[14px] text-[#8a8a93]">.pdf</span>
+            </div>
+          </section>
+
           {/* MERGE */}
           <section className="pt-2">
             <label className="flex items-center gap-3 cursor-pointer group">
@@ -373,18 +477,25 @@ export default function ImagesToPdf() {
                 : "OFF: Download a ZIP with one PDF per image"}
             </p>
           </section>
+
+          <div className="mt-auto pt-6 text-center">
+             <p className="text-[12px] text-[#8a8a93]">{entries.length} images selected</p>
+             <p className="text-[11px] text-[#b1b1b8]">Images will be added in the order shown</p>
+          </div>
         </div>
       }
     >
       <div className="mb-4 flex items-center justify-between">
         <span className="text-[15px] font-medium text-[#5a5a66]">{entries.length} images selected</span>
-        <button
-          onClick={sortEntries}
-          className="flex items-center gap-2 rounded-lg border border-[#ececef] bg-white px-3 py-1.5 text-[13px] font-semibold text-[#5a5a66] hover:border-[#d1d1d6]"
-        >
-          {sortOrder === "desc" ? <ArrowDownZa size={16} /> : <ArrowUpAz size={16} />}
-          Sort by name
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={sortEntries}
+            className="flex items-center gap-2 rounded-lg border border-[#ececef] bg-white px-3 py-1.5 text-[13px] font-semibold text-[#5a5a66] hover:border-[#d1d1d6]"
+          >
+            {sortOrder === "desc" ? <ArrowDownZa size={16} /> : <ArrowUpAz size={16} />}
+            Sort by name
+          </button>
+        </div>
       </div>
 
       <DndContext 
