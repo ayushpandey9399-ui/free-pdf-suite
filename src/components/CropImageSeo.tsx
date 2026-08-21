@@ -12,7 +12,7 @@ export const cropImageSoftwareJsonLd = {
   operatingSystem: "Any (browser-based, Windows, macOS, Android, iOS, Linux)",
   url,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  publisher: { "@type": "Organization", name: "pdftoolconverteronline.com", url: SITE_URL },
+  publisher: { "@type": "Organization", name: "PDFToolConverter", url: SITE_URL },
   description:
     "Free online image cropper. Crop JPG, PNG, and WebP to any size in your browser. Drag the crop box, lock 1:1, 4:3, 16:9, 9:16, or passport ratios, or enter exact pixels. Batch and ZIP, no upload, no signup.",
 };
@@ -29,7 +29,7 @@ export const cropImageHowToJsonLd = {
       "@type": "HowToStep",
       position: 1,
       name: "Open the image cropper",
-      text: "Open the Crop Image tool on pdftoolconverteronline.com. No signup, no account, and nothing to install.",
+      text: "Open the Crop Image tool on PDFToolConverter. No signup, no account, and nothing to install.",
       url: `${url}#step-1`,
     },
     {

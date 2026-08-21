@@ -287,7 +287,7 @@ export const extractImagesHowToJsonLd = {
     "@type": "HowToStep",
     name: s.title,
     text: s.text,
-    url: `https://pdftoolconverteronline.com/tools/extract-images#step-${i + 1}`,
+    url: `https://PDFToolConverter/tools/extract-images#step-${i + 1}`,
   })),
 };
 

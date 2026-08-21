@@ -12,7 +12,7 @@ export const pngToWebpSoftwareJsonLd = {
   operatingSystem: "Any (browser-based, Windows, macOS, Android, iOS, Linux)",
   url,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  publisher: { "@type": "Organization", name: "pdftoolconverteronline.com", url: SITE_URL },
+  publisher: { "@type": "Organization", name: "PDFToolConverter", url: SITE_URL },
   description:
     "Free online PNG to WebP converter. Batch convert PNG images to modern WebP with transparency preserved, entirely in your browser. No upload, no signup.",
 };
@@ -29,7 +29,7 @@ export const pngToWebpHowToJsonLd = {
       "@type": "HowToStep",
       position: 1,
       name: "Open the PNG to WebP tool",
-      text: "Open the PNG to WebP converter on pdftoolconverteronline.com. No signup, no account, no install needed.",
+      text: "Open the PNG to WebP converter on PDFToolConverter. No signup, no account, no install needed.",
       url: `${url}#step-1`,
     },
     {
@@ -129,7 +129,7 @@ export const pngToWebpFaqJsonLd = {
       name: "Can I convert WebP back to PNG later?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. If you ever need a PNG copy of the WebP, use the WebP to PNG tool in the pdftoolconverteronline.com image toolbox. It also preserves transparency, and it is 100 percent browser-based.",
+        text: "Yes. If you ever need a PNG copy of the WebP, use the WebP to PNG tool in the PDFToolConverter image toolbox. It also preserves transparency, and it is 100 percent browser-based.",
       },
     },
     {

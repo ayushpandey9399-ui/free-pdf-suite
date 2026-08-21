@@ -228,7 +228,7 @@ export const editPdfHowToJsonLd = {
 export const editPdfSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "pdftoolconverteronline.com Edit PDF",
+  name: "PDFToolConverter Edit PDF",
   applicationCategory: "BrowserApplication",
   operatingSystem: "Any",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

@@ -11,7 +11,7 @@ export const memeGeneratorSoftwareJsonLd = {
   operatingSystem: "Any (browser-based, Windows, macOS, Android, iOS, Linux)",
   url,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  publisher: { "@type": "Organization", name: "pdftoolconverteronline.com", url: SITE_URL },
+  publisher: { "@type": "Organization", name: "PDFToolConverter", url: SITE_URL },
   description:
     "Free online meme generator with no watermark and no upload. Add classic top and bottom text, extra draggable captions, emoji stickers, image overlays, and multi-panel collages, entirely in your browser.",
 };
@@ -28,7 +28,7 @@ export const memeGeneratorHowToJsonLd = {
       "@type": "HowToStep",
       position: 1,
       name: "Open the meme generator",
-      text: "Open Meme Generator on pdftoolconverteronline.com. No signup, no account, and nothing to install.",
+      text: "Open Meme Generator on PDFToolConverter. No signup, no account, and nothing to install.",
       url: `${url}#step-1`,
     },
     {
@@ -71,7 +71,7 @@ export const memeGeneratorFaqJsonLd = {
       name: "Does this meme generator add a watermark?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "No. We never add a watermark, logo, or footer to your meme. Most free meme sites stamp their brand on your image or lock a no-watermark export behind a paid tier. pdftoolconverteronline.com does not. What you see in the preview is exactly what downloads.",
+        text: "No. We never add a watermark, logo, or footer to your meme. Most free meme sites stamp their brand on your image or lock a no-watermark export behind a paid tier. PDFToolConverter does not. What you see in the preview is exactly what downloads.",
       },
     },
     {
@@ -79,7 +79,7 @@ export const memeGeneratorFaqJsonLd = {
       name: "Is the meme maker free?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. Every image tool on pdftoolconverteronline.com is free, with no signup, no account, no trial, and no export limit.",
+        text: "Yes. Every image tool on PDFToolConverter is free, with no signup, no account, no trial, and no export limit.",
       },
     },
     {
@@ -196,7 +196,7 @@ export function MemeGeneratorSeo() {
       <p>
         This is the differentiator. Almost every free meme maker on the web
         stamps a logo, a URL, or a footer bar on the finished meme, then locks
-        a clean export behind a paid tier. pdftoolconverteronline.com does not. The preview you
+        a clean export behind a paid tier. PDFToolConverter does not. The preview you
         see on the page is exactly what downloads to your device. If we ever
         needed to add a watermark to keep the service alive we would say so
         openly, but we do not, and we have no plans to. Ads pay for the

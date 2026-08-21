@@ -11,7 +11,7 @@ export const photoEditorSoftwareJsonLd = {
   operatingSystem: "Any (browser-based, Windows, macOS, Android, iOS, Linux)",
   url,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  publisher: { "@type": "Organization", name: "pdftoolconverteronline.com", url: SITE_URL },
+  publisher: { "@type": "Organization", name: "PDFToolConverter", url: SITE_URL },
   description:
     "Free online photo editor with adjustment sliders and one-tap filters. Edit brightness, contrast, color, and more entirely in your browser. No signup, no upload, no watermark.",
 };
@@ -24,7 +24,7 @@ export const photoEditorHowToJsonLd = {
     "Edit a photo in your browser with adjustment sliders and one-tap filters. Compare before and after, then download as JPG, PNG, or WebP.",
   totalTime: "PT1M",
   step: [
-    { "@type": "HowToStep", position: 1, name: "Open the photo editor", text: "Open Photo Editor on pdftoolconverteronline.com. No signup, no account, and nothing to install.", url: `${url}#step-1` },
+    { "@type": "HowToStep", position: 1, name: "Open the photo editor", text: "Open Photo Editor on PDFToolConverter. No signup, no account, and nothing to install.", url: `${url}#step-1` },
     { "@type": "HowToStep", position: 2, name: "Add your image", text: "Drag and drop a JPG, PNG, or WebP image, or click to select. Your photo stays on your device and never uploads.", url: `${url}#step-2` },
     { "@type": "HowToStep", position: 3, name: "Tap a filter or adjust sliders", text: "Try B&W, Sepia, Vintage, Cool, Punchy, or Soft as a starting point, then fine-tune brightness, contrast, saturation, warmth, sharpen, vignette, grain, and duotone.", url: `${url}#step-3` },
     { "@type": "HowToStep", position: 4, name: "Compare before and after", text: "Press and hold Hold to compare to see the original image at any time, so you can judge if your edit really improved things.", url: `${url}#step-4` },
@@ -36,7 +36,7 @@ export const photoEditorFaqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
   mainEntity: [
-    { "@type": "Question", name: "Is the photo editor free and signup-free?", acceptedAnswer: { "@type": "Answer", text: "Yes. Every image tool on pdftoolconverteronline.com is free, with no signup, no account, no trial, and no export limit." } },
+    { "@type": "Question", name: "Is the photo editor free and signup-free?", acceptedAnswer: { "@type": "Answer", text: "Yes. Every image tool on PDFToolConverter is free, with no signup, no account, no trial, and no export limit." } },
     { "@type": "Question", name: "Do my photos get uploaded to a server?", acceptedAnswer: { "@type": "Answer", text: "No. The whole editor runs inside your browser using HTML5 Canvas. Your photo is decoded, adjusted, and re-encoded locally on your own device. Nothing is sent to us." } },
     { "@type": "Question", name: "Does editing reduce image quality?", acceptedAnswer: { "@type": "Answer", text: "Honest answer: the edited file exports at full original resolution, so pixel dimensions are preserved. If you export as JPG or WebP, the format applies its own compression, controlled by the Quality slider. Pick PNG to keep every pixel exact and lossless." } },
     { "@type": "Question", name: "How do I make a photo black and white?", acceptedAnswer: { "@type": "Answer", text: "Tap the B&W filter chip. That sets Grayscale to 100 and gives contrast a small bump. Fine-tune brightness and contrast if you want more punch, then download." } },

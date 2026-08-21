@@ -172,7 +172,7 @@ export function GrayscalePdfSeo() {
       </p>
 
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Why use pdftoolconverteronline.com for grayscale conversion?
+        Why use PDFToolConverter for grayscale conversion?
       </h2>
       <div className="mt-10 grid gap-6 sm:grid-cols-2">
         {benefits.map((b) => (
@@ -236,7 +236,7 @@ export const grayscalePdfHowToJsonLd = {
     "Convert a color PDF to grayscale entirely in the browser, every page re-rendered as clean black and white, ready to print, email or upload. No upload, no signup, no watermark.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "A color PDF" }],
-  tool: [{ "@type": "HowToTool", name: "pdftoolconverteronline.com Grayscale PDF (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "PDFToolConverter Grayscale PDF (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -249,7 +249,7 @@ export const grayscalePdfHowToJsonLd = {
 export const grayscalePdfSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "pdftoolconverteronline.com Grayscale PDF",
+  name: "PDFToolConverter Grayscale PDF",
   description:
     "Convert PDF to grayscale online free, every page re-rendered as black and white in your browser. Save printer ink and shrink colorful scans. No upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",

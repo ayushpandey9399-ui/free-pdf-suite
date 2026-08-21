@@ -98,7 +98,7 @@ export function PrivacyStoryInternal() {
                 your file remains.
               </p>
               <p className="mt-4 text-[14px]" style={{ color: "#8b8b95", lineHeight: 1.7 }}>
-                That's why pdftoolconverteronline.com is safe even for your most sensitive
+                That's why PDFToolConverter is safe even for your most sensitive
                 documents, ID cards, bank statements, contracts and medical
                 records.
               </p>
@@ -118,7 +118,7 @@ export function WhyChooseInternal() {
     <section className="py-14 sm:py-24">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
         <RevealInternal>
-          <h3 className="text-[24px] sm:text-[32px] font-bold text-[#1F2937] text-center">Why people choose pdftoolconverteronline.com</h3>
+          <h3 className="text-[24px] sm:text-[32px] font-bold text-[#1F2937] text-center">Why people choose PDFToolConverter</h3>
           <p className="mx-auto mt-3 max-w-[640px] text-center text-[16px] font-medium" style={{ color: MUTED, lineHeight: 1.7 }}>
             No tricks, no accounts, no fine print, just tools that work.
           </p>

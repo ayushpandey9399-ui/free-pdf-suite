@@ -228,7 +228,7 @@ export const reorderPagesHowToJsonLd = {
 export const reorderPagesSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "pdftoolconverteronline.com Reorder Pages",
+  name: "PDFToolConverter Reorder Pages",
   applicationCategory: "BrowserApplication",
   operatingSystem: "Any",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

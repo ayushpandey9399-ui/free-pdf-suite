@@ -5,9 +5,9 @@ import { CONTACT_EMAIL, LAST_UPDATED, SITE_URL } from "@/lib/site";
 
 export const Route = createFileRoute("/terms")({
   head: () => {
-    const title = "Terms of Use for Free PDF and Image Tools | pdftoolconverteronline.com";
+    const title = "Terms of Use for Free PDF and Image Tools | PDFToolConverter";
     const description =
-      "The terms that govern your use of pdftoolconverteronline.com: free, browser-based PDF tools with no accounts, no uploads, and clear rules for acceptable use.";
+      "The terms that govern your use of PDFToolConverter: free, browser-based PDF tools with no accounts, no uploads, and clear rules for acceptable use.";
     const url = `${SITE_URL}/terms`;
     const ogImage = `${SITE_URL}/og-cover.png`;
     return {
@@ -44,19 +44,19 @@ function TermsPage() {
   return (
     <LegalPage title="Terms of Use" updated={LAST_UPDATED}>
       <p>
-        Welcome to pdftoolconverteronline.com. These Terms of Use ("Terms") govern your access to and use
-        of the pdftoolconverteronline.com website and tools.
+        Welcome to PDFToolConverter. These Terms of Use ("Terms") govern your access to and use
+        of the PDFToolConverter website and tools.
       </p>
 
       <h2>Acceptance of terms</h2>
       <p>
-        By using pdftoolconverteronline.com, you agree to these Terms. If you do not agree, please do not
+        By using PDFToolConverter, you agree to these Terms. If you do not agree, please do not
         use the service.
       </p>
 
       <h2>The service</h2>
       <p>
-        pdftoolconverteronline.com provides a set of free, browser-based tools for working with PDF
+        PDFToolConverter provides a set of free, browser-based tools for working with PDF
         files. All processing happens locally in your browser, no files are uploaded
         to our servers. No account is required to use any tool.
       </p>
@@ -67,7 +67,7 @@ function TermsPage() {
           You must have the legal right to the files you process using our tools.
         </li>
         <li>
-          You may not use pdftoolconverteronline.com for any illegal purpose, including but not limited
+          You may not use PDFToolConverter for any illegal purpose, including but not limited
           to forging documents, violating copyright, or tampering with
           government-issued documents.
         </li>
@@ -89,7 +89,7 @@ function TermsPage() {
 
       <h2>Limitation of liability</h2>
       <p>
-        To the maximum extent permitted by applicable law, pdftoolconverteronline.com and its operators
+        To the maximum extent permitted by applicable law, PDFToolConverter and its operators
         are not liable for any damages arising from your use of the tools, including
         without limitation data loss, document corruption, or errors introduced by
         processing. Always keep a copy of your original files as backup.
@@ -97,14 +97,14 @@ function TermsPage() {
 
       <h2>Intellectual property</h2>
       <p>
-        The pdftoolconverteronline.com site design, brand, and code are owned by us and protected by
+        The PDFToolConverter site design, brand, and code are owned by us and protected by
         applicable intellectual property laws. Your files remain entirely yours, we
         never receive them, and we make no claim to them.
       </p>
 
       <h2>Advertising</h2>
       <p>
-        pdftoolconverteronline.com is supported by advertising. See our{" "}
+        PDFToolConverter is supported by advertising. See our{" "}
         <a href="/privacy-policy">Privacy Policy</a> for details on how advertising
         partners handle cookies and personalization.
       </p>

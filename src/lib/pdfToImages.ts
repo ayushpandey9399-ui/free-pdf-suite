@@ -7,10 +7,10 @@
  * wording can be reasoned about, and tested, on their own.
  */
 
-export const PDF_TO_IMAGES_ENDPOINT = "https://api.pdftoolconverteronline.com/v1/tools/pdf-to-images/jobs";
+export const PDF_TO_IMAGES_ENDPOINT = "https://api.PDFToolConverter/v1/tools/pdf-to-images/jobs";
 
 /** Root the relative download link returned by the API is resolved against. */
-export const PDF_TO_IMAGES_API_ORIGIN = "https://api.pdftoolconverteronline.com";
+export const PDF_TO_IMAGES_API_ORIGIN = "https://api.PDFToolConverter";
 
 /** Server side limit for this tool, 25 MB. */
 export const PDF_TO_IMAGES_MAX_BYTES = 25 * 1024 * 1024;

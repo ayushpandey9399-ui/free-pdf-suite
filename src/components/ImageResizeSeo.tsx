@@ -12,7 +12,7 @@ export const imageResizeSoftwareJsonLd = {
   operatingSystem: "Any (browser-based, Windows, macOS, Android, iOS, Linux)",
   url,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  publisher: { "@type": "Organization", name: "pdftoolconverteronline.com", url: SITE_URL },
+  publisher: { "@type": "Organization", name: "PDFToolConverter", url: SITE_URL },
   description:
     "Free online image resizer. Resize JPG, PNG, and WebP by exact pixels or percent in your browser. Presets for passport photo, signature, HD, and Full HD. No upload, no signup.",
 };
@@ -29,7 +29,7 @@ export const imageResizeHowToJsonLd = {
       "@type": "HowToStep",
       position: 1,
       name: "Open the image resizer",
-      text: "Open the Resize Image tool on pdftoolconverteronline.com. No signup, no account, and nothing to install.",
+      text: "Open the Resize Image tool on PDFToolConverter. No signup, no account, and nothing to install.",
       url: `${url}#step-1`,
     },
     {

@@ -427,7 +427,7 @@ export const mergeHowToJsonLd = {
 export const mergeSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "pdftoolconverteronline.com Merge PDF",
+  name: "PDFToolConverter Merge PDF",
   applicationCategory: "BrowserApplication",
   operatingSystem: "Any",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
