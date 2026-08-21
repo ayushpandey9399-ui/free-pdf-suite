@@ -311,17 +311,33 @@ export default function ImagesToPdf() {
     return (
       <ToolSuccessScreen
         heading="Your PDF is ready!"
-        resultInfo={{
-          filename: result.filename,
-          pages: result.isZip ? undefined : result.count,
-          size: result.blob.size,
-          customDetails: result.isZip ? `ZIP containing ${result.count} PDFs` : `Converted from ${result.count} images`,
-        }}
+        subheading={result.isZip 
+          ? `Individual PDF files for each of your ${result.count} images have been packaged.` 
+          : `${result.count} images have been combined into a professional PDF.`}
         downloadLabel={result.isZip ? "Download ZIP" : "Download PDF"}
         onDownload={() => downloadBlob(result.blob, result.filename, result.isZip ? "application/zip" : "application/pdf")}
         onReset={resetAll}
+        resetLabel="Convert more images"
         suggestedSlugs={["compress-pdf", "merge-pdf", "rotate-pdf", "pdf-to-images"]}
-      />
+      >
+        <div className="rounded-2xl border bg-white p-6" style={{ borderColor: "#ececef" }}>
+          <div className="flex items-center gap-4">
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[#f7f7f8] text-[#e5322d]">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+              </svg>
+            </div>
+            <div className="min-w-0 flex-1">
+              <h3 className="truncate text-base font-bold text-[#33333c]">{result.filename}</h3>
+              <p className="text-[13px] text-[#5a5a66]">
+                {result.isZip ? "" : `${result.count} pages • `}
+                {result.isZip ? `ZIP containing ${result.count} PDFs` : `Converted from ${result.count} images`}
+              </p>
+            </div>
+          </div>
+        </div>
+      </ToolSuccessScreen>
     );
   }
 
