@@ -275,7 +275,7 @@ export const txtToPdfHowToJsonLd = {
     "Convert TXT files or pasted text into a clean, printable PDF entirely inside your browser, with Hindi and other non-Latin scripts rendered correctly. No upload, no signup, no watermark.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "One or more .txt files, or a block of text to paste" }],
-  tool: [{ "@type": "HowToTool", name: "pdftoolconverteronline.com TXT to PDF (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "PDFToolConverter TXT to PDF (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -288,7 +288,7 @@ export const txtToPdfHowToJsonLd = {
 export const txtToPdfSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "pdftoolconverteronline.com TXT to PDF",
+  name: "PDFToolConverter TXT to PDF",
   description:
     "Convert TXT to PDF online free, turn text files or pasted content into clean, printable PDFs entirely inside the browser. Supports Hindi and other non-Latin scripts. No upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",

@@ -21,7 +21,7 @@ type ToolMeta = {
 // in toolSeoBundle so they never enter the critical route chunk.
 const TOOL_META: Record<string, ToolMeta> = {
   "merge": {
-    title: "Merge PDF Files Online Free: No Signup, No Limit | pdftoolconverteronline.com",
+    title: "Merge PDF Files Online Free: No Signup, No Limit | PDFToolConverter",
     desc: "Combine multiple PDF files into one document instantly in your browser. Free PDF merger with drag-and-drop reordering. No signup, no watermark, no file upload to servers.",
   },
   "compress": {
@@ -41,7 +41,7 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Convert PDF pages to JPG or PNG images online in your browser. Save each page as a high-quality image file. Free, no signup, no watermark, files never leave your device.",
   },
   "redact-pdf": {
-    title: "Redact PDF Free, Permanently Black Out Text | pdftoolconverteronline.com",
+    title: "Redact PDF Free, Permanently Black Out Text | PDFToolConverter",
     desc: "Redact PDF online free and permanently black out names, sensitive info, or account details. Text is truly removed from the file, not just covered.",
   },
   "protect-pdf": {
@@ -77,27 +77,27 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Convert JPG, PNG, WebP and other images to PDF online in your browser. Combine multiple photos into one PDF. Free, no signup, no watermark, files never leave your device.",
   },
   "pdf-to-word": {
-    title: "Convert PDF to Word Free, Editable DOCX | pdftoolconverteronline.com",
+    title: "Convert PDF to Word Free, Editable DOCX | PDFToolConverter",
     desc: "Convert PDF to Word online free and get a fully editable DOCX file. Headings, tables, and images are preserved. Secure server-side processing.",
   },
   "pdf-to-text": {
-    title: "PDF to Text Free, Extract PDF Content | pdftoolconverteronline.com",
+    title: "PDF to Text Free, Extract PDF Content | PDFToolConverter",
     desc: "Extract text from PDF online free. Copy the full contents to your clipboard or download a clean .txt file, all processed locally in your browser.",
   },
   "txt-to-pdf": {
-    title: "Convert TXT to PDF Free, Unicode & Hindi | pdftoolconverteronline.com",
+    title: "Convert TXT to PDF Free, Unicode & Hindi | PDFToolConverter",
     desc: "Convert TXT to PDF online free with clean typography and proper page breaks. Supports Hindi, Tamil, Arabic, Chinese, and other scripts.",
   },
   "page-numbers": {
-    title: "Add Page Numbers to PDF Free, Online Tool | pdftoolconverteronline.com",
+    title: "Add Page Numbers to PDF Free, Online Tool | PDFToolConverter",
     desc: "Add page numbers to PDF online free. Choose position, starting number, and format, and preview before you download.",
   },
   "header-footer": {
-    title: "Add Header and Footer to PDF Free | pdftoolconverteronline.com",
+    title: "Add Header and Footer to PDF Free | PDFToolConverter",
     desc: "Add headers and footers to PDF online free. Print titles, dates, filenames, or page counts on every page with custom formatting.",
   },
   "crop": {
-    title: "Crop PDF Online Free, Live Browser Preview | pdftoolconverteronline.com",
+    title: "Crop PDF Online Free, Live Browser Preview | PDFToolConverter",
     desc: "Crop PDF online free to trim white margins or cut unwanted edges from scans. Live preview shows the exact crop box before you save.",
   },
   "edit-pdf": {
@@ -105,27 +105,27 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Edit PDF online free and add text, images, or annotations to your document instantly in your browser. No signup, no watermark, files never leave your device.",
   },
   "fill-forms": {
-    title: "Fill PDF Forms Online Free, No Signup | pdftoolconverteronline.com",
+    title: "Fill PDF Forms Online Free, No Signup | PDFToolConverter",
     desc: "Fill out PDF forms online free. Type into text fields, tick checkboxes, and pick options, then download the completed form.",
   },
   "flatten-pdf": {
-    title: "Flatten PDF Free, Lock Forms & Notes | pdftoolconverteronline.com",
+    title: "Flatten PDF Free, Lock Forms & Notes | PDFToolConverter",
     desc: "Flatten PDF online free to lock form fields and annotations into the page permanently.",
   },
   "pdf-metadata": {
-    title: "Edit PDF Metadata Free, Clean Hidden Info | pdftoolconverteronline.com",
+    title: "Edit PDF Metadata Free, Clean Hidden Info | PDFToolConverter",
     desc: "View, edit, or remove PDF metadata online free including title, author, and keywords. Clean hidden properties before sharing.",
   },
   "grayscale-pdf": {
-    title: "Convert PDF to Grayscale Free, Black and White | pdftoolconverteronline.com",
+    title: "Convert PDF to Grayscale Free, Black and White | PDFToolConverter",
     desc: "Convert PDF to grayscale (black and white) online free. Save ink, reduce file size, and clean up scans with our browser-based PDF converter.",
   },
   "add-blank-pages": {
-    title: "Add Blank Pages to PDF Online Free — No Signup | pdftoolconverteronline.com",
+    title: "Add Blank Pages to PDF Online Free — No Signup | PDFToolConverter",
     desc: "Add blank pages to any PDF instantly in your browser. Insert empty pages before, after, or between existing pages. Free, no signup, no watermark, files never leave your device.",
   },
   "scan-to-pdf": {
-    title: "Scan to PDF Online Free, Use Phone Camera | pdftoolconverteronline.com",
+    title: "Scan to PDF Online Free, Use Phone Camera | PDFToolConverter",
     desc: "Scan documents to PDF free with your phone camera, right in the browser. Capture multiple pages and export as a single PDF.",
   },
   "extract-images": {
@@ -133,7 +133,7 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Extract all images from any PDF file instantly in your browser. Download embedded JPG, PNG, TIFF images in original quality. Free, no signup, no upload to servers.",
   },
   "compare": {
-    title: "Compare Two PDF Files Online, Side-by-Side | pdftoolconverteronline.com",
+    title: "Compare Two PDF Files Online, Side-by-Side | PDFToolConverter",
     desc: "Compare two PDF files online free and see every changed page side by side. Use visual diff and text diff to spot edits in contracts fast.",
   },
 };
@@ -179,9 +179,9 @@ export const Route = createFileRoute("/tools/$slug")({
     return {
       meta: loaderData
         ? [
-            { title: `${loaderData.name} | pdftoolconverteronline.com` },
+            { title: `${loaderData.name} | PDFToolConverter` },
             { name: "description", content: loaderData.description },
-            { property: "og:title", content: `${loaderData.name}, pdftoolconverteronline.com` },
+            { property: "og:title", content: `${loaderData.name}, PDFToolConverter` },
             { property: "og:description", content: loaderData.description },
             { property: "og:url", content: url },
             { property: "og:image", content: OG_IMAGE },
@@ -190,7 +190,7 @@ export const Route = createFileRoute("/tools/$slug")({
             { name: "twitter:card", content: "summary_large_image" },
             { name: "twitter:image", content: OG_IMAGE },
           ]
-        : [{ title: "Tool | pdftoolconverteronline.com" }],
+        : [{ title: "Tool | PDFToolConverter" }],
       links: loaderData ? [{ rel: "canonical", href: url }] : [],
       scripts: loaderData
         ? [{ type: "application/ld+json", children: JSON.stringify(crumbs) }]

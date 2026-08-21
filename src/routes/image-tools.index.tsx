@@ -6,7 +6,7 @@ import { SITE_URL } from "@/lib/site";
 import { breadcrumbJsonLd } from "@/lib/seoSchema";
 
 
-const TITLE = "Free Image Tools, Convert HEIC, JPG, PNG | pdftoolconverteronline.com";
+const TITLE = "Free Image Tools, Convert HEIC, JPG, PNG | PDFToolConverter";
 const DESC =
   "14 of our 15 image tools process files entirely in your browser. Compress Image uses secure server-side processing for best compression quality.";
 
@@ -19,7 +19,7 @@ export const Route = createFileRoute("/image-tools/")({
       name: "Free Image Tools",
       description: DESC,
       url,
-      isPartOf: { "@type": "WebSite", name: "pdftoolconverteronline.com", url: `${SITE_URL}/` },
+      isPartOf: { "@type": "WebSite", name: "PDFToolConverter", url: `${SITE_URL}/` },
       mainEntity: {
         "@type": "ItemList",
         name: "Free browser-based image tools",

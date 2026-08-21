@@ -12,7 +12,7 @@ export const rotateImageSoftwareJsonLd = {
   operatingSystem: "Any (browser-based, Windows, macOS, Android, iOS, Linux)",
   url,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  publisher: { "@type": "Organization", name: "pdftoolconverteronline.com", url: SITE_URL },
+  publisher: { "@type": "Organization", name: "PDFToolConverter", url: SITE_URL },
   description:
     "Free online image rotator and flipper. Rotate JPG, PNG, and WebP by 90, 180, or 270 degrees, or mirror horizontally and vertically. Batch fix sideways photos in your browser, no upload, no signup.",
 };
@@ -29,7 +29,7 @@ export const rotateImageHowToJsonLd = {
       "@type": "HowToStep",
       position: 1,
       name: "Open the image rotator",
-      text: "Open the Rotate and Flip Image tool on pdftoolconverteronline.com. No signup, no account, and nothing to install.",
+      text: "Open the Rotate and Flip Image tool on PDFToolConverter. No signup, no account, and nothing to install.",
       url: `${url}#step-1`,
     },
     {

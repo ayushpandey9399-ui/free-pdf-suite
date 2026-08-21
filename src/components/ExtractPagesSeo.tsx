@@ -218,7 +218,7 @@ export const extractPagesHowToJsonLd = {
 export const extractPagesSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "pdftoolconverteronline.com Extract Pages",
+  name: "PDFToolConverter Extract Pages",
   applicationCategory: "BrowserApplication",
   operatingSystem: "Any",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

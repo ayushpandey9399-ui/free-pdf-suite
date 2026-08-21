@@ -107,8 +107,8 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => {
-    const title = "pdftoolconverteronline.com | Every PDF tool, 100% free";
-    const desc = "Free PDF tools that run in your browser. Merge, split, convert, compress, edit, and organize PDFs, no signup, no upload step, no limits.";
+    const title = "PDFToolConverter | 44 Free PDF Tools Online — No Signup, No Watermark";
+    const desc = "44 free PDF and image tools that run in your browser. Merge, split, compress, sign, convert and edit PDFs instantly. No signup, no watermark, no limits.";
     const ogImage = `${SITE_URL}/og-cover.png`;
     const ogImageWebp = `${SITE_URL}/og-cover.webp`;
 
@@ -121,7 +121,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
         { property: "og:type", content: "website" },
-        { property: "og:site_name", content: "pdftoolconverteronline.com" },
+        { property: "og:site_name", content: "PDFToolConverter" },
         { property: "og:image", content: ogImage },
         { property: "og:image:type", content: "image/png" },
         { property: "og:image:width", content: "1200" },
@@ -134,7 +134,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         { name: "theme-color", content: "#e5322d" },
         { name: "apple-mobile-web-app-capable", content: "yes" },
         { name: "apple-mobile-web-app-status-bar-style", content: "default" },
-        { name: "apple-mobile-web-app-title", content: "pdftoolconverteronline.com" },
+        { name: "apple-mobile-web-app-title", content: "PDFToolConverter" },
         { name: "mobile-web-app-capable", content: "yes" },
       ],
       links: [

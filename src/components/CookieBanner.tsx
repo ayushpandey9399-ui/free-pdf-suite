@@ -57,7 +57,7 @@ export function CookieBanner() {
         style={{ borderColor: "#ececef" }}
       >
         <p className="text-sm leading-relaxed flex-1" style={{ color: "#3b3b48" }}>
-          pdftoolconverteronline.com uses cookies for ads and site functionality. Your PDF files are processed
+          PDFToolConverter uses cookies for ads and site functionality. Your PDF files are processed
           right in your browser, not uploaded.{" "}
           <Link to="/privacy-policy" className="underline hover:text-[#e5322d]">
             Privacy Policy

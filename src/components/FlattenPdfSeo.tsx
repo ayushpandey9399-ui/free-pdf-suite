@@ -332,7 +332,7 @@ export const flattenPdfHowToJsonLd = {
     "Flatten a filled PDF entirely in the browser, merge interactive form fields into the page so the answers become permanent, uneditable content. No upload, no signup, no watermark.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "A filled PDF with interactive form fields" }],
-  tool: [{ "@type": "HowToTool", name: "pdftoolconverteronline.com Flatten PDF (web browser)" }],
+  tool: [{ "@type": "HowToTool", name: "PDFToolConverter Flatten PDF (web browser)" }],
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
@@ -345,7 +345,7 @@ export const flattenPdfHowToJsonLd = {
 export const flattenPdfSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "pdftoolconverteronline.com Flatten PDF",
+  name: "PDFToolConverter Flatten PDF",
   description:
     "Flatten PDF online free, merge interactive form fields into the page so filled answers can't be changed. Entirely in the browser. No upload, no signup, no watermark.",
   applicationCategory: "UtilitiesApplication",

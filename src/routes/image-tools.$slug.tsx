@@ -12,7 +12,7 @@ const HEIC_TITLE = "HEIC to JPG Converter Online Free: Convert iPhone Photos | P
 const HEIC_DESC =
   "Convert HEIC photos to JPG online instantly in your browser. Batch convert iPhone HEIC images to JPG without losing quality. Free, no signup, no watermark, files never leave your device.";
 
-const HEIC_PNG_TITLE = "HEIC to PNG Converter Free, No Upload | pdftoolconverteronline.com";
+const HEIC_PNG_TITLE = "HEIC to PNG Converter Free, No Upload | PDFToolConverter";
 const HEIC_PNG_DESC =
   "Convert HEIC to PNG online free. Batch convert iPhone HEIC photos to lossless PNG in your browser, no upload, no signup, 100% private. Works on any device.";
 
@@ -28,43 +28,43 @@ const WEBP_JPG_TITLE = "WebP to JPG Converter Online Free: Convert WebP to JPEG 
 const WEBP_JPG_DESC =
   "Convert WebP images to JPG online instantly in your browser. Batch convert multiple WebP files to JPEG. Free, no signup, no watermark, files never leave your device.";
 
-const WEBP_PNG_TITLE = "WebP to PNG Converter Free, No Upload | pdftoolconverteronline.com";
+const WEBP_PNG_TITLE = "WebP to PNG Converter Free, No Upload | PDFToolConverter";
 const WEBP_PNG_DESC =
   "Convert WebP to PNG online free. Batch convert .webp images to lossless PNG in your browser with transparency preserved, no upload, no signup.";
 
-const COMPRESS_TITLE = "Compress Image Online Free, JPG PNG WebP | pdftoolconverteronline.com";
+const COMPRESS_TITLE = "Compress Image Online Free, JPG PNG WebP | PDFToolConverter";
 const COMPRESS_DESC =
   "Compress image online free. Reduce JPG, PNG, and WebP file size in your browser, target 100KB, 200KB, or 50KB. Batch and ZIP, 100% private. Nothing to install.";
 
-const RESIZE_TITLE = "Resize Image in Pixels or KB Free, No Upload | pdftoolconverteronline.com";
+const RESIZE_TITLE = "Resize Image in Pixels or KB Free, No Upload | PDFToolConverter";
 const RESIZE_DESC =
   "Resize image online free. Change JPG, PNG, and WebP dimensions by pixels or percent in your browser. Presets for passport, signature, HD. No upload.";
 
-const JPG_WEBP_TITLE = "JPG to WebP Converter Free, No Upload | pdftoolconverteronline.com";
+const JPG_WEBP_TITLE = "JPG to WebP Converter Free, No Upload | PDFToolConverter";
 const JPG_WEBP_DESC =
   "Convert JPG to WebP online free. Batch convert to modern WebP for faster websites, entirely in your browser. No upload, no signup, real .webp output.";
 
-const PNG_WEBP_TITLE = "PNG to WebP Converter Free, No Upload | pdftoolconverteronline.com";
+const PNG_WEBP_TITLE = "PNG to WebP Converter Free, No Upload | PDFToolConverter";
 const PNG_WEBP_DESC =
   "Convert PNG to WebP online free. Batch convert with transparency preserved, entirely in your browser. Smaller files for faster websites, no upload.";
 
-const CROP_TITLE = "Crop Image to Any Size Free, No Upload | pdftoolconverteronline.com";
+const CROP_TITLE = "Crop Image to Any Size Free, No Upload | PDFToolConverter";
 const CROP_DESC =
   "Crop image online free. Drag the crop box, lock 1:1, 16:9, 9:16, or passport ratios, or enter exact pixels. Batch JPG, PNG, WebP in your browser.";
 
-const ROTATE_TITLE = "Rotate and Flip Image Free, No Upload | pdftoolconverteronline.com";
+const ROTATE_TITLE = "Rotate and Flip Image Free, No Upload | PDFToolConverter";
 const ROTATE_DESC =
   "Rotate image online free. Rotate 90, 180, or 270 degrees, mirror horizontally, or flip vertically. Batch fix sideways JPG, PNG, WebP in your browser.";
 
-const WATERMARK_TITLE = "Add Watermark to Image Free, No Upload | pdftoolconverteronline.com";
+const WATERMARK_TITLE = "Add Watermark to Image Free, No Upload | PDFToolConverter";
 const WATERMARK_DESC =
   "Add watermark to image online free. Text or logo, tile pattern, 9-cell position grid, opacity, rotation. Batch JPG, PNG, WebP in your browser, no upload.";
 
-const MEME_TITLE = "Free Meme Generator, No Watermark, No Upload | pdftoolconverteronline.com";
+const MEME_TITLE = "Free Meme Generator, No Watermark, No Upload | PDFToolConverter";
 const MEME_DESC =
   "Make memes online free with no watermark. Classic top and bottom text, extra draggable captions, caption bar mode. Use your own photo, 100% private, no upload.";
 
-const PHOTO_EDITOR_TITLE = "Free Photo Editor Online, No Signup, No Upload | pdftoolconverteronline.com";
+const PHOTO_EDITOR_TITLE = "Free Photo Editor Online, No Signup, No Upload | PDFToolConverter";
 const PHOTO_EDITOR_DESC =
   "Free online photo editor. Adjust brightness, contrast, saturation, warmth, apply one-tap filters like B&W, sepia, vintage. Export JPG, PNG, WebP. No upload.";
 
@@ -167,7 +167,7 @@ export const Route = createFileRoute("/image-tools/$slug")({
 
 
     // Coming-soon: noindex.
-    const title = tool ? `${tool.name} (coming soon) | pdftoolconverteronline.com` : "Coming soon | pdftoolconverteronline.com";
+    const title = tool ? `${tool.name} (coming soon) | PDFToolConverter` : "Coming soon | PDFToolConverter";
     return {
       meta: [
         { title },

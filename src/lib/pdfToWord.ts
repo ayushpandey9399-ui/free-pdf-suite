@@ -6,7 +6,7 @@
  * which keeps them easy to unit test.
  */
 
-export const PDF_TO_WORD_ENDPOINT = "https://api.pdftoolconverteronline.com/v1/pdf-to-word";
+export const PDF_TO_WORD_ENDPOINT = "https://api.PDFToolConverter/v1/pdf-to-word";
 
 /** Server side limit for this tool, 25 MB. */
 export const PDF_TO_WORD_MAX_BYTES = 25 * 1024 * 1024;

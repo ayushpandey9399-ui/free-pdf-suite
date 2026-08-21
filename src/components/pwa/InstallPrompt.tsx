@@ -115,7 +115,7 @@ export function InstallPrompt() {
             className="h-10 w-10 rounded-md"
           />
           <div className="min-w-0 flex-1">
-            <p className="text-sm font-semibold text-[#14142b]">Install pdftoolconverteronline.com</p>
+            <p className="text-sm font-semibold text-[#14142b]">Install PDFToolConverter</p>
             <p className="mt-0.5 text-xs leading-snug text-[#4b5563]">
               Add the app to your device for one-tap access, works offline for tools you have opened.
             </p>
@@ -155,7 +155,7 @@ export function InstallPrompt() {
           <div className="min-w-0 flex-1">
             <p className="text-sm font-semibold text-[#14142b]">Add to Home Screen</p>
             <p className="mt-0.5 text-xs leading-snug text-[#4b5563]">
-              Tap the Share icon, then choose Add to Home Screen to install pdftoolconverteronline.com.
+              Tap the Share icon, then choose Add to Home Screen to install PDFToolConverter.
             </p>
             <div className="mt-3">
               <button

@@ -12,7 +12,7 @@ export const jpgToWebpSoftwareJsonLd = {
   operatingSystem: "Any (browser-based, Windows, macOS, Android, iOS, Linux)",
   url,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  publisher: { "@type": "Organization", name: "pdftoolconverteronline.com", url: SITE_URL },
+  publisher: { "@type": "Organization", name: "PDFToolConverter", url: SITE_URL },
   description:
     "Free online JPG to WebP converter. Batch convert JPG and JPEG images to modern WebP for faster websites, entirely in your browser. No upload, no signup.",
 };
@@ -29,7 +29,7 @@ export const jpgToWebpHowToJsonLd = {
       "@type": "HowToStep",
       position: 1,
       name: "Open the JPG to WebP tool",
-      text: "Open the JPG to WebP converter on pdftoolconverteronline.com. No signup, no account, no install needed.",
+      text: "Open the JPG to WebP converter on PDFToolConverter. No signup, no account, no install needed.",
       url: `${url}#step-1`,
     },
     {
@@ -129,7 +129,7 @@ export const jpgToWebpFaqJsonLd = {
       name: "Can I convert WebP back to JPG later?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. If you ever need a JPG copy of the WebP, use the WebP to JPG tool in the pdftoolconverteronline.com image toolbox. It is also 100 percent browser-based.",
+        text: "Yes. If you ever need a JPG copy of the WebP, use the WebP to JPG tool in the PDFToolConverter image toolbox. It is also 100 percent browser-based.",
       },
     },
     {

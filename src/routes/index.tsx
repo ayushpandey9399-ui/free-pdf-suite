@@ -5,9 +5,9 @@ import { tools, categories, type ToolCategory } from "@/tools/registry";
 import { HomeBottom } from "@/components/HomeBottom";
 import { SITE_URL, SITE_NAME, CONTACT_EMAIL } from "@/lib/site";
 
-const HOME_TITLE = "pdftoolconverteronline.com | Every PDF tool, 100% free";
+const HOME_TITLE = "PDFToolConverter | 44 Free PDF Tools Online — No Signup, No Watermark";
 const HOME_DESC =
-  "PDF tools that run in your browser. Where server processing is used (PDF to Word, Compress Image), files are securely deleted immediately after download.";
+  "44 free PDF and image tools that run in your browser. Merge, split, compress, sign, convert and edit PDFs instantly. No signup, no watermark, no limits.";
 const HOME_URL = `${SITE_URL}/`;
 const OG_IMAGE = `${SITE_URL}/og-cover.png`;
 
@@ -20,7 +20,7 @@ const homeJsonLd = {
       name: SITE_NAME,
       url: SITE_URL,
       description:
-        "pdftoolconverteronline.com is a free suite of browser-based PDF tools, merge, split, compress, sign, convert and more, built by a small independent team in India.",
+        "PDFToolConverter is a free suite of browser-based PDF tools, merge, split, compress, sign, convert and more, built by a small independent team in India.",
       foundingDate: "2026",
       email: CONTACT_EMAIL,
       logo: {

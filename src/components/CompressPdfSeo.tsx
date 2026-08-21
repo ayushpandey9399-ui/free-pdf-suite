@@ -296,7 +296,7 @@ export const compressHowToJsonLd = {
     position: i + 1,
     name: s.title,
     text: s.text,
-    url: `https://pdftoolconverteronline.com/tools/compress#step-${i + 1}`,
+    url: `https://PDFToolConverter/tools/compress#step-${i + 1}`,
   })),
 };
 

@@ -315,7 +315,7 @@ export const scanToPdfHowToJsonLd = {
 export const scanToPdfSoftwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "pdftoolconverteronline.com Scan to PDF",
+  name: "PDFToolConverter Scan to PDF",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Web",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
