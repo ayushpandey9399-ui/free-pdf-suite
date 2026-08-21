@@ -39,6 +39,15 @@ interface PageThumbnail {
   dataUrl: string;
 }
 
+interface Result {
+  images: string[];
+  format: Format;
+  quality: Quality;
+  downloadAs: DownloadAs;
+  filenamePrefix: string;
+}
+
+
 export default function PdfToImages() {
   const [screen, setScreen] = useState<Screen>("upload");
   const [file, setFile] = useState<File | null>(null);
@@ -56,9 +65,10 @@ export default function PdfToImages() {
   const [processing, setProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
   const [currentProcessingPage, setCurrentProcessingPage] = useState(0);
-  const [outputImages, setOutputImages] = useState<string[]>([]);
+  const [result, setResult] = useState<Result | null>(null);
   
   const [error, setError] = useState<{ message: string; isPassword?: boolean } | null>(null);
+
 
   const pdfInstance = useRef<any>(null);
 
@@ -166,10 +176,17 @@ export default function PdfToImages() {
         setProgress(Math.round(((i + 1) / selectedPages.length) * 100));
       }
 
-      setOutputImages(results);
+      const conversionResult = {
+        images: results,
+        format,
+        quality,
+        downloadAs,
+        filenamePrefix
+      };
+      
+      setResult(conversionResult);
       setScreen("success");
       
-      // Auto-trigger ZIP download if selected
       if (downloadAs === "zip") {
         await handleZipDownload(results);
       }
@@ -210,11 +227,12 @@ export default function PdfToImages() {
     setArrayBuffer(null);
     setThumbnails([]);
     setSelectedPages([]);
-    setOutputImages([]);
+    setResult(null);
     setScreen("upload");
     setError(null);
     pdfInstance.current = null;
   };
+
 
   // RENDER UPLOAD
   if (screen === "upload") {
@@ -257,7 +275,7 @@ export default function PdfToImages() {
   }
 
   // RENDER SUCCESS
-  if (screen === "success") {
+  if (screen === "success" && result) {
     return (
       <ToolSuccessScreen
         heading="Your images are ready!"
@@ -270,22 +288,22 @@ export default function PdfToImages() {
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
               <div>
                 <dt className="text-xs font-bold uppercase tracking-wider text-neutral-400">Images</dt>
-                <dd className="mt-1 text-lg font-bold text-neutral-800">{outputImages.length}</dd>
+                <dd className="mt-1 text-lg font-bold text-neutral-800">{result.images.length}</dd>
               </div>
               <div>
                 <dt className="text-xs font-bold uppercase tracking-wider text-neutral-400">Format</dt>
-                <dd className="mt-1 text-lg font-bold text-neutral-800 uppercase">{format}</dd>
+                <dd className="mt-1 text-lg font-bold text-neutral-800 uppercase">{result.format}</dd>
               </div>
               <div>
                 <dt className="text-xs font-bold uppercase tracking-wider text-neutral-400">Quality</dt>
-                <dd className="mt-1 text-lg font-bold text-neutral-800 capitalize">{quality}</dd>
+                <dd className="mt-1 text-lg font-bold text-neutral-800 capitalize">{result.quality}</dd>
               </div>
             </div>
           </div>
 
-          {downloadAs === "zip" ? (
+          {result.downloadAs === "zip" ? (
             <button
-              onClick={() => handleZipDownload(outputImages)}
+              onClick={() => handleZipDownload(result.images)}
               className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#e5322d] py-4 text-lg font-bold text-white shadow-lg transition-transform hover:-translate-y-0.5"
             >
               <Download className="h-6 w-6" />
@@ -293,7 +311,7 @@ export default function PdfToImages() {
             </button>
           ) : (
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-              {outputImages.map((img, i) => (
+              {result.images.map((img, i) => (
                 <div key={i} className="group relative overflow-hidden rounded-xl border bg-neutral-50 p-2 text-center transition-all hover:border-[#e5322d]">
                   <img src={img} className="aspect-square w-full rounded-lg object-cover shadow-sm" alt={`Page ${selectedPages[i] + 1}`} />
                   <p className="mt-2 text-xs font-medium text-neutral-500">Page {selectedPages[i] + 1}</p>
@@ -311,6 +329,7 @@ export default function PdfToImages() {
       </ToolSuccessScreen>
     );
   }
+
 
   // WORKSPACE RENDER
   return (
