@@ -197,10 +197,12 @@ export default function PdfToImages() {
     downloadBlob(blob, `${filenamePrefix}-images.zip`);
   };
 
-  const downloadIndividual = (dataUrl: string, index: number) => {
+  const downloadIndividual = async (dataUrl: string, index: number) => {
     const ext = format === 'png' ? 'png' : 'jpg';
     const pageNum = selectedPages[index] + 1;
-    downloadBlob(dataUrl, `${filenamePrefix}-${pageNum}.${ext}`);
+    const response = await fetch(dataUrl);
+    const blob = await response.blob();
+    downloadBlob(blob, `${filenamePrefix}-${pageNum}.${ext}`);
   };
 
   const reset = () => {
