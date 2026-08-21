@@ -149,7 +149,7 @@ export default function ImagesToPdf() {
   };
 
   const generatePdf = async (items: ImgEntry[]) => {
-    const { PDFDocument, PageSizes } = await loadPdfLib();
+    const { PDFDocument, PageSizes, degrees } = await loadPdfLib();
     const pdf = await PDFDocument.create();
 
     const marginMap = { none: 0, small: 28, large: 70 }; // approx 10mm and 25mm in points
@@ -204,7 +204,7 @@ export default function ImagesToPdf() {
         y: (pageH - h) / 2,
         width: w,
         height: h,
-        rotate: { type: "degrees", angle: item.rotation } as any,
+        rotate: degrees(item.rotation),
       });
     }
 
