@@ -28,6 +28,13 @@ import { loadPdfJs, loadJSZip } from "@/lib/lazyLibs";
 import { downloadBlob } from "@/lib/download";
 import { cn } from "@/lib/utils";
 import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
 
 type Quality = "low" | "medium" | "high";
 type Format = "jpg" | "png";
@@ -502,5 +509,115 @@ export default function PdfToImages() {
         </div>
       </div>
     </ToolWorkspace>
+  );
+}
+
+function SidebarOptions({ 
+  format, setFormat, 
+  quality, setQuality, 
+  downloadAs, setDownloadAs, 
+  filenamePrefix, setFilenamePrefix 
+}: {
+  format: Format; setFormat: (f: Format) => void;
+  quality: Quality; setQuality: (q: Quality) => void;
+  downloadAs: DownloadAs; setDownloadAs: (d: DownloadAs) => void;
+  filenamePrefix: string; setFilenamePrefix: (p: string) => void;
+}) {
+  return (
+    <div className="space-y-6 text-left">
+      {/* Output Format */}
+      <div>
+        <label className="text-[13px] font-bold uppercase tracking-wider text-neutral-500">Output Format</label>
+        <div className="mt-2 grid grid-cols-2 gap-2">
+          {(["jpg", "png"] as Format[]).map((f) => (
+            <button
+              key={f}
+              onClick={() => setFormat(f)}
+              className={cn(
+                "flex h-10 items-center justify-center rounded-lg border text-sm font-bold uppercase transition-all",
+                format === f 
+                  ? "border-[#e5322d] bg-[#e5322d] text-white" 
+                  : "border-neutral-200 bg-white text-neutral-600 hover:border-neutral-300"
+              )}
+            >
+              {f}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Image Quality */}
+      <div>
+        <label className="text-[13px] font-bold uppercase tracking-wider text-neutral-500">Image Quality</label>
+        <div className="mt-2 grid grid-cols-3 gap-2">
+          {(["low", "medium", "high"] as Quality[]).map((q) => (
+            <button
+              key={q}
+              onClick={() => setQuality(q)}
+              className={cn(
+                "flex h-10 items-center justify-center rounded-lg border text-[13px] font-bold capitalize transition-all",
+                quality === q 
+                  ? "border-[#e5322d] bg-[#e5322d] text-white" 
+                  : "border-neutral-200 bg-white text-neutral-600 hover:border-neutral-300"
+              )}
+            >
+              {q}
+            </button>
+          ))}
+        </div>
+        <p className="mt-2 text-[11px] text-neutral-400 italic">
+          {quality === 'high' && "High quality = 300 DPI (print)"}
+          {quality === 'medium' && "150 DPI - balanced resolution"}
+          {quality === 'low' && "72 DPI - smallest files"}
+        </p>
+      </div>
+
+      {/* Download Options */}
+      <div>
+        <label className="text-[13px] font-bold uppercase tracking-wider text-neutral-500">Download As</label>
+        <div className="mt-3 space-y-2">
+          <label className="flex cursor-pointer items-center gap-3 rounded-lg border border-neutral-100 bg-neutral-50/50 p-3 transition-colors hover:bg-neutral-50">
+            <input 
+              type="radio" 
+              name="download-method"
+              className="h-4 w-4 accent-[#e5322d]" 
+              checked={downloadAs === 'zip'} 
+              onChange={() => setDownloadAs('zip')} 
+            />
+            <span className="text-sm font-semibold text-neutral-700">ZIP Archive</span>
+          </label>
+          <label className="flex cursor-pointer items-center gap-3 rounded-lg border border-neutral-100 bg-neutral-50/50 p-3 transition-colors hover:bg-neutral-50">
+            <input 
+              type="radio" 
+              name="download-method"
+              className="h-4 w-4 accent-[#e5322d]" 
+              checked={downloadAs === 'individual'} 
+              onChange={() => setDownloadAs('individual')} 
+            />
+            <span className="text-sm font-semibold text-neutral-700">Individual images</span>
+          </label>
+        </div>
+      </div>
+
+      {/* Filename Prefix */}
+      <div>
+        <label className="text-[13px] font-bold uppercase tracking-wider text-neutral-500">Filename Prefix</label>
+        <div className="mt-2 relative">
+          <input
+            type="text"
+            value={filenamePrefix}
+            onChange={(e) => setFilenamePrefix(e.target.value)}
+            placeholder="Prefix..."
+            className="h-11 w-full rounded-lg border border-neutral-200 px-4 text-sm font-medium focus:border-[#e5322d] focus:outline-none"
+          />
+          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-neutral-400 uppercase">
+            .{format}
+          </span>
+        </div>
+        <p className="mt-2 text-[11px] text-neutral-400">
+          Files named: {filenamePrefix}-1.{format}, {filenamePrefix}-2.{format}...
+        </p>
+      </div>
+    </div>
   );
 }
