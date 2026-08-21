@@ -35,7 +35,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-
 type Quality = "low" | "medium" | "high";
 type Format = "jpg" | "png";
 type DownloadAs = "individual" | "zip";
@@ -53,7 +52,6 @@ interface Result {
   downloadAs: DownloadAs;
   filenamePrefix: string;
 }
-
 
 export default function PdfToImages() {
   const [screen, setScreen] = useState<Screen>("upload");
@@ -75,7 +73,6 @@ export default function PdfToImages() {
   const [result, setResult] = useState<Result | null>(null);
   
   const [error, setError] = useState<{ message: string; isPassword?: boolean } | null>(null);
-
 
   const pdfInstance = useRef<any>(null);
 
@@ -240,7 +237,6 @@ export default function PdfToImages() {
     pdfInstance.current = null;
   };
 
-
   // RENDER UPLOAD
   if (screen === "upload") {
     if (error?.isPassword) {
@@ -337,7 +333,6 @@ export default function PdfToImages() {
     );
   }
 
-
   // WORKSPACE RENDER
   return (
     <ToolWorkspace
@@ -348,102 +343,42 @@ export default function PdfToImages() {
       disabledReason="Select at least one page"
       sidebar={
         <div className="space-y-6">
-          {/* Output Format */}
-          <div>
-            <label className="text-[13px] font-bold uppercase tracking-wider text-neutral-500">Output Format</label>
-            <div className="mt-2 grid grid-cols-2 gap-2">
-              {(["jpg", "png"] as Format[]).map((f) => (
-                <button
-                  key={f}
-                  onClick={() => setFormat(f)}
-                  className={cn(
-                    "flex h-10 items-center justify-center rounded-lg border text-sm font-bold uppercase transition-all",
-                    format === f 
-                      ? "border-[#e5322d] bg-[#e5322d] text-white" 
-                      : "border-neutral-200 bg-white text-neutral-600 hover:border-neutral-300"
-                  )}
-                >
-                  {f}
-                </button>
-              ))}
-            </div>
+          {/* Desktop view (default) */}
+          <div className="hidden lg:block space-y-6">
+            <SidebarOptions 
+              format={format} setFormat={setFormat}
+              quality={quality} setQuality={setQuality}
+              downloadAs={downloadAs} setDownloadAs={setDownloadAs}
+              filenamePrefix={filenamePrefix} setFilenamePrefix={setFilenamePrefix}
+            />
           </div>
 
-          {/* Image Quality */}
-          <div>
-            <label className="text-[13px] font-bold uppercase tracking-wider text-neutral-500">Image Quality</label>
-            <div className="mt-2 grid grid-cols-3 gap-2">
-              {(["low", "medium", "high"] as Quality[]).map((q) => (
-                <button
-                  key={q}
-                  onClick={() => setQuality(q)}
-                  className={cn(
-                    "flex h-10 items-center justify-center rounded-lg border text-[13px] font-bold capitalize transition-all",
-                    quality === q 
-                      ? "border-[#e5322d] bg-[#e5322d] text-white" 
-                      : "border-neutral-200 bg-white text-neutral-600 hover:border-neutral-300"
-                  )}
-                >
-                  {q}
-                </button>
-              ))}
-            </div>
-            <p className="mt-2 text-[11px] text-neutral-400 italic">
-              {quality === 'high' && "High quality = larger file sizes"}
-              {quality === 'medium' && "150 DPI - balanced resolution"}
-              {quality === 'low' && "72 DPI - smallest files"}
-            </p>
-          </div>
-
-          {/* Download Options */}
-          <div>
-            <label className="text-[13px] font-bold uppercase tracking-wider text-neutral-500">Download As</label>
-            <div className="mt-3 space-y-2">
-              <label className="flex cursor-pointer items-center gap-3 rounded-lg border border-neutral-100 bg-neutral-50/50 p-3 transition-colors hover:bg-neutral-50">
-                <input 
-                  type="radio" 
-                  className="h-4 w-4 accent-[#e5322d]" 
-                  checked={downloadAs === 'zip'} 
-                  onChange={() => setDownloadAs('zip')} 
-                />
-                <span className="text-sm font-semibold text-neutral-700">ZIP Archive</span>
-              </label>
-              <label className="flex cursor-pointer items-center gap-3 rounded-lg border border-neutral-100 bg-neutral-50/50 p-3 transition-colors hover:bg-neutral-50">
-                <input 
-                  type="radio" 
-                  className="h-4 w-4 accent-[#e5322d]" 
-                  checked={downloadAs === 'individual'} 
-                  onChange={() => setDownloadAs('individual')} 
-                />
-                <span className="text-sm font-semibold text-neutral-700">Individual images</span>
-              </label>
-            </div>
-          </div>
-
-          {/* Filename Prefix */}
-          <div>
-            <label className="text-[13px] font-bold uppercase tracking-wider text-neutral-500">Filename Prefix</label>
-            <div className="mt-2 relative">
-              <input
-                type="text"
-                value={filenamePrefix}
-                onChange={(e) => setFilenamePrefix(e.target.value)}
-                placeholder="Prefix..."
-                className="h-11 w-full rounded-lg border border-neutral-200 px-4 text-sm font-medium focus:border-[#e5322d] focus:outline-none"
-              />
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-neutral-400 uppercase">
-                .{format}
-              </span>
-            </div>
-            <p className="mt-2 text-[11px] text-neutral-400">
-              Files named: {filenamePrefix}-1.{format}, {filenamePrefix}-2.{format}...
-            </p>
+          {/* Mobile view (Accordion) */}
+          <div className="lg:hidden">
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="options" className="border-none">
+                <AccordionTrigger className="flex h-12 w-full items-center justify-between rounded-xl border border-[#ececef] bg-white px-4 py-0 text-sm font-bold hover:no-underline">
+                  <span className="flex items-center gap-2 text-[#33333c]">
+                    <Zap className="h-4 w-4 text-[#e5322d]" />
+                    Conversion Options
+                  </span>
+                </AccordionTrigger>
+                <AccordionContent className="mt-4 space-y-6 px-1 pb-2">
+                  <SidebarOptions 
+                    format={format} setFormat={setFormat}
+                    quality={quality} setQuality={setQuality}
+                    downloadAs={downloadAs} setDownloadAs={setDownloadAs}
+                    filenamePrefix={filenamePrefix} setFilenamePrefix={setFilenamePrefix}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
         </div>
       }
       extraSidebarButton={
         <div className="mt-4 border-t pt-4">
-          <p className="text-[12px] font-medium text-neutral-500">
+          <p className="text-[12px] font-medium text-neutral-500 text-center lg:text-left">
             {totalPages} pages — <span className="font-bold text-[#e5322d]">{selectedPages.length} selected</span>
           </p>
         </div>
@@ -458,13 +393,13 @@ export default function PdfToImages() {
           >
             {selectedPages.length === totalPages ? "Deselect All" : "Select All"}
           </button>
-          <span className="text-[11px] font-bold text-neutral-400 uppercase">
+          <span className="text-[11px] font-bold text-neutral-400 uppercase hidden sm:inline">
             Click to select/deselect pages
           </span>
         </div>
 
         {/* Thumbnails Grid */}
-        <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
           {Array.from({ length: totalPages }).map((_, i) => {
             const thumb = thumbnails.find(t => t.index === i);
             const isSelected = selectedPages.includes(i);
@@ -476,32 +411,34 @@ export default function PdfToImages() {
                 className={cn(
                   "group relative cursor-pointer overflow-hidden rounded-xl bg-white transition-all duration-200 shadow-sm",
                   isSelected 
-                    ? "ring-2 ring-[#e5322d] shadow-md -translate-y-0.5" 
-                    : "hover:shadow-md hover:-translate-y-0.5"
+                    ? "ring-2 ring-[#e5322d] ring-offset-2" 
+                    : "hover:shadow-md border border-neutral-100"
                 )}
               >
-                {/* Thumbnail Preview */}
-                <div className="aspect-[3/4] w-full bg-neutral-100 flex items-center justify-center overflow-hidden">
-                  {thumb ? (
-                    <img src={thumb.dataUrl} alt={`Page ${i + 1}`} className="w-full h-full object-contain" />
-                  ) : (
-                    <Loader2 className="h-5 w-5 animate-spin text-neutral-300" />
-                  )}
-                </div>
-
-                {/* Info Bar */}
-                <div className="bg-white p-2 text-center border-t border-neutral-50">
-                  <p className={cn("text-[11px] font-bold uppercase", isSelected ? "text-[#e5322d]" : "text-neutral-500")}>
-                    Page {i + 1}
-                  </p>
-                </div>
-
                 {/* Selection Overlay */}
                 <div className={cn(
-                  "absolute top-2 left-2 flex h-5 w-5 items-center justify-center rounded-md transition-all",
-                  isSelected ? "bg-[#e5322d] scale-100" : "bg-white/90 scale-0 group-hover:scale-75 shadow-sm border border-neutral-200"
+                  "absolute left-3 top-3 z-10 flex h-6 w-6 items-center justify-center rounded-full border-2 transition-all",
+                  isSelected 
+                    ? "border-[#e5322d] bg-[#e5322d] text-white" 
+                    : "border-neutral-200 bg-white/80 text-transparent"
                 )}>
-                  {isSelected && <Check className="h-3 w-3 text-white" />}
+                  <Check className="h-4 w-4" />
+                </div>
+
+                <div className="aspect-[3/4] w-full bg-neutral-50 flex items-center justify-center">
+                  {thumb ? (
+                    <img 
+                      src={thumb.dataUrl} 
+                      className="h-full w-full object-contain p-2" 
+                      alt={`Page ${i + 1}`} 
+                    />
+                  ) : (
+                    <Loader2 className="h-6 w-6 animate-spin text-neutral-300" />
+                  )}
+                </div>
+                
+                <div className="border-t bg-neutral-50/50 py-2 text-center">
+                  <span className="text-xs font-bold text-neutral-500">Page {i + 1}</span>
                 </div>
               </div>
             );
