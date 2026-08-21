@@ -343,15 +343,17 @@ export default function ImagesToPdf() {
 
   if (loading) {
     return (
-      <div className="flex min-h-[400px] flex-col items-center justify-center p-8 text-center">
-        <div className="mb-8 h-2 w-64 overflow-hidden rounded-full bg-[#ececef]">
+      <div className="flex min-h-[500px] flex-col items-center justify-center p-8 text-center bg-[#F7F7F8] rounded-2xl border border-[#ececef]">
+        <div className="mb-6 h-3 w-64 overflow-hidden rounded-full bg-[#ececef]">
           <div 
             className="h-full bg-[#e5322d] transition-all duration-300" 
             style={{ width: `${progress}%` }}
           />
         </div>
-        <h2 className="text-2xl font-bold text-[#33333c]">Converting {Math.ceil((progress / 100) * entries.length)} of {entries.length} images...</h2>
-        <p className="mt-2 text-[#8a8a93]">Building your PDF...</p>
+        <h2 className="text-[24px] font-bold text-[#33333c]">
+          Converting {Math.min(entries.length, Math.ceil((progress / 100) * entries.length))} of {entries.length} images...
+        </h2>
+        <p className="mt-2 text-[16px] text-[#8a8a93]">Building your PDF...</p>
       </div>
     );
   }
