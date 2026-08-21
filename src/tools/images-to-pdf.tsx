@@ -9,8 +9,8 @@ import {
   GripVertical,
   ArrowUpAz,
   ArrowDownZa,
-  LayoutPortrait,
-  LayoutLandscape,
+  RectangleVertical,
+  RectangleHorizontal,
   Move,
   Maximize,
 } from "lucide-react";
@@ -217,7 +217,7 @@ export default function ImagesToPdf() {
     try {
       if (mergeAll) {
         const bytes = await generatePdf(entries);
-        const blob = new Blob([bytes], { type: "application/pdf" });
+        const blob = new Blob([bytes.buffer], { type: "application/pdf" });
         setResult({ blob, filename: "PDFToolConverter-images.pdf", count: entries.length });
       } else {
         const zip = new JSZip();
@@ -311,7 +311,7 @@ export default function ImagesToPdf() {
                     : "border-[#ececef] bg-white text-[#5a5a66] hover:border-[#d1d1d6]"
                 )}
               >
-                <LayoutPortrait size={14} /> Portrait
+                <RectangleVertical size={14} /> Portrait
               </button>
               <button
                 onClick={() => setOrientation("landscape")}
@@ -322,7 +322,7 @@ export default function ImagesToPdf() {
                     : "border-[#ececef] bg-white text-[#5a5a66] hover:border-[#d1d1d6]"
                 )}
               >
-                <LayoutLandscape size={14} /> Landscape
+                <RectangleHorizontal size={14} /> Landscape
               </button>
             </div>
           </section>
