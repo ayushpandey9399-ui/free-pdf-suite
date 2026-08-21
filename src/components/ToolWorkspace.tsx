@@ -94,7 +94,7 @@ export function ToolWorkspace({
                   onClick={onAction}
                   disabled={!canRun}
                   className={cn(
-                    "mt-6 hidden lg:inline-flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-[15px] font-bold uppercase transition-all duration-150",
+                    "mt-6 hidden lg:inline-flex h-[56px] w-full items-center justify-center gap-2 rounded-xl px-6 text-[16px] font-bold uppercase transition-all duration-150",
                     canRun && "hover:scale-[1.01]",
                     !canRun && "cursor-not-allowed",
                   )}
@@ -113,7 +113,7 @@ export function ToolWorkspace({
                     </>
                   ) : (
                     <>
-                      {actionLabel ?? "Continue"} <ArrowRight className="h-4 w-4" />
+                      {actionLabel ?? "Continue"} <ArrowRight className="h-5 w-5" />
                     </>
                   )}
                 </button>
@@ -151,7 +151,7 @@ export function ToolWorkspace({
               onClick={onAction}
               disabled={!canRun}
               className={cn(
-                "inline-flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-[15px] font-bold uppercase",
+                "inline-flex h-[56px] w-full items-center justify-center gap-2 rounded-xl px-6 text-[16px] font-bold uppercase",
                 !canRun && "cursor-not-allowed",
               )}
               style={{
@@ -166,11 +166,11 @@ export function ToolWorkspace({
                 </>
               ) : (
                 <>
-                  {actionLabel ?? "Continue"} <ArrowRight className="h-4 w-4" />
+                  {actionLabel ?? "Continue"} <ArrowRight className="h-5 w-5" />
                 </>
               )}
             </button>
-            {showHint && (
+            {disabledReason && (
               <p className="mt-2 text-center text-[13px]" style={{ color: "#9CA3AF" }}>
                 {disabledReason}
               </p>
