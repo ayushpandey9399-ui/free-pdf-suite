@@ -201,9 +201,26 @@ export default function ImagesToPdf() {
       const w = img.width * scale;
       const h = img.height * scale;
 
+      // Handle rotation around center for pdf-lib's bottom-left anchor
+      const radians = (item.rotation * Math.PI) / 180;
+      const cos = Math.cos(radians);
+      const sin = Math.sin(radians);
+      
+      // Target center
+      const cx = (pageW - w) / 2 + w / 2;
+      const cy = (pageH - h) / 2 + h / 2;
+      
+      // Translate anchor based on rotation
+      // 0 deg: (cx - w/2, cy - h/2)
+      // 90 deg: (cx + h/2, cy - w/2)
+      // 180 deg: (cx + w/2, cy + h/2)
+      // 270 deg: (cx - h/2, cy + w/2)
+      const rx = (cx - w / 2 - cx) * cos - (cy - h / 2 - cy) * sin + cx;
+      const ry = (cx - w / 2 - cx) * sin + (cy - h / 2 - cy) * cos + cy;
+
       page.drawImage(img, {
-        x: (pageW - w) / 2,
-        y: (pageH - h) / 2,
+        x: rx,
+        y: ry,
         width: w,
         height: h,
         rotate: degrees(item.rotation),
@@ -272,9 +289,20 @@ export default function ImagesToPdf() {
           const w = img.width * scale;
           const h = img.height * scale;
 
+          // Handle rotation around center for pdf-lib's bottom-left anchor
+          const radians = (item.rotation * Math.PI) / 180;
+          const cos = Math.cos(radians);
+          const sin = Math.sin(radians);
+          
+          const cx = (pageW - w) / 2 + w / 2;
+          const cy = (pageH - h) / 2 + h / 2;
+          
+          const rx = (cx - w / 2 - cx) * cos - (cy - h / 2 - cy) * sin + cx;
+          const ry = (cx - w / 2 - cx) * sin + (cy - h / 2 - cy) * cos + cy;
+
           page.drawImage(img, {
-            x: (pageW - w) / 2,
-            y: (pageH - h) / 2,
+            x: rx,
+            y: ry,
             width: w,
             height: h,
             rotate: degrees(item.rotation),
@@ -318,7 +346,7 @@ export default function ImagesToPdf() {
         onDownload={() => downloadBlob(result.blob, result.filename, result.isZip ? "application/zip" : "application/pdf")}
         onReset={resetAll}
         resetLabel="Convert more images"
-        suggestedSlugs={["compress-pdf", "merge-pdf", "rotate-pdf", "pdf-to-images"]}
+        suggestedSlugs={TOOL_SUGGESTIONS["images-to-pdf"]}
       >
         <div className="rounded-2xl border bg-white p-6" style={{ borderColor: "#ececef" }}>
           <div className="flex items-center gap-4">
