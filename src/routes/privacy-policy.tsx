@@ -42,7 +42,7 @@ export const Route = createFileRoute("/privacy-policy")({
 
 function PrivacyPolicyPage() {
   return (
-    <LegalPage title="Privacy Policy" updated={LAST_UPDATED}>
+    <LegalPage title="Privacy Policy" updated="August 18, 2026">
       <h2>Our core privacy promise</h2>
       <div
         className="rounded-lg border-l-4 p-4 my-4"
