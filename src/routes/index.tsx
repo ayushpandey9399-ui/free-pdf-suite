@@ -20,7 +20,7 @@ const homeJsonLd = {
       name: SITE_NAME,
       url: SITE_URL,
       description:
-        "PDFToolConverter is a free suite of browser-based PDF tools, merge, split, compress, sign, convert and more, built by a small independent team in India.",
+        "Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use! Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.",
       foundingDate: "2026",
       email: CONTACT_EMAIL,
       logo: {

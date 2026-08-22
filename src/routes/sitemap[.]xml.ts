@@ -6,14 +6,40 @@ import { SITE_URL, LAST_UPDATED } from "@/lib/site";
 
 const BASE_URL = SITE_URL;
 
-// Convert human-readable LAST_UPDATED ("July 18, 2026") to ISO date (YYYY-MM-DD)
-// for sitemap <lastmod>. Falls back to the literal string if parsing fails.
+// Specific dates provided by the user for indexing status
+const CUSTOM_DATES: Record<string, string> = {
+  "/privacy-policy": "2026-08-18",
+  "/tools/edit-pdf": "2026-08-18",
+  "/tools/scan-to-pdf": "2026-08-18",
+  "/image-tools/png-to-webp": "2026-08-18",
+  "/image-tools/jpg-to-png": "2026-08-18",
+  "/tools/header-footer": "2026-08-18",
+  "/tools/images-to-pdf": "2026-08-18",
+  "/image-tools/rotate-image": "2026-08-18",
+  "/tools/pdf-to-text": "2026-08-18",
+  "/about": "2026-08-18",
+  "/tools/fill-forms": "2026-08-18",
+  "/tools/compress": "2026-08-18",
+  "/tools/extract-images": "2026-08-18",
+  "/tools/pdf-to-images": "2026-08-18",
+  "/tools/page-numbers": "2026-08-18",
+  "/image-tools/photo-editor": "2026-08-18",
+  "/tools/extract-pages": "2026-08-18",
+  "/tools/watermark": "2026-08-18",
+  "/image-tools/heic-to-jpg": "2026-08-18",
+  "/image-tools": "2026-08-18",
+  "/tools/split": "2026-08-18",
+  "/tools/merge": "2026-08-17",
+  "/": "2026-08-17",
+  "/tools/add-blank-pages": "2026-08-17",
+};
+
 function toIsoDate(input: string): string {
   const d = new Date(input);
   if (Number.isNaN(d.getTime())) return input;
   return d.toISOString().slice(0, 10);
 }
-const LASTMOD = toIsoDate(LAST_UPDATED);
+const DEFAULT_LASTMOD = toIsoDate(LAST_UPDATED);
 
 interface SitemapEntry {
   path: string;
@@ -26,34 +52,30 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
-        // Build the sitemap from the SAME registries the site renders from,
-        // so a newly added tool is picked up automatically and can never be
-        // forgotten here. No hardcoded per-tool duplicate lists.
         const entries: SitemapEntry[] = [
-          { path: "/", lastmod: LASTMOD, changefreq: "weekly", priority: "1.0" },
+          { path: "/", lastmod: CUSTOM_DATES["/"] || DEFAULT_LASTMOD, changefreq: "weekly", priority: "1.0" },
 
           ...tools.map((t) => ({
             path: `/tools/${t.slug}`,
-            lastmod: LASTMOD,
+            lastmod: CUSTOM_DATES[`/tools/${t.slug}`] || DEFAULT_LASTMOD,
             changefreq: "monthly" as const,
             priority: "0.8",
           })),
 
-          { path: "/image-tools", lastmod: LASTMOD, changefreq: "monthly", priority: "0.7" },
+          { path: "/image-tools", lastmod: CUSTOM_DATES["/image-tools"] || DEFAULT_LASTMOD, changefreq: "monthly", priority: "0.7" },
           ...imageTools.map((t) => ({
             path: `/image-tools/${t.slug}`,
-            lastmod: LASTMOD,
+            lastmod: CUSTOM_DATES[`/image-tools/${t.slug}`] || DEFAULT_LASTMOD,
             changefreq: "monthly" as const,
             priority: "0.8",
           })),
 
-          { path: "/about", lastmod: LASTMOD, changefreq: "yearly", priority: "0.5" },
-          { path: "/contact", lastmod: LASTMOD, changefreq: "yearly", priority: "0.5" },
-          { path: "/privacy-policy", lastmod: LASTMOD, changefreq: "yearly", priority: "0.3" },
-          { path: "/terms", lastmod: LASTMOD, changefreq: "yearly", priority: "0.3" },
+          { path: "/about", lastmod: CUSTOM_DATES["/about"] || DEFAULT_LASTMOD, changefreq: "yearly", priority: "0.5" },
+          { path: "/contact", lastmod: CUSTOM_DATES["/contact"] || DEFAULT_LASTMOD, changefreq: "yearly", priority: "0.5" },
+          { path: "/privacy-policy", lastmod: CUSTOM_DATES["/privacy-policy"] || DEFAULT_LASTMOD, changefreq: "yearly", priority: "0.3" },
+          { path: "/terms", lastmod: CUSTOM_DATES["/terms"] || DEFAULT_LASTMOD, changefreq: "yearly", priority: "0.3" },
         ];
 
-        // De-dupe defensively in case a slug ever appears in two registries.
         const seen = new Set<string>();
         const unique = entries.filter((e) => {
           if (seen.has(e.path)) return false;
@@ -84,8 +106,6 @@ export const Route = createFileRoute("/sitemap.xml")({
         return new Response(xml, {
           headers: {
             "Content-Type": "application/xml; charset=utf-8",
-            // Short edge cache so newly added tools appear within an hour,
-            // with SWR so crawlers never see a stale-blocking response.
             "Cache-Control": "public, max-age=300, s-maxage=600, stale-while-revalidate=3600",
           },
         });

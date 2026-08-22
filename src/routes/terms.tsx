@@ -42,7 +42,7 @@ export const Route = createFileRoute("/terms")({
 
 function TermsPage() {
   return (
-    <LegalPage title="Terms of Use" updated={LAST_UPDATED}>
+    <LegalPage title="Terms of Use" updated="August 18, 2026">
       <p>
         Welcome to PDFToolConverter. These Terms of Use ("Terms") govern your access to and use
         of the PDFToolConverter website and tools.
