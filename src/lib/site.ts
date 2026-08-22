@@ -3,4 +3,4 @@
 export const SITE_NAME = "PDFToolConverter";
 export const SITE_URL = "https://pdftoolconverteronline.com";
 export const CONTACT_EMAIL = "hello@pdftoolconverteronline.com";
-export const LAST_UPDATED = "July 18, 2026";
+export const LAST_UPDATED = "August 18, 2026";
