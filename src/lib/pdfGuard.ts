@@ -36,10 +36,17 @@ export async function loadPdfLibDoc(
   }
 }
 
-/** Load a PDF with pdfjs-dist. Throws PdfPasswordError if encrypted. */
+/**
+ * Load a PDF with pdfjs-dist. Throws PdfPasswordError if encrypted.
+ *
+ * NOTE: pdf.js transfers (detaches) the buffer it is given, which silently
+ * turns any caller-held reference into a zero-length buffer. We always hand it
+ * a private copy so callers can keep using their original bytes.
+ */
 export async function loadPdfJsDoc(data: ArrayBuffer | Uint8Array): Promise<PDFDocumentProxy> {
   const pdfjs = await ensurePdfWorker();
-  const task = pdfjs.getDocument({ data });
+  const src = data instanceof Uint8Array ? data : new Uint8Array(data);
+  const task = pdfjs.getDocument({ data: new Uint8Array(src) });
   // Refuse password prompts — surface as our error instead.
   task.onPassword = () => {
     /* no-op — leaving task.promise to reject with PasswordException */
