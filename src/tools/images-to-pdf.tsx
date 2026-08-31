@@ -184,46 +184,48 @@ export default function ImagesToPdf() {
         URL.revokeObjectURL(url);
       }
 
+      // Footprint after rotation: 90/270 swap the axes
+      const rot = ((item.rotation % 360) + 360) % 360;
+      const swapped = rot === 90 || rot === 270;
+      const footW = swapped ? img.height : img.width;
+      const footH = swapped ? img.width : img.height;
+
       let pageW, pageH;
       if (pageSize === "fit") {
-        pageW = img.width + m * 2;
-        pageH = img.height + m * 2;
+        pageW = footW + m * 2;
+        pageH = footH + m * 2;
       } else {
         const base = pageSize === "a4" ? PageSizes.A4 : PageSizes.Letter;
         [pageW, pageH] = orientation === "landscape" ? [base[1], base[0]] : [base[0], base[1]];
       }
 
       const page = pdf.addPage([pageW, pageH]);
-      
+
       const availW = pageW - m * 2;
       const availH = pageH - m * 2;
-      const scale = Math.min(availW / img.width, availH / img.height);
+      // Fit the rotated footprint, then derive the drawn size from the same scale
+      const scale = Math.min(availW / footW, availH / footH);
       const w = img.width * scale;
       const h = img.height * scale;
 
-      // Handle rotation around center for pdf-lib's bottom-left anchor
-      const radians = (item.rotation * Math.PI) / 180;
+      // Rotate the bottom-left anchor around the page centre so the
+      // rotated image stays centred instead of drifting off the page
+      const radians = (rot * Math.PI) / 180;
       const cos = Math.cos(radians);
       const sin = Math.sin(radians);
-      
-      // Target center
-      const cx = (pageW - w) / 2 + w / 2;
-      const cy = (pageH - h) / 2 + h / 2;
-      
-      // Translate anchor based on rotation
-      // 0 deg: (cx - w/2, cy - h/2)
-      // 90 deg: (cx + h/2, cy - w/2)
-      // 180 deg: (cx + w/2, cy + h/2)
-      // 270 deg: (cx - h/2, cy + w/2)
-      const rx = (cx - w / 2 - cx) * cos - (cy - h / 2 - cy) * sin + cx;
-      const ry = (cx - w / 2 - cx) * sin + (cy - h / 2 - cy) * cos + cy;
+
+      const cx = pageW / 2;
+      const cy = pageH / 2;
+
+      const rx = (-w / 2) * cos - (-h / 2) * sin + cx;
+      const ry = (-w / 2) * sin + (-h / 2) * cos + cy;
 
       page.drawImage(img, {
         x: rx,
         y: ry,
         width: w,
         height: h,
-        rotate: degrees(item.rotation),
+        rotate: degrees(rot),
       });
     }
 
