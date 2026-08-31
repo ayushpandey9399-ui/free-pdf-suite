@@ -138,7 +138,8 @@ export default function CompressPdf() {
     setLoadingLabel("Compressing your PDF...");
     
     try {
-      const originalBytes = await file.arrayBuffer();
+      // Keep our own copy: pdf.js detaches whatever buffer it is given.
+      const originalBytes = new Uint8Array(await file.arrayBuffer());
       const levelInfo = LEVELS.find((l) => l.id === level)!;
       const doc = await loadPdfJsDoc(originalBytes);
       const total = doc.numPages;
