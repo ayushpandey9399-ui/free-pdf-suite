@@ -5,7 +5,7 @@ import { FileDropzone } from "@/components/FileDropzone";
 import { ToolWorkspace, InfoTip } from "@/components/ToolWorkspace";
 import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 import { downloadBlob } from "@/lib/download";
-import { loadPdfJsDoc, isPdfPasswordError } from "@/lib/pdfGuard";
+import { loadPdfJsDoc, loadPdfLibDoc, isPdfPasswordError } from "@/lib/pdfGuard";
 import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
 import { usePdfStats } from "@/hooks/usePdfStats";
