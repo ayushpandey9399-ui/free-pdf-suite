@@ -5,7 +5,7 @@ import { FileDropzone } from "@/components/FileDropzone";
 import { ToolWorkspace, InfoTip } from "@/components/ToolWorkspace";
 import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 import { downloadBlob } from "@/lib/download";
-import { loadPdfJsDoc, isPdfPasswordError } from "@/lib/pdfGuard";
+import { loadPdfJsDoc, loadPdfLibDoc, isPdfPasswordError } from "@/lib/pdfGuard";
 import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
 import { usePdfStats } from "@/hooks/usePdfStats";
@@ -138,7 +138,8 @@ export default function CompressPdf() {
     setLoadingLabel("Compressing your PDF...");
     
     try {
-      const originalBytes = await file.arrayBuffer();
+      // Keep our own copy: pdf.js detaches whatever buffer it is given.
+      const originalBytes = new Uint8Array(await file.arrayBuffer());
       const levelInfo = LEVELS.find((l) => l.id === level)!;
       const doc = await loadPdfJsDoc(originalBytes);
       const total = doc.numPages;
@@ -170,21 +171,49 @@ export default function CompressPdf() {
         setProgress((i / total) * 100);
       }
 
-      const saved = await out.save({ useObjectStreams: true });
-      const compressedSize = saved.byteLength;
+      setLoadingLabel("Rebuilding the PDF structure...");
+      const raster = await out.save({ useObjectStreams: true });
+
+      // Second candidate: lossless structural rewrite of the original. This is
+      // what actually helps text-heavy PDFs, where rasterising pages is bigger.
+      let lossless: Uint8Array | null = null;
+      try {
+        const src = await loadPdfLibDoc(originalBytes);
+        lossless = await src.save({ useObjectStreams: true });
+      } catch {
+        lossless = null;
+      }
+
       const originalSize = file.size;
-      const keptOriginal = compressedSize >= originalSize;
-      
-      const finalBlob = keptOriginal
-        ? new Blob([originalBytes], { type: "application/pdf" })
-        : new Blob([saved as BlobPart], { type: "application/pdf" });
-        
+      const candidates: { bytes: Uint8Array; size: number }[] = [
+        { bytes: raster, size: raster.byteLength },
+      ];
+      if (lossless && lossless.byteLength > 0) {
+        candidates.push({ bytes: lossless, size: lossless.byteLength });
+      }
+      const best = candidates.reduce((a, b) => (b.size < a.size ? b : a));
+
+      console.info("[compress] original:", originalSize, "raster:", raster.byteLength,
+        "lossless:", lossless?.byteLength ?? "n/a", "chosen:", best.size);
+
+      // Only fall back to the original when neither strategy actually helped.
+      const keptOriginal = best.size >= originalSize;
+      const outputBytes = keptOriginal ? originalBytes : best.bytes;
+
+      const finalBlob = new Blob([outputBytes.slice() as unknown as BlobPart], {
+        type: "application/pdf",
+      });
+      if (finalBlob.size === 0) {
+        throw new Error("Compression produced an empty file. Please try again.");
+      }
+      console.info("[compress] download blob bytes:", finalBlob.size);
+
       const base = file.name.replace(/\.pdf$/i, "");
       setResult({
         blob: finalBlob,
         filename: `${base}-compressed.pdf`,
         originalSize,
-        outputSize: keptOriginal ? originalSize : compressedSize,
+        outputSize: finalBlob.size,
         keptOriginal,
       });
       
