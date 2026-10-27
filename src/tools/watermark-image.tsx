@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { Download, X, Loader2, Type as TypeIcon, Image as ImageIcon2 } from "lucide-react";
 import { loadJSZip } from "@/lib/lazyLibs";
 import { saveAs } from "@/lib/saveFile";
-import { guardDecodedSize, isSvgFile, uniqueZipName } from "@/lib/imageSafety";
+import { guardDecodedSize, isSvgFile, uniqueZipName, singleZipEntry } from "@/lib/imageSafety";
 
 type Fmt = "jpg" | "png" | "webp";
 type WmType = "text" | "logo";
@@ -398,6 +398,11 @@ export function WatermarkImageTool() {
     const zip = new JSZip();
     const used = new Set<string>();
     for (const r of done) zip.file(uniqueZipName(used, r.outName!), r.outBlob!);
+    const single = await singleZipEntry(zip);
+    if (single) {
+      saveAs(single.blob, single.name);
+      return;
+    }
     const blob = await zip.generateAsync({ type: "blob" });
     saveAs(blob, "watermarked-images.zip");
   };

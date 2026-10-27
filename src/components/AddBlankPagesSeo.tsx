@@ -150,7 +150,7 @@ export const addBlankPagesHowToJsonLd = {
   "@context": "https://schema.org",
   "@type": "HowTo",
   name: "How to add blank pages to a PDF online",
-  description: "Insert empty pages anywhere in your PDF — before, after, or between existing pages. Free, private, and instant.",
+  description: "Insert empty pages anywhere in your PDF, before, after, or between existing pages. Free, private, and instant.",
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,

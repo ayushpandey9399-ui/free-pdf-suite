@@ -119,7 +119,7 @@ export function WatermarkPdfSeo() {
       </div>
 
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        How to Add Watermark to PDF Online — Step by Step
+        How to Add Watermark to PDF Online, Step by Step
       </h2>
       <ol className="mt-5 space-y-4">
         {steps.map((s, i) => (

@@ -119,7 +119,7 @@ export function DeletePagesSeo() {
       </div>
 
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        How to Delete PDF Pages Online — Step by Step
+        How to Delete PDF Pages Online, Step by Step
       </h2>
       <ol className="mt-5 space-y-4">
         {steps.map((s, i) => (
@@ -136,11 +136,11 @@ export function DeletePagesSeo() {
       </ol>
 
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Delete Pages vs Split PDF — What is the difference?
+        Delete Pages vs Split PDF, What is the difference?
       </h2>
       <div className="mt-4 space-y-4 text-[15px] leading-relaxed text-[#4a4a55]">
         <p>
-          While they might seem similar, deleting pages and splitting a PDF serve different purposes. When you delete pages, your goal is usually to create a single, 'cleaned-up' version of the original document. You identify the parts that aren't needed—like a blank back page or an old cover—and discard them permanently. The result is one file that is a direct, shorter descendant of the original.
+          While they might seem similar, deleting pages and splitting a PDF serve different purposes. When you delete pages, your goal is usually to create a single, 'cleaned-up' version of the original document. You identify the parts that aren't needed, like a blank back page or an old cover, and discard them permanently. The result is one file that is a direct, shorter descendant of the original.
         </p>
         <p>
           Splitting a PDF, on the other hand, is about reorganization and compartmentalization. You might have a 100-page document that contains 10 different invoices, and you want each invoice to be its own individual file. In this case, you aren't deleting anything; you are multiplying the document into many smaller, standalone units. Splitting is ideal for distribution, while deleting is ideal for refinement.

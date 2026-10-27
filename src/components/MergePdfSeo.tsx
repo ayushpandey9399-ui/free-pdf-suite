@@ -111,7 +111,7 @@ export function MergePdfSeo() {
           In professional settings, merging PDFs is essential. Lawyers combine case documents, evidence, and correspondence into 
           unified case files. Accountants merge invoices, receipts, and financial statements before filing. Project managers combine 
           progress reports from different team members into one deliverable. HR departments merge employee onboarding documents 
-          — offer letters, tax forms, ID copies, and policy acknowledgments — into a single personnel file.
+         , offer letters, tax forms, ID copies, and policy acknowledgments, into a single personnel file.
         </p>
         <p>
           Students and researchers regularly need to merge PDFs. Combining lecture notes from different weeks into one study guide, 
@@ -232,7 +232,7 @@ export function MergePdfSeo() {
           <h3 className="text-[18px] font-bold text-[#33333c]">No Quality Loss</h3>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             The merging process preserves every element of your original PDFs exactly as they are. Text remains selectable, images retain their original resolution, 
-            hyperlinks continue to work, and form fields stay fillable. The merged file is not a re-encoded copy — it is a precise combination of the original page data.
+            hyperlinks continue to work, and form fields stay fillable. The merged file is not a re-encoded copy, it is a precise combination of the original page data.
           </p>
         </div>
         <div>
@@ -246,7 +246,7 @@ export function MergePdfSeo() {
           <h3 className="text-[18px] font-bold text-[#33333c]">Works on Every Device and Browser</h3>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             The PDF merger works on Windows, Mac, Linux, ChromeOS, iOS, and Android. It runs in any modern browser including Chrome, Firefox, Safari, Edge, and Opera. 
-            No software download, plugin, or app installation is needed — just open the page and start merging.
+            No software download, plugin, or app installation is needed, just open the page and start merging.
           </p>
         </div>
         <div>

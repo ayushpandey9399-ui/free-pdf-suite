@@ -200,33 +200,33 @@ export function HeicToJpgSeo() {
         JPG (JPEG) is the universal image format supported by every device, operating system, browser, and application in the world. Converting HEIC photos to JPG solves the compatibility problem permanently. The converted JPG files can be opened, shared, uploaded, and used everywhere without any format errors or compatibility issues.
       </p>
       <p className="mt-3">
-        Converting HEIC to JPG is essential in everyday situations. Sending iPhone photos to Android users, uploading photos to government and university portals, submitting photos to online stores, printing at a photo lab, sharing with Windows users via email, and posting on websites that do not accept HEIC — all of these require JPG format.
+        Converting HEIC to JPG is essential in everyday situations. Sending iPhone photos to Android users, uploading photos to government and university portals, submitting photos to online stores, printing at a photo lab, sharing with Windows users via email, and posting on websites that do not accept HEIC, all of these require JPG format.
       </p>
 
-      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">How to Convert HEIC to JPG Online — Step by Step</h2>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-1">Step 1 — Upload Your HEIC Files</h3>
+      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">How to Convert HEIC to JPG Online: Step by Step</h2>
+      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-1">Step 1: Upload Your HEIC Files</h3>
       <p className="mt-2">
-        Click the "Select HEIC files" button or drag and drop your HEIC photos onto the upload area. You can add multiple HEIC files at once for batch conversion. All processing happens locally in your browser — your photos never leave your device.
+        Click the "Select HEIC files" button or drag and drop your HEIC photos onto the upload area. You can add multiple HEIC files at once for batch conversion. All processing happens locally in your browser, your photos never leave your device.
       </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-2">Step 2 — Set Quality Options</h3>
+      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-2">Step 2: Set Quality Options</h3>
       <p className="mt-2">
-        Choose the output quality level. Higher quality preserves more image detail but produces larger JPG files. For most everyday uses — sharing on messaging apps, social media, or email — standard quality produces excellent results at a fraction of the file size. For professional or print use, select maximum quality.
+        Choose the output quality level. Higher quality preserves more image detail but produces larger JPG files. For most everyday uses, sharing on messaging apps, social media, or email, standard quality produces excellent results at a fraction of the file size. For professional or print use, select maximum quality.
       </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-3">Step 3 — Convert All Files</h3>
+      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-3">Step 3: Convert All Files</h3>
       <p className="mt-2">
         Click the convert button. The tool processes each HEIC file individually in your browser using the heic2any library. Multiple files are converted simultaneously for fast batch processing. A progress indicator shows the status of each file.
       </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-4">Step 4 — Download Your JPG Files</h3>
+      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-4">Step 4: Download Your JPG Files</h3>
       <p className="mt-2">
-        Download individual JPG files or download all converted images at once as a ZIP archive. Every JPG output file is clean — no watermarks, no branding, and full quality preserved from the original HEIC source.
+        Download individual JPG files or download all converted images at once as a ZIP archive. Every JPG output file is clean, no watermarks, no branding, and full quality preserved from the original HEIC source.
       </p>
 
       <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Why iPhone Photos Are Saved as HEIC</h2>
       <p className="mt-3">
-        Apple introduced HEIC as the default camera format in iOS 11 to help users store more photos without running out of storage space. The iPhone's camera produces high-resolution images — a 12-megapixel photo shot on an iPhone can be 6-8MB as a JPEG. With HEIC compression, that same photo shrinks to 3-4MB with no visible quality difference to the human eye. For users who take hundreds of photos, this difference adds up to gigabytes of saved storage.
+        Apple introduced HEIC as the default camera format in iOS 11 to help users store more photos without running out of storage space. The iPhone's camera produces high-resolution images, a 12-megapixel photo shot on an iPhone can be 6-8MB as a JPEG. With HEIC compression, that same photo shrinks to 3-4MB with no visible quality difference to the human eye. For users who take hundreds of photos, this difference adds up to gigabytes of saved storage.
       </p>
       <p className="mt-3">
-        HEIC also supports advanced features that JPEG cannot match. It can store multiple images in a single file — this is how iPhone Live Photos work (storing both the still image and the short video clip in one HEIC file). HEIC supports 16-bit color depth compared to JPEG's 8-bit, producing more accurate colors and smoother gradients. It also stores depth information from Portrait mode shots.
+        HEIC also supports advanced features that JPEG cannot match. It can store multiple images in a single file, this is how iPhone Live Photos work (storing both the still image and the short video clip in one HEIC file). HEIC supports 16-bit color depth compared to JPEG's 8-bit, producing more accurate colors and smoother gradients. It also stores depth information from Portrait mode shots.
       </p>
       <p className="mt-3">
         You can configure your iPhone to capture photos in JPG instead of HEIC by going to Settings → Camera → Formats → Most Compatible. This saves all future photos as JPG but uses more storage space. Most iPhone users prefer to keep HEIC for storage efficiency and convert photos to JPG only when needed for sharing or uploading.
@@ -243,11 +243,11 @@ export function HeicToJpgSeo() {
       </p>
       <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Printing at Photo Labs</h3>
       <p className="mt-2">
-        Professional photo printing services — both online and in-store — universally accept JPG photos. Many do not accept HEIC. Converting iPhone photos to JPG before ordering prints ensures the lab receives files in the format their printing systems expect.
+        Professional photo printing services, both online and in-store, universally accept JPG photos. Many do not accept HEIC. Converting iPhone photos to JPG before ordering prints ensures the lab receives files in the format their printing systems expect.
       </p>
       <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Editing in Photo Software</h3>
       <p className="mt-2">
-        Many photo editing applications — including older versions of Photoshop, Lightroom, GIMP, and most free online editors — do not support HEIC files directly. Converting to JPG first lets you edit the photos in any application without compatibility errors.
+        Many photo editing applications, including older versions of Photoshop, Lightroom, GIMP, and most free online editors, do not support HEIC files directly. Converting to JPG first lets you edit the photos in any application without compatibility errors.
       </p>
       <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Sharing on Social Media</h3>
       <p className="mt-2">
@@ -263,10 +263,10 @@ export function HeicToJpgSeo() {
       </p>
       <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Submitting ID Photos and Document Scans</h3>
       <p className="mt-2">
-        Many official applications — for jobs, universities, visas, and registrations — require photo submissions in JPG format with specific file size limits. HEIC files are consistently rejected by these systems. Converting to JPG and then compressing if needed ensures the submission meets all requirements.
+        Many official applications, for jobs, universities, visas, and registrations, require photo submissions in JPG format with specific file size limits. HEIC files are consistently rejected by these systems. Converting to JPG and then compressing if needed ensures the submission meets all requirements.
       </p>
 
-      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">HEIC vs JPG — Full Comparison</h2>
+      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">HEIC vs JPG: Full Comparison</h2>
       <div className="mt-4 overflow-hidden rounded-lg border border-[#eee]">
         <table className="w-full text-left text-[14px]">
           <thead className="bg-[#f9fafb] text-[#383E45]">

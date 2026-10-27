@@ -180,7 +180,7 @@ export function CompressPdfSeo() {
       <p>
         The reduction you get from compressing a PDF depends heavily on what the file contains. Image-heavy documents
         compress the most dramatically. A PDF created from scanned paper pages, which are common in contracts, legal documents,
-        and old reports — typically compresses by 60-80%. A 20MB scanned contract can realistically become 4-8MB.
+        and old reports, typically compresses by 60-80%. A 20MB scanned contract can realistically become 4-8MB.
       </p>
       <p>
         PDFs created directly from Word or Excel files with embedded high-resolution photos also compress significantly.

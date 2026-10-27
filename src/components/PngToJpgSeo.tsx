@@ -127,7 +127,7 @@ export const pngToJpgFaqJsonLd = {
       name: "Will the JPG look the same as the PNG?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "For photographs, yes — the difference at standard quality settings is invisible to the human eye.",
+        text: "For photographs, yes, the difference at standard quality settings is invisible to the human eye.",
       },
     },
     {
@@ -200,21 +200,21 @@ export function PngToJpgSeo() {
         Email attachments and messaging apps also have practical file size limits. Many email providers cap attachment sizes at 20-25MB. WhatsApp and Telegram compress large images automatically, reducing quality. Converting PNG images to JPG before attaching them gives you control over the output quality and ensures the recipient receives the image exactly as you intended.
       </p>
 
-      <h2 id="how-to" className="mt-10 text-[22px] font-bold text-[#1F2937]">How to Convert PNG to JPG Online — Step by Step</h2>
-      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">Step 1 — Upload Your PNG Images</h3>
-      <p className="mt-2">Click the "Select images" button or drag and drop your PNG files onto the upload area. You can add multiple PNG files at once for batch conversion. All processing runs locally in your browser — your images never leave your device.</p>
-      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">Step 2 — Set Output Quality</h3>
+      <h2 id="how-to" className="mt-10 text-[22px] font-bold text-[#1F2937]">How to Convert PNG to JPG Online: Step by Step</h2>
+      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">Step 1: Upload Your PNG Images</h3>
+      <p className="mt-2">Click the "Select images" button or drag and drop your PNG files onto the upload area. You can add multiple PNG files at once for batch conversion. All processing runs locally in your browser, your images never leave your device.</p>
+      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">Step 2: Set Output Quality</h3>
       <p className="mt-2">Choose the JPG output quality level. Higher quality produces sharper images with larger file sizes. Lower quality produces smaller files with some visible compression artifacts. For most everyday purposes, 80-90% quality produces excellent results at a fraction of the PNG file size.</p>
-      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">Step 3 — Convert Your Images</h3>
+      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">Step 3: Convert Your Images</h3>
       <p className="mt-2">Click the convert button. The tool renders each PNG on an HTML Canvas and encodes it as JPG at your chosen quality level. Multiple files are processed simultaneously for fast batch conversion. Transparent areas in PNG images are filled with a white background in the JPG output.</p>
-      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">Step 4 — Download Your JPG Files</h3>
+      <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">Step 4: Download Your JPG Files</h3>
       <p className="mt-2">Download individual JPG files or download all converted images at once as a ZIP archive. Each JPG output file is clean and watermark-free.</p>
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">Should You Convert PNG to JPG? When It Makes Sense</h2>
       <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">When PNG to JPG Conversion Is the Right Choice</h3>
-      <p className="mt-2">Photographs and photo-like images with millions of colors, gradients, and smooth tonal transitions compress extremely well as JPG with minimal visible quality loss. If your PNG file contains a photo — a landscape, portrait, product photo, or any image that came from a camera — converting it to JPG will typically reduce file size by 70-90% with no noticeable difference in appearance on screen.</p>
+      <p className="mt-2">Photographs and photo-like images with millions of colors, gradients, and smooth tonal transitions compress extremely well as JPG with minimal visible quality loss. If your PNG file contains a photo, a landscape, portrait, product photo, or any image that came from a camera, converting it to JPG will typically reduce file size by 70-90% with no noticeable difference in appearance on screen.</p>
       <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">When to Stay With PNG</h3>
-      <p className="mt-2">PNG is the right format for logos, icons, text, line art, screenshots, illustrations, and any image with large areas of solid color or sharp edges. Converting these types of images to JPG can introduce visible compression artifacts — blurring, color banding, and noise around sharp edges — that degrade quality noticeably. If your PNG contains a logo or graphic with transparent areas, converting to JPG will replace the transparency with a white background, which may not be what you want.</p>
+      <p className="mt-2">PNG is the right format for logos, icons, text, line art, screenshots, illustrations, and any image with large areas of solid color or sharp edges. Converting these types of images to JPG can introduce visible compression artifacts, blurring, color banding, and noise around sharp edges, that degrade quality noticeably. If your PNG contains a logo or graphic with transparent areas, converting to JPG will replace the transparency with a white background, which may not be what you want.</p>
       <h3 className="mt-6 text-[18px] font-semibold text-[#1F2937]">The Quality Setting Matters</h3>
       <p className="mt-2">The JPG quality slider determines how aggressively the file is compressed. Quality 95 produces a file that looks virtually identical to the PNG original with a modest size reduction. Quality 80 produces a much smaller file with quality that is excellent for web use and invisible at normal viewing sizes. Quality 60 or below can introduce visible artifacts in photographic images.</p>
 
@@ -231,9 +231,9 @@ export function PngToJpgSeo() {
       </ul>
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">What Happens to Transparent Backgrounds?</h2>
-      <p className="mt-3">PNG files support transparent backgrounds — areas where no color is stored and the background of whatever is behind the image shows through. JPG does not support transparency. Every pixel in a JPG file must have a color value. When a PNG with a transparent background is converted to JPG, the transparent areas must be filled with a solid color.</p>
-      <p className="mt-3">Our tool fills transparent PNG areas with a white background during conversion. This is the most common and expected behavior — most PNG files with transparent backgrounds are designed to be placed on white or light-colored backgrounds. The result is a JPG where the transparent areas appear white, and the main image content appears exactly as it did in the original PNG.</p>
-      <p className="mt-3">If you need a different background color for the transparent areas — for example, black, gray, or a specific brand color — you will need to first open the PNG in an image editor, fill the transparent area with the desired color, and then convert the resulting non-transparent PNG to JPG. Our <Link to="/image-tools/$slug" params={{ slug: "compress-image" }} className="text-[#e5322d] underline">Compress Image tool</Link> can then further reduce the file size if needed.</p>
+      <p className="mt-3">PNG files support transparent backgrounds, areas where no color is stored and the background of whatever is behind the image shows through. JPG does not support transparency. Every pixel in a JPG file must have a color value. When a PNG with a transparent background is converted to JPG, the transparent areas must be filled with a solid color.</p>
+      <p className="mt-3">Our tool fills transparent PNG areas with a white background during conversion. This is the most common and expected behavior, most PNG files with transparent backgrounds are designed to be placed on white or light-colored backgrounds. The result is a JPG where the transparent areas appear white, and the main image content appears exactly as it did in the original PNG.</p>
+      <p className="mt-3">If you need a different background color for the transparent areas, for example, black, gray, or a specific brand color, you will need to first open the PNG in an image editor, fill the transparent area with the desired color, and then convert the resulting non-transparent PNG to JPG. Our <Link to="/image-tools/$slug" params={{ slug: "compress-image" }} className="text-[#e5322d] underline">Compress Image tool</Link> can then further reduce the file size if needed.</p>
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">Browser-Based vs Server-Based PNG to JPG Conversion</h2>
       <div className="mt-4 overflow-x-auto">

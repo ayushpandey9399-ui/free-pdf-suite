@@ -43,7 +43,7 @@ const faqs = [
   },
   {
     q: "What is the difference between JPG and PNG output?",
-    a: "JPG produces smaller files suitable for most sharing purposes. PNG produces larger files with sharper edges — better for text-heavy documents and design work.",
+    a: "JPG produces smaller files suitable for most sharing purposes. PNG produces larger files with sharper edges, better for text-heavy documents and design work.",
   },
   {
     q: "Can I convert a PDF to PNG instead of JPG?",
@@ -111,7 +111,7 @@ export function PdfToImagesSeo() {
         Privacy is another reason to convert PDFs to images. A JPG image cannot contain hidden metadata, embedded scripts, hyperlinks, or interactive form fields that could track the recipient or expose document properties. Converting a sensitive PDF page to a JPG creates a clean image with no hidden data; it's ideal for sharing visual content without exposing the underlying document structure.
       </p>
 
-      <h2>How to Convert PDF to JPG Online — Step by Step</h2>
+      <h2>How to Convert PDF to JPG Online: Step by Step</h2>
       <div className="space-y-6">
         {steps.map((s, i) => (
           <div key={i} className="flex gap-4">
@@ -134,7 +134,7 @@ export function PdfToImagesSeo() {
         PNG uses lossless compression, meaning every pixel of the image is stored exactly as it appears with no approximation. PNG files are larger than JPG files but preserve perfectly sharp edges on text, logos, diagrams, and line art. When you convert a PDF page containing crisp black text on a white background to PNG, the text remains perfectly sharp at any zoom level. The same conversion to JPG may show very slight softening around the edges of characters at high zoom.
       </p>
       <p>
-        For most everyday uses — sharing documents via email or messaging, posting to social media, inserting into presentations — JPG quality is completely sufficient and the smaller file size makes it more convenient. For professional print work, archival purposes, or situations where the image will be further edited, PNG is the better choice.
+        For most everyday uses, sharing documents via email or messaging, posting to social media, inserting into presentations, JPG quality is completely sufficient and the smaller file size makes it more convenient. For professional print work, archival purposes, or situations where the image will be further edited, PNG is the better choice.
       </p>
       <p>
         PNG also supports transparent backgrounds, which JPG does not. If a PDF page has a transparent background and you need the resulting image to maintain transparency (for example, to overlay it on another design), PNG is the only correct choice. JPG will fill any transparent area with white.
@@ -147,7 +147,7 @@ export function PdfToImagesSeo() {
       </p>
       <h2>Insert PDF Content Into Presentations</h2>
       <p>
-        PowerPoint, Google Slides, Keynote, and other presentation tools allow you to insert images but not PDF pages. Converting a specific PDF page — such as a chart, diagram, or summary slide — to JPG lets you insert it directly into your presentation at any size.
+        PowerPoint, Google Slides, Keynote, and other presentation tools allow you to insert images but not PDF pages. Converting a specific PDF page, such as a chart, diagram, or summary slide, to JPG lets you insert it directly into your presentation at any size.
       </p>
       <h2>Create Document Thumbnails and Previews</h2>
       <p>
@@ -163,11 +163,11 @@ export function PdfToImagesSeo() {
       </p>
       <h2>Archive Visual Records of Documents</h2>
       <p>
-        For visual archives — keeping a record of how a document looked at a specific point in time — JPG images are more universally viewable than PDF files, especially as PDF specifications change over time. Converting important document pages to images ensures they remain viewable on any future device or system.
+        For visual archives, keeping a record of how a document looked at a specific point in time, JPG images are more universally viewable than PDF files, especially as PDF specifications change over time. Converting important document pages to images ensures they remain viewable on any future device or system.
       </p>
       <h2>Extract Specific Pages as Standalone Images</h2>
       <p>
-        When you need to share just one page from a long PDF — such as the signature page of a contract, a specific chart from a report, or a single certificate from a multi-certificate document — converting that specific page to JPG is faster than splitting the PDF and sharing the single-page result.
+        When you need to share just one page from a long PDF, such as the signature page of a contract, a specific chart from a report, or a single certificate from a multi-certificate document, converting that specific page to JPG is faster than splitting the PDF and sharing the single-page result.
       </p>
       <h2>Embed PDF Content in Emails</h2>
       <p>
@@ -185,7 +185,7 @@ export function PdfToImagesSeo() {
       </p>
       <h2>Maximum Quality (300 DPI)</h2>
       <p>
-        Maximum quality renders images at print resolution — the standard for professional printing. Use this setting when images will be printed at large sizes, used in professional print designs, or submitted to print services. File sizes are significantly larger but image clarity is preserved at the highest level.
+        Maximum quality renders images at print resolution, the standard for professional printing. Use this setting when images will be printed at large sizes, used in professional print designs, or submitted to print services. File sizes are significantly larger but image clarity is preserved at the highest level.
       </p>
 
       <h2>Browser-Based vs Server-Based PDF to Image Conversion</h2>

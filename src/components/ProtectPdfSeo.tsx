@@ -63,11 +63,11 @@ const faqs = [
   },
   {
     q: "Will the recipient need special software to open the protected PDF?",
-    a: "No. Any standard PDF reader — including Adobe Acrobat Reader, browser PDF viewers, and mobile PDF apps — can open password-protected PDFs and will prompt for the password.",
+    a: "No. Any standard PDF reader, including Adobe Acrobat Reader, browser PDF viewers, and mobile PDF apps, can open password-protected PDFs and will prompt for the password.",
   },
   {
     q: "Does protecting a PDF increase its file size?",
-    a: "Minimally. Encryption adds a very small amount of overhead — typically less than 1% — to the file size.",
+    a: "Minimally. Encryption adds a very small amount of overhead, typically less than 1%, to the file size.",
   },
   {
     q: "Can I remove the password later?",
@@ -174,7 +174,7 @@ export function ProtectPdfSeo() {
         Offer letters, salary information, performance reviews, disciplinary records, and personal employee data should all be encrypted before sharing, even within an organization. Password protection ensures that sensitive HR documents are only accessible to the intended recipient.
       </p>
 
-      <h2>Two Types of PDF Passwords — What Is the Difference?</h2>
+      <h2>Two Types of PDF Passwords: What Is the Difference?</h2>
       <h2>Document Open Password (User Password)</h2>
       <p>
         This password controls who can open and view the document. Anyone who does not know this password sees a locked file that they cannot read. This is the most common type of PDF protection and is what most people mean when they talk about password protecting a PDF.
@@ -246,11 +246,11 @@ export function ProtectPdfSeo() {
       </p>
       <h2>Share the Password Separately</h2>
       <p>
-        Never include the password in the same email as the protected PDF. Share the password through a different channel — a phone call, text message, or separate encrypted message. This ensures that even if the email is intercepted, the attacker has the encrypted file but not the key to open it.
+        Never include the password in the same email as the protected PDF. Share the password through a different channel, a phone call, text message, or separate encrypted message. This ensures that even if the email is intercepted, the attacker has the encrypted file but not the key to open it.
       </p>
       <h2>Keep a Record of the Password</h2>
       <p>
-        PDF encryption is extremely strong. If you forget the password to a protected PDF, the file is effectively inaccessible — even to us. Store important passwords in a secure password manager so you can always recover them when needed.
+        PDF encryption is extremely strong. If you forget the password to a protected PDF, the file is effectively inaccessible, even to us. Store important passwords in a secure password manager so you can always recover them when needed.
       </p>
       <h2>Restrict Printing and Copying for Sensitive Documents</h2>
       <p>

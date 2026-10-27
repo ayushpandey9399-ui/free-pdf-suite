@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { Loader2, Download, X, Plus, Info, CheckCircle2, AlertCircle } from "lucide-react";
 import { loadJSZip } from "@/lib/lazyLibs";
 import { saveAs } from "@/lib/saveFile";
-import { isSvgFile, uniqueZipName } from "@/lib/imageSafety";
+import { isSvgFile, uniqueZipName, singleZipEntry } from "@/lib/imageSafety";
 import { ToolWorkspace, InfoTip } from "@/components/ToolWorkspace";
 import { requestCompressImage, fetchCompressImageResult, type CompressImageProgress } from "@/lib/compressImage";
 import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
@@ -196,6 +196,11 @@ export function CompressImageTool() {
     const used = new Set<string>();
     for (const r of done) {
       zip.file(uniqueZipName(used, r.outName!), r.outBlob!);
+    }
+    const single = await singleZipEntry(zip);
+    if (single) {
+      saveAs(single.blob, single.name);
+      return;
     }
     const blob = await zip.generateAsync({ type: "blob" });
     saveAs(blob, "compressed-images.zip");
