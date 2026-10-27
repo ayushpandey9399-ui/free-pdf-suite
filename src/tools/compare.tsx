@@ -674,7 +674,7 @@ function LazyPage({
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   const [url, setUrl] = useState<string | null>(() => doc.renderCache.get(pageNum) ?? null);
-  const [rendering, setRendering] = useState(false);
+  const [, setRendering] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
