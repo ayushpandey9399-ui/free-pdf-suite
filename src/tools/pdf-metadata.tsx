@@ -249,7 +249,7 @@ function MetaRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-baseline justify-between gap-3 sm:flex-col sm:items-start sm:gap-0">
       <dt className="text-[12px] uppercase" style={{ color: "#5a5a66", letterSpacing: "0.06em" }}>{label}</dt>
-      <dd className="truncate text-[13.5px]" style={{ color: "#33333c" }}>{value}</dd>
+      <dd className="min-w-0 break-all text-[13.5px]" style={{ color: "#33333c" }}>{value}</dd>
     </div>
   );
 }

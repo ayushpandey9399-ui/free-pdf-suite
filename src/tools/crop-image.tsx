@@ -611,7 +611,7 @@ export function CropImageTool() {
               className="inline-flex h-[46px] items-center justify-center gap-2 rounded-xl border border-[#ececef] bg-white px-4 text-[14px] font-semibold text-[#33333c] hover:bg-[#f9fafb] disabled:opacity-60"
             >
               <Download className="h-4 w-4" />
-              Download ZIP ({doneCount})
+              {doneCount === 1 ? "Download image" : `Download ZIP (${doneCount})`}
             </button>
             <button
               type="button"
