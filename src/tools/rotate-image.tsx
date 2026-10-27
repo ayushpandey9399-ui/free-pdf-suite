@@ -361,7 +361,7 @@ export function RotateImageTool() {
                   disabled={doneCount === 0}
                   className="inline-flex h-[42px] items-center justify-center rounded-xl border border-[#ececef] bg-white px-4 text-[14px] font-semibold text-[#33333c] hover:bg-[#f9fafb] disabled:opacity-60"
                 >
-                  <Download className="mr-2 h-4 w-4" /> ZIP
+                  <Download className="mr-2 h-4 w-4" /> {doneCount === 1 ? "Download" : "ZIP"}
                 </button>
                 <button
                   type="button"
