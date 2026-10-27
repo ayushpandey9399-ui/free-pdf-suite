@@ -24,7 +24,7 @@ const PNG_JPG_TITLE = "PNG to JPG Converter Online Free, PNG to JPEG | PDFToolCo
 const PNG_JPG_DESC =
   "Convert PNG images to JPG online in your browser. Batch convert multiple PNG files to JPEG with quality control. Free, no signup, files never leave your device.";
 
-const WEBP_JPG_TITLE = "WebP to JPG Converter Online Free, WebP to JPEG | PDFToolConverter";
+const WEBP_JPG_TITLE = "WebP to JPG Converter Free, WebP to JPEG | PDFToolConverter";
 const WEBP_JPG_DESC =
   "Convert WebP images to JPG online instantly in your browser. Batch convert multiple WebP files to JPEG. Free, no signup, no watermark, files never leave your device.";
 
