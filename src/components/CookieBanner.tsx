@@ -50,7 +50,7 @@ export function CookieBanner() {
     <div
       role="dialog"
       aria-label="Cookie consent"
-      className="fixed left-0 right-0 bottom-0 z-50 pointer-events-none px-3 pb-3 sm:px-4 sm:pb-4"
+      className="fixed left-0 right-0 top-0 lg:top-auto lg:bottom-0 z-50 pointer-events-none px-3 pt-3 lg:pt-0 pb-3 sm:px-4 sm:pb-4"
     >
       <div
         className="pointer-events-auto mx-auto max-w-3xl rounded-xl border shadow-lg bg-white p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4"
