@@ -82,9 +82,6 @@ export default function PdfToImages() {
     try {
       const buffer = await next.arrayBuffer();
       const pdfjs = await loadPdfJs();
-      
-      // Setup worker
-      pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
       try {
         const loadingTask = pdfjs.getDocument({ data: buffer.slice(0) });
