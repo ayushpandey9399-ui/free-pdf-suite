@@ -130,42 +130,37 @@ export function CompressImageTool() {
 
           const previewUrl = URL.createObjectURL(blob);
           
-          let updatedRow: Row | undefined;
-          setRows(prev => {
-            const updated = prev.map(r => {
-              if (r.id !== row.id) return r;
-              if (r.previewUrl) URL.revokeObjectURL(r.previewUrl);
-              return {
-                ...r,
-                status: "done" as const,
-                percent: 100,
-                outBlob: blob,
-                outName,
-                outSize: blob.size,
-                savedPct,
-                previewUrl,
-              };
-            });
-            updatedRow = updated.find(x => x.id === row.id);
-            return updated;
-          });
-          if (updatedRow) results.push(updatedRow);
+          // Build the finished row here, not inside the setRows updater:
+          // React may run updaters later, which used to leave `results`
+          // empty and wrongly report success with nothing to download.
+          const doneRow: Row = {
+            ...row,
+            status: "done" as const,
+            percent: 100,
+            outBlob: blob,
+            outName,
+            outSize: blob.size,
+            savedPct,
+            previewUrl,
+          };
+          setRows(prev => prev.map(r => {
+            if (r.id !== row.id) return r;
+            if (r.previewUrl) URL.revokeObjectURL(r.previewUrl);
+            return { ...r, ...doneRow };
+          }));
+          results.push(doneRow);
         } catch (err: any) {
           if (err.name === 'AbortError') throw err;
           
-          let erroredRow: Row | undefined;
-          setRows(prev => {
-            const updated = prev.map(r => 
-              r.id === row.id ? { ...r, status: "error" as const, error: err.message || "Failed" } : r
-            );
-            erroredRow = updated.find(x => x.id === row.id);
-            return updated;
-          });
-          if (erroredRow) results.push(erroredRow);
+          const error = err?.message || "Failed";
+          setRows(prev => prev.map(r =>
+            r.id === row.id ? { ...r, status: "error" as const, error } : r
+          ));
+          results.push({ ...row, status: "error" as const, error });
         }
       }
 
-      if (results.every(r => r.status === "done")) {
+      if (results.length > 0 && results.every(r => r.status === "done")) {
         setSuccess(true);
         toast.success("All images compressed successfully!");
       } else {
