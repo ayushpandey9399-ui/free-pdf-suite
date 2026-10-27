@@ -228,7 +228,7 @@ export function PngToJpgTool() {
                 disabled={!doneCount}
                 className="inline-flex items-center gap-2 rounded-lg border border-[#ececef] bg-white px-5 py-2.5 text-[14px] font-semibold text-[#33333c] disabled:opacity-50"
               >
-                <Download className="h-4 w-4" /> Download all as ZIP
+                <Download className="h-4 w-4" /> {doneCount === 1 ? "Download image" : "Download all as ZIP"}
               </button>
               <button
                 type="button"
