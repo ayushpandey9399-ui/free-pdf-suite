@@ -106,7 +106,7 @@ export function ExtractPagesSeo() {
       <p>Furthermore, extracting pages is the most effective way to reduce file size for email attachments and uploads. Instead of struggling with a 50MB file that hits the attachment limit, you can extract the few pages that actually matter, resulting in a much smaller PDF that sends instantly. Because our tool runs entirely in your browser, this process is not only secure but also incredibly fast, as there is no upload or download lag to worry about.</p>
       <p>Finally, page extraction allows for better document organization. If you are compiling a portfolio or a project report, pulling specific sections from multiple sources into their own separate files makes it much easier to manage your references and finalize your submissions.</p>
 
-      <h2>How to extract PDF pages — Step by Step</h2>
+      <h2>How to extract PDF pages: Step by Step</h2>
       <ol className="mt-5 space-y-4">
         {steps.map((s, i) => (
           <li key={i} className="flex gap-4">
@@ -121,10 +121,10 @@ export function ExtractPagesSeo() {
         ))}
       </ol>
 
-      <h2>Extract pages vs split PDF vs delete pages — what is the difference?</h2>
+      <h2>Extract pages vs split PDF vs delete pages: what is the difference?</h2>
       <p>While these tools may seem similar, they serve distinct purposes. <strong>Extracting pages</strong> is the process of hand-picking specific pages you want to keep and placing them into a single new document. It is the most surgical approach, ideal when you only need a small subset of a larger file.</p>
       <p><strong>Splitting a PDF</strong> is more about division. It allows you to take a single document and break it into multiple separate files, often by page ranges (e.g., pages 1-10 as file A and pages 11-20 as file B). This is best for organizing large reports into manageable chapters or individual invoices from a batch.</p>
-      <p><strong>Deleting pages</strong> is essentially the inverse of extraction. Instead of picking what to keep, you identify the pages you want to discard—like blank pages or cover sheets—and remove them while keeping the rest of the document intact. Each tool is designed to make these specific workflows as fast and intuitive as possible.</p>
+      <p><strong>Deleting pages</strong> is essentially the inverse of extraction. Instead of picking what to keep, you identify the pages you want to discard, like blank pages or cover sheets, and remove them while keeping the rest of the document intact. Each tool is designed to make these specific workflows as fast and intuitive as possible.</p>
 
       <h2>8 use cases for extracting PDF pages</h2>
       <h2>Extracting specific chapters</h2>

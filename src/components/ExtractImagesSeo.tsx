@@ -106,7 +106,7 @@ export function ExtractImagesSeo() {
         <p>Researchers, students, and analysts frequently deal with academic textbooks, research papers, and industrial reports filled with essential charts, diagrams, and infographics. Extracting these visual assets allows for easy citation and reuse in your own research or study materials without the need to recreate complex graphics from scratch. By using our image extraction tool, you ensure that the integrity and clarity of the original technical visuals are preserved for your own documentation, wikis, or academic projects.</p>
         <p>Finally, archival tasks often demand that documents be broken down into their constituent parts for preservation. Extracting photos, official stamps, signatures, or historical documents from a PDF helps in organizing and cataloging digital assets. Our tool creates standalone files from these elements, which can then be safely backed up, managed, or indexed individually, ensuring that your document archives are thorough and accessible.</p>
 
-        <h2>How to Extract Images from a PDF — Step by Step</h2>
+        <h2>How to Extract Images from a PDF: Step by Step</h2>
         <div className="mt-5 space-y-4 not-prose">
           {steps.map((s, i) => (
             <div key={i} className="flex gap-4">
@@ -225,8 +225,8 @@ export function ExtractImagesSeo() {
           </table>
         </div>
 
-        <h2>Extract Images vs Convert PDF to Image — What Is the Difference?</h2>
-        <p>While these operations are frequently confused, they serve fundamentally different purposes. Extracting images from a PDF specifically identifies and retrieves the individual image files that were embedded within the document — such as logos, photos, and charts. Each resulting file is a standalone asset at its original resolution.</p>
+        <h2>Extract Images vs Convert PDF to Image: What Is the Difference?</h2>
+        <p>While these operations are frequently confused, they serve fundamentally different purposes. Extracting images from a PDF specifically identifies and retrieves the individual image files that were embedded within the document, such as logos, photos, and charts. Each resulting file is a standalone asset at its original resolution.</p>
         <p>Conversely, converting a PDF to image is a page-level operation. This process takes every single page of a PDF document and renders it as a flat image file, encompassing all text, background colors, headers, footers, and structural formatting. The output here is a screenshot-like image of the full page, not the individual embedded assets themselves.</p>
         <p>Select the "Extract Images" tool when you require specific photos, logos, or graphics previously embedded inside the document. Use the "PDF to Image" tool if you need a visual representation of the entire page for reference or sharing. If the latter is what you require, please use our <Link to="/tools/$slug" params={{ slug: "pdf-to-images" }} className="text-[#e5322d] hover:underline">PDF to Image tool</Link> instead. If you have multiple documents, you might want to use our <Link to="/tools/$slug" params={{ slug: "merge" }} className="text-[#e5322d] hover:underline">Merge PDF tool</Link> first to combine them before extraction.</p>
 

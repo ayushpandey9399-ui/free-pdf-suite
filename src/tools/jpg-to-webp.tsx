@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { Loader2, Download, X } from "lucide-react";
 import { loadJSZip } from "@/lib/lazyLibs";
 import { saveAs } from "@/lib/saveFile";
-import { guardDecodedSize, isSvgFile, uniqueZipName } from "@/lib/imageSafety";
+import { guardDecodedSize, isSvgFile, uniqueZipName, singleZipEntry } from "@/lib/imageSafety";
 
 type Row = {
   id: string;
@@ -202,6 +202,11 @@ export function JpgToWebpTool() {
     for (const r of done) {
       const base = r.file.name.replace(/\.jpe?g$/i, "");
       zip.file(uniqueZipName(used, `${base}.webp`), r.outBlob!);
+    }
+    const single = await singleZipEntry(zip);
+    if (single) {
+      saveAs(single.blob, single.name);
+      return;
     }
     const blob = await zip.generateAsync({ type: "blob" });
     saveAs(blob, "jpg-to-webp.zip");

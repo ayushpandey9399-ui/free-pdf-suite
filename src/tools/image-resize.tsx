@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { Loader2, Download, X, AlertTriangle } from "lucide-react";
 import { loadJSZip } from "@/lib/lazyLibs";
 import { saveAs } from "@/lib/saveFile";
-import { guardDecodedSize, isSvgFile, uniqueZipName } from "@/lib/imageSafety";
+import { guardDecodedSize, isSvgFile, uniqueZipName, singleZipEntry } from "@/lib/imageSafety";
 
 type Mode = "pixels" | "percent";
 type Fmt = "jpg" | "png" | "webp";
@@ -328,6 +328,11 @@ export function ImageResizeTool() {
     const used = new Set<string>();
     for (const r of done) {
       zip.file(uniqueZipName(used, r.outName!), r.outBlob!);
+    }
+    const single = await singleZipEntry(zip);
+    if (single) {
+      saveAs(single.blob, single.name);
+      return;
     }
     const blob = await zip.generateAsync({ type: "blob" });
     saveAs(blob, "resized-images.zip");

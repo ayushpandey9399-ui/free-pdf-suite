@@ -55,3 +55,22 @@ export function uniqueZipName(used: Set<string>, name: string): string {
   used.add(candidate);
   return candidate;
 }
+
+const MIME_BY_EXT: Record<string, string> = {
+  jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", webp: "image/webp", gif: "image/gif",
+};
+
+/**
+ * If a JSZip archive holds exactly one file, return that file as a typed Blob
+ * with its name so callers can download it directly instead of as a ZIP.
+ */
+export async function singleZipEntry(
+  zip: { files: Record<string, { dir: boolean; async(t: "uint8array"): Promise<Uint8Array> }> },
+): Promise<{ name: string; blob: Blob } | null> {
+  const names = Object.keys(zip.files).filter((n) => !zip.files[n].dir);
+  if (names.length !== 1) return null;
+  const name = names[0];
+  const ext = name.split(".").pop()?.toLowerCase() ?? "";
+  const bytes = await zip.files[name].async("uint8array");
+  return { name, blob: new Blob([bytes as BlobPart], { type: MIME_BY_EXT[ext] ?? "application/octet-stream" }) };
+}

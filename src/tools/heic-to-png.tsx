@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { Loader2, Download, X } from "lucide-react";
 import { loadJSZip } from "@/lib/lazyLibs";
 import { saveAs } from "@/lib/saveFile";
-import { isSvgFile, uniqueZipName } from "@/lib/imageSafety";
+import { isSvgFile, uniqueZipName, singleZipEntry } from "@/lib/imageSafety";
 
 type Row = {
   id: string;
@@ -134,6 +134,11 @@ export function HeicToPngTool() {
         const rawName = r.outBlobs!.length === 1 ? `${base}.png` : `${base}-${i + 1}.png`;
         zip.file(uniqueZipName(used, rawName), b);
       });
+    }
+    const single = await singleZipEntry(zip);
+    if (single) {
+      saveAs(single.blob, single.name);
+      return;
     }
     const blob = await zip.generateAsync({ type: "blob" });
     saveAs(blob, "heic-to-png.zip");

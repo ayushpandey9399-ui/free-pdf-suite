@@ -27,7 +27,7 @@ const faqs = [
   },
   {
     q: "Do I need to know the password to unlock a PDF?",
-    a: "Yes. This tool requires the correct password to decrypt the file. It does not crack or bypass encryption — it removes the protection layer after you authenticate with the correct password.",
+    a: "Yes. This tool requires the correct password to decrypt the file. It does not crack or bypass encryption, it removes the protection layer after you authenticate with the correct password.",
   },
   {
     q: "Do my files get uploaded to a server?",
@@ -105,13 +105,13 @@ export function UnlockPdfSeo() {
         Many PDF tools and workflows do not accept password-protected files as inputs. If you try to merge a locked PDF with other documents, the merger will fail. If you try to compress an encrypted PDF, the compressor cannot access the content. If you need to extract pages, add page numbers, or watermark a password-protected document, you first need to remove the protection and then perform the operation on the unlocked copy.
       </p>
       <p>
-        Long-term document storage is another common reason to unlock PDFs. If you received an encrypted document years ago and want to archive it without needing to remember or look up the password every time you need to view it, unlocking it and saving the decrypted copy as your archive version is a practical solution — provided you are authorized to do so.
+        Long-term document storage is another common reason to unlock PDFs. If you received an encrypted document years ago and want to archive it without needing to remember or look up the password every time you need to view it, unlocking it and saving the decrypted copy as your archive version is a practical solution, provided you are authorized to do so.
       </p>
       <p>
         It is important to understand that a PDF unlocker does not bypass or crack encryption. You must know the correct password to unlock the file. What the tool does is use the password you provide to decrypt the file and save a new copy without the protection layer. This is the equivalent of opening a locked filing cabinet with your key, making a copy of the contents, and putting the copy in an unlocked folder for easier access.
       </p>
 
-      <h2>How to Unlock a PDF Online — Step by Step</h2>
+      <h2>How to Unlock a PDF Online: Step by Step</h2>
       <div className="space-y-6">
         {steps.map((s, i) => (
           <div key={i} className="flex gap-4">
@@ -175,10 +175,10 @@ export function UnlockPdfSeo() {
         Unlocking a PDF is legal when you are the authorized recipient of the document and you know the password. If a bank sent you a protected statement, an employer sent you an encrypted payslip, or a government agency sent you a protected certificate, you have full authorization to unlock and use that document as needed.
       </p>
       <p>
-        It is not legal to use a PDF unlocking tool to bypass protection on documents you are not authorized to access, crack passwords on commercially distributed e-books or content to circumvent digital rights management, or remove protection from someone else's confidential documents without permission. Our tool requires you to know and enter the correct password — it does not bypass or crack encryption.
+        It is not legal to use a PDF unlocking tool to bypass protection on documents you are not authorized to access, crack passwords on commercially distributed e-books or content to circumvent digital rights management, or remove protection from someone else's confidential documents without permission. Our tool requires you to know and enter the correct password, it does not bypass or crack encryption.
       </p>
       <p>
-        If you have forgotten the password to a document you own or created yourself, you should contact the original sender for a new copy or check whether you stored the password in a password manager. Our tool cannot unlock a PDF without the correct password — it simply removes the protection layer after authentication.
+        If you have forgotten the password to a document you own or created yourself, you should contact the original sender for a new copy or check whether you stored the password in a password manager. Our tool cannot unlock a PDF without the correct password, it simply removes the protection layer after authentication.
       </p>
 
       <h2>Browser-Based vs Server-Based PDF Unlocking</h2>
@@ -255,7 +255,7 @@ export function UnlockPdfSeo() {
       </p>
       <h2>Check Permissions After Unlocking</h2>
       <p>
-        Some PDFs have two layers of protection — an open password and a permissions password. After removing the open password, verify that printing and copying are now available. If restrictions remain, the permissions password may still be active.
+        Some PDFs have two layers of protection, an open password and a permissions password. After removing the open password, verify that printing and copying are now available. If restrictions remain, the permissions password may still be active.
       </p>
 
       <h2>Frequently Asked Questions About Unlocking PDFs</h2>

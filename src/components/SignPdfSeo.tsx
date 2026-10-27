@@ -149,7 +149,7 @@ export function SignPdfSeo() {
         <h2>Medical and Healthcare Consent Forms</h2>
         <p>Patient consent forms, medical history questionnaires, and healthcare authorization documents can be signed electronically before appointments. This saves time at the clinic and keeps sensitive health information on the patient's own device rather than a third-party server.</p>
         <h2>Government and Official Forms</h2>
-        <p>Many government applications — including visa applications, permit requests, and business registrations — require a signed PDF submission. Electronic signing lets you complete and return these forms quickly without printing and scanning.</p>
+        <p>Many government applications, including visa applications, permit requests, and business registrations, require a signed PDF submission. Electronic signing lets you complete and return these forms quickly without printing and scanning.</p>
         <h2>Real Estate Documents</h2>
         <p>Property purchase agreements, seller disclosure forms, mortgage applications, and inspection reports are commonly signed electronically in real estate transactions. Electronic signing speeds up a process that previously required multiple in-person meetings.</p>
         <h2>Academic and School Documents</h2>
@@ -161,7 +161,7 @@ export function SignPdfSeo() {
         <h2>Electronic Signature vs Digital Signature: What Is the Difference?</h2>
         <p>These two terms are often used interchangeably but they refer to different things. An electronic signature is any electronic method that indicates a person's intent to agree to a document. This includes drawing your signature on screen, typing your name, clicking an \"I agree\" button, or uploading a signature image. Electronic signatures are simple, fast, and legally binding for most everyday documents.</p>
         <p>A digital signature is a specific type of electronic signature that uses cryptographic technology. It generates a unique encrypted \"fingerprint\" of the document at the moment of signing and ties it to a digital certificate that verifies the signer's identity. Digital signatures can prove that a document has not been altered since it was signed and can verify exactly who signed it.</p>
-        <p>For most everyday purposes — contracts, agreements, forms, letters, and business documents — an electronic signature is fully sufficient and legally valid. Digital signatures are typically required only for high-stakes legal filings, government submissions, and financial transactions that require a certified audit trail and tamper-proof verification.</p>
+        <p>For most everyday purposes, contracts, agreements, forms, letters, and business documents, an electronic signature is fully sufficient and legally valid. Digital signatures are typically required only for high-stakes legal filings, government submissions, and financial transactions that require a certified audit trail and tamper-proof verification.</p>
         <p>Our tool creates electronic signatures that are embedded directly into the PDF. These are legally valid for the vast majority of everyday signing needs. If you require a certified digital signature with a full audit trail and identity verification certificate, you would need a dedicated e-signature platform.</p>
       </section>
 
@@ -230,7 +230,7 @@ export function SignPdfSeo() {
       <section className="mb-12">
         <h2>Tips for Signing PDFs Effectively</h2>
         <h2>Use a Transparent PNG for the Cleanest Signature</h2>
-        <p>If you are uploading a signature image, save it as a PNG file with a transparent background. This ensures the signature blends naturally with the document background without a white box around it. Most phone apps that let you sign on a white paper and photograph it produce images with white backgrounds — trim these using our <Link to='/image-tools/$slug' params={{ slug: 'crop-image' }} className='text-[#e5322d] hover:underline'>Crop Image tool</Link> before uploading.</p>
+        <p>If you are uploading a signature image, save it as a PNG file with a transparent background. This ensures the signature blends naturally with the document background without a white box around it. Most phone apps that let you sign on a white paper and photograph it produce images with white backgrounds, trim these using our <Link to='/image-tools/$slug' params={{ slug: 'crop-image' }} className='text-[#e5322d] hover:underline'>Crop Image tool</Link> before uploading.</p>
         <h2>Draw on a Touchscreen for the Best Results</h2>
         <p>If you have a tablet or smartphone with a stylus, use it to draw your signature. The result looks more natural than drawing with a mouse and more closely resembles your actual handwritten signature.</p>
         <h2>Protect the Signed PDF With a Password</h2>
@@ -279,7 +279,7 @@ export const signFaqJsonLd = {
 export const signHowToJsonLd = {
   "@context": "https://schema.org",
   "@type": "HowTo",
-  name: "How to Sign a PDF Online — Step by Step",
+  name: "How to Sign a PDF Online, Step by Step",
   description: "Sign PDF documents online instantly in your browser. Draw, type or upload your signature and place it anywhere on your PDF. Free, no signup, no watermark, files never leave your device.",
   step: steps.map((s, i) => ({
     "@type": "HowToStep",

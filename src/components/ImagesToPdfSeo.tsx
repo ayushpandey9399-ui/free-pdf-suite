@@ -111,7 +111,7 @@ export function ImagesToPdfSeo() {
         Converting images to PDF also offers better control over the final document. You can set the page size (A4, Letter, or custom), choose the orientation (portrait or landscape), control the margins, and arrange the images in any order before generating the PDF. This level of control is not possible when simply sharing raw image files.
       </p>
 
-      <h2>How to Convert Images to PDF — Step by Step</h2>
+      <h2>How to Convert Images to PDF: Step by Step</h2>
       <div className="space-y-6">
         {steps.map((s, i) => (
           <div key={i} className="flex gap-4">

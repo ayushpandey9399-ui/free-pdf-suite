@@ -102,11 +102,11 @@ export function ReorderPagesSeo() {
     <section className="mx-auto max-w-4xl px-4 pb-16 seo-content">
       <h2>Why reorder PDF pages?</h2>
       <p>Managing digital documents often involves fixing errors that occurred during creation or scanning. Reordering PDF pages is one of the most common tasks for professionals who need their documents to be perfectly structured. Whether you've scanned a stack of papers and found them out of sequence, or you're assembling a complex report from multiple contributors, the ability to rearrange pages visually is essential for maintaining a logical flow.</p>
-      <p>Professional presentation is key in business and academia. A document with sections in the wrong order—like a resume appearing before the cover letter, or a conclusion sandwiched between data tables—looks disorganized and can confuse your audience. By reordering pages, you ensure that your message is delivered exactly as intended, leading to better engagement and clarity for your readers.</p>
+      <p>Professional presentation is key in business and academia. A document with sections in the wrong order, like a resume appearing before the cover letter, or a conclusion sandwiched between data tables, looks disorganized and can confuse your audience. By reordering pages, you ensure that your message is delivered exactly as intended, leading to better engagement and clarity for your readers.</p>
       <p>Reorganizing merged documents is another major use case. When you combine several PDFs, the resulting file might not follow the desired sequence. Instead of re-merging every individual file in a specific order, you can simply merge them all at once and then use our reorder tool to fine-tune the final sequence. This saves significant time and effort, especially when dealing with dozens of source files.</p>
       <p>Finally, browser-based reordering offers a massive privacy advantage. Traditional methods often involve uploading your entire document to a third-party server. With our tool, every page stays on your device. You can rearrange sensitive contracts, medical records, or financial statements with total peace of mind, knowing that your data never leaves your computer.</p>
 
-      <h2>How to reorder PDF pages — Step by Step</h2>
+      <h2>How to reorder PDF pages: Step by Step</h2>
       <ol className="mt-5 space-y-4">
         {steps.map((s, i) => (
           <li key={i} className="flex gap-4">
@@ -149,10 +149,10 @@ export function ReorderPagesSeo() {
       <h2>Academic paper organization</h2>
       <p>Ensure that your thesis or research paper follows the correct academic structure, moving the abstract and bibliography to their required positions.</p>
 
-      <h2>Reorder vs Split vs Delete pages — what is the difference?</h2>
+      <h2>Reorder vs Split vs Delete pages: what is the difference?</h2>
       <p>It's important to choose the right tool for your specific document management needs. <strong>Reordering pages</strong> is about sequence; it takes every page in your file and lets you move them around without removing or adding anything. It is the best choice when the content is all there but in the wrong order.</p>
       <p><strong>Splitting a PDF</strong> is about division. It takes one document and breaks it into two or more separate files. This is useful if you have a single PDF containing multiple distinct documents that need to be filed individually.</p>
-      <p><strong>Deleting pages</strong> is about removal. It allows you to pick specific pages—like blank sheets or irrelevant cover pages—and discard them permanently while keeping the rest of the document in its original order. Each tool is optimized for its specific task to ensure the best results.</p>
+      <p><strong>Deleting pages</strong> is about removal. It allows you to pick specific pages, like blank sheets or irrelevant cover pages, and discard them permanently while keeping the rest of the document in its original order. Each tool is optimized for its specific task to ensure the best results.</p>
 
       <h2>Browser-based vs server-based comparison</h2>
       <table className="w-full text-left border-collapse border border-[#ececef] my-6">

@@ -24,7 +24,7 @@ const steps = [
 const faqs: { q: string; a: ReactNode }[] = [
   {
     q: "How can I edit a PDF for free without Adobe?",
-    a: "Our free PDF editor allows you to add text, images, annotations, and shapes directly in your browser. Simply upload your PDF, choose a tool from the sidebar, and make your edits instantly—no Adobe Acrobat or subscription required.",
+    a: "Our free PDF editor allows you to add text, images, annotations, and shapes directly in your browser. Simply upload your PDF, choose a tool from the sidebar, and make your edits instantly, no Adobe Acrobat or subscription required.",
   },
   {
     q: "Can I add text to a PDF?",
@@ -100,11 +100,11 @@ export function EditPdfSeo() {
     <section className="mx-auto max-w-4xl px-4 pb-16 seo-content">
       <h2>Why Edit PDFs Online?</h2>
       <p>Editing PDFs used to require expensive, heavy desktop software like Adobe Acrobat. Now, you can perform essential edits directly in your web browser. Online PDF editing is perfect for quick adjustments, such as adding a missing signature, correcting a typo, or adding a brief annotation. By keeping everything in the browser, you maintain total control over your files while enjoying the convenience of instant access without the need for installations.</p>
-      <p>Beyond convenience, our browser-based approach provides a significant privacy advantage. When you use traditional cloud-based PDF editors, your documents are uploaded to a remote server, where they are parsed and stored—at least temporarily. With our PDF editor, all processing happens locally on your device. Your file stays on your computer, providing peace of mind when working with confidential contracts, personal identification, or financial documents.</p>
+      <p>Beyond convenience, our browser-based approach provides a significant privacy advantage. When you use traditional cloud-based PDF editors, your documents are uploaded to a remote server, where they are parsed and stored, at least temporarily. With our PDF editor, all processing happens locally on your device. Your file stays on your computer, providing peace of mind when working with confidential contracts, personal identification, or financial documents.</p>
       <p>Whether you need to mark up a research paper, add logos to a flyer, or simply fill in a non-interactive form, an online PDF editor gives you the versatility to do it all in seconds. It bridges the gap between static documents and dynamic workflows, allowing you to turn a rigid file into an active, collaborative document without the cost or complexity of professional design software.</p>
       <p>Finally, the accessibility of online PDF editing cannot be overstated. You can start a edit on your office desktop, make a quick change from your tablet during a meeting, or finish your task from a home laptop. Because it's all web-based, you have a consistent toolset at your fingertips, no matter where your day takes you.</p>
 
-      <h2>How to edit a PDF — Step by Step</h2>
+      <h2>How to edit a PDF: Step by Step</h2>
       <ol className="mt-5 space-y-4">
         {steps.map((s, i) => (
           <li key={i} className="flex gap-4">

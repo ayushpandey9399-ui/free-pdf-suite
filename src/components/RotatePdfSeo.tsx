@@ -99,7 +99,7 @@ export function RotatePdfSeo() {
     <section className="mx-auto max-w-4xl px-4 pb-16 seo-content">
       <h2>Why Would You Need to Rotate PDF Pages?</h2>
       <p>
-        PDF pages end up in the wrong orientation for many common reasons. When you scan a paper document by placing it sideways in a scanner, the resulting PDF has landscape pages where portrait pages were expected. When you photograph a document with a phone held at an angle, the scanned page may appear upside down or rotated by 90 degrees. When PDFs are created from different source files — some in portrait and some in landscape — the combined document can have inconsistent page orientations that make reading awkward.
+        PDF pages end up in the wrong orientation for many common reasons. When you scan a paper document by placing it sideways in a scanner, the resulting PDF has landscape pages where portrait pages were expected. When you photograph a document with a phone held at an angle, the scanned page may appear upside down or rotated by 90 degrees. When PDFs are created from different source files, some in portrait and some in landscape, the combined document can have inconsistent page orientations that make reading awkward.
       </p>
       <p>
         Rotating PDF pages permanently fixes the orientation so viewers always see the correct reading direction without needing to manually rotate their screen or scroll at an angle. This is especially important when sharing documents professionally. A report with sideways pages signals careless preparation. Correcting the orientation before sending shows attention to detail and makes the document easier for recipients to read on all devices.
@@ -111,7 +111,7 @@ export function RotatePdfSeo() {
         Rotating is also essential when preparing PDFs for formal submissions. Government portals, university systems, legal filing platforms, and employer application systems expect correctly oriented documents. A sideways or upside-down page in a submitted document can cause it to be rejected or create confusion during review.
       </p>
 
-      <h2>How to Rotate PDF Pages Online — Step by Step</h2>
+      <h2>How to Rotate PDF Pages Online: Step by Step</h2>
       <div className="space-y-6">
         {steps.map((s, i) => (
           <div key={i} className="flex gap-4">
@@ -137,7 +137,7 @@ export function RotatePdfSeo() {
       </p>
       <h2>Rotate 180 Degrees</h2>
       <p>
-        Flips the page completely upside down. Use this when a page is fully inverted — text appears upside down from the reader's perspective. Scanning a document with the paper inserted upside down into the scanner is a common cause of this issue.
+        Flips the page completely upside down. Use this when a page is fully inverted, text appears upside down from the reader's perspective. Scanning a document with the paper inserted upside down into the scanner is a common cause of this issue.
       </p>
 
       <h2>Common Situations Where PDF Rotation Is Needed</h2>
@@ -147,7 +147,7 @@ export function RotatePdfSeo() {
       </p>
       <h2>Correct Mixed Orientation in Combined Documents</h2>
       <p>
-        When you merge PDFs created from different sources — some portrait, some landscape — the resulting document often has inconsistent page orientations. Rotating specific pages brings the entire document into a consistent orientation for a professional appearance.
+        When you merge PDFs created from different sources, some portrait, some landscape, the resulting document often has inconsistent page orientations. Rotating specific pages brings the entire document into a consistent orientation for a professional appearance.
       </p>
       <h2>Fix PDFs Created From Photos</h2>
       <p>
@@ -176,13 +176,13 @@ export function RotatePdfSeo() {
 
       <h2>Rotate Entire Document vs Rotate Individual Pages</h2>
       <p>
-        Rotating the entire document applies the same rotation angle to every page simultaneously. This is the right choice when all pages in the document have the same incorrect orientation — for example, a scanned document where every page was fed into the scanner sideways. One click corrects all pages at once.
+        Rotating the entire document applies the same rotation angle to every page simultaneously. This is the right choice when all pages in the document have the same incorrect orientation, for example, a scanned document where every page was fed into the scanner sideways. One click corrects all pages at once.
       </p>
       <p>
-        Rotating individual pages gives you precise control over specific pages that need correction while leaving all other pages unchanged. This is necessary when a document has mixed orientations — perhaps pages 1-5 are correctly oriented in portrait but page 6 contains a landscape chart that should be rotated 90 degrees for proper viewing.
+        Rotating individual pages gives you precise control over specific pages that need correction while leaving all other pages unchanged. This is necessary when a document has mixed orientations, perhaps pages 1-5 are correctly oriented in portrait but page 6 contains a landscape chart that should be rotated 90 degrees for proper viewing.
       </p>
       <p>
-        Our tool supports both modes. You can select all pages or choose specific pages to rotate. For documents with complex mixed orientations, you can make multiple passes — rotating one set of pages first, then another set — until all pages are correctly oriented.
+        Our tool supports both modes. You can select all pages or choose specific pages to rotate. For documents with complex mixed orientations, you can make multiple passes, rotating one set of pages first, then another set, until all pages are correctly oriented.
       </p>
 
       <h2>Browser-Based vs Server-Based PDF Rotation</h2>

@@ -191,10 +191,10 @@ export function JpgToPngSeo() {
     <section className="mx-auto mt-16 max-w-3xl px-4 text-[15px] leading-relaxed text-[#33333c]">
       <h2 className="text-[24px] font-bold text-[#383E45]">Why Convert JPG to PNG?</h2>
       <p className="mt-3">
-        JPG and PNG are the two most common image formats on the internet, but they serve fundamentally different purposes. JPG is a lossy compression format — it reduces file size by permanently discarding some image data that the human eye cannot easily detect. This makes JPG ideal for photographs where small quality reductions are invisible, but it makes JPG a poor choice for images that need to be edited multiple times, contain transparent areas, or display crisp text and sharp lines without any blurring.
+        JPG and PNG are the two most common image formats on the internet, but they serve fundamentally different purposes. JPG is a lossy compression format, it reduces file size by permanently discarding some image data that the human eye cannot easily detect. This makes JPG ideal for photographs where small quality reductions are invisible, but it makes JPG a poor choice for images that need to be edited multiple times, contain transparent areas, or display crisp text and sharp lines without any blurring.
       </p>
       <p className="mt-3">
-        PNG is a lossless compression format — it compresses image data without discarding any information. The result is that PNG files are larger than equivalent JPGs, but they preserve every pixel exactly as it was in the original image. Text in a PNG image looks perfectly sharp at any zoom level. Lines, borders, and geometric shapes have perfectly clean edges. And most importantly, PNG supports transparent backgrounds — a feature that JPG simply does not have.
+        PNG is a lossless compression format, it compresses image data without discarding any information. The result is that PNG files are larger than equivalent JPGs, but they preserve every pixel exactly as it was in the original image. Text in a PNG image looks perfectly sharp at any zoom level. Lines, borders, and geometric shapes have perfectly clean edges. And most importantly, PNG supports transparent backgrounds, a feature that JPG simply does not have.
       </p>
       <p className="mt-3">
         Converting JPG to PNG is necessary when you need to work with an image in a design tool that requires a transparent background. If you have a product photo, logo, or graphic saved as JPG and need to place it on a colored background or overlay it on another image without a white box around it, you first need to convert it to PNG and then use an image editor to remove the background. PNG is the correct format for the final image.
@@ -203,22 +203,22 @@ export function JpgToPngSeo() {
         PNG is also the better choice when an image will be further edited and re-saved multiple times. Every time you save a JPG, it undergoes a new round of lossy compression, which compounds the quality loss. This is known as "generation loss." By converting to PNG first, you ensure that every subsequent save preserves 100% of the remaining image quality.
       </p>
 
-      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">How to Convert JPG to PNG Online — Step by Step</h2>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-1">Step 1 — Upload Your JPG Files</h3>
+      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">How to Convert JPG to PNG Online: Step by Step</h2>
+      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-1">Step 1: Upload Your JPG Files</h3>
       <p className="mt-2">
-        Click the "Select JPG files" button or drag and drop your JPEG photos onto the upload area. You can add multiple JPG files at once for batch conversion. All processing happens locally in your browser — your images never leave your device.
+        Click the "Select JPG files" button or drag and drop your JPEG photos onto the upload area. You can add multiple JPG files at once for batch conversion. All processing happens locally in your browser, your images never leave your device.
       </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-2">Step 2 — Set Conversion Options</h3>
+      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-2">Step 2: Set Conversion Options</h3>
       <p className="mt-2">
         Since PNG is a lossless format, there are no quality settings to adjust like there are with JPG. The tool will automatically preserve the full fidelity of your original image during the conversion process.
       </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-3">Step 3 — Convert All Files</h3>
+      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-3">Step 3: Convert All Files</h3>
       <p className="mt-2">
         Click the convert button. The tool processes each JPG file individually in your browser using the Canvas API. Multiple files are converted simultaneously for fast batch processing. A progress indicator shows the status of each file.
       </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-4">Step 4 — Download Your PNG Files</h3>
+      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-4">Step 4: Download Your PNG Files</h3>
       <p className="mt-2">
-        Download individual PNG files or download all converted images at once as a ZIP archive. Every PNG output file is clean — no watermarks, no branding, and full quality preserved from the original JPG source.
+        Download individual PNG files or download all converted images at once as a ZIP archive. Every PNG output file is clean, no watermarks, no branding, and full quality preserved from the original JPG source.
       </p>
 
       <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Common Situations Where You Need JPG to PNG</h2>
@@ -232,14 +232,14 @@ export function JpgToPngSeo() {
       </p>
       <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Preserving Text Clarity</h3>
       <p className="mt-2">
-        If an image contains text — such as a screenshot, a diagram, or an infographic — JPG compression will often create "halos" or blurry artifacts around the letters. Converting to PNG ensures that the text remains crisp and readable, especially if the image needs to be scaled or embedded in a document.
+        If an image contains text, such as a screenshot, a diagram, or an infographic, JPG compression will often create "halos" or blurry artifacts around the letters. Converting to PNG ensures that the text remains crisp and readable, especially if the image needs to be scaled or embedded in a document.
       </p>
       <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Preparing Images for Further Editing</h3>
       <p className="mt-2">
         If you plan to perform complex edits, color grading, or retouching in software like Photoshop or GIMP, converting the source JPG to PNG first prevents any additional quality loss during the multi-stage editing process.
       </p>
 
-      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">JPG vs PNG — Full Comparison</h2>
+      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">JPG vs PNG: Full Comparison</h2>
       <div className="mt-4 overflow-hidden rounded-lg border border-[#eee]">
         <table className="w-full text-left text-[14px]">
           <thead className="bg-[#f9fafb] text-[#383E45]">

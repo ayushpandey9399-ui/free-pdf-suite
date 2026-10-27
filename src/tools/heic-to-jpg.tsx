@@ -7,7 +7,7 @@ import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 import { TOOL_SUGGESTIONS } from "@/tools/suggestions";
 import { loadJSZip } from "@/lib/lazyLibs";
 import { saveAs } from "@/lib/saveFile";
-import { isSvgFile, uniqueZipName } from "@/lib/imageSafety";
+import { isSvgFile, uniqueZipName, singleZipEntry } from "@/lib/imageSafety";
 import { cn } from "@/lib/utils";
 
 /**
@@ -229,6 +229,11 @@ export function HeicToJpgTool() {
     const zip = new JSZip();
     const used = new Set<string>();
     done.forEach((r) => zip.file(uniqueZipName(used, r.outName!), r.blob!));
+    const single = await singleZipEntry(zip);
+    if (single) {
+      saveAs(single.blob, single.name);
+      return;
+    }
     const blob = await zip.generateAsync({ type: "blob" });
     saveAs(blob, "heic-to-jpg.zip");
   };
