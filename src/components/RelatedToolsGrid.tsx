@@ -4,6 +4,8 @@ import { toolIcons, toolAccent } from "@/components/icons/ToolIcons";
 
 export interface RelatedToolItem {
   to: string;
+  /** Optional route params, e.g. { slug: "split" } when `to` is "/tools/$slug". */
+  params?: { slug?: string };
   name: string;
   blurb: string;
 }
@@ -17,13 +19,15 @@ export function RelatedToolsGrid({ items }: { items: readonly RelatedToolItem[] 
   return (
     <div className="mt-6 grid gap-4 sm:grid-cols-2">
       {items.map((r) => {
-        const slug = slugFromTo(r.to);
+        // Resolve "/tools/$slug" + params into a real path so links, keys and icons all work.
+        const href = r.params?.slug ? r.to.replace("$slug", r.params.slug) : r.to;
+        const slug = slugFromTo(href);
         const Icon = toolIcons[slug];
         const accent = toolAccent[slug] ?? "#e5322d";
         return (
           <Link
-            key={r.to}
-            to={r.to}
+            key={href}
+            to={href}
             className="group flex items-center gap-4 rounded-lg border border-[#eee] p-5 transition-all duration-[180ms] ease-out hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(0,0,0,0.06)]"
             style={{ "--accent": accent } as CSSProperties}
             onMouseEnter={(e) => {

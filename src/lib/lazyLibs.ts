@@ -22,8 +22,10 @@ export async function loadJSZip(): Promise<JSZipCtor> {
   return (await import("jszip")).default;
 }
 
-export function loadPdfJs() {
-  return import("pdfjs-dist/legacy/build/pdf.mjs");
+/** Loads pdf.js with the bundled worker already configured (never a CDN worker). */
+export async function loadPdfJs() {
+  const { ensurePdfWorker } = await import("@/lib/pdfWorker");
+  return ensurePdfWorker();
 }
 
 let warmed = false;

@@ -349,8 +349,11 @@ export default function Compare() {
               {docA.numPages !== docB.numPages && (
                 <div className="rounded-xl border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
                   Document A has {docA.numPages} pages, Document B has {docB.numPages} pages.
-                  Comparing pages 1, {overlap}. Pages {overlap + 1}, {maxPages} exist in only one
-                  document and are listed as “only in” below.
+                  Comparing pages 1 to {overlap}.{" "}
+                  {overlap + 1 === maxPages
+                    ? `Page ${maxPages} exists`
+                    : `Pages ${overlap + 1} to ${maxPages} exist`}{" "}
+                  in only one document and {overlap + 1 === maxPages ? "is" : "are"} listed as “only in” below.
                 </div>
               )}
 
@@ -671,7 +674,7 @@ function LazyPage({
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   const [url, setUrl] = useState<string | null>(() => doc.renderCache.get(pageNum) ?? null);
-  const [rendering, setRendering] = useState(false);
+  const [, setRendering] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
@@ -686,8 +689,11 @@ function LazyPage({
     return () => io.disconnect();
   }, []);
 
+  // `rendering` is intentionally not a dependency: flipping it would re-run this
+  // effect, whose cleanup would cancel the in-flight render and leave the page
+  // stuck on the spinner forever.
   useEffect(() => {
-    if (!visible || url || rendering) return;
+    if (!visible || url) return;
     let cancelled = false;
     setRendering(true);
     const targetWidth = ref.current?.clientWidth ?? 400;
@@ -697,7 +703,7 @@ function LazyPage({
       .catch(() => {})
       .finally(() => { if (!cancelled) setRendering(false); });
     return () => { cancelled = true; };
-  }, [visible, url, rendering, doc, pageNum]);
+  }, [visible, url, doc, pageNum]);
 
   return (
     <div ref={ref} style={{ aspectRatio: `${width} / ${height}` }} className="relative w-full bg-slate-100">
