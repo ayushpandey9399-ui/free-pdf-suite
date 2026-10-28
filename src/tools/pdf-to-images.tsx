@@ -152,7 +152,8 @@ export default function PdfToImages() {
     setProgress(0);
     const results: string[] = [];
 
-    const scaleMap = { low: 1.0, medium: 2.0, high: 4.0 };
+    // PDF units are 72 per inch, so scale = target DPI / 72 (matches the 72/150/300 DPI labels).
+    const scaleMap = { low: 72 / 72, medium: 150 / 72, high: 300 / 72 };
     const scale = scaleMap[quality];
 
     try {

@@ -417,7 +417,7 @@ export default function CompressPdf() {
           </div>
           
           <div className="rounded-xl bg-[#f8f9fa] p-4 text-[12.5px] leading-relaxed text-[#5a5a66] border border-[#ececef]">
-            <strong>Note:</strong> Compression works by re-encoding page images. Text remains sharp at all levels. Heavily compressed images may look slightly softer when zoomed in.
+            <strong>Note:</strong> We try two methods and keep the smaller file. A lossless rewrite keeps text selectable. The image method saves each page as a JPG, which shrinks scans and photos the most but makes text unselectable and slightly softer, especially at Extreme. The result screen tells you which one was used.
           </div>
 
           <div className="mt-auto pt-4 text-center">
