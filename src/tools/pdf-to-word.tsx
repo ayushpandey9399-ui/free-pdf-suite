@@ -247,7 +247,7 @@ export default function PdfToWord() {
         {serverStatus === "down" ? (
           <div
             role="status"
-            className="mx-auto mt-4 max-w-[520px] rounded-xl px-4 py-3 text-left text-[14px] leading-relaxed"
+            className="mx-auto mb-3 max-w-[520px] rounded-xl px-4 py-3 text-left text-[14px] leading-relaxed"
             style={{ backgroundColor: "#fffbeb", border: "1px solid #fde68a", color: "#5a5a66" }}
           >
             <strong style={{ color: "#33333c" }}>Our conversion server is not responding right now.</strong>{" "}
