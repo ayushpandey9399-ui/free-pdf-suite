@@ -1,8 +1,159 @@
-import { Link } from "@tanstack/react-router";
+import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 import { imageTools } from "@/lib/imageTools";
 import { SITE_URL } from "@/lib/site";
 
 const url = `${SITE_URL}/image-tools/webp-to-jpg`;
+
+const related = [
+  {
+    "to": "/image-tools/jpg-to-png",
+    "name": "JPG to PNG",
+    "blurb": "Convert JPG to lossless PNG"
+  },
+  {
+    "to": "/image-tools/png-to-jpg",
+    "name": "PNG to JPG",
+    "blurb": "Convert PNG to high-quality JPG"
+  },
+  {
+    "to": "/image-tools/compress-image",
+    "name": "Compress Image",
+    "blurb": "Reduce JPG file size after converting"
+  },
+  {
+    "to": "/image-tools/image-resize",
+    "name": "Resize Image",
+    "blurb": "Resize images after converting"
+  },
+  {
+    "to": "/image-tools/rotate-image",
+    "name": "Rotate Image",
+    "blurb": "Fix image orientation"
+  },
+  {
+    "to": "/image-tools/images-to-pdf",
+    "name": "Images to PDF",
+    "blurb": "Combine JPGs into a PDF"
+  }
+] as const;
+
+const steps = [
+  {
+    "title": "Add WebP files",
+    "text": "Select or drag in one or more WebP files. SVG and files not identified as WebP are rejected."
+  },
+  {
+    "title": "Set JPG quality",
+    "text": "Choose the JPG quality setting. Higher quality can retain more detail but can also produce a larger file."
+  },
+  {
+    "title": "Convert the images",
+    "text": "Click Convert. Each image is decoded and drawn to a canvas at its decoded dimensions, then encoded as JPG."
+  },
+  {
+    "title": "Download the results",
+    "text": "Download individual successful outputs, or use Download all as ZIP when multiple results are ready."
+  }
+];
+
+const faqs = [
+  {
+    "q": "What happens to transparent backgrounds?",
+    "a": "They become white because JPG does not support transparency."
+  },
+  {
+    "q": "Does conversion improve image quality?",
+    "a": "No. JPG introduces lossy encoding and cannot restore detail missing from the WebP source."
+  },
+  {
+    "q": "Can I convert several files?",
+    "a": "Yes. Add multiple WebP files, convert them in one batch, and download successful outputs individually or as a ZIP."
+  },
+  {
+    "q": "Can I preserve a WebP animation?",
+    "a": "No. The tool produces one static JPG per input. It does not preserve animation or offer frame selection."
+  },
+  {
+    "q": "Why might conversion fail?",
+    "a": "The file may be damaged or unsupported by your browser. Images above 100 million decoded pixels are rejected. Device memory can also limit image dimensions or batch size."
+  },
+  {
+    "q": "Why can the output be larger?",
+    "a": "Different formats encode the same pixels differently. JPG size also depends on the quality setting."
+  }
+];
+
+export function WebpToJpgSeo() {
+  return (
+    <section className="mx-auto mt-14 max-w-4xl space-y-8 px-4 pb-16 text-[#33333c]">
+      <section>
+        <h2 className="text-2xl font-bold">How to convert WebP to JPG</h2>
+        <ol className="mt-4 list-decimal space-y-4 pl-6">
+          {steps.map((step, i) => (
+            <li key={step.title} id={`step-${i + 1}`}>
+              <h3 className="font-semibold">{step.title}</h3>
+              <p className="mt-2 leading-relaxed">{step.text}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+      <section>
+        <h2 className="text-2xl font-bold">Transparency</h2>
+        <p className="mt-3 leading-relaxed">JPG has no alpha channel. The tool fills the canvas with white before drawing the WebP, so transparent areas become white. Use PNG output if you need transparency.</p>
+      </section>
+      <section>
+        <h2 className="text-2xl font-bold">Quality and file size</h2>
+        <p className="mt-3 leading-relaxed">JPG uses lossy compression. Even a high quality setting cannot recover detail already lost in the WebP source. Output size depends on image content and the quality setting; it is not guaranteed to be smaller.</p>
+      </section>
+      <section>
+        <h2 className="text-2xl font-bold">Troubleshooting and limits</h2>
+        <p className="mt-3 leading-relaxed">A decode error can mean a damaged file or missing browser support. Renaming another format to .webp does not make it a valid WebP. Images above 100 million decoded pixels are rejected; device memory can impose lower practical limits. Try fewer or smaller images.</p>
+      </section>
+      <section>
+        <h2 className="text-2xl font-bold">Static output and privacy</h2>
+        <p className="mt-3 leading-relaxed">Conversion runs in the browser without uploading the source images. Each file produces one static image; the tool does not export an animation or a sequence of frames.</p>
+      </section>
+      <section>
+        <h2 className="text-2xl font-bold">Frequently asked questions</h2>
+        <div className="mt-4 space-y-3">
+          {faqs.map((faq) => (
+            <details key={faq.q} className="rounded-lg border p-4">
+              <summary className="cursor-pointer font-semibold">{faq.q}</summary>
+              <p className="mt-3 leading-relaxed">{faq.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+      <section>
+        <h2 className="text-2xl font-bold">Related tools</h2>
+        <RelatedToolsGrid items={related} />
+      </section>
+    </section>
+  );
+}
+
+export const webpToJpgFaqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.q,
+    acceptedAnswer: { "@type": "Answer", text: faq.a },
+  })),
+};
+
+export const webpToJpgHowToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "How to convert WebP to JPG",
+  step: steps.map((step, i) => ({
+    "@type": "HowToStep",
+    position: i + 1,
+    name: step.title,
+    text: step.text,
+    url: `${url}#step-1`,
+  })),
+};
 
 export const webpToJpgSoftwareJsonLd = {
   "@context": "https://schema.org",
@@ -16,352 +167,3 @@ export const webpToJpgSoftwareJsonLd = {
   description:
     "Convert WebP images to JPG online instantly in your browser. Batch convert multiple WebP files to JPEG. Free, no signup, no watermark, files never leave your device.",
 };
-
-export const webpToJpgHowToJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "HowTo",
-  name: "How to convert WebP to JPG",
-  description:
-    "Convert WebP images to universal JPG files online, free, entirely in your browser.",
-  totalTime: "PT1M",
-  step: [
-    {
-      "@type": "HowToStep",
-      position: 1,
-      name: "Upload Your WebP Images",
-      text: "Click the 'Select images' button or drag and drop your WebP files onto the upload area. You can add multiple WebP files at once for batch conversion.",
-      url: `${url}#step-1`,
-    },
-    {
-      "@type": "HowToStep",
-      position: 2,
-      name: "Set Output Quality",
-      text: "Choose the JPG output quality level. Higher quality produces sharper images with larger file sizes. 80-90% is ideal for most uses.",
-      url: `${url}#step-2`,
-    },
-    {
-      "@type": "HowToStep",
-      position: 3,
-      name: "Convert Your Images",
-      text: "Click the convert button. The tool renders each WebP image on an HTML Canvas and encodes it as JPG at your chosen quality level.",
-      url: `${url}#step-3`,
-    },
-    {
-      "@type": "HowToStep",
-      position: 4,
-      name: "Download Your JPG Files",
-      text: "Download each JPG separately, or use Download all as ZIP when you converted more than one image. Each JPG output file is clean and watermark-free.",
-      url: `${url}#step-4`,
-    },
-  ],
-};
-
-export const webpToJpgFaqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "How do I convert WebP to JPG for free?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Upload your WebP images using the button or drag-and-drop above, set your quality level, and click convert. Download your JPG files instantly. No signup required.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "What is a WebP file?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "WebP is a modern image format developed by Google for efficient web image compression. It produces smaller files than JPG and PNG at equivalent quality but has limited compatibility outside of web browsers.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Do my files get uploaded to a server?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "No. All conversion runs in your browser. Your images never leave your device.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Why is the JPG file larger than the original WebP?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "WebP uses a more advanced compression algorithm than JPG, so the same image requires less storage as WebP. Converting to JPG replaces WebP compression with JPG's less efficient compression, producing a larger file.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "What happens to transparent WebP backgrounds?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Transparent areas are filled with white in the JPG output because JPG does not support transparency. Use our WebP to PNG converter to preserve transparency.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I convert multiple WebP files at once?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. Add as many WebP files as needed for batch conversion.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Is there a file size limit?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "We do not set a file size limit, but each image is decoded in your device memory. Images over 100 million pixels (for example larger than 10000 x 10000) are rejected to protect your browser.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I convert animated WebP files?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Static WebP images convert fully to JPG. For animated WebP files, the first frame is converted to JPG.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I convert on my phone?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. The tool works in any mobile browser on iPhone and Android.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Does this work offline?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Conversion itself runs in your browser, so your images are not uploaded. Downloading several files as a ZIP loads a small extra script the first time, which needs a connection.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Why can't I open WebP files on my computer?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "WebP requires recent software to open natively. Windows 10 and 11 can open WebP in modern Edge and Chrome browsers but not all image viewers support it. Converting to JPG makes the image viewable in any image viewer.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I control JPG output quality?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. The quality slider runs from 30 to 100 and starts at 90. Lower values make smaller files with more visible compression artifacts.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Are the output JPG files watermark-free?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. All output files are completely clean with no watermarks.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I convert JPG back to WebP?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. Use our JPG to WebP converter for the reverse conversion.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Is this tool really free with no limits?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. No usage caps, no daily limits, no signup required, no watermarks.",
-      },
-    },
-  ],
-};
-
-export function WebpToJpgSeo() {
-  return (
-    <section className="mx-auto mt-16 max-w-3xl px-4 text-[15px] leading-relaxed text-[#33333c]">
-      <h2 className="text-[24px] font-bold text-[#1F2937]">
-        What Is WebP and Why Convert It to JPG?
-      </h2>
-      <p className="mt-3">
-        WebP is a modern image format developed by Google in 2010 and officially released in 2012. It was designed specifically for web use, offering both lossy and lossless compression in a single format. The key advantage of WebP is its compression efficiency, a WebP image is typically 25-35% smaller than an equivalent JPG at the same visual quality, and up to 26% smaller than a PNG with the same quality. This makes WebP the preferred format for websites, because smaller images mean faster page loads and better performance scores.
-      </p>
-      <p className="mt-3">
-        However, WebP is not yet as universal as JPG. While all modern web browsers support it, many desktop applications, older operating systems, and some email clients still struggle to open WebP files natively. If you need to use an image for a presentation, send it to someone using an older computer, or upload it to a platform that only accepts standard formats, converting WebP to JPG is the most reliable solution. JPEG is the most widely compatible image format in the world, ensuring your image will look the same on every screen and in every application.
-      </p>
-
-      <h2 className="mt-12 text-[24px] font-bold text-[#1F2937]" id="step-1">
-        How Our WebP to JPG Converter Works
-      </h2>
-      <p className="mt-3">
-        Our tool uses high-performance browser-based processing to convert your images. When you upload a WebP file, your browser's rendering engine (the same technology that displays websites) parses the WebP data. It then draws that image onto a hidden HTML Canvas element. From there, we use the browser's native encoding capabilities to extract the pixel data and wrap it in the JPG format at your chosen quality level.
-      </p>
-      <p className="mt-3">
-        This approach offers several significant benefits:
-      </p>
-      <ul className="mt-3 list-disc pl-5">
-        <li><strong>Privacy:</strong> Because the processing happens entirely within your browser, your images are never sent to a remote server. Your private photos stay on your device.</li>
-        <li><strong>Speed:</strong> Local processing is often faster than uploading large files to a server and waiting for a download, especially on slower internet connections.</li>
-        <li><strong>Zero Cost:</strong> We don't have to pay for expensive server-side processing power, allowing us to offer this tool completely for free with no limits.</li>
-      </ul>
-
-      <h3 className="mt-8 text-[18px] font-bold text-[#383E45]" id="step-2">
-        1. Choose Your Compression Level
-      </h3>
-      <p className="mt-2">
-        Before converting, you can adjust the quality slider. JPG is a lossy format, meaning it discards some image data to achieve smaller file sizes. A setting of 80% to 90% typically offers an excellent balance where the file size is small but the image looks identical to the human eye. If you need absolute maximum quality, set it to 100%.
-      </p>
-
-      <h3 className="mt-8 text-[18px] font-bold text-[#383E45]" id="step-3">
-        2. Batch Processing for Efficiency
-      </h3>
-      <p className="mt-2">
-        Converting images one by one is tedious. Our WebP to JPG converter supports batch processing. Simply select dozens of WebP files at once, and the tool will process them sequentially. You can then download them all as a single ZIP file, saving you time and effort.
-      </p>
-
-
-      <h2 className="mt-12 text-[24px] font-bold text-[#1F2937]">
-        How to Convert WebP to JPG Here
-      </h2>
-      <ol className="mt-3 list-decimal space-y-2 pl-5">
-        <li>Click <strong>Select WebP files</strong> or drop one or more .webp images onto the page. Other formats are rejected with a message.</li>
-        <li>Set the <strong>Quality</strong> slider (30 to 100, default 90).</li>
-        <li>Start the conversion. Each file shows its own status, so one broken image does not stop the rest.</li>
-        <li>Download a single JPG with its download button, or all results with <strong>Download all as ZIP</strong>. Output files keep the original name with a .jpg extension.</li>
-      </ol>
-
-      <h2 className="mt-12 text-[24px] font-bold text-[#1F2937]">
-        What Happens to Transparent Areas
-      </h2>
-      <p className="mt-3">
-        JPG has no transparency channel. Before drawing your image, this tool paints the whole canvas solid white, so any transparent or semi-transparent pixels in the WebP blend onto white rather than turning black. A logo on a transparent background will therefore come out on a white rectangle. If you need to keep the transparency, convert with WebP to PNG instead.
-      </p>
-
-      <h2 className="mt-12 text-[24px] font-bold text-[#1F2937]">
-        Quality and File Size Trade-offs
-      </h2>
-      <p className="mt-3">
-        Both lossy WebP and JPG throw away some detail to save space, and every re-encode loses a little more. The JPG is created from the pixels the WebP already contains, so it cannot be sharper than the original. Detail lost in the WebP stays lost.
-      </p>
-      <ul className="mt-3 list-disc space-y-1 pl-5">
-        <li><strong>90 to 100:</strong> closest to the source; larger files. Good for printing or further editing.</li>
-        <li><strong>75 to 85:</strong> usually a good balance for sharing and uploads.</li>
-        <li><strong>Below 70:</strong> smaller files, but blocky edges and colour banding become visible, especially around text and smooth gradients.</li>
-      </ul>
-      <p className="mt-3">
-        Expect the JPG to be larger than the WebP at similar visual quality, because JPG compresses less efficiently. Image dimensions are not changed; use Resize Image or Compress Image afterwards if you need a smaller file.
-      </p>
-
-      <h2 className="mt-12 text-[24px] font-bold text-[#1F2937]">
-        Troubleshooting
-      </h2>
-      <div className="mt-3 space-y-3">
-        <p><strong>&quot;Not a WebP file&quot;.</strong> Only files ending in .webp or reported as image/webp are accepted. A file renamed to .webp that is really another format may still fail to decode.</p>
-        <p><strong>&quot;Could not decode WebP&quot;.</strong> The file is damaged, incomplete, or uses a variant your browser cannot read. Try reopening it in your browser, re-downloading it, or updating the browser.</p>
-        <p><strong>&quot;Image is too large&quot;.</strong> Images above 100 million pixels are blocked. Reduce the dimensions in an image editor first.</p>
-        <p><strong>Animated WebP.</strong> Only one still frame (normally the first) is saved, since JPG cannot hold animation.</p>
-        <p><strong>Slow with many big files.</strong> Images are converted one after another on your device. Convert in smaller batches on phones.</p>
-      </div>
-
-      <h2 className="mt-12 text-[24px] font-bold text-[#1F2937]">
-        Privacy and Limitations
-      </h2>
-      <ul className="mt-3 list-disc space-y-1 pl-5">
-        <li>Images are decoded and encoded in your browser and are not uploaded to our servers.</li>
-        <li>Input must be WebP; SVG files are never processed.</li>
-        <li>Output is always JPG with a white background and the original dimensions.</li>
-        <li>Photo metadata such as camera details is not copied into the JPG.</li>
-      </ul>
-
-      <h2 className="mt-12 text-[24px] font-bold text-[#1F2937]">
-        Frequently Asked Questions
-      </h2>
-      <div className="mt-6 space-y-6">
-        <div>
-          <h3 className="text-[18px] font-bold text-[#383E45]">Is WebP better than JPG?</h3>
-          <p className="mt-2 text-[#5a5a66]">
-            Technically, yes. WebP provides better compression than JPG, meaning smaller files for the same quality. However, JPG is far superior in terms of compatibility. If your image is for the web, WebP is better. If it is for general storage or sharing, JPG is usually safer.
-          </p>
-        </div>
-        <div>
-          <h3 className="text-[18px] font-bold text-[#383E45]">Will I lose quality when converting?</h3>
-          <p className="mt-2 text-[#5a5a66]">
-            Yes, a small amount. Converting from one lossy format (WebP) to another (JPG) always involves some data loss. However, if you keep the quality slider at 90% or higher, the difference is practically invisible to the human eye.
-          </p>
-        </div>
-        <div>
-          <h3 className="text-[18px] font-bold text-[#383E45]">Does this tool work on Mac and Windows?</h3>
-          <p className="mt-2 text-[#5a5a66]">
-            Yes. Since the tool runs in the browser, it works perfectly on Windows, macOS, Linux, ChromeOS, and even mobile platforms like iOS and Android.
-          </p>
-        </div>
-        <div>
-          <h3 className="text-[18px] font-bold text-[#383E45]">Is there a limit to how many images I can convert?</h3>
-          <p className="mt-2 text-[#5a5a66]">
-            No. Unlike many other online converters, we do not have a daily limit or a file count restriction. You can convert as many WebP images as you need, whenever you need.
-          </p>
-        </div>
-      </div>
-
-      <div className="mt-12 border-t border-[#ececef] pt-8">
-        <h2 className="text-[24px] font-bold text-[#1F2937]">Related Image Tools</h2>
-        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <Link
-            to="/image-tools/$slug"
-            params={{ slug: "jpg-to-png" }}
-            className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]"
-          >
-            <h3 className="font-bold">JPG to PNG</h3>
-            <p className="mt-1 text-sm text-[#5a5a66]">Convert JPG to lossless PNG</p>
-          </Link>
-          <Link
-            to="/image-tools/$slug"
-            params={{ slug: "png-to-jpg" }}
-            className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]"
-          >
-            <h3 className="font-bold">PNG to JPG</h3>
-            <p className="mt-1 text-sm text-[#5a5a66]">Convert PNG to high-quality JPG</p>
-          </Link>
-          <Link
-            to="/image-tools/$slug"
-            params={{ slug: "compress-image" }}
-            className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]"
-          >
-            <h3 className="font-bold">Compress Image</h3>
-            <p className="mt-1 text-sm text-[#5a5a66]">Reduce JPG file size after converting</p>
-          </Link>
-          <Link
-            to="/image-tools/$slug"
-            params={{ slug: "image-resize" }}
-            className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]"
-          >
-            <h3 className="font-bold">Resize Image</h3>
-            <p className="mt-1 text-sm text-[#5a5a66]">Resize images after converting</p>
-          </Link>
-          <Link
-            to="/image-tools/$slug"
-            params={{ slug: "rotate-image" }}
-            className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]"
-          >
-            <h3 className="font-bold">Rotate Image</h3>
-            <p className="mt-1 text-sm text-[#5a5a66]">Fix image orientation</p>
-          </Link>
-          <Link
-            to="/tools/$slug"
-            params={{ slug: "images-to-pdf" }}
-            className="rounded-lg border border-[#ececef] p-5 hover:border-[#e5322d]"
-          >
-            <h3 className="font-bold">Images to PDF</h3>
-            <p className="mt-1 text-sm text-[#5a5a66]">Combine JPGs into a PDF</p>
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
