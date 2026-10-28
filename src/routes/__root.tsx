@@ -18,7 +18,6 @@ import jakarta700 from "@fontsource/plus-jakarta-sans/files/plus-jakarta-sans-la
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
-import { CookieBanner } from "../components/CookieBanner";
 import { Toaster } from "../components/ui/sonner";
 import { PwaRegister } from "../components/pwa/PwaRegister";
 import { InstallPrompt } from "../components/pwa/InstallPrompt";
@@ -215,7 +214,6 @@ function RootComponent() {
         </main>
         <Footer />
       </div>
-      <CookieBanner />
       <Toaster richColors position="top-center" />
       <PwaRegister />
       <InstallPrompt />
