@@ -36,16 +36,36 @@ export const photoEditorFaqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
   mainEntity: [
-    { "@type": "Question", name: "Is the photo editor free and signup-free?", acceptedAnswer: { "@type": "Answer", text: "Yes. Every image tool on PDFToolConverter is free, with no signup, no account, no trial, and no export limit." } },
-    { "@type": "Question", name: "Do my photos get uploaded to a server?", acceptedAnswer: { "@type": "Answer", text: "No. The whole editor runs inside your browser using HTML5 Canvas. Your photo is decoded, adjusted, and re-encoded locally on your own device. Nothing is sent to us." } },
-    { "@type": "Question", name: "Does editing reduce image quality?", acceptedAnswer: { "@type": "Answer", text: "Honest answer: the edited file exports at full original resolution, so pixel dimensions are preserved. If you export as JPG or WebP, the format applies its own compression, controlled by the Quality slider. Pick PNG to keep every pixel exact and lossless." } },
-    { "@type": "Question", name: "How do I make a photo black and white?", acceptedAnswer: { "@type": "Answer", text: "Tap the B&W filter chip. That sets Grayscale to 100 and gives contrast a small bump. Fine-tune brightness and contrast if you want more punch, then download." } },
-    { "@type": "Question", name: "Can I undo edits?", acceptedAnswer: { "@type": "Answer", text: "Yes. Every slider release, filter tap, and reset is pushed onto a full undo/redo history (capped at 50 steps). Use the Undo and Redo buttons, or the keyboard shortcuts Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z (or Ctrl/Cmd+Y). Hold Space to peek at the original, tap R to reset all sliders at once." } },
-    { "@type": "Question", name: "Can I compare before and after?", acceptedAnswer: { "@type": "Answer", text: "Yes. Press and hold Hold to compare on the preview, or hold the Space bar on desktop, to see the original at any moment. The Reset all button snaps every slider back to zero so you can start fresh." } },
-    { "@type": "Question", name: "What file formats are supported?", acceptedAnswer: { "@type": "Answer", text: "You can open JPG, JPEG, PNG, and WebP images. You can export as JPG, PNG, or WebP. PNG keeps transparency where the source has it." } },
-    { "@type": "Question", name: "Does the photo editor work on my phone?", acceptedAnswer: { "@type": "Answer", text: "Yes. It works on iPhone, iPad, Android, Windows, macOS, and Linux in any modern browser, Chrome, Safari, Edge, and Firefox included." } },
-    { "@type": "Question", name: "Is there a watermark on the output?", acceptedAnswer: { "@type": "Answer", text: "Never. What you see in the preview is exactly what downloads. No logo, no URL, no footer bar, no export cap." } },
-    { "@type": "Question", name: "Can I crop or rotate the photo here?", acceptedAnswer: { "@type": "Answer", text: "Yes, built in now. Switch to the Crop and Rotate tab to rotate 90 degrees left or right, mirror or flip vertically, straighten between minus 15 and plus 15 degrees with auto-zoom (no blank corners), and drag a crop box with Free, 1:1, 4:3, or 16:9 aspect presets. Every geometry change is on the same undo history as the color sliders, so you can walk your whole edit back step by step." } },
+    {
+      "@type": "Question",
+      name: "What file formats are supported?",
+      acceptedAnswer: { "@type": "Answer", text: "You can open JPG, JPEG, PNG, and WebP images and export as JPG, PNG, or WebP. PNG supports transparent backgrounds." },
+    },
+    {
+      "@type": "Question",
+      name: "Does editing reduce image quality?",
+      acceptedAnswer: { "@type": "Answer", text: "JPG and WebP exports use compression controlled by the quality slider. PNG uses lossless encoding of the edited result. Cropping changes the output dimensions, and straightening can resample the image." },
+    },
+    {
+      "@type": "Question",
+      name: "How do I make a photo black and white?",
+      acceptedAnswer: { "@type": "Answer", text: "Choose the B&W filter to set grayscale to 100 with a small contrast increase. Adjust brightness and contrast before exporting if needed." },
+    },
+    {
+      "@type": "Question",
+      name: "Can I undo edits?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes. Committed adjustment and geometry changes share an undo and redo history capped at 50 steps. Use the buttons or Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z." },
+    },
+    {
+      "@type": "Question",
+      name: "Can I compare before and after?",
+      acceptedAnswer: { "@type": "Answer", text: "Press and hold Hold to compare, or hold Space on desktop, to preview the original image." },
+    },
+    {
+      "@type": "Question",
+      name: "Can I crop or rotate the photo here?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes. The Crop and Rotate tab supports quarter-turn rotations, horizontal and vertical flips, straightening from minus 15 to plus 15 degrees, and cropping with Free, 1:1, 4:3, and 16:9 presets." },
+    },
   ],
 };
 
@@ -177,30 +197,6 @@ export function PhotoEditorSeo() {
         we cannot invent detail the source does not have.
       </p>
 
-
-      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">Your photo never leaves your device</h2>
-      <p>
-        Personal photos are personal. A picture of your child, a screenshot
-        with private information, a photo of a document, none of these belong
-        on a stranger's server. Because the whole editor runs client-side, you
-        can edit sensitive images with the same confidence you would open them
-        in a native app. There is no account tied to the images, no cloud
-        backup you did not ask for, and no third party quietly logging
-        thumbnails.
-      </p>
-
-      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">Works on Windows, Mac, Android, and iPhone</h2>
-      <p>
-        The photo editor is a plain web page. It runs in Chrome, Safari,
-        Edge, and Firefox on Windows, macOS, and Linux, and in mobile Safari
-        on iPhone and iPad and mobile Chrome on Android. All the sliders,
-        the compare button, and the filter chips are touch-friendly. If you
-        also want to trim the frame or straighten a sideways photo, our{" "}
-        <Link to="/image-tools/$slug" params={{ slug: "crop-image" }} className="text-[#e5322d] underline">
-          Crop Image
-        </Link>{" "}
-        tool is right next door, also fully in the browser.
-      </p>
 
       <h2 className="mt-10 mb-4 text-[22px] font-bold text-[#1F2937]">Frequently asked questions</h2>
       <div className="space-y-4">
