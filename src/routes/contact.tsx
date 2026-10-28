@@ -8,7 +8,7 @@ import { ContactForm } from "@/components/ContactForm";
 
 export const Route = createFileRoute("/contact")({
   head: () => {
-    const title = "Contact PDFToolConverter, Bug Reports and Feedback | PDFToolConverter";
+    const title = "Contact Us: Bug Reports and Feedback | PDFToolConverter";
     const description =
       "Get in touch with PDFToolConverter. We read every bug report, feature request, and piece of feedback, and usually respond within a few days by email.";
     const url = `${SITE_URL}/contact`;

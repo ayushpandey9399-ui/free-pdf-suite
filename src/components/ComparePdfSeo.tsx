@@ -133,7 +133,7 @@ export function ComparePdfSeo() {
 
       {/* Privacy */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        The only safe place to compare contracts
+        A private way to compare contracts
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
         The PDFs people most often compare are also the most sensitive ones , 

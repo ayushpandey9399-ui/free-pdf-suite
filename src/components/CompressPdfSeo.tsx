@@ -4,7 +4,7 @@ import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 const steps = [
   {
     title: "Step 1: Upload Your PDF",
-    text: "Click the \"Select PDF file\" button or drag and drop your PDF onto the upload area. Your file is processed in your browser and is never uploaded to any external server. There is no file size limit.",
+    text: "Click the \"Select PDF file\" button or drag and drop your PDF onto the upload area. Your file is processed in your browser and is never uploaded to any external server. There is no fixed size cap; very large files depend on your device memory.",
   },
   {
     title: "Step 2: Choose Your Compression Level",
@@ -134,7 +134,7 @@ export function CompressPdfSeo() {
             <h3 className="text-lg font-bold text-[#383E45]">Step 1: Upload Your PDF</h3>
             <p className="mt-2 text-base leading-relaxed text-[#383E45]">
               Click the "Select PDF file" button or drag and drop your PDF onto the upload area. Your file is processed in
-              your browser and is never uploaded to any external server. There is no file size limit.
+              your browser and is never uploaded to any external server. There is no fixed size cap; very large files depend on your device memory.
             </p>
           </div>
         </div>

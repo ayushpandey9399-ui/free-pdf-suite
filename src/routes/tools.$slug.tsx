@@ -1,5 +1,6 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { Suspense } from "react";
+import { ToolErrorBoundary } from "@/components/ToolErrorBoundary";
 import { Loader2 } from "lucide-react";
 import { ToolLayout } from "@/components/ToolLayout";
 import { ClientOnly } from "@/components/ClientOnly";
@@ -21,64 +22,64 @@ type ToolMeta = {
 // in toolSeoBundle so they never enter the critical route chunk.
 const TOOL_META: Record<string, ToolMeta> = {
   "merge": {
-    title: "Merge PDF Files Online Free: No Signup, No Limit | PDFToolConverter",
-    desc: "Combine multiple PDF files into one document instantly in your browser. Free PDF merger with drag-and-drop reordering. No signup, no watermark, no file upload to servers.",
+    title: "Merge PDF Files Online Free, No Signup | PDFToolConverter",
+    desc: "Combine multiple PDF files into one in your browser. Drag to reorder pages and files. Free, no signup, no watermark, files never leave your device.",
   },
   "compress": {
-    title: "Compress PDF Online Free: Reduce PDF Size Without Losing Quality | PDFToolConverter",
-    desc: "Compress PDF files online and reduce file size instantly in your browser. Free PDF compressor with no file size limits, no signup, no watermark. Files never leave your device.",
+    title: "Compress PDF Online Free: Reduce PDF Size | PDFToolConverter",
+    desc: "Reduce PDF file size in your browser. Choose a compression level and see the size saved. Free, no signup, no watermark, files never leave your device.",
   },
   "split": {
-    title: "Split PDF Online Free: Separate PDF Pages by Range | PDFToolConverter",
-    desc: "Split PDF files online instantly in your browser. Extract pages, separate by range, or split every page into individual PDFs. Free, no signup, no watermark, files never leave your device.",
+    title: "Split PDF Online Free: Separate Pages | PDFToolConverter",
+    desc: "Split a PDF by page range or into single pages, right in your browser. Free, no signup, no watermark, and your files never leave your device.",
   },
   "sign-pdf": {
-    title: "Sign PDF Online Free: Add Electronic Signature to PDF | PDFToolConverter",
-    desc: "Sign PDF documents online instantly in your browser. Draw, type or upload your signature and place it anywhere on your PDF. Free, no signup, no watermark, files never leave your device.",
+    title: "Sign PDF Online Free: Add Your Signature | PDFToolConverter",
+    desc: "Draw, type or upload a signature and place it anywhere on your PDF, in your browser. Free, no signup, no watermark, files never leave your device.",
   },
   "pdf-to-images": {
-    title: "PDF to JPG Online Free: Convert PDF Pages to Images | PDFToolConverter",
-    desc: "Convert PDF pages to JPG or PNG images online in your browser. Save each page as a high-quality image file. Free, no signup, no watermark, files never leave your device.",
+    title: "PDF to JPG Online Free: PDF Pages to Images | PDFToolConverter",
+    desc: "Convert PDF pages to JPG or PNG images in your browser and download them one by one or as a ZIP. Free, no signup, files never leave your device.",
   },
   "redact-pdf": {
     title: "Redact PDF Free, Permanently Black Out Text | PDFToolConverter",
     desc: "Redact PDF online free and permanently black out names, sensitive info, or account details. Text is truly removed from the file, not just covered.",
   },
   "protect-pdf": {
-    title: "Protect PDF Online Free: Add Password to PDF Instantly | PDFToolConverter",
-    desc: "Password protect your PDF files online in your browser. Add AES encryption to prevent unauthorized access. Free, no signup, no watermark, files never leave your device.",
+    title: "Protect PDF Online Free: Add a Password | PDFToolConverter",
+    desc: "Add a password to your PDF in your browser so only people with the password can open it. Free, no signup, no watermark, files never leave your device.",
   },
   "unlock-pdf": {
-    title: "Unlock PDF Online Free: Remove PDF Password Instantly | PDFToolConverter",
-    desc: "Remove password protection from any PDF file instantly in your browser. Unlock secured PDFs you own. Free, no signup, no watermark, files never leave your device.",
+    title: "Unlock PDF Online Free: Remove PDF Password | PDFToolConverter",
+    desc: "Remove the password from a PDF you own, in your browser. Enter the password once and download an unlocked copy. Free, no signup, files stay on your device.",
   },
   "watermark": {
-    title: "Add Watermark to PDF Online Free: Text & Image Watermark | PDFToolConverter",
-    desc: "Add a watermark to PDF online free. Stamp text like DRAFT or your brand logo across every page in your browser. Free, no signup, no watermark on output, files never leave your device.",
+    title: "Add Watermark to PDF Online Free | PDFToolConverter",
+    desc: "Stamp text like DRAFT or CONFIDENTIAL across every page of your PDF, in your browser. Free, no signup, and your files never leave your device.",
   },
   "rotate": {
-    title: "Rotate PDF Online Free: Rotate Pages 90, 180, 270 Degrees | PDFToolConverter",
-    desc: "Rotate PDF pages online free instantly in your browser. Rotate individual pages or the entire document by 90, 180 or 270 degrees. Free, no signup, no watermark, files never leave your device.",
+    title: "Rotate PDF Pages Online Free | PDFToolConverter",
+    desc: "Rotate single PDF pages or the whole document by 90, 180 or 270 degrees in your browser. Free, no signup, no watermark, files never leave your device.",
   },
   "delete-pages": {
-    title: "Delete Pages from PDF Online Free: Remove PDF Pages Instantly | PDFToolConverter",
-    desc: "Delete pages from a PDF online free instantly in your browser. Remove unwanted pages, cover sheets, or blank pages. Free, no signup, no watermark, files never leave your device.",
+    title: "Delete PDF Pages Online Free | PDFToolConverter",
+    desc: "Remove unwanted pages, cover sheets or blank pages from a PDF in your browser. Free, no signup, no watermark, files never leave your device.",
   },
   "extract-pages": {
-    title: "Extract Pages from PDF Online Free: Save Specific Pages as New PDF | PDFToolConverter",
-    desc: "Extract pages from PDF online free instantly in your browser. Save specific pages as a new PDF with no signup, no watermark, and files never leave your device.",
+    title: "Extract Pages from PDF Online Free | PDFToolConverter",
+    desc: "Save selected pages of a PDF as a new PDF file, right in your browser. Free, no signup, no watermark, and your files never leave your device.",
   },
   "reorder-pages": {
-    title: "Reorder PDF Pages Online Free: Rearrange PDF Pages Instantly | PDFToolConverter",
-    desc: "Reorder PDF pages online free instantly in your browser. Rearrange chapters, invoices, or scanned documents with no signup, no watermark, and files never leave your device.",
+    title: "Reorder PDF Pages Online Free | PDFToolConverter",
+    desc: "Drag and drop to rearrange the pages of a PDF in your browser, then download the new order. Free, no signup, no watermark, files stay on your device.",
   },
   "images-to-pdf": {
-    title: "JPG to PDF Online Free: Convert Images to PDF Instantly | PDFToolConverter",
-    desc: "Convert JPG, PNG, WebP and other images to PDF online in your browser. Combine multiple photos into one PDF. Free, no signup, no watermark, files never leave your device.",
+    title: "JPG to PDF Online Free: Images to PDF | PDFToolConverter",
+    desc: "Convert JPG, PNG and WebP images to one PDF in your browser. Set page size, orientation and margins. Free, no signup, files never leave your device.",
   },
   "pdf-to-word": {
     title: "Convert PDF to Word Free, Editable DOCX | PDFToolConverter",
-    desc: "Convert PDF to Word online free and get a fully editable DOCX file. Headings, tables, and images are preserved. Secure server-side processing.",
+    desc: "Convert a PDF to an editable Word DOCX file online, free. Works best on text-based PDFs; complex layouts may need touch-ups. Processed on our server.",
   },
   "pdf-to-text": {
     title: "PDF to Text Free, Extract PDF Content | PDFToolConverter",
@@ -101,8 +102,8 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Crop PDF online free to trim white margins or cut unwanted edges from scans. Live preview shows the exact crop box before you save.",
   },
   "edit-pdf": {
-    title: "Edit PDF Online Free: Add Text, Images & Annotations to PDF | PDFToolConverter",
-    desc: "Edit PDF online free and add text, images, or annotations to your document instantly in your browser. No signup, no watermark, files never leave your device.",
+    title: "Edit PDF Online Free: Add Text and Images | PDFToolConverter",
+    desc: "Add and change text, images and notes on your PDF right in your browser. Free, no signup, no watermark, and your files never leave your device.",
   },
   "fill-forms": {
     title: "Fill PDF Forms Online Free, No Signup | PDFToolConverter",
@@ -121,8 +122,8 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Convert PDF to grayscale (black and white) online free. Save ink, reduce file size, and clean up scans with our browser-based PDF converter.",
   },
   "add-blank-pages": {
-    title: "Add Blank Pages to PDF Online Free, No Signup | PDFToolConverter",
-    desc: "Add blank pages to any PDF instantly in your browser. Insert empty pages before, after, or between existing pages. Free, no signup, no watermark, files never leave your device.",
+    title: "Add Blank Pages to PDF Online Free | PDFToolConverter",
+    desc: "Insert empty pages before, after or between the pages of a PDF in your browser. Free, no signup, no watermark, and your files never leave your device.",
   },
   "scan-to-pdf": {
     title: "Scan to PDF Online Free, Use Phone Camera | PDFToolConverter",
@@ -285,9 +286,11 @@ function ToolPage() {
       >
         <div className={cn("mt-10", slug === "merge" && "relative z-10")}>
           <ClientOnly fallback={fallback}>
-            <Suspense fallback={fallback}>
-              <Comp />
-            </Suspense>
+            <ToolErrorBoundary toolName={tool.name}>
+              <Suspense fallback={fallback}>
+                <Comp />
+              </Suspense>
+            </ToolErrorBoundary>
           </ClientOnly>
         </div>
       </ToolLayout>
