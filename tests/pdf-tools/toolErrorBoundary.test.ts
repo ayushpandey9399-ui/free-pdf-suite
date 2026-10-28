@@ -11,7 +11,7 @@ test("a tool error is caught by the local boundary", () => {
 });
 
 test("the contained error names the tool and offers a reload, not a 404", () => {
-  const html = renderToString(createElement(ToolLoadError, { toolName: "Compare PDFs" }));
+  const html = renderToString(createElement(ToolLoadError, { toolName: "Compare PDFs" })).replace(/<!-- -->/g, "");
   expect(html).toContain("Compare PDFs could not start");
   expect(html).toContain("Reload the tool");
   expect(html.toLowerCase()).not.toContain("not found");
