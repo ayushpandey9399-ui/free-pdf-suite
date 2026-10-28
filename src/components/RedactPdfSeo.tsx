@@ -99,8 +99,8 @@ export function RedactPdfSeo() {
         metadata, title, author, producer, keywords, is cleared at the same time so nothing sensitive leaks
         through the properties dialog either.
       </p>
-      <p>Pages with boxes are converted to images, so their text can no longer be selected or searched, and the file may get larger.</p>
-      <p>Pages without boxes keep their text, so draw boxes on every place where the sensitive text appears.</p>
+      <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">Pages with boxes are converted to images, so their text can no longer be selected or searched, and the file may get larger.</p>
+      <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">Pages without boxes keep their text, so draw boxes on every place where the sensitive text appears.</p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
         Always open the downloaded file and check that the sensitive text is gone (try selecting or searching for it). You can also run the redacted file through our{" "}
         <Link to="/tools/$slug" params={{ slug: "pdf-to-text" }} className="font-semibold text-[#e5322d] underline underline-offset-2">
