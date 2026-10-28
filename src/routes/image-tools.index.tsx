@@ -8,7 +8,7 @@ import { breadcrumbJsonLd } from "@/lib/seoSchema";
 
 const TITLE = "Free Image Tools, Convert HEIC, JPG, PNG | PDFToolConverter";
 const DESC =
-  "14 of our 15 image tools process files entirely in your browser. Compress Image uses secure server-side processing for best compression quality.";
+  "All 15 of our image tools process files entirely in your browser. Your images never leave your device.";
 
 export const Route = createFileRoute("/image-tools/")({
   head: () => {
@@ -115,7 +115,7 @@ function ImageToolsHub() {
             className="mx-auto mt-4 max-w-[720px] text-[16px] sm:text-[17px] leading-relaxed"
             style={{ color: "#6b6b78" }}
           >
-            14 of our 15 image tools process files entirely in your browser. Compress Image uses secure server-side processing for best compression quality.
+            All 15 of our image tools process files entirely in your browser. Your images never leave your device.
           </p>
 
           {/* Filter pills */}
@@ -179,7 +179,7 @@ function ImageToolsHub() {
 
         {/* Below-the-fold SEO copy, carries HEIC iPhone / no signup / no upload / client-side keywords */}
         <p className="mx-auto mt-10 max-w-[820px] text-center text-[14px] leading-[1.7] text-[#6B7280]">
-          Convert HEIC iPhone photos to JPG or PNG, swap JPG, PNG and WebP, compress, resize, crop, rotate and watermark, all with no signup. 14 of our 15 image tools process files entirely in your browser. Compress Image uses secure server-side processing for best compression quality.
+          Convert HEIC iPhone photos to JPG or PNG, swap JPG, PNG and WebP, compress, resize, crop, rotate and watermark, all with no signup. All 15 of our image tools process files entirely in your browser. Your images never leave your device.
         </p>
       </section>
     </div>
