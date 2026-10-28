@@ -96,13 +96,14 @@ export default function Merge() {
         if (cancelled) return;
         
         if (meta.error || meta.pageCount !== null) {
-          setFilesWithMeta(prev => {
-            const next = [...prev];
-            if (next[i]) {
-              next[i] = { ...next[i], pageCount: meta.pageCount, error: meta.error };
-            }
-            return next;
-          });
+          // Match by file, not index: the list may be reordered while loading.
+          setFilesWithMeta(prev =>
+            prev.map(current =>
+              current.file === item.file
+                ? { ...current, pageCount: meta.pageCount, error: meta.error }
+                : current,
+            ),
+          );
         }
         
         if (meta.thumb) {

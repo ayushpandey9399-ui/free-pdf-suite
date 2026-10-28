@@ -53,10 +53,11 @@ function applyGrayscale(ctx: CanvasRenderingContext2D, w: number, h: number) {
     tmp.width = w; tmp.height = h;
     const tctx = tmp.getContext("2d")!;
     tctx.drawImage(ctx.canvas, 0, 0);
-    ctx.clearRect(0, 0, w, h);
-    // Feature-detect filter support.
+    // Feature-detect filter support. Only clear the page once we know the
+    // filtered redraw will happen, so the manual fallback still has pixels.
     const supported = "filter" in ctx && typeof ctx.filter === "string";
     if (supported) {
+      ctx.clearRect(0, 0, w, h);
       ctx.filter = "grayscale(1)";
       ctx.drawImage(tmp, 0, 0);
       ctx.filter = "none";

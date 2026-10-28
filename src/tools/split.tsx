@@ -167,7 +167,7 @@ export default function Split() {
       } else if (mode === "ranges") {
         for (let i = 0; i < parsedRanges.length; i++) {
           const r = parsedRanges[i];
-          const name = `${base}-${r.start}-${r.end}.pdf`;
+          const name = `${base}-range-${i + 1}-${r.start}-${r.end}.pdf`;
           setLoadingLabel(`Creating ${name}`);
           const indices: number[] = [];
           for (let p = r.start - 1; p <= r.end - 1; p++) indices.push(p);

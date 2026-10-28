@@ -266,7 +266,7 @@ async function scanImages(
         const decodeParms = dict.lookup(PDFName.of("DecodeParms"));
         let predictor = 1;
         if (decodeParms instanceof PDFDict) predictor = numberFrom(decodeParms, "Predictor") || 1;
-        if (predictor >= 10) continue;
+        if (predictor !== 1) continue; // predictor-encoded pixels are not decoded; skip rather than corrupt
         const cs = colorSpaceName(dict);
         const bpc = numberFrom(dict, "BitsPerComponent") || 8;
         if (bpc !== 8) continue;
