@@ -91,7 +91,7 @@ export function WatermarkImageSeo() {
       </section>
       <section>
         <h2 className="text-2xl font-bold">Related tools</h2>
-        <RelatedToolsGrid items={related} />
+        <RelatedToolsGrid items={related.map((t) => ({ to: "/image-tools/$slug", params: { slug: t.slug }, name: t.name, blurb: t.description }))} />
       </section>
     </section>
   );
