@@ -162,7 +162,9 @@ function ImageToolsHub() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1200px] px-4 sm:px-6 pt-6 pb-8">
+      <section className="mx-auto max-w-[1200px] px-4 sm:px-6 pt-6 pb-8" aria-labelledby="image-tools-list">
+        {/* Screen-reader heading keeps a logical h1 > h2 > h3 outline for the tool cards. */}
+        <h2 id="image-tools-list" className="sr-only">All image tools</h2>
         <ul className="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-stretch">
           {visible.map((t) => (
             <li key={t.slug}>

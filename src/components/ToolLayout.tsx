@@ -44,7 +44,8 @@ export function ToolLayout({
               ›
             </li>
             <li className="shrink-0">
-              <Link to="/tools" className="transition-colors hover:text-[#e5322d]">
+              {/* Link straight to the homepage tools grid; /tools only redirects there. */}
+              <Link to="/" hash="tools" className="transition-colors hover:text-[#e5322d]">
                 PDF Tools
               </Link>
             </li>
