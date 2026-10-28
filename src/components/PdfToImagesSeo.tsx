@@ -22,64 +22,24 @@ const steps = [
 
 const faqs = [
   {
-    q: "How do I convert a PDF to JPG for free?",
-    a: "Upload your PDF using the button above, choose JPG or PNG as output format, select your quality level, and click convert. Download your images individually or as a ZIP file. No signup required.",
+    q: "Can I convert only selected pages?",
+    a: "Yes. Select the pages you want in the page-selection interface before converting.",
   },
   {
-    q: "Do my files get uploaded to a server?",
-    a: "No. The entire conversion process runs in your browser. Your PDF never leaves your device and is never transmitted over the internet.",
+    q: "Should I choose JPG or PNG?",
+    a: "JPG uses lossy compression and is often suitable for photos. PNG avoids JPEG compression artifacts and can be useful for text, diagrams, and screenshots.",
   },
   {
-    q: "Is there a file size or page count limit?",
-    a: "No. You can convert PDFs of any size with any number of pages. The only constraint is your device memory.",
+    q: "What resolutions are available?",
+    a: "Low renders at 72 DPI, Medium at 150 DPI, and High at 300 DPI. Medium is the default. Higher resolution uses more memory and produces larger images.",
   },
   {
-    q: "Will the JPG images look the same as the original PDF?",
-    a: "Yes. Each page is rendered as a high-quality image that accurately represents the original PDF page content, including text, images, and graphics.",
+    q: "Can I download all converted pages together?",
+    a: "Yes. The tool supports a ZIP download and individual image downloads.",
   },
   {
-    q: "Can I convert just one page instead of the whole PDF?",
-    a: "Select specific pages to convert or download only the pages you need after conversion is complete.",
-  },
-  {
-    q: "What is the difference between JPG and PNG output?",
-    a: "JPG produces smaller files suitable for most sharing purposes. PNG produces larger files with sharper edges, better for text-heavy documents and design work.",
-  },
-  {
-    q: "Can I convert a PDF to PNG instead of JPG?",
-    a: "Yes. Choose PNG in the output format selector before converting.",
-  },
-  {
-    q: "Will the converted images have watermarks?",
-    a: "No. All output images are completely clean with no watermarks or branding added.",
-  },
-  {
-    q: "Can I download all pages as a ZIP file?",
-    a: "Yes. After conversion, download all images at once as a single ZIP archive for convenient storage and transfer.",
-  },
-  {
-    q: "Does this work on mobile phones?",
-    a: "Yes. The tool works in any mobile browser on iPhone and Android. No app required.",
-  },
-  {
-    q: "Can I convert a password-protected PDF?",
-    a: "Not directly. First unlock it using our Unlock PDF tool, then convert the unlocked file to images.",
-  },
-  {
-    q: "Does this work offline?",
-    a: "Yes. Once the page has fully loaded, the conversion tool works without an internet connection.",
-  },
-  {
-    q: "What DPI resolution are the output images?",
-    a: "It depends on the Image Quality setting. Low renders pages at 72 DPI, Medium (the default) at 150 DPI and High at 300 DPI. An A4 page at High comes out at about 2480 x 3508 pixels.",
-  },
-  {
-    q: "Can I convert multiple PDFs at once?",
-    a: "Upload one PDF at a time. Convert each file separately for best results.",
-  },
-  {
-    q: "Is this tool really free with no limits?",
-    a: "Yes. No usage caps, no daily limits, no signup required, no watermarks on output.",
+    q: "Can I convert several PDFs at once?",
+    a: "No. This tool processes one PDF at a time. Large documents and high-resolution output depend on available device memory.",
   },
 ];
 
@@ -97,20 +57,6 @@ const related = [
 export function PdfToImagesSeo() {
   return (
     <section className="mx-auto max-w-4xl px-4 pb-16 seo-content">
-      <h2>Why Convert a PDF to JPG?</h2>
-      <p>
-        PDFs are the universal document format for sharing and printing, but they are not always the right format for every use case. Many platforms, including social media sites, website builders, email marketing tools, presentation software, and messaging apps, cannot display PDFs directly. They require images. Converting your PDF pages to JPG images makes your content compatible with virtually every platform and application in the world.
-      </p>
-      <p>
-        JPG is the most widely supported image format on the planet. Every smartphone, operating system, web browser, and application can open a JPG file without any special software. When you convert a PDF page to JPG, the resulting image can be opened instantly on any device, inserted into any document, uploaded to any platform, and shared through any messaging app without compatibility concerns.
-      </p>
-      <p>
-        Converting PDF pages to images is also the fastest way to create visual previews and thumbnails of document content. Rather than requiring someone to open a PDF reader to preview a document, you can share a JPG thumbnail that displays the page content instantly in any image viewer. This is especially useful for sharing previews of reports, certificates, forms, and designs.
-      </p>
-      <p>
-        Privacy is another reason to convert PDFs to images. A JPG image cannot contain hidden metadata, embedded scripts, hyperlinks, or interactive form fields that could track the recipient or expose document properties. Converting a sensitive PDF page to a JPG creates a clean image with no hidden data; it's ideal for sharing visual content without exposing the underlying document structure.
-      </p>
-
       <h2>How to Convert PDF to JPG Online: Step by Step</h2>
       <div className="space-y-6">
         {steps.map((s, i) => (
@@ -140,40 +86,6 @@ export function PdfToImagesSeo() {
         PNG also supports transparent backgrounds, which JPG does not. If a PDF page has a transparent background and you need the resulting image to maintain transparency (for example, to overlay it on another design), PNG is the only correct choice. JPG will fill any transparent area with white.
       </p>
 
-      <h2>Common Reasons to Convert PDF Pages to Images</h2>
-      <h2>Share Documents on Social Media</h2>
-      <p>
-        Instagram, Facebook, LinkedIn, and Twitter all display images natively in feeds but cannot display PDF files directly. Converting your PDF pages to JPG lets you share report pages, infographics, certificates, and design previews directly as social media posts without requiring followers to download and open a PDF file.
-      </p>
-      <h2>Insert PDF Content Into Presentations</h2>
-      <p>
-        PowerPoint, Google Slides, Keynote, and other presentation tools allow you to insert images but not PDF pages. Converting a specific PDF page, such as a chart, diagram, or summary slide, to JPG lets you insert it directly into your presentation at any size.
-      </p>
-      <h2>Create Document Thumbnails and Previews</h2>
-      <p>
-        When displaying a library of documents on a website, app, or internal portal, showing a JPG thumbnail of the first page helps users identify documents visually without downloading them. Convert the first page of each PDF to create thumbnail images for your document library.
-      </p>
-      <h2>Share Pages via WhatsApp and Messaging Apps</h2>
-      <p>
-        Messaging apps display JPG and PNG images inline in the conversation, making them instantly visible without tapping to download. Converting a specific page from a contract, invoice, or form to a JPG and sending it as an image message is faster and more convenient than sending the full PDF.
-      </p>
-      <h2>Use PDF Pages in Design and Marketing</h2>
-      <p>
-        Graphic designers, content creators, and marketers often need to incorporate specific pages from brand guideline documents, product sheets, or approval documents into their design work. Converting the relevant PDF pages to high-quality JPG or PNG images provides the clean source files they need to work with in Photoshop, Canva, or other design tools.
-      </p>
-      <h2>Archive Visual Records of Documents</h2>
-      <p>
-        For visual archives, keeping a record of how a document looked at a specific point in time, JPG images are more universally viewable than PDF files, especially as PDF specifications change over time. Converting important document pages to images ensures they remain viewable on any future device or system.
-      </p>
-      <h2>Extract Specific Pages as Standalone Images</h2>
-      <p>
-        When you need to share just one page from a long PDF, such as the signature page of a contract, a specific chart from a report, or a single certificate from a multi-certificate document, converting that specific page to JPG is faster than splitting the PDF and sharing the single-page result.
-      </p>
-      <h2>Embed PDF Content in Emails</h2>
-      <p>
-        Email clients display inline images in the email body, making them immediately visible to the recipient. PDF attachments require the recipient to download and open a separate file. Embedding a JPG of the key content inline in the email body ensures the recipient sees the important information immediately without needing to open an attachment.
-      </p>
-
       <h2>What Quality Level Should You Choose?</h2>
       <h2>Low Quality (72 DPI)</h2>
       <p>
@@ -187,66 +99,6 @@ export function PdfToImagesSeo() {
       <p>
         High renders images at print resolution, the standard for professional printing. Use this setting when images will be printed at large sizes, used in professional print designs, or submitted to print services. File sizes are significantly larger but image clarity is preserved at the highest level.
       </p>
-
-      <h2>Browser-Based vs Server-Based PDF to Image Conversion</h2>
-      <div className="overflow-x-auto my-8">
-        <table className="w-full border-collapse border border-gray-200">
-          <thead>
-            <tr className="bg-gray-50 text-left">
-              <th className="p-3 border border-gray-200 text-[#383E45]">Feature</th>
-              <th className="p-3 border border-gray-200 font-semibold text-[#E5322D]">Our Tool</th>
-              <th className="p-3 border border-gray-200 text-[#383E45]">Server-Based Tools</th>
-            </tr>
-          </thead>
-          <tbody className="text-[#383E45]">
-            <tr>
-              <td className="p-3 border border-gray-200 font-medium">File Privacy</td>
-              <td className="p-3 border border-gray-200">Files stay on device</td>
-              <td className="p-3 border border-gray-200">Files uploaded to server</td>
-            </tr>
-            <tr>
-              <td className="p-3 border border-gray-200 font-medium">Speed</td>
-              <td className="p-3 border border-gray-200">Instant (no upload)</td>
-              <td className="p-3 border border-gray-200">Upload/download delay</td>
-            </tr>
-            <tr>
-              <td className="p-3 border border-gray-200 font-medium">File Size Limit</td>
-              <td className="p-3 border border-gray-200">No limit</td>
-              <td className="p-3 border border-gray-200">Often 20-100MB cap</td>
-            </tr>
-            <tr>
-              <td className="p-3 border border-gray-200 font-medium">Works Offline</td>
-              <td className="p-3 border border-gray-200">Yes after page loads</td>
-              <td className="p-3 border border-gray-200">No</td>
-            </tr>
-            <tr>
-              <td className="p-3 border border-gray-200 font-medium">Account Required</td>
-              <td className="p-3 border border-gray-200">No</td>
-              <td className="p-3 border border-gray-200">Sometimes yes</td>
-            </tr>
-            <tr>
-              <td className="p-3 border border-gray-200 font-medium">Watermarks</td>
-              <td className="p-3 border border-gray-200">Never</td>
-              <td className="p-3 border border-gray-200">Common on free tier</td>
-            </tr>
-            <tr>
-              <td className="p-3 border border-gray-200 font-medium">Output Quality</td>
-              <td className="p-3 border border-gray-200">Selectable resolution</td>
-              <td className="p-3 border border-gray-200">Sometimes fixed</td>
-            </tr>
-            <tr>
-              <td className="p-3 border border-gray-200 font-medium">Batch Download as ZIP</td>
-              <td className="p-3 border border-gray-200">Yes</td>
-              <td className="p-3 border border-gray-200">Sometimes premium only</td>
-            </tr>
-            <tr>
-              <td className="p-3 border border-gray-200 font-medium">Cost</td>
-              <td className="p-3 border border-gray-200">Always free</td>
-              <td className="p-3 border border-gray-200">Free tier limited</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
 
       <h2>Tips for Converting PDFs to Images Effectively</h2>
       <h2>Choose the Right Output Format for Your Use Case</h2>
@@ -322,10 +174,5 @@ export const pdfToImagesSoftwareJsonLd = {
     "@type": "Offer",
     price: "0",
     priceCurrency: "USD",
-  },
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.9",
-    ratingCount: "2890",
   },
 };
