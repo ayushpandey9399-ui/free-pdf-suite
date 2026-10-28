@@ -40,7 +40,7 @@ const LEVELS: CompressionLevelInfo[] = [
   {
     id: "less",
     label: "Less Compression",
-    description: "High quality — best for printing",
+    description: "High quality, best for printing",
     reduction: "~20-40% smaller",
     icon: Star,
     scale: 1.5,
@@ -59,7 +59,7 @@ const LEVELS: CompressionLevelInfo[] = [
   {
     id: "extreme",
     label: "Extreme Compression",
-    description: "Smallest size — for uploads with strict limits",
+    description: "Smallest size, for uploads with strict limits",
     reduction: "~70-90% smaller",
     icon: Zap,
     scale: 1.0,
