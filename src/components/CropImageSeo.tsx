@@ -163,7 +163,7 @@ export function CropImageSeo() {
         crop rectangle, hit <strong>Crop all</strong> and every file
         is processed in one pass. Download each result individually or
         take the whole batch as <em>cropped-images.zip</em>. There is
-        no per-file cap and no daily limit because the work happens on
+        no daily limit, but images above 100 million pixels are rejected because the work happens on
         your own machine, not on ours.
       </p>
 
