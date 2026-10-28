@@ -57,8 +57,8 @@ function TermsPage() {
       <h2>The service</h2>
       <p>
         PDFToolConverter provides a set of free, browser-based tools for working with PDF
-        files. All processing happens locally in your browser, no files are uploaded
-        to our servers. No account is required to use any tool.
+        files. Every tool except PDF to Word processes files locally in your browser.
+        PDF to Word uploads your file to our server for conversion. No account is required to use any tool.
       </p>
 
       <h2>Acceptable use</h2>

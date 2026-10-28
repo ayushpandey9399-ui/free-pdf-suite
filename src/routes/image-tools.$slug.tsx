@@ -225,11 +225,9 @@ function ImageToolPage() {
             >
               {silo.h1}
             </h1>
-            {/* Must match the code: only Compress Image sends files to the server. */}
+            {/* Must match the code: every image tool runs in the browser. */}
             <p className="mt-3 text-[13px] font-semibold" style={{ color: "#4B5563" }}>
-              {tool.slug === "compress-image"
-                ? "Processed on our server. Your file is uploaded for conversion."
-                : "Processed in your browser. Your file never leaves your device."}
+              Processed in your browser. Your file never leaves your device.
             </p>
             <div className="mt-10">
               <ToolErrorBoundary toolName={tool.name}>

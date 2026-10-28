@@ -61,18 +61,17 @@ function AboutPage() {
 
       <p>
         We thought that was backwards. So we built PDFToolConverter: 44 genuinely free PDF
-        and image tools. All but two run entirely in your browser (PDF to Word and
-        Compress Image use our server). No accounts. No watermarks. No daily limits.
+        and image tools. All but one run entirely in your browser (PDF to Word uses
+        our server). No accounts. No watermarks. No daily limits.
       </p>
 
       <h2>How it works</h2>
       <p>
         Modern browsers are surprisingly powerful, they can open, edit, and re-save
-        PDFs on their own. Every tool currently on PDFToolConverter is built with client-side
-        technology, which means your files don't travel to a server for these tools.
+        PDFs on their own. Every tool except PDF to Word is built with client-side
+        technology, which means your files don't travel to a server.
         They open, get processed, and get saved back to your device, all without
-        leaving the browser tab. If we ever add a tool that requires server-side
-        processing, it will be clearly labeled on that tool's page.
+        leaving the browser tab. PDF to Word needs a server, and its page says so.
       </p>
 
       <h2>What we offer</h2>
