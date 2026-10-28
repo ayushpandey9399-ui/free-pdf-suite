@@ -8,11 +8,14 @@ export function ToolLayout({
   title,
   description,
   crumbName,
+  processing,
   children,
 }: {
   title: string;
   description: string;
   crumbName?: string;
+  /** Where the file is handled; must match what the tool's code actually does. */
+  processing?: "browser" | "server";
   icon?: ComponentType<ToolIconProps>;
   tint?: { bg: string; fg: string };
   children: ReactNode;
@@ -66,6 +69,13 @@ export function ToolLayout({
           <h1 className="tool-title">
             {title}
           </h1>
+          {processing && (
+            <p className="mt-3 text-[13px] font-semibold" style={{ color: "#4B5563" }}>
+              {processing === "server"
+                ? "Processed on our server, files are deleted after conversion"
+                : "Processed in your browser, files never leave your device"}
+            </p>
+          )}
 
           <div className="mt-10">{children}</div>
         </div>

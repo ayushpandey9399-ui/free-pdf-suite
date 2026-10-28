@@ -219,6 +219,7 @@ function ToolPage() {
   return (
     <>
       <ToolLayout
+        processing={slug === "pdf-to-word" ? "server" : "browser"}
         title={
           slug === "merge"
             ? "Merge PDF Files Online for Free"

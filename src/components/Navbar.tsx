@@ -123,6 +123,9 @@ export function Navbar() {
             >
               Sign PDF
             </Link>
+            <Link to="/tools" className={NAV_LINK_CLASS} style={NAV_STYLE}>
+              Tools Hub
+            </Link>
             <Link
               to="/image-tools"
               className={NAV_LINK_CLASS}
@@ -262,6 +265,14 @@ export function Navbar() {
               style={{ color: "#33333c", letterSpacing: "0.04em" }}
             >
               Compress PDF
+            </Link>
+            <Link
+              to="/tools"
+              onClick={closeAll}
+              className="rounded-lg px-3 py-3 text-[14px] font-bold uppercase hover:bg-[#f6f4f9]"
+              style={{ color: "#33333c", letterSpacing: "0.04em" }}
+            >
+              All PDF Tools
             </Link>
             <Link
               to="/image-tools"
