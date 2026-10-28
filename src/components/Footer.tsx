@@ -142,6 +142,9 @@ export function Footer() {
               <FooterHeading>Company</FooterHeading>
               <ul className="mt-4">
                 <li>
+                  <Link to="/tools" className={LINK_CLASS} style={LINK_STYLE}>All PDF Tools</Link>
+                </li>
+                <li>
                   <Link to="/about" className={LINK_CLASS} style={LINK_STYLE}>About</Link>
                 </li>
                 <li>
