@@ -34,14 +34,16 @@ export default function PdfToWord() {
   const [serverStatus, setServerStatus] = useState<"checking" | "up" | "down">("checking");
 
   useEffect(() => {
+    let cancelled = false;
     const ctrl = new AbortController();
     const timer = window.setTimeout(() => ctrl.abort(), 8000);
     // no-cors: we only need to know the host answers; a DNS or connection failure rejects.
     fetch(`${new URL(PDF_TO_WORD_ENDPOINT).origin}/health`, { mode: "no-cors", cache: "no-store", signal: ctrl.signal })
-      .then(() => setServerStatus("up"))
-      .catch(() => setServerStatus("down"))
+      .then(() => !cancelled && setServerStatus("up"))
+      .catch(() => !cancelled && setServerStatus("down"))
       .finally(() => window.clearTimeout(timer));
     return () => {
+      cancelled = true;
       window.clearTimeout(timer);
       ctrl.abort();
     };
