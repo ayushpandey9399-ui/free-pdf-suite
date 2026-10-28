@@ -1,141 +1,76 @@
-import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
+import { ToolArticle, faqJsonLd, softwareJsonLd, type ArticleFaq } from "@/components/ToolArticle";
+
+const faqs: ArticleFaq[] = [
+  {
+    q: "What is the difference between By Range, Extract All and Select Pages?",
+    a: "By Range makes one PDF per range you enter. Extract All makes one PDF for every page. Select Pages makes a single PDF that contains only the pages you clicked.",
+  },
+  {
+    q: "Can a range be a single page?",
+    a: "Yes. Enter the same number in From and To, for example 3 and 3, to get a PDF with just page 3.",
+  },
+  {
+    q: "How do I download several files at once?",
+    a: "When the split creates more than one file, the main button is Download all as ZIP. The ZIP is named after your original file with -split added.",
+  },
+  {
+    q: "Can I split a password-protected PDF?",
+    a: "No. The tool shows the message PDF is password-protected. Unlock the file first with Unlock PDF, then split the unlocked copy.",
+  },
+  {
+    q: "Is the text in the split files still selectable?",
+    a: "Yes. Pages are copied into the new files as PDF pages, not images, so selectable text stays selectable.",
+  },
+  {
+    q: "What happens if I enter the same range twice?",
+    a: "You get two files with the same pages. Each file name includes its range number, so neither overwrites the other in the ZIP.",
+  },
+];
 
 const related = [
-  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file in the order you choose." },
-  { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Pull specific pages out as a brand-new PDF." },
-  { to: "/tools/delete-pages", name: "Delete Pages", blurb: "Remove one or more unwanted pages from your PDF." },
-  { to: "/tools/compress", name: "Compress PDF", blurb: "Shrink file size while keeping the best possible quality." },
-  { to: "/tools/reorder-pages", name: "Reorder Pages", blurb: "Rearrange before splitting." },
-  { to: "/tools/rotate", name: "Rotate PDF", blurb: "Turn pages 90, 180 or 270 degrees, one page or all." },
-  { to: "/tools/unlock-pdf", name: "Unlock PDF", blurb: "Remove password before splitting." },
-  { to: "/tools/add-blank-pages", name: "Add Blank Pages", blurb: "Insert separators before splitting." },
+  { to: "/tools/merge", name: "Merge PDF", blurb: "Combine split parts back together" },
+  { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Pick pages by thumbnail" },
+  { to: "/tools/delete-pages", name: "Delete Pages", blurb: "Remove pages you do not need" },
+  { to: "/tools/unlock-pdf", name: "Unlock PDF", blurb: "Remove a known password first" },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Try reducing file size" },
+  { to: "/tools/reorder-pages", name: "Reorder Pages", blurb: "Change the page order" },
 ] as const;
-
-const steps = [
-  {
-    "title": "Select one PDF",
-    "text": "Select a PDF or drag it into the upload area. Wait for the page count and thumbnails to load."
-  },
-  {
-    "title": "Choose the split method",
-    "text": "Use custom ranges for one output per range, every-page mode for one PDF per page, or select pages to combine your selection into one PDF."
-  },
-  {
-    "title": "Check the selection",
-    "text": "Use page numbers starting at 1. Keep range endpoints within the document and put the start before or equal to the end."
-  },
-  {
-    "title": "Split and download",
-    "text": "Run the split operation, then download the output files. For multiple outputs you can use the ZIP download option."
-  }
-];
-
-const faqs = [
-  {
-    "q": "Can I split by page range?",
-    "a": "Yes. Add start and end page numbers for each output range. Each valid range creates a separate PDF."
-  },
-  {
-    "q": "Can I extract a single page?",
-    "a": "Yes. Select that page in selected-pages mode or enter a range with the same start and end number."
-  },
-  {
-    "q": "In what order are selected pages saved?",
-    "a": "Selected-pages mode combines your selection into one PDF in ascending source-page order."
-  },
-  {
-    "q": "How do I download several outputs?",
-    "a": "Use the individual download controls or the ZIP download option for multiple outputs."
-  },
-  {
-    "q": "Why is splitting disabled?",
-    "a": "Check for invalid or incomplete ranges. In selected-pages mode, choose at least one page. In every-page mode, wait for the page count to load."
-  },
-  {
-    "q": "Does splitting compress the pages?",
-    "a": "No. The tool copies pages into new PDFs rather than rasterizing or recompressing them. Check document-level features and links after splitting."
-  }
-];
 
 export function SplitPdfSeo() {
   return (
-    <section className="mx-auto mt-14 max-w-4xl space-y-8 px-4 pb-16 text-[#33333c]">
-      <section>
-        <h2 className="text-2xl font-bold">How to split a PDF online for free</h2>
-        <ol className="mt-4 list-decimal space-y-4 pl-6">
-          {steps.map((step, i) => (
-            <li key={step.title} id={`step-${i + 1}`}>
-              <h3 className="font-semibold">{step.title}</h3>
-              <p className="mt-2 leading-relaxed">{step.text}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
-      <section>
-        <h2 className="text-2xl font-bold">Three split methods</h2>
-        <p className="mt-3 leading-relaxed">Ranges create separate PDFs for each start and end pair. Every-page mode creates a PDF for each source page. Selected pages are saved together in ascending source-page order.</p>
-      </section>
-      <section>
-        <h2 className="text-2xl font-bold">Range messages</h2>
-        <p className="mt-3 leading-relaxed">Enter both page numbers means a range is incomplete. Pages start at 1 rejects zero or negative numbers. A page-count error means an endpoint exceeds the document. Fix invalid ranges or select at least one page to continue.</p>
-      </section>
-      <section>
-        <h2 className="text-2xl font-bold">What is copied</h2>
-        <p className="mt-3 leading-relaxed">Pages are copied into new PDF documents without rasterizing or recompressing the page images. Do not assume document-level bookmarks, forms, or links to omitted pages will remain functional; check the output.</p>
-      </section>
-      <section>
-        <h2 className="text-2xl font-bold">Limits and protected files</h2>
-        <p className="mt-3 leading-relaxed">Process one PDF at a time. Unlock protected PDFs before splitting. Large documents and many output files depend on available device memory.</p>
-      </section>
-      <section>
-        <h2 className="text-2xl font-bold">Frequently asked questions</h2>
-        <div className="mt-4 space-y-3">
-          {faqs.map((faq) => (
-            <details key={faq.q} className="rounded-lg border p-4">
-              <summary className="cursor-pointer font-semibold">{faq.q}</summary>
-              <p className="mt-3 leading-relaxed">{faq.a}</p>
-            </details>
-          ))}
-        </div>
-      </section>
-      <section>
-        <h2 className="text-2xl font-bold">Related tools</h2>
-        <RelatedToolsGrid items={related} />
-      </section>
-    </section>
+    <ToolArticle
+      toolName="Split PDF"
+      howItWorks={[
+        "Split PDF takes one PDF and turns it into one or more smaller PDFs, inside your browser. When you add a file, it is opened locally to count its pages and draw a thumbnail of each page, so you can see what you are splitting. The file is not uploaded.",
+        "When you click the split button, the tool builds each output file by copying the chosen pages from the original into a new PDF. Pages are copied as they are, not turned into images, so text stays selectable and the pages keep their size. Your original file is not changed.",
+        "When only one file is created you download a PDF. When several are created, they are packed into one ZIP.",
+      ]}
+      options={[
+        { term: "By Range", text: "Enter a From and To page for each range. You can add more rows for more ranges. Each range becomes its own file named after your original, the range number and its pages, for example report-range-2-4-7.pdf. From must be less than or equal to To, and both must be whole page numbers inside the document." },
+        { term: "Extract All", text: "Creates one PDF per page, named with -page- and the page number, for example report-page-3.pdf." },
+        { term: "Select Pages", text: "Click the thumbnails of the pages you want. They are saved together, in page order, as one file ending in -extracted.pdf. The order you click in does not matter." },
+      ]}
+      limits={[
+        "Password-protected PDFs cannot be split. Unlock them first.",
+        "Ranges only accept whole numbers. Entries like 1.5 or 2a are rejected with an error on that row.",
+        "Bookmarks, attachments and some document-wide features of the original may not be copied into the new files.",
+        "Thumbnails and output files are kept in your browser's memory. Long documents, or Extract All on a long document, can be slow or fail on phones. Try a shorter document or fewer ranges.",
+      ]}
+      problems={[
+        { term: "\"From must be less than or equal to To\"", text: "The first page of a range is after its last page. Swap the two numbers." },
+        { term: "\"PDF is password-protected\"", text: "The file needs a password to open. Use Unlock PDF with the password, then split the unlocked copy." },
+        { term: "\"Could not preview pages\"", text: "The thumbnails failed to render. The file may be damaged or very large. Try again, or try the file in another browser." },
+        { term: "\"Split failed\" followed by an error", text: "The file may be damaged or the browser ran out of memory. Try fewer ranges at a time." },
+      ]}
+      faqs={faqs}
+      related={related}
+    />
   );
 }
 
-export const splitFaqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqs.map((faq) => ({
-    "@type": "Question",
-    name: faq.q,
-    acceptedAnswer: { "@type": "Answer", text: faq.a },
-  })),
-};
+export const splitFaqJsonLd = faqJsonLd(faqs);
 
-export const splitHowToJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "HowTo",
-  name: "How to split a PDF online for free",
-  step: steps.map((step, i) => ({
-    "@type": "HowToStep",
-    position: i + 1,
-    name: step.title,
-    text: step.text,
-    url: `/tools/$slug#step-${i + 1}`,
-    params: { slug: "split" },
-  })),
-};
-
-export const splitSoftwareJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: "PDFToolConverter Split PDF",
-  description: "Split PDF online free, separate pages or extract page ranges in your browser with no upload, no signup and no watermark.",
-  applicationCategory: "BrowserApplication",
-  operatingSystem: "Any",
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-};
+export const splitSoftwareJsonLd = softwareJsonLd(
+  "PDFToolConverter Split PDF",
+  "Split a PDF in your browser by page ranges, into single pages, or by selecting pages, and download the parts as PDFs or a ZIP.",
+);

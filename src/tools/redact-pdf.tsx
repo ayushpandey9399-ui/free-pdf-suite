@@ -1,5 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { loadPdfLib } from "@/lib/lazyLibs";
+
+/** Text search placed boxes inaccurately on some layouts; off until fixed. */
+const FIND_ENABLED = false;
 import { toast } from "sonner";
 import { X, Search, AlertTriangle, Loader2 } from "lucide-react";
 import { FileDropzone } from "@/components/FileDropzone";
@@ -244,6 +247,9 @@ export default function RedactPdf() {
           const jpegBytes = new Uint8Array(await jpegBlob.arrayBuffer());
           const img = await out.embedJpg(jpegBytes);
           const newPage = out.addPage([vpPoints.width, vpPoints.height]);
+          // The image was rendered unrotated, so reapply the page's original
+          // rotation to keep it displaying the same way as before.
+          newPage.setRotation(src.getPage(i).getRotation());
           newPage.drawImage(img, {
             x: 0,
             y: 0,
@@ -327,11 +333,19 @@ export default function RedactPdf() {
           >
             <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
             <div>
-              Redaction is permanent. Content under the black boxes is destroyed
-              and cannot be recovered, the affected pages are re-rendered as images.
+              Every page with a box is rebuilt as an image, so its original text,
+              links and form fields are not kept. Pages without boxes are copied unchanged.
             </div>
           </div>
 
+          <div
+            className="rounded-lg p-3 text-[12.5px]"
+            style={{ backgroundColor: "#f5f5f7", color: "#33333c" }}
+          >
+            <strong>Always open the downloaded file and check that the sensitive text is gone</strong> (try selecting or searching for it).
+          </div>
+
+          {FIND_ENABLED ? (
           <div>
             <Label htmlFor="find">Find text to redact</Label>
             <div className="mt-1 flex gap-2">
@@ -362,6 +376,11 @@ export default function RedactPdf() {
               </p>
             )}
           </div>
+          ) : (
+            <p className="text-[12px]" style={{ color: "#5a5a66" }}>
+              Text search is turned off for now because it could place boxes in the wrong spot. Draw boxes by hand over each area you want to hide.
+            </p>
+          )}
 
           <div className="rounded-lg p-3 text-[13px]" style={{ backgroundColor: "#f5f5f7", color: "#33333c" }}>
             <strong>{redactions.length}</strong> redaction{redactions.length === 1 ? "" : "s"} on{" "}
