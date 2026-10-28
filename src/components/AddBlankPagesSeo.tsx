@@ -4,15 +4,19 @@ import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 const steps = [
   {
     title: "Select your PDF",
-    text: "Click the button or drag your PDF onto the page. Your file opens directly in your browser.",
+    text: "Click Select PDF file or drag one PDF onto the page. Every page appears as a numbered thumbnail.",
   },
   {
-    title: "Choose where to insert",
-    text: "Pick the position: before the first page, after the last page, or between specific pages.",
+    title: "Place the blank pages",
+    text: "Tap the round plus button on the left edge of a thumbnail to insert a blank page before that page. Use the side panel to add one at the end or one after every page. Remove a pending blank with its X button.",
   },
   {
-    title: "Download the updated PDF",
-    text: "Click Add Blank Pages and download your file instantly. No account needed.",
+    title: "Pick the page size",
+    text: "Choose Match previous to copy the size of the page before each blank, or A4 to make every blank page A4.",
+  },
+  {
+    title: "Add and download",
+    text: "Check the page numbers under each thumbnail, then click Add Blank Pages and download the new PDF.",
   },
 ];
 
@@ -37,36 +41,36 @@ const useCases = [
 
 const faqs: { q: string; a: string }[] = [
   {
-    q: "Can I add multiple blank pages at once?",
-    a: "Yes. You can insert more than one blank page at a time. Choose the position and specify how many blank pages to add before clicking the button.",
+    q: "Can I add several blank pages in one go?",
+    a: "Yes. Every click on a plus button adds one more blank page, and you can stack several in the same spot. The side panel also offers one blank page after every page, which is handy for notes. The button shows how many will be added before you confirm.",
   },
   {
-    q: "Where exactly can I insert the blank page?",
-    a: "You can add a blank page before the first page, after the last page, or between any two existing pages in your PDF.",
+    q: "Where can I insert a blank page?",
+    a: "Before any page (including the first) using the plus button on that thumbnail, or after the last page using Add blank page at end.",
   },
   {
-    q: "Will adding blank pages change the formatting of my PDF?",
-    a: "No. Adding blank pages only inserts empty pages at the chosen position. All existing content, fonts, images and layout stay exactly as they were.",
+    q: "Will adding blank pages change the rest of my PDF?",
+    a: "The existing pages are kept as they are; the tool only inserts new empty pages between them. Page numbers printed inside your document will not update, so use Page Numbers afterwards if you need new numbering.",
   },
   {
-    q: "Is this tool really free?",
-    a: "Yes, completely free. No signup, no subscription and no watermark on the output. You can use it as many times as you need.",
+    q: "Is this tool free?",
+    a: "Yes. There is no signup and no watermark on the output.",
   },
   {
-    q: "Do my files get uploaded to a server?",
-    a: "No. Your PDF never leaves your device. The entire operation runs inside your browser using client-side JavaScript. Even your internet connection is not needed once the page has loaded.",
+    q: "Is my PDF uploaded to a server?",
+    a: "No. The PDF is read, edited and saved by your browser on your own device. It is not sent to our servers.",
   },
   {
-    q: "What size PDF can I use?",
-    a: "There is no hard file size limit. The only constraint is your device memory. Most PDFs including large scanned documents process in seconds on any modern phone or laptop.",
+    q: "Is there a file size limit?",
+    a: "We do not set one, but the whole PDF is loaded into your device memory and a thumbnail is drawn for every page. Very large or long files can be slow on phones or older computers.",
   },
   {
     q: "Can I add a blank page to a password-protected PDF?",
-    a: "Not directly. First remove the password using our Unlock PDF tool, then add your blank pages, and re-protect it with Protect PDF if needed.",
+    a: "Not directly. The tool detects protected files and stops. Remove the password with Unlock PDF first, add your blank pages, then use Protect PDF again if needed.",
   },
   {
-    q: "Does this work on iPhone and Android?",
-    a: "Yes. The tool works in any modern mobile browser including Chrome on Android and Safari on iPhone. No app download is required.",
+    q: "What size will the blank pages be?",
+    a: "With Match previous, each blank page copies the size of the page just before it (or the page after it if the blank is first). With A4, every blank page is A4 portrait.",
   },
 ];
 
@@ -111,6 +115,50 @@ export function AddBlankPagesSeo() {
         ))}
       </ol>
 
+
+      <h2 className="text-center">
+        Checking the page order before you download
+      </h2>
+      <div className="mt-6 max-w-3xl mx-auto space-y-4 text-[15px] leading-relaxed text-[#4a4a55]">
+        <p>
+          The number under each thumbnail is that page&apos;s position in the finished file, and it updates as you add or remove blanks. A blank inserted with the plus button on page 3 becomes the new page 3, and your old page 3 moves to page 4.
+        </p>
+        <p>
+          For double-sided printing, count the total. If a chapter must start on a right-hand (odd) page, the page before it needs an even number. Insert a blank just before the chapter opener when it would otherwise land on the back of a sheet.
+        </p>
+      </div>
+
+      <h2 className="text-center">
+        Practical examples
+      </h2>
+      <ul className="mt-6 max-w-3xl mx-auto list-disc pl-5 space-y-2 text-[15px] leading-relaxed text-[#4a4a55]">
+        <li><strong>Lecture handouts:</strong> use Add blank page after every page to give each slide a facing page for handwritten notes.</li>
+        <li><strong>Section dividers:</strong> add one blank before each new chapter of a merged report, then label them by hand or with Edit PDF.</li>
+        <li><strong>Signature or review space:</strong> add a blank at the end of a form or contract for comments, stamps or signatures.</li>
+        <li><strong>Mixed page sizes:</strong> keep Match previous selected so a blank after a landscape page is also landscape.</li>
+      </ul>
+
+      <h2 className="text-center">
+        Troubleshooting
+      </h2>
+      <div className="mt-6 max-w-3xl mx-auto space-y-4 text-[15px] leading-relaxed text-[#4a4a55]">
+        <p><strong>The blank page is in the wrong place.</strong> The plus button inserts before the page it sits on, not after. If you are already on the download screen, start again with the result file and use Delete Pages or Reorder Pages to adjust it.</p>
+        <p><strong>The Add button is greyed out.</strong> No blank pages are pending yet. Add at least one first.</p>
+        <p><strong>The thumbnails never appear or an error shows.</strong> The file may be damaged or not a real PDF. Try opening and re-saving it in a PDF viewer, then load it again.</p>
+        <p><strong>The download did not start.</strong> Some browsers, especially on iPhone, block downloads or open the PDF in a new tab. Allow downloads for this site, check your Downloads folder, or tap Download PDF again.</p>
+      </div>
+
+      <h2 className="text-center">
+        Limitations and privacy
+      </h2>
+      <ul className="mt-6 max-w-3xl mx-auto list-disc pl-5 space-y-2 text-[15px] leading-relaxed text-[#4a4a55]">
+        <li>One PDF at a time. To add blanks across several files, merge them first.</li>
+        <li>Blank pages are fully empty: no lines, header or page number.</li>
+        <li>Page size choices are Match previous or A4 only.</li>
+        <li>Password-protected PDFs must be unlocked first.</li>
+        <li>Processing happens in your browser; your PDF is not uploaded.</li>
+      </ul>
+
       <h2 className="text-center">
         Frequently asked questions
       </h2>
@@ -150,7 +198,7 @@ export const addBlankPagesHowToJsonLd = {
   "@context": "https://schema.org",
   "@type": "HowTo",
   name: "How to add blank pages to a PDF online",
-  description: "Insert empty pages anywhere in your PDF, before, after, or between existing pages. Free, private, and instant.",
+  description: "Insert empty pages before any page or at the end of your PDF, in your browser.",
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
