@@ -22,6 +22,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { loadPdfLib } from "@/lib/lazyLibs";
+import { addFlatOutline, bookmarkTitleFor, type OutlineEntry } from "@/lib/pdfOutline";
 import { loadPdfLibDoc, loadPdfJsDoc, isPdfPasswordError } from "@/lib/pdfGuard";
 import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
@@ -169,15 +170,19 @@ export default function Merge() {
     }
     setLoading(true);
     try {
-      const { PDFDocument, degrees } = await loadPdfLib();
+      const pdfLib = await loadPdfLib();
+      const { PDFDocument, degrees } = pdfLib;
       const out = await PDFDocument.create();
-      
+      const outline: OutlineEntry[] = [];
+
       let totalPages = 0;
       for (const item of filesWithMeta) {
         const src = await loadPdfLibDoc(await item.file.arrayBuffer());
         const pages = await out.copyPages(src, src.getPageIndices());
-        
-        const firstPageIndex = totalPages;
+
+        if (pages.length > 0) {
+          outline.push({ title: bookmarkTitleFor(item.file.name), pageIndex: totalPages });
+        }
         for (const p of pages) {
           if (item.rotation !== 0) {
             const currentRotation = p.getRotation().angle;
@@ -186,14 +191,11 @@ export default function Merge() {
           out.addPage(p);
           totalPages++;
         }
-
-        if (addBookmarks) {
-          // pdf-lib bookmark support is limited without low-level manipulation, 
-          // but we can at least try to name the outlines if we had a plugin.
-          // For now we'll focus on the core merge + rotation.
-        }
       }
-      
+
+      // One bookmark per source file, pointing at that file's first page.
+      if (addBookmarks) addFlatOutline(out, outline, pdfLib);
+
       const bytes = await out.save();
       const blob = new Blob([bytes as BlobPart], { type: "application/pdf" });
       setResult({ 

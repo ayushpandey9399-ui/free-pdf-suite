@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Loader2, ServerCog, X } from "lucide-react";
 import { UploadDropzone } from "@/components/UploadDropzone";
@@ -29,6 +29,25 @@ export default function PdfToWord() {
   const [error, setError] = useState<{ message: string; unlock: boolean } | null>(null);
   const [result, setResult] = useState<{ blob: Blob; name: string; sizeMb: string } | null>(null);
   const xhrRef = useRef<XMLHttpRequest | null>(null);
+  // Checked once on open so visitors learn the server is down before choosing a file,
+  // not after waiting for an upload that cannot succeed.
+  const [serverStatus, setServerStatus] = useState<"checking" | "up" | "down">("checking");
+
+  useEffect(() => {
+    let cancelled = false;
+    const ctrl = new AbortController();
+    const timer = window.setTimeout(() => ctrl.abort(), 8000);
+    // no-cors: we only need to know the host answers; a DNS or connection failure rejects.
+    fetch(`${new URL(PDF_TO_WORD_ENDPOINT).origin}/health`, { mode: "no-cors", cache: "no-store", signal: ctrl.signal })
+      .then(() => !cancelled && setServerStatus("up"))
+      .catch(() => !cancelled && setServerStatus("down"))
+      .finally(() => window.clearTimeout(timer));
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+      ctrl.abort();
+    };
+  }, []);
 
   const resetAll = useCallback(() => {
     xhrRef.current?.abort();
@@ -225,6 +244,20 @@ export default function PdfToWord() {
       </div>
 
       <div aria-live="polite" className="mt-6 px-4">
+        {serverStatus === "down" ? (
+          <div
+            role="status"
+            className="mx-auto mb-3 max-w-[520px] rounded-xl px-4 py-3 text-left text-[14px] leading-relaxed"
+            style={{ backgroundColor: "#fffbeb", border: "1px solid #fde68a", color: "#5a5a66" }}
+          >
+            <strong style={{ color: "#33333c" }}>Our conversion server is not responding right now.</strong>{" "}
+            A PDF picked now will most likely fail to convert. To get the text out today, use{" "}
+            <Link to="/tools/$slug" params={{ slug: "pdf-to-text" }} className="font-semibold underline">
+              PDF to Text
+            </Link>
+            , which runs in your browser.
+          </div>
+        ) : null}
         {error ? (
           <div
             className="mx-auto max-w-[520px] rounded-xl p-4 text-[14px]"

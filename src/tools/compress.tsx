@@ -67,12 +67,16 @@ const LEVELS: CompressionLevelInfo[] = [
   },
 ];
 
+/** Which candidate was downloaded: page images, a lossless rewrite, or the untouched original. */
+type CompressMethod = "images" | "lossless" | "original";
+
 interface Result {
   blob: Blob;
   filename: string;
   originalSize: number;
   outputSize: number;
   keptOriginal: boolean;
+  method: CompressMethod;
 }
 
 function formatSize(bytes: number): string {
@@ -185,11 +189,11 @@ export default function CompressPdf() {
       }
 
       const originalSize = file.size;
-      const candidates: { bytes: Uint8Array; size: number }[] = [
-        { bytes: raster, size: raster.byteLength },
+      const candidates: { bytes: Uint8Array; size: number; method: CompressMethod }[] = [
+        { bytes: raster, size: raster.byteLength, method: "images" },
       ];
       if (lossless && lossless.byteLength > 0) {
-        candidates.push({ bytes: lossless, size: lossless.byteLength });
+        candidates.push({ bytes: lossless, size: lossless.byteLength, method: "lossless" });
       }
       const best = candidates.reduce((a, b) => (b.size < a.size ? b : a));
 
@@ -215,6 +219,7 @@ export default function CompressPdf() {
         originalSize,
         outputSize: finalBlob.size,
         keptOriginal,
+        method: keptOriginal ? "original" : best.method,
       });
       
       if (keptOriginal) {
@@ -279,6 +284,18 @@ export default function CompressPdf() {
             </div>
           )}
         </div>
+        {result.method === "images" && (
+          <p className="mx-auto mt-4 max-w-md rounded-xl border border-[#fde68a] bg-[#fffbeb] px-4 py-3 text-left text-[13px] leading-relaxed text-[#5a5a66]">
+            <strong className="text-[#33333c]">Good to know:</strong> to reach this size, each page was
+            saved as an image. Text in the new file cannot be selected, searched or copied. If you need
+            that, try Less Compression or keep the original.
+          </p>
+        )}
+        {result.method === "lossless" && (
+          <p className="mx-auto mt-4 max-w-md text-center text-[13px] leading-relaxed text-[#5a5a66]">
+            Pages were left untouched; only the file structure was tidied, so text stays selectable.
+          </p>
+        )}
       </ToolSuccessScreen>
     );
   }
@@ -400,7 +417,7 @@ export default function CompressPdf() {
           </div>
           
           <div className="rounded-xl bg-[#f8f9fa] p-4 text-[12.5px] leading-relaxed text-[#5a5a66] border border-[#ececef]">
-            <strong>Note:</strong> Compression works by re-encoding page images. Text remains sharp at all levels. Heavily compressed images may look slightly softer when zoomed in.
+            <strong>Note:</strong> We try two methods and keep the smaller file. A lossless rewrite keeps text selectable. The image method saves each page as a JPG, which shrinks scans and photos the most but makes text unselectable and slightly softer, especially at Extreme. The result screen tells you which one was used.
           </div>
 
           <div className="mt-auto pt-4 text-center">

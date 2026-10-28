@@ -12,7 +12,7 @@ const steps = [
   },
   {
     title: "Step 3: Set Image Quality",
-    text: "Choose the image resolution and quality level. Higher quality settings produce sharper images with larger file sizes. Standard quality is sufficient for screen viewing and most sharing purposes. High quality is recommended when images will be printed or used in professional presentations.",
+    text: "Choose the image resolution and quality level. Higher quality settings produce sharper images with larger file sizes. Low (72 DPI) is enough for previews, Medium (150 DPI) suits screens and sharing, and High (300 DPI) is recommended when images will be printed or used in professional presentations.",
   },
   {
     title: "Step 4: Convert and Download",
@@ -71,7 +71,7 @@ const faqs = [
   },
   {
     q: "What DPI resolution are the output images?",
-    a: "Resolution depends on the quality setting you choose. Standard quality produces 96 DPI images suitable for screen viewing. High quality produces 150-200 DPI. Maximum quality produces 300 DPI print-ready images.",
+    a: "It depends on the Image Quality setting. Low renders pages at 72 DPI, Medium (the default) at 150 DPI and High at 300 DPI. An A4 page at High comes out at about 2480 x 3508 pixels.",
   },
   {
     q: "Can I convert multiple PDFs at once?",
@@ -175,17 +175,17 @@ export function PdfToImagesSeo() {
       </p>
 
       <h2>What Quality Level Should You Choose?</h2>
-      <h2>Standard Quality (72-96 DPI)</h2>
+      <h2>Low Quality (72 DPI)</h2>
       <p>
-        This is the default setting for screen viewing. Images produced at standard quality look excellent on any monitor or phone screen, load quickly when shared online, and have the smallest file sizes. Choose standard quality when images will be shared via messaging, email, or social media and viewed on screens.
+        Low gives the smallest files. An A4 page comes out at about 595 x 842 pixels, which is fine for a quick preview or a thumbnail but small text can be hard to read when zoomed in.
       </p>
-      <h2>High Quality (150-200 DPI)</h2>
+      <h2>Medium Quality (150 DPI, default)</h2>
       <p>
-        High quality produces noticeably sharper images with more detail. This setting is ideal when images will be inserted into presentations, used in documents that will be printed at standard paper sizes, or displayed on high-resolution screens. File sizes are larger but the additional clarity is visible especially in text-heavy documents.
+        Medium is the default and produces noticeably sharper images, about 1240 x 1754 pixels for an A4 page. This setting is ideal when images will be inserted into presentations, used in documents that will be printed at standard paper sizes, or displayed on high-resolution screens. File sizes are larger but the additional clarity is visible especially in text-heavy documents.
       </p>
-      <h2>Maximum Quality (300 DPI)</h2>
+      <h2>High Quality (300 DPI)</h2>
       <p>
-        Maximum quality renders images at print resolution, the standard for professional printing. Use this setting when images will be printed at large sizes, used in professional print designs, or submitted to print services. File sizes are significantly larger but image clarity is preserved at the highest level.
+        High renders images at print resolution, the standard for professional printing. Use this setting when images will be printed at large sizes, used in professional print designs, or submitted to print services. File sizes are significantly larger but image clarity is preserved at the highest level.
       </p>
 
       <h2>Browser-Based vs Server-Based PDF to Image Conversion</h2>

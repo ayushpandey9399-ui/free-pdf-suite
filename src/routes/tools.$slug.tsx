@@ -9,6 +9,7 @@ import { SITE_URL } from "@/lib/site";
 import { breadcrumbJsonLd, normalizeToolJsonLd } from "@/lib/seoSchema";
 import { cn } from "@/lib/utils";
 import { TOOL_SEO } from "@/components/toolSeoBundle";
+import { ToolFieldNotes } from "@/components/ToolFieldNotes";
 
 
 const OG_IMAGE = `${SITE_URL}/og-cover.png`;
@@ -253,7 +254,7 @@ function ToolPage() {
           slug === "merge"
             ? "Combine multiple PDFs into one organized document in seconds. Drag and drop to reorder, then download your merged file. No signup, no watermarks, and your files never leave your device."
             : slug === "compress"
-              ? "Reduce your PDF file size instantly without losing quality. Choose your compression level and download a smaller PDF in seconds. No signup, no watermark, no file size limits."
+              ? "Reduce your PDF file size in your browser. Choose a compression level, see the size saved, and download the smaller copy. No signup, no watermark."
               : slug === "pdf-to-word"
               ? "Your file is securely uploaded to our server for processing and permanently deleted immediately after your download is complete. We never store, share, or access your files."
               : (slug === "add-blank-pages"
@@ -295,6 +296,7 @@ function ToolPage() {
         </div>
       </ToolLayout>
       <div className={cn((slug === "merge" || slug === "sign-pdf") && "bg-white relative z-0 -mt-16 pt-16 border-t border-[#ececec]")}>
+        <ToolFieldNotes slug={slug} />
         {seo?.content}
       </div>
 

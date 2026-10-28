@@ -12,3 +12,4 @@
 ## Project rules
 - Every lazily loaded tool renders inside `ToolErrorBoundary` (tools.$slug and image-tools.$slug). Why: a tool crash must not replace the page heading and help article with the root error screen, which Google reads as a Soft 404.
 - Search titles and descriptions for tool pages live in the per-slug map in `src/routes/tools.$slug.tsx` (and each image tool's SEO bundle). Why: one source per page keeps titles unique and avoids duplicate head tags.
+- Tested, tool-specific notes (behavior, limits, error meanings, how to check, real screenshots) live in `src/content/toolFieldNotes.ts`, rendered by `ToolFieldNotes` above each tool's article. Why: one data source per tool, server-rendered, and must be updated whenever that tool's behavior changes so the page never contradicts the tool.

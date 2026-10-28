@@ -23,7 +23,7 @@ const steps = [
 const faqs = [
   {
     q: "Why Does PDF File Size Matter?",
-    a: "PDF files can grow surprisingly large, especially those containing high-resolution photographs, scanned pages, embedded fonts, or complex vector graphics. Email providers like Gmail and Outlook impose attachment size limits of 20-25MB. Compressing a PDF reduces its file size by optimizing the data it contains, most significantly through image downsampling. The result is a file that looks identical to the original in everyday use but takes up a fraction of the space.",
+    a: "PDF files can grow surprisingly large, especially those containing high-resolution photographs, scanned pages, embedded fonts, or complex vector graphics. Email providers like Gmail and Outlook impose attachment size limits of 20-25MB. Compressing a PDF reduces its file size by optimizing the data it contains, most significantly by re-encoding images. This tool tries two methods: a lossless rewrite that keeps everything as it was, and an image method that saves every page as a JPG. It keeps whichever file is smaller and tells you which one it used.",
   },
   {
     q: "How Much Can PDF Compression Reduce File Size?",
@@ -35,7 +35,7 @@ const faqs = [
   },
   {
     q: "Will I lose quality when I compress a PDF?",
-    a: "It depends on the compression level. 'Less Compression' keeps images at high quality, while 'Extreme Compression' targets the smallest possible output which may result in softer images. Text usually remains perfectly sharp at all levels.",
+    a: "It depends on the compression level. 'Less Compression' keeps images at high quality, while 'Extreme Compression' targets the smallest possible output which may result in softer images. If the image method wins, text is part of a picture: it cannot be selected or searched and looks softer at Extreme. If the lossless rewrite wins, nothing visible changes.",
   },
   {
     q: "Does this tool work on mobile devices?",
@@ -107,10 +107,11 @@ export function CompressPdfSeo() {
       </p>
       <p>
         Compressing a PDF reduces its file size by optimizing the data it contains. The most significant reduction
-        usually comes from images. A PDF with ten high-resolution photos at 300 DPI might shrink by 70-80% when those
-        images are downsampled to 72-150 DPI, a resolution that still looks perfectly sharp on a screen. Other
-        optimizations include removing embedded metadata, compressing font subsets, flattening invisible layers, and
-        stripping out duplicate content streams that PDF editors sometimes leave behind.
+        usually comes from images. In this tool the image method redraws each page at about 108 DPI (Less), 86 DPI
+        (Recommended) or 72 DPI (Extreme) and saves it as a JPG. That is why scans and photo-heavy files shrink the
+        most, and why text in those files stops being selectable. The second method rewrites the original file with
+        compact object streams and changes nothing you can see. The tool compares both with your original and keeps
+        the smallest, or your original if neither is smaller.
       </p>
       <p>
         The result is a file that looks identical to the original in everyday use but takes up a fraction of the space.
@@ -290,7 +291,7 @@ export const compressHowToJsonLd = {
   "@context": "https://schema.org",
   "@type": "HowTo",
   name: "How to compress a PDF online for free",
-  description: "Reduce your PDF file size instantly without losing quality. Choose your compression level and download a smaller PDF in seconds.",
+  description: "Reduce your PDF file size in your browser. Choose a compression level, see the size saved, and download the smaller copy.",
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
