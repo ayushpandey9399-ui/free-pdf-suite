@@ -22,6 +22,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { loadPdfLib } from "@/lib/lazyLibs";
+import { addFlatOutline, bookmarkTitleFor, type OutlineEntry } from "@/lib/pdfOutline";
 import { loadPdfLibDoc, loadPdfJsDoc, isPdfPasswordError } from "@/lib/pdfGuard";
 import { PasswordProtectedNotice } from "@/components/PasswordProtectedNotice";
 import { usePdfPasswordCheck } from "@/hooks/usePdfPasswordCheck";
