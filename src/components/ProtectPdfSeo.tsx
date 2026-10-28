@@ -78,16 +78,10 @@ export function ProtectPdfSeo() {
 
       <h2>Understanding PDF Encryption: AES-128 vs AES-256</h2>
       <p>
-        PDF password protection works by encrypting the file contents using the AES (Advanced Encryption Standard) algorithm. Encryption scrambles the document data into an unreadable format that can only be decoded with the correct password. Without the right password, the file contents are mathematically impossible to read. It is not just difficult, but computationally infeasible.
+        The tool asks the MuPDF library to encrypt the file with AES-256. Without the password, a reader cannot open the document contents.
       </p>
       <p>
-        AES-128 uses a 128-bit encryption key and provides very strong security for most everyday purposes. It is faster to process and still provides protection that would take billions of years to break with a brute-force attack on a modern computer. AES-128 is sufficient for personal documents, everyday business files, and general confidential content.
-      </p>
-      <p>
-        AES-256 uses a 256-bit encryption key, which is twice as long, and is considered the gold standard for sensitive data protection. It is used by governments, military organizations, banks, and healthcare providers for their most sensitive data. AES-256 is the right choice for highly confidential documents, legal files, financial records, and anything that requires the highest available level of protection.
-      </p>
-      <p>
-        The strength of encryption also depends on the password itself. A 4-digit PIN provides very weak protection regardless of the encryption standard because it can be guessed in seconds. A 12-character password combining letters, numbers, and symbols makes the encryption essentially unbreakable. Always use a strong, unique password for important documents.
+        Protection also depends on the password itself and on the reader software. Short, common or reused passwords can be guessed, so no password is unbreakable. Use a long, unique password and keep it somewhere safe: this tool cannot recover a forgotten password.
       </p>
 
       <h2>Tips for Creating Strong PDF Password Protection</h2>

@@ -44,7 +44,7 @@ const TOOL_META: Record<string, ToolMeta> = {
   },
   "redact-pdf": {
     title: "Redact PDF Free, Permanently Black Out Text | PDFToolConverter",
-    desc: "Redact PDF online free and permanently black out names, sensitive info, or account details. Text is truly removed from the file, not just covered.",
+    desc: "Redact PDF online free and permanently black out names, sensitive info, or account details. Redacted pages are replaced by images, so their text cannot be selected. Review the result.",
   },
   "protect-pdf": {
     title: "Protect PDF Online Free: Add a Password | PDFToolConverter",
@@ -92,7 +92,7 @@ const TOOL_META: Record<string, ToolMeta> = {
   },
   "page-numbers": {
     title: "Add Page Numbers to PDF Free, Online Tool | PDFToolConverter",
-    desc: "Add page numbers to PDF online free. Choose position, starting number, and format, and preview before you download.",
+    desc: "Add page numbers to PDF online free. Choose one of six positions, font size and starting number, with a first page preview.",
   },
   "header-footer": {
     title: "Add Header and Footer to PDF Free | PDFToolConverter",
@@ -100,7 +100,7 @@ const TOOL_META: Record<string, ToolMeta> = {
   },
   "crop": {
     title: "Crop PDF Online Free, Live Browser Preview | PDFToolConverter",
-    desc: "Crop PDF online free to trim white margins or cut unwanted edges from scans. Live preview shows the exact crop box before you save.",
+    desc: "Crop PDF online free to trim white margins or cut unwanted edges from scans. Preview the first page, then check the downloaded result.",
   },
   "edit-pdf": {
     title: "Edit PDF Online Free: Add Text and Images | PDFToolConverter",
@@ -111,8 +111,8 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Fill out PDF forms online free. Type into text fields, tick checkboxes, and pick options, then download the completed form.",
   },
   "flatten-pdf": {
-    title: "Flatten PDF Free, Lock Forms & Notes | PDFToolConverter",
-    desc: "Flatten PDF online free to lock form fields and annotations into the page permanently.",
+    title: "Flatten PDF Form Fields Free | PDFToolConverter",
+    desc: "Flatten PDF form fields into the page in your browser so they can no longer be filled in. Annotations are not flattened. Check the result.",
   },
   "pdf-metadata": {
     title: "Edit PDF Metadata Free, Clean Hidden Info | PDFToolConverter",
@@ -132,11 +132,11 @@ const TOOL_META: Record<string, ToolMeta> = {
   },
   "extract-images": {
     title: "Extract Images from PDF Online Free, No Upload | PDFToolConverter",
-    desc: "Extract all images from any PDF file instantly in your browser. Download embedded JPG, PNG, TIFF images in original quality. Free, no signup, no upload to servers.",
+    desc: "Extract supported embedded images from a PDF in your browser. Download JPG, JP2 or PNG files one by one or as a ZIP. Some image encodings are skipped.",
   },
   "compare": {
     title: "Compare Two PDF Files Online, Side-by-Side | PDFToolConverter",
-    desc: "Compare two PDF files online free and see every changed page side by side. Use visual diff and text diff to spot edits in contracts fast.",
+    desc: "Compare the text of two PDF files in your browser and view pages side by side. Image and formatting changes are not detected automatically.",
   },
 };
 
