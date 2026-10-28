@@ -43,7 +43,7 @@ const faqs = [
   },
   {
     q: "Are there any file size limits?",
-    a: "No, there are no file size limits for our browser-based compression. You can process large documents as long as your device has enough memory to handle them.",
+    a: "We set no fixed size limit. Large files depend on your device memory, and very big documents can be slow or fail on phones.",
   },
   {
     q: "Can I compress multiple PDFs at once?",

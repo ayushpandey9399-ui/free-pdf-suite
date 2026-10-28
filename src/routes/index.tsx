@@ -7,7 +7,7 @@ import { SITE_URL, SITE_NAME, CONTACT_EMAIL } from "@/lib/site";
 
 const HOME_TITLE = "PDFToolConverter: 44 Free PDF Tools Online, No Signup";
 const HOME_DESC =
-  "44 free PDF and image tools that run in your browser. Merge, split, compress, sign, convert and edit PDFs instantly. No signup, no watermark, no limits.";
+  "44 free PDF and image tools that run in your browser. Merge, split, compress, sign, convert and edit PDFs instantly. No signup, no watermark.";
 const HOME_URL = `${SITE_URL}/`;
 const OG_IMAGE = `${SITE_URL}/og-cover.png`;
 

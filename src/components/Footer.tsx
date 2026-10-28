@@ -105,7 +105,7 @@ export function Footer() {
               className="mt-5 text-[14px] max-w-[280px]"
               style={{ color: "#9CA3AF", lineHeight: 1.65 }}
             >
-              Free PDF tools that process your files right in your browser. Our tools are private, fast and completely free.
+              Free PDF and image tools. Most run right in your browser; PDF to Word and Compress Image use our server.
             </p>
             <ul
               className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-[12px]"
@@ -113,7 +113,7 @@ export function Footer() {
             >
               <MicroBadge icon={<ShieldCheck className="h-3.5 w-3.5" strokeWidth={2.25} />} label="No signup" />
               <MicroBadge icon={<Sparkles className="h-3.5 w-3.5" strokeWidth={2.25} />} label="No watermark" />
-              <MicroBadge icon={<CloudOff className="h-3.5 w-3.5" strokeWidth={2.25} />} label="No uploads" />
+              <MicroBadge icon={<CloudOff className="h-3.5 w-3.5" strokeWidth={2.25} />} label="Most tools run in your browser" />
             </ul>
           </div>
 
