@@ -9,6 +9,7 @@ import { SITE_URL } from "@/lib/site";
 import { breadcrumbJsonLd, normalizeToolJsonLd } from "@/lib/seoSchema";
 import { cn } from "@/lib/utils";
 import { TOOL_SEO } from "@/components/toolSeoBundle";
+import { ToolFieldNotes } from "@/components/ToolFieldNotes";
 
 
 const OG_IMAGE = `${SITE_URL}/og-cover.png`;
@@ -295,6 +296,7 @@ function ToolPage() {
         </div>
       </ToolLayout>
       <div className={cn((slug === "merge" || slug === "sign-pdf") && "bg-white relative z-0 -mt-16 pt-16 border-t border-[#ececec]")}>
+        <ToolFieldNotes slug={slug} />
         {seo?.content}
       </div>
 

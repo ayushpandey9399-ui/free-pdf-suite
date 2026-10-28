@@ -185,7 +185,7 @@ export const TOOL_FIELD_NOTES: Record<string, ToolFieldNote> = {
     errors: [
       { message: "Please select at least one page.", meaning: "Every thumbnail is deselected. Click at least one page." },
       { message: "Failed to load PDF file.", meaning: "The file is damaged or not a PDF." },
-      { message: "Password screen", meaning: "The PDF is locked. Unlock it first, then convert." },
+      { message: "A password prompt appears", meaning: "The PDF is locked. Unlock it first, then convert." },
     ],
     check: [
       "Open one image and zoom in on small text. If it is blurry, convert again at High.",

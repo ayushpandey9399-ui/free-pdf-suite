@@ -6,6 +6,7 @@ import { getImageTool } from "@/lib/imageTools";
 
 import { SITE_URL } from "@/lib/site";
 import { normalizeToolJsonLd } from "@/lib/seoSchema";
+import { ToolFieldNotes } from "@/components/ToolFieldNotes";
 import { IMAGE_SILOS } from "@/components/imageSeoBundle";
 
 
@@ -236,6 +237,7 @@ function ImageToolPage() {
         </section>
       </div>
       <div className={`mx-auto ${maxWidth} px-4 pb-16`}>
+        <ToolFieldNotes slug={tool.slug} />
         <Seo />
       </div>
 
