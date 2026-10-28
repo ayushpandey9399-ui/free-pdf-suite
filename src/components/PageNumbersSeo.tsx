@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
@@ -22,104 +21,26 @@ const steps = [
   },
 ];
 
-const benefits = [
+const faqs = [
   {
-    h: "Every position",
-    p: "Six position tiles cover the practical corners and centres: top-left, top-centre, top-right, bottom-left, bottom-centre and bottom-right. Whichever margin your reader expects, the classic bottom-centre for reports, top-right for legal filings, bottom-right for printouts, one tap puts the number exactly there.",
+    q: "Where can I place the page numbers?",
+    a: "Choose top or bottom placement with left, center, or right alignment. The tool uses a fixed 24-point margin.",
   },
   {
-    h: "Numbers you can trust",
-    p: "The number on each page is drawn with the standard Helvetica font at the point size you chose, sitting a fixed 24-point margin from the edge you picked. Nothing else about the page is touched, the original text, images and layout stay exactly as they were.",
-  },
-  {
-    h: "Start anywhere",
-    p: "The Start at field accepts any integer, so page one of your file can be numbered 1, 47 or anything else. Continuing the numbering of a previous chapter or appendix is a matter of typing the right start value, no editing, no manual per-page work.",
-  },
-  {
-    h: "No quality loss",
-    p: "Numbers are added as a small text layer on top of each page; the underlying pages are never re-rendered, re-compressed or converted to images. Scanned PDFs, vector PDFs and mixed documents all come out at the same visual quality as the file you started with.",
-  },
-];
-
-const scenarios = [
-  {
-    h: "Assignments, theses and project reports",
-    p: "Universities and schools almost always require numbered pages on submitted work so the examiner can reference sections in feedback. Drop your final PDF here, pick bottom-centre and 12pt and the whole assignment is compliant in seconds, no need to re-export from your word processor.",
-  },
-  {
-    h: "Merged files where the original numbering no longer matches",
-    p: "Combine three separate PDFs into one and each chunk still carries its own baked-in numbering, usually restarting at 1 with every merge. Adding a fresh sequence in a free corner gives the combined document a single continuous count that actually matches its new length.",
-  },
-  {
-    h: "Legal, official and contract submissions",
-    p: "Court bundles, tender responses and formal contracts are routinely referenced by page (\"as stated on page 7\") and reviewers reject files where they can't cite specific pages. Adding numbers in the top-right or bottom-right corner gives every reader a stable coordinate to point at.",
-  },
-  {
-    h: "Long documents heading to the printer",
-    p: "A hundred-page unnumbered stack dropped on the floor is a nightmare to reassemble. Numbering the PDF before printing turns it into an ordered document instead of a puzzle, and readers can flip to a specific section without hunting through unmarked pages.",
-  },
-];
-
-const faqs: { q: string; a: ReactNode; plain: string }[] = [
-  {
-    q: "How do I add page numbers to a PDF for free?",
-    a: "Open this page, click Select PDF file and pick the document you want to paginate. Choose one of the six position tiles (TL, TC, TR, BL, BC, BR), type a font size in points and a starting number, then hit Add Page Numbers. The numbered PDF downloads to your device with a -numbered suffix on the filename, no account, no watermark added.",
-    plain:
-      "Click Select PDF file, pick your document, tap one of the six position tiles (TL, TC, TR, BL, BC, BR), type a font size and a starting number, then hit Add Page Numbers. The file downloads with a -numbered suffix. No account, no watermark.",
-  },
-  {
-    q: "Can I choose where the page numbers appear?",
-    a: "Yes, six positions are available. TL, TC and TR place the number in the top-left, top-centre and top-right of every page; BL, BC and BR do the same along the bottom. Whichever tile you tap, the live preview shifts the number to that spot on page one so you can confirm it before saving.",
-    plain:
-      "Yes. Six positions are available: top-left, top-centre, top-right, bottom-left, bottom-centre and bottom-right. Tap a position tile and the live preview shifts the number instantly.",
-  },
-  {
-    q: "Can I use a \"Page 1 of 10\" format?",
-    a: "Not in this tool, right now the number is drawn as a plain digit (1, 2, 3…). A \"Page X of Y\" or a \"Page 1\" prefix isn't one of the supported formats today. If that specific label matters for your document, the neighbouring Header & Footer tool is a better fit for adding richer strings around the page count.",
-    plain:
-      "No. This tool draws a plain digit (1, 2, 3…). A \"Page X of Y\" or \"Page 1\" prefix isn't a supported format today; the Header & Footer tool is a better fit for richer text.",
-  },
-  {
-    q: "Can I start numbering from a number other than 1?",
-    a: "Yes. The Start at input accepts any integer, so if you set it to 47 then page one of your PDF prints as 47, page two as 48, and so on. This is useful when the current file continues from an earlier volume, appendix or chapter and the numbering needs to pick up rather than restart.",
-    plain:
-      "Yes. The Start at input accepts any integer. Set it to 47 and page one prints as 47, page two as 48, and so on, useful for continuing an earlier volume or chapter.",
+    q: "Can I start numbering above 1?",
+    a: "Yes. Set Start at to the first number you want. Each following page increments that number by one.",
   },
   {
     q: "Can I skip the cover page?",
-    a: "Not directly, there isn't a page-range or \"skip first page\" option yet, so every page in the file gets a number. A working workaround is to open the Extract Pages tool, save the cover on its own, run this tool on the rest of the document with the position and starting number you want, and then merge the untouched cover back on the front with Merge PDF.",
-    plain:
-      "Not directly. There's no page-range or skip-first-page option yet; every page gets a number. Workaround: use Extract Pages to peel off the cover, number the rest here, and merge the cover back on with Merge PDF.",
+    a: "No. This tool numbers every page in the selected PDF.",
   },
   {
-    q: "Do my files get uploaded to a server?",
-    a: "No. The PDF is read, rendered for preview and re-saved with the added numbers entirely inside your browser tab. Nothing is sent to us or to any third party during the process, you can even disconnect from the internet after the page has loaded and the numbering will still complete.",
-    plain:
-      "No. The PDF is read, previewed and re-saved with the added numbers entirely inside your browser tab. Nothing is uploaded to any server, and the tool keeps working offline once loaded.",
+    q: "Can I use Page 1 of 10 or Roman numerals?",
+    a: "No. This tool draws plain numeric labels. It does not offer total-page labels, prefixes, or Roman numerals.",
   },
   {
-    q: "Will adding numbers reduce quality?",
-    a: "No. The tool doesn't re-render or re-compress your pages, it opens the PDF, appends a tiny Helvetica text object to each page at the position you chose, and saves the file back out. Scans stay as scans, vector diagrams stay as vector, and file size grows only by the handful of bytes the number glyphs themselves take.",
-    plain:
-      "No. The tool doesn't re-render or re-compress the pages, it just appends a small Helvetica text object at your chosen position. Original content is untouched and file size grows only by a few bytes.",
-  },
-  {
-    q: "What if my PDF already has page numbers?",
-    a: "The new numbers are added on top of whatever the page already contains, the existing numbers aren't detected or removed. In practice this rarely looks bad: if the original numbers sit at the bottom-centre, add the new ones at a different corner (top-right or bottom-right, for example) so the two counts don't overlap.",
-    plain:
-      "The new numbers are added on top; existing ones aren't detected or removed. Pick a different corner from the existing numbering (e.g. top-right if the file already numbers bottom-centre) so nothing overlaps.",
-  },
-  {
-    q: "Can I add numbers on my phone?",
-    a: "Yes. The whole workspace is a normal web page, so on a phone Select PDF file opens the standard file picker (Files, Drive, iCloud, etc.), the position tiles are tap targets that fit thumbs, and the number/start-number inputs use the numeric keyboard. Add Page Numbers hands the finished PDF to the phone's usual download flow.",
-    plain:
-      "Yes. Select PDF file opens the phone's standard file picker, the position tiles are tap-sized, and font size and start-number inputs use the numeric keyboard. Add Page Numbers uses the browser's normal download flow.",
-  },
-  {
-    q: "Do I need Adobe Acrobat?",
-    a: "No, and that's really the point. Acrobat's paid tier is the only way to add page numbers inside Adobe's own software, but this tool does the same job inside the browser with no download, no subscription and no watermark on the output. The numbered PDF opens correctly in Acrobat Reader, Preview, Chrome, Edge, Foxit or any other viewer.",
-    plain:
-      "No. Acrobat requires a paid tier for page numbering; this tool does the same job in the browser with no download, no subscription and no watermark. The output opens in every major PDF viewer.",
+    q: "Will existing page numbers be removed?",
+    a: "No. New numbers are drawn over the existing pages. Existing numbers remain, so choose a position that does not overlap them.",
   },
 ];
 
@@ -198,17 +119,6 @@ export function PageNumbersSeo() {
         with.
       </p>
 
-      {/* Four benefits */}
-      <div className="mt-10 grid gap-6 sm:grid-cols-2">
-        {benefits.map((b) => (
-          <div key={b.h}>
-            <h3 className="text-[17px] font-semibold">{b.h}</h3>
-            <p className="mt-2 text-[14.5px] leading-relaxed text-[#4a4a55]">{b.p}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Scenarios */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         When do you need to add page numbers to a PDF?
       </h2>
@@ -252,7 +162,7 @@ export const pageNumbersFaqJsonLd = {
   mainEntity: faqs.map((f) => ({
     "@type": "Question",
     name: f.q,
-    acceptedAnswer: { "@type": "Answer", text: f.plain },
+    acceptedAnswer: { "@type": "Answer", text: f.a },
   })),
 };
 

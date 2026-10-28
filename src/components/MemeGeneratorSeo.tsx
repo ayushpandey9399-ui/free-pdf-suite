@@ -68,99 +68,28 @@ export const memeGeneratorFaqJsonLd = {
   mainEntity: [
     {
       "@type": "Question",
-      name: "Does this meme generator add a watermark?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "No. We never add a watermark, logo, or footer to your meme. Most free meme sites stamp their brand on your image or lock a no-watermark export behind a paid tier. PDFToolConverter does not. What you see in the preview is exactly what downloads.",
-      },
+      name: "Can I change the font and caption colors?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes. Each text box has font, text-color, and outline-color controls. Available fonts include Anton, Oswald, Bebas Neue, and Comic Neue." },
     },
     {
       "@type": "Question",
-      name: "Is the meme maker free?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. Every image tool on PDFToolConverter is free, with no signup, no account, no trial, and no export limit.",
-      },
+      name: "Can I add captions beyond the top and bottom text?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes. Use Add text to create another caption, then drag its position control in the preview. You can edit or delete each caption separately." },
     },
     {
       "@type": "Question",
-      name: "Do my photos get uploaded to a server?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "No. The whole tool runs inside your browser using HTML5 Canvas. Your photo is decoded, the text is drawn on top, and the final meme is exported all on your own device. Nothing is sent to us.",
-      },
+      name: "Can I add emojis and my own images as overlays?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes. Add an emoji or upload an image overlay, then adjust its position, scale, and rotation. The Layers panel controls ordering and deletion." },
     },
     {
       "@type": "Question",
-      name: "Can I change the meme font and color?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. Pick from 4 open-license fonts, Anton (the classic Impact lookalike), Oswald, Bebas Neue, and Comic Neue, and set any text color and outline color per box using the swatches or the custom color picker.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I add more than two lines of text?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. Click Add text to place extra caption boxes anywhere on the image. Drag the yellow dot on the preview to move each box.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I add emojis or stickers to my meme?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. Open the emoji picker for 60 popular emojis across faces, hands, hearts, symbols, and misc, or paste any Unicode emoji into the free-text field. Each emoji becomes its own draggable, scalable, rotatable layer. Emoji look varies by device (Apple, Android, Windows) since we render native system emoji, that is normal.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I add my own image as an overlay?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. Click Add image to upload a second JPG, PNG, or WebP as an overlay layer. Transparent PNGs blend correctly, and every overlay can be dragged, scaled from the corner, and rotated. The overlay is processed locally like the base image, with the same size and safety guards.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I make a multi-panel meme or collage?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. Pick a layout: single, 2 stacked, 2 side by side, 3 stacked, or a 2 x 2 grid. Click each empty panel in the preview to add its image. Panels cover-fit to keep aspect and are separated by a thin white gap. Text, emoji, and image layers float above the whole collage in the export.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I use my own photo?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. Drop in any JPG, PNG, or WebP you have. Because processing is local, memes of friends, family, or private moments never leave your device.",
-      },
+      name: "Can I make a multi-panel meme?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes. Choose single, two stacked, two side by side, three stacked, or a two-by-two grid. Fill the panels with images and place captions or overlays above the collage." },
     },
     {
       "@type": "Question",
       name: "Should I export as JPG or PNG?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Pick JPG for smaller files that are easier to share on WhatsApp, Instagram, or Twitter. Pick PNG when you want maximum text sharpness or the source image has transparency.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Does the meme generator work on my phone?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. It works on iPhone, iPad, Android, Windows, macOS, and Linux, in any modern browser such as Chrome, Safari, Edge, and Firefox. Extra caption boxes are drag-friendly on touch screens.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Do I need to sign up?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "No. There is no signup, no email, and no account. Open the page and start making memes.",
-      },
+      acceptedAnswer: { "@type": "Answer", text: "JPG uses lossy compression and can produce smaller files. PNG avoids JPEG compression artifacts around text. Compare the downloaded file before sharing." },
     },
   ],
 };
@@ -188,32 +117,6 @@ export function MemeGeneratorSeo() {
         both look right. When your caption is longer than a single line, the
         text wraps automatically inside the image bounds and never spills off
         the edge.
-      </p>
-
-      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">
-        No watermark, ever
-      </h2>
-      <p>
-        This is the differentiator. Almost every free meme maker on the web
-        stamps a logo, a URL, or a footer bar on the finished meme, then locks
-        a clean export behind a paid tier. PDFToolConverter does not. The preview you
-        see on the page is exactly what downloads to your device. If we ever
-        needed to add a watermark to keep the service alive we would say so
-        openly, but we do not, and we have no plans to. Ads pay for the
-        hosting, your meme stays clean.
-      </p>
-
-      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">
-        Use your own photo, privately
-      </h2>
-      <p>
-        Because the whole meme generator runs in your browser, you can use
-        pictures of family, coworkers, chat screenshots, or anything you would
-        not want on a stranger's server. Nothing gets uploaded. Open your
-        browser's network tab while you export a meme, you will see no request
-        going out with your image. That matters when the joke is a private
-        one, a work in-joke, or a photo of a real person who has not consented
-        to being on a public server.
       </p>
 
       <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">
@@ -298,19 +201,6 @@ export function MemeGeneratorSeo() {
         fill it with an image, and your text, emoji, and overlay layers float
         above the whole collage in the export. The Layers panel lets you
         bring a layer forward, send it backward, or delete it.
-      </p>
-
-      <h2 className="mt-8 mb-3 text-[22px] font-bold text-[#1F2937]">
-        Works on Windows, Mac, Android, and iPhone
-      </h2>
-      <p>
-
-
-        The meme generator is a plain web page. It works in Chrome, Safari,
-        Edge, and Firefox on Windows, macOS, and Linux, and it works in mobile
-        Safari on iPhone and iPad and mobile Chrome on Android. Touch drag is
-        supported on the extra caption dots. There is no app to install and no
-        account to create.
       </p>
 
       <h2 className="mt-10 mb-4 text-[22px] font-bold text-[#1F2937]">

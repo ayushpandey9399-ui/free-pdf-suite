@@ -62,83 +62,28 @@ export const jpgToWebpFaqJsonLd = {
   mainEntity: [
     {
       "@type": "Question",
-      name: "What is a WebP file and why should I use it?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "WebP is a modern image format built by Google specifically for the web. It uses smarter compression than JPG and typically produces files that are 25 to 35 percent smaller at the same visible quality. Smaller images mean faster page loads, less bandwidth for your visitors, and stronger Core Web Vitals scores, which Google uses as a ranking signal.",
-      },
+      name: "How do I choose the WebP quality?",
+      acceptedAnswer: { "@type": "Answer", text: "The slider runs from 30 to 100 and defaults to 85. Lower settings can reduce file size but may introduce visible artifacts. Compare the downloaded result with your original." },
     },
     {
       "@type": "Question",
-      name: "How much smaller are WebP files compared to JPG?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "In real-world tests, WebP is usually 25 to 35 percent smaller than a JPG of matching visual quality. The exact number depends on the content: photos with lots of detail see less savings, while flat or graphic images can drop 40 to 50 percent. You will see the actual saving per file in the results list after conversion.",
-      },
+      name: "Will the WebP always be smaller than the JPG?",
+      acceptedAnswer: { "@type": "Answer", text: "No. Output size depends on the image and quality setting. The results show the original size, output size, and percentage change." },
     },
     {
       "@type": "Question",
-      name: "Will image quality drop when I convert JPG to WebP?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "At quality 85 (the default), WebP looks visibly identical to the JPG source for almost every photo. Because your JPG was already compressed, the WebP is technically a re-encode, but WebP is efficient enough that the second pass at 85 is virtually invisible. If you push quality lower (60 to 75), you may see softer edges. For the closest possible match, use 90 to 95.",
-      },
+      name: "Are my images uploaded for conversion?",
+      acceptedAnswer: { "@type": "Answer", text: "No. Decoding and encoding run in your browser. The tool tries native canvas WebP encoding and loads a local WebAssembly encoder if needed." },
     },
     {
       "@type": "Question",
-      name: "Is this JPG to WebP converter free?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. No signup, no email wall, no watermarks, and no daily limit. Convert as many JPG files as your browser can hold in memory.",
-      },
+      name: "Can I convert several JPG files together?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes. Select or drop multiple JPG or JPEG files and click Convert all. Download results individually or download multiple completed images as a ZIP. A single completed image downloads directly." },
     },
     {
       "@type": "Question",
-      name: "Are my images uploaded to a server?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "No. Conversion runs entirely in your browser using the Canvas API and, where needed, a WebAssembly WebP encoder that also runs locally. Your JPG files and the resulting WebP images are never uploaded, stored, or seen by us. You can disconnect from the internet after the page loads and it still works.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I convert many JPG files at once?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. Drop a whole folder of JPGs, convert them in one pass at your chosen quality, and download every WebP together as a single ZIP.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can all browsers open WebP images?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Every modern browser (Chrome, Edge, Firefox, Safari 14 and later, Opera, and every current mobile browser) displays WebP. Some older desktop software, print shops, and legacy phones still cannot open .webp directly. Keep a JPG copy of anything you plan to hand to older tools, and use WebP for web publishing where reach is not a concern.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Should I use WebP on my website?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes, for most sites. Serving WebP instead of JPG is one of the fastest wins for page speed and Core Web Vitals: smaller images download faster, Largest Contentful Paint improves, and Google rewards faster pages with better rankings. If you need to support very old software, you can serve WebP with a JPG fallback using the HTML picture element.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I convert WebP back to JPG later?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. If you ever need a JPG copy of the WebP, use the WebP to JPG tool in the PDFToolConverter image toolbox. It is also 100 percent browser-based.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Does it work on Windows, Mac, Android, and iPhone?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. The converter is a web page, so it runs in any modern browser on Windows 10 and 11, macOS, Chromebook, Linux, Android, iPhone, and iPad. Safari on Mac and iPhone uses a built-in WASM fallback path automatically, so the output is always a real WebP file.",
-      },
+      name: "Why might an image fail to convert?",
+      acceptedAnswer: { "@type": "Answer", text: "An image can fail if it cannot be decoded, exceeds the decoded-image safety limit, or cannot be processed with the available browser resources. Try a smaller image or a smaller batch." },
     },
   ],
 };
@@ -184,28 +129,6 @@ export function JpgToWebpSeo() {
           Download each WebP, or download the whole batch as a ZIP.
         </li>
       </ol>
-
-      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
-        Why WebP: smaller files, faster pages
-      </h2>
-      <p className="mt-3">
-        WebP was designed from day one for the web. It combines the
-        best ideas from JPG (efficient lossy compression) and PNG
-        (lossless mode and transparency) into one format, then adds
-        smarter prediction and entropy coding. In practice, that means
-        your hero image, product photo, or blog thumbnail can lose 200
-        to 500 kilobytes with no visible difference. On a mobile
-        connection, that is often the difference between a Largest
-        Contentful Paint under 2.5 seconds and one that trips a Core
-        Web Vitals warning.
-      </p>
-      <p className="mt-3">
-        Faster pages help beyond speed scores. Google has publicly
-        confirmed that page experience signals, including Core Web
-        Vitals, influence search ranking. Serving WebP instead of JPG
-        is one of the highest-return SEO changes you can make in an
-        afternoon, and it costs nothing.
-      </p>
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Choosing the right WebP quality
@@ -254,32 +177,6 @@ export function JpgToWebpSeo() {
         When it finishes, download each WebP individually or grab them
         all together as a single ZIP archive named jpg-to-webp.zip,
         ready to drop into your site's images folder.
-      </p>
-
-      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
-        Your images never leave your device
-      </h2>
-      <p className="mt-3">
-        Most online JPG to WebP converters upload every image to a
-        stranger's server, hold it for hours, and log the metadata.
-        This tool does the opposite. Both decoding and WebP encoding
-        run inside your browser tab using the standard Canvas API and,
-        where the browser cannot encode WebP itself, a locally loaded
-        WebAssembly encoder. Your files, filenames, and any embedded
-        EXIF data stay on your device. Disconnect from the internet
-        after the page loads and the conversion still works.
-      </p>
-
-      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
-        Works on Windows, Mac, Android, and iPhone
-      </h2>
-      <p className="mt-3">
-        Because the converter is a web page, it runs anywhere a modern
-        browser runs: Windows 10 and 11, macOS, Chromebook, Linux,
-        Android, iPhone, and iPad. Chrome and Edge give the fastest
-        encoding on desktop. Safari on Mac and iPhone uses the WASM
-        fallback path automatically, so the output is a real WebP file
-        with no manual step required.
       </p>
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
