@@ -12,7 +12,7 @@ import { IMAGE_SILOS } from "@/components/imageSeoBundle";
 
 const HEIC_TITLE = "HEIC to JPG Converter Free: iPhone Photos | PDFToolConverter";
 const HEIC_DESC =
-  "Convert HEIC photos to JPG online in your browser. Batch convert iPhone HEIC images to JPG with adjustable quality. Free, no signup, and your files never leave your device.";
+  "Convert HEIC photos to JPG in your browser. Batch convert iPhone HEIC images with adjustable JPG quality. Free, no signup, files never leave your device.";
 
 const HEIC_PNG_TITLE = "HEIC to PNG Converter Free, No Upload | PDFToolConverter";
 const HEIC_PNG_DESC =
