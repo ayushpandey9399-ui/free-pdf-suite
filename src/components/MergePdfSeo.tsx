@@ -131,21 +131,7 @@ export function MergePdfSeo() {
             <div 
               className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]"
             >
-              {i === 5 ? (
-                <>
-                  Not directly. If a PDF is password-protected, you need to unlock it first using our <Link to="/tools/$slug" params={{ slug: "unlock-pdf" }} className="text-[#e5322d] hover:underline">Unlock PDF tool</Link>. Once unlocked, you can merge it with other files normally. You can re-protect the merged file afterward using our <Link to="/tools/$slug" params={{ slug: "protect-pdf" }} className="text-[#e5322d] hover:underline">Protect PDF tool</Link>.
-                </>
-              ) : i === 8 ? (
-                <>
-                  This tool is designed for merging PDF files. If you need to combine images like JPG or PNG into a PDF, use our <Link to="/tools/$slug" params={{ slug: "images-to-pdf" }} className="text-[#e5322d] hover:underline">Images to PDF tool</Link> first, then merge the resulting PDF with your other files.
-                </>
-              ) : i === 10 ? (
-                <>
-                  To merge specific pages, first use our <Link to="/tools/$slug" params={{ slug: "extract-pages" }} className="text-[#e5322d] hover:underline">Extract Pages tool</Link> to pull out the pages you need from each document. Then merge the extracted files together.
-                </>
-              ) : (
-                <p>{f.a}</p>
-              )}
+              <p>{f.a}</p>
             </div>
           </details>
         ))}
