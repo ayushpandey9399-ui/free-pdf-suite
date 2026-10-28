@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { LogoMark } from "./Logo";
+import { openCookieSettings } from "@/lib/consent";
 import { ShieldCheck, Sparkles, CloudOff, ArrowUp } from "lucide-react";
 
 type ToolLink = { slug: string; name: string };
@@ -105,7 +106,7 @@ export function Footer() {
               className="mt-5 text-[14px] max-w-[280px]"
               style={{ color: "#9CA3AF", lineHeight: 1.65 }}
             >
-              Free PDF and image tools. Most run right in your browser; PDF to Word and Compress Image use our server.
+              Free PDF and image tools. Most run right in your browser; PDF to Word uses our server.
             </p>
             <ul
               className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-[12px]"
@@ -155,6 +156,9 @@ export function Footer() {
                 </li>
                 <li>
                   <Link to="/terms" className={LINK_CLASS} style={LINK_STYLE}>Terms of Use</Link>
+                </li>
+                <li>
+                  <button type="button" onClick={openCookieSettings} className={LINK_CLASS} style={LINK_STYLE}>Cookie settings</button>
                 </li>
               </ul>
             </div>
