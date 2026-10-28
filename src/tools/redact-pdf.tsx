@@ -333,8 +333,8 @@ export default function RedactPdf() {
           >
             <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
             <div>
-              Redaction is permanent. Content under the black boxes is destroyed
-              and cannot be recovered, the affected pages are re-rendered as images.
+              Every page with a box is rebuilt as an image, so its original text,
+              links and form fields are not kept. Pages without boxes are copied unchanged.
             </div>
           </div>
 
