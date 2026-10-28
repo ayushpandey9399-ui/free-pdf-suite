@@ -5,9 +5,9 @@ import { CONTACT_EMAIL, LAST_UPDATED, SITE_URL } from "@/lib/site";
 
 export const Route = createFileRoute("/privacy-policy")({
   head: () => {
-    const title = "Privacy Policy, Your Files Stay on Your Device | PDFToolConverter";
+    const title = "Privacy Policy: How Your Files Are Handled | PDFToolConverter";
     const description =
-      "PDFToolConverter processes every PDF entirely inside your browser. Read our privacy policy: most tools need no upload, no accounts, and full disclosure on cookies and ads.";
+      "Most PDFToolConverter tools run inside your browser; PDF to Word and Compress Image use our server. Read how files are handled, with no accounts, no accounts, and full disclosure on cookies and ads.";
     const url = `${SITE_URL}/privacy-policy`;
     const ogImage = `${SITE_URL}/og-cover.png`;
     return {
@@ -50,32 +50,32 @@ function PrivacyPolicyPage() {
       >
         <p style={{ margin: 0 }}>
           <strong>
-            Every tool on this site except PDF to Word processes your files
+            Every tool on this site except PDF to Word and Compress Image processes your files
             locally in your browser; those files are not transmitted to our
             servers, not stored by us, and not seen by us.
           </strong>{" "}
           When you merge, compress, sign, or edit a PDF with those tools, the file
           stays on your device from start to finish. You can even disconnect from the
-          internet after the page loads and these tools keep working. The one
-          exception is PDF to Word, which needs server-side conversion. It is
-          labeled on its own page and described in the section below.
+          internet after the page loads and these tools keep working. The two
+          exceptions, PDF to Word and Compress Image, send your file to our server.
+          Each tool page says where it is processed, and the section below explains more.
         </p>
       </div>
 
       <h2>Server based tools</h2>
       <p>
-        One tool on PDFToolConverter, PDF to Word, cannot run in the browser, because a
-        faithful Word conversion needs a document engine that is far too large to
-        download into a browser tab. Here is exactly how that tool handles your data:
+        Two tools on PDFToolConverter send your file to our server: PDF to Word, because a
+        faithful Word conversion needs a document engine far too large for a browser tab,
+        and Compress Image. Here is how those tools handle your data:
       </p>
       <ul>
         <li>
-          All tools except PDF to Word run entirely in your browser and never upload
+          All other tools run entirely in your browser and never upload
           your files.
         </li>
         <li>
-          PDF to Word uploads your PDF to our own server in order to convert it into
-          a Word document.
+          PDF to Word uploads your PDF to our own server to convert it into a Word
+          document. Compress Image uploads your image to our server to compress it.
         </li>
         <li>
           The uploaded file and the converted file are deleted immediately after the
@@ -136,7 +136,7 @@ function PrivacyPolicyPage() {
       <ul>
         <li>
           <strong>Functional cookies</strong> to remember basic preferences (for
-          example, whether you have accepted our cookie notice).
+          example, settings you chose in a tool).
         </li>
         <li>
           <strong>Third-party cookies</strong> from our advertising and analytics
@@ -185,18 +185,17 @@ function PrivacyPolicyPage() {
       </ul>
       <p>
         <strong>
-          Important: ads appear on the page around the tools. For the browser-based
-          tools currently on PDFToolConverter, advertising partners do not receive access to
-          the files you process, because those files stay in your browser.
+          Important: ads appear on the page around the tools. Advertising partners never
+          receive the files you process, whether a tool runs in your browser or on our server.
         </strong>
       </p>
 
       <h2>Analytics</h2>
       <p>
-        We currently use no analytics beyond aggregate, anonymous hosting logs used to
-        keep the site reliable and detect abuse. If we add a privacy-respecting
-        analytics tool in the future, we will name it here and describe what it
-        measures.
+        We use Google Analytics to measure visits, such as which pages are opened,
+        your approximate location, and your device and browser type. Google Analytics
+        sets cookies to do this. It never receives the files you process. We also keep
+        aggregate hosting logs to keep the site reliable and detect abuse.
       </p>
 
       <h2>Third-party links</h2>
