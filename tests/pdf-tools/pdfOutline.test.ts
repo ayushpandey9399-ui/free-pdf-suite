@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "bun:test";
 import * as pdfLib from "pdf-lib";
 import { addFlatOutline, bookmarkTitleFor } from "../../src/lib/pdfOutline";
 
