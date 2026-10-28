@@ -1,5 +1,3 @@
-import type { ReactNode } from "react";
-import { Link } from "@tanstack/react-router";
 import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
 const steps = [
@@ -17,77 +15,41 @@ const steps = [
   },
   {
     title: "Save Your Edited PDF",
-    text: "Once you are satisfied with your edits, click 'Save PDF'. The tool instantly generates a new version of your document with all annotations permanently applied, ready for secure download.",
+    text: "Once you are satisfied with your edits, click 'Save PDF'. The tool generates a new version of your document with edits drawn into the output, ready for secure download.",
   },
 ];
 
-const faqs: { q: string; a: ReactNode }[] = [
+const faqs = [
   {
-    q: "How can I edit a PDF for free without Adobe?",
-    a: "Our free PDF editor allows you to add text, images, annotations, and shapes directly in your browser. Simply upload your PDF, choose a tool from the sidebar, and make your edits instantly, no Adobe Acrobat or subscription required.",
+    "q": "Can I add text to a PDF?",
+    "a": "Yes. Use the Text tool to place new text and adjust its available style controls before saving."
   },
   {
-    q: "Can I add text to a PDF?",
-    a: "Yes! Use the Text tool to create boxes and type anywhere on your document. You can customize the font size, colour, and styling to match your existing document.",
+    "q": "Can I change existing text?",
+    "a": "The editor can expose editable text segments from a PDF text layer. Supported changes are saved using visual cover-and-replacement drawing, not word-processor reflow. Scans without a text layer and some scripts are not supported for existing-text editing."
   },
   {
-    q: "Is it possible to edit existing text in a PDF?",
-    a: "While PDFs are not inherently editable like Word documents, our tool allows you to 'edit' by covering existing text with a matching background rectangle and typing your new content on top, creating a seamless visual correction.",
+    "q": "Does covering text securely remove it?",
+    "a": "No. A rectangle or visual text replacement can hide content without removing the original information. Do not use a visual cover for confidential information."
   },
   {
-    q: "Can I add images to a PDF?",
-    a: "Absolutely. Use the Image tool to drop logos, signatures, or any graphic onto your PDF pages and adjust the position and size as needed.",
+    "q": "What annotations can I add?",
+    "a": "The editor includes highlighting, rectangles, ellipses, lines, arrows, freehand drawing, text, and images. Use Select to adjust supported annotations."
   },
   {
-    q: "Are my documents safe when using an online PDF editor?",
-    a: "Yes. Our tool is entirely browser-based, meaning your files never leave your device. All processing happens locally for maximum security and privacy.",
+    "q": "Can I undo changes before saving?",
+    "a": "Yes. The editor has Undo and Redo controls. Inspect the pages before saving and keep the original file if you need to start again."
   },
   {
-    q: "Can I annotate and highlight PDFs?",
-    a: "Yes, you can use our highlighter tool for passages, or add shapes like rectangles, ellipses, and arrows to draw attention to specific details.",
-  },
-  {
-    q: "Will my edits be permanent?",
-    a: "When you click 'Save PDF', your annotations are merged into the document, making them a permanent part of the file that will display correctly in all PDF viewers.",
-  },
-  {
-    q: "Is this PDF editor really free?",
-    a: "Yes, all tools on our site are 100% free with no hidden charges, no watermarks on output, and no subscription requirements.",
-  },
-  {
-    q: "Can I use this editor on my mobile device?",
-    a: "Our PDF editor is fully responsive and optimized for touch, allowing you to annotate and edit PDFs easily on smartphones and tablets.",
-  },
-  {
-    q: "What is the difference between this tool and Fill PDF Forms?",
-    a: "This editor is for free-form annotations and edits on any PDF. 'Fill PDF Forms' is specifically designed to interact with built-in form fields like checkboxes and dropdown menus.",
-  },
-  {
-    q: "Can I add a signature to my PDF?",
-    a: "Yes, you can upload your signature as an image or use the Freehand/Text tools to sign your documents quickly and easily.",
-  },
-  {
-    q: "Are there any file size limits?",
-    a: "We do not impose strict file size limits; processing speed depends on your device's memory, making it efficient for even long documents.",
-  },
-  {
-    q: "Will this change the document's original formatting?",
-    a: "Your edits are applied as an overlay. The underlying document content remains unchanged, keeping your original layout intact.",
-  },
-  {
-    q: "Can I draw on the PDF?",
-    a: "Yes, the Freehand tool allows you to draw or sketch anything directly on the document pages, just like using a digital pen.",
-  },
-  {
-    q: "Is there any software to download?",
-    a: "No installation is required. Everything runs directly in your web browser.",
-  },
+    "q": "Will saving overwrite my original PDF?",
+    "a": "No. Save PDF creates a separate output with the edits drawn into the document. Free to use. Large documents depend on your device memory, and the downloaded file should be checked before sharing."
+  }
 ];
 
 const related = [
   { to: "/tools/$slug", params: { slug: "fill-forms" }, name: "Fill PDF Forms", blurb: "Easily complete and save interactive PDF forms." },
   { to: "/tools/$slug", params: { slug: "sign-pdf" }, name: "Sign PDF", blurb: "Add digital signatures to any document." },
-  { to: "/tools/$slug", params: { slug: "compress" }, name: "Compress PDF", blurb: "Reduce PDF file size without quality loss." },
+  { to: "/tools/$slug", params: { slug: "compress" }, name: "Compress PDF", blurb: "Reduce PDF file size with compression presets." },
   { to: "/tools/$slug", params: { slug: "merge" }, name: "Merge PDF", blurb: "Combine multiple documents into a single PDF." },
   { to: "/tools/$slug", params: { slug: "protect-pdf" }, name: "Protect PDF", blurb: "Add password encryption to your sensitive files." },
   { to: "/tools/$slug", params: { slug: "flatten-pdf" }, name: "Flatten PDF", blurb: "Make your edits and annotations permanent." },
@@ -98,12 +60,6 @@ const related = [
 export function EditPdfSeo() {
   return (
     <section className="mx-auto max-w-4xl px-4 pb-16 seo-content">
-      <h2>Why Edit PDFs Online?</h2>
-      <p>Editing PDFs used to require expensive, heavy desktop software like Adobe Acrobat. Now, you can perform essential edits directly in your web browser. Online PDF editing is perfect for quick adjustments, such as adding a missing signature, correcting a typo, or adding a brief annotation. By keeping everything in the browser, you maintain total control over your files while enjoying the convenience of instant access without the need for installations.</p>
-      <p>Beyond convenience, our browser-based approach provides a significant privacy advantage. When you use traditional cloud-based PDF editors, your documents are uploaded to a remote server, where they are parsed and stored, at least temporarily. With our PDF editor, all processing happens locally on your device. Your file stays on your computer, providing peace of mind when working with confidential contracts, personal identification, or financial documents.</p>
-      <p>Whether you need to mark up a research paper, add logos to a flyer, or simply fill in a non-interactive form, an online PDF editor gives you the versatility to do it all in seconds. It bridges the gap between static documents and dynamic workflows, allowing you to turn a rigid file into an active, collaborative document without the cost or complexity of professional design software.</p>
-      <p>Finally, the accessibility of online PDF editing cannot be overstated. You can start a edit on your office desktop, make a quick change from your tablet during a meeting, or finish your task from a home laptop. Because it's all web-based, you have a consistent toolset at your fingertips, no matter where your day takes you.</p>
-
       <h2>How to edit a PDF: Step by Step</h2>
       <ol className="mt-5 space-y-4">
         {steps.map((s, i) => (
@@ -124,52 +80,17 @@ export function EditPdfSeo() {
       <p>Add labels, fill forms, or include extra notes by drawing text boxes anywhere on your document pages.</p>
       <h2>Insert images</h2>
       <p>Drop logos, signatures, or photos directly onto the page, resizing and positioning them exactly where you need them.</p>
-      <h2>Add annotations and comments</h2>
-      <p>Leave notes and feedback on specific sections of your PDF, making it easy for collaborators to review your points.</p>
+      <h2>Add notes</h2>
+      <p>Use the Text tool to place visible notes on a page. These are drawn into the saved PDF, not threaded review comments.</p>
       <h2>Draw and highlight</h2>
       <p>Use our highlighter for emphasis, or draw freehand to circle important areas, underline text, or sketch diagrams.</p>
       <h2>Add shapes and lines</h2>
       <p>Insert rectangles, ellipses, lines, and arrows to structure your document or highlight specific data fields.</p>
 
-      <h2>8 Use Cases for PDF Editing</h2>
-      <h2>Adding comments to contracts</h2>
-      <p>Review legal agreements by adding your specific feedback directly in the margins, making it clear what parts of the contract need adjustment.</p>
-      <h2>Filling non-interactive forms</h2>
-      <p>For scans or older PDFs without form fields, our text tool lets you type responses in exactly the right spots.</p>
-      <h2>Annotating research papers</h2>
-      <p>Use highlights and freehand notes to mark key findings in technical papers, making it easier to study complex concepts.</p>
-      <h2>Adding logos to documents</h2>
-      <p>Quickly brand your quotes or invoices by placing your company logo in the header or footer section.</p>
-      <h2>Marking up designs</h2>
-      <p>Use arrows and shapes to give specific design feedback on layout previews without the need for specialized design software.</p>
-      <h2>Adding notes to presentations</h2>
-      <p>Include quick reminders or speaker notes directly onto your PDF slide decks for easy reference during a presentation.</p>
-      <h2>Correcting typos</h2>
-      <p>Fix minor spelling or data errors in PDFs by masking the original and typing the correct version on top.</p>
-      <h2>Adding stamps or labels</h2>
-      <p>Use rectangles, text, and images to create custom 'Approved', 'Confidential', or 'Draft' labels for your internal documents.</p>
-
       <h2>PDF Editing vs. PDF Form Filling</h2>
       <p>It's important to distinguish between general PDF editing and formal PDF form filling. General editing (this tool) treats your PDF like a canvas, letting you add elements anywhere, regardless of how the document was built. This is perfect for marking up documents, adding notes, or fixing small errors on static files.</p>
       <p>PDF form filling, on the other hand, is meant for interactive documents designed with specific fillable fields (AcroForm). If you need to enter data into checkboxes, dropdown menus, or specific form inputs, our <strong>Fill PDF Forms</strong> tool is the better choice, as it interacts directly with the PDF’s internal form data structure.</p>
       <p>Using our general editor for non-interactive forms gives you more freedom to type anywhere, while form-filling tools provide a more structured approach for files specifically prepared to collect information from users.</p>
-
-      <h2>Browser-Based vs. Server-Based Comparison</h2>
-      <table className="w-full text-left border-collapse border border-[#ececef] my-6">
-        <thead>
-          <tr className="bg-[#f7f7f8]">
-            <th className="py-3 px-4 border">Feature</th>
-            <th className="py-3 px-4 border">Browser-Based (Our Tool)</th>
-            <th className="py-3 px-4 border">Server-Based Tools</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td className="py-2 px-4 border">Privacy</td><td className="py-2 px-4 border">Files never leave your computer</td><td className="py-2 px-4 border">Files uploaded to servers</td></tr>
-          <tr><td className="py-2 px-4 border">Wait Time</td><td className="py-2 px-4 border">Instant</td><td className="py-2 px-4 border">Upload/Download lag</td></tr>
-          <tr><td className="py-2 px-4 border">Offline Usage</td><td className="py-2 px-4 border">Works offline</td><td className="py-2 px-4 border">Requires connection</td></tr>
-          <tr><td className="py-2 px-4 border">Watermarks</td><td className="py-2 px-4 border">None</td><td className="py-2 px-4 border">Often included</td></tr>
-        </tbody>
-      </table>
 
       <h2>5 Tips for PDF Editing</h2>
       <h2>Zoom in for precision</h2>
@@ -232,5 +153,4 @@ export const editPdfSoftwareJsonLd = {
   applicationCategory: "BrowserApplication",
   operatingSystem: "Any",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  aggregateRating: { "@type": "AggregateRating", ratingValue: "4.8", ratingCount: "1780" },
 };
