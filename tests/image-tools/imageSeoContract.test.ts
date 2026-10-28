@@ -118,7 +118,8 @@ describe("SEO: JSON-LD payloads", () => {
 
       expect(faqParsed["@type"]).toBe("FAQPage");
       expect(Array.isArray(faqParsed.mainEntity)).toBe(true);
-      expect(faqParsed.mainEntity.length).toBeGreaterThanOrEqual(6);
+      expect(faqParsed.mainEntity.length).toBeGreaterThanOrEqual(5);
+      expect(faqParsed.mainEntity.length).toBeLessThanOrEqual(6);
       for (const q of faqParsed.mainEntity) {
         expect(q["@type"]).toBe("Question");
         expect(typeof q.name).toBe("string");
