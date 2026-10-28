@@ -72,8 +72,8 @@ export function ToolLayout({
           {processing && (
             <p className="mt-3 text-[13px] font-semibold" style={{ color: "#4B5563" }}>
               {processing === "server"
-                ? "Processed on our conversion server, not in your browser"
-                : "Processed in your browser, files never leave your device"}
+                ? "Processed on our server. Your file is uploaded for conversion."
+                : "Processed in your browser. Your file never leaves your device."}
             </p>
           )}
 
