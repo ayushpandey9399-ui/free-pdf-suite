@@ -17,7 +17,7 @@ const steps = [
   },
   {
     title: "Download the .docx and open it in Word",
-    text: "The finished document downloads with the same name as your PDF but a .docx extension, ready to open in Microsoft Word, Google Docs, LibreOffice Writer or Pages. Your uploaded PDF is deleted from our server as soon as the download has been sent.",
+    text: "The finished document downloads with the same name as your PDF but a .docx extension, ready to open in Microsoft Word, Google Docs, LibreOffice Writer or Pages.",
   },
 ];
 
@@ -31,8 +31,8 @@ const benefits = [
     p: "Headings, lists, tables, images and column structure are carried across so the Word file looks like the original at a glance. Complex desktop publishing layouts can shift slightly, which is normal for any PDF to Word conversion, and easy to tidy up once the text is editable.",
   },
   {
-    h: "Deleted right after conversion",
-    p: "This is our only server side tool, so we are blunt about it. Your PDF is uploaded, converted, returned and then deleted, and any leftover file is cleared within ten minutes. We never log file names or file contents, only the status, the size and how long the job took.",
+    h: "Clear about the upload",
+    p: "This is our only server side tool, so we say it plainly: your file is uploaded to our server for conversion, and the Word file is sent back to your browser.",
   },
   {
     h: "Free with no account",
@@ -90,11 +90,8 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
     a: (
       <>
         This specific tool uploads your PDF to our own server, because a
-        faithful Word conversion cannot be done in the browser today. The
-        uploaded PDF and the converted document are deleted immediately after
-        the download is sent, and any leftover file is removed within ten
-        minutes. We never log file names or file contents, only technical
-        request data such as status, size and duration. Every one of our other
+        faithful Word conversion cannot be done in the browser today. Your
+        file is uploaded to our server for conversion. Every one of our other
         tools runs entirely in your browser and uploads nothing at all. The
         full detail is in our{" "}
         <Link to="/privacy-policy" className="text-[#e5322d] underline">
@@ -104,7 +101,7 @@ const faqs: { q: string; a: ReactNode; plain: string }[] = [
       </>
     ),
     plain:
-      "This tool uploads your PDF to our own server because a faithful Word conversion cannot be done in the browser today. The uploaded PDF and the converted file are deleted immediately after the download is sent, and any leftover file is removed within ten minutes. We never log file names or file contents, only status, size and duration. All of our other tools run entirely in your browser and upload nothing.",
+      "This tool uploads your PDF to our own server because a faithful Word conversion cannot be done in the browser today. Your file is uploaded to our server for conversion. All of our other tools run entirely in your browser and upload nothing.",
   },
   {
     q: "Is the layout preserved in the Word file?",
@@ -224,11 +221,7 @@ export function PdfToWordSeo() {
         sent back to you as a .docx.
       </p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        The uploaded file and the converted result are deleted immediately after
-        the download is sent, and anything left behind is cleared within ten
-        minutes. We store technical request logs only, the status code, the file
-        size and how long the conversion took. File names and file contents are
-        never written to a log. If your document is too sensitive for that,
+        If your document is too sensitive to upload,
         please use one of our in browser tools instead.
       </p>
 
@@ -295,7 +288,7 @@ export const pdfToWordHowToJsonLd = {
   "@type": "HowTo",
   name: "How to convert PDF to Word",
   description:
-    "Convert a PDF into an editable Word .docx document for free. Pick your file, upload it to our conversion server, and download the Word version. The uploaded file is deleted right after the download.",
+    "Convert a PDF into an editable Word .docx document for free. Pick your file, upload it to our conversion server, and download the Word version.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "A PDF file under 25 MB" }],
   tool: [{ "@type": "HowToTool", name: "PDFToolConverter PDF to Word (web browser)" }],
@@ -313,7 +306,7 @@ export const pdfToWordSoftwareJsonLd = {
   "@type": "SoftwareApplication",
   name: "PDFToolConverter PDF to Word",
   description:
-    "Convert PDF to Word online free. Upload a PDF up to 25 MB and get an editable .docx with headings, paragraphs, tables and images preserved. No signup and no watermark, and the uploaded file is deleted right after conversion.",
+    "Convert PDF to Word online free. Upload a PDF up to 25 MB and get an editable .docx with headings, paragraphs, tables and images preserved. No signup and no watermark.",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Web",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
