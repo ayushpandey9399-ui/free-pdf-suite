@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
@@ -22,139 +21,30 @@ const steps = [
   },
 ];
 
-const benefits = [
+const faqs = [
   {
-    h: "All standard field types",
-    p: "The tool detects and lets you fill the four field types PDF forms actually use: text inputs (single line), checkboxes, dropdowns and radio groups. Option lists are treated as dropdowns too, so anything the form's author added shows up as a familiar Select or tickbox.",
+    q: "Which PDF form fields can I fill?",
+    a: "The tool supports text fields, checkboxes, dropdowns, radio groups and option lists. Dropdowns, radio groups and option lists let you choose one of the options defined in the PDF.",
   },
   {
-    h: "Clean, legible results",
-    p: "Typed answers land in the exact font and position the form's designer defined, without the crooked handwriting and scanner shadows you'd get from a printed workflow. The recipient reads a crisp, uniform document that copies cleanly and stays perfectly aligned when printed.",
+    q: "Why does the tool say no fillable form fields were found?",
+    a: "The tool did not detect supported interactive form fields. A scan or flat PDF may contain only page content, not fields that this tool can fill.",
   },
   {
-    h: "Save and send the same minute",
-    p: "Because everything runs locally, there is no queue and no upload progress bar between you and the download button. Fill the form, hit Download Filled PDF, attach it to the email you already have open, no context-switching to a print shop or a scanner app.",
+    q: "Can I keep answers that are already in the form?",
+    a: "Yes. Existing text, checkbox states and selected options are loaded into the inputs. You can keep or change them before exporting.",
   },
   {
-    h: "Your answers stay on your device",
-    p: "Every keystroke you type into a field stays inside your browser tab. The PDF is opened, the fields are enumerated and the completed file is written entirely with in-browser Web APIs, so none of the personal data you enter is transmitted to us or to any third party.",
-  },
-];
-
-const scenarios = [
-  {
-    h: "Job applications and HR onboarding packets",
-    p: "New-hire paperwork is almost always a PDF bundle, offer letter acknowledgements, direct-deposit forms, tax withholding, emergency contacts. Fill each one on your laptop, download and email it back the same day instead of printing five pages, signing, and finding a scanner.",
+    q: "Can I save a partially completed form?",
+    a: "Yes. Export the answers entered so far and download the filled PDF. Reopen that copy later to load its supported field values. The tool does not provide a saved draft between sessions.",
   },
   {
-    h: "Government, bank and insurance forms",
-    p: "Passport renewals, account opening kits, insurance claim forms and address-change requests are frequently issued as fillable PDFs. Type your details straight into the fields, keep a digital copy for your records and upload the same file to the agency's portal.",
+    q: "Does exporting flatten the form?",
+    a: "No. Export writes your answers into the PDF form fields and saves a copy with a -filled.pdf suffix. It does not flatten the fields.",
   },
   {
-    h: "School and college admission or exam forms",
-    p: "Course registration, exam-centre allocation and scholarship applications often ship as PDFs students are expected to complete and email back. Filling them on-screen avoids the print-shop trip and produces a copy that admissions staff can index and search.",
-  },
-  {
-    h: "Vendor registration and KYC documents for business",
-    p: "Supplier onboarding, KYC packs and NDA cover sheets are recurring PDF forms for anyone selling to another company. Fill the same base details once, save the completed file, and reuse it as the template for every new client you onboard.",
-  },
-];
-
-const faqs: { q: string; a: ReactNode; plain: string }[] = [
-  {
-    q: "How do I fill out a PDF form for free?",
-    a: "Click Select PDF file, pick your form, and this free PDF form filler generates a labelled input for every detected field, text boxes, checkboxes, dropdowns and radio groups. Fill out the PDF on screen, click Download Filled PDF and the completed document downloads to your device with a -filled suffix. No signup, no upload, no watermark, no Acrobat.",
-    plain:
-      "Click Select PDF file, pick your form, and this free PDF form filler generates a labelled input for each detected field (text, checkboxes, dropdowns, radio groups). Fill out the PDF on screen, then click Download Filled PDF to save a completed copy with a -filled suffix. No signup, no upload, no watermark, no Acrobat.",
-  },
-  {
-    q: "Why can't I type into my PDF?",
-    a: (
-      <>
-        The form is almost certainly a flat PDF, a scan or an exported
-        image of a paper form, with no interactive AcroForm fields
-        inside. This tool relies on those fields being present, so if
-        the workspace says <em>No fillable form fields found in this
-        PDF</em>, that is the reason. Open the same file in{" "}
-        <Link to="/tools/$slug" params={{ slug: "edit-pdf" }} className="text-[#e5322d] underline">
-          Edit PDF
-        </Link>{" "}
-        instead: its Text tool drops a text box wherever you click, on
-        native pages or scans alike, so you can type answers straight
-        onto the printed lines.
-      </>
-    ),
-    plain:
-      "Your form is flat, a scanned or image-based PDF with no interactive AcroForm fields inside, so this tool can't find fields to fill. Open it in Edit PDF (/tools/edit-pdf) instead and use its Text tool to type answers anywhere on the page.",
-  },
-  {
-    q: "Can I tick checkboxes and select dropdown options?",
-    a: "Yes. Checkbox fields in the source PDF appear as tickboxes in the panel and toggle with a click, and both dropdown and radio-group fields render as a Select that lists the exact options the form's designer defined. Picking one writes that value back into the field on export so the downloaded PDF shows the correct selection.",
-    plain:
-      "Yes. Checkboxes render as tickboxes, and dropdowns and radio groups render as a Select with the original options; your choice is written back into the field so the downloaded PDF shows the correct selection.",
-  },
-  {
-    q: "Is what I type uploaded anywhere?",
-    a: "No, and this is the point of the tool. Reading the form, generating the input for every field, storing the values you type and writing the final -filled.pdf all happen inside your browser tab using pdf-lib and standard Web APIs. Nothing you type into a field is transmitted to us, to any analytics provider or to any third party.",
-    plain:
-      "No. The form is opened, the fields are enumerated, your answers are stored and the completed PDF is written entirely inside your browser tab with pdf-lib and standard Web APIs. Nothing you type is transmitted anywhere.",
-  },
-  {
-    q: "Can I save a partially filled form and continue later?",
-    a: "The tool doesn't keep a draft between sessions, nothing you type is stored on our side, so closing the tab clears the inputs. To pause, click Download Filled PDF at any point: the tool writes whatever answers you've entered so far into a real filled PDF, and you can reopen that partly-filled copy here later to keep going from exactly where you stopped.",
-    plain:
-      "The tool doesn't keep drafts between sessions, closing the tab clears inputs. To pause, click Download Filled PDF at any point; the partly-filled copy can be reopened later and finished from where you left off.",
-  },
-  {
-    q: "Will my answers show in other PDF readers?",
-    a: "Yes. Because the tool writes values back into the PDF's native AcroForm fields with pdf-lib, not as a flat drawn overlay, the completed file is a proper filled form. Acrobat Reader, Preview, Chrome, Edge, Foxit and every other reader render the values in the same boxes and print them the same way.",
-    plain:
-      "Yes. Values are written back into the PDF's real AcroForm fields with pdf-lib, so Acrobat Reader, Preview, Chrome, Edge, Foxit and every other reader display and print the answers identically.",
-  },
-  {
-    q: "Can I stop others from editing my answers after I send the form?",
-    a: (
-      <>
-        Yes, run the completed file through{" "}
-        <Link to="/tools/$slug" params={{ slug: "flatten-pdf" }} className="text-[#e5322d] underline">
-          Flatten PDF
-        </Link>
-        . Flattening merges the form-field values into the page as fixed
-        content and removes the interactive layer, so the recipient can
-        read and print the answers but can't change them, blank them out
-        or repurpose the blank form.
-      </>
-    ),
-    plain:
-      "Yes. Run the completed file through Flatten PDF (/tools/flatten-pdf), it merges the field values into the page as fixed content and removes the interactive layer so recipients can't edit or blank the answers.",
-  },
-  {
-    q: "Can I sign the form too?",
-    a: (
-      <>
-        Yes, save the filled form here, then open it in{" "}
-        <Link to="/tools/$slug" params={{ slug: "sign-pdf" }} className="text-[#e5322d] underline">
-          Sign PDF
-        </Link>{" "}
-        to draw or type a signature and stamp it into the signature
-        block. Both tools run entirely in the browser, so the signed,
-        filled PDF never touches a server.
-      </>
-    ),
-    plain:
-      "Yes. Save the filled form, open it in Sign PDF (/tools/sign-pdf) and draw or type a signature into the signature block. Both tools are entirely in-browser.",
-  },
-  {
-    q: "Can I fill forms on my phone?",
-    a: "Yes. The workspace is fully responsive, every detected field turns into a normal mobile input, so text fields open the on-screen keyboard, checkboxes toggle on tap and dropdowns open the phone's native picker. Download Filled PDF saves the completed file straight to your phone's downloads folder.",
-    plain:
-      "Yes. Every field becomes a normal mobile input: text fields open the keyboard, checkboxes toggle on tap and dropdowns use the native picker. Download Filled PDF saves the completed file to the phone's downloads folder.",
-  },
-  {
-    q: "Do I need Adobe Acrobat?",
-    a: "No. The whole tool is a web page and works in any modern browser, Chrome, Safari, Firefox, Edge, Brave. There's nothing to install, no Acrobat licence and no account, and the download you get is a standard, universally-readable filled PDF.",
-    plain:
-      "No. It's a web page that works in Chrome, Safari, Firefox, Edge or Brave, no install, no Acrobat licence, no account. The output is a standard filled PDF.",
+    q: "Why might exporting a form fail?",
+    a: "The tool shows an error if it cannot read or save the PDF. Password-protected PDFs are handled separately. Some field contents or PDF structures may not be supported, so keep the original and check the downloaded copy.",
   },
 ];
 
@@ -191,49 +81,6 @@ export function FillFormsSeo() {
         ))}
       </ol>
 
-      {/* Print-fill-scan */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Skip the print-fill-scan cycle
-      </h2>
-      <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        The old ritual is familiar: download the form, hunt for a
-        printer, fill each line by hand, then find a scanner or a phone
-        app to send it back. What lands in the recipient's inbox is a
-        slightly tilted, slightly grey copy with handwriting that
-        someone will have to squint at.
-      </p>
-      <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        If your PDF has real form fields, all of that is unnecessary.
-        Fill the same document directly on your screen and download a
-        crisp copy where every value sits inside its intended box, in
-        the intended font, perfectly straight. No printer, no scanner
-        app, no hand-cramp, and the recipient gets a file that's
-        cleanly indexable and searchable.
-      </p>
-
-      {/* Privacy differentiator */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        The private way to fill forms
-      </h2>
-      <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        Forms are the most personal documents most people ever fill.
-        They ask, by design, for a full legal name, a residential
-        address, a national ID or tax number, salary figures, sometimes
-        medical history. When you fill that on an upload-based service,
-        every one of those answers exists on someone else's server for
-        as long as their retention policy says it should.
-      </p>
-      <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        This tool takes a different route. The PDF is parsed with
-        pdf-lib in your browser tab, the field inputs are generated
-        locally, the answers you type live only in the tab's memory,
-        and the finished file is written on your device. Nothing you
-        enter into a form field is ever transmitted anywhere. Once the
-        page has loaded, you can go offline and the whole flow keeps
-        working, which is exactly what you want when you're typing a
-        bank account number into a form at a café.
-      </p>
-
       {/* Honest note */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         An honest note: fillable vs flat forms
@@ -258,29 +105,6 @@ export function FillFormsSeo() {
         can complete a flat form in the browser without ever printing
         it.
       </p>
-
-      {/* Four benefits */}
-      <div className="mt-10 grid gap-6 sm:grid-cols-2">
-        {benefits.map((b) => (
-          <div key={b.h}>
-            <h3 className="text-[17px] font-semibold">{b.h}</h3>
-            <p className="mt-2 text-[14.5px] leading-relaxed text-[#4a4a55]">{b.p}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Scenarios */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        When do you need to fill a PDF form?
-      </h2>
-      <div className="mt-6 space-y-5">
-        {scenarios.map((s) => (
-          <div key={s.h}>
-            <h3 className="text-[17px] font-semibold">{s.h}</h3>
-            <p className="mt-1.5 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.p}</p>
-          </div>
-        ))}
-      </div>
 
       {/* FAQ */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
@@ -313,7 +137,7 @@ export const fillFormsFaqJsonLd = {
   mainEntity: faqs.map((f) => ({
     "@type": "Question",
     name: f.q,
-    acceptedAnswer: { "@type": "Answer", text: f.plain },
+    acceptedAnswer: { "@type": "Answer", text: f.a },
   })),
 };
 

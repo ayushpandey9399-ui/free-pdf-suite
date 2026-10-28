@@ -62,83 +62,33 @@ export const imageResizeFaqJsonLd = {
   mainEntity: [
     {
       "@type": "Question",
-      name: "How do I resize an image to exact pixels?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Add your image, choose By pixels, type the exact width and height (for example 800 and 600), and click Resize all. If you want to keep the original proportions, leave Lock aspect ratio on and only edit one side; the other side updates for you.",
-      },
+      name: "Can I resize by pixels or percentage?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes. Pixel mode uses the configured width and height. Percentage mode scales each source image, with the percentage constrained to 1 through 400." },
     },
     {
       "@type": "Question",
-      name: "Can I resize an image to a specific KB size?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. Set the pixel size you need, tick Also compress to target KB, type the KB value (for example 20 for a signature or 100 for a photo), and click Resize all. The resizer changes the dimensions first, then the compressor iterates the encoder to land at or under your KB target when possible.",
-      },
+      name: "How does the aspect-ratio lock work?",
+      acceptedAnswer: { "@type": "Answer", text: "In pixel mode, changing one dimension updates the other using the reference image ratio. The configured output dimensions are then applied to the batch, so mixed-ratio images may be stretched." },
     },
     {
       "@type": "Question",
-      name: "What are the passport photo and signature sizes for online forms?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Many Indian and international government or exam forms ask for a passport photo at 413x531 pixels (roughly 3.5x4.5 cm at 300 DPI) and a signature at 140x60 pixels. Both are one-click presets in this tool. Combine the pixel preset with the Also compress to target KB option to hit strict rules like photo under 100 KB or signature under 20 KB.",
-      },
+      name: "What happens when I choose a size preset?",
+      acceptedAnswer: { "@type": "Answer", text: "The preset switches to pixel mode, sets its width and height and turns off the aspect-ratio lock. Check the required dimensions for your destination before using a passport or signature preset." },
     },
     {
       "@type": "Question",
-      name: "Does resizing reduce image quality?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Making an image smaller (downscaling) barely reduces perceived quality if done well. This tool downscales in steps (halving each pass) and uses high quality smoothing so edges and text stay sharp. Enlarging (upscaling) cannot invent detail that is not in the original, so an enlarged image will look softer than the source.",
-      },
+      name: "Can I guarantee an exact KB size?",
+      acceptedAnswer: { "@type": "Answer", text: "No. Optional compression attempts to reach the target size and may also change dimensions. If compression fails, the tool keeps the resized image." },
     },
     {
       "@type": "Question",
-      name: "Can I enlarge an image?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes, but honestly: enlarging never adds real detail. If you enter a size larger than the original, the tool shows a warning and still produces the file. Expect a softer result. For small upscales (up to about 1.5x) most viewers will not notice.",
-      },
+      name: "Which image formats are supported?",
+      acceptedAnswer: { "@type": "Answer", text: "The tool processes JPG, PNG and WebP images and uses the source format for the resized output." },
     },
     {
       "@type": "Question",
-      name: "Is this image resizer free?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. No signup, no watermark, no email wall, and no daily limit. Resize as many images as your browser can hold in memory.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Are my images uploaded to a server?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "No. Decoding, resizing, and re-encoding all run inside your browser tab. Your originals and the resized files are never uploaded, stored, or seen by us. You can disconnect from the internet after the page loads and it still works.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I resize many images at once?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. Drop a whole folder of images, apply the same pixel or percent target to all of them in one pass, and download every result together as a single ZIP archive named resized-images.zip.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "What image formats are supported?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "JPG (JPEG), PNG, and WebP. Each file keeps its original format on output, so a JPG stays a JPG, a PNG stays a PNG, and a WebP stays a WebP.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Is transparency kept when I resize a PNG?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. PNG (and WebP) outputs preserve the alpha channel, so transparent backgrounds stay transparent after resize. JPG has no alpha, so any transparent pixels in a JPG output are drawn on a white background.",
-      },
+      name: "Is transparency preserved?",
+      acceptedAnswer: { "@type": "Answer", text: "The resize canvas preserves transparency for PNG and WebP output. JPG output uses a white background." },
     },
   ],
 };
@@ -271,32 +221,6 @@ export function ImageResizeSeo() {
         limit because the work happens on your own machine. For each
         file the tool shows the original dimensions and size, then the
         new dimensions and size, so you can see exactly what changed.
-      </p>
-
-      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
-        Your images never leave your device
-      </h2>
-      <p className="mt-3">
-        Most online image resizers upload every photo to a stranger's
-        server, hold it for hours or days, and log the filename. This
-        tool does the opposite. Decoding, resizing, and re-encoding
-        all happen inside your browser tab, powered by the standard
-        Canvas API. Your files, filenames, and any embedded EXIF data
-        stay on your device. Turn off Wi-Fi after the page loads and
-        the resizer still works, which is handy on planes or in areas
-        with a weak signal.
-      </p>
-
-      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
-        Works on Windows, Mac, Android, and iPhone
-      </h2>
-      <p className="mt-3">
-        Because the resizer is a web page, it runs anywhere a modern
-        browser runs: Windows 10, Windows 11, macOS, Chromebook,
-        Linux, Android, iPhone, and iPad. EXIF rotation is honored,
-        so a photo taken sideways on an iPhone comes out upright
-        instead of tipped over. There is nothing to install, update,
-        or uninstall.
       </p>
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">

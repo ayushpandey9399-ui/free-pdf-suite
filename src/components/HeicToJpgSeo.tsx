@@ -12,11 +12,6 @@ export const heicToJpgSoftwareJsonLd = {
   operatingSystem: "Any",
   url,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.9",
-    ratingCount: "3240"
-  },
   publisher: { "@type": "Organization", name: "PDFToolConverter", url: SITE_URL },
   description: "Convert HEIC photos to JPG online instantly in your browser. Batch convert iPhone HEIC images to JPG without losing quality. Free, no signup, no watermark; files never leave your device.",
 };
@@ -65,123 +60,33 @@ export const heicToJpgFaqJsonLd = {
   mainEntity: [
     {
       "@type": "Question",
-      name: "How do I convert HEIC to JPG online for free?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Upload your HEIC files using the button or drag-and-drop above, select your quality settings, and click convert. Download your JPG files instantly. No signup required.",
-      },
+      name: "Which input files are accepted?",
+      acceptedAnswer: { "@type": "Answer", text: "The tool accepts HEIC and HEIF files and converts them to JPG." },
     },
     {
       "@type": "Question",
-      name: "What is a HEIC file?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "HEIC is the default photo format on iPhones and iPads since iOS 11. It uses HEVC compression to store high-quality photos at roughly half the size of equivalent JPEG files. HEIC stands for High Efficiency Image Container.",
-      },
+      name: "Can I change the JPG quality?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes. Set the quality before conversion. JPG uses lossy compression, so lower quality can reduce file size at the cost of detail." },
     },
     {
       "@type": "Question",
-      name: "Why can't I open HEIC files on Windows?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "HEIC is an Apple proprietary format. Windows requires the free HEIF Image Extensions from the Microsoft Store for native support. Alternatively, converting HEIC to JPG makes the photos viewable on any Windows computer without extra software.",
-      },
+      name: "Can I reduce the image dimensions?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes. Choose a maximum-size option instead of Original. The resize step reduces the longest edge to the selected limit without enlarging smaller images." },
     },
     {
       "@type": "Question",
-      name: "Do my photos get uploaded to a server?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "No. All conversion happens in your browser using the heic2any library. Your photos never leave your device and are never transmitted over the internet.",
-      },
+      name: "Can I change the output filenames?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes. You can add a filename prefix before converting." },
     },
     {
       "@type": "Question",
-      name: "Can I convert multiple HEIC files at once?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. Add as many HEIC files as you need and they will all be converted simultaneously in a single batch operation.",
-      },
+      name: "Can I download a batch?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes. Successful conversions can be downloaded individually or together in a ZIP file. When there is one successful result, the main download offers that JPG." },
     },
     {
       "@type": "Question",
-      name: "Will converting HEIC to JPG reduce quality?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Converting to JPG at high quality settings produces images virtually identical to the original. Some minor quality reduction is inherent to JPG compression but is not visible to the human eye in normal viewing.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I convert HEIC to PNG instead of JPG?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. Use our HEIC to PNG converter for lossless output with sharper edges and transparency support.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Is there a limit to how many files I can convert?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "No. Convert as many HEIC files as you need with no daily or session limits.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I convert HEIC files on my phone?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. The tool works in any mobile browser on iPhone and Android. No app required.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Does converting HEIC to JPG increase file size?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. JPG files are typically about twice the size of equivalent HEIC files because JPG is less efficient at compression. This is normal and expected.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "How do I stop my iPhone from saving photos as HEIC?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Go to Settings → Camera → Formats → Most Compatible. This saves future photos as JPG instead of HEIC.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I convert Live Photos from HEIC?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "The still image portion of a Live Photo can be converted to JPG. The video component (the motion part) is not included in the JPG output.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Does this work offline?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. Once the page has fully loaded, the converter works without an internet connection.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Are my converted photos watermark-free?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. All output files are completely clean with no watermarks or branding.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Is this tool really free with no limits?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. No usage caps, no signup required, no watermarks, completely free.",
-      },
+      name: "What happens if one file fails?",
+      acceptedAnswer: { "@type": "Answer", text: "The tool records an error for that file and continues processing the remaining files. You can still download successful results." },
     },
   ],
 };
@@ -230,40 +135,6 @@ export function HeicToJpgSeo() {
       </p>
       <p className="mt-3">
         You can configure your iPhone to capture photos in JPG instead of HEIC by going to Settings → Camera → Formats → Most Compatible. This saves all future photos as JPG but uses more storage space. Most iPhone users prefer to keep HEIC for storage efficiency and convert photos to JPG only when needed for sharing or uploading.
-      </p>
-
-      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Common Situations Where You Need HEIC to JPG</h2>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Sending Photos to Android Users</h3>
-      <p className="mt-2">
-        Android devices can open most image formats but HEIC support varies by manufacturer and Android version. Many Android phones cannot display HEIC files natively. Converting to JPG before sending via WhatsApp, email, or Bluetooth ensures the recipient can view the photo immediately without any compatibility issues.
-      </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Uploading Photos to Websites and Portals</h3>
-      <p className="mt-2">
-        Most websites only accept JPG, PNG, and WebP image uploads. Government portals, university application systems, visa applications, job portals, and online forms typically reject HEIC files with an \"unsupported format\" error. Converting to JPG first ensures the upload succeeds.
-      </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Printing at Photo Labs</h3>
-      <p className="mt-2">
-        Professional photo printing services, both online and in-store, universally accept JPG photos. Many do not accept HEIC. Converting iPhone photos to JPG before ordering prints ensures the lab receives files in the format their printing systems expect.
-      </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Editing in Photo Software</h3>
-      <p className="mt-2">
-        Many photo editing applications, including older versions of Photoshop, Lightroom, GIMP, and most free online editors, do not support HEIC files directly. Converting to JPG first lets you edit the photos in any application without compatibility errors.
-      </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Sharing on Social Media</h3>
-      <p className="mt-2">
-        Instagram, Facebook, Twitter, LinkedIn, and Pinterest all accept JPG uploads from web browsers and apps. While iOS apps often handle HEIC conversion automatically when uploading directly from an iPhone, uploading HEIC files from a computer to these platforms often fails. Converting to JPG first avoids upload errors.
-      </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Attaching to Emails on Windows</h3>
-      <p className="mt-2">
-        Microsoft Outlook and other email clients on Windows do not display HEIC images as inline previews. Recipients see a blank attachment icon instead of the photo. Converting to JPG before attaching ensures the photo displays correctly for all recipients regardless of their device.
-      </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Using Photos in Office Documents</h3>
-      <p className="mt-2">
-        Microsoft Word, PowerPoint, and Excel on Windows cannot insert HEIC images directly in older versions. Converting to JPG lets you insert iPhone photos into documents, presentations, and spreadsheets without any compatibility issues.
-      </p>
-      <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Submitting ID Photos and Document Scans</h3>
-      <p className="mt-2">
-        Many official applications, for jobs, universities, visas, and registrations, require photo submissions in JPG format with specific file size limits. HEIC files are consistently rejected by these systems. Converting to JPG and then compressing if needed ensures the submission meets all requirements.
       </p>
 
       <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">HEIC vs JPG: Full Comparison</h2>
@@ -326,61 +197,6 @@ export function HeicToJpgSeo() {
               <td className="px-4 py-2">Photo Editing Support</td>
               <td className="px-4 py-2">Limited</td>
               <td className="px-4 py-2">Full</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Browser-Based vs Server-Based HEIC Conversion</h2>
-      <div className="mt-4 overflow-hidden rounded-lg border border-[#eee]">
-        <table className="w-full text-left text-[14px]">
-          <thead className="bg-[#f9fafb] text-[#383E45]">
-            <tr>
-              <th className="px-4 py-2 font-semibold border-b border-[#eee]">Feature</th>
-              <th className="px-4 py-2 font-semibold border-b border-[#eee]">Our Tool</th>
-              <th className="px-4 py-2 font-semibold border-b border-[#eee]">Server-Based Tools</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-[#eee]">
-            <tr>
-              <td className="px-4 py-2">Photo Privacy</td>
-              <td className="px-4 py-2">Photos stay on device</td>
-              <td className="px-4 py-2">Photos uploaded to server</td>
-            </tr>
-            <tr>
-              <td className="px-4 py-2">Speed</td>
-              <td className="px-4 py-2">Instant (no upload)</td>
-              <td className="px-4 py-2">Upload/download delay</td>
-            </tr>
-            <tr>
-              <td className="px-4 py-2">File Limit</td>
-              <td className="px-4 py-2">No limit</td>
-              <td className="px-4 py-2">Often 25-50 files cap</td>
-            </tr>
-            <tr>
-              <td className="px-4 py-2">Works Offline</td>
-              <td className="px-4 py-2">Yes after page loads</td>
-              <td className="px-4 py-2">No</td>
-            </tr>
-            <tr>
-              <td className="px-4 py-2">Account Required</td>
-              <td className="px-4 py-2">No</td>
-              <td className="px-4 py-2">Sometimes yes</td>
-            </tr>
-            <tr>
-              <td className="px-4 py-2">Watermarks</td>
-              <td className="px-4 py-2">Never</td>
-              <td className="px-4 py-2">Sometimes added</td>
-            </tr>
-            <tr>
-              <td className="px-4 py-2">Batch Convert</td>
-              <td className="px-4 py-2">Yes</td>
-              <td className="px-4 py-2">Sometimes limited</td>
-            </tr>
-            <tr>
-              <td className="px-4 py-2">Cost</td>
-              <td className="px-4 py-2">Always free</td>
-              <td className="px-4 py-2">Free tier limited</td>
             </tr>
           </tbody>
         </table>
