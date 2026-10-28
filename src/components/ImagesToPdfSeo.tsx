@@ -48,7 +48,7 @@ export function ImagesToPdfSeo() {
       options={[
         { term: "Order", text: "Drag images to reorder them, or use the sort button to order them by file name; clicking it again switches between A to Z and Z to A. The first image becomes page 1." },
         { term: "Rotate and remove", text: "Each image can be turned 90 degrees left or right, and removed from the list." },
-        { term: "Page size", text: "A4, US Letter, or Fit, which makes each page the size of its image plus the chosen margin." },
+        { term: "Page size", text: "Fit (the default) makes each page the size of its image plus the chosen margin. A4 and US Letter use a fixed page size." },
         { term: "Orientation", text: "Portrait or landscape for A4 and Letter pages." },
         { term: "Margin", text: "None, Small (about 1 cm) or Large (about 2.5 cm) of white space around each image." },
         { term: "Merge all images", text: "On: one PDF. Off: one PDF per image, downloaded together as a ZIP." },
@@ -56,7 +56,7 @@ export function ImagesToPdfSeo() {
       ]}
       limits={[
         "Formats other than JPG and PNG depend on your browser. HEIC usually only works in Safari.",
-        "On A4 and Letter pages, small images are enlarged to fill the page, so low-resolution pictures can look blurry. Use Fit to keep them at their own size.",
+        "On A4 and Letter pages, large images are shrunk to fit the page, but small images are not enlarged. They stay at their own size, centred on the page.",
         "Animated GIFs become a single still page.",
         "All images are held in your browser's memory. Many large photos can be slow or fail, especially on phones. Convert in smaller groups if that happens.",
       ]}

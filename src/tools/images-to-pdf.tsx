@@ -52,7 +52,7 @@ type Margin = "none" | "small" | "large";
 
 export default function ImagesToPdf() {
   const [entries, setEntries] = useState<ImgEntry[]>([]);
-  const [pageSize, setPageSize] = useState<PageSize>("a4");
+  const [pageSize, setPageSize] = useState<PageSize>("fit");
   const [orientation, setOrientation] = useState<Orientation>("portrait");
   const [margin, setMargin] = useState<Margin>("none");
   const [mergeAll, setMergeAll] = useState(true);
@@ -204,7 +204,8 @@ export default function ImagesToPdf() {
       const availW = pageW - m * 2;
       const availH = pageH - m * 2;
       // Fit the rotated footprint, then derive the drawn size from the same scale
-      const scale = Math.min(availW / footW, availH / footH);
+      // Never enlarge beyond the image's own size (1 px = 1 pt), only shrink to fit
+          const scale = Math.min(1, availW / footW, availH / footH);
       const w = img.width * scale;
       const h = img.height * scale;
 
@@ -294,7 +295,8 @@ export default function ImagesToPdf() {
           const availW = pageW - m * 2;
           const availH = pageH - m * 2;
           // Fit the rotated footprint, then derive the drawn size from the same scale
-          const scale = Math.min(availW / footW, availH / footH);
+          // Never enlarge beyond the image's own size (1 px = 1 pt), only shrink to fit
+          const scale = Math.min(1, availW / footW, availH / footH);
           const w = img.width * scale;
           const h = img.height * scale;
 
