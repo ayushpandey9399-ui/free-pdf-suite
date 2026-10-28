@@ -62,6 +62,7 @@ export const Route = createFileRoute("/sitemap.xml")({
             priority: "0.8",
           })),
 
+          { path: "/tools", lastmod: "2026-10-28", changefreq: "monthly", priority: "0.9" },
           { path: "/image-tools", lastmod: CUSTOM_DATES["/image-tools"] || DEFAULT_LASTMOD, changefreq: "monthly", priority: "0.7" },
           ...imageTools.map((t) => ({
             path: `/image-tools/${t.slug}`,
