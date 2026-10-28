@@ -76,7 +76,7 @@ export function ProtectPdfSeo() {
         ))}
       </div>
 
-      <h2>Understanding PDF Encryption: AES-128 vs AES-256</h2>
+      <h2>How the password protection works</h2>
       <p>
         The tool asks the MuPDF library to encrypt the file with AES-256. Without the password, a reader cannot open the document contents.
       </p>
