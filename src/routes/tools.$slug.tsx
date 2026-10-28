@@ -1,5 +1,6 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { Suspense } from "react";
+import { ToolErrorBoundary } from "@/components/ToolErrorBoundary";
 import { Loader2 } from "lucide-react";
 import { ToolLayout } from "@/components/ToolLayout";
 import { ClientOnly } from "@/components/ClientOnly";
@@ -285,9 +286,11 @@ function ToolPage() {
       >
         <div className={cn("mt-10", slug === "merge" && "relative z-10")}>
           <ClientOnly fallback={fallback}>
-            <Suspense fallback={fallback}>
-              <Comp />
-            </Suspense>
+            <ToolErrorBoundary toolName={tool.name}>
+              <Suspense fallback={fallback}>
+                <Comp />
+              </Suspense>
+            </ToolErrorBoundary>
           </ClientOnly>
         </div>
       </ToolLayout>
