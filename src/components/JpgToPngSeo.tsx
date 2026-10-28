@@ -13,7 +13,7 @@ export const jpgToPngSoftwareJsonLd = {
   url,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   publisher: { "@type": "Organization", name: "PDFToolConverter", url: SITE_URL },
-  description: "Convert JPG images to PNG online instantly in your browser. Batch convert multiple JPEGs to PNG with transparency support. Free, no signup, no watermark, files never leave your device.",
+  description: "Convert JPG images to PNG online in your browser. Batch convert multiple JPEGs to PNG with transparency support. Free, no signup, no watermark, files never leave your device.",
 };
 
 export const jpgToPngHowToJsonLd = {
@@ -34,7 +34,7 @@ export const jpgToPngHowToJsonLd = {
       "@type": "HowToStep",
       position: 2,
       name: "Set Conversion Options",
-      text: "PNG is lossless, so no quality adjustment is needed for the output. Every pixel is preserved exactly as it was in the original.",
+      text: "PNG is lossless, so no quality adjustment is needed for the output. PNG stores the decoded pixels without further loss, but it cannot recover detail already lost in the JPG.",
       url: `${url}#step-2`,
     },
     {
@@ -105,7 +105,7 @@ export function JpgToPngSeo() {
       </p>
       <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-3">Step 3: Convert All Files</h3>
       <p className="mt-2">
-        Click the convert button. The tool processes each JPG file individually in your browser using the Canvas API. Multiple files are converted simultaneously for fast batch processing. A progress indicator shows the status of each file.
+        Click the convert button. The tool processes each JPG file individually in your browser using the Canvas API. Files are converted one at a time. Processing time depends on image size, batch size and your device. A progress indicator shows the status of each file.
       </p>
       <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-4">Step 4: Download Your PNG Files</h3>
       <p className="mt-2">

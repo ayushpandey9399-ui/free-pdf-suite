@@ -172,7 +172,7 @@ export function ImageResizeSeo() {
       </p>
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
-        Resize without losing quality
+        Resize with adjustable JPG quality
       </h2>
       <p className="mt-3">
         Downscaling is friendly to quality: this resizer halves the
@@ -217,7 +217,7 @@ export function ImageResizeSeo() {
         one pixel target or one percent value, and every file is
         processed in one pass. Download each result individually, or
         grab all of them together as a single ZIP archive named
-        resized-images.zip. There is no per-file cap and no daily
+        resized-images.zip. Images above 100 million pixels are rejected, and there is no daily
         limit because the work happens on your own machine. For each
         file the tool shows the original dimensions and size, then the
         new dimensions and size, so you can see exactly what changed.

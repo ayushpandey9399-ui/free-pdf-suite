@@ -165,5 +165,5 @@ export const webpToJpgSoftwareJsonLd = {
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   publisher: { "@type": "Organization", name: "PDFToolConverter", url: SITE_URL },
   description:
-    "Convert WebP images to JPG online instantly in your browser. Batch convert multiple WebP files to JPEG. Free, no signup, no watermark, files never leave your device.",
+    "Convert WebP images to JPG online in your browser. Batch convert multiple WebP files to JPEG. Free, no signup, no watermark, files never leave your device.",
 };

@@ -94,7 +94,7 @@ export function EditPdfSeo() {
 
       <h2>5 Tips for PDF Editing</h2>
       <h2>Zoom in for precision</h2>
-      <p>Use your browser's zoom or our tool's zoom features to place text and shapes with pixel-perfect accuracy.</p>
+      <p>Use your browser's zoom or our tool's zoom features to place text and shapes more precisely.</p>
       <h2>Check alignment</h2>
       <p>Use shapes like lines or rectangles to help align your text boxes with the existing document structure.</p>
       <h2>Use Select mode</h2>

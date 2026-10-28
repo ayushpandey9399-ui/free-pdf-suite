@@ -13,7 +13,7 @@ export const heicToJpgSoftwareJsonLd = {
   url,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   publisher: { "@type": "Organization", name: "PDFToolConverter", url: SITE_URL },
-  description: "Convert HEIC photos to JPG online instantly in your browser. Batch convert iPhone HEIC images to JPG without losing quality. Free, no signup, no watermark; files never leave your device.",
+  description: "Convert HEIC photos to JPG online in your browser. Batch convert iPhone HEIC images to JPG with adjustable JPG quality. Free, no signup, no watermark; files never leave your device.",
 };
 
 export const heicToJpgHowToJsonLd = {
@@ -119,7 +119,7 @@ export function HeicToJpgSeo() {
       </p>
       <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-3">Step 3: Convert All Files</h3>
       <p className="mt-2">
-        Click the convert button. The tool processes each HEIC file individually in your browser using the heic2any library. Multiple files are converted simultaneously for fast batch processing. A progress indicator shows the status of each file.
+        Click the convert button. The tool processes each HEIC file individually in your browser using the heic2any library. Files are converted one at a time. Processing time depends on image size, batch size and your device. A progress indicator shows the status of each file.
       </p>
       <h3 className="mt-6 text-[18px] font-bold text-[#383E45]" id="step-4">Step 4: Download Your JPG Files</h3>
       <p className="mt-2">
@@ -205,7 +205,7 @@ export function HeicToJpgSeo() {
       <h2 className="mt-10 text-[24px] font-bold text-[#383E45]">Tips for Converting HEIC to JPG Effectively</h2>
       <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Use Batch Conversion for Multiple Files</h3>
       <p className="mt-2">
-        Add all your HEIC files at once instead of converting them one by one. Our tool processes multiple files simultaneously, making batch conversion just as fast as converting a single file.
+        Add all your HEIC files at once instead of converting them one by one. Files are converted one after another, so larger batches take longer and use more memory.
       </p>
       <h3 className="mt-6 text-[18px] font-bold text-[#383E45]">Set iPhone to Capture in JPG Directly</h3>
       <p className="mt-2">

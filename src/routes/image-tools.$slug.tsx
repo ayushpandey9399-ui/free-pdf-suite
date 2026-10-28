@@ -12,7 +12,7 @@ import { IMAGE_SILOS } from "@/components/imageSeoBundle";
 
 const HEIC_TITLE = "HEIC to JPG Converter Free: iPhone Photos | PDFToolConverter";
 const HEIC_DESC =
-  "Convert HEIC photos to JPG online in your browser. Batch convert iPhone HEIC images to JPG without losing quality. Free, no signup, files never leave your device.";
+  "Convert HEIC photos to JPG online in your browser. Batch convert iPhone HEIC images to JPG with adjustable JPG quality. Free, no signup, files never leave your device.";
 
 const HEIC_PNG_TITLE = "HEIC to PNG Converter Free, No Upload | PDFToolConverter";
 const HEIC_PNG_DESC =
@@ -28,7 +28,7 @@ const PNG_JPG_DESC =
 
 const WEBP_JPG_TITLE = "WebP to JPG Converter Free, WebP to JPEG | PDFToolConverter";
 const WEBP_JPG_DESC =
-  "Convert WebP images to JPG online instantly in your browser. Batch convert multiple WebP files to JPEG. Free, no signup, no watermark, files never leave your device.";
+  "Convert WebP images to JPG online in your browser. Batch convert multiple WebP files to JPEG. Free, no signup, no watermark, files never leave your device.";
 
 const WEBP_PNG_TITLE = "WebP to PNG Converter Free, No Upload | PDFToolConverter";
 const WEBP_PNG_DESC =

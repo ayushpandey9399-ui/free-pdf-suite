@@ -6,7 +6,7 @@ const url = `${SITE_URL}/tools/watermark`;
 const related = [
   { to: "/tools/protect-pdf", name: "Protect PDF", blurb: "Encrypt your PDF with a strong password." },
   { to: "/tools/merge", name: "Merge PDF", blurb: "Combine multiple files into one PDF." },
-  { to: "/tools/compress", name: "Compress PDF", blurb: "Reduce PDF file size without losing quality." },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Try reducing PDF file size" },
   { to: "/tools/flatten-pdf", name: "Flatten PDF", blurb: "Lock form fields and annotations permanently." },
   { to: "/tools/redact-pdf", name: "Redact PDF", blurb: "Permanently hide sensitive information." },
   { to: "/tools/sign-pdf", name: "Sign PDF", blurb: "Add your electronic signature to any document." },
