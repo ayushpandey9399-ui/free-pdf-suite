@@ -210,7 +210,7 @@ function ToolPage() {
   const url = `${SITE_URL}/tools/${slug}`;
 
   const fallback = (
-    <div className="flex items-center justify-center py-16 text-muted-foreground">
+    <div className="flex min-h-[400px] items-center justify-center text-muted-foreground md:min-h-[470px]">
       <Loader2 className="h-5 w-5 animate-spin mr-2" /> Loading tool…
     </div>
   );
