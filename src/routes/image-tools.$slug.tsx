@@ -1,5 +1,6 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { useEffect, Suspense } from "react";
+import { ToolErrorBoundary } from "@/components/ToolErrorBoundary";
 
 import { getImageTool } from "@/lib/imageTools";
 
@@ -224,9 +225,11 @@ function ImageToolPage() {
               {silo.h1}
             </h1>
             <div className="mt-10">
-              <Suspense fallback={fallback}>
-                <Tool />
-              </Suspense>
+              <ToolErrorBoundary toolName={tool.name}>
+                <Suspense fallback={fallback}>
+                  <Tool />
+                </Suspense>
+              </ToolErrorBoundary>
             </div>
 
           </div>
