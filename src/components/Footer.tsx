@@ -19,6 +19,7 @@ const convert: ToolLink[] = [
   { slug: "images-to-pdf", name: "Image to PDF" },
   { slug: "pdf-to-images", name: "PDF to Image" },
   { slug: "extract-images", name: "Extract Images" },
+  { slug: "pdf-to-word", name: "PDF to Word" },
   { slug: "pdf-to-text", name: "PDF to Text" },
   { slug: "txt-to-pdf", name: "TXT to PDF" },
   { slug: "scan-to-pdf", name: "Scan to PDF" },
