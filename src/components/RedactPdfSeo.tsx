@@ -86,11 +86,11 @@ export function RedactPdfSeo() {
         Real redaction, not just a black box
       </h2>
       <p className="mt-4 text-[15px] leading-relaxed text-[#4a4a55]">
-        This is the part almost every online tool gets wrong. In the usual PDF editor, drawing a black rectangle
+        In many PDF editors, drawing a black rectangle
         over sensitive text only covers it visually, the underlying characters remain inside the file as regular
         text objects. Anyone who opens the PDF can select the covered area, copy the text out, or run the file
         through any text extractor and see everything the black bar was supposed to hide. That is not redaction;
-        it is a cover-up that fools no one.
+        it only hides the text from view.
       </p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
         This tool works differently. Every page you drew on is re-rendered as a flat image with the black
