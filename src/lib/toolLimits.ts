@@ -8,7 +8,7 @@
 /** PDF tools that do not take a PDF as input, so the password point does not apply. */
 const NO_PDF_INPUT = new Set(["images-to-pdf", "txt-to-pdf", "scan-to-pdf"]);
 
-/** Tools the limits note is not shown on. Unlock handles passwords itself; PDF to Word is server-based and paused. */
+/** Tools the limits note is not shown on. PDF to Word is server-based and paused. */
 const PDF_SKIP = new Set(["pdf-to-word"]);
 
 /** Image tools that reject images above 100 million decoded pixels (guardDecodedSize in the tool code). */

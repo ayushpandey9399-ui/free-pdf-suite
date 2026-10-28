@@ -7,6 +7,8 @@ import { getImageTool } from "@/lib/imageTools";
 import { SITE_URL } from "@/lib/site";
 import { toolJsonLdList } from "@/lib/seoSchema";
 import { ToolFieldNotes } from "@/components/ToolFieldNotes";
+import { ToolLimits } from "@/components/ToolLimits";
+import { imageToolLimits } from "@/lib/toolLimits";
 import { IMAGE_SILOS } from "@/components/imageSeoBundle";
 
 
@@ -235,6 +237,7 @@ function ImageToolPage() {
                   <Tool />
                 </Suspense>
               </ToolErrorBoundary>
+              <ToolLimits points={imageToolLimits(tool.slug)} />
             </div>
 
           </div>
