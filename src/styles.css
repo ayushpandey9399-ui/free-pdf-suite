@@ -165,8 +165,6 @@
     color: #383e45;
     line-height: 1.15;
     letter-spacing: -0.02em;
-    content-visibility: auto;
-    contain-intrinsic-size: auto 42px;
   }
 
   @media (min-width: 640px) {
@@ -176,8 +174,6 @@
   }
 
   .tool-description {
-    content-visibility: auto;
-    contain-intrinsic-size: auto 60px;
   }
 
   h2 {
@@ -277,8 +273,6 @@
   color: #374151; /* Darker gray for contrast */
   font-size: 16px;
   line-height: 1.75;
-  content-visibility: auto;
-  contain-intrinsic-size: 0 500px;
 }
 
 

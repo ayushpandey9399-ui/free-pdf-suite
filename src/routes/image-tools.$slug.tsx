@@ -199,7 +199,7 @@ function ImageToolPage() {
   const maxWidth = silo.maxWidth ?? "max-w-4xl";
 
   const fallback = (
-    <div className="flex items-center justify-center py-16 text-muted-foreground">
+    <div className="flex min-h-[320px] items-center justify-center text-muted-foreground">
       <div className="h-5 w-5 animate-spin rounded-full border-2 border-primary border-t-transparent mr-2" />
       Loading tool…
     </div>
