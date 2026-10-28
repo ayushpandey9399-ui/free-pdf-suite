@@ -5,7 +5,7 @@ import { tools, categories, type ToolCategory } from "@/tools/registry";
 import { HomeBottom } from "@/components/HomeBottom";
 import { SITE_URL, SITE_NAME, CONTACT_EMAIL } from "@/lib/site";
 
-const HOME_TITLE = "PDFToolConverter | 44 Free PDF Tools Online: No Signup, No Watermark";
+const HOME_TITLE = "PDFToolConverter: 44 Free PDF Tools Online, No Signup";
 const HOME_DESC =
   "44 free PDF and image tools that run in your browser. Merge, split, compress, sign, convert and edit PDFs instantly. No signup, no watermark, no limits.";
 const HOME_URL = `${SITE_URL}/`;
