@@ -157,9 +157,11 @@ export const Route = createFileRoute("/tools/$slug")({
     ]);
 
     const meta = TOOL_META[slug];
+    const robots = NOINDEX_TOOL_SLUGS.includes(slug) ? [{ name: "robots", content: "noindex, follow" }] : [];
     if (meta) {
       return {
         meta: [
+          ...robots,
           { title: meta.title },
           { name: "description", content: meta.desc },
           { property: "og:title", content: meta.title },
@@ -181,6 +183,7 @@ export const Route = createFileRoute("/tools/$slug")({
     return {
       meta: loaderData
         ? [
+            ...robots,
             { title: `${loaderData.name} | PDFToolConverter` },
             { name: "description", content: loaderData.description },
             { property: "og:title", content: `${loaderData.name}, PDFToolConverter` },
