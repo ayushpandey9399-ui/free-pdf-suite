@@ -232,7 +232,7 @@ export function MergePdfSeo() {
           <h3 className="text-[18px] font-bold text-[#33333c]">No Quality Loss</h3>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             The merging process preserves every element of your original PDFs exactly as they are. Text remains selectable, images retain their original resolution, 
-            hyperlinks continue to work, and form fields stay fillable. The merged file is not a re-encoded copy, it is a precise combination of the original page data.
+            and links within a page keep working. Fillable form fields are the exception: they may stop being fillable, so fill them first. The merged file is not a re-encoded copy, it is a precise combination of the original page data.
           </p>
         </div>
         <div>
