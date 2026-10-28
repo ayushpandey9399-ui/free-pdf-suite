@@ -82,7 +82,7 @@ function bitmapToPreviewUrl(bmp: ImageBitmap): string {
 function canvasToBlob(canvas: HTMLCanvasElement, mime: string, quality?: number): Promise<Blob> {
   return new Promise((resolve, reject) => {
     canvas.toBlob(
-      (b) => (b ? resolve(b) : reject(new Error("Encode failed"))),
+      (b) => (b && b.size > 0 && b.type === mime ? resolve(b) : reject(new Error("Your browser could not export this format. Try PNG or JPG."))),
       mime,
       quality,
     );
