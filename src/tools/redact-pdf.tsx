@@ -343,6 +343,10 @@ export default function RedactPdf() {
             style={{ backgroundColor: "#f5f5f7", color: "#33333c" }}
           >
             <strong>Always open the downloaded file and check that the sensitive text is gone</strong> (try selecting or searching for it).
+            <ul className="mt-2 list-disc pl-4 space-y-1">
+              <li>Pages with boxes are converted to images, so their text can no longer be selected or searched, and the file may get larger.</li>
+              <li>Pages without boxes keep their text, so draw boxes on every place where the sensitive text appears.</li>
+            </ul>
           </div>
 
           {FIND_ENABLED ? (
