@@ -15,6 +15,10 @@ export const DOCX_MIME =
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
 /** Shown when the client side timeout fires. */
+/** Shown when the conversion server cannot be reached at all. */
+export const PDF_TO_WORD_UNAVAILABLE_MESSAGE =
+  "This tool is temporarily unavailable. Please try again later.";
+
 export const PDF_TO_WORD_TIMEOUT_MESSAGE =
   "This file is taking too long. Please try a smaller PDF.";
 
@@ -77,6 +81,8 @@ export function messageForStatus(status: number | "network"): string {
       return "Too many requests. Please wait a minute and try again.";
     case 503:
       return "Our server is busy right now. Please try again in a minute.";
+    case "network":
+      return PDF_TO_WORD_UNAVAILABLE_MESSAGE;
     default:
       return "Something went wrong. Please try again.";
   }

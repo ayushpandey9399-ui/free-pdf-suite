@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
 const steps = [
@@ -20,58 +19,32 @@ const steps = [
   },
 ];
 
-const useCases = [
-  {
-    h: "Add a separator page between sections",
-    p: "When combining reports, contracts or study notes from different sources, a blank page between sections makes the document easier to read and navigate.",
-  },
-  {
-    h: "Add a notes page after each slide",
-    p: "Teachers and trainers often need a blank page after each slide or chapter so readers can write notes on the printed copy.",
-  },
-  {
-    h: "Meet submission format requirements",
-    p: "Some government portals, universities and HR systems require documents to start on a specific page number or have a cover page. Adding a blank page at the beginning or end fixes this in seconds.",
-  },
-  {
-    h: "Fix odd/even page printing",
-    p: "Double-sided (duplex) printing requires an even number of pages. Adding a blank page at the end ensures the back of the last page prints correctly.",
-  },
-];
 
-const faqs: { q: string; a: string }[] = [
+const faqs = [
   {
-    q: "Can I add several blank pages in one go?",
-    a: "Yes. Every click on a plus button adds one more blank page, and you can stack several in the same spot. The side panel also offers one blank page after every page, which is handy for notes. The button shows how many will be added before you confirm.",
+    "q": "Can I add several blank pages in one go?",
+    "a": "Yes. Click a plus button repeatedly to insert several blanks in the same position, or use the side panel to add one blank after every original page."
   },
   {
-    q: "Where can I insert a blank page?",
-    a: "Before any page (including the first) using the plus button on that thumbnail, or after the last page using Add blank page at end.",
+    "q": "Where can I insert a blank page?",
+    "a": "Use the plus button on a thumbnail to insert before that page, including the first. Use Add blank page at end to append a blank."
   },
   {
-    q: "Will adding blank pages change the rest of my PDF?",
-    a: "The existing pages are kept as they are; the tool only inserts new empty pages between them. Page numbers printed inside your document will not update, so use Page Numbers afterwards if you need new numbering.",
+    "q": "Will adding blank pages update printed page numbers?",
+    "a": "No. Existing page content is not renumbered. The thumbnail numbers show positions in the output, not numbers printed inside the document."
   },
   {
-    q: "Is this tool free?",
-    a: "Yes. There is no signup and no watermark on the output.",
+    "q": "What size will the blank pages be?",
+    "a": "Choose Match previous or A4 portrait. Match previous uses the preceding original page, or the first original page for blanks at the beginning."
   },
   {
-    q: "Is my PDF uploaded to a server?",
-    a: "No. The PDF is read, edited and saved by your browser on your own device. It is not sent to our servers.",
+    "q": "Can I add blanks to a password-protected PDF?",
+    "a": "Not directly. Unlock the PDF first, then add the blank pages."
   },
   {
-    q: "Is there a file size limit?",
-    a: "We do not set one, but the whole PDF is loaded into your device memory and a thumbnail is drawn for every page. Very large or long files can be slow on phones or older computers.",
-  },
-  {
-    q: "Can I add a blank page to a password-protected PDF?",
-    a: "Not directly. The tool detects protected files and stops. Remove the password with Unlock PDF first, add your blank pages, then use Protect PDF again if needed.",
-  },
-  {
-    q: "What size will the blank pages be?",
-    a: "With Match previous, each blank page copies the size of the page just before it (or the page after it if the blank is first). With A4, every blank page is A4 portrait.",
-  },
+    "q": "What limits should I expect?",
+    "a": "One PDF is processed at a time. Free to use. Very large files depend on your device memory, and drawing many thumbnails can be slow."
+  }
 ];
 
 const related = [
@@ -86,18 +59,6 @@ const related = [
 export function AddBlankPagesSeo() {
   return (
     <section className="mx-auto max-w-4xl px-4 pb-16 seo-content">
-      <h2 className="text-center">
-        When do you need to add blank pages to a PDF?
-      </h2>
-      <div className="mt-8 grid gap-8 sm:grid-cols-2">
-        {useCases.map((uc, i) => (
-          <div key={i}>
-            <h3 className="text-[18px] font-semibold">{uc.h}</h3>
-            <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">{uc.p}</p>
-          </div>
-        ))}
-      </div>
-
       <h2 className="text-center">
         How to add blank pages to a PDF online
       </h2>
@@ -127,16 +88,6 @@ export function AddBlankPagesSeo() {
           For double-sided printing, count the total. If a chapter must start on a right-hand (odd) page, the page before it needs an even number. Insert a blank just before the chapter opener when it would otherwise land on the back of a sheet.
         </p>
       </div>
-
-      <h2 className="text-center">
-        Practical examples
-      </h2>
-      <ul className="mt-6 max-w-3xl mx-auto list-disc pl-5 space-y-2 text-[15px] leading-relaxed text-[#4a4a55]">
-        <li><strong>Lecture handouts:</strong> use Add blank page after every page to give each slide a facing page for handwritten notes.</li>
-        <li><strong>Section dividers:</strong> add one blank before each new chapter of a merged report, then label them by hand or with Edit PDF.</li>
-        <li><strong>Signature or review space:</strong> add a blank at the end of a form or contract for comments, stamps or signatures.</li>
-        <li><strong>Mixed page sizes:</strong> keep Match previous selected so a blank after a landscape page is also landscape.</li>
-      </ul>
 
       <h2 className="text-center">
         Troubleshooting

@@ -92,7 +92,8 @@ describe("messageForStatus", () => {
     );
   });
   it("falls back for every other failure", () => {
-    for (const s of [400, 418, 500, 502, 504, "network"] as const) {
+    expect(messageForStatus("network")).toBe("This tool is temporarily unavailable. Please try again later.");
+    for (const s of [400, 418, 500, 502, 504] as const) {
       expect(messageForStatus(s)).toBe("Something went wrong. Please try again.");
     }
   });

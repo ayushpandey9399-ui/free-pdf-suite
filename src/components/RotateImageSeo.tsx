@@ -63,82 +63,32 @@ export const rotateImageFaqJsonLd = {
     {
       "@type": "Question",
       name: "How do I rotate an image 90 degrees?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Add your image, then click 90 left or 90 right on that file's card. The live preview updates instantly. Click twice for 180. When it looks right, hit Apply and export and download the rotated copy.",
-      },
+      acceptedAnswer: { "@type": "Answer", text: "Add your image and click 90 left or 90 right on its card. Review the preview, then click Apply and export and download the result." },
     },
     {
       "@type": "Question",
       name: "How do I mirror or flip an image?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Click Mirror to flip horizontally (a left-facing selfie becomes right-facing, matching what you saw in the mirror when you took it). Click Flip vertical to flip top-to-bottom. Mirror and flip stack on top of rotation, so you can combine them freely.",
-      },
+      acceptedAnswer: { "@type": "Answer", text: "Click Mirror to flip horizontally or Flip vertical to flip top-to-bottom. These controls can be combined with rotation." },
     },
     {
       "@type": "Question",
       name: "Does rotating an image reduce quality?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Not from the rotation itself. Rotations in 90-degree steps and horizontal or vertical flips are pixel-exact operations that just move existing pixels to new positions. The only quality change comes from re-encoding JPG or WebP output, which is controlled by the quality slider (default 0.9). PNG stays lossless.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Why do my phone photos appear sideways?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Phone cameras write pixels in a fixed sensor orientation and tag the file with an EXIF Orientation value that tells viewers how to display it. Some apps ignore that tag and show the raw pixels, which look rotated. This tool normalizes EXIF orientation first, so what you see in the preview is upright, and any rotation you apply is on top of that.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Is this image rotator free?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. No signup, no watermark, no daily limit, and no email wall. Rotate and flip as many images as your browser can hold in memory.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Are my images uploaded to a server?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "No. Every rotation, flip, and re-encode happens inside your browser tab using the standard Canvas API. Your originals and the rotated results are never uploaded or stored on our servers. You can even disconnect from the internet after the page loads and it still works.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I rotate multiple photos at once?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. Drop a whole folder of sideways vacation photos, click 90 right under Apply to all, and every file rotates in a single pass. Download each result individually or grab everything as rotated-images.zip.",
-      },
+      acceptedAnswer: { "@type": "Answer", text: "Quarter-turn rotations and flips rearrange pixels without arbitrary-angle resampling. Export still re-encodes the image: JPG and WebP use the quality setting, while PNG uses lossless encoding." },
     },
     {
       "@type": "Question",
       name: "What image formats are supported?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "JPG (JPEG), PNG, and WebP inputs and outputs. Each file keeps its original format on export, so a JPG stays a JPG, a PNG stays a PNG, and a WebP stays a WebP.",
-      },
+      acceptedAnswer: { "@type": "Answer", text: "The tool accepts JPG, JPEG, PNG, and WebP. Each result is exported in its source format." },
     },
     {
       "@type": "Question",
       name: "Is transparency kept when I rotate a PNG or WebP?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. PNG and WebP outputs preserve the alpha channel, so a logo with a transparent background stays transparent after rotation. JPG has no alpha, so any transparent pixels in a JPG output are drawn on a white background.",
-      },
+      acceptedAnswer: { "@type": "Answer", text: "PNG and WebP output preserve transparency. JPG does not support transparency." },
     },
     {
       "@type": "Question",
       name: "Can I undo a rotation?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. Nothing is written until you click Apply and export. Rotation and flip actions are cumulative on the live preview, and each file has its own Reset button that restores the original orientation. There is also a Reset all button for the whole batch.",
-      },
+      acceptedAnswer: { "@type": "Answer", text: "Use a file's Reset button to restore its original orientation, or Reset all for the batch. Export creates a separate result without changing your original file." },
     },
   ],
 };
@@ -235,22 +185,6 @@ export function RotateImageSeo() {
       </p>
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
-        Fix sideways photos in bulk
-      </h2>
-      <p className="mt-3">
-        The most common reason people rotate an image is a phone
-        camera roll where every landscape shot came in sideways. Drop
-        the whole batch in, click <strong>90 right</strong> (or{" "}
-        <strong>90 left</strong>, depending on how they came out)
-        under Apply to all, then <strong>Apply and export</strong>.
-        Every file is processed in a single pass and delivered as a
-        ZIP so you do not have to save them one by one. If a few files
-        in the batch need a different rotation, adjust them on their
-        own cards before exporting; per-file settings always win over
-        Apply to all.
-      </p>
-
-      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Rotate JPG, PNG, and WebP
       </h2>
       <p className="mt-3">
@@ -274,33 +208,6 @@ export function RotateImageSeo() {
           Crop Image tool
         </Link>{" "}
         as the next step.
-      </p>
-
-      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
-        Your images never leave your device
-      </h2>
-      <p className="mt-3">
-        Most online image rotators upload every photo to a stranger's
-        server, hold it for hours or days, and log the filename. This
-        tool does the opposite. Decoding, rotating, flipping, and
-        re-encoding all run inside your browser tab, powered by the
-        standard Canvas API. Your files, filenames, and any embedded
-        EXIF data stay on your device. Turn off Wi-Fi after the page
-        loads and the rotator still works, which is handy on planes,
-        in cafes, or anywhere with a weak signal.
-      </p>
-
-      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
-        Works on Windows, Mac, Android, and iPhone
-      </h2>
-      <p className="mt-3">
-        Because the rotator is a web page, it runs anywhere a modern
-        browser runs: Windows 10, Windows 11, macOS, Chromebook,
-        Linux, Android, iPhone, and iPad. EXIF orientation is honored
-        first, so a photo taken sideways on an iPhone shows upright in
-        the preview and any rotation you apply is on top of that
-        upright baseline. There is nothing to install, update, or
-        uninstall.
       </p>
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">

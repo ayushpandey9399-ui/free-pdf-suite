@@ -20,8 +20,6 @@ import {
 
 type Phase = "idle" | "uploading" | "converting" | "done" | "error";
 
-const TRUST_NOTE =
-  "Your file is securely uploaded to our server for processing and permanently deleted immediately after your download is complete. We never store, share, or access your files.";
 
 export default function PdfToWord() {
   const [phase, setPhase] = useState<Phase>("idle");
@@ -149,7 +147,7 @@ export default function PdfToWord() {
     return (
       <ToolSuccessScreen
         heading="Your Word file is ready"
-        subheading={`${result.name}, ${result.sizeMb} MB. Your PDF has been deleted from our server.`}
+        subheading={`${result.name}, ${result.sizeMb} MB.`}
         downloadLabel="Download .docx"
         onDownload={() => saveAs(result.blob, result.name)}
         onReset={resetAll}
@@ -161,7 +159,7 @@ export default function PdfToWord() {
             style={{ backgroundColor: "#f6f4f9", color: "#5a5a66" }}
           >
             <ServerCog className="h-4 w-4" aria-hidden />
-            Your PDF was converted on our server and deleted right after this download was sent.
+            Your PDF was converted on our server.
           </div>
         }
       >
@@ -231,7 +229,7 @@ export default function PdfToWord() {
         onFiles={onFiles}
       />
       <div className="mt-2 text-center text-[12px] text-[#6B7280]">
-        🔒 Processed securely on our servers. Auto-deleted after download.
+        Your file is uploaded to our server for conversion.
       </div>
 
       <div className="mx-auto -mt-2 max-w-[520px] px-4 text-center text-[13px]" style={{ color: "#8b8b96" }}>
@@ -250,8 +248,8 @@ export default function PdfToWord() {
             className="mx-auto mb-3 max-w-[520px] rounded-xl px-4 py-3 text-left text-[14px] leading-relaxed"
             style={{ backgroundColor: "#fffbeb", border: "1px solid #fde68a", color: "#5a5a66" }}
           >
-            <strong style={{ color: "#33333c" }}>Our conversion server is not responding right now.</strong>{" "}
-            A PDF picked now will most likely fail to convert. To get the text out today, use{" "}
+            <strong style={{ color: "#33333c" }}>This tool is temporarily unavailable. Please try again later.</strong>{" "}
+            To get the text out today, use{" "}
             <Link to="/tools/$slug" params={{ slug: "pdf-to-text" }} className="font-semibold underline">
               PDF to Text
             </Link>

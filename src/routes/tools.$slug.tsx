@@ -257,7 +257,7 @@ function ToolPage() {
             : slug === "compress"
               ? "Reduce your PDF file size in your browser. Choose a compression level, see the size saved, and download the smaller copy. No signup, no watermark."
               : slug === "pdf-to-word"
-              ? "Your file is securely uploaded to our server for processing and permanently deleted immediately after your download is complete. We never store, share, or access your files."
+              ? "Convert a PDF into an editable Word .docx file. Your file is uploaded to our server for conversion. Works best on text based PDFs."
               : (slug === "add-blank-pages"
                 ? "Insert empty pages anywhere in your PDF: before, after, or between existing pages. Free, private, and instant. No upload, no signup, no watermark."
                 : slug === "extract-images"

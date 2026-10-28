@@ -7,7 +7,7 @@ export const Route = createFileRoute("/privacy-policy")({
   head: () => {
     const title = "Privacy Policy: How Your Files Are Handled | PDFToolConverter";
     const description =
-      "Most PDFToolConverter tools run inside your browser; PDF to Word and Compress Image use our server. Read how files are handled, with no accounts, no accounts, and full disclosure on cookies and ads.";
+      "Most PDFToolConverter tools run inside your browser; only PDF to Word uses our server. Read how files are handled, what Google Analytics measures, and how cookie consent works.";
     const url = `${SITE_URL}/privacy-policy`;
     const ogImage = `${SITE_URL}/og-cover.png`;
     return {
@@ -50,40 +50,23 @@ function PrivacyPolicyPage() {
       >
         <p style={{ margin: 0 }}>
           <strong>
-            Every tool on this site except PDF to Word and Compress Image processes your files
-            locally in your browser; those files are not transmitted to our
-            servers, not stored by us, and not seen by us.
+            Every tool on this site except PDF to Word processes your files locally in
+            your browser; those files are not transmitted to our servers, not stored by
+            us, and not seen by us.
           </strong>{" "}
-          When you merge, compress, sign, or edit a PDF with those tools, the file
-          stays on your device from start to finish. You can even disconnect from the
-          internet after the page loads and these tools keep working. The two
-          exceptions, PDF to Word and Compress Image, send your file to our server.
-          Each tool page says where it is processed, and the section below explains more.
+          When you merge, compress, sign, or edit a PDF, or compress an image, the file
+          stays on your device. After the page has loaded, these tools keep working even
+          if you go offline. The one exception, PDF to Word, sends your file to our
+          server. Each tool page says where it is processed.
         </p>
       </div>
 
-      <h2>Server based tools</h2>
-      <p>
-        Two tools on PDFToolConverter send your file to our server: PDF to Word, because a
-        faithful Word conversion needs a document engine far too large for a browser tab,
-        and Compress Image. Here is how those tools handle your data:
-      </p>
+      <h2>Server based tool: PDF to Word</h2>
       <ul>
         <li>
-          All other tools run entirely in your browser and never upload
-          your files.
-        </li>
-        <li>
-          PDF to Word uploads your PDF to our own server to convert it into a Word
-          document. Compress Image uploads your image to our server to compress it.
-        </li>
-        <li>
-          The uploaded file and the converted file are deleted immediately after the
-          download is sent, and any leftover file is deleted within 10 minutes.
-        </li>
-        <li>
-          We keep only technical request logs with the status, the file size, and the
-          duration of the conversion. We do not log file names or file contents.
+          PDF to Word uploads your PDF to our server to convert it into a Word
+          document, because a faithful conversion needs a document engine too large for
+          a browser tab. Your file is uploaded to our server for conversion.
         </li>
         <li>
           The conversion server runs our own open source code, which you can read at{" "}
@@ -96,8 +79,8 @@ function PrivacyPolicyPage() {
           </a>
           .
         </li>
+        <li>All other tools run entirely in your browser and never upload your files.</li>
       </ul>
-
 
       <h2>Information we do NOT collect</h2>
       <p>
@@ -128,75 +111,25 @@ function PrivacyPolicyPage() {
         your device.
       </p>
 
-      <h2>Cookies and similar technologies</h2>
+      <h2>Cookies and consent</h2>
       <p>
-        Cookies are small text files stored on your device that help websites remember
-        information about your visit. PDFToolConverter may use:
-      </p>
-      <ul>
-        <li>
-          <strong>Functional cookies</strong> to remember basic preferences (for
-          example, settings you chose in a tool).
-        </li>
-        <li>
-          <strong>Third-party cookies</strong> from our advertising and analytics
-          partners described below.
-        </li>
-      </ul>
-      <p>
-        You can control or delete cookies through your browser settings. Blocking
-        cookies does not break the PDF tools on this site, they will keep working
-        normally.
-      </p>
-
-      <h2>Advertising (Google AdSense)</h2>
-      <p>
-        We use (or plan to use) Google AdSense to show advertisements that keep
-        PDFToolConverter free for everyone.
-      </p>
-      <ul>
-        <li>
-          Google and its partners use cookies (including the DoubleClick cookie) to
-          serve ads based on your prior visits to this and other websites.
-        </li>
-        <li>
-          You can opt out of personalized advertising by visiting{" "}
-          <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer">
-            Google Ads Settings
-          </a>{" "}
-          or{" "}
-          <a href="https://www.aboutads.info" target="_blank" rel="noopener noreferrer">
-            aboutads.info
-          </a>
-          .
-        </li>
-        <li>
-          Third-party ad vendors may also place cookies on this site as described in
-          Google's policies. See{" "}
-          <a
-            href="https://policies.google.com/technologies/ads"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            How Google uses information from sites or apps that use our services
-          </a>
-          .
-        </li>
-      </ul>
-      <p>
-        <strong>
-          Important: ads appear on the page around the tools. Advertising partners never
-          receive the files you process, whether a tool runs in your browser or on our server.
-        </strong>
+        Cookies are small text files stored on your device. On your first visit we ask
+        whether you accept analytics cookies. Google Analytics only loads after you
+        click Accept. If you click Decline, no analytics cookies are set. Your choice is
+        saved in your browser, and you can change it at any time with the "Cookie
+        settings" link in the footer. The PDF and image tools work the same either way.
       </p>
 
       <h2>Analytics</h2>
       <p>
-        We use Google Analytics to measure visits, such as which pages are opened,
-        your approximate location, and your device and browser type. Google Analytics
-        sets cookies to do this. It never receives the files you process. We also keep
-        aggregate hosting logs to keep the site reliable and detect abuse.
+        If you accept, we use Google Analytics to measure visits, such as which pages
+        are opened, your approximate location, and your device and browser type. Google
+        Analytics sets cookies to do this. It never receives the files you process. We
+        also keep aggregate hosting logs to keep the site reliable and detect abuse.
       </p>
+
+      <h2>Advertising</h2>
+      <p>The site does not currently show ads.</p>
 
       <h2>Third-party links</h2>
       <p>

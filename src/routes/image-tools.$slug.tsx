@@ -36,7 +36,7 @@ const WEBP_PNG_DESC =
 
 const COMPRESS_TITLE = "Compress Image Online Free, JPG PNG WebP | PDFToolConverter";
 const COMPRESS_DESC =
-  "Compress image online free. Reduce JPG, PNG, and WebP file size in your browser, target 100KB, 200KB, or 50KB. Batch and ZIP, 100% private. Nothing to install.";
+  "Compress images free. Shrink JPG, PNG, WebP and SVG in your browser with a quality slider and max width. Batch ZIP download, files never leave your device.";
 
 const RESIZE_TITLE = "Resize Image in Pixels or KB Free, No Upload | PDFToolConverter";
 const RESIZE_DESC =
@@ -225,11 +225,9 @@ function ImageToolPage() {
             >
               {silo.h1}
             </h1>
-            {/* Must match the code: only Compress Image sends files to the server. */}
+            {/* Must match the code: every image tool runs in the browser. */}
             <p className="mt-3 text-[13px] font-semibold" style={{ color: "#4B5563" }}>
-              {tool.slug === "compress-image"
-                ? "Processed on our server. Your file is uploaded for conversion."
-                : "Processed in your browser. Your file never leaves your device."}
+              Processed in your browser. Your file never leaves your device.
             </p>
             <div className="mt-10">
               <ToolErrorBoundary toolName={tool.name}>

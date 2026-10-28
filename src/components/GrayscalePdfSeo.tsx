@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
@@ -22,104 +21,30 @@ const steps = [
   },
 ];
 
-const benefits = [
+const faqs = [
   {
-    h: "True grayscale output",
-    p: "Every page is redrawn through a real grayscale filter and re-embedded into the new PDF, not just tinted or hidden by a viewer setting. Whichever reader, printer or portal opens the file, the pages arrive as clean black and white, never full-color pixels behind a display trick.",
+    q: "How is the grayscale PDF created?",
+    a: "Each page is rendered to a canvas, converted to grayscale and encoded as a JPEG image. Those images are placed into a new PDF with the original page dimensions.",
   },
   {
-    h: "Smaller files",
-    p: "For color scans, phone-camera captures and photo-heavy documents the JPEG re-encode in grayscale usually produces a meaningfully lighter file, and the built-in Smaller file quality trades a little sharpness for extra savings. Text-only PDFs that were already lean won't shrink much, and that's fine, you're doing the conversion for the color, not the size.",
+    q: "Can I select or copy text after conversion?",
+    a: "The output contains page images rather than the original text layer. This tool does not add OCR, so text is not preserved as selectable PDF text.",
   },
   {
-    h: "Cheaper printing",
-    p: "A grayscale PDF removes any risk of a printer reaching for the color cartridges to render a stray logo, header band or icon. The whole document prints from the black cartridge only, in one predictable pass, no surprise CMYK usage on a hundred-page report.",
+    q: "What do the quality options change?",
+    a: "High quality uses a higher rendering scale and JPEG quality than Smaller file. Smaller file trades some detail for a smaller output, but the final size depends on the document.",
   },
   {
-    h: "Cleaner look for scans",
-    p: "Phone-camera scans usually come out with a yellow cast from indoor light, a green cast from fluorescent tubes, or a blue cast from a screen glow. Grayscaling collapses all of that into neutral tones, and the finished document looks like it came off a real flatbed scanner instead of a kitchen table.",
-  },
-];
-
-const scenarios = [
-  {
-    h: "Printing long documents where color adds nothing",
-    p: "Textbooks, meeting packs, contracts, study notes and internal reports rarely need color to be understood, but color cartridges are the most expensive consumable on any office printer. Convert the file to grayscale first and the printer treats every page as black and white, no accidental color hits on a page you're going to staple and forget.",
+    q: "Will grayscale always make my PDF smaller?",
+    a: "No. Rasterizing pages can make a PDF larger, especially when the source contains compact text or vector graphics. The result screen shows the original and output sizes.",
   },
   {
-    h: "Submitting documents to portals that require black & white",
-    p: "Government submissions, court filings, tender responses and some university portals explicitly ask for black-and-white PDFs, and reject uploads that contain color pages. Converting the file here means you send exactly what they asked for, once, instead of getting the submission bounced back a day later.",
+    q: "Can I convert only selected pages?",
+    a: "No. The conversion processes every page in the selected PDF. There is no page-range option.",
   },
   {
-    h: "Shrinking colorful scans before emailing or uploading",
-    p: "A scanned brochure or a photo-heavy report can push past mailbox and portal limits. Grayscale re-encoding usually knocks a noticeable chunk off the size, and pairing this with a follow-up pass through Compress PDF (linked below) gets you the smallest possible file without touching the page dimensions.",
-  },
-  {
-    h: "Making phone-camera scans look like proper scans",
-    p: "A snap of a receipt or a contract on a desk tends to look amateur, uneven lighting, a color tint, a warm cast from the room. Converting that PDF to grayscale strips the color noise and produces something that reads and prints like a document, not a photo of a document.",
-  },
-];
-
-const faqs: { q: string; a: ReactNode; plain: string }[] = [
-  {
-    q: "How do I convert a PDF to black and white for free?",
-    a: "Click Select PDF file, pick your document, choose High quality or Smaller file in the sidebar, then click Convert to Grayscale. The tool re-renders every page in grayscale and hands back a copy named -grayscale.pdf. No signup, no upload, no watermark, no page limit.",
-    plain:
-      "Click Select PDF file, pick your document, choose High quality or Smaller file, then click Convert to Grayscale. The tool re-renders every page and gives you a -grayscale.pdf copy. No signup, upload, watermark or page limit.",
-  },
-  {
-    q: "Will grayscale make my PDF smaller?",
-    a: "Usually yes for colorful documents, scanned pages and photo-heavy PDFs, the JPEG re-encode in grayscale drops each pixel from three channels to one, and the success screen shows the exact percentage saved. Text-only PDFs that were already efficient can come out about the same size or slightly larger, because the conversion still rasterizes each page. If size is your priority pick Smaller file, then run the result through Compress PDF.",
-    plain:
-      "Usually yes for colorful and scanned PDFs, the success screen shows the saved percentage. Text-only PDFs may stay similar or grow slightly because pages get rasterized. For maximum reduction pick Smaller file, then run the result through Compress PDF.",
-  },
-  {
-    q: "Will the text stay sharp?",
-    a: "Yes, at both quality settings the text remains clearly legible on screen and in print. High quality re-renders pages at 1.5× the page size and encodes as JPEG at 0.85, visually indistinguishable from the original for reading. Smaller file uses 1.2× and JPEG 0.7 to save space, which is still crisp for standard document text; if you plan to print at very large sizes or read very small footnotes, keep the High quality setting.",
-    plain:
-      "Yes. High quality re-renders at 1.5× the page size at JPEG 0.85, visually indistinguishable for reading. Smaller file uses 1.2× at JPEG 0.7 to save space and stays crisp for standard text. Pick High quality for very large prints or very small footnotes.",
-  },
-  {
-    q: "Can I still select or copy text after conversion?",
-    a: "No. To guarantee identical black-and-white output in every reader and printer, the tool rasterizes each page, the finished PDF stores each page as a grayscale image rather than as searchable text characters. Keep your original file if you'll still need to select, copy or search the text; use the grayscale copy for printing, sending or submitting.",
-    plain:
-      "No. Each page is rasterized to guarantee identical output everywhere, so the finished PDF stores pages as grayscale images rather than searchable text. Keep your original for text work; use the grayscale copy for printing and submission.",
-  },
-  {
-    q: "Do my files get uploaded to a server?",
-    a: "No. The scan, the previews, the page-by-page grayscale render and the writing of the final -grayscale.pdf all happen inside your browser tab using pdf.js and pdf-lib. Nothing about the file is transmitted to us or to any third party, and once the page has loaded the whole flow keeps working with your network disconnected.",
-    plain:
-      "No. Scanning, previews, the grayscale render and writing the -grayscale.pdf all happen inside your browser tab with pdf.js and pdf-lib. Nothing is transmitted, and the flow keeps working offline once loaded.",
-  },
-  {
-    q: "Is grayscale the same as printing in black-and-white mode?",
-    a: "No, they're related but different. A printer's black-and-white mode drops color at print time only, on that one printer, for that one job; the file itself is still a full-color PDF, and the next person who prints it can (and often will) print it in color again. Grayscaling here converts the file itself, so every reader, printer, portal and email preview shows the document in black and white from now on.",
-    plain:
-      "No. A printer's B&W mode drops color at print time on that one printer for that one job, the file is still color and can be printed in color later. Grayscaling here converts the file itself, so every reader, printer, portal and email preview shows it in black and white.",
-  },
-  {
-    q: "Can I convert only some pages?",
-    a: "Not in this tool, the conversion always applies to every page in the document. If you need one section grayscale and another in color, split the file with Split PDF first, convert only the grayscale section here, then merge the pieces back together with Merge PDF.",
-    plain:
-      "No. The conversion always applies to every page. For a mix of grayscale and color, split the file with Split PDF, convert only the grayscale section here, then merge the pieces back with Merge PDF.",
-  },
-  {
-    q: "Can I convert scanned or photo-heavy PDFs?",
-    a: "Yes, that's the most common use of this tool. Scanned brochures, camera-captured contracts, photo reports and image-heavy handouts all convert cleanly to grayscale, and these are precisely the files where you'll see the biggest visible improvement and the biggest file-size reduction.",
-    plain:
-      "Yes, the most common use. Scanned brochures, camera-captured contracts, photo reports and image-heavy handouts convert cleanly and see the biggest visible improvement and size reduction.",
-  },
-  {
-    q: "Can I undo the conversion?",
-    a: "The tool never overwrites your original, the grayscale copy is a new file suffixed -grayscale.pdf, saved alongside the source. There's no in-tool undo because there's nothing to reverse: if you don't like the result, delete the copy, reopen the original and try again with the other quality setting.",
-    plain:
-      "The tool never overwrites your original, the grayscale copy is a new -grayscale.pdf saved alongside it. There's no in-tool undo because there's nothing to reverse: delete the copy and try again with the other quality setting.",
-  },
-  {
-    q: "Do I need Adobe Acrobat?",
-    a: "No. The tool is a web page that runs in Chrome, Safari, Firefox, Edge or Brave with no Acrobat licence, no install and no account. The output is a standard, universally-readable PDF that any viewer or printer will accept.",
-    plain:
-      "No. It runs in Chrome, Safari, Firefox, Edge or Brave with no Acrobat licence, install or account. The output is a standard PDF that any viewer or printer accepts.",
+    q: "Can I recover the original colors?",
+    a: "Not from the grayscale output with this tool. Keep the original color PDF separately.",
   },
 ];
 
@@ -172,30 +97,6 @@ export function GrayscalePdfSeo() {
       </p>
 
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Why use PDFToolConverter for grayscale conversion?
-      </h2>
-      <div className="mt-10 grid gap-6 sm:grid-cols-2">
-        {benefits.map((b) => (
-          <div key={b.h}>
-            <h3 className="text-[17px] font-semibold">{b.h}</h3>
-            <p className="mt-2 text-[14.5px] leading-relaxed text-[#4a4a55]">{b.p}</p>
-          </div>
-        ))}
-      </div>
-
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        Common scenarios for grayscale PDFs
-      </h2>
-      <div className="mt-6 space-y-5">
-        {scenarios.map((s) => (
-          <div key={s.h}>
-            <h3 className="text-[17px] font-semibold">{s.h}</h3>
-            <p className="mt-1.5 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.p}</p>
-          </div>
-        ))}
-      </div>
-
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Frequently asked questions
       </h2>
       <div className="mt-6 divide-y divide-[#eee]">
@@ -224,7 +125,7 @@ export const grayscalePdfFaqJsonLd = {
   mainEntity: faqs.map((f) => ({
     "@type": "Question",
     name: f.q,
-    acceptedAnswer: { "@type": "Answer", text: f.plain },
+    acceptedAnswer: { "@type": "Answer", text: f.a },
   })),
 };
 

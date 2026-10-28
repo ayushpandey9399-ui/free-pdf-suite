@@ -115,7 +115,7 @@ export const imageTools: readonly ImageTool[] = [
     slug: "compress-image",
     name: "Compress Image",
     description:
-      "Reduce JPG, PNG, and WebP file size on our server. Quality slider or target a size in KB. Batch and ZIP download.",
+      "Reduce JPG, PNG, WebP and SVG file size in your browser. Quality slider, optional max width, batch and ZIP download.",
     status: "live",
     aliases: ["image compressor", "reduce image size", "compress jpg", "compress png"],
     icon: Shrink,

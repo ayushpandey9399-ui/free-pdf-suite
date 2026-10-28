@@ -1,4 +1,3 @@
-import { Link } from "@tanstack/react-router";
 import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
 const steps = [
@@ -8,11 +7,11 @@ const steps = [
   },
   {
     title: "Step 2: Choose Your Compression Level",
-    text: "Select from three compression presets depending on how small you need the file to be. Less Compression keeps near-original image quality with a moderate size reduction. Recommended balances quality and file size for most everyday uses. Extreme Compression achieves the smallest possible file size with some visible reduction in image sharpness.",
+    text: "Select from three compression presets depending on how small you need the file to be. Less Compression keeps higher JPEG quality with a moderate size reduction. Recommended balances quality and file size for most everyday uses. Extreme Compression uses the lowest image scale and JPEG quality with some visible reduction in image sharpness.",
   },
   {
     title: "Step 3: Compress the PDF",
-    text: "Click the \"Compress PDF\" button. The compression runs entirely in your browser using local processing. No internet upload is required after the page loads. Processing typically takes two to ten seconds depending on the original file size and the power of your device.",
+    text: "Click the \"Compress PDF\" button. The compression runs entirely in your browser using local processing. No internet upload is required after the page loads. Processing time depends on page count, page dimensions, and your device.",
   },
   {
     title: "Step 4: Download the Compressed File",
@@ -22,65 +21,29 @@ const steps = [
 
 const faqs = [
   {
-    q: "Why Does PDF File Size Matter?",
-    a: "PDF files can grow surprisingly large, especially those containing high-resolution photographs, scanned pages, embedded fonts, or complex vector graphics. Email providers like Gmail and Outlook impose attachment size limits of 20-25MB. Compressing a PDF reduces its file size by optimizing the data it contains, most significantly by re-encoding images. This tool tries two methods: a lossless rewrite that keeps everything as it was, and an image method that saves every page as a JPG. It keeps whichever file is smaller and tells you which one it used.",
+    "q": "How much smaller will my PDF become?",
+    "a": "There is no guaranteed reduction. The tool compares a page-image version, a compact rewrite, and the original, then keeps the smallest candidate. Already optimized files may stay the same size."
   },
   {
-    q: "How Much Can PDF Compression Reduce File Size?",
-    a: "The reduction depends heavily on the content. Image-heavy documents or scanned pages typically compress by 60-80%. A 20MB scanned contract can realistically become 4-8MB. Text-only PDFs compress the least, potentially shrinking by 20-30%. Our presets allow you to control this trade-off between quality and size.",
+    "q": "Will the result still contain searchable text?",
+    "a": "Only if the compact rewrite or original is retained. The image method renders every page as a JPEG, so text in that output cannot be selected, searched, or copied. The result screen identifies the method used."
   },
   {
-    q: "Is it safe to compress my PDF online?",
-    a: "Yes, our tool processes your files locally in your browser. Unlike other services, your documents never leave your device and are never uploaded to our servers, ensuring 100% privacy for sensitive files like bank statements or legal contracts.",
+    "q": "What do the compression presets change?",
+    "a": "Less Compression renders at scale 1.5 with JPEG quality 0.9. Recommended uses scale 1.2 and quality 0.7. Extreme uses scale 1 and quality 0.5. These settings affect the page-image candidate, not a guaranteed reduction percentage."
   },
   {
-    q: "Will I lose quality when I compress a PDF?",
-    a: "It depends on the compression level. 'Less Compression' keeps images at high quality, while 'Extreme Compression' targets the smallest possible output which may result in softer images. If the image method wins, text is part of a picture: it cannot be selected or searched and looks softer at Extreme. If the lossless rewrite wins, nothing visible changes.",
+    "q": "Why is my PDF still too large?",
+    "a": "The original may already be compact. Try Extreme, but inspect the output for softer text and images. The tool cannot guarantee a particular upload size."
   },
   {
-    q: "Does this tool work on mobile devices?",
-    a: "Yes, our PDF compressor works in any modern web browser on Android, iPhone, iPad, and desktop computers without requiring any software installation.",
+    "q": "Can I compress a password-protected PDF?",
+    "a": "Unlock it first. The compressor stops when it detects a password-protected file."
   },
   {
-    q: "Are there any file size limits?",
-    a: "We set no fixed size limit. Large files depend on your device memory, and very big documents can be slow or fail on phones.",
-  },
-  {
-    q: "Can I compress multiple PDFs at once?",
-    a: "Currently, our tool processes files one at a time to ensure the highest quality and security for each individual document.",
-  },
-  {
-    q: "Why is my PDF still too large after compression?",
-    a: "If a PDF contains already-optimized images or very little data to compress (like plain text), the reduction might be minimal. Try using 'Extreme Compression' for maximum impact.",
-  },
-  {
-    q: "Does compressing a PDF remove its password?",
-    a: "No, the tool does not remove passwords. If a PDF is protected, you must unlock it first using our Unlock PDF tool before compressing it.",
-  },
-  {
-    q: "What is downsampling in PDF compression?",
-    a: "Downsampling is the process of reducing the number of pixels in an image. By lowering the resolution of images from 300 DPI to 72 or 150 DPI, the file size drops significantly while still looking great on digital screens.",
-  },
-  {
-    q: "Can I print a compressed PDF?",
-    a: "Yes, compressed PDFs are fully printable. If you need high-quality professional printing, we recommend using the 'Less Compression' setting.",
-  },
-  {
-    q: "Does compression affect PDF searchability?",
-    a: "No, compressing a PDF does not affect the text layer or the ability to search within the document.",
-  },
-  {
-    q: "Is this PDF compressor really free?",
-    a: "Yes, it is 100% free with no signup, no hidden fees, and no watermarks added to your documents.",
-  },
-  {
-    q: "Can I use this tool offline?",
-    a: "Once the page is loaded, the core compression logic runs in your browser, allowing you to process files even if your internet connection is interrupted.",
-  },
-  {
-    q: "What happens to my metadata after compression?",
-    a: "Standard compression usually strips out unnecessary metadata to save space, but the core document structure and content remain intact.",
-  },
+    "q": "Can I compress several PDFs at once?",
+    "a": "The tool processes one PDF at a time. Free to use. Very large files depend on your device memory and may be slow or fail."
+  }
 ];
 
 const related = [
@@ -97,36 +60,6 @@ const related = [
 export function CompressPdfSeo() {
   return (
     <section className="seo-content mx-auto max-w-4xl px-4 pb-16">
-      <h2>Why Does PDF File Size Matter?</h2>
-      <p>
-        PDF files can grow surprisingly large, especially those containing high-resolution photographs, scanned pages,
-        embedded fonts, or complex vector graphics. A PDF brochure that looks simple on screen can easily reach 30, 50,
-        or even 100 megabytes. This creates real problems in everyday workflows. Email providers like Gmail and
-        Outlook impose attachment size limits of 20-25MB. Cloud storage fills up faster than expected. Web upload forms
-        reject files over a certain size. And mobile users on slower connections struggle to download heavy documents.
-      </p>
-      <p>
-        Compressing a PDF reduces its file size by optimizing the data it contains. The most significant reduction
-        usually comes from images. In this tool the image method redraws each page at about 108 DPI (Less), 86 DPI
-        (Recommended) or 72 DPI (Extreme) and saves it as a JPG. That is why scans and photo-heavy files shrink the
-        most, and why text in those files stops being selectable. The second method rewrites the original file with
-        compact object streams and changes nothing you can see. The tool compares both with your original and keeps
-        the smallest, or your original if neither is smaller.
-      </p>
-      <p>
-        The result is a file that looks identical to the original in everyday use but takes up a fraction of the space.
-        A 15MB report can become a 3MB file. A 40MB scanned contract can become 8MB. These smaller files upload faster,
-        email without trouble, load quicker on mobile, and take up less space in cloud storage or shared drives.
-        Compression is one of the highest-value operations you can perform on a PDF.
-      </p>
-      <p>
-        Knowing how much to compress depends on the use case. A document destined for professional printing needs to
-        preserve high image resolution. A PDF being uploaded to a government portal just needs to be under a specific
-        file size threshold. A report being emailed to a colleague benefits from maximum compression for fast delivery.
-        Our compression tool gives you control over the level of optimization so you always get the right balance for
-        your specific situation.
-      </p>
-
       <h2>How to Compress a PDF Online: Step by Step</h2>
       <div className="mt-8 space-y-6">
         <div className="flex gap-4">
@@ -146,8 +79,8 @@ export function CompressPdfSeo() {
             <h3 className="text-lg font-bold text-[#383E45]">Step 2: Choose Your Compression Level</h3>
             <p className="mt-2 text-base leading-relaxed text-[#383E45]">
               Select from three compression presets depending on how small you need the file to be. Less Compression keeps
-              near-original image quality with a moderate size reduction. Recommended balances quality and file size for most
-              everyday uses. Extreme Compression achieves the smallest possible file size with some visible reduction in
+              higher JPEG quality with a moderate size reduction. Recommended balances quality and file size for most
+              everyday uses. Extreme Compression uses the lowest image scale and JPEG quality with some visible reduction in
               image sharpness.
             </p>
           </div>
@@ -177,84 +110,10 @@ export function CompressPdfSeo() {
         </div>
       </div>
 
-      <h2>How Much Can PDF Compression Reduce File Size?</h2>
-      <p>
-        The reduction you get from compressing a PDF depends heavily on what the file contains. Image-heavy documents
-        compress the most dramatically. A PDF created from scanned paper pages, which are common in contracts, legal documents,
-        and old reports, typically compresses by 60-80%. A 20MB scanned contract can realistically become 4-8MB.
-      </p>
-      <p>
-        PDFs created directly from Word or Excel files with embedded high-resolution photos also compress significantly.
-        A 15MB marketing brochure with full-page product photography can drop to 3-5MB using standard compression.
-        Infographic-heavy reports with charts and graphics typically compress by 40-60%.
-      </p>
-      <p>
-        Text-only PDFs compress the least. A 10-page legal brief with nothing but formatted text might only shrink from
-        500KB to 350KB because text data is already very compact. However, even modest reductions help when uploading
-        to systems with strict file size limits.
-      </p>
-      <p>
-        The three compression presets give you direct control over this trade-off. "Less Compression" keeps images at
-        high quality and typically reduces file size by 20-40%. "Recommended" is tuned for the best balance and usually
-        achieves 40-70% reduction. "Extreme Compression" targets the smallest possible output and can reduce
-        image-heavy files by 70-90%, though some images may appear softer when viewed closely or printed.
-      </p>
-
-      <h2>Common Situations Where You Need to Compress a PDF</h2>
-      <h2>Sending PDF Attachments via Email</h2>
-      <p>
-        Gmail, Outlook, Yahoo Mail, and most corporate email systems cap attachment sizes at 20-25MB. A single scanned
-        contract, illustrated report, or photo-heavy brochure can easily exceed this limit. Compressing the PDF before
-        sending ensures it goes through without bouncing, and recipients with slow connections receive it faster.
-      </p>
-
-      <h2>Uploading to Government and University Portals</h2>
-      <p>
-        Many official portals for filing taxes, submitting visa applications, applying to universities, or registering
-        businesses impose strict file size limits of 2MB, 5MB, or 10MB per document. These limits cannot be bypassed.
-        Compressing your PDF to meet the portal's requirement is the only way to complete the submission.
-      </p>
-
-      <h2>Sharing Via WhatsApp and Messaging Apps</h2>
-      <p>
-        WhatsApp limits document shares to 100MB, but large PDFs often load slowly on recipients' phones, especially on
-        mobile data. Compressing a PDF to under 5MB ensures it loads instantly and does not consume the recipient's
-        data allowance unnecessarily.
-      </p>
-
-      <h2>Saving Cloud Storage Space</h2>
-      <p>
-        When storing hundreds of PDFs in Google Drive, Dropbox, OneDrive, or iCloud, file size adds up quickly.
-        Compressing PDFs before archiving them can reduce cloud storage usage by 50-70%, either cutting your monthly
-        costs or freeing space for other files.
-      </p>
-
-      <h2>Uploading to Websites and Client Portals</h2>
-      <p>
-        Website builders, client portals, HR systems, and legal document platforms often have upload limits. A
-        recruitment system might cap CVs and cover letters at 5MB. A client onboarding portal might limit documents to
-        10MB. Compressing ensures your PDF meets these requirements without recreating it.
-      </p>
-
-      <h2>Speeding Up PDF Loading in Browsers</h2>
-      <p>
-        PDFs embedded in websites or shared via public links load slowly in browsers when they are large. A compressed
-        PDF opens in seconds rather than minutes for visitors on mobile or slower connections, improving their
-        experience significantly.
-      </p>
-
-      <h2>Reducing Size After Scanning Documents</h2>
-      <p>
-        Scanning physical documents using a phone scanner app or office scanner often produces very large files because
-        each scanned page is stored as a high-resolution image. Compressing the scanned PDF can reduce a 50-page
-        scanned contract from 30MB to under 5MB without making the text unreadable.
-      </p>
-
-      <h2>Preparing PDFs for Long-Term Digital Archiving</h2>
-      <p>
-        Organizations keeping digital records for years or decades benefit enormously from compressed PDFs. Smaller
-        files are easier to back up, faster to search, and consume significantly less physical server space over time.
-      </p>
+      <h2>Compression limits and output checks</h2>
+      <p>Reduction depends on the source PDF. The tool keeps the smallest of the original, a compact rewrite, and a page-image version. No reduction percentage or target file size is guaranteed.</p>
+      <p>The image method redraws pages at about 108 DPI for Less, 86 DPI for Recommended, or 72 DPI for Extreme. It can soften text and images and removes selectable text. Check the method shown on the result screen and inspect the downloaded PDF.</p>
+      <p>Password-protected files must be unlocked first. Processing time and memory use grow with the number and size of pages.</p>
 
       <h2>Frequently asked questions</h2>
       <div className="mt-6 divide-y divide-[#eee]">
@@ -308,9 +167,4 @@ export const compressSoftwareJsonLd = {
   applicationCategory: "BrowserApplication",
   operatingSystem: "Any",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.9",
-    ratingCount: "1250",
-  },
 };

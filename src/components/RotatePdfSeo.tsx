@@ -22,64 +22,28 @@ const steps = [
 
 const faqs = [
   {
-    q: "How do I rotate a PDF online for free?",
-    a: "Upload your PDF above, select which pages to rotate and by how many degrees, and click rotate. Download the corrected PDF instantly. No signup required.",
-  },
-  {
     q: "Can I rotate just one page and leave others unchanged?",
-    a: "Yes. Select specific pages to rotate while keeping all other pages in their current orientation.",
+    a: "Yes. Turn off the all-pages option, select the required page thumbnails, and apply the rotation.",
   },
   {
-    q: "Do my files get uploaded to a server?",
-    a: "No. The entire rotation process runs in your browser. Your PDF never leaves your device.",
-  },
-  {
-    q: "Is the rotation permanent?",
-    a: "Yes. The rotation is embedded into the PDF file permanently. Anyone who opens the downloaded file sees pages in the correct orientation without needing to manually adjust anything.",
-  },
-  {
-    q: "Can I rotate PDF pages on my phone?",
-    a: "Yes. The tool works in any mobile browser on iPhone and Android. No app required.",
-  },
-  {
-    q: "Is there a file size limit?",
-    a: "No. You can rotate PDFs of any size with no restrictions.",
+    q: "What rotation angles are available?",
+    a: "You can add 90, 180, or 270 degrees clockwise to the existing page rotation. A 270-degree clockwise turn is equivalent to a 90-degree counter-clockwise turn.",
   },
   {
     q: "Can I rotate all pages at once?",
-    a: "Yes. Choose the \"Rotate all pages\" option to apply the same rotation to every page in the document simultaneously.",
+    a: "Yes. Enable the all-pages option to apply the chosen rotation to every page.",
   },
   {
     q: "Will rotating affect image quality or text in the PDF?",
-    a: "No. Rotation is a structural change that reorients the page. Text, images, and all content are preserved at their original quality.",
-  },
-  {
-    q: "Can I rotate a password-protected PDF?",
-    a: "Not directly. First unlock it using our Unlock PDF tool, rotate the pages, then re-protect with our Protect PDF tool if needed.",
-  },
-  {
-    q: "Can I rotate only landscape pages in a mixed document?",
-    a: "Yes. Select only the landscape-oriented pages by clicking on their thumbnails and rotate just those.",
-  },
-  {
-    q: "Does this work offline?",
-    a: "Yes. Once the page has fully loaded, the rotation tool works without an internet connection.",
-  },
-  {
-    q: "Are there any limits on how many times I can use this tool?",
-    a: "No. Rotate as many PDFs as you need with no daily or monthly limits.",
+    a: "The tool updates each targeted page's rotation value rather than rendering the page as an image. It does not intentionally recompress page content.",
   },
   {
     q: "Will the file size change after rotation?",
-    a: "No. Rotating pages does not change the file size since it is a structural change, not a re-encoding.",
+    a: "It can. The PDF is saved again, so its size may change even though the operation does not intentionally recompress page images.",
   },
   {
-    q: "Can I rotate and then reorder pages in one session?",
-    a: "Use our Rotate PDF tool first, download the rotated file, then upload it to our Reorder Pages tool to rearrange the page sequence.",
-  },
-  {
-    q: "Will the rotated PDF look different from the original?",
-    a: "No. The content, layout, fonts, and images are identical. Only the orientation of the targeted pages is changed.",
+    q: "Can I rotate a password-protected PDF?",
+    a: "Unlock an authorized copy first, rotate its pages, and protect the result again if needed.",
   },
 ];
 
@@ -97,20 +61,6 @@ const related = [
 export function RotatePdfSeo() {
   return (
     <section className="mx-auto max-w-4xl px-4 pb-16 seo-content">
-      <h2>Why Would You Need to Rotate PDF Pages?</h2>
-      <p>
-        PDF pages end up in the wrong orientation for many common reasons. When you scan a paper document by placing it sideways in a scanner, the resulting PDF has landscape pages where portrait pages were expected. When you photograph a document with a phone held at an angle, the scanned page may appear upside down or rotated by 90 degrees. When PDFs are created from different source files, some in portrait and some in landscape, the combined document can have inconsistent page orientations that make reading awkward.
-      </p>
-      <p>
-        Rotating PDF pages permanently fixes the orientation so viewers always see the correct reading direction without needing to manually rotate their screen or scroll at an angle. This is especially important when sharing documents professionally. A report with sideways pages signals careless preparation. Correcting the orientation before sending shows attention to detail and makes the document easier for recipients to read on all devices.
-      </p>
-      <p>
-        Printing is another major reason to rotate PDF pages. A PDF with mixed portrait and landscape pages will print incorrectly unless each page is manually adjusted. Rotating the pages to the correct orientation before printing ensures that every page comes out properly aligned on paper, reducing wasted prints and reprints.
-      </p>
-      <p>
-        Rotating is also essential when preparing PDFs for formal submissions. Government portals, university systems, legal filing platforms, and employer application systems expect correctly oriented documents. A sideways or upside-down page in a submitted document can cause it to be rejected or create confusion during review.
-      </p>
-
       <h2>How to Rotate PDF Pages Online: Step by Step</h2>
       <div className="space-y-6">
         {steps.map((s, i) => (
@@ -140,40 +90,6 @@ export function RotatePdfSeo() {
         Flips the page completely upside down. Use this when a page is fully inverted, text appears upside down from the reader's perspective. Scanning a document with the paper inserted upside down into the scanner is a common cause of this issue.
       </p>
 
-      <h2>Common Situations Where PDF Rotation Is Needed</h2>
-      <h2>Fix Scanned Documents With Wrong Orientation</h2>
-      <p>
-        Office scanners and phone scanning apps sometimes misread the orientation of a document and save pages sideways or upside down. Rotating the affected pages after scanning corrects the issue without needing to rescan the entire document.
-      </p>
-      <h2>Correct Mixed Orientation in Combined Documents</h2>
-      <p>
-        When you merge PDFs created from different sources, some portrait, some landscape, the resulting document often has inconsistent page orientations. Rotating specific pages brings the entire document into a consistent orientation for a professional appearance.
-      </p>
-      <h2>Fix PDFs Created From Photos</h2>
-      <p>
-        Photographs taken with a phone often save with incorrect EXIF orientation data, causing the resulting PDF to display the image sideways. Rotating the page corrects the display orientation permanently.
-      </p>
-      <h2>Prepare Documents for Double-Sided Printing</h2>
-      <p>
-        Double-sided printing requires careful orientation to ensure that pages on both sides of a sheet are correctly aligned. Rotating specific pages before printing ensures the front and back of each sheet read correctly when the paper is flipped.
-      </p>
-      <h2>Fix Imported or Downloaded PDF Files</h2>
-      <p>
-        PDFs downloaded from websites, received via email, or exported from design software sometimes have incorrect default orientations due to software-specific export settings. Rotating the pages corrects these issues without needing the original source file.
-      </p>
-      <h2>Correct Landscape Charts in Portrait Reports</h2>
-      <p>
-        Technical and financial reports often contain landscape-oriented charts and tables that need to be read sideways in an otherwise portrait document. If the chart was accidentally embedded in the wrong orientation, rotating that specific page corrects the issue.
-      </p>
-      <h2>Fix Upside-Down Signatures or Stamps</h2>
-      <p>
-        Scanned contracts and official documents sometimes have specific pages with signatures, stamps, or seal images that were scanned upside down. Rotating just that page corrects the document without affecting the rest.
-      </p>
-      <h2>Prepare PDFs for Mobile Reading</h2>
-      <p>
-        Some PDF documents display correctly on desktop but appear sideways on mobile devices due to how the device handles orientation. Permanently rotating the pages to the correct standard orientation ensures consistent display on all devices.
-      </p>
-
       <h2>Rotate Entire Document vs Rotate Individual Pages</h2>
       <p>
         Rotating the entire document applies the same rotation angle to every page simultaneously. This is the right choice when all pages in the document have the same incorrect orientation, for example, a scanned document where every page was fed into the scanner sideways. One click corrects all pages at once.
@@ -184,61 +100,6 @@ export function RotatePdfSeo() {
       <p>
         Our tool supports both modes. You can select all pages or choose specific pages to rotate. For documents with complex mixed orientations, you can make multiple passes, rotating one set of pages first, then another set, until all pages are correctly oriented.
       </p>
-
-      <h2>Browser-Based vs Server-Based PDF Rotation</h2>
-      <div className="overflow-x-auto my-8">
-        <table className="w-full border-collapse border border-gray-200">
-          <thead>
-            <tr className="bg-gray-50 text-left">
-              <th className="p-3 border border-gray-200 text-[#383E45]">Feature</th>
-              <th className="p-3 border border-gray-200 font-semibold text-[#E5322D]">Our Tool</th>
-              <th className="p-3 border border-gray-200 text-[#383E45]">Server-Based Tools</th>
-            </tr>
-          </thead>
-          <tbody className="text-[#383E45]">
-            <tr>
-              <td className="p-3 border border-gray-200 font-medium">File Privacy</td>
-              <td className="p-3 border border-gray-200">Files stay on device</td>
-              <td className="p-3 border border-gray-200">Files uploaded to server</td>
-            </tr>
-            <tr>
-              <td className="p-3 border border-gray-200 font-medium">Speed</td>
-              <td className="p-3 border border-gray-200">Instant</td>
-              <td className="p-3 border border-gray-200">Upload/download delay</td>
-            </tr>
-            <tr>
-              <td className="p-3 border border-gray-200 font-medium">File Size Limit</td>
-              <td className="p-3 border border-gray-200">No limit</td>
-              <td className="p-3 border border-gray-200">Often capped</td>
-            </tr>
-            <tr>
-              <td className="p-3 border border-gray-200 font-medium">Works Offline</td>
-              <td className="p-3 border border-gray-200">Yes after page loads</td>
-              <td className="p-3 border border-gray-200">No</td>
-            </tr>
-            <tr>
-              <td className="p-3 border border-gray-200 font-medium">Account Required</td>
-              <td className="p-3 border border-gray-200">No</td>
-              <td className="p-3 border border-gray-200">Sometimes yes</td>
-            </tr>
-            <tr>
-              <td className="p-3 border border-gray-200 font-medium">Watermarks</td>
-              <td className="p-3 border border-gray-200">Never</td>
-              <td className="p-3 border border-gray-200">Common on free tier</td>
-            </tr>
-            <tr>
-              <td className="p-3 border border-gray-200 font-medium">Rotate Individual Pages</td>
-              <td className="p-3 border border-gray-200">Yes</td>
-              <td className="p-3 border border-gray-200">Sometimes limited</td>
-            </tr>
-            <tr>
-              <td className="p-3 border border-gray-200 font-medium">Cost</td>
-              <td className="p-3 border border-gray-200">Always free</td>
-              <td className="p-3 border border-gray-200">Free tier limited</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
 
       <h2>Tips for Rotating PDF Pages Effectively</h2>
       <h2>Preview Before Downloading</h2>
@@ -314,10 +175,5 @@ export const rotateSoftwareJsonLd = {
     "@type": "Offer",
     price: "0",
     priceCurrency: "USD",
-  },
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.8",
-    ratingCount: "1340",
   },
 };

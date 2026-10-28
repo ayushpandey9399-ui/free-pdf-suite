@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
@@ -22,116 +21,30 @@ const steps = [
   },
 ];
 
-const benefits = [
+const faqs = [
   {
-    h: "Six placement slots",
-    p: "Two rows of three inputs, Header-Left, Header-Center, Header-Right, Footer-Left, Footer-Center, Footer-Right, cover every corner-and-centre placement a professional document tends to use. Each slot is independent, so you can stamp only the ones you need and leave the rest empty.",
+    q: "Can I put different text in different positions?",
+    a: "Yes. There are separate left, center and right text slots for both the header and footer.",
   },
   {
-    h: "Your text plus smart tokens",
-    p: "Any slot accepts free-form text mixed with the four smart tokens: {page}, {total}, {date} and {filename}. Type \"Draft, {date}\" or \"{filename} · Page {page} of {total}\" and the tool resolves each token per page when it saves the PDF, no placeholders left behind.",
+    q: "How do I add page numbers?",
+    a: "Insert {page} for the current page number and {total} for the document page count. For example, Page {page} of {total} combines both tokens.",
   },
   {
-    h: "Consistent on every page",
-    p: "One setup applies to every page in the file, or every page in the range you specified. The Margin from edge control keeps all six slots a uniform Small (18pt), Normal (28pt) or Big (44pt) distance from the paper edge, so the document reads as one cohesive piece rather than a patchwork.",
+    q: "Can I insert the date or filename?",
+    a: "Yes. Use {date} for the date and {filename} for the source filename without its .pdf extension.",
   },
   {
-    h: "No quality loss",
-    p: "Text is added as a lightweight Helvetica text layer sitting in the page margins; nothing about the underlying pages is re-rendered, re-compressed, or converted to images. Scans stay as scans, vector diagrams stay as vector, and the file grows only by the bytes the added text itself needs.",
-  },
-];
-
-const scenarios = [
-  {
-    h: "Official and legal submissions",
-    p: "Court bundles, tender responses and government filings routinely require the document title and filing date on every page so nothing goes missing. Type the case name in header-center and \"{date}\" in footer-right and the whole file is compliant in one pass.",
+    q: "Which styling controls are available?",
+    a: "You can change font size, text color and the margin from the page edge. The exported text uses Helvetica.",
   },
   {
-    h: "Company reports and client proposals",
-    p: "A quarterly report or a client deck reads far more polished when the company or document name sits quietly at the top of every page and page numbers sit at the bottom. Combine \"Acme Q3 Report\" in the header-center with \"Page {page} of {total}\" in the footer-center and the document immediately looks accountably produced.",
+    q: "Can I stamp only certain pages?",
+    a: "Yes. Choose the page-range option instead of all pages and enter the pages to stamp.",
   },
   {
-    h: "Class notes, handouts and printed course packs",
-    p: "Handouts get printed, stapled loosely, and shuffled between students. Labelling every page with the module title and date turns a stack that would otherwise be indistinguishable into a self-identifying resource that finds its way back to its owner.",
-  },
-  {
-    h: "Version-tracking drafts before final review",
-    p: "Drafts circulate faster than they get renamed and reviewers frequently end up commenting on last week's version. Stamping \"Draft, {date}\" in the header-right on every page makes the vintage of the file visible at a glance without having to open its properties.",
-  },
-];
-
-const faqs: { q: string; a: ReactNode; plain: string }[] = [
-  {
-    q: "How do I add a header or footer to a PDF for free?",
-    a: "Open this page, click Select PDF file and pick the document. Type into any of the six slots in the sidebar, Header-Left, Header-Center, Header-Right, Footer-Left, Footer-Center, Footer-Right, and drop {page}, {total}, {date} or {filename} tokens in via the chips beneath each row. Set font size, colour, margin and page range, then hit Add Header & Footer. A stamped copy downloads to your device with a -stamped suffix on the filename.",
-    plain:
-      "Click Select PDF file, type into any of the six slots (Header-Left/Center/Right, Footer-Left/Center/Right), insert {page}, {total}, {date} or {filename} tokens via the chips, set font size, colour, margin and page range, then hit Add Header & Footer. A stamped copy downloads with a -stamped suffix.",
-  },
-  {
-    q: "Can I add page numbers in the footer?",
-    a: (
-      <>
-        Yes, the classic recipe is to type "Page {"{page}"} of {"{total}"}" into
-        Footer-Center (or any footer slot you prefer). The tool substitutes the
-        actual page number and total on each page when it saves the file. If page
-        numbering is the only thing you want and you'd rather use a dedicated
-        control for six preset positions, the{" "}
-        <Link to="/tools/$slug" params={{ slug: "page-numbers" }} className="text-[#e5322d] underline">
-          Page Numbers
-        </Link>{" "}
-        tool is the more focused option.
-      </>
-    ),
-    plain:
-      "Yes. Type \"Page {page} of {total}\" into a footer slot (usually Footer-Center) and the tool substitutes the real values per page. If you only need numbering with six preset positions, the Page Numbers tool (/tools/page-numbers) is more focused.",
-  },
-  {
-    q: "Can I add today's date automatically?",
-    a: "Yes. Drop the {date} token into any slot and it resolves to today's date in DD/MM/YYYY format at the moment you click Add Header & Footer, every stamped page carries the same date. If you want a fixed literal date instead (say a report cover date that shouldn't drift), just type the date as plain text and skip the token.",
-    plain:
-      "Yes. The {date} token resolves to today's date in DD/MM/YYYY format when you click Add Header & Footer. For a fixed literal date, type it as plain text instead of using the token.",
-  },
-  {
-    q: "Can I put different text on the left, center and right?",
-    a: "Yes, that's exactly what the six-slot layout is for. Header and Footer each expose three independent inputs labelled Left, Center and Right, so you can put a document title in Header-Center, a version marker in Header-Right, and page numbers in Footer-Center all at the same time. Any slot you leave empty is simply not stamped.",
-    plain:
-      "Yes. Header and Footer each have three independent inputs, Left, Center and Right, so you can stamp different text in each of the six positions simultaneously. Empty slots are skipped.",
-  },
-  {
-    q: "Can I add the filename to every page?",
-    a: "Yes. Put the {filename} token in any slot and it resolves to the source file's name without the .pdf extension on every stamped page. This is useful for course packs, legal bundles or any workflow where a page might get separated from the file it came from.",
-    plain:
-      "Yes. Insert the {filename} token in any slot; it resolves to the source file's name (without .pdf) on every stamped page.",
-  },
-  {
-    q: "Do my files get uploaded to a server?",
-    a: "No. The PDF is opened, previewed and re-saved with the added headers and footers entirely inside your browser tab, using standard Web APIs, nothing is sent to us or to any third party during the process. You can even disconnect from the internet after the page has loaded and the stamping will still complete.",
-    plain:
-      "No. The PDF is opened, previewed and re-saved with headers and footers entirely inside your browser tab. Nothing is uploaded, and the tool keeps working offline once the page has loaded.",
-  },
-  {
-    q: "Can I style the header/footer text?",
-    a: "Yes, but the controls are intentionally simple: pick a font size from 6 to 72 points (default 10) and a colour from the sidebar colour picker (default is a soft grey #666666). The typeface itself is fixed to the standard Helvetica included in every PDF viewer, no bold, italic or custom font selection today. This keeps output consistent across every device that opens the file.",
-    plain:
-      "Yes but the controls are intentionally simple: font size 6-72pt (default 10) and a colour picker (default #666666 grey). Typeface is fixed to standard Helvetica, no bold, italic or custom fonts today.",
-  },
-  {
-    q: "Will it overlap my page content?",
-    a: "The stamps sit in the page margin at the distance you pick, Small is 18 points from the edge, Normal is 28, Big is 44, so on typical documents they land in the whitespace above and below the body text. Content that reaches the very edge of the page (edge-to-edge scans, artwork, tightly typeset pages) can overlap, which is why the live preview shows the exact placement on any page you navigate to before you save. Switch to Big margin or move the text to a less crowded slot if the preview shows a clash.",
-    plain:
-      "Stamps sit in the page margin at your chosen distance (Small 18pt, Normal 28pt, Big 44pt), which lands in the whitespace on typical documents. Edge-to-edge content can overlap; the live preview shows the exact placement so you can switch to Big margin or a less crowded slot before saving.",
-  },
-  {
-    q: "Can I apply a header to only some pages?",
-    a: "Yes. Under Pages in the sidebar, switch from All pages to Page range and type the pages you want stamped, the field accepts single numbers and ranges separated by commas, so 2-10 stamps pages 2 through 10, 1,3,5-9 stamps page 1, page 3 and pages 5 through 9, and 2-100 lets you skip a cover page. Pages outside the range keep their original appearance untouched.",
-    plain:
-      "Yes. Switch Pages from All pages to Page range and type numbers and ranges separated by commas, e.g. 2-10, or 1,3,5-9, or 2-100 to skip a cover page. Pages outside the range are left untouched.",
-  },
-  {
-    q: "Do I need Adobe Acrobat?",
-    a: "No. Acrobat's header-and-footer feature lives behind its paid tier; this tool does the same work in the browser with no download, no subscription and no watermark on the output. The stamped PDF opens correctly in Acrobat Reader, Preview, Chrome, Edge, Foxit or any other PDF viewer.",
-    plain:
-      "No. Acrobat's header-and-footer feature is behind a paid tier; this tool does the same work in the browser with no download, no subscription and no watermark. Output opens in every major PDF viewer.",
+    q: "Will the tool make space for my header and footer?",
+    a: "No. Text is drawn over the existing page without moving its contents. Check the preview and choose a margin and font size that avoid overlap.",
   },
 ];
 
@@ -210,29 +123,6 @@ export function HeaderFooterSeo() {
         professional reader expects to see on the page itself.
       </p>
 
-      {/* Four benefits */}
-      <div className="mt-10 grid gap-6 sm:grid-cols-2">
-        {benefits.map((b) => (
-          <div key={b.h}>
-            <h3 className="text-[17px] font-semibold">{b.h}</h3>
-            <p className="mt-2 text-[14.5px] leading-relaxed text-[#4a4a55]">{b.p}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Scenarios */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        When do you need headers and footers on a PDF?
-      </h2>
-      <div className="mt-6 space-y-5">
-        {scenarios.map((s) => (
-          <div key={s.h}>
-            <h3 className="text-[17px] font-semibold">{s.h}</h3>
-            <p className="mt-1.5 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.p}</p>
-          </div>
-        ))}
-      </div>
-
       {/* FAQ */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
         Frequently asked questions
@@ -264,7 +154,7 @@ export const headerFooterFaqJsonLd = {
   mainEntity: faqs.map((f) => ({
     "@type": "Question",
     name: f.q,
-    acceptedAnswer: { "@type": "Answer", text: f.plain },
+    acceptedAnswer: { "@type": "Answer", text: f.a },
   })),
 };
 

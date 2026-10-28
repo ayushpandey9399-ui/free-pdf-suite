@@ -7,7 +7,7 @@ import { loadJSZip } from "@/lib/lazyLibs";
 import { saveAs } from "@/lib/saveFile";
 import { isSvgFile, uniqueZipName, singleZipEntry } from "@/lib/imageSafety";
 import { ToolWorkspace, InfoTip } from "@/components/ToolWorkspace";
-import { requestCompressImage, fetchCompressImageResult, type CompressImageProgress } from "@/lib/compressImage";
+import { compressImageLocal } from "@/lib/compressImageLocal";
 import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 
 type Row = {
@@ -24,14 +24,14 @@ type Row = {
   error?: string;
 };
 
-const ACCEPT = ".jpg,.jpeg,.png,.webp,.svg,.gif,image/jpeg,image/png,image/webp,image/svg+xml,image/gif";
+const ACCEPT = ".jpg,.jpeg,.png,.webp,.svg,image/jpeg,image/png,image/webp,image/svg+xml";
 
 function isSupported(f: File): boolean {
   const t = f.type;
   const n = f.name.toLowerCase();
-  const supportedTypes = ["image/jpeg", "image/png", "image/webp", "image/svg+xml", "image/gif"];
+  const supportedTypes = ["image/jpeg", "image/png", "image/webp", "image/svg+xml"];
   if (supportedTypes.includes(t)) return true;
-  return /\.(jpe?g|png|webp|svg|gif)$/i.test(n);
+  return /\.(jpe?g|png|webp|svg)$/i.test(n);
 }
 
 function formatBytes(n: number): string {
@@ -44,6 +44,8 @@ export function CompressImageTool() {
   const [rows, setRows] = useState<Row[]>([]);
   const [running, setRunning] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [quality, setQuality] = useState(75);
+  const [maxWidth, setMaxWidth] = useState(0);
   const idRef = useRef(0);
   const abortControllerRef = useRef<AbortController | null>(null);
 
@@ -98,27 +100,16 @@ export function CompressImageTool() {
           results.push(row);
           continue;
         }
+        if (abortControllerRef.current?.signal.aborted) {
+          throw Object.assign(new Error("Cancelled"), { name: "AbortError" });
+        }
 
-        setRows(prev => prev.map(r => r.id === row.id ? { ...r, status: "uploading" as const, percent: 0 } : r));
+        setRows(prev => prev.map(r => r.id === row.id ? { ...r, status: "converting" as const, percent: null } : r));
 
         try {
-          const ready = await requestCompressImage(
-            { file: row.file },
-            {
-              signal: abortControllerRef.current.signal,
-              onProgress: (p) => {
-                setRows(prev => prev.map(r => r.id === row.id ? { ...r, status: p.phase, percent: p.percent } : r));
-              }
-            }
-          );
-
-          setRows(prev => prev.map(r => r.id === row.id ? { ...r, status: "downloading" as const, percent: 0 } : r));
-
-          const blob = await fetchCompressImageResult(ready, {
-            signal: abortControllerRef.current.signal,
-            onProgress: (pct) => {
-              setRows(prev => prev.map(r => r.id === row.id ? { ...r, percent: pct } : r));
-            }
+          const { blob } = await compressImageLocal(row.file, {
+            quality: quality / 100,
+            maxWidth,
           });
 
           const savedPct = row.originalSize
@@ -346,7 +337,7 @@ export function CompressImageTool() {
           accent="#e5322d"
         />
         <div className="mt-2 text-center text-[12px] text-[#6B7280]">
-          🔒 Processed securely on our servers. Auto-deleted after download.
+          Processed in your browser. Your file never leaves your device.
         </div>
       </div>
     );
@@ -478,24 +469,37 @@ export function CompressImageTool() {
       sidebar={
         <div className="space-y-6">
           <InfoTip>
-            All images will be compressed while maintaining the best possible quality and file-size ratio.
+            Images are compressed in your browser. If a result is not smaller, the original is kept.
           </InfoTip>
+
+          <div>
+            <label htmlFor="ci-quality" className="mb-2 flex justify-between text-sm font-semibold text-[#33333c]">
+              <span>Quality (JPG and WebP)</span><span>{quality}%</span>
+            </label>
+            <input id="ci-quality" type="range" min={10} max={100} step={5} value={quality}
+              onChange={(e) => setQuality(Number(e.target.value))} className="w-full" />
+          </div>
+
+          <div>
+            <label htmlFor="ci-maxw" className="mb-2 block text-sm font-semibold text-[#33333c]">Maximum width</label>
+            <select id="ci-maxw" value={maxWidth} onChange={(e) => setMaxWidth(Number(e.target.value))}
+              className="w-full rounded-lg border border-[#ececef] bg-white px-3 py-2 text-sm">
+              <option value={0}>Keep original size</option>
+              <option value={3840}>3840 px</option>
+              <option value={2560}>2560 px</option>
+              <option value={1920}>1920 px</option>
+              <option value={1280}>1280 px</option>
+              <option value={800}>800 px</option>
+            </select>
+          </div>
           
           <div className="rounded-xl border border-[#ececef] bg-[#f9fafb] p-4">
-            <h3 className="text-sm font-semibold text-[#33333c] mb-2">Compression Info</h3>
+            <h3 className="text-sm font-semibold text-[#33333c] mb-2">What happens</h3>
             <ul className="space-y-2 text-xs text-[#5a5a66]">
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />
-                <span>Smart lossy compression for JPG/WEBP</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />
-                <span>Alpha transparency preserved for PNG</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />
-                <span>Optimized SVG path data</span>
-              </li>
+              <li>JPG and WebP are re-encoded at the quality you choose.</li>
+              <li>PNG stays lossless with transparency; it mainly shrinks when resized.</li>
+              <li>SVG comments and extra spaces are removed.</li>
+              <li>Photo metadata (camera, date, location) is not kept.</li>
             </ul>
           </div>
         </div>

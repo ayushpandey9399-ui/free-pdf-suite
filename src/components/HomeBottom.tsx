@@ -85,9 +85,9 @@ export function PrivacyStoryInternal() {
             <div className="lg:col-span-3">
               <h3 className="text-[24px] sm:text-[32px] font-bold text-[#1F2937]">Your files stay on your device</h3>
               <p className="mt-5 text-[16px]" style={{ color: MUTED, lineHeight: 1.7 }}>
-                Our tools run in your browser. Where server processing 
-                is used (PDF to Word, Compress Image), files are 
-                securely deleted immediately after download.
+                Our tools run in your browser. The one exception is
+                PDF to Word, where your file is uploaded to our server
+                for conversion.
               </p>
               <p className="mt-4 text-[16px]" style={{ color: MUTED, lineHeight: 1.7 }}>
                 For the majority of our tools, they have no upload step, 
@@ -213,9 +213,9 @@ export function FinalCtaInternal() {
     <section className="relative overflow-hidden py-16 sm:py-24" style={{ backgroundColor: "#FAFAF9" }}>
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 text-center">
         <RevealInternal>
-          <h3 className="text-[24px] sm:text-[32px] font-bold text-[#1F2937] text-center">44 tools. All free. All private.</h3>
+          <h3 className="text-[24px] sm:text-[32px] font-bold text-[#1F2937] text-center">44 tools. All free.</h3>
           <p className="mt-3 text-[16px]" style={{ color: MUTED }}>
-            Our tools run in your browser. Where server processing is used (PDF to Word, Compress Image), files are securely deleted immediately after download.
+            Our tools run in your browser. The one exception is PDF to Word, where your file is uploaded to our server for conversion.
           </p>
           <button
             type="button"
@@ -318,7 +318,7 @@ function FlowNode({ label }: { label: string }) {
 }
 
 const REASONS = [
-  { icon: ShieldCheck, title: "100% private", body: "Our tools run in your browser. Where server processing is used, files are securely deleted immediately." },
+  { icon: ShieldCheck, title: "100% private", body: "Every tool except PDF to Word runs in your browser, so your files stay on your device." },
   { icon: Gift, title: "Completely free", body: "All 44 tools with no signup, no watermarks, no daily limits and no premium wall." },
   { icon: Zap, title: "Fast on any device", body: "No upload queues, no waiting. Everything runs instantly on your phone, tablet or computer." },
   { icon: WifiOff, title: "Works even offline", body: "Once a tool page has loaded, it keeps working without an internet connection." },

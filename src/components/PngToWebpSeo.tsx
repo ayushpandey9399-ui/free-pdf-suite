@@ -63,82 +63,32 @@ export const pngToWebpFaqJsonLd = {
     {
       "@type": "Question",
       name: "Does transparency survive when converting PNG to WebP?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. WebP fully supports an alpha channel, so every transparent pixel in your PNG stays transparent in the resulting WebP. That makes this converter safe for logos, icons, product cutouts, and any graphic that needs to sit on a coloured background. Our preview shows a checkerboard behind the converted image so you can visually confirm that the transparency carried across.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "How much smaller is WebP compared to PNG?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "For typical photo-like PNGs, WebP is often 60 to 80 percent smaller. For flat graphics and screenshots, expect 40 to 70 percent. Transparent logos usually shrink by 50 to 70 percent while staying visually identical. The exact number depends on the image, and the results panel shows the actual saving per file so you can measure it on your own images.",
-      },
+      acceptedAnswer: { "@type": "Answer", text: "Yes. The converter supports transparent WebP output. Check the converted preview before downloading." },
     },
     {
       "@type": "Question",
       name: "Will image quality drop when I convert PNG to WebP?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "At the default quality of 85, WebP looks visually identical to the source PNG for photos and photo-like content, and stays crisp for graphics. Because WebP has a lossy mode and a lossless mode, the encoder picks efficient settings for typical content. If you need pixel-perfect output for tiny UI icons, push the slider to 95 or 100. If you want the smallest possible file for a website thumbnail, pull it down to 70 to 75.",
-      },
+      acceptedAnswer: { "@type": "Answer", text: "The quality slider controls WebP encoding quality. Compression can change image detail, and setting quality to 100 does not guarantee lossless or pixel-identical output." },
     },
     {
       "@type": "Question",
-      name: "Is this PNG to WebP converter free?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. No signup, no email wall, no watermarks, and no daily limit. Convert as many PNG files as your browser can hold in memory.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Are my images uploaded to a server?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "No. Conversion runs entirely in your browser using the Canvas API and, where needed, a WebAssembly WebP encoder that also runs locally. Your PNG files and the resulting WebP images are never uploaded, stored, or seen by us. You can disconnect from the internet after the page loads and it still works.",
-      },
+      name: "How much smaller is WebP compared to PNG?",
+      acceptedAnswer: { "@type": "Answer", text: "Savings depend on the image and quality setting. Compare the reported output size with the original rather than expecting a fixed percentage reduction." },
     },
     {
       "@type": "Question",
       name: "Can I convert many PNG files at once?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. Drop a whole folder of PNGs, convert them in one pass at your chosen quality, and download every WebP together as a single ZIP file called png-to-webp.zip.",
-      },
+      acceptedAnswer: { "@type": "Answer", text: "Yes. Add multiple PNG files, convert them at your chosen quality, and download individual results or multiple completed files as a ZIP." },
     },
     {
       "@type": "Question",
-      name: "Can all browsers open WebP images?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Every modern browser (Chrome, Edge, Firefox, Safari 14 and later, Opera, and every current mobile browser) displays WebP with transparency. Some older desktop software, print shops, and legacy phones still cannot open .webp directly. Keep a PNG copy of anything you plan to hand to older tools, and use WebP for web publishing where reach is not a concern.",
-      },
+      name: "Can all applications open WebP images?",
+      acceptedAnswer: { "@type": "Answer", text: "Modern browsers support WebP, but some older image editors and publishing workflows do not. Keep your original PNG if you need compatibility with those applications." },
     },
     {
       "@type": "Question",
-      name: "Should I use WebP for my website?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes, for most sites. Serving WebP instead of PNG is one of the fastest wins for page speed and Core Web Vitals: smaller images download faster, Largest Contentful Paint improves, and Google rewards faster pages with better rankings. Transparency and lossless WebP mean you can replace PNG almost anywhere without redesign work. For maximum reach you can serve WebP with a PNG fallback using the HTML picture element.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I convert WebP back to PNG later?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. If you ever need a PNG copy of the WebP, use the WebP to PNG tool in the PDFToolConverter image toolbox. It also preserves transparency, and it is 100 percent browser-based.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Does it work on Windows, Mac, Android, and iPhone?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. The converter is a web page, so it runs in any modern browser on Windows 10 and 11, macOS, Chromebook, Linux, Android, iPhone, and iPad. Safari on Mac and iPhone uses a built-in WASM fallback path automatically, so the output is always a real WebP file with the alpha channel intact.",
-      },
+      name: "Is this PNG to WebP converter free?",
+      acceptedAnswer: { "@type": "Answer", text: "Free to use. Very large images and batches depend on device memory, browser limits, and the tool's decoded-image safety checks." },
     },
   ],
 };
@@ -213,26 +163,6 @@ export function PngToWebpSeo() {
       </p>
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
-        Why WebP for your website
-      </h2>
-      <p className="mt-3">
-        PNG is lossless and universal, but it is also large. A modern
-        product photograph exported as PNG can easily hit two or three
-        megabytes, while the same image as WebP at quality 85 will land
-        under 400 kilobytes with no visible difference. That single
-        change lets a hero section load before the visitor scrolls,
-        keeps a mobile product grid snappy, and cuts your monthly
-        bandwidth bill.
-      </p>
-      <p className="mt-3">
-        Faster pages help beyond speed scores. Google has publicly
-        confirmed that page experience signals, including Core Web
-        Vitals, influence search ranking. Swapping PNG assets for WebP
-        is one of the highest-return SEO changes you can make in an
-        afternoon, and it costs nothing.
-      </p>
-
-      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         Choosing the right WebP quality
       </h2>
       <p className="mt-3">
@@ -280,32 +210,6 @@ export function PngToWebpSeo() {
         When it finishes, download each WebP individually or grab them
         all together as a single ZIP archive named png-to-webp.zip,
         ready to drop into your site's images folder.
-      </p>
-
-      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
-        Your images never leave your device
-      </h2>
-      <p className="mt-3">
-        Most online PNG to WebP converters upload every image to a
-        stranger's server, hold it for hours, and log the metadata.
-        This tool does the opposite. Both decoding and WebP encoding
-        run inside your browser tab using the standard Canvas API and,
-        where the browser cannot encode WebP itself, a locally loaded
-        WebAssembly encoder. Your files, filenames, and any embedded
-        metadata stay on your device. Disconnect from the internet
-        after the page loads and the conversion still works.
-      </p>
-
-      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
-        Works on Windows, Mac, Android, and iPhone
-      </h2>
-      <p className="mt-3">
-        Because the converter is a web page, it runs anywhere a modern
-        browser runs: Windows 10 and 11, macOS, Chromebook, Linux,
-        Android, iPhone, and iPad. Chrome and Edge give the fastest
-        encoding on desktop. Safari on Mac and iPhone uses the WASM
-        fallback path automatically, so the output is a real WebP file
-        with transparency intact and no manual step required.
       </p>
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">

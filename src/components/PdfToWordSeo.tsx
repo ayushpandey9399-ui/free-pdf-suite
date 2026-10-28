@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { RelatedToolsGrid } from "@/components/RelatedToolsGrid";
 
@@ -17,145 +16,30 @@ const steps = [
   },
   {
     title: "Download the .docx and open it in Word",
-    text: "The finished document downloads with the same name as your PDF but a .docx extension, ready to open in Microsoft Word, Google Docs, LibreOffice Writer or Pages. Your uploaded PDF is deleted from our server as soon as the download has been sent.",
+    text: "The finished document downloads with the same name as your PDF but a .docx extension, ready to open in Microsoft Word, Google Docs, LibreOffice Writer or Pages.",
   },
 ];
 
-const benefits = [
-  {
-    h: "Real editable Word output",
-    p: "The result is a genuine .docx file, not a PDF renamed or a picture of your pages pasted into a document. Paragraphs stay as paragraphs, so you can retype a clause, fix a name, change a number or restyle a heading with the normal Word tools.",
-  },
-  {
-    h: "Layout kept as close as possible",
-    p: "Headings, lists, tables, images and column structure are carried across so the Word file looks like the original at a glance. Complex desktop publishing layouts can shift slightly, which is normal for any PDF to Word conversion, and easy to tidy up once the text is editable.",
-  },
-  {
-    h: "Deleted right after conversion",
-    p: "This is our only server side tool, so we are blunt about it. Your PDF is uploaded, converted, returned and then deleted, and any leftover file is cleared within ten minutes. We never log file names or file contents, only the status, the size and how long the job took.",
-  },
-  {
-    h: "Free with no account",
-    p: (
-      <>
-        There is no signup, no card, no watermark and no trial. If your file is
-        locked you can remove the password first with{" "}
-        <Link to="/tools/$slug" params={{ slug: "unlock-pdf" }} className="text-[#e5322d] underline">
-          Unlock PDF
-        </Link>
-        , and if it is too large you can shrink it with{" "}
-        <Link to="/tools/$slug" params={{ slug: "compress" }} className="text-[#e5322d] underline">
-          Compress PDF
-        </Link>{" "}
-        before converting.
-      </>
-    ),
-  },
-];
-
-const scenarios = [
-  {
-    h: "Editing a contract or agreement you only received as a PDF",
-    p: "The other side sends a final PDF, then a clause needs to change. Converting to Word gives you a document you can redline, comment on and send back, instead of retyping the whole agreement from scratch.",
-  },
-  {
-    h: "Reusing a report, proposal or resume",
-    p: "You have last year's proposal or an old resume as a PDF and the source file is long gone. A Word copy lets you update the dates, swap the client name and reuse the structure without rebuilding the layout by hand.",
-  },
-  {
-    h: "Translating or rewriting long documents",
-    p: "Translation tools, grammar checkers and writing assistants work far better on a .docx than on a PDF. Convert first, then run the document through whatever tool you use, and keep the headings and tables intact along the way.",
-  },
-  {
-    h: "Collaborating with people who work in Word",
-    p: "Colleagues who track changes, add comments and pass drafts around need a Word file. Converting the PDF once turns a read only handover into a document the whole team can actually work in.",
-  },
-];
-
-const faqs: { q: string; a: ReactNode; plain: string }[] = [
-  {
-    q: "Is the PDF to Word converter free?",
-    a: "Yes, completely free. There is no account, no card, no trial period, no watermark on the output and no daily conversion quota beyond a fair use rate limit that stops automated abuse. If you do hit that limit, waiting a few minutes clears it.",
-    plain:
-      "Yes, completely free. No account, no card, no trial, no watermark and no daily quota beyond a fair use rate limit that clears after a few minutes.",
-  },
+const faqs = [
   {
     q: "Is there a file size limit?",
-    a: "Yes, 25 MB per file for this tool. The size is checked in your browser before anything is uploaded, so an oversized file fails instantly instead of wasting your bandwidth. If your PDF is larger, run it through Compress PDF first and then convert the smaller copy.",
-    plain:
-      "Yes, 25 MB per file. The size is checked in your browser before any upload starts. For larger PDFs, use Compress PDF (/tools/compress) first and convert the smaller copy.",
+    a: "Yes. The tool checks a 25 MB per-file limit before upload. It also checks the filename and PDF header.",
   },
   {
-    q: "What happens to my file after conversion?",
-    a: (
-      <>
-        This specific tool uploads your PDF to our own server, because a
-        faithful Word conversion cannot be done in the browser today. The
-        uploaded PDF and the converted document are deleted immediately after
-        the download is sent, and any leftover file is removed within ten
-        minutes. We never log file names or file contents, only technical
-        request data such as status, size and duration. Every one of our other
-        tools runs entirely in your browser and uploads nothing at all. The
-        full detail is in our{" "}
-        <Link to="/privacy-policy" className="text-[#e5322d] underline">
-          privacy policy
-        </Link>
-        .
-      </>
-    ),
-    plain:
-      "This tool uploads your PDF to our own server because a faithful Word conversion cannot be done in the browser today. The uploaded PDF and the converted file are deleted immediately after the download is sent, and any leftover file is removed within ten minutes. We never log file names or file contents, only status, size and duration. All of our other tools run entirely in your browser and upload nothing.",
+    q: "Is my PDF uploaded for conversion?",
+    a: "Yes. This tool uploads your PDF to our server for conversion and returns a DOCX file to your browser.",
   },
   {
-    q: "Is the layout preserved in the Word file?",
-    a: "In most cases yes. Headings, paragraphs, lists, tables and images are rebuilt in the .docx, so the document reads the same as the PDF. Heavily designed files with unusual fonts, text boxes or multi column magazine layouts can shift a little, which is normal for any PDF to Word conversion and quick to correct once the text is editable.",
-    plain:
-      "In most cases yes. Headings, paragraphs, lists, tables and images are rebuilt in the .docx. Heavily designed layouts with unusual fonts or text boxes can shift slightly, which is normal for any PDF to Word conversion.",
+    q: "Will the Word document preserve the layout?",
+    a: "Results vary by document. Text-based PDFs work best, while complex layouts, unusual fonts, and some languages may lose text or formatting. Review the downloaded DOCX before using it.",
   },
   {
-    q: "Does it work on scanned PDFs?",
-    a: (
-      <>
-        Only partly. A scan is a photograph of paper, so there is no text to
-        rebuild and the pages come through as images inside the Word file
-        rather than editable text. If you need searchable text from a scan,
-        our{" "}
-        <Link to="/tools/$slug" params={{ slug: "scan-to-pdf" }} className="text-[#e5322d] underline">
-          Scan to PDF
-        </Link>{" "}
-        tool has an in browser OCR option that produces a searchable PDF first.
-      </>
-    ),
-    plain:
-      "Only partly. A scan is a photograph of paper, so pages come through as images rather than editable text. For searchable text from a scan, use the in browser OCR option in Scan to PDF (/tools/scan-to-pdf) first.",
+    q: "Does it turn scanned pages into editable text?",
+    a: "No. Scanned pages come through as images rather than editable text.",
   },
   {
-    q: "Can I convert a password protected PDF?",
-    a: (
-      <>
-        No. A locked PDF cannot be read by the converter, and we check for
-        encryption in your browser so a protected file is never uploaded.
-        Remove the password first with{" "}
-        <Link to="/tools/$slug" params={{ slug: "unlock-pdf" }} className="text-[#e5322d] underline">
-          Unlock PDF
-        </Link>{" "}
-        using the password you already know, then convert the unlocked copy.
-      </>
-    ),
-    plain:
-      "No. A locked PDF cannot be read by the converter, and we check for encryption in your browser so a protected file is never uploaded. Remove the password first with Unlock PDF (/tools/unlock-pdf), then convert the unlocked copy.",
-  },
-  {
-    q: "Does it work on phones?",
-    a: "Yes. The tool is a normal web page, so tapping Select PDF file opens your phone's file picker, the progress bar and Cancel button work the same as on desktop, and the finished .docx lands in your downloads folder ready for Word, Google Docs or Pages.",
-    plain:
-      "Yes. Tapping Select PDF file opens the phone's file picker, the progress bar and Cancel button behave the same as on desktop, and the .docx lands in your downloads folder.",
-  },
-  {
-    q: "Why is this tool not fully in the browser like the others?",
-    a: "Because a faithful PDF to Word conversion needs a document engine that is far too heavy to download into a browser tab. Rather than ship a poor quality in browser version, we run the conversion on our own server, tell you plainly that it happens, and delete the file straight after. Our conversion service is open source so you can read exactly what it does.",
-    plain:
-      "A faithful PDF to Word conversion needs a document engine that is far too heavy for a browser tab. We run it on our own server, say so plainly, delete the file straight after, and publish the service as open source.",
+    q: "Can I convert a password-protected PDF?",
+    a: "Unlock it first. The tool checks for encryption in your browser when that check is available, and the server can also reject protected files.",
   },
 ];
 
@@ -224,36 +108,9 @@ export function PdfToWordSeo() {
         sent back to you as a .docx.
       </p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        The uploaded file and the converted result are deleted immediately after
-        the download is sent, and anything left behind is cleared within ten
-        minutes. We store technical request logs only, the status code, the file
-        size and how long the conversion took. File names and file contents are
-        never written to a log. If your document is too sensitive for that,
+        If your document is too sensitive to upload,
         please use one of our in browser tools instead.
       </p>
-
-      {/* Benefits */}
-      <div className="mt-10 grid gap-6 sm:grid-cols-2">
-        {benefits.map((b) => (
-          <div key={b.h}>
-            <h3 className="text-[17px] font-semibold">{b.h}</h3>
-            <p className="mt-2 text-[14.5px] leading-relaxed text-[#4a4a55]">{b.p}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Scenarios */}
-      <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
-        When do you need to convert PDF to Word?
-      </h2>
-      <div className="mt-6 space-y-5">
-        {scenarios.map((s) => (
-          <div key={s.h}>
-            <h3 className="text-[17px] font-semibold">{s.h}</h3>
-            <p className="mt-1.5 text-[14.5px] leading-relaxed text-[#4a4a55]">{s.p}</p>
-          </div>
-        ))}
-      </div>
 
       {/* FAQ */}
       <h2 className="mt-14 text-[24px] sm:text-[28px] font-bold tracking-tight">
@@ -286,7 +143,7 @@ export const pdfToWordFaqJsonLd = {
   mainEntity: faqs.map((f) => ({
     "@type": "Question",
     name: f.q,
-    acceptedAnswer: { "@type": "Answer", text: f.plain },
+    acceptedAnswer: { "@type": "Answer", text: f.a },
   })),
 };
 
@@ -295,7 +152,7 @@ export const pdfToWordHowToJsonLd = {
   "@type": "HowTo",
   name: "How to convert PDF to Word",
   description:
-    "Convert a PDF into an editable Word .docx document for free. Pick your file, upload it to our conversion server, and download the Word version. The uploaded file is deleted right after the download.",
+    "Convert a PDF into an editable Word .docx document for free. Pick your file, upload it to our conversion server, and download the Word version.",
   totalTime: "PT1M",
   supply: [{ "@type": "HowToSupply", name: "A PDF file under 25 MB" }],
   tool: [{ "@type": "HowToTool", name: "PDFToolConverter PDF to Word (web browser)" }],
@@ -313,7 +170,7 @@ export const pdfToWordSoftwareJsonLd = {
   "@type": "SoftwareApplication",
   name: "PDFToolConverter PDF to Word",
   description:
-    "Convert PDF to Word online free. Upload a PDF up to 25 MB and get an editable .docx with headings, paragraphs, tables and images preserved. No signup and no watermark, and the uploaded file is deleted right after conversion.",
+    "Convert PDF to Word online free. Upload a PDF up to 25 MB and get an editable .docx with headings, paragraphs, tables and images preserved. No signup and no watermark.",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Web",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

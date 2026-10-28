@@ -62,83 +62,33 @@ export const heicToPngFaqJsonLd = {
   mainEntity: [
     {
       "@type": "Question",
-      name: "What is a HEIC file?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "HEIC (High Efficiency Image Container) is the default photo format on modern iPhones and iPads. It uses the HEVC codec to store the same image at roughly half the size of a JPG, but it is not natively supported on many Windows apps, older editors, and most websites.",
-      },
+      name: "Which files can I convert?",
+      acceptedAnswer: { "@type": "Answer", text: "The tool accepts HEIC and HEIF files and produces PNG images." },
     },
     {
       "@type": "Question",
-      name: "Why won't HEIC files open on Windows 11 or Windows 10?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Windows does not ship the HEIF and HEVC extensions by default. Without both codecs installed from the Microsoft Store, Photos, Paint, and File Explorer cannot render HEIC. Converting HEIC to PNG produces a universally supported image that opens everywhere.",
-      },
+      name: "Is there a PNG quality setting?",
+      acceptedAnswer: { "@type": "Answer", text: "No. The tool outputs PNG without a user-adjustable quality setting." },
     },
     {
       "@type": "Question",
-      name: "Is this HEIC to PNG converter free?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. No signup, no watermark, no email wall, and no daily limit. Convert as many iPhone HEIC photos as your browser can hold in memory.",
-      },
+      name: "Can I convert multiple files?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes. Add multiple files to the list and start conversion. Large batches depend on available device memory." },
     },
     {
       "@type": "Question",
-      name: "Are my photos uploaded to a server?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "No. Conversion runs entirely in your browser through a WebAssembly build of libheif. Your HEIC files and the resulting PNGs are never uploaded, stored, or seen by us. You can disconnect from the internet after the page loads and it still works.",
-      },
+      name: "How do I download the results?",
+      acceptedAnswer: { "@type": "Answer", text: "Download a successful PNG individually or download successful results together in a ZIP file." },
     },
     {
       "@type": "Question",
-      name: "Can I convert multiple HEIC files at once?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. Drop an entire folder of .heic photos, batch convert them in one pass, and download every PNG together as a single ZIP.",
-      },
+      name: "Will the PNG preserve photo metadata?",
+      acceptedAnswer: { "@type": "Answer", text: "The tool does not include an explicit step to copy EXIF metadata. Do not rely on it to preserve camera details, capture dates or location information." },
     },
     {
       "@type": "Question",
-      name: "Is PNG better quality than JPG for HEIC conversion?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "PNG is lossless, so no additional compression artifacts are introduced during the conversion. That makes PNG the right choice for screenshots, graphics, editing masters, and anything you plan to edit further. JPG is smaller and better for sharing photos.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Why is my PNG file larger than the original HEIC?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "PNG is lossless, HEIC is highly compressed with the modern HEVC codec. A photograph stored as PNG can easily be 5 to 10 times larger than the same photo as HEIC or JPG. That is normal and is the price of lossless quality.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Does the converter keep photo date and EXIF data?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "No. The converter decodes each HEIC into pixels and re-encodes it as a fresh PNG, so EXIF metadata such as capture date, camera model, and GPS coordinates is not carried over. Many people prefer this because it strips location data before sharing. If you need EXIF preserved, keep the original HEIC alongside the PNG.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Does it work on Windows, Mac, Android, and iPhone?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. The tool runs in any modern browser (Chrome, Edge, Safari, Firefox), so it works on Windows 10 and 11, macOS, Chromebook, Linux, Android, iPhone, and iPad, without installing anything.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "What is the difference between HEIC and PNG?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "HEIC is a compact, lossy, modern format built on HEVC and used mostly on Apple devices. PNG is an older, lossless format that opens in every browser, editor, and OS. HEIC is best for storing many iPhone photos in little space; PNG is best when you need perfect pixel fidelity and universal compatibility.",
-      },
+      name: "Does PNG conversion restore lost image detail?",
+      acceptedAnswer: { "@type": "Answer", text: "No. PNG stores the decoded image without adding another lossy image-encoding step, but it cannot recover detail already lost in the source." },
     },
   ],
 };
@@ -239,19 +189,6 @@ export function HeicToPngSeo() {
       </p>
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
-        Your photos never leave your device
-      </h2>
-      <p className="mt-3">
-        Photos are personal. They carry faces, locations, timestamps, and
-        camera serial numbers. Most online HEIC converters upload every file
-        to a stranger's server, keep it for hours or days, and quietly log
-        the metadata. This tool does the opposite: HEIC decoding and PNG
-        encoding happen entirely inside your browser tab, so your files and
-        their metadata stay on your device. Turn off Wi-Fi after the page
-        loads and the conversion still works.
-      </p>
-
-      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
         How to stop your iPhone from saving HEIC
       </h2>
       <p className="mt-3">
@@ -261,17 +198,6 @@ export function HeicToPngSeo() {
         photos are captured as JPG (and videos as H.264), so you can skip
         the conversion step for new shots. Existing HEIC photos on the phone
         stay HEIC; use this converter to change them to PNG.
-      </p>
-
-      <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">
-        Works on Windows, Mac, Android, and iPhone
-      </h2>
-      <p className="mt-3">
-        Because the converter is a web page, it runs anywhere a modern
-        browser runs: Windows 10, Windows 11, macOS, Chromebook, Linux,
-        Android, iPhone, and iPad. On desktop, Chrome and Edge give the
-        fastest conversion; on mobile, Safari and Chrome both work well.
-        There is nothing to install, update, or uninstall.
       </p>
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">

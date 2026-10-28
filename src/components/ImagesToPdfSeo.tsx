@@ -22,64 +22,28 @@ const steps = [
 
 const faqs = [
   {
-    q: "How do I convert images to PDF for free?",
-    a: "Upload your images using the button or drag-and-drop above, arrange them in order, set your page options, and click Convert to PDF. Download your finished file instantly. No signup required.",
+    q: "Which images can I convert?",
+    a: "JPG and PNG are embedded directly. Other formats require the browser to decode them for a canvas fallback, so support varies. Convert HEIC to JPG first and do not assume TIFF support.",
   },
   {
-    q: "Which image formats are supported?",
-    a: "JPG, JPEG, PNG, WebP, BMP, and TIFF are all supported. For HEIC images from iPhones, first convert them to JPG using our HEIC to JPG tool.",
+    q: "Can I reorder or rotate images?",
+    a: "Yes. Drag thumbnails to change their order, sort by filename, or rotate individual images before conversion.",
   },
   {
-    q: "Can I combine multiple images into one PDF?",
-    a: "Yes. Add as many images as you need and they will all be combined into a single multi-page PDF, one image per page.",
+    q: "Which page sizes are available?",
+    a: "Choose A4, Letter or fit-to-image. Portrait and landscape affect fixed-size pages; fit-to-image uses each rotated image's dimensions plus the selected margins.",
   },
   {
-    q: "Do my files get uploaded to a server?",
-    a: "No. The entire conversion process runs in your browser. Your images never leave your device.",
+    q: "Will images be stretched or cropped?",
+    a: "The tool scales each rotated image proportionally to fit the available page area and centers it. It does not offer a crop-to-fill mode.",
   },
   {
-    q: "Is there a limit on how many images I can add?",
-    a: "No. Add as many images as you need. The only constraint is your device memory.",
+    q: "Can I create separate PDFs instead of one combined PDF?",
+    a: "Yes. Turn off the option to merge all images into one PDF to create separate PDFs packaged in a ZIP file.",
   },
   {
-    q: "Can I set the page size and orientation?",
-    a: "Yes. Choose A4, Letter, or fit-to-image page size and portrait or landscape orientation before converting.",
-  },
-  {
-    q: "Will the image quality be reduced in the PDF?",
-    a: "No. Images are embedded at their original resolution. No compression or quality reduction is applied during conversion.",
-  },
-  {
-    q: "Can I convert PNG files with transparent backgrounds?",
-    a: "Yes. Transparent areas in PNG images are rendered with a white background in the PDF output.",
-  },
-  {
-    q: "Can I rearrange the image order before converting?",
-    a: "Yes. Drag and drop the image thumbnails to set the exact order you want before generating the PDF.",
-  },
-  {
-    q: "Can I convert a single image to PDF?",
-    a: "Yes. Upload a single image to create a one-page PDF.",
-  },
-  {
-    q: "Does this work on mobile phones?",
-    a: "Yes. The tool works in any mobile browser on iPhone and Android. No app required.",
-  },
-  {
-    q: "Can I convert HEIC photos from my iPhone?",
-    a: "Use our HEIC to JPG tool first to convert iPhone HEIC photos to JPG, then add the JPG files to the image to PDF converter.",
-  },
-  {
-    q: "Does this work offline?",
-    a: "Yes. Once the page has fully loaded, the conversion tool works without an internet connection.",
-  },
-  {
-    q: "Are there watermarks on the output PDF?",
-    a: "No. The output PDF is completely clean with no watermarks or branding.",
-  },
-  {
-    q: "Is the tool really free with no limits?",
-    a: "Yes. No usage caps, no daily limits, no signup required, no watermarks.",
+    q: "Are there limits for large batches?",
+    a: "The tool is free to use. Large images and batches depend on available device memory, so use a smaller batch if conversion fails.",
   },
 ];
 
@@ -97,20 +61,6 @@ const related = [
 export function ImagesToPdfSeo() {
   return (
     <section className="mx-auto max-w-4xl px-4 pb-16 seo-content">
-      <h2>Why Convert Images to PDF?</h2>
-      <p>
-        Images and PDFs serve very different purposes. A JPG or PNG file is ideal for viewing a single photo, but it becomes inconvenient when you have ten scanned pages, fifteen product photos, or twenty document screenshots that need to be shared as one organized file. Sending twenty separate image files via email creates confusion, takes up more space, and makes it hard for the recipient to view them in the correct order. Converting them all into a single PDF solves every one of these problems.
-      </p>
-      <p>
-        PDF is the universal document format accepted by almost every platform, portal, and application in the world. Government portals, university submission systems, HR onboarding platforms, and client portals typically accept PDF uploads but not raw image files. If you have scanned a multi-page form using your phone's camera, converting the individual page photos into a single PDF is the only way to submit the complete document correctly.
-      </p>
-      <p>
-        PDF files are also far more professional than sending image files directly. A product catalog built from multiple product photographs looks far more polished when delivered as a PDF than as a ZIP file of JPGs. A photography portfolio shared as a PDF can be opened on any device without special software. A set of scanned receipts submitted to an accountant as a single PDF is much easier to review than a folder of separate images.
-      </p>
-      <p>
-        Converting images to PDF also offers better control over the final document. You can set the page size (A4, Letter, or custom), choose the orientation (portrait or landscape), control the margins, and arrange the images in any order before generating the PDF. This level of control is not possible when simply sharing raw image files.
-      </p>
-
       <h2>How to Convert Images to PDF: Step by Step</h2>
       <div className="space-y-6">
         {steps.map((s, i) => (
@@ -137,40 +87,6 @@ export function ImagesToPdfSeo() {
         For HEIC images from iPhones and newer Apple devices, first convert them to JPG or PNG using our <Link to="/image-tools/$slug" params={{ slug: "heic-to-jpg" }} className="text-[#E5322D] hover:underline">HEIC to JPG tool</Link>, then add the converted images to the PDF converter. This two-step process handles the full workflow from iPhone photos to a finished PDF.
       </p>
 
-      <h2>Common Scenarios for Converting Images to PDF</h2>
-      <h2>Scan Multi-Page Documents With Your Phone</h2>
-      <p>
-        Modern phone scanning apps like Google Drive's scan feature and Apple's Notes scanner capture each page as a separate image. Converting all these page images into a single PDF recreates the original multi-page document in the standard format expected by submission portals, email recipients, and archiving systems.
-      </p>
-      <h2>Submit ID Documents and Proofs Online</h2>
-      <p>
-        Many platforms require identity verification, address proof, and income documents uploaded as PDFs. If you have photos of your passport, utility bill, and bank statement as separate JPG files, converting them into a single PDF makes the submission process faster and cleaner.
-      </p>
-      <h2>Create a Photo Portfolio or Lookbook</h2>
-      <p>
-        Photographers, designers, and artists can convert a curated selection of images into a professional PDF portfolio. Each image occupies a full page, the order is exactly as you set it, and the result is a document that looks polished on any screen or when printed.
-      </p>
-      <h2>Build a Product Catalog From Photos</h2>
-      <p>
-        E-commerce sellers and small businesses can convert product photographs into a catalog PDF. Each product gets its own page, the catalog can be emailed to buyers, and it opens correctly on any device without requiring specific software.
-      </p>
-      <h2>Combine Scanned Receipts for Expense Reports</h2>
-      <p>
-        Photographing receipts throughout the month and then converting all the photos into a single PDF at the end of the month creates a clean expense report attachment. Accountants and finance teams prefer one organized PDF over a folder of individual receipt photos.
-      </p>
-      <h2>Convert Screenshots Into a Reference Document</h2>
-      <p>
-        Researchers, developers, and students who collect screenshots of reference material, error messages, or online content can convert them into a searchable, shareable PDF document. This is much easier to review and share than a collection of separate screenshot files.
-      </p>
-      <h2>Prepare Medical or Insurance Documents</h2>
-      <p>
-        Photographed prescriptions, test results, doctor letters, and insurance claim forms can be combined into a single PDF for easy submission to insurance providers, hospitals, or pharmacies that require document uploads in PDF format.
-      </p>
-      <h2>Create PDF Albums From Event Photos</h2>
-      <p>
-        Wedding photographers, event planners, and families can convert a selection of event photos into a beautifully organized PDF album that can be shared via email or printed without any specialized album software.
-      </p>
-
       <h2>Page Size and Layout Options Explained</h2>
       <h2>A4 Page Size</h2>
       <p>
@@ -188,66 +104,6 @@ export function ImagesToPdfSeo() {
       <p>
         This option places each image centered on the page while maintaining its original aspect ratio, with white margins around it. This is better for documents with images of varying dimensions, where consistent centering looks more professional than edge-to-edge fills.
       </p>
-
-      <h2>Browser-Based vs Server-Based Image to PDF Conversion</h2>
-      <div className="overflow-x-auto my-8">
-        <table className="w-full border-collapse border border-gray-200">
-          <thead>
-            <tr className="bg-gray-50 text-left">
-              <th className="p-3 border border-gray-200 text-[#383E45]">Feature</th>
-              <th className="p-3 border border-gray-200 font-semibold text-[#E5322D]">Our Tool</th>
-              <th className="p-3 border border-gray-200 text-[#383E45]">Server-Based Tools</th>
-            </tr>
-          </thead>
-          <tbody className="text-[#383E45]">
-            <tr>
-              <td className="p-3 border border-gray-200 font-medium">File Privacy</td>
-              <td className="p-3 border border-gray-200">Files stay on device</td>
-              <td className="p-3 border border-gray-200">Files uploaded to server</td>
-            </tr>
-            <tr>
-              <td className="p-3 border border-gray-200 font-medium">Speed</td>
-              <td className="p-3 border border-gray-200">Instant</td>
-              <td className="p-3 border border-gray-200">Upload/download delay</td>
-            </tr>
-            <tr>
-              <td className="p-3 border border-gray-200 font-medium">File Size Limit</td>
-              <td className="p-3 border border-gray-200">No limit</td>
-              <td className="p-3 border border-gray-200">Often 20-50MB cap</td>
-            </tr>
-            <tr>
-              <td className="p-3 border border-gray-200 font-medium">Number of Images</td>
-              <td className="p-3 border border-gray-200">No limit</td>
-              <td className="p-3 border border-gray-200">Sometimes capped</td>
-            </tr>
-            <tr>
-              <td className="p-3 border border-gray-200 font-medium">Works Offline</td>
-              <td className="p-3 border border-gray-200">Yes after page loads</td>
-              <td className="p-3 border border-gray-200">No</td>
-            </tr>
-            <tr>
-              <td className="p-3 border border-gray-200 font-medium">Account Required</td>
-              <td className="p-3 border border-gray-200">No</td>
-              <td className="p-3 border border-gray-200">Sometimes yes</td>
-            </tr>
-            <tr>
-              <td className="p-3 border border-gray-200 font-medium">Watermarks</td>
-              <td className="p-3 border border-gray-200">Never</td>
-              <td className="p-3 border border-gray-200">Common on free tier</td>
-            </tr>
-            <tr>
-              <td className="p-3 border border-gray-200 font-medium">Output Quality</td>
-              <td className="p-3 border border-gray-200">Original resolution</td>
-              <td className="p-3 border border-gray-200">Sometimes compressed</td>
-            </tr>
-            <tr>
-              <td className="p-3 border border-gray-200 font-medium">Cost</td>
-              <td className="p-3 border border-gray-200">Always free</td>
-              <td className="p-3 border border-gray-200">Free tier limited</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
 
       <h2>Tips for Converting Images to PDF Effectively</h2>
       <h2>Sort and Name Files Before Uploading</h2>
@@ -323,10 +179,5 @@ export const imagesToPdfSoftwareJsonLd = {
     "@type": "Offer",
     price: "0",
     priceCurrency: "USD",
-  },
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.9",
-    ratingCount: "2340",
   },
 };
