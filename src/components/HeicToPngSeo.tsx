@@ -156,8 +156,8 @@ export function HeicToPngSeo() {
       <p className="mt-3">
         Vacations and camera rolls are never a single file. Select as many
         HEIC photos as you like, or drop a whole folder, and every image is
-        converted to lossless PNG in one pass. There is no per-file cap and
-        no artificial daily limit because the work happens on your own
+        converted to PNG one after another. Some HEIC variants cannot be decoded, and large photos can fail on phones. There is
+        no daily limit because the work happens on your own
         machine. When the batch finishes, download the PNGs individually or
         grab them all as a single ZIP archive.
       </p>

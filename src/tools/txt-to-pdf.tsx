@@ -32,7 +32,11 @@ const PAGE_DIMS: Record<PageSize, [number, number]> = { a4: [595.28, 841.89], le
 // Standard PDF Helvetica supports WinAnsi (Latin-1) only.
 // Anything beyond U+00FF requires the raster pipeline (Devanagari, CJK, Arabic, etc.).
 function hasNonLatinChars(s: string): boolean {
-  for (let i = 0; i < s.length; i++) if (s.charCodeAt(i) > 0xff) return true;
+  for (let i = 0; i < s.length; i++) {
+    const cp = s.charCodeAt(i);
+    if (cp === 10 || cp === 13) continue;
+    if (cp < 32 || (cp >= 127 && cp <= 159) || cp > 0xff) return true;
+  }
   return false;
 }
 
@@ -237,6 +241,8 @@ async function buildAnyPdf(
   text: string,
   opts: { pageSize: PageSize; fontSize: FontSizeOpt; margin: MarginOpt; lineSpacing: LineSpacing },
 ): Promise<{ bytes: Uint8Array; raster: boolean }> {
+  // Tabs and control characters cannot be encoded by the standard PDF font.
+  text = text.replace(/\t/g, "    ").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F]/g, "");
   if (hasNonLatinChars(text)) {
     const bytes = await buildRasterPdfFromText(text, opts);
     return { bytes, raster: true };

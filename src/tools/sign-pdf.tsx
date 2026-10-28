@@ -233,8 +233,9 @@ function SignatureModal({
   };
 
   const processUpload = (src: string) =>
-    new Promise<string>((resolve) => {
+    new Promise<string>((resolve, reject) => {
       const img = new Image();
+      img.onerror = () => reject(new Error("Unsupported or invalid signature image"));
       img.onload = () => {
         const c = document.createElement("canvas");
         c.width = img.width;

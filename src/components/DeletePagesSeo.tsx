@@ -11,7 +11,7 @@ const steps = [
   },
   {
     title: "Select Pages to Delete",
-    text: "Once the thumbnails are generated, simply click on the pages you wish to remove. Selected pages will be highlighted for easy identification. You can also use the range selector for large documents.",
+    text: "Once the thumbnails are generated, simply click on the pages you wish to remove. Selected pages will be highlighted for easy identification. Click a selected page again to keep it. There is no range-entry control.",
   },
   {
     title: "Verify Your Selection",
@@ -55,7 +55,7 @@ const related = [
   { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Save specific pages as a new PDF." },
   { to: "/tools/reorder-pages", name: "Reorder Pages", blurb: "Rearrange pages with drag and drop." },
   { to: "/tools/merge", name: "Merge PDF", blurb: "Combine several PDFs into one file." },
-  { to: "/tools/compress", name: "Compress PDF", blurb: "Reduce PDF file size without quality loss." },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Try reducing PDF file size" },
   { to: "/tools/rotate", name: "Rotate PDF", blurb: "Fix orientation of sideways pages." },
   { to: "/tools/unlock-pdf", name: "Unlock PDF", blurb: "Remove passwords from protected files." },
   { to: "/tools/add-blank-pages", name: "Add Blank Pages", blurb: "Insert empty pages into your document." },

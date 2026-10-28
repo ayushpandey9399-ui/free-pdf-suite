@@ -13,7 +13,7 @@ export const pngToJpgSoftwareJsonLd = {
   url,
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   description:
-    "Convert PNG images to JPG online instantly in your browser. Batch convert multiple PNG files to JPEG with quality control. Free, no signup, no watermark, files never leave your device.",
+    "Convert PNG images to JPG online in your browser. Batch convert multiple PNG files to JPEG with quality control. Free, no signup, no watermark, files never leave your device.",
 };
 
 export const pngToJpgHowToJsonLd = {
@@ -112,7 +112,7 @@ export function PngToJpgSeo() {
         <li><strong>Convert Photos but Keep Graphics:</strong> PNGs with sharp edges are better kept as PNG.</li>
         <li><strong>Check for Transparency:</strong> Remember that transparency will become white.</li>
         <li><strong>Compress Further:</strong> Use our <Link to="/image-tools/$slug" params={{ slug: "compress-image" }} className="text-[#e5322d] underline">Compress Image tool</Link> if needed.</li>
-        <li><strong>Batch Convert:</strong> Add all files at once to process simultaneously.</li>
+        <li><strong>Batch Convert:</strong> Add several files at once; they are converted one after another.</li>
       </ul>
 
       <h2 className="mt-10 text-[22px] font-bold text-[#1F2937]">Frequently Asked Questions</h2>

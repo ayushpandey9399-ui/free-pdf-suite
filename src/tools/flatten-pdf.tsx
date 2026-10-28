@@ -84,28 +84,10 @@ export default function FlattenPdf() {
       const fields = form.getFields();
       let flattenedCount = 0;
       if (flattenFields && fields.length) {
-        // Try whole-form flatten first (fast path); if it throws, fall back
-        // to per-field to skip problematic fields gracefully.
-        try {
-          form.flatten();
-          flattenedCount = fields.length;
-        } catch {
-          for (const f of fields) {
-            try {
-              form.flatten({ updateFieldAppearances: true });
-              flattenedCount = fields.length;
-              break;
-            } catch {
-              try {
-                // Per-field fallback: remove the field so it can no longer be edited.
-                form.removeField(f);
-                flattenedCount++;
-              } catch {
-                /* skip broken field */
-              }
-            }
-          }
-        }
+        // If flattening fails, stop with an error. Removing fields as a
+        // fallback would silently erase filled answers.
+        form.flatten();
+        flattenedCount = fields.length;
       }
       const bytes = await doc.save();
       const blob = new Blob([bytes as BlobPart], { type: "application/pdf" });

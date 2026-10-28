@@ -7,7 +7,7 @@ const url = `${SITE_URL}/tools/reorder-pages`;
 const steps = [
   {
     title: "Upload Your PDF Document",
-    text: "Click the 'Select PDF file' button or drag and drop your document into the workspace. The tool renders every page as a thumbnail locally in your browser instantly.",
+    text: "Click the 'Select PDF file' button or drag and drop your document into the workspace. Page thumbnails are rendered locally in your browser; large documents can take longer.",
   },
   {
     title: "Drag and Drop to Rearrange",
@@ -15,7 +15,7 @@ const steps = [
   },
   {
     title: "Verify the New Sequence",
-    text: "Review the thumbnails to ensure the document flow is perfect. You can move individual pages or entire sections as many times as needed to get the order exactly right.",
+    text: "Review the thumbnails to ensure the document flow is perfect. Move individual pages as many times as needed until the order is right.",
   },
   {
     title: "Export Your Reordered PDF",
@@ -56,7 +56,7 @@ const related = [
   { to: "/tools/$slug", params: { slug: "extract-pages" }, name: "Extract Pages", blurb: "Save specific pages as a new PDF." },
   { to: "/tools/$slug", params: { slug: "merge" }, name: "Merge PDF", blurb: "Combine several PDFs into one file." },
   { to: "/tools/$slug", params: { slug: "rotate" }, name: "Rotate PDF", blurb: "Fix the orientation of sideways pages." },
-  { to: "/tools/$slug", params: { slug: "compress" }, name: "Compress PDF", blurb: "Reduce file size without quality loss." },
+  { to: "/tools/$slug", params: { slug: "compress" }, name: "Compress PDF", blurb: "Try reducing PDF file size." },
   { to: "/tools/$slug", params: { slug: "add-blank-pages" }, name: "Add Blank Pages", blurb: "Insert empty pages into your PDF." },
   { to: "/tools/$slug", params: { slug: "crop" }, name: "Crop PDF", blurb: "Trim white margins or crop page edges." },
 ] as const;

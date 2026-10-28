@@ -115,7 +115,7 @@ export function MemeGeneratorSeo() {
         captions read from ten meters away. Adjust the font size slider to
         scale text relative to the image so a 4K photo and a 640px screenshot
         both look right. When your caption is longer than a single line, the
-        text wraps automatically inside the image bounds and never spills off
+        text wraps automatically inside the image bounds and is kept inside
         the edge.
       </p>
 

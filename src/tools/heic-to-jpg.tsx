@@ -52,9 +52,7 @@ function isHeic(f: File): boolean {
     n.endsWith(".heic") ||
     n.endsWith(".heif") ||
     f.type === "image/heic" ||
-    f.type === "image/heif" ||
-    // Some operating systems report an empty MIME type; accept and try to decode.
-    f.type === ""
+    f.type === "image/heif" 
   );
 }
 

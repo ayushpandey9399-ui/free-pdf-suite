@@ -157,11 +157,11 @@ export default function PageNumbers() {
           </div>
           <div>
             <Label htmlFor="fs">Font size</Label>
-            <Input id="fs" type="number" min={6} max={72} value={fontSize} onChange={(e) => setFontSize(Number(e.target.value) || 12)} className="mt-1" />
+            <Input id="fs" type="number" min={6} max={72} value={fontSize} onChange={(e) => { const n = Number(e.target.value); setFontSize(Number.isFinite(n) && n > 0 ? Math.min(72, Math.max(6, n)) : 12); }} className="mt-1" />
           </div>
           <div>
             <Label htmlFor="start">Start at</Label>
-            <Input id="start" type="number" min={0} value={startNumber} onChange={(e) => setStartNumber(Number(e.target.value) || 1)} className="mt-1" />
+            <Input id="start" type="number" min={0} value={startNumber} onChange={(e) => { const n = Number(e.target.value); setStartNumber(e.target.value !== "" && Number.isFinite(n) ? Math.max(0, Math.trunc(n)) : 1); }} className="mt-1" />
           </div>
         </>
       }

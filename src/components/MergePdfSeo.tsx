@@ -45,7 +45,7 @@ const faqs = [
 
 const related = [
   { to: "/tools/split", name: "Split PDF", blurb: "Separate a PDF into individual pages or custom ranges" },
-  { to: "/tools/compress", name: "Compress PDF", blurb: "Reduce file size without losing quality" },
+  { to: "/tools/compress", name: "Compress PDF", blurb: "Try reducing PDF file size" },
   { to: "/tools/delete-pages", name: "Delete Pages", blurb: "Remove unwanted pages from any PDF" },
   { to: "/tools/reorder-pages", name: "Reorder Pages", blurb: "Rearrange pages within a single PDF" },
   { to: "/tools/extract-pages", name: "Extract Pages", blurb: "Pull out specific pages as a new file" },

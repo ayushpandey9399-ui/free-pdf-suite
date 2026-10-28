@@ -135,7 +135,7 @@ export const compareHowToJsonLd = {
   "@type": "HowTo",
   name: "How to compare two PDF files online for free",
   description:
-    "Compare two PDFs page by page inside your browser, upload both files, wait for text-layer analysis, and see every page that changed with a word-level Text Diff option. Nothing is uploaded to a server.",
+    "Compare two PDFs page by page inside your browser, upload both files, wait for text-layer analysis, and see overlapping pages whose extracted text differs with a word-level Text Diff option. Nothing is uploaded to a server.",
   totalTime: "PT1M",
   supply: [
     { "@type": "HowToSupply", name: "The original PDF" },

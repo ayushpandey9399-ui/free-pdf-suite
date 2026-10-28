@@ -92,7 +92,7 @@ export const TOOL_FIELD_NOTES: Record<string, ToolFieldNote> = {
     whatHappens: [
       "Method 1, image method: every page is redrawn and saved as a JPG. Less Compression uses about 108 DPI at 90% quality, Recommended about 86 DPI at 70%, Extreme 72 DPI at 50%.",
       "Method 2, lossless rewrite: your original pages are kept exactly as they are and only the file structure is packed more tightly.",
-      "The smaller of the two is offered for download. If neither is smaller than your original, you get your original back unchanged and the screen says \"Already optimized\".",
+      "The smaller of the two is offered for download. If neither is smaller than your original, you get your original back unchanged and the screen says \"Original kept\".",
       "After compressing, the result screen tells you which method was used.",
     ],
     limits: [
@@ -103,7 +103,7 @@ export const TOOL_FIELD_NOTES: Record<string, ToolFieldNote> = {
     ],
     errors: [
       {
-        message: "This PDF is already well-optimized. No further reduction possible.",
+        message: "These methods did not produce a smaller file. Your original is kept.",
         meaning: "Both methods produced a file that was not smaller. You get your original, untouched.",
       },
       { message: "PDF is password-protected", meaning: "Remove the password with Unlock PDF first, then compress." },

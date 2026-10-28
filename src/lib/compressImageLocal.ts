@@ -27,7 +27,6 @@ export function minifySvg(text: string): string {
     .replace(/<!--[\s\S]*?-->/g, "")
     .replace(/<\?xml[^>]*\?>/g, "")
     .replace(/>\s+</g, "><")
-    .replace(/\s{2,}/g, " ")
     .trim();
 }
 

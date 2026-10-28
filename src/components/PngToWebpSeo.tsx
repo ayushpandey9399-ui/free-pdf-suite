@@ -205,7 +205,7 @@ export function PngToWebpSeo() {
       <p className="mt-3">
         Batch conversion is built in. Select as many PNGs as you like,
         or drop a whole folder, and each file is converted in one pass
-        at the quality you picked. There is no per-file cap and no
+        at the quality you picked. Images above 100 million pixels are rejected, and there is no
         daily limit because the work happens on your own machine.
         When it finishes, download each WebP individually or grab them
         all together as a single ZIP archive named png-to-webp.zip,

@@ -40,8 +40,8 @@ const LEVELS: CompressionLevelInfo[] = [
   {
     id: "less",
     label: "Less Compression",
-    description: "High quality, best for printing",
-    reduction: "~20-40% smaller",
+    description: "Higher resolution page images",
+    reduction: "Result varies by file",
     icon: Star,
     scale: 1.5,
     quality: 0.9,
@@ -50,7 +50,7 @@ const LEVELS: CompressionLevelInfo[] = [
     id: "recommended",
     label: "Recommended",
     description: "Balanced quality and size",
-    reduction: "~40-70% smaller",
+    reduction: "Result varies by file",
     icon: Check,
     scale: 1.2,
     quality: 0.7,
@@ -59,8 +59,8 @@ const LEVELS: CompressionLevelInfo[] = [
   {
     id: "extreme",
     label: "Extreme Compression",
-    description: "Smallest size, for uploads with strict limits",
-    reduction: "~70-90% smaller",
+    description: "Lower resolution page images",
+    reduction: "Result varies by file",
     icon: Zap,
     scale: 1.0,
     quality: 0.5,
@@ -223,7 +223,7 @@ export default function CompressPdf() {
       });
       
       if (keptOriginal) {
-        toast.info("This PDF is already well-optimized. No further reduction possible.");
+        toast.info("These methods did not produce a smaller file. Your original is kept.");
       } else {
         toast.success("PDF compressed successfully!");
       }
@@ -247,10 +247,10 @@ export default function CompressPdf() {
       
     return (
       <ToolSuccessScreen
-        heading={result.keptOriginal ? "Already optimized" : "Your PDF has been compressed!"}
+        heading={result.keptOriginal ? "Original kept" : "Your PDF has been compressed!"}
         subheading={
           result.keptOriginal
-            ? "Your PDF was already well optimized, we kept the best version."
+            ? "These methods did not produce a smaller file, so your original was kept."
             : "Your compressed PDF is ready to download."
         }
         downloadLabel="Download compressed PDF"

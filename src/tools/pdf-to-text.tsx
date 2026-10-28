@@ -29,7 +29,7 @@ export default function PdfToText() {
     [pages],
   );
   const totalChars = useMemo(() => pages.reduce((sum, p) => sum + p.text.trim().length, 0), [pages]);
-  const isEmpty = ran && !loading && pages.length > 0 && totalChars < 20;
+  const isEmpty = ran && !loading && pages.length > 0 && totalChars === 0;
   const hasResult = ran && !loading && pages.length > 0 && !isEmpty;
 
   const resetAll = () => { setFiles([]); setPages([]); setRan(false); setProgress(null); };
@@ -70,7 +70,10 @@ export default function PdfToText() {
         secondaryAction={{
           label: "Copy to clipboard",
           icon: <Copy className="h-4 w-4" />,
-          onClick: async () => { await navigator.clipboard.writeText(fullText); toast.success("Copied to clipboard"); },
+          onClick: async () => {
+            try { await navigator.clipboard.writeText(fullText); toast.success("Copied to clipboard"); }
+            catch { toast.error("Could not copy text. Download the .txt file instead."); }
+          },
         }}
         onReset={resetAll}
         suggestedSlugs={TOOL_SUGGESTIONS["pdf-to-text"]}
