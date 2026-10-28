@@ -14,7 +14,6 @@ const GROUPS: { title: string; intro: string; categories: ToolCategory[] }[] = [
 ];
 
 export const Route = createFileRoute("/tools/")({
-  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: TITLE },
