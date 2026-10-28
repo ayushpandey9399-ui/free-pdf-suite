@@ -47,7 +47,7 @@ const BANNED_KEYS = new Set(["aggregateRating", "review"]);
  * rating or review data (we have no real reviews), and makes every
  * SoftwareApplication carry the same category, OS and free offer.
  */
-export function toolJsonLdList(nodes: unknown[], pageUrl: string): unknown[] {
+export function toolJsonLdList(nodes: readonly unknown[], pageUrl: string): unknown[] {
   const clean = (node: unknown): unknown => {
     if (Array.isArray(node)) return node.filter((n) => !isBanned(n)).map(clean);
     if (!node || typeof node !== "object") return node;
