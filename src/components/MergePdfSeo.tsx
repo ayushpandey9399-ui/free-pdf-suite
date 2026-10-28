@@ -31,7 +31,7 @@ const faqs = [
   },
   {
     q: "Do my files get uploaded to a server?",
-    a: "No. Our PDF merger processes everything locally in your browser using JavaScript. Your files never leave your device and are never transmitted over the internet, making this the most private way to merge PDFs online.",
+    a: "No. Our PDF merger processes everything locally in your browser using JavaScript. Your files never leave your device and are never transmitted over the internet.",
   },
   {
     q: "Will merging affect the quality of my PDFs?",
@@ -217,19 +217,19 @@ export function MergePdfSeo() {
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             Unlike most online PDF tools that upload your files to cloud servers for processing, our merger runs entirely in your browser. 
             Your PDFs are processed locally using client-side JavaScript, which means no file data is ever transmitted over the internet. 
-            This makes it the most private way to merge PDFs online. You can even use the tool offline once the page has loaded.
+            Once the page has loaded, merging keeps working even if your connection drops.
           </p>
         </div>
         <div>
           <h3 className="text-[18px] font-bold text-[#33333c]">Completely Free With No Hidden Limits</h3>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
-            There are no file size limits, no daily usage caps, and no premium tier hiding the features you actually need. 
-            You can merge as many files as you want, as often as you want, without creating an account or providing an email address. 
+            There are no daily usage caps, and no premium tier hiding the features you actually need. 
+            You can merge as many files as you want, as often as you want, without creating an account or providing an email address. Large files depend on your device memory. 
             The output PDF has no watermarks or branding added.
           </p>
         </div>
         <div>
-          <h3 className="text-[18px] font-bold text-[#33333c]">No Quality Loss</h3>
+          <h3 className="text-[18px] font-bold text-[#33333c]">Pages Copied As They Are</h3>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
             The merging process preserves every element of your original PDFs exactly as they are. Text remains selectable, images retain their original resolution, 
             and links within a page keep working. Fillable form fields are the exception: they may stop being fillable, so fill them first. The merged file is not a re-encoded copy, it is a precise combination of the original page data.
@@ -250,10 +250,9 @@ export function MergePdfSeo() {
           </p>
         </div>
         <div>
-          <h3 className="text-[18px] font-bold text-[#33333c]">Lightning-Fast Processing</h3>
+          <h3 className="text-[18px] font-bold text-[#33333c]">No Upload Wait</h3>
           <p className="mt-2 text-[15px] leading-relaxed text-[#4a4a55]">
-            Because the processing happens locally on your device rather than waiting for a server upload and download cycle, merging is nearly instant. 
-            Even combining ten large PDF files typically completes in under five seconds on a modern phone or laptop.
+            Because the processing happens locally on your device rather than waiting for a server upload and download cycle, speed depends on your device and the size of your files.
           </p>
         </div>
       </div>

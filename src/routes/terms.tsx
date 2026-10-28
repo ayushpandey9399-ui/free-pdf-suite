@@ -7,7 +7,7 @@ export const Route = createFileRoute("/terms")({
   head: () => {
     const title = "Terms of Use for Free PDF and Image Tools | PDFToolConverter";
     const description =
-      "The terms that govern your use of PDFToolConverter: free, browser-based PDF tools with no accounts, no uploads, and clear rules for acceptable use.";
+      "The terms that govern your use of PDFToolConverter: free, mostly browser-based PDF tools with no accounts and clear rules for acceptable use.";
     const url = `${SITE_URL}/terms`;
     const ogImage = `${SITE_URL}/og-cover.png`;
     return {

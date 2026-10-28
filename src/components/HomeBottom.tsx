@@ -193,9 +193,8 @@ export function SeoProseInternal() {
             <p className="mt-5">
               When documents get sensitive, <SeoLink slug="protect-pdf">protect them with a password</SeoLink>,{" "}
               <SeoLink slug="redact-pdf">redact private information</SeoLink>{" "}
-              permanently, or remove hidden metadata before sharing. Every one
-              of these free PDF tools runs in your browser, so the fastest way
-              to finish a PDF task is also the most private one.
+              permanently, or remove hidden metadata before sharing. Each of
+              these tools runs in your browser, so the file stays on your device.
             </p>
           </div>
         </RevealInternal>

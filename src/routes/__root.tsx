@@ -108,7 +108,7 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => {
     const title = "PDFToolConverter | 44 Free PDF Tools Online, No Signup";
-    const desc = "44 free PDF and image tools that run in your browser. Merge, split, compress, sign, convert and edit PDFs instantly. No signup, no watermark, no limits.";
+    const desc = "44 free PDF and image tools that run in your browser. Merge, split, compress, sign, convert and edit PDFs instantly. No signup, no watermark.";
     const ogImage = `${SITE_URL}/og-cover.png`;
     const ogImageWebp = `${SITE_URL}/og-cover.webp`;
 

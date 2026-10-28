@@ -213,6 +213,11 @@ export function Navbar() {
                       </div>
                     ))}
                   </div>
+                  <div className="border-t border-[#ececef] px-6 py-3 text-right">
+                    <Link to="/tools" onClick={closeAll} className="text-[14px] font-semibold text-[#e5322d] hover:underline">
+                      View all PDF tools →
+                    </Link>
+                  </div>
                 </DropdownPanel>
               )}
             </div>

@@ -7,7 +7,7 @@ export const Route = createFileRoute("/about")({
   head: () => {
     const title = "About PDFToolConverter | Free Browser-Based PDF Tools";
     const description =
-      "PDFToolConverter offers 44 genuinely free PDF and image tools that run in your browser, no uploads, no accounts, no watermarks. Learn why we built it.";
+      "PDFToolConverter offers 44 genuinely free PDF and image tools that mostly run in your browser, with no accounts and no watermarks. Learn why we built it.";
     const url = `${SITE_URL}/about`;
     const ogImage = `${SITE_URL}/og-cover.png`;
     return {
@@ -61,8 +61,8 @@ function AboutPage() {
 
       <p>
         We thought that was backwards. So we built PDFToolConverter: 44 genuinely free PDF
-        and image tools that run entirely in your browser. No uploads. No accounts. No
-        watermarks. No daily limits.
+        and image tools. All but two run entirely in your browser (PDF to Word and
+        Compress Image use our server). No accounts. No watermarks. No daily limits.
       </p>
 
       <h2>How it works</h2>

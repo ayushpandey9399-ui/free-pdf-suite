@@ -169,7 +169,7 @@ export const IMAGE_SILOS: Record<string, Silo> = {
   "compress-image": {
     jsonLd: [compressImageSoftwareJsonLd, compressImageHowToJsonLd, compressImageFaqJsonLd],
     h1: "Compress images online, free",
-    subtitle: "Reduce JPG, PNG, and WebP file size right in your browser, no upload.",
+    subtitle: "Reduce JPG, PNG, and WebP file size on our server, with a quality slider or a target size.",
     Component: CompressImageTool,
     Seo: CompressImageSeo,
   },
