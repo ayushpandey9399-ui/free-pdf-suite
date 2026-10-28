@@ -12,7 +12,7 @@ const steps = [
   },
   {
     title: "Step 3: Set Image Quality",
-    text: "Choose the image resolution and quality level. Higher quality settings produce sharper images with larger file sizes. Standard quality is sufficient for screen viewing and most sharing purposes. High quality is recommended when images will be printed or used in professional presentations.",
+    text: "Choose the image resolution and quality level. Higher quality settings produce sharper images with larger file sizes. Low (72 DPI) is enough for previews, Medium (150 DPI) suits screens and sharing, and High (300 DPI) is recommended when images will be printed or used in professional presentations.",
   },
   {
     title: "Step 4: Convert and Download",

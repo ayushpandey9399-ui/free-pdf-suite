@@ -291,7 +291,7 @@ export const compressHowToJsonLd = {
   "@context": "https://schema.org",
   "@type": "HowTo",
   name: "How to compress a PDF online for free",
-  description: "Reduce your PDF file size instantly without losing quality. Choose your compression level and download a smaller PDF in seconds.",
+  description: "Reduce your PDF file size in your browser. Choose a compression level, see the size saved, and download the smaller copy.",
   step: steps.map((s, i) => ({
     "@type": "HowToStep",
     position: i + 1,
