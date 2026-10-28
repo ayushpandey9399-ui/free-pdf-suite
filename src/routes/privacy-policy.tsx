@@ -7,7 +7,7 @@ export const Route = createFileRoute("/privacy-policy")({
   head: () => {
     const title = "Privacy Policy, Your Files Stay on Your Device | PDFToolConverter";
     const description =
-      "PDFToolConverter processes every PDF entirely inside your browser. Read our privacy policy: no uploads, no accounts, and full disclosure on cookies and ads.";
+      "PDFToolConverter processes every PDF entirely inside your browser. Read our privacy policy: most tools need no upload, no accounts, and full disclosure on cookies and ads.";
     const url = `${SITE_URL}/privacy-policy`;
     const ogImage = `${SITE_URL}/og-cover.png`;
     return {
