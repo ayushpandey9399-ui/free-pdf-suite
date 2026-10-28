@@ -225,20 +225,6 @@ export default function PdfToWord() {
 
   return (
     <div className="w-full">
-      {serverStatus === "down" ? (
-        <div
-          role="status"
-          className="mx-auto mb-4 max-w-[560px] rounded-xl px-4 py-3 text-left text-[14px] leading-relaxed"
-          style={{ backgroundColor: "#fffbeb", border: "1px solid #fde68a", color: "#5a5a66" }}
-        >
-          <strong style={{ color: "#33333c" }}>Our conversion server is not responding right now.</strong>{" "}
-          A PDF picked now will most likely fail to convert. To get the text out today, use{" "}
-          <Link to="/tools/$slug" params={{ slug: "pdf-to-text" }} className="font-semibold underline">
-            PDF to Text
-          </Link>
-          , which runs in your browser.
-        </div>
-      ) : null}
       <UploadDropzone
         accept=".pdf,application/pdf"
         buttonLabel="Select PDF file"
@@ -258,6 +244,20 @@ export default function PdfToWord() {
       </div>
 
       <div aria-live="polite" className="mt-6 px-4">
+        {serverStatus === "down" ? (
+          <div
+            role="status"
+            className="mx-auto mt-4 max-w-[520px] rounded-xl px-4 py-3 text-left text-[14px] leading-relaxed"
+            style={{ backgroundColor: "#fffbeb", border: "1px solid #fde68a", color: "#5a5a66" }}
+          >
+            <strong style={{ color: "#33333c" }}>Our conversion server is not responding right now.</strong>{" "}
+            A PDF picked now will most likely fail to convert. To get the text out today, use{" "}
+            <Link to="/tools/$slug" params={{ slug: "pdf-to-text" }} className="font-semibold underline">
+              PDF to Text
+            </Link>
+            , which runs in your browser.
+          </div>
+        ) : null}
         {error ? (
           <div
             className="mx-auto max-w-[520px] rounded-xl p-4 text-[14px]"
