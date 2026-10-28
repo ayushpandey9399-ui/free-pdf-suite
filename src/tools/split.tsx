@@ -107,13 +107,13 @@ export default function Split() {
 
   // ---- validation -------------------------------------------------------
   const parsedRanges = rows.map((r) => {
-    const a = parseInt(r.from, 10);
-    const b = parseInt(r.to, 10);
+    const a = /^\d+$/.test(r.from) ? Number(r.from) : NaN;
+    const b = /^\d+$/.test(r.to) ? Number(r.to) : NaN;
     let error: string | null = null;
     if (!r.from || !r.to || Number.isNaN(a) || Number.isNaN(b)) error = "Enter both page numbers";
     else if (a < 1 || b < 1) error = "Pages start at 1";
     else if (pageCount && (a > pageCount || b > pageCount)) error = `This PDF has only ${pageCount} pages`;
-    else if (a > b) error = "From must be less than To";
+    else if (a > b) error = "From must be less than or equal to To";
     return { row: r, start: a, end: b, error, count: error ? 0 : b - a + 1 };
   });
   const rangesValid = parsedRanges.length > 0 && parsedRanges.every((r) => !r.error);

@@ -8,7 +8,7 @@ const steps = [
   },
   {
     title: "Step 2: Select Pages to Rotate",
-    text: "Choose whether to rotate all pages in the document or select specific individual pages to rotate. You can rotate different pages by different amounts, for example, rotating pages 3 and 7 by 90 degrees while leaving all other pages unchanged.",
+    text: "Choose whether to rotate all pages in the document or select specific individual pages to rotate. One chosen angle applies to every selected page in one export. To use another angle on other pages, download the result and run it again.",
   },
   {
     title: "Step 3: Choose Rotation Direction",
@@ -16,7 +16,7 @@ const steps = [
   },
   {
     title: "Step 4: Download the Rotated PDF",
-    text: "Click the rotate button and download your corrected PDF. The rotation is permanently saved in the file; viewers do not need to manually rotate pages when opening the document. All content, fonts, images, and links are preserved exactly.",
+    text: "Click the rotate button and download your corrected PDF. The rotation is permanently saved in the file; viewers do not need to manually rotate pages when opening the document. Page contents are not converted to images. Check the downloaded file before sharing.",
   },
 ];
 

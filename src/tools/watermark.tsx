@@ -44,6 +44,11 @@ export default function Watermark() {
       const pages = doc.getPages();
       if (mode === "text") {
         const font = await doc.embedFont(StandardFonts.HelveticaBold);
+        if (!text.trim()) throw new Error("Enter watermark text");
+        const supported = new Set(font.getCharacterSet());
+        if (Array.from(text).some((ch) => !supported.has(ch.codePointAt(0)!))) {
+          throw new Error("This text contains characters the standard PDF font cannot show. Use a PNG or JPEG watermark instead.");
+        }
         const [r, g, b] = hexToRgb(color);
         for (const page of pages) {
           const { width, height } = page.getSize();
