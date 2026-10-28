@@ -7,9 +7,9 @@
  */
 import type { ReactNode } from "react";
 
-import { MergePdfSeo, mergeFaqJsonLd, mergeHowToJsonLd, mergeSoftwareJsonLd } from "@/components/MergePdfSeo";
-import { CompressPdfSeo, compressFaqJsonLd, compressHowToJsonLd, compressSoftwareJsonLd } from "@/components/CompressPdfSeo";
-import { SplitPdfSeo, splitFaqJsonLd, splitHowToJsonLd, splitSoftwareJsonLd } from "@/components/SplitPdfSeo";
+import { MergePdfSeo, mergeFaqJsonLd, mergeSoftwareJsonLd } from "@/components/MergePdfSeo";
+import { CompressPdfSeo, compressFaqJsonLd, compressSoftwareJsonLd } from "@/components/CompressPdfSeo";
+import { SplitPdfSeo, splitFaqJsonLd, splitSoftwareJsonLd } from "@/components/SplitPdfSeo";
 import { SignPdfSeo, signFaqJsonLd, signHowToJsonLd, signSoftwareJsonLd } from "@/components/SignPdfSeo";
 import { PdfToImagesSeo, pdfToImagesFaqJsonLd, pdfToImagesHowToJsonLd, pdfToImagesSoftwareJsonLd } from "@/components/PdfToImagesSeo";
 import { RedactPdfSeo, redactFaqJsonLd, redactHowToJsonLd, redactSoftwareJsonLd } from "@/components/RedactPdfSeo";
@@ -20,7 +20,7 @@ import { RotatePdfSeo, rotateFaqJsonLd, rotateHowToJsonLd, rotateSoftwareJsonLd 
 import { DeletePagesSeo, deletePagesFaqJsonLd, deletePagesHowToJsonLd, deletePagesSoftwareJsonLd } from "@/components/DeletePagesSeo";
 import { ExtractPagesSeo, extractPagesFaqJsonLd, extractPagesHowToJsonLd, extractPagesSoftwareJsonLd } from "@/components/ExtractPagesSeo";
 import { ReorderPagesSeo, reorderPagesFaqJsonLd, reorderPagesHowToJsonLd, reorderPagesSoftwareJsonLd } from "@/components/ReorderPagesSeo";
-import { ImagesToPdfSeo, imagesToPdfFaqJsonLd, imagesToPdfHowToJsonLd, imagesToPdfSoftwareJsonLd } from "@/components/ImagesToPdfSeo";
+import { ImagesToPdfSeo, imagesToPdfFaqJsonLd, imagesToPdfSoftwareJsonLd } from "@/components/ImagesToPdfSeo";
 import { PdfToTextSeo, pdfToTextFaqJsonLd, pdfToTextHowToJsonLd, pdfToTextSoftwareJsonLd } from "@/components/PdfToTextSeo";
 import {
   PdfToWordSeo,
@@ -51,17 +51,17 @@ type ToolSeo = {
 export const TOOL_SEO: Record<string, ToolSeo> = {
   "merge": {
     layoutTitle: "Merge PDF files online",
-    jsonLd: [mergeFaqJsonLd, mergeHowToJsonLd, mergeSoftwareJsonLd],
+    jsonLd: [mergeFaqJsonLd, mergeSoftwareJsonLd],
     content: <MergePdfSeo />,
   },
   "compress": {
     layoutTitle: "Compress PDF online",
-    jsonLd: [compressFaqJsonLd, compressHowToJsonLd, compressSoftwareJsonLd],
+    jsonLd: [compressFaqJsonLd, compressSoftwareJsonLd],
     content: <CompressPdfSeo />,
   },
   "split": {
     layoutTitle: "Split PDF files",
-    jsonLd: [splitFaqJsonLd, splitHowToJsonLd, splitSoftwareJsonLd],
+    jsonLd: [splitFaqJsonLd, splitSoftwareJsonLd],
     content: <SplitPdfSeo />,
   },
   "sign-pdf": {
@@ -116,7 +116,7 @@ export const TOOL_SEO: Record<string, ToolSeo> = {
   },
   "images-to-pdf": {
     layoutTitle: "Convert JPG to PDF",
-    jsonLd: [imagesToPdfFaqJsonLd, imagesToPdfHowToJsonLd, imagesToPdfSoftwareJsonLd],
+    jsonLd: [imagesToPdfFaqJsonLd, imagesToPdfSoftwareJsonLd],
     content: <ImagesToPdfSeo />,
   },
   "pdf-to-word": {
