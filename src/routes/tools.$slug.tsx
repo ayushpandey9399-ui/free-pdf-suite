@@ -6,7 +6,7 @@ import { ToolLayout } from "@/components/ToolLayout";
 import { ClientOnly } from "@/components/ClientOnly";
 import { getTool, categoryTint } from "@/tools/registry";
 import { SITE_URL } from "@/lib/site";
-import { breadcrumbJsonLd, normalizeToolJsonLd } from "@/lib/seoSchema";
+import { breadcrumbJsonLd, toolJsonLdList } from "@/lib/seoSchema";
 import { cn } from "@/lib/utils";
 import { TOOL_SEO } from "@/components/toolSeoBundle";
 import { ToolFieldNotes } from "@/components/ToolFieldNotes";
@@ -301,11 +301,11 @@ function ToolPage() {
         {seo?.content}
       </div>
 
-      {seo?.jsonLd.map((v, i) => (
+      {toolJsonLdList(seo?.jsonLd ?? [], url).map((v, i) => (
         <script
           key={i}
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(normalizeToolJsonLd(v, url)) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(v) }}
         />
       ))}
     </>
