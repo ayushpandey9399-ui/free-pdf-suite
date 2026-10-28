@@ -11,7 +11,7 @@ const faqs: ArticleFaq[] = [
   },
   {
     q: "Will my images be cropped to fit the page?",
-    a: "No. Each image is scaled down proportionally to fit inside the page and its margins, and centred. Nothing is cut off and images are not stretched.",
+    a: "No. Each image is scaled proportionally to fill the space inside the page margins, and centred. Nothing is cut off and the proportions do not change.",
   },
   {
     q: "What happens to transparent areas in PNGs?",
@@ -42,13 +42,13 @@ export function ImagesToPdfSeo() {
       toolName="Images to PDF"
       howItWorks={[
         "Images to PDF puts your pictures into a PDF, one image per page, inside your browser. Your images are not uploaded.",
-        "JPG and PNG files are placed into the PDF as they are, without being re-compressed. Other formats are first drawn by your browser onto a white background and saved as PNG, then placed into the PDF. For each page, the tool works out the image's size after any rotation you applied, scales it down to fit inside the page and margins without stretching, and centres it.",
+        "JPG and PNG files are placed into the PDF as they are, without being re-compressed. Other formats are first drawn by your browser onto a white background and saved as PNG, then placed into the PDF. For each page, the tool works out the image's size after any rotation you applied, scales it up or down to fill the space inside the margins without changing its proportions, and centres it.",
         "With all images merged, you download one PDF with the pages in the order shown. With merging turned off, you get one PDF per image in a ZIP.",
       ]}
       options={[
-        { term: "Order", text: "Drag images to reorder them, or sort them by file name, A to Z or Z to A. The first image becomes page 1." },
-        { term: "Rotate and remove", text: "Each image has a rotate button that turns it by 90 degrees, and a button to remove it from the list." },
-        { term: "Page size", text: "A4, US Letter, or Fit, which makes each page exactly the size of its image." },
+        { term: "Order", text: "Drag images to reorder them, or use the sort button to order them by file name; clicking it again switches between A to Z and Z to A. The first image becomes page 1." },
+        { term: "Rotate and remove", text: "Each image can be turned 90 degrees left or right, and removed from the list." },
+        { term: "Page size", text: "A4, US Letter, or Fit, which makes each page the size of its image plus the chosen margin." },
         { term: "Orientation", text: "Portrait or landscape for A4 and Letter pages." },
         { term: "Margin", text: "None, Small (about 1 cm) or Large (about 2.5 cm) of white space around each image." },
         { term: "Merge all images", text: "On: one PDF. Off: one PDF per image, downloaded together as a ZIP." },
@@ -56,7 +56,7 @@ export function ImagesToPdfSeo() {
       ]}
       limits={[
         "Formats other than JPG and PNG depend on your browser. HEIC usually only works in Safari.",
-        "Images are only scaled down to fit. Small images are not enlarged to fill an A4 or Letter page.",
+        "On A4 and Letter pages, small images are enlarged to fill the page, so low-resolution pictures can look blurry. Use Fit to keep them at their own size.",
         "Animated GIFs become a single still page.",
         "All images are held in your browser's memory. Many large photos can be slow or fail, especially on phones. Convert in smaller groups if that happens.",
       ]}
