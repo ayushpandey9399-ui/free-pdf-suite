@@ -12,8 +12,8 @@ const steps = [
     text: "Click and drag on any page to draw a redaction box over an Aadhaar number, an account number, a photograph, a signature or a whole paragraph. Boxes can be dragged into position or resized from the corners, and you can add as many as the document needs across as many pages as you want.",
   },
   {
-    title: "Optional: find and redact by text",
-    text: "Type a phrase such as an email address, a phone number or an account number into the Find field and press Enter. The tool locates every occurrence across all pages using the PDF's text layer and adds a redaction box on top of each one, so you never miss a hit.",
+    title: "Check every page yourself",
+    text: "Text search is turned off for now because it could place boxes in the wrong spot. Scroll through every page and draw a box over each place the sensitive text appears, including repeats on other pages.",
   },
   {
     title: "Click Redact PDF and download",
@@ -35,8 +35,8 @@ const faqs = [
     a: "Yes. Draw boxes on the areas you need to remove across the document. Review every affected page before sharing the downloaded PDF.",
   },
   {
-    q: "Can Find redact every occurrence automatically?",
-    a: "Find uses the PDF's text layer to locate matches and add redaction boxes. Scanned text without a text layer and text split into separate PDF items may not match. Review the results and add boxes manually where needed.",
+    q: "Can the tool find every occurrence of a word automatically?",
+    a: "Not at the moment. Text search is turned off because it could place boxes in the wrong spot. Draw a box over every occurrence by hand, then check the downloaded file.",
   },
   {
     q: "Will the rest of my document lose quality?",
@@ -100,12 +100,11 @@ export function RedactPdfSeo() {
         through the properties dialog either.
       </p>
       <p className="mt-3 text-[15px] leading-relaxed text-[#4a4a55]">
-        Do not take our word for it. Run the redacted file through our{" "}
+        Always open the downloaded file and check that the sensitive text is gone (try selecting or searching for it). You can also run the redacted file through our{" "}
         <Link to="/tools/$slug" params={{ slug: "pdf-to-text" }} className="font-semibold text-[#e5322d] underline underline-offset-2">
           PDF to Text
         </Link>{" "}
-        tool and search for the words you blacked out, they will not appear. That is what permanently remove
-        text from PDF actually looks like.
+        tool and search for the words you blacked out. They should not appear on the pages you redacted. If they still appear, they are on a page where you did not draw a box: pages without boxes keep their original, selectable text.
       </p>
 
       {/* FAQ */}
@@ -148,7 +147,7 @@ export const redactHowToJsonLd = {
   "@type": "HowTo",
   name: "How to redact a PDF online for free",
   description:
-    "Permanently black out sensitive text, numbers or images in a PDF using an in-browser redaction tool, the redacted pages are re-rendered so the hidden content is truly removed, not just covered.",
+    "Permanently black out sensitive text, numbers or images in a PDF using an in-browser redaction tool, pages with redaction boxes are rebuilt as images, so their original text is not kept in the output.",
   totalTime: "PT2M",
   supply: [{ "@type": "HowToSupply", name: "A PDF containing sensitive content to remove" }],
   tool: [{ "@type": "HowToTool", name: "PDFToolConverter Redact PDF (web browser)" }],
@@ -166,7 +165,7 @@ export const redactSoftwareJsonLd = {
   "@type": "SoftwareApplication",
   name: "PDFToolConverter Redact PDF",
   description:
-    "Redact PDF online free, permanently black out Aadhaar numbers, account details and other sensitive content in your browser. Redacted pages are re-rendered so removed text cannot be recovered.",
+    "Redact PDF online free, permanently black out Aadhaar numbers, account details and other sensitive content in your browser. Pages with boxes are rebuilt as images without their original text.",
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "Web",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
