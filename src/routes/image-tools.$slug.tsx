@@ -36,7 +36,7 @@ const WEBP_PNG_DESC =
 
 const COMPRESS_TITLE = "Compress Image Online Free, JPG PNG WebP | PDFToolConverter";
 const COMPRESS_DESC =
-  "Compress image online free. Reduce JPG, PNG, WebP and SVG file size in your browser with a quality slider and max width. Batch ZIP download, files never leave your device.";
+  "Compress images free. Shrink JPG, PNG, WebP and SVG in your browser with a quality slider and max width. Batch ZIP download, files never leave your device.";
 
 const RESIZE_TITLE = "Resize Image in Pixels or KB Free, No Upload | PDFToolConverter";
 const RESIZE_DESC =
