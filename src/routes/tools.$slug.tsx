@@ -101,7 +101,7 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Crop PDF online free to trim white margins or cut unwanted edges from scans. Live preview shows the exact crop box before you save.",
   },
   "edit-pdf": {
-    title: "Edit PDF Online Free — Add Text, Images & Annotations to PDF | PDFToolConverter",
+    title: "Edit PDF Online Free: Add Text, Images & Annotations to PDF | PDFToolConverter",
     desc: "Edit PDF online free and add text, images, or annotations to your document instantly in your browser. No signup, no watermark, files never leave your device.",
   },
   "fill-forms": {
@@ -121,7 +121,7 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Convert PDF to grayscale (black and white) online free. Save ink, reduce file size, and clean up scans with our browser-based PDF converter.",
   },
   "add-blank-pages": {
-    title: "Add Blank Pages to PDF Online Free — No Signup | PDFToolConverter",
+    title: "Add Blank Pages to PDF Online Free, No Signup | PDFToolConverter",
     desc: "Add blank pages to any PDF instantly in your browser. Insert empty pages before, after, or between existing pages. Free, no signup, no watermark, files never leave your device.",
   },
   "scan-to-pdf": {
@@ -129,7 +129,7 @@ const TOOL_META: Record<string, ToolMeta> = {
     desc: "Scan documents to PDF free with your phone camera, right in the browser. Capture multiple pages and export as a single PDF.",
   },
   "extract-images": {
-    title: "Extract Images from PDF Online Free — No Upload | PDFToolConverter",
+    title: "Extract Images from PDF Online Free, No Upload | PDFToolConverter",
     desc: "Extract all images from any PDF file instantly in your browser. Download embedded JPG, PNG, TIFF images in original quality. Free, no signup, no upload to servers.",
   },
   "compare": {
