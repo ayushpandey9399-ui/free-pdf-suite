@@ -67,12 +67,16 @@ const LEVELS: CompressionLevelInfo[] = [
   },
 ];
 
+/** Which candidate was downloaded: page images, a lossless rewrite, or the untouched original. */
+type CompressMethod = "images" | "lossless" | "original";
+
 interface Result {
   blob: Blob;
   filename: string;
   originalSize: number;
   outputSize: number;
   keptOriginal: boolean;
+  method: CompressMethod;
 }
 
 function formatSize(bytes: number): string {
@@ -185,11 +189,11 @@ export default function CompressPdf() {
       }
 
       const originalSize = file.size;
-      const candidates: { bytes: Uint8Array; size: number }[] = [
-        { bytes: raster, size: raster.byteLength },
+      const candidates: { bytes: Uint8Array; size: number; method: CompressMethod }[] = [
+        { bytes: raster, size: raster.byteLength, method: "images" },
       ];
       if (lossless && lossless.byteLength > 0) {
-        candidates.push({ bytes: lossless, size: lossless.byteLength });
+        candidates.push({ bytes: lossless, size: lossless.byteLength, method: "lossless" });
       }
       const best = candidates.reduce((a, b) => (b.size < a.size ? b : a));
 
@@ -215,6 +219,7 @@ export default function CompressPdf() {
         originalSize,
         outputSize: finalBlob.size,
         keptOriginal,
+        method: keptOriginal ? "original" : best.method,
       });
       
       if (keptOriginal) {
@@ -279,6 +284,18 @@ export default function CompressPdf() {
             </div>
           )}
         </div>
+        {result.method === "images" && (
+          <p className="mx-auto mt-4 max-w-md rounded-xl border border-[#fde68a] bg-[#fffbeb] px-4 py-3 text-left text-[13px] leading-relaxed text-[#5a5a66]">
+            <strong className="text-[#33333c]">Good to know:</strong> to reach this size, each page was
+            saved as an image. Text in the new file cannot be selected, searched or copied. If you need
+            that, try Less Compression or keep the original.
+          </p>
+        )}
+        {result.method === "lossless" && (
+          <p className="mx-auto mt-4 max-w-md text-center text-[13px] leading-relaxed text-[#5a5a66]">
+            Pages were left untouched; only the file structure was tidied, so text stays selectable.
+          </p>
+        )}
       </ToolSuccessScreen>
     );
   }
