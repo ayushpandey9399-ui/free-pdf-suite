@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { tools } from "@/tools/registry";
 import { imageTools } from "@/lib/imageTools";
-import { SITE_URL, LAST_UPDATED } from "@/lib/site";
+import { SITE_URL, LAST_UPDATED, NOINDEX_TOOL_SLUGS } from "@/lib/site";
 
 const BASE_URL = SITE_URL;
 
@@ -55,7 +55,7 @@ export const Route = createFileRoute("/sitemap.xml")({
         const entries: SitemapEntry[] = [
           { path: "/", lastmod: CUSTOM_DATES["/"] || DEFAULT_LASTMOD, changefreq: "weekly", priority: "1.0" },
 
-          ...tools.map((t) => ({
+          ...tools.filter((t) => !NOINDEX_TOOL_SLUGS.includes(t.slug)).map((t) => ({
             path: `/tools/${t.slug}`,
             lastmod: CUSTOM_DATES[`/tools/${t.slug}`] || DEFAULT_LASTMOD,
             changefreq: "monthly" as const,

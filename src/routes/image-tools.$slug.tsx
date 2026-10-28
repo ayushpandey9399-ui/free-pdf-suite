@@ -5,7 +5,7 @@ import { ToolErrorBoundary } from "@/components/ToolErrorBoundary";
 import { getImageTool } from "@/lib/imageTools";
 
 import { SITE_URL } from "@/lib/site";
-import { normalizeToolJsonLd } from "@/lib/seoSchema";
+import { toolJsonLdList } from "@/lib/seoSchema";
 import { ToolFieldNotes } from "@/components/ToolFieldNotes";
 import { IMAGE_SILOS } from "@/components/imageSeoBundle";
 
@@ -245,12 +245,12 @@ function ImageToolPage() {
         <Seo />
       </div>
 
-      {silo.jsonLd.map((v, i) => (
+      {toolJsonLdList(silo.jsonLd, `${SITE_URL}/image-tools/${tool.slug}`).map((v, i) => (
         <script
           key={i}
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(normalizeToolJsonLd(v, `${SITE_URL}/image-tools/${tool.slug}`)),
+            __html: JSON.stringify(v),
           }}
         />
       ))}

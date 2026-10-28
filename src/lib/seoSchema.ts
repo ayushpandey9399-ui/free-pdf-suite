@@ -39,6 +39,37 @@ export function normalizeToolJsonLd(node: unknown, pageUrl: string): unknown {
   return out;
 }
 
+const BANNED_TYPES = new Set(["HowTo", "HowToStep", "HowToSection", "AggregateRating", "Review"]);
+const BANNED_KEYS = new Set(["aggregateRating", "review"]);
+
+/**
+ * Prepares the JSON-LD list for a tool page: drops HowTo blocks and any
+ * rating or review data (we have no real reviews), and makes every
+ * SoftwareApplication carry the same category, OS and free offer.
+ */
+export function toolJsonLdList(nodes: readonly unknown[], pageUrl: string): unknown[] {
+  const clean = (node: unknown): unknown => {
+    if (Array.isArray(node)) return node.filter((n) => !isBanned(n)).map(clean);
+    if (!node || typeof node !== "object") return node;
+    const out: Json = {};
+    for (const [k, v] of Object.entries(node as Json)) {
+      if (BANNED_KEYS.has(k)) continue;
+      out[k] = clean(v);
+    }
+    if (out["@type"] === "SoftwareApplication") {
+      out.applicationCategory = "UtilitiesApplication";
+      out.operatingSystem = "Any";
+      out.offers = { "@type": "Offer", price: "0", priceCurrency: "USD" };
+    }
+    return out;
+  };
+  const isBanned = (n: unknown) =>
+    !!n && typeof n === "object" && BANNED_TYPES.has(String((n as Json)["@type"]));
+  return nodes
+    .filter((n) => !isBanned(n))
+    .map((n) => clean(normalizeToolJsonLd(n, pageUrl)));
+}
+
 export function breadcrumbJsonLd(items: { name: string; url: string }[]) {
   return {
     "@context": "https://schema.org",

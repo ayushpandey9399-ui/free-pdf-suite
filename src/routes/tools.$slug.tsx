@@ -5,8 +5,8 @@ import { Loader2 } from "lucide-react";
 import { ToolLayout } from "@/components/ToolLayout";
 import { ClientOnly } from "@/components/ClientOnly";
 import { getTool, categoryTint } from "@/tools/registry";
-import { SITE_URL } from "@/lib/site";
-import { breadcrumbJsonLd, normalizeToolJsonLd } from "@/lib/seoSchema";
+import { SITE_URL, NOINDEX_TOOL_SLUGS } from "@/lib/site";
+import { breadcrumbJsonLd, toolJsonLdList } from "@/lib/seoSchema";
 import { cn } from "@/lib/utils";
 import { TOOL_SEO } from "@/components/toolSeoBundle";
 import { ToolFieldNotes } from "@/components/ToolFieldNotes";
@@ -157,9 +157,11 @@ export const Route = createFileRoute("/tools/$slug")({
     ]);
 
     const meta = TOOL_META[slug];
+    const robots = NOINDEX_TOOL_SLUGS.includes(slug) ? [{ name: "robots", content: "noindex, follow" }] : [];
     if (meta) {
       return {
         meta: [
+          ...robots,
           { title: meta.title },
           { name: "description", content: meta.desc },
           { property: "og:title", content: meta.title },
@@ -181,6 +183,7 @@ export const Route = createFileRoute("/tools/$slug")({
     return {
       meta: loaderData
         ? [
+            ...robots,
             { title: `${loaderData.name} | PDFToolConverter` },
             { name: "description", content: loaderData.description },
             { property: "og:title", content: `${loaderData.name}, PDFToolConverter` },
@@ -301,11 +304,11 @@ function ToolPage() {
         {seo?.content}
       </div>
 
-      {seo?.jsonLd.map((v, i) => (
+      {toolJsonLdList(seo?.jsonLd ?? [], url).map((v, i) => (
         <script
           key={i}
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(normalizeToolJsonLd(v, url)) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(v) }}
         />
       ))}
     </>

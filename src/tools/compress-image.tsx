@@ -304,15 +304,15 @@ export function CompressImageTool() {
             <h3 className="mb-6 text-center text-sm font-bold uppercase tracking-widest text-[#8a8a93]">Continue to...</h3>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
               {[
-                { label: 'Resize IMAGE', slug: 'resize-image' },
+                { label: 'Resize IMAGE', slug: 'image-resize' },
                 { label: 'Crop IMAGE', slug: 'crop-image' },
                 { label: 'Rotate IMAGE', slug: 'rotate-image' },
-                { label: 'Convert to JPG', slug: 'jpg-to-png' },
+                { label: 'JPG to PNG', slug: 'jpg-to-png' },
                 { label: 'Watermark IMAGE', slug: 'watermark-image' }
               ].map(tool => (
                 <Link
                   key={tool.slug}
-                  to="/tools/$slug"
+                  to="/image-tools/$slug"
                   params={{ slug: tool.slug }}
                   className="flex flex-col items-center justify-center rounded-xl border border-[#ececef] bg-white p-4 text-center transition-all hover:shadow-md hover:border-[#2563EB]/20 hover:-translate-y-1"
                 >
