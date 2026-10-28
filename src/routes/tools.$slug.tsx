@@ -5,7 +5,7 @@ import { Loader2 } from "lucide-react";
 import { ToolLayout } from "@/components/ToolLayout";
 import { ClientOnly } from "@/components/ClientOnly";
 import { getTool, categoryTint } from "@/tools/registry";
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL, NOINDEX_TOOL_SLUGS } from "@/lib/site";
 import { breadcrumbJsonLd, toolJsonLdList } from "@/lib/seoSchema";
 import { cn } from "@/lib/utils";
 import { TOOL_SEO } from "@/components/toolSeoBundle";
