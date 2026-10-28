@@ -7,7 +7,7 @@ import { loadJSZip } from "@/lib/lazyLibs";
 import { saveAs } from "@/lib/saveFile";
 import { isSvgFile, uniqueZipName, singleZipEntry } from "@/lib/imageSafety";
 import { ToolWorkspace, InfoTip } from "@/components/ToolWorkspace";
-import { requestCompressImage, fetchCompressImageResult, type CompressImageProgress } from "@/lib/compressImage";
+import { compressImageLocal } from "@/lib/compressImageLocal";
 import { ToolSuccessScreen } from "@/components/ToolSuccessScreen";
 
 type Row = {
@@ -98,27 +98,16 @@ export function CompressImageTool() {
           results.push(row);
           continue;
         }
+        if (abortControllerRef.current?.signal.aborted) {
+          throw Object.assign(new Error("Cancelled"), { name: "AbortError" });
+        }
 
-        setRows(prev => prev.map(r => r.id === row.id ? { ...r, status: "uploading" as const, percent: 0 } : r));
+        setRows(prev => prev.map(r => r.id === row.id ? { ...r, status: "converting" as const, percent: null } : r));
 
         try {
-          const ready = await requestCompressImage(
-            { file: row.file },
-            {
-              signal: abortControllerRef.current.signal,
-              onProgress: (p) => {
-                setRows(prev => prev.map(r => r.id === row.id ? { ...r, status: p.phase, percent: p.percent } : r));
-              }
-            }
-          );
-
-          setRows(prev => prev.map(r => r.id === row.id ? { ...r, status: "downloading" as const, percent: 0 } : r));
-
-          const blob = await fetchCompressImageResult(ready, {
-            signal: abortControllerRef.current.signal,
-            onProgress: (pct) => {
-              setRows(prev => prev.map(r => r.id === row.id ? { ...r, percent: pct } : r));
-            }
+          const { blob } = await compressImageLocal(row.file, {
+            quality: quality / 100,
+            maxWidth,
           });
 
           const savedPct = row.originalSize
