@@ -1,3 +1,4 @@
+import { CookieConsent } from "@/components/CookieConsent";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
@@ -201,6 +202,7 @@ function RootComponent() {
           <Outlet />
         </main>
         <Footer />
+        <CookieConsent />
       </div>
       <Toaster richColors position="top-center" />
       <PwaRegister />
